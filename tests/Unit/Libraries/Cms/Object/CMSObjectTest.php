@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Object;
 
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;
 
 /**
@@ -21,12 +22,20 @@ use PHPUnit\Framework\Attributes\Group;
  * @subpackage  Object
  * @since       1.7.0
  */
+#[CoversMethod(CMSObject::class, '__construct')]
+#[CoversMethod(CMSObject::class, 'def')]
+#[CoversMethod(CMSObject::class, 'get')]
+#[CoversMethod(CMSObject::class, 'getProperties')]
+#[CoversMethod(CMSObject::class, 'getError')]
+#[CoversMethod(CMSObject::class, 'getErrors')]
+#[CoversMethod(CMSObject::class, 'set')]
+#[CoversMethod(CMSObject::class, 'setProperties')]
+#[CoversMethod(CMSObject::class, 'setError')]
 class CMSObjectTest extends UnitTestCase
 {
     /**
      * Tests the object constructor.
      *
-     * @covers    CMSObject::__construct
      * @return void
      *
      * @since   4.0.0
@@ -42,7 +51,6 @@ class CMSObjectTest extends UnitTestCase
     /**
      * Tests setting the default for a property of the object.
      *
-     * @covers    CMSObject::def
      * @return void
      *
      * @since   4.0.0
@@ -63,7 +71,6 @@ class CMSObjectTest extends UnitTestCase
     /**
      * Tests getting a property of the object.
      *
-     * @covers    CMSObject::get
      * @return void
      *
      * @since   4.0.0
@@ -83,7 +90,6 @@ class CMSObjectTest extends UnitTestCase
     /**
      * Tests getting the properties of the object.
      *
-     * @covers    CMSObject::getProperties
      * @return void
      *
      * @since   4.0.0
@@ -122,7 +128,6 @@ class CMSObjectTest extends UnitTestCase
     /**
      * Tests getting a single error.
      *
-     * @covers    CMSObject::getError
      * @return void
      *
      * @since   4.0.0
@@ -169,7 +174,6 @@ class CMSObjectTest extends UnitTestCase
     /**
      * Tests getting the array of errors.
      *
-     * @covers    CMSObject::getErrors
      * @return void
      *
      * @since   4.0.0
@@ -195,7 +199,6 @@ class CMSObjectTest extends UnitTestCase
     /**
      * Tests setting a property.
      *
-     * @covers    CMSObject::set
      * @return void
      *
      * @since   4.0.0
@@ -213,7 +216,6 @@ class CMSObjectTest extends UnitTestCase
     /**
      * Tests setting multiple properties.
      *
-     * @covers    CMSObject::setProperties
      * @return void
      *
      * @since   4.0.0
@@ -234,7 +236,6 @@ class CMSObjectTest extends UnitTestCase
     /**
      * Tests setting an error.
      *
-     * @covers    CMSObject::setError
      * @return void
      *
      * @since   4.0.0

@@ -13,6 +13,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Environment;
 use Joomla\CMS\Environment\Browser;
 use Joomla\Tests\Unit\UnitTestCase;
 use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestDox;
 
@@ -22,6 +23,7 @@ use PHPUnit\Framework\Attributes\TestDox;
  * @since   4.0.0
  */
 #[BackupGlobals(true)]
+#[CoversMethod(Browser::class, 'match')]
 class BrowserTest extends UnitTestCase
 {
     /**
@@ -153,8 +155,6 @@ class BrowserTest extends UnitTestCase
     }
 
     /**
-     * @covers        JBrowser::match
-     *
      * @param   string   $userAgent             The user agent to test
      * @param   string   $expectedBrowser       The expected browser value
      * @param   string   $expectedPlatform      The expected platform value

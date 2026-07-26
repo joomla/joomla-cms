@@ -13,6 +13,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Mail;
 use Joomla\CMS\Mail\Mail;
 use Joomla\Tests\Unit\UnitTestCase;
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
@@ -23,6 +24,11 @@ use PHPUnit\Framework\Attributes\DataProvider;
  * @subpackage  Mail
  * @since       1.7.0
  */
+#[CoversMethod(Mail::class, 'addRecipient')]
+#[CoversMethod(Mail::class, 'addCc')]
+#[CoversMethod(Mail::class, 'addBcc')]
+#[CoversMethod(Mail::class, 'addReplyTo')]
+#[CoversMethod(Mail::class, 'isHtml')]
 class MailTest extends UnitTestCase
 {
     /**
@@ -99,8 +105,6 @@ class MailTest extends UnitTestCase
     /**
      * Tests the addRecipient method.
      *
-     * @covers        Mail::addRecipient
-     *
      * @param   string  $recipient  Recipient
      * @param   string  $name       Name
      * @param   string  $expected   Expected
@@ -120,8 +124,6 @@ class MailTest extends UnitTestCase
     /**
      * Tests the addCC method.
      *
-     * @covers        Mail::addCc
-     *
      * @param   string  $recipient  Recipient
      * @param   string  $name       Name
      * @param   string  $expected   Expected
@@ -140,8 +142,6 @@ class MailTest extends UnitTestCase
 
     /**
      * Tests the addBCC method.
-     *
-     * @covers        Mail::addBcc
      *
      * @param   string  $recipient  Recipient
      * @param   string  $name       Name
@@ -197,8 +197,6 @@ class MailTest extends UnitTestCase
     /**
      * Tests the addReplyTo method.
      *
-     * @covers        JMail::addReplyTo
-     *
      * @param   string  $recipient  Recipient
      * @param   string  $name       Name
      * @param   string  $expected   Expected
@@ -240,8 +238,6 @@ class MailTest extends UnitTestCase
     /**
      * Tests the IsHTML method.
      *
-     * @covers  JMail::IsHTML
-     *
      * @return void
      *
      * @since   4.0.0
@@ -255,8 +251,6 @@ class MailTest extends UnitTestCase
 
     /**
      * Tests the IsHTML method.
-     *
-     * @covers  JMail::IsHTML
      *
      * @return void
      *

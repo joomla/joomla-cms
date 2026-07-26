@@ -10,6 +10,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Image\Filter;
 use Joomla\CMS\Image\Filter\Backgroundfill as FilterBackgroundfill;
 use Joomla\Test\TestHelper;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
@@ -17,6 +18,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
  *
  * @since  4.0.0
  */
+#[CoversMethod(FilterBackgroundfill::class, 'execute')]
+#[CoversMethod(FilterBackgroundfill::class, 'sanitizeColor')]
 class FilterBackgroundfillTest extends UnitTestCase
 {
     /**
@@ -56,7 +59,6 @@ class FilterBackgroundfillTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers   Joomla\CMS\Image\Filter\Backgroundfill::execute
      * @since  4.0.0
      *
      * @note     Because GD2 uses 7bit alpha channel, results differ slightly
@@ -103,7 +105,6 @@ class FilterBackgroundfillTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  Joomla\CMS\Image\Filter\Backgroundfill::execute
      * @since   4.0.0
      */
     public function testExecuteInvalidArgument()
@@ -167,7 +168,6 @@ class FilterBackgroundfillTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers         Joomla\CMS\Image\Filter\Backgroundfill::sanitizeColor
      * @since          1.1.3
      */
     #[DataProvider('dataSanitizeColor')]

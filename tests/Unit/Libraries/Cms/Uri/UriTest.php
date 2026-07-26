@@ -13,6 +13,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Uri;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Tests\Unit\UnitTestCase;
 use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\CoversMethod;
 
 /**
  * Test class for Uri.
@@ -22,6 +23,13 @@ use PHPUnit\Framework\Attributes\BackupGlobals;
  * @since       1.7.0
  */
 #[BackupGlobals(true)]
+#[CoversMethod(Uri::class, 'getInstance')]
+#[CoversMethod(Uri::class, 'root')]
+#[CoversMethod(Uri::class, 'current')]
+#[CoversMethod(Uri::class, 'parse')]
+#[CoversMethod(Uri::class, 'buildQuery')]
+#[CoversMethod(Uri::class, 'setPath')]
+#[CoversMethod(Uri::class, 'isInternal')]
 class UriTest extends UnitTestCase
 {
     /**
@@ -71,7 +79,6 @@ class UriTest extends UnitTestCase
      * @return  void
      *
      * @since   1.7.0
-     * @covers  Uri::getInstance
      */
     public function testGetInstance(): void
     {
@@ -91,7 +98,6 @@ class UriTest extends UnitTestCase
      * @return  void
      *
      * @since   1.7.0
-     * @covers  Uri::root
      */
     public function testRoot(): void
     {
@@ -107,7 +113,6 @@ class UriTest extends UnitTestCase
      * @return  void
      *
      * @since   1.7.0
-     * @covers  Uri::current
      */
     public function testCurrent(): void
     {
@@ -123,7 +128,6 @@ class UriTest extends UnitTestCase
      * @return  void
      *
      * @since   1.7.0
-     * @covers  Uri::parse
      */
     public function testParse(): void
     {
@@ -136,7 +140,6 @@ class UriTest extends UnitTestCase
      * @return  void
      *
      * @since   1.7.0
-     * @covers  Uri::buildQuery
      */
     public function testBuildQuery(): void
     {
@@ -161,7 +164,6 @@ class UriTest extends UnitTestCase
      * @return  void
      *
      * @since   1.7.0
-     * @covers  Uri::setPath
      */
     public function testSetPath(): void
     {
@@ -178,8 +180,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testParseWhenNoSchemeGiven(): void
     {
@@ -191,8 +191,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWithSefUrl(): void
     {
@@ -204,8 +202,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWithNoSchemeAndNotInternal(): void
     {
@@ -219,8 +215,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWithNoSchemeAndNoHostnameAndNotInternal(): void
     {
@@ -234,8 +228,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWithSchemeAndNotInternal(): void
     {
@@ -249,8 +241,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWhenInternalWithNoDomainOrScheme(): void
     {
@@ -264,8 +254,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWhenInternalWithDomainAndSchemeAndPort(): void
     {
@@ -279,8 +267,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWhenInternalWithDomainAndSchemeAndPortNoSubFolder(): void
     {
@@ -303,8 +289,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWhenNOTInternalWithDomainAndSchemeAndPortAndIndex(): void
     {
@@ -318,8 +302,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWhenNOTInternalWithDomainAndNoSchemeAndPortAndIndex(): void
     {
@@ -333,8 +315,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternal3rdPartyDevs(): void
     {
@@ -348,8 +328,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalAppendingOfBaseToTheEndOfTheUrl(): void
     {
@@ -363,8 +341,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalAppendingOfBaseToTheEndOfTheUrl2(): void
     {
@@ -378,8 +354,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalSchemeEmptyButHostAndPortMatch(): void
     {
@@ -393,8 +367,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWithSchemeAndHostAndPortMatch(): void
     {
@@ -408,8 +380,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWithSchemeNotMatch(): void
     {
@@ -423,8 +393,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalPregMatch(): void
     {
@@ -438,8 +406,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWithUser(): void
     {
@@ -453,8 +419,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWithBackslashInUser(): void
     {
@@ -468,8 +432,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWithUrlInPath(): void
     {

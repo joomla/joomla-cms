@@ -10,6 +10,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Image;
 use Joomla\CMS\Image\Image;
 use Joomla\Test\TestHelper;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
@@ -17,6 +18,25 @@ use PHPUnit\Framework\Attributes\DataProvider;
  *
  * @since  4.0.0
  */
+#[CoversMethod(Image::class, '__construct')]
+#[CoversMethod(Image::class, 'loadFile')]
+#[CoversMethod(Image::class, 'resize')]
+#[CoversMethod(Image::class, 'toFile')]
+#[CoversMethod(Image::class, 'getFilterInstance')]
+#[CoversMethod(Image::class, 'getHeight')]
+#[CoversMethod(Image::class, 'getWidth')]
+#[CoversMethod(Image::class, 'getImageFileProperties')]
+#[CoversMethod(Image::class, 'generateThumbs')]
+#[CoversMethod(Image::class, 'createThumbnails')]
+#[CoversMethod(Image::class, 'isTransparent')]
+#[CoversMethod(Image::class, 'crop')]
+#[CoversMethod(Image::class, 'rotate')]
+#[CoversMethod(Image::class, 'filter')]
+#[CoversMethod(Image::class, 'prepareDimensions')]
+#[CoversMethod(Image::class, 'sanitizeHeight')]
+#[CoversMethod(Image::class, 'sanitizeWidth')]
+#[CoversMethod(Image::class, 'sanitizeOffset')]
+#[CoversMethod(Image::class, 'destroy')]
 class ImageTest extends UnitTestCase
 {
     /**
@@ -205,8 +225,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::__construct
-     *
      * @since   4.0.0
      */
     public function testConstructor()
@@ -237,8 +255,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::loadFile
-     *
      * @since   4.0.0
      */
     public function testloadFile()
@@ -261,8 +277,6 @@ class ImageTest extends UnitTestCase
      * and asserting that the dimensions are correct.
      *
      * @return  void
-     *
-     * @covers  \Joomla\CMS\Image\Image::loadFile
      *
      * @since   4.0.0
      */
@@ -287,8 +301,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::loadFile
-     *
      * @since   4.0.0
      */
     public function testloadFilePng()
@@ -312,8 +324,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::loadFile
-     *
      * @since   4.0.0
      */
     public function testloadFileWebp()
@@ -334,7 +344,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::loadFile
      * @since   4.0.0
      */
     public function testloadFileBmp()
@@ -351,7 +360,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::loadFile
      * @since   4.0.0
      */
     public function testloadFileWithInvalidFile()
@@ -367,8 +375,6 @@ class ImageTest extends UnitTestCase
      * Makes sure images are resized properly.
      *
      * @return  void
-     *
-     * @covers  \Joomla\CMS\Image\Image::resize
      *
      * @since   4.0.0
      */
@@ -398,8 +404,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::resize
-     *
      * @since   4.0.0
      */
     public function testResizeTransparent()
@@ -427,8 +431,6 @@ class ImageTest extends UnitTestCase
      * Make sure images are resized properly - no file loaded.
      *
      * @return  void
-     *
-     * @covers  \Joomla\CMS\Image\Image::resize
      *
      * @since   4.0.0
      */
@@ -469,8 +471,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::toFile
-     *
      * @since   4.0.0
      */
     public function testToFileInvalid()
@@ -492,8 +492,6 @@ class ImageTest extends UnitTestCase
      * may have changed. Therefore we are limited to comparing the image properties.
      *
      * @return  void
-     *
-     * @covers  \Joomla\CMS\Image\Image::toFile
      *
      * @since   4.0.0
      */
@@ -533,8 +531,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::toFile
-     *
      * @since   4.0.0
      */
     public function testToFilePng()
@@ -572,8 +568,6 @@ class ImageTest extends UnitTestCase
      * may have changed. Therefore we are limited to comparing the image properties.
      *
      * @return  void
-     *
-     * @covers  \Joomla\CMS\Image\Image::toFile
      *
      * @since   4.0.0
      */
@@ -613,8 +607,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::toFile
-     *
      * @since   4.0.0
      */
     public function testToFileWebp()
@@ -653,8 +645,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::toFile
-     *
      * @since   4.0.0
      */
     public function testToFileDefault()
@@ -687,8 +677,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::getFilterInstance
-     *
      * @since   4.0.0
      */
     public function testGetFilterInstance()
@@ -708,8 +696,6 @@ class ImageTest extends UnitTestCase
      * Make sure it gives the correct property from the source image.
      *
      * @return  void
-     *
-     * @covers  \Joomla\CMS\Image\Image::getHeight
      *
      * @since   4.0.0
      */
@@ -732,8 +718,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::getHeight
-     *
      * @since   4.0.0
      */
     public function testGetHeightWithoutLoadedImage()
@@ -749,8 +733,6 @@ class ImageTest extends UnitTestCase
      * Make sure it gives the correct property from the source image
      *
      * @return  void
-     *
-     * @covers  \Joomla\CMS\Image\Image::getWidth
      *
      * @since   4.0.0
      */
@@ -773,8 +755,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::getWidth
-     *
      * @since   4.0.0
      */
     public function testGetWidthWithoutLoadedImage()
@@ -788,8 +768,6 @@ class ImageTest extends UnitTestCase
      * Test the Joomla\CMS\Image\Image::getImageFileProperties method
      *
      * @return  void
-     *
-     * @covers  \Joomla\CMS\Image\Image::getImageFileProperties
      *
      * @since   4.0.0
      */
@@ -805,8 +783,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::generateThumbs
-     *
      * @since   1.1.3
      */
     public function testGenerateThumbsWithoutLoadedImage()
@@ -820,8 +796,6 @@ class ImageTest extends UnitTestCase
      * Test the Image::generateThumbs method with invalid size.
      *
      * @return  void
-     *
-     * @covers  \Joomla\CMS\Image\Image::generateThumbs
      *
      * @since   1.1.3
      */
@@ -838,8 +812,6 @@ class ImageTest extends UnitTestCase
      * Test the Image::generateThumbs method.
      *
      * @return  void
-     *
-     * @covers  \Joomla\CMS\Image\Image::generateThumbs
      *
      * @since   1.1.3
      */
@@ -889,8 +861,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::createThumbnails
-     *
      * @since   1.1.3
      */
     public function testcreateThumbnailsWithoutLoadedImage()
@@ -904,8 +874,6 @@ class ImageTest extends UnitTestCase
      * Test the Image::generateThumbs method with invalid folder.
      *
      * @return  void
-     *
-     * @covers  \Joomla\CMS\Image\Image::createThumbnails
      *
      * @since   1.1.3
      */
@@ -921,8 +889,6 @@ class ImageTest extends UnitTestCase
      * Test the Image::createThumbnails method.
      *
      * @return  void
-     *
-     * @covers  \Joomla\CMS\Image\Image::createThumbnails
      *
      * @since   1.1.3
      */
@@ -953,8 +919,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::isTransparent
-     *
      * @since   4.0.0
      */
     public function testIsTransparentWithoutLoadedImage()
@@ -970,8 +934,6 @@ class ImageTest extends UnitTestCase
      * Make sure it gives the correct result if the image has an alpha channel.
      *
      * @return  void
-     *
-     * @covers  \Joomla\CMS\Image\Image::isTransparent
      *
      * @since   4.0.0
      */
@@ -997,8 +959,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::isTransparent
-     *
      * @since   4.0.0
      */
     public function testOpaqueIsNotTransparent()
@@ -1017,8 +977,6 @@ class ImageTest extends UnitTestCase
      * Test the Joomla\CMS\Image\Image::crop method
      *
      * @return  void
-     *
-     * @covers  \Joomla\CMS\Image\Image::crop
      *
      * @since   4.0.0
      */
@@ -1051,8 +1009,6 @@ class ImageTest extends UnitTestCase
      * @param   boolean  $transparent  True to add transparency to the image.
      *
      * @return  void
-     *
-     * @covers  \Joomla\CMS\Image\Image::crop
      *
      * @since   4.0.0
      */
@@ -1152,8 +1108,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::rotate
-     *
      * @since   4.0.0
      */
     public function testRotateWithoutLoadedImage()
@@ -1171,8 +1125,6 @@ class ImageTest extends UnitTestCase
      * we test the end points of the lines to ensure that the colors have swapped.
      *
      * @return  void
-     *
-     * @covers  \Joomla\CMS\Image\Image::rotate
      *
      * @since   4.0.0
      */
@@ -1224,8 +1176,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::filter
-     *
      * @since   4.0.0
      */
     public function testFilter()
@@ -1254,8 +1204,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::filter
-     *
      * @since   4.0.0
      */
     public function testFilterWithoutLoadedImage()
@@ -1272,8 +1220,6 @@ class ImageTest extends UnitTestCase
      * Test the Joomla\CMS\Image\Image::filter method
      *
      * @return  void
-     *
-     * @covers  \Joomla\CMS\Image\Image::filter
      *
      * @since   4.0.0
      */
@@ -1299,8 +1245,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::prepareDimensions
-     *
      * @since   4.0.0
      */
     #[DataProvider('getPrepareDimensionsData')]
@@ -1323,8 +1267,6 @@ class ImageTest extends UnitTestCase
      * Tests the Joomla\CMS\Image\Image::prepareDimensions method
      *
      * @return  void
-     *
-     * @covers  \Joomla\CMS\Image\Image::prepareDimensions
      *
      * @since   4.0.0
      */
@@ -1351,8 +1293,6 @@ class ImageTest extends UnitTestCase
      * @param   integer  $expectedWidth   The expected result image width.
      *
      * @return  void
-     *
-     * @covers  \Joomla\CMS\Image\Image::sanitizeHeight
      *
      * @since   4.0.0
      */
@@ -1383,8 +1323,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::sanitizeWidth
-     *
      * @since   4.0.0
      */
     #[DataProvider('getSanitizeDimensionData')]
@@ -1410,8 +1348,6 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::sanitizeOffset
-     *
      * @since   4.0.0
      */
     #[DataProvider('getSanitizeOffsetData')]
@@ -1428,8 +1364,6 @@ class ImageTest extends UnitTestCase
      * Tests the Joomla\CMS\Image\Image::destroy method
      *
      * @return  void
-     *
-     * @covers  \Joomla\CMS\Image\Image::destroy
      *
      * @since   4.0.0
      */

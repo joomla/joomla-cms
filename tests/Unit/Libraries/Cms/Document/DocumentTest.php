@@ -16,14 +16,18 @@ use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Document\RawDocument;
 use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\Attributes\UsesMethod;
 
 /**
  * Test class for Document.
  *
  * @since   4.0.0
  */
+#[CoversMethod(Document::class, 'loadRenderer')]
+#[UsesMethod(Document::class, 'setType')]
 class DocumentTest extends UnitTestCase
 {
     /**
@@ -663,9 +667,6 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @covers   JDocument::loadRenderer
-     * @uses     JDocument::setType
-     *
      * @return void
      * @since   4.0.0
      */
