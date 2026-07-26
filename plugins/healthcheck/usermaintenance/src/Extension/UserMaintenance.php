@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
@@ -74,7 +75,9 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
         $checks['neverloggedinUsers'] = $this->getNeverLoggedinUsers();
         $checks['unactivatedUsers']   = $this->getUnactivatedUsers();
         $checks['orphanUsers']        = $this->getOrphanUsers();
-        $checks['nonMFAUsers']        = $this->getNonMFAUsers();
+        if (PluginHelper::isEnabled('multifactorauth')) {
+            $checks['nonMFAUsers']        = $this->getNonMFAUsers();
+        }
         $checks['privilegedUsers']    = $this->getPrivilegedUsers();
 
         // Add the buttons to the result array
@@ -111,13 +114,13 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
     {
         $item = [];
 
-        if ($this->params->get('inactiveUsers', true)) {
+        if ($this->params->get('inactive_users', true)) {
             try {
-                $inactiveTimespan = (int) $this->params->get('inactiveTimespan', 180); // Days since the last login
+                $inactiveTimespan = (int) $this->params->get('inactive_timespan', 180); // Days since the last login
 
                 $item['text'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVE_FIELD_LABEL');
                 $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVE_FIELD_DESC');
-                $item['link'] = Uri::base() . 'index.php?option=com_users&view=users&filter[state]=1';
+                $item['link'] = Uri::base() . 'index.php?option=com_users&view=users&filter[lastvisitrange]=inactive_' . $inactiveTimespan;
 
                 $db = $this->getDatabase();
 
@@ -159,7 +162,7 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
     {
         $item = [];
 
-        if ($this->params->get('neverloggedinUsers', true)) {
+        if ($this->params->get('neverloggedin_users', true)) {
             try {
                 $item['text'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_NEVERLOGGEDIN_FIELD_LABEL');
                 $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_NEVERLOGGEDIN_FIELD_DESC');
@@ -203,7 +206,7 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
     {
         $item = [];
 
-        if ($this->params->get('unactivatedUsers', true)) {
+        if ($this->params->get('unactivated_users', true)) {
             try {
                 $item['text'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_UNACTIVATED_FIELD_LABEL');
                 $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_UNACTIVATED_FIELD_DESC');
@@ -248,7 +251,7 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
     {
         $item = [];
 
-        if ($this->params->get('orphanUsers', true)) {
+        if ($this->params->get('orphan_users', true)) {
             try {
                 $item['text'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_ORPHAN_FIELD_LABEL');
                 $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_ORPHAN_FIELD_DESC');
@@ -296,7 +299,7 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
     {
         $item = [];
 
-        if ($this->params->get('nonMFAUsers', true)) {
+        if ($this->params->get('nonmfa_users', true)) {
             try {
                 $item['text'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_NONMFA_FIELD_LABEL');
                 $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_NONMFA_FIELD_DESC');
@@ -345,7 +348,7 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
     {
         $item = [];
 
-        if ($this->params->get('privilegedUsers', true)) {
+        if ($this->params->get('privileged_users', true)) {
             try {
                 $adminGroupIds = $this->getAdminGroupIds();
 
@@ -440,7 +443,7 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
     protected function handleErrorMsg(string $msg, string $msgLevel): void
     {
         $msgContext = '[' . $this->_type . '-' . $this->_name . ']';
-        $logging    = $this->params->get('logging', 0);    // How to handle errors
+        $logging    = $this->params->get('logging', 0); // How to handle errors
         switch ($logging) {
             case 3: // enqueue Message
                 Factory::getApplication()->enqueueMessage($msgContext . ' ' . $msg, $msgLevel);
