@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Feed;
 
 use Joomla\CMS\Feed\FeedFactory;
 use Joomla\CMS\Feed\FeedParser;
+use Joomla\Test\TestHelper;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
@@ -134,7 +135,6 @@ class FeedFactoryTest extends UnitTestCase
      *
      * @return void
      * @since   4.0.0
-     * @throws \ReflectionException
      */
     public function testFetchFeedParser()
     {
@@ -143,9 +143,7 @@ class FeedFactoryTest extends UnitTestCase
         $this->feedFactory->registerParser($tagName, \get_class($parseMock));
 
         // Use reflection to test private method
-        $reflectionClass = new \ReflectionClass($this->feedFactory);
-        $method          = $reflectionClass->getMethod('_fetchFeedParser');
-        $parser          = $method->invoke($this->feedFactory, $tagName, new \XMLReader());
+        $parser = TestHelper::invoke($this->feedFactory, '_fetchFeedParser', $tagName, new \XMLReader());
 
         $this->assertInstanceOf(FeedParser::class, $parser);
         $this->assertSame(\get_class($parseMock), \get_class($parser));
@@ -156,15 +154,12 @@ class FeedFactoryTest extends UnitTestCase
      *
      * @return void
      * @since   4.0.0
-     * @throws \ReflectionException
      */
     public function testFetchFeedParserWithInvalidTag()
     {
         $this->expectException(\LogicException::class);
 
         // Use reflection to test private method
-        $reflectionClass = new \ReflectionClass($this->feedFactory);
-        $method          = $reflectionClass->getMethod('_fetchFeedParser');
-        $method->invoke($this->feedFactory, 'not-existing', new \XMLReader());
+        TestHelper::invoke($this->feedFactory, '_fetchFeedParser', 'not-existing', new \XMLReader());
     }
 }

@@ -14,6 +14,7 @@ use Joomla\CMS\Feed\Feed;
 use Joomla\CMS\Feed\FeedEntry;
 use Joomla\CMS\Feed\FeedParser;
 use Joomla\CMS\Feed\Parser\NamespaceParserInterface;
+use Joomla\Test\TestHelper;
 use Joomla\Tests\Unit\UnitTestCase;
 use SimpleXMLElement;
 
@@ -219,7 +220,6 @@ class FeedParserTest extends UnitTestCase
      * @return  void
      *
      * @since   3.1.4
-     * @throws \ReflectionException
      */
     public function testMoveToNextElement()
     {
@@ -228,33 +228,29 @@ class FeedParserTest extends UnitTestCase
 
         $parser = new FeedParserStub($xmlReader);
 
-        // Use reflection to test protected method (it's easier than testing this using the public interface)
-        $reflectionClass = new \ReflectionClass($parser);
-        $method          = $reflectionClass->getMethod('moveToNextElement');
-
         // Move to next element
-        $method->invoke($parser);
+        TestHelper::invoke($parser, 'moveToNextElement');
 
         // Move to the next element, which should be <node test="first">.
         $this->assertSame('node', $xmlReader->name);
         $this->assertSame('first', $xmlReader->getAttribute('test'));
 
         // Move to next element
-        $method->invoke($parser);
+        TestHelper::invoke($parser, 'moveToNextElement');
 
         // Move to the next element, which should be <child> with a data value of "foobar".
         $this->assertSame('child', $xmlReader->name);
         $this->assertSame('foobar', $xmlReader->readString());
 
         // Move to next element
-        $method->invoke($parser);
+        TestHelper::invoke($parser, 'moveToNextElement');
 
         // Move to the next element, which should be <node test="second">.
         $this->assertSame('node', $xmlReader->name);
         $this->assertSame('second', $xmlReader->getAttribute('test'));
 
         // Move to next element and assert that it returns false
-        $this->assertFalse($method->invoke($parser));
+        $this->assertFalse(TestHelper::invoke($parser, 'moveToNextElement'));
     }
 
     /**
@@ -263,7 +259,6 @@ class FeedParserTest extends UnitTestCase
      * @return  void
      *
      * @since   3.1.4
-     * @throws \ReflectionException
      */
     public function testMoveToNextElementByName()
     {
@@ -272,19 +267,15 @@ class FeedParserTest extends UnitTestCase
 
         $parser = new FeedParserStub($xmlReader);
 
-        // Use reflection to test protected method (it's easier than testing this using the public interface)
-        $reflectionClass = new \ReflectionClass($parser);
-        $method          = $reflectionClass->getMethod('moveToNextElement');
-
         // Move to next element
-        $method->invoke($parser, 'node');
+        TestHelper::invoke($parser, 'moveToNextElement', 'node');
 
         // Move to the next <node> element, which should be <node test="first">.
         $this->assertSame('node', $xmlReader->name);
         $this->assertSame('first', $xmlReader->getAttribute('test'));
 
         // Move to the next <node> element, which should be <node test="second">.
-        $method->invoke($parser, 'node');
+        TestHelper::invoke($parser, 'moveToNextElement', 'node');
         $this->assertSame('node', $xmlReader->name);
         $this->assertSame('second', $xmlReader->getAttribute('test'));
     }
@@ -295,7 +286,6 @@ class FeedParserTest extends UnitTestCase
      * @return  void
      *
      * @since   3.1.4
-     * @throws \ReflectionException
      */
     public function testMoveToClosingElement()
     {
@@ -304,12 +294,8 @@ class FeedParserTest extends UnitTestCase
 
         $parser = new FeedParserStub($xmlReader);
 
-        // Use reflection to test protected method (it's easier than testing this using the public interface)
-        $reflectionClass = new \ReflectionClass($parser);
-        $method          = $reflectionClass->getMethod('moveToClosingElement');
-
         // Move to next element
-        $method->invoke($parser);
+        TestHelper::invoke($parser, 'moveToClosingElement');
 
         // Move to the closing element, which should be </root>.
         $this->assertSame(\XMLReader::END_ELEMENT, $xmlReader->nodeType);
@@ -322,7 +308,6 @@ class FeedParserTest extends UnitTestCase
      * @return  void
      *
      * @since   3.1.4
-     * @throws \ReflectionException
      */
     public function testMoveToClosingElementWithInternalElements()
     {
@@ -332,12 +317,8 @@ class FeedParserTest extends UnitTestCase
 
         $parser = new FeedParserStub($xmlReader);
 
-        // Use reflection to test protected method (it's easier than testing this using the public interface)
-        $reflectionClass = new \ReflectionClass($parser);
-        $method          = $reflectionClass->getMethod('moveToClosingElement');
-
         // Move to next element
-        $method->invoke($parser);
+        TestHelper::invoke($parser, 'moveToClosingElement');
 
         // Ensure that the current node is closing element
         $this->assertSame(\XMLReader::END_ELEMENT, $xmlReader->nodeType);
@@ -350,7 +331,6 @@ class FeedParserTest extends UnitTestCase
      * @return  void
      *
      * @since   3.1.4
-     * @throws \ReflectionException
      */
     public function testMoveToClosingElementWithSelfClosingTag()
     {
@@ -360,12 +340,8 @@ class FeedParserTest extends UnitTestCase
 
         $parser = new FeedParserStub($xmlReader);
 
-        // Use reflection to test protected method (it's easier than testing this using the public interface)
-        $reflectionClass = new \ReflectionClass($parser);
-        $method          = $reflectionClass->getMethod('moveToClosingElement');
-
         // Move to closing element
-        $method->invoke($parser);
+        TestHelper::invoke($parser, 'moveToClosingElement');
 
         // Move to the closing element, which should be </node>.
         $this->assertSame(true, $xmlReader->isEmptyElement);

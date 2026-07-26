@@ -11,6 +11,7 @@
 namespace Joomla\Tests\Unit\Libraries\Cms\Microdata;
 
 use Joomla\CMS\Microdata\Microdata;
+use Joomla\Test\TestHelper;
 use Joomla\Tests\Unit\UnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -901,7 +902,6 @@ class MicrodataTest extends UnitTestCase
      * @return  void
      *
      * @since   3.2
-     * @throws \ReflectionException
      */
     public function testExpectedDisplayType()
     {
@@ -926,12 +926,9 @@ class MicrodataTest extends UnitTestCase
         );
 
         // Use reflection to test protected method (it's easier than testing this using the public interface)
-        $reflectionClass = new \ReflectionClass($microdata);
-        $method          = $reflectionClass->getMethod('getExpectedDisplayType');
-
-        $this->assertSame('normal', $method->invoke($microdata, 'Article', 'articleBody'));
-        $this->assertSame('nested', $method->invoke($microdata, 'Article', 'about'));
-        $this->assertSame('meta', $method->invoke($microdata, 'Article', 'datePublished'));
+        $this->assertSame('normal', TestHelper::invoke($microdata, 'getExpectedDisplayType', 'Article', 'articleBody'));
+        $this->assertSame('nested', TestHelper::invoke($microdata, 'getExpectedDisplayType', 'Article', 'about'));
+        $this->assertSame('meta', TestHelper::invoke($microdata, 'getExpectedDisplayType', 'Article', 'datePublished'));
     }
 
     /**
