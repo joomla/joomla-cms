@@ -29,7 +29,7 @@
 					default="general"
 				/>
 				<field
-					name="inactiveUsers"
+					name="inactive_users"
 					type="radio"
 					label="PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVE_FIELD_LABEL"
 					description="PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVE_FIELD_DESC"
@@ -41,7 +41,7 @@
 					<option value="1">JYES</option>
 				</field>
 				<field
-					name="inactiveTimespan"
+					name="inactive_timespan"
 					type="list"
 					label="PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVETIMESPAN_FIELD_LABEL"
 					description="PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVETIMESPAN_FIELD_DESC"
@@ -55,7 +55,7 @@
 					<option value="360">PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVETIMESPAN_VALUE_Y1</option>
 				</field>
 				<field
-					name="neverloggedinUsers"
+					name="neverloggedin_users"
 					type="radio"
 					label="PLG_HEALTHCHECK_USERMAINTENANCE_NEVERLOGGEDIN_FIELD_LABEL"
 					description="PLG_HEALTHCHECK_USERMAINTENANCE_NEVERLOGGEDIN_FIELD_DESC"
@@ -67,7 +67,7 @@
 					<option value="1">JYES</option>
 				</field>
 				<field
-					name="unactivatedUsers"
+					name="unactivated_users"
 					type="radio"
 					label="PLG_HEALTHCHECK_USERMAINTENANCE_UNACTIVATED_FIELD_LABEL"
 					description="PLG_HEALTHCHECK_USERMAINTENANCE_UNACTIVATED_FIELD_DESC"
@@ -79,7 +79,7 @@
 					<option value="1">JYES</option>
 				</field>
 				<field
-					name="orphanUsers"
+					name="orphan_users"
 					type="radio"
 					label="PLG_HEALTHCHECK_USERMAINTENANCE_ORPHAN_FIELD_LABEL"
 					description="PLG_HEALTHCHECK_USERMAINTENANCE_ORPHAN_FIELD_DESC"
@@ -91,7 +91,7 @@
 					<option value="1">JYES</option>
 				</field>
 				<field
-					name="nonMFAUsers"
+					name="nonmfa_users"
 					type="radio"
 					label="PLG_HEALTHCHECK_USERMAINTENANCE_NONMFA_FIELD_LABEL"
 					description="PLG_HEALTHCHECK_USERMAINTENANCE_NONMFA_FIELD_DESC"
@@ -103,7 +103,7 @@
 					<option value="1">JYES</option>
 				</field>
 				<field
-					name="privilegedUsers"
+					name="privileged_users"
 					type="radio"
 					label="PLG_HEALTHCHECK_USERMAINTENANCE_PRIVILEGED_FIELD_LABEL"
 					description="PLG_HEALTHCHECK_USERMAINTENANCE_PRIVILEGED_FIELD_DESC"
