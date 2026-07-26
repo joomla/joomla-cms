@@ -23,6 +23,7 @@ use Joomla\Http\TransportInterface;
 use Joomla\Plugin\Task\Requests\Extension\Requests;
 use Joomla\Tests\Unit\UnitTestCase;
 use Joomla\Uri\UriInterface;
+use PHPUnit\Framework\Attributes\RequiresOperatingSystemFamily;
 
 /**
  * Test class for Requests plugin
@@ -305,6 +306,7 @@ class RequestsPluginTest extends UnitTestCase
      *
      * @since   4.2.0
      */
+    #[RequiresOperatingSystemFamily('Linux')]
     public function testInvalidFileToWrite()
     {
         $transport = new class () implements TransportInterface {

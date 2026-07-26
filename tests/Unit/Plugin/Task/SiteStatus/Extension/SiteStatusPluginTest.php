@@ -18,6 +18,7 @@ use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Filesystem\Folder;
 use Joomla\Plugin\Task\SiteStatus\Extension\SiteStatus;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\RequiresOperatingSystemFamily;
 
 /**
  * Test class for SiteStatus plugin
@@ -248,6 +249,7 @@ class SiteStatusPluginTest extends UnitTestCase
      *
      * @since   4.2.0
      */
+    #[RequiresOperatingSystemFamily('Linux')]
     public function testInvalidConfigFile()
     {
         $language = $this->createStub(Language::class);
