@@ -86,7 +86,6 @@ if (!$emptySubform) {
         button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
         repeatable-element=".subform-repeatable-group"
         rows-container="tbody.subform-repeatable-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
-        
         <?php if ($emptySubform) : ?>
             <div class="alert alert-info"><?php echo Text::_('JGLOBAL_FIELD_SUBFORM_NO_FIELDS'); ?></div>
         <?php else : ?>
