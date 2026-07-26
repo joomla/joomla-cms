@@ -44,7 +44,7 @@ if ($multiple) {
 
 $class        = $class ? ' ' . $class : '';
 $fields       = $tmpl->getGroup('');
-$emptySubform = empty($fields) ? true : false;
+$emptySubform = empty($fields);
 
 // Build heading
 $table_head = '';
