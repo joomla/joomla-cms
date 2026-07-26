@@ -46,7 +46,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
         parent::setUp();
 
         $dispatcher   = new Dispatcher();
-        $this->object = $this->getMockForAbstractClass(Table::class, ['#__testtable', 'id', $this->getDBDriver(), $dispatcher]);
+        $this->object = new class ('#__testtable', 'id', $this->getDBDriver(), $dispatcher) extends Table {};
     }
 
     /**

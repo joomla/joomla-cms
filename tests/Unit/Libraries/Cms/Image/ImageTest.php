@@ -8,6 +8,7 @@
 namespace Joomla\Tests\Unit\Libraries\Cms\Image;
 
 use Joomla\CMS\Image\Image;
+use Joomla\CMS\Image\ImageFilter;
 use Joomla\Test\TestHelper;
 use Joomla\Tests\Unit\UnitTestCase;
 use PHPUnit\Framework\Attributes\CoversMethod;
@@ -1183,14 +1184,20 @@ class ImageTest extends UnitTestCase
         $handle = imagecreatetruecolor(1, 1);
 
         // Create the mock filter.
-        $mockFilter = $this->getMockForAbstractClass('\\Joomla\\CMS\\Image\\ImageFilter', [$handle], 'ImageFilterMock', true, false, true);
+        $mockFilter = $this->getMockBuilder(ImageFilter::class)
+            ->setConstructorArgs([$handle])
+            ->onlyMethods(['execute'])
+            ->getMock();
 
         // Setup the mock method call expectation.
         $mockFilter->expects($this->once())
             ->method('execute');
 
         // Create a new Image mock
-        $mockImage = $this->getMockForAbstractClass('\\Joomla\\CMS\\Image\\Image', [$handle], 'ImageMock', true, false, true, ['getFilterInstance']);
+        $mockImage = $this->getMockBuilder(Image::class)
+            ->setConstructorArgs([$handle])
+            ->onlyMethods(['getFilterInstance'])
+            ->getMock();
         $mockImage->expects($this->once())
             ->method('getFilterInstance')
             ->willReturn($mockFilter);
