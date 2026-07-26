@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Layout\LayoutHelper;
+
 /**
  * Layout variables
  * -----------------
@@ -26,7 +28,6 @@ defined('_JEXEC') or die;
 // Extract layout data
 $columns      = $displayData['columns'] ?? [];
 $data         = $displayData['data'] ?? [];
-$helper       = $displayData['helper'] ?? null;
 $tableId      = $displayData['id'] ?? '';
 $tableClass   = $displayData['class'] ?? '';
 $caption      = $displayData['caption'] ?? '';
@@ -95,16 +96,11 @@ if (!empty($tableClass)) {
                         ?>
                         <td<?php echo $cellClass ? ' class="' . htmlspecialchars($cellClass, ENT_QUOTES, 'UTF-8') . '"' : ''; ?>
                             <?php echo $align ? ' style="text-align: ' . htmlspecialchars($align, ENT_QUOTES, 'UTF-8') . ';"' : ''; ?>>
-                            <?php
-                            if ($helper && method_exists($helper, 'renderTableCellContent')) {
-                                echo $helper->renderTableCellContent($column, $item, $rowIndex);
-                            } else {
-                                // Fallback to basic text rendering
-                                $key = $column['key'] ?? '';
-                                $value = is_object($item) ? ($item->$key ?? '') : ($item[$key] ?? '');
-                                echo htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-                            }
-                            ?>
+                            <?php echo LayoutHelper::render('joomla.healthchecks.table_cell', [
+                                'column'   => $column,
+                                'item'     => $item,
+                                'rowIndex' => $rowIndex,
+                            ]); ?>
                         </td>
                     <?php endforeach; ?>
                 </tr>
