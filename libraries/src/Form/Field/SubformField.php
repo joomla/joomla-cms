@@ -74,6 +74,12 @@ class SubformField extends FormField
     protected $buttons = ['add' => true, 'remove' => true, 'move' => true];
 
     /**
+     * Whether the subform template has no renderable fields.
+     * @var    bool
+     */
+    protected $emptySubform = false;
+
+    /**
      * Method to get certain otherwise inaccessible properties from the form field object.
      *
      * @param   string  $name  The property name for which to get the value.
@@ -240,6 +246,8 @@ class SubformField extends FormField
             return $e->getMessage();
         }
 
+        $this->emptySubform = empty($tmpl->getGroup(''));
+
         $data['tmpl']            = $tmpl;
         $data['forms']           = $forms;
         $data['min']             = $this->min;
@@ -275,11 +283,43 @@ class SubformField extends FormField
 
         // Add hidden input on front of the subform inputs, in multiple mode
         // for allow to submit an empty value
-        if ($this->multiple) {
+        if ($this->multiple && !$this->emptySubform) {
             $html = '<input name="' . $this->name . '" type="hidden" value="">' . $html;
         }
 
         return $html;
+    }
+
+    /**
+     * Method to get a control group with label and input.
+     *
+     * For empty subforms we skip rendering an empty outer control-group wrapper.
+     *
+     * @param   array  $options  Options to be passed into the rendering of the field.
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function renderField($options = [])
+    {
+        // If hidden, default behavior returns only the input.
+        if ($this->hidden) {
+            return parent::renderField($options);
+        }
+
+        try {
+            $this->emptySubform = empty($this->loadSubForm()->getGroup(''));
+        } catch (\Exception $e) {
+            // Keep standard rendering flow for error handling consistency.
+            return parent::renderField($options);
+        }
+
+        if ($this->emptySubform) {
+            return $this->getInput();
+        }
+
+        return parent::renderField($options);
     }
 
     /**

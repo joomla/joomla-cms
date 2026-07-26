@@ -38,7 +38,7 @@ $form = $forms[0];
 <div class="subform-wrapper">
     <?php $fields = $form->getGroup(''); ?>
     <?php if (empty($fields)) : ?>
-        <div class="alert alert-info"><?php echo Text::_('JGLOBAL_FIELD_SUBFORM_NO_FIELDS'); ?></div>
+        <div class="alert alert-info"><?php echo Text::sprintf('JGLOBAL_FIELD_SUBFORM_NO_FIELDS', $label); ?></div>
     <?php else : ?>
         <?php foreach ($fields as $field) : ?>
             <?php echo $field->renderField(); ?>

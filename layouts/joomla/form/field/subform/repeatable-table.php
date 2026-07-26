@@ -46,84 +46,35 @@ $class        = $class ? ' ' . $class : '';
 $fields       = $tmpl->getGroup('');
 $emptySubform = empty($fields);
 
-// Build heading
-$table_head = '';
-
-if (!$emptySubform) {
-    foreach ($tmpl->getFieldsets() as $k => $fieldset) {
-        $table_head .= '<th scope="col">' . Text::_($fieldset->label);
-
-        if ($fieldset->description) {
-            $table_head .= '<span class="icon-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-th-' . $fieldId . '-' . $k . '">' . Text::_($fieldset->description) . '</div>';
-        }
-
-        $table_head .= '</th>';
-    }
-
-    $sublayout = 'section-byfieldsets'; 
-    $th_width = 92 / count($fields);
-    foreach ($fields as $field) {
-        $table_head .= '<th scope="col" style="width:' . $th_width . '%">' . strip_tags($field->label);
-
-        if ($field->description) {
-            $table_head .= '<span class="icon-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-' . $field->id . '">' . Text::_($field->description) . '</div>';
-        }
-
-        $table_head .= '</th>';
-    }
-
-    $sublayout = 'section';
-
-    // Label will not be shown for sections layout, so reset the margin left
-    Factory::getApplication()
-        ->getDocument()
-        ->addStyleDeclaration('.subform-table-sublayout-section .controls { margin-left: 0px }');
-}
+$sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 ?>
 
-<div class="subform-repeatable-wrapper subform-table-layout subform-table-sublayout-<?php echo $sublayout; ?>">
-    <joomla-field-subform class="subform-repeatable<?php echo $class; ?>" name="<?php echo $name; ?>"
-        button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
-        repeatable-element=".subform-repeatable-group"
-        rows-container="tbody.subform-repeatable-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
-        <?php if ($emptySubform) : ?>
-            <div class="alert alert-info"><?php echo Text::_('JGLOBAL_FIELD_SUBFORM_NO_FIELDS'); ?></div>
-        <?php else : ?>
-            <div class="table-responsive">
-            <table class="table" id="subfieldList_<?php echo $fieldId; ?>">
-                <caption class="visually-hidden">
-                    <?php echo Text::_('JGLOBAL_REPEATABLE_FIELDS_TABLE_CAPTION'); ?>
-                </caption>
-                <thead>
-                    <tr>
-                        <?php echo $table_head; ?>
-                        <?php if (!empty($buttons)) : ?>
-                        <td style="width:8%;">
-                            <?php if (!empty($buttons['add'])) : ?>
-                                <div class="btn-group">
-                                    <button type="button" class="group-add btn btn-sm btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
-                                        <span class="icon-plus" aria-hidden="true"></span>
-                                    </button>
-                                </div>
-                            <?php endif; ?>
-                        </td>
-                        <?php endif; ?>
-                    </tr>
-                </thead>
-                <tbody class="subform-repeatable-container">
-                <?php
-                foreach ($forms as $k => $form) :
-                    echo $this->sublayout($sublayout, ['form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons]);
-                endforeach;
-                ?>
-                </tbody>
-            </table>
-        </div>
+<?php if ($emptySubform) : ?>
+    <div class="alert alert-info"><?php echo Text::sprintf('JGLOBAL_FIELD_SUBFORM_NO_FIELDS', $label); ?></div>
+<?php else : ?>
+    <div class="subform-repeatable-wrapper subform-layout">
+        <joomla-field-subform class="subform-repeatable<?php echo $class; ?>" name="<?php echo $name; ?>"
+            button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
+            repeatable-element=".subform-repeatable-group" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
+            <?php if (!empty($buttons['add'])) : ?>
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <button type="button" class="group-add btn btn-sm button btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
+                        <span class="icon-plus icon-white" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+            <?php endif; ?>
+        <?php
+        foreach ($forms as $k => $form) :
+            echo $this->sublayout($sublayout, ['form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons]);
+        endforeach;
+        ?>
         <?php if ($multiple) : ?>
-        <template class="subform-repeatable-template-section hidden">
-            <?php echo trim($this->sublayout($sublayout, ['form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons])); ?>
-        </template>
+        <template class="subform-repeatable-template-section hidden"><?php
+            echo trim($this->sublayout($sublayout, ['form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons]));
+        ?></template>
         <?php endif; ?>
-    </joomla-field-subform>
-</div>
+        </joomla-field-subform>
+    </div>
 <?php endif; ?>
