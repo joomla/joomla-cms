@@ -118,4 +118,3 @@ switch ($type) {
 
         echo $text;
 }
-
