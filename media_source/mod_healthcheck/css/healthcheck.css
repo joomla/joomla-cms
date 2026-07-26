@@ -78,6 +78,12 @@
 /* Gauge */
 
 .healthcheck-gauge {
+  --gauge-color-critical: #dc3545;
+  --gauge-color-warning: #ffc107;
+  --gauge-color-healthy: #28a745;
+  --gauge-color-track: #e9ecef;
+  --gauge-color-muted: #6c757d;
+  --gauge-color-current: var(--gauge-color-critical);
   padding: 15px;
   margin: 15px;
   cursor: default;
@@ -104,6 +110,34 @@
 
 .gauge-svg {
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .1));
+}
+
+.healthcheck-gauge[data-healthcheck-status="warning"] {
+  --gauge-color-current: var(--gauge-color-warning);
+}
+
+.healthcheck-gauge[data-healthcheck-status="healthy"] {
+  --gauge-color-current: var(--gauge-color-healthy);
+}
+
+.gauge-track-circle {
+  stroke: var(--gauge-color-track);
+}
+
+.gauge-progress-circle {
+  stroke: var(--gauge-color-current);
+  transition: stroke-dashoffset .5s ease-in-out;
+}
+
+.gauge-score-text {
+  font-size: 20px;
+  font-weight: 700;
+  fill: var(--gauge-color-current);
+}
+
+.gauge-unit-text {
+  font-size: 12px;
+  fill: var(--gauge-color-muted);
 }
 
 .gauge-label {
