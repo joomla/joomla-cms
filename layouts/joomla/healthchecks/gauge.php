@@ -25,7 +25,6 @@ $linktitle  = $displayData['linktitle'] ?? '';
 $linktarget = '';
 
 // Auto-detect external links and set target to _blank
-// @todo: use Joomla API?
 if (!empty($link) && empty($linktarget)) {
     // Check if link is external (starts with http/https or contains a different domain)
     if (preg_match('/^https?:\/\//', $link)) {
@@ -89,14 +88,6 @@ if ($hasLink) {
 $percentage = ($score_max > $score_min) ? (($score - $score_min) / ($score_max - $score_min)) * 100 : 0;
 $percentage = max(0, min(100, $percentage)); // Clamp between 0-100
 
-// Determine color based on thresholds
-$color = '#dc3545'; // Error (red)
-if ($score >= $score_threshold_success) {
-    $color = '#28a745'; // Success (green)
-} elseif ($score >= $score_threshold_warning) {
-    $color = '#ffc107'; // Warning (yellow)
-}
-
 // Calculate SVG path for pie chart
 $radius           = 45;
 $circumference    = 2 * M_PI * $radius;
@@ -106,10 +97,13 @@ $strokeDashoffset = $circumference * (1 - $percentage / 100);
 // SVG viewBox and center
 $size   = 120;
 $center = $size / 2;
+
+// Linked gauges are focusable through the anchor, non-linked gauges need their own tab stop.
+$itemRole = $hasLink ? 'group' : 'img';
 ?>
 <li class="healthcheck-gauge"<?php echo $id; ?>
-     role="img"
-     tabindex="<?php echo $hasLink ? '-1' : '0'; ?>"
+    role="<?php echo $itemRole; ?>"
+    <?php if (!$hasLink) : ?> tabindex="0"<?php endif; ?>
      aria-label="<?php echo htmlspecialchars(Text::sprintf($hasLink ? 'MOD_HEALTHCHECK_GAUGE_ITEM_ARIA_LABEL_LINK' : 'MOD_HEALTHCHECK_GAUGE_ITEM_ARIA_LABEL', $label, $score, $unit, $score_max)); ?>"
      data-healthcheck-status="<?php echo $filterStatus; ?>"
      data-score="<?php echo $score; ?>"
@@ -150,8 +144,8 @@ $center = $size / 2;
                     cx="<?php echo $center; ?>"
                     cy="<?php echo $center; ?>"
                     r="<?php echo $radius; ?>"
+                    class="gauge-track-circle"
                     fill="none"
-                    stroke="#e9ecef"
                     stroke-width="8"
                 />
 
@@ -160,14 +154,13 @@ $center = $size / 2;
                     cx="<?php echo $center; ?>"
                     cy="<?php echo $center; ?>"
                     r="<?php echo $radius; ?>"
+                    class="gauge-progress-circle"
                     fill="none"
-                    stroke="<?php echo $color; ?>"
                     stroke-width="8"
                     stroke-linecap="round"
                     stroke-dasharray="<?php echo $strokeDasharray; ?>"
                     stroke-dashoffset="<?php echo $strokeDashoffset; ?>"
                     transform="rotate(-90 <?php echo $center; ?> <?php echo $center; ?>)"
-                    style="transition: stroke-dashoffset 0.5s ease-in-out;"
                 />
 
                 <!-- Score text in center -->
@@ -177,7 +170,6 @@ $center = $size / 2;
                     text-anchor="middle"
                     dominant-baseline="middle"
                     class="gauge-score-text"
-                    style="font-size: 20px; font-weight: bold; fill: <?php echo $color; ?>;"
                     aria-hidden="true"
                 >
                     <?php echo $score; ?>
@@ -190,7 +182,6 @@ $center = $size / 2;
                     text-anchor="middle"
                     dominant-baseline="middle"
                     class="gauge-unit-text"
-                    style="font-size: 12px; fill: #6c757d;"
                     aria-hidden="true"
                 >
                     <?php echo htmlspecialchars($unit); ?>
