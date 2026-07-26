@@ -453,7 +453,7 @@ class AtomParserTest extends UnitTestCase
         ];
 
         $feedEntryMock
-            ->expects($this->any())
+            ->expects($this->exactly(2))
             ->method('__get')
             ->willReturnMap($map);
 
