@@ -111,13 +111,17 @@ abstract class RouterView extends RouterBase
 
                 $childkey = $view->parent_key;
 
-                if (($key || $view->key) && !is_null($view->buildCallback)) {
+                if (($key || $view->key) && !\is_null($view->buildCallback)) {
                     if (isset($query[$key])) {
-                        $result[$view->name] = \call_user_func_array($view->buildCallback,
-                            [$query[$key], $query]);
+                        $result[$view->name] = \call_user_func_array(
+                            $view->buildCallback,
+                            [$query[$key], $query]
+                        );
                     } elseif (isset($query[$view->key])) {
-                        $result[$view->name] = \call_user_func_array($view->buildCallback,
-                            [$query[$view->key], $query]);
+                        $result[$view->name] = \call_user_func_array(
+                            $view->buildCallback,
+                            [$query[$view->key], $query]
+                        );
                     } else {
                         $result[$view->name] = [];
                     }

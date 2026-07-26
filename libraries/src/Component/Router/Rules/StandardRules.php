@@ -87,7 +87,7 @@ class StandardRules implements RulesInterface
         foreach ($tempSegments as $segment) {
             // Our current view is nestable. We need to check first if the segment fits to that
             if ($views[$vars['view']]->nestable) {
-                if (!is_null($views[$vars['view']]->parseCallback)) {
+                if (!\is_null($views[$vars['view']]->parseCallback)) {
                     $key = \call_user_func_array($views[$vars['view']]->parseCallback, [$segment, $vars]);
 
                     // Did we get a proper key? If not, we need to look in the child-views
