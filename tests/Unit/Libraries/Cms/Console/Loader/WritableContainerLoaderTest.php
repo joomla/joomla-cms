@@ -44,7 +44,6 @@ class WritableContainerLoaderTest extends UnitTestCase
     }
 
     /**
-     *
      * @return  void
      * @since   4.0.0
      */
@@ -67,7 +66,6 @@ class WritableContainerLoaderTest extends UnitTestCase
     }
 
     /**
-     *
      * @return  void
      * @since   4.0.0
      */
@@ -95,7 +93,6 @@ class WritableContainerLoaderTest extends UnitTestCase
     }
 
     /**
-     *
      * @return  void
      * @since   4.0.0
      */
@@ -118,7 +115,6 @@ class WritableContainerLoaderTest extends UnitTestCase
     }
 
     /**
-     *
      * @return  void
      * @since   4.0.0
      */

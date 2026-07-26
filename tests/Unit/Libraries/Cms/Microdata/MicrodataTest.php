@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Microdata;
 
 use Joomla\CMS\Microdata\Microdata;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for JMicrodata
@@ -761,7 +762,6 @@ class MicrodataTest extends UnitTestCase
     /**
      * @return array
      * @since 4.0.0
-     *
      */
     public static function displayTypes(): array
     {
@@ -779,8 +779,8 @@ class MicrodataTest extends UnitTestCase
      *
      * @since        4.0.0
      * @return  void
-     * @dataProvider displayTypes
      */
+    #[DataProvider('displayTypes')]
     public function testDisplayTypes($type, $expected)
     {
         $microdata = new MicrodataStub(
@@ -809,7 +809,6 @@ class MicrodataTest extends UnitTestCase
     /**
      * @return array
      * @since 4.0.0
-     *
      */
     public static function displayTypesWithContent(): array
     {
@@ -828,8 +827,8 @@ class MicrodataTest extends UnitTestCase
      *
      * @since        4.0.0
      * @return  void
-     * @dataProvider displayTypesWithContent
      */
+    #[DataProvider('displayTypesWithContent')]
     public function testDisplayTypesWithContent($type, $content, $expected)
     {
         $microdata = new MicrodataStub(

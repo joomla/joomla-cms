@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Html;
 
 use Joomla\CMS\HTML\Helpers\StringHelper as HtmlString;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Tests for HtmlString.
@@ -427,8 +428,8 @@ class HtmlStringTest extends UnitTestCase
      * @return  void
      *
      * @since         3.1
-     * @dataProvider  getTestAbridgeData
      */
+    #[DataProvider('getTestAbridgeData')]
     public function testAbridge($text, $length, $intro, $expected)
     {
         $this->assertEquals($expected, HtmlString::abridge($text, $length, $intro));
@@ -446,8 +447,8 @@ class HtmlStringTest extends UnitTestCase
      * @return  void
      *
      * @since         3.1
-     * @dataProvider  getTestTruncateData
      */
+    #[DataProvider('getTestTruncateData')]
     public function testTruncate($text, $length, $noSplit, $allowedHtml, $expected)
     {
         $this->assertEquals($expected, HtmlString::truncate($text, $length, $noSplit, $allowedHtml));
@@ -464,8 +465,8 @@ class HtmlStringTest extends UnitTestCase
      * @return  void
      *
      * @since         3.1
-     * @dataProvider  getTestTruncateComplexData
      */
+    #[DataProvider('getTestTruncateComplexData')]
     public function testTruncateComplex($html, $maxLength, $noSplit, $expected)
     {
         $this->assertEquals($expected, HtmlString::truncateComplex($html, $maxLength, $noSplit));

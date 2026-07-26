@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Form\Rule;
 
 use Joomla\CMS\Form\Rule\UrlRule;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for UrlRule.
@@ -85,8 +86,8 @@ class UrlRuleTest extends UnitTestCase
      * @return  void
      *
      * @since   5.4.3
-     * @dataProvider dataTest
      */
+    #[DataProvider('dataTest')]
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
     {
         $this->assertEquals($expected, (new UrlRule())->test(clone $element, $value));

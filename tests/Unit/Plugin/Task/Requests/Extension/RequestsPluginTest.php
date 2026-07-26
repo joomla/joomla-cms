@@ -24,6 +24,7 @@ use Joomla\Plugin\Task\Requests\Extension\Requests;
 use Joomla\Tests\Unit\UnitTestCase;
 use Joomla\Uri\UriInterface;
 use PHPUnit\Framework\Attributes\RequiresOperatingSystemFamily;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for Requests plugin
@@ -31,10 +32,9 @@ use PHPUnit\Framework\Attributes\RequiresOperatingSystemFamily;
  * @package     Joomla.UnitTest
  * @subpackage  Requests
  *
- * @testdox     The Requests plugin
- *
  * @since       4.2.0
  */
+#[TestDox('The Requests plugin')]
 class RequestsPluginTest extends UnitTestCase
 {
     /**
@@ -78,12 +78,11 @@ class RequestsPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can perform a HTTP GET request
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can perform a HTTP GET request')]
     public function testRequest()
     {
         $transport = new class () implements TransportInterface {
@@ -137,12 +136,11 @@ class RequestsPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can perform a HTTP GET request where the return code is not 200
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can perform a HTTP GET request where the return code is not 200')]
     public function testInvalidRequest()
     {
         $transport = new class () implements TransportInterface {
@@ -196,12 +194,11 @@ class RequestsPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can perform a HTTP GET request with auth headers
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can perform a HTTP GET request with auth headers')]
     public function testAuthRequest()
     {
         $transport = new class () implements TransportInterface {
@@ -252,12 +249,11 @@ class RequestsPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can handle an exception during the request
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can handle an exception during the request')]
     public function testExceptionInRequest()
     {
         $transport = new class () implements TransportInterface {
@@ -300,13 +296,12 @@ class RequestsPluginTest extends UnitTestCase
         $this->assertEquals(Status::TIMEOUT, $event->getResultSnapshot()['status']);
     }
     /**
-     * @testdox  can handle an invalid file location
-     *
      * @return  void
      *
      * @since   4.2.0
      */
     #[RequiresOperatingSystemFamily('Linux')]
+    #[TestDox('can handle an invalid file location')]
     public function testInvalidFileToWrite()
     {
         $transport = new class () implements TransportInterface {

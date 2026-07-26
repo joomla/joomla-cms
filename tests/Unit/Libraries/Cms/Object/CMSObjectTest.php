@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Object;
 
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test class for \Joomla\CMS\Object\CMSObject
@@ -25,12 +26,12 @@ class CMSObjectTest extends UnitTestCase
     /**
      * Tests the object constructor.
      *
-     * @group     CMSObject
      * @covers    CMSObject::__construct
      * @return void
      *
      * @since   4.0.0
      */
+    #[Group('CMSObject')]
     public function testIsConstructable()
     {
         $object = new CMSObject(['property1' => 'value1', 'property2' => 5]);
@@ -41,12 +42,12 @@ class CMSObjectTest extends UnitTestCase
     /**
      * Tests setting the default for a property of the object.
      *
-     * @group     CMSObject
      * @covers    CMSObject::def
      * @return void
      *
      * @since   4.0.0
      */
+    #[Group('CMSObject')]
     public function testDef()
     {
         $object = new CMSObject();
@@ -62,12 +63,12 @@ class CMSObjectTest extends UnitTestCase
     /**
      * Tests getting a property of the object.
      *
-     * @group     CMSObject
      * @covers    CMSObject::get
      * @return void
      *
      * @since   4.0.0
      */
+    #[Group('CMSObject')]
     public function testGet()
     {
         $object = new CMSObject();
@@ -82,12 +83,12 @@ class CMSObjectTest extends UnitTestCase
     /**
      * Tests getting the properties of the object.
      *
-     * @group     CMSObject
      * @covers    CMSObject::getProperties
      * @return void
      *
      * @since   4.0.0
      */
+    #[Group('CMSObject')]
     public function testGetProperties()
     {
         $object = new CMSObject([
@@ -121,12 +122,12 @@ class CMSObjectTest extends UnitTestCase
     /**
      * Tests getting a single error.
      *
-     * @group     CMSObject
      * @covers    CMSObject::getError
      * @return void
      *
      * @since   4.0.0
      */
+    #[Group('CMSObject')]
     public function testGetError()
     {
         $object = new CMSObject();
@@ -168,12 +169,12 @@ class CMSObjectTest extends UnitTestCase
     /**
      * Tests getting the array of errors.
      *
-     * @group     CMSObject
      * @covers    CMSObject::getErrors
      * @return void
      *
      * @since   4.0.0
      */
+    #[Group('CMSObject')]
     public function testGetErrors()
     {
         $object = new CMSObject();
@@ -194,12 +195,12 @@ class CMSObjectTest extends UnitTestCase
     /**
      * Tests setting a property.
      *
-     * @group     CMSObject
      * @covers    CMSObject::set
      * @return void
      *
      * @since   4.0.0
      */
+    #[Group('CMSObject')]
     public function testSet()
     {
         $object = new CMSObject();
@@ -212,12 +213,12 @@ class CMSObjectTest extends UnitTestCase
     /**
      * Tests setting multiple properties.
      *
-     * @group     CMSObject
      * @covers    CMSObject::setProperties
      * @return void
      *
      * @since   4.0.0
      */
+    #[Group('CMSObject')]
     public function testSetProperties()
     {
         $object = new CMSObject();
@@ -233,12 +234,12 @@ class CMSObjectTest extends UnitTestCase
     /**
      * Tests setting an error.
      *
-     * @group     CMSObject
      * @covers    CMSObject::setError
      * @return void
      *
      * @since   4.0.0
      */
+    #[Group('CMSObject')]
     public function testSetError()
     {
         $object = new CMSObject();

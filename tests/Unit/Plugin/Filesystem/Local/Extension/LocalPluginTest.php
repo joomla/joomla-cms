@@ -17,6 +17,7 @@ use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 use Joomla\Plugin\Filesystem\Local\Extension\Local;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for Local plugin
@@ -24,19 +25,17 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  Local
  *
- * @testdox     The Local plugin
- *
  * @since       4.3.0
  */
+#[TestDox('The Local plugin')]
 class LocalPluginTest extends UnitTestCase
 {
     /**
-     * @testdox  has the correct id
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('has the correct id')]
     public function testID()
     {
         $plugin = new Local(['name' => 'test'], __DIR__);
@@ -45,12 +44,11 @@ class LocalPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  has the correct display name
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('has the correct display name')]
     public function testDisplayName()
     {
         $language = $this->createStub(Language::class);
@@ -66,12 +64,11 @@ class LocalPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can setup providers
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can setup providers')]
     public function testSetupProviders()
     {
         $manager = new ProviderManager();
@@ -87,12 +84,11 @@ class LocalPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can deliver adapters
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can deliver adapters')]
     public function testAdapters()
     {
         $app = $this->createStub(CMSApplicationInterface::class);
@@ -108,12 +104,11 @@ class LocalPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  throws an Exception when an invalid directory
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('throws an Exception when an invalid directory')]
     public function testAdaptersInvalidDirectory()
     {
         $this->expectException(\InvalidArgumentException::class);

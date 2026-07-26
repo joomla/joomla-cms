@@ -18,6 +18,7 @@ use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Filesystem\Folder;
 use Joomla\Plugin\Task\Checkfiles\Extension\Checkfiles;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for Checkfiles plugin
@@ -25,10 +26,9 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  Checkfiles
  *
- * @testdox     The Checkfiles plugin
- *
  * @since       4.2.0
  */
+#[TestDox('The Checkfiles plugin')]
 class CheckfilesPluginTest extends UnitTestCase
 {
     /**
@@ -76,12 +76,11 @@ class CheckfilesPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can resize an image
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can resize an image')]
     public function testResize()
     {
         $language = $this->createStub(Language::class);
@@ -113,12 +112,11 @@ class CheckfilesPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can resize a subset of images
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can resize a subset of images')]
     public function testResizeWithLimit()
     {
         copy($this->tmpFolder . '/test.png', $this->tmpFolder . '/test1.png');
@@ -156,12 +154,11 @@ class CheckfilesPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can resize an image
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can resize an image')]
     public function testIgnoreResize()
     {
         $language = $this->createStub(Language::class);
@@ -193,12 +190,11 @@ class CheckfilesPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can not run when invalid folder
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can not run when invalid folder')]
     public function testInvalidFolder()
     {
         $language = $this->createStub(Language::class);

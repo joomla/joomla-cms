@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogConfigModel;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for ActionlogConfigModel
@@ -25,12 +26,11 @@ use Joomla\Tests\Unit\UnitTestCase;
 class ActionlogConfigModelTest extends UnitTestCase
 {
     /**
-     * @testdox  Test that getLogContentTypeParams returns the correct params
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('Test that getLogContentTypeParams returns the correct params')]
     public function testGetLogContentTypeParams()
     {
         $config = new \stdClass();
@@ -44,12 +44,11 @@ class ActionlogConfigModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test that getLogContentTypeParams returns null when not found
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('Test that getLogContentTypeParams returns null when not found')]
     public function testGetNullLogContentTypeParams()
     {
         $db = $this->createStub(DatabaseInterface::class);

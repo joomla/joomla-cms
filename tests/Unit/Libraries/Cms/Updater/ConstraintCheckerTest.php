@@ -15,6 +15,7 @@ use Joomla\CMS\Updater\ConstraintChecker;
 use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for Constraint Checker.
@@ -86,9 +87,8 @@ class ConstraintCheckerTest extends UnitTestCase
      * @return  void
      *
      * @since   5.1.0
-     *
-     * @dataProvider supportedDatabasesDataProvider
      */
+    #[DataProvider('supportedDatabasesDataProvider')]
     public function testCheckSupportedDatabases($currentDatabase, $supportedDatabases, $expectedResult)
     {
         $dbMock = $this->createMock(DatabaseDriver::class);
@@ -108,9 +108,8 @@ class ConstraintCheckerTest extends UnitTestCase
      * @return  void
      *
      * @since   5.1.0
-     *
-     * @dataProvider targetplatformDataProvider
      */
+    #[DataProvider('targetplatformDataProvider')]
     public function testCheckPhpMinimumReturnFalseForFuturePhp()
     {
         $method = $this->getPublicMethod('checkPhpMinimum');
@@ -124,9 +123,8 @@ class ConstraintCheckerTest extends UnitTestCase
      * @return  void
      *
      * @since   5.1.0
-     *
-     * @dataProvider targetplatformDataProvider
      */
+    #[DataProvider('targetplatformDataProvider')]
     public function testCheckTargetplatform($targetPlatform, $expectedResult)
     {
         $method = $this->getPublicMethod('checkTargetplatform');

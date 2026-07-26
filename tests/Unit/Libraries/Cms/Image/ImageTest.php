@@ -10,6 +10,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Image;
 use Joomla\CMS\Image\Image;
 use Joomla\Test\TestHelper;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for Image.
@@ -1051,12 +1052,11 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @dataProvider getCropData
-     *
      * @covers  \Joomla\CMS\Image\Image::crop
      *
      * @since   4.0.0
      */
+    #[DataProvider('getCropData')]
     public function testCrop($startHeight, $startWidth, $cropHeight, $cropWidth, $cropTop, $cropLeft, $transparent = false)
     {
         // Create a image handle of the correct size.
@@ -1299,12 +1299,11 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @dataProvider getPrepareDimensionsData
-     *
      * @covers  \Joomla\CMS\Image\Image::prepareDimensions
      *
      * @since   4.0.0
      */
+    #[DataProvider('getPrepareDimensionsData')]
     public function testPrepareDimensions($inputHeight, $inputWidth, $inputScale, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
     {
         // Create a image handle of the correct size.
@@ -1353,12 +1352,11 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @dataProvider getSanitizeDimensionData
-     *
      * @covers  \Joomla\CMS\Image\Image::sanitizeHeight
      *
      * @since   4.0.0
      */
+    #[DataProvider('getSanitizeDimensionData')]
     public function testSanitizeHeight($inputHeight, $inputWidth, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
     {
         // Create a image handle of the correct size.
@@ -1385,12 +1383,11 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @dataProvider getSanitizeDimensionData
-     *
      * @covers  \Joomla\CMS\Image\Image::sanitizeWidth
      *
      * @since   4.0.0
      */
+    #[DataProvider('getSanitizeDimensionData')]
     public function testSanitizeWidth($inputHeight, $inputWidth, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
     {
         // Create a image handle of the correct size.
@@ -1413,12 +1410,11 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @dataProvider getSanitizeOffsetData
-     *
      * @covers  \Joomla\CMS\Image\Image::sanitizeOffset
      *
      * @since   4.0.0
      */
+    #[DataProvider('getSanitizeOffsetData')]
     public function testSanitizeOffset($input, $expected)
     {
         // Validate the correct response.

@@ -14,6 +14,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\Rule\EqualsRule;
 use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for EqualsRule.
@@ -84,8 +85,8 @@ class EqualsRuleTest extends UnitTestCase
      * @return  void
      *
      * @since   5.4.3
-     * @dataProvider dataTest
      */
+    #[DataProvider('dataTest')]
     public function testRule(bool|string $expected, \SimpleXMLElement $element, string|int $value, ?string $group, ?Registry $input, ?string $form): void
     {
         if (\is_string($form) && class_exists($form)) {

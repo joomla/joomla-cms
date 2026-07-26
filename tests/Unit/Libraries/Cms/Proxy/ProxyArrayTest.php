@@ -14,6 +14,7 @@ use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\CMS\Proxy\ArrayReadOnlyProxy;
 use Joomla\CMS\Proxy\ObjectReadOnlyProxy;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for \Joomla\CMS\Proxy\ArrayProxy classes
@@ -26,12 +27,11 @@ use Joomla\Tests\Unit\UnitTestCase;
 class ProxyArrayTest extends UnitTestCase
 {
     /**
-     * @testdox  Array referencing keep the changes
-     *
      * @return  void
      *
      * @since   5.0.0
      */
+    #[TestDox('Array referencing keep the changes')]
     public function testArrayAccessAndModification()
     {
         $data = [
@@ -50,12 +50,11 @@ class ProxyArrayTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Array Countable implementations
-     *
      * @return  void
      *
      * @since   5.0.0
      */
+    #[TestDox('Array Countable implementations')]
     public function testArrayCountable()
     {
         $data = [
@@ -71,12 +70,11 @@ class ProxyArrayTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Array Iterator implementations
-     *
      * @return  void
      *
      * @since   5.0.0
      */
+    #[TestDox('Array Iterator implementations')]
     public function testArrayIterator()
     {
         $data = [
@@ -92,12 +90,11 @@ class ProxyArrayTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Array read-only Iterator implementations
-     *
      * @return  void
      *
      * @since   5.0.0
      */
+    #[TestDox('Array read-only Iterator implementations')]
     public function testArrayReadOnlyIterator()
     {
         $data = [
@@ -118,12 +115,11 @@ class ProxyArrayTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Array read-only access
-     *
      * @return  void
      *
      * @since   5.0.0
      */
+    #[TestDox('Array read-only access')]
     public function testArrayReadOnlyAccessAndModification()
     {
         $data = [
@@ -141,12 +137,11 @@ class ProxyArrayTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Array read-only access to child
-     *
      * @return  void
      *
      * @since   5.0.0
      */
+    #[TestDox('Array read-only access to child')]
     public function testArrayReadOnlyChildAccessAndModification()
     {
         $data = [

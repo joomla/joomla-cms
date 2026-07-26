@@ -14,6 +14,7 @@ use Joomla\CMS\Proxy\ArrayReadOnlyProxy;
 use Joomla\CMS\Proxy\ObjectProxy;
 use Joomla\CMS\Proxy\ObjectReadOnlyProxy;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for \Joomla\CMS\Proxy\ObjectProxy classes
@@ -26,12 +27,11 @@ use Joomla\Tests\Unit\UnitTestCase;
 class ProxyObjectTest extends UnitTestCase
 {
     /**
-     * @testdox  Object referencing keep the changes
-     *
      * @return  void
      *
      * @since   5.0.0
      */
+    #[TestDox('Object referencing keep the changes')]
     public function testObjectAccessAndModification()
     {
         $data = (object) [
@@ -50,12 +50,11 @@ class ProxyObjectTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Object read-only access
-     *
      * @return  void
      *
      * @since   5.0.0
      */
+    #[TestDox('Object read-only access')]
     public function testObjectReadOnlyAccessAndModification()
     {
         $data = (object) [
@@ -73,12 +72,11 @@ class ProxyObjectTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Object read-only access to child
-     *
      * @return  void
      *
      * @since   5.0.0
      */
+    #[TestDox('Object read-only access to child')]
     public function testObjectReadOnlyChildAccessAndModification()
     {
         $data = (object) [
@@ -96,12 +94,11 @@ class ProxyObjectTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Object Iterator implementations
-     *
      * @return  void
      *
      * @since   5.0.0
      */
+    #[TestDox('Object Iterator implementations')]
     public function testObjectIterator()
     {
         $data = (object) [
@@ -117,12 +114,11 @@ class ProxyObjectTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Object read-only Iterator implementations
-     *
      * @return  void
      *
      * @since   5.0.0
      */
+    #[TestDox('Object read-only Iterator implementations')]
     public function testObjectReadOnlyIterator()
     {
         $data = (object) [

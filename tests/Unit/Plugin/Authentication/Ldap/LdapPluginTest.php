@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Language;
 use Joomla\Plugin\Authentication\Ldap\Extension\Ldap;
 use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactoryInterface;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 use Symfony\Component\Ldap\Adapter\CollectionInterface;
 use Symfony\Component\Ldap\Adapter\EntryManagerInterface;
 use Symfony\Component\Ldap\Adapter\QueryInterface;
@@ -31,19 +32,17 @@ use Symfony\Component\Ldap\LdapInterface;
  * @package     Joomla.UnitTest
  * @subpackage  Ldap
  *
- * @testdox     The Ldap plugin
- *
  * @since       4.3.0
  */
+#[TestDox('The Ldap plugin')]
 class LdapPluginTest extends UnitTestCase
 {
     /**
-     * @testdox  when no host is set
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('when no host is set')]
     public function testNoHost()
     {
         $plugin = new Ldap($this->createFactory(), ['params' => []]);
@@ -57,12 +56,11 @@ class LdapPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  when no credentials are set
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('when no credentials are set')]
     public function testNoCredentials()
     {
         $language = $this->createStub(Language::class);
@@ -82,12 +80,11 @@ class LdapPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can perform no authentication
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can perform no authentication')]
     public function testNoAuthenticationMethod()
     {
         $language = $this->createStub(Language::class);
@@ -108,12 +105,11 @@ class LdapPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can perform an authentication using search
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can perform an authentication using search')]
     public function testSearchAuthenticationMethod()
     {
         $plugin = new Ldap($this->createFactory(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
@@ -127,12 +123,11 @@ class LdapPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can perform an authentication using search when no entry is found
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can perform an authentication using search when no entry is found')]
     public function testSearchAuthenticationMethodNoEntry()
     {
         $language = $this->createStub(Language::class);
@@ -153,12 +148,11 @@ class LdapPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can not perform an authentication using search when bind fails
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can not perform an authentication using search when bind fails')]
     public function testSearchAuthenticationMethodWithBindException()
     {
         $language = $this->createStub(Language::class);
@@ -179,12 +173,11 @@ class LdapPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can not perform an authentication using search when query fails
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can not perform an authentication using search when query fails')]
     public function testSearchAuthenticationMethodWithQueryException()
     {
         $language = $this->createStub(Language::class);
@@ -205,12 +198,11 @@ class LdapPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can perform an authentication using bind
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can perform an authentication using bind')]
     public function testBindAuthenticationMethod()
     {
         $plugin = new Ldap($this->createFactory(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
@@ -224,12 +216,11 @@ class LdapPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can perform an authentication using bind when no entry is found
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can perform an authentication using bind when no entry is found')]
     public function testBindAuthenticationMethodNoEntry()
     {
         $language = $this->createStub(Language::class);
@@ -250,12 +241,11 @@ class LdapPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can perform an authentication using bind with a DN
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can perform an authentication using bind with a DN')]
     public function testBindAuthenticationMethodWithDN()
     {
         $plugin = new Ldap($this->createFactory(), ['params' => ['auth_method' => 'bind', 'users_dn' => 'test', 'host' => 'test']]);
@@ -269,12 +259,11 @@ class LdapPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can not perform an authentication using bind when bind fails
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can not perform an authentication using bind when bind fails')]
     public function testBindAuthenticationMethodWithBindException()
     {
         $language = $this->createStub(Language::class);
@@ -295,12 +284,11 @@ class LdapPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can not perform an authentication using bind when query fails
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can not perform an authentication using bind when query fails')]
     public function testBindAuthenticationMethodWithQueryException()
     {
         $language = $this->createStub(Language::class);

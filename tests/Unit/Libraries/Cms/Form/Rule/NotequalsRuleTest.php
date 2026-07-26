@@ -14,6 +14,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\Rule\NotequalsRule;
 use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for NotequalsRule.
@@ -82,8 +83,8 @@ class NotequalsRuleTest extends UnitTestCase
      * @return  void
      *
      * @since   5.4.3
-     * @dataProvider dataTest
      */
+    #[DataProvider('dataTest')]
     public function testRule(bool|string $expected, \SimpleXMLElement $element, string|int $value, ?string $group, ?Registry $input, ?Form $form): void
     {
         if (\is_string($expected) && class_exists($expected)) {

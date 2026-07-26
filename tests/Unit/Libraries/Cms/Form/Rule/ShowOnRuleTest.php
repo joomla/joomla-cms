@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Form\Rule;
 
 use Joomla\CMS\Form\Rule\ShowOnRule;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for ShowOnRule.
@@ -83,8 +84,8 @@ class ShowOnRuleTest extends UnitTestCase
      * @return  void
      *
      * @since   5.0.0
-     * @dataProvider dataTest
      */
+    #[DataProvider('dataTest')]
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
     {
         $this->assertEquals($expected, (new ShowOnRule())->test($element, $value));

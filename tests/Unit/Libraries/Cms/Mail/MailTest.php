@@ -13,6 +13,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Mail;
 use Joomla\CMS\Mail\Mail;
 use Joomla\Tests\Unit\UnitTestCase;
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for JMail.
@@ -100,8 +101,6 @@ class MailTest extends UnitTestCase
      *
      * @covers        Mail::addRecipient
      *
-     * @dataProvider  seedTestAdd
-     *
      * @param   string  $recipient  Recipient
      * @param   string  $name       Name
      * @param   string  $expected   Expected
@@ -110,6 +109,7 @@ class MailTest extends UnitTestCase
      * @since         4.0.0
      * @throws \PHPMailer\PHPMailer\Exception
      */
+    #[DataProvider('seedTestAdd')]
     public function testAddRecipient($recipient, $name, $expected)
     {
         $this->mail->addRecipient($recipient, $name);
@@ -122,8 +122,6 @@ class MailTest extends UnitTestCase
      *
      * @covers        Mail::addCc
      *
-     * @dataProvider  seedTestAdd
-     *
      * @param   string  $recipient  Recipient
      * @param   string  $name       Name
      * @param   string  $expected   Expected
@@ -132,6 +130,7 @@ class MailTest extends UnitTestCase
      * @since         4.0.0
      * @throws \PHPMailer\PHPMailer\Exception
      */
+    #[DataProvider('seedTestAdd')]
     public function testAddCc($recipient, $name, $expected)
     {
         $this->mail->addCc($recipient, $name);
@@ -151,8 +150,8 @@ class MailTest extends UnitTestCase
      * @return void
      * @since         4.0.0
      * @throws \PHPMailer\PHPMailer\Exception
-     * @dataProvider  seedTestAdd
      */
+    #[DataProvider('seedTestAdd')]
     public function testAddBcc($recipient, $name, $expected)
     {
         $this->mail->addBcc($recipient, $name);
@@ -200,8 +199,6 @@ class MailTest extends UnitTestCase
      *
      * @covers        JMail::addReplyTo
      *
-     * @dataProvider  seedTestAddReplyTo
-     *
      * @param   string  $recipient  Recipient
      * @param   string  $name       Name
      * @param   string  $expected   Expected
@@ -210,6 +207,7 @@ class MailTest extends UnitTestCase
      * @since         4.0.0
      * @throws \PHPMailer\PHPMailer\Exception
      */
+    #[DataProvider('seedTestAddReplyTo')]
     public function testAddReplyTo($recipient, $name, $expected)
     {
         $this->mail->addReplyTo($recipient, $name);
@@ -310,9 +308,8 @@ class MailTest extends UnitTestCase
      * @return  void
      *
      * @since   3.0.0
-     *
-     * @dataProvider  dataUseSMTP
      */
+    #[DataProvider('dataUseSMTP')]
     public function testUseSmtp($auth, $host, $user, $pass, $secure, $port, $expected)
     {
         // Build a partial mock object.

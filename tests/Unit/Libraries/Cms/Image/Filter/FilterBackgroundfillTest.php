@@ -10,6 +10,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Image\Filter;
 use Joomla\CMS\Image\Filter\Backgroundfill as FilterBackgroundfill;
 use Joomla\Test\TestHelper;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for Image.
@@ -167,9 +168,9 @@ class FilterBackgroundfillTest extends UnitTestCase
      * @return  void
      *
      * @covers         Joomla\CMS\Image\Filter\Backgroundfill::sanitizeColor
-     * @dataProvider   dataSanitizeColor
      * @since          1.1.3
      */
+    #[DataProvider('dataSanitizeColor')]
     public function testSanitizeColor($color, $red, $green, $blue, $alpha)
     {
         $imageHandle = imagecreatetruecolor(100, 100);

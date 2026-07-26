@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Form\Rule;
 
 use Joomla\CMS\Form\Rule\BooleanRule;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for BooleanRule.
@@ -61,8 +62,8 @@ class BooleanRuleTest extends UnitTestCase
      * @return  void
      *
      * @since   5.4.3
-     * @dataProvider dataTest
      */
+    #[DataProvider('dataTest')]
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
     {
         $this->assertEquals($expected, (new BooleanRule())->test($element, $value));

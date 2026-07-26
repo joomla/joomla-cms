@@ -13,6 +13,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\MVC\Model;
 use Joomla\CMS\MVC\Model\State;
 use Joomla\CMS\MVC\Model\StateBehaviorTrait;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for \Joomla\CMS\MVC\Model\StateBehaviorTrait
@@ -20,19 +21,17 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  MVC
  *
- * @testdox     The StateBehaviorTrait
- *
  * @since       4.2.0
  */
+#[TestDox('The StateBehaviorTrait')]
 class StateBehaviorTraitTest extends UnitTestCase
 {
     /**
-     * @testdox  can fetch an empty state
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can fetch an empty state')]
     public function testGetEmptyState()
     {
         $trait = new class () {
@@ -43,12 +42,11 @@ class StateBehaviorTraitTest extends UnitTestCase
     }
 
     /**
-     * @testdox  does populate the state when a state is requested
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('does populate the state when a state is requested')]
     public function testStatePopulation()
     {
         $trait = new class () {
@@ -64,12 +62,11 @@ class StateBehaviorTraitTest extends UnitTestCase
     }
 
     /**
-     * @testdox  does not populated the state when already set
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('does not populated the state when already set')]
     public function testStatePopulationIgnored()
     {
         $trait = new class () {
@@ -90,12 +87,11 @@ class StateBehaviorTraitTest extends UnitTestCase
     }
 
     /**
-     * @testdox  sets the state correctly
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('sets the state correctly')]
     public function testSetState()
     {
         $trait = new class () {
@@ -107,12 +103,11 @@ class StateBehaviorTraitTest extends UnitTestCase
     }
 
     /**
-     * @testdox  overwrites the state when it is not populated
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('overwrites the state when it is not populated')]
     public function testSetStateWithPopulation()
     {
         $trait = new class () {
@@ -129,12 +124,11 @@ class StateBehaviorTraitTest extends UnitTestCase
     }
 
     /**
-     * @testdox  does not overwrite the state when it is already populated
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('does not overwrite the state when it is already populated')]
     public function testSetStateWithPrePopulation()
     {
         $trait = new class () {

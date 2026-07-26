@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Language;
 use Joomla\Plugin\Authentication\Ldap\Extension\Ldap as LdapPlugin;
 use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactory;
 use Joomla\Tests\Integration\IntegrationTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for Ldap plugin
@@ -31,10 +32,9 @@ use Joomla\Tests\Integration\IntegrationTestCase;
  * @package     Joomla.IntegrationTest
  * @subpackage  Ldap
  *
- * @testdox     The Ldap plugin
- *
  * @since       4.3.0
  */
+#[TestDox('The Ldap plugin')]
 class LdapPluginTest extends IntegrationTestCase
 {
     public const LDAPPORT = JTEST_LDAP_PORT;
@@ -137,12 +137,11 @@ class LdapPluginTest extends IntegrationTestCase
     }
 
     /**
-     * @testdox  can perform an authentication using bind and search
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can perform an authentication using bind and search')]
     public function testOnUserAuthenticateBindAndSearch()
     {
         $options                = $this->default_options;
@@ -157,12 +156,11 @@ class LdapPluginTest extends IntegrationTestCase
     }
 
     /**
-     * @testdox  can perform an authentication using direct bind
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can perform an authentication using direct bind')]
     public function testOnUserAuthenticateDirect()
     {
         $options                = $this->default_options;
@@ -177,12 +175,11 @@ class LdapPluginTest extends IntegrationTestCase
     }
 
     /**
-     * @testdox  can perform an authentication using direct bind with bad credentials
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can perform an authentication using direct bind with bad credentials')]
     public function testInvalidOnUserAuthenticateDirect()
     {
         $options                = $this->default_options;
@@ -200,12 +197,11 @@ class LdapPluginTest extends IntegrationTestCase
     }
 
     /**
-     * @testdox  can perform an authentication on STARTTLS encrypted connection (using bind and search)
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can perform an authentication on STARTTLS encrypted connection (using bind and search)')]
     public function testOnUserAuthenticateBindAndSearchTLS()
     {
         $options                = $this->default_options;
@@ -221,12 +217,11 @@ class LdapPluginTest extends IntegrationTestCase
     }
 
     /**
-     * @testdox  can perform an authentication on SSL/TLS encrypted connection (using bind and search)
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can perform an authentication on SSL/TLS encrypted connection (using bind and search)')]
     public function testOnUserAuthenticateBindAndSearchSSL()
     {
         $options                = $this->default_options;

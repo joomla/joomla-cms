@@ -19,6 +19,7 @@ use Joomla\Filesystem\Folder;
 use Joomla\Plugin\Task\SiteStatus\Extension\SiteStatus;
 use Joomla\Tests\Unit\UnitTestCase;
 use PHPUnit\Framework\Attributes\RequiresOperatingSystemFamily;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for SiteStatus plugin
@@ -26,10 +27,9 @@ use PHPUnit\Framework\Attributes\RequiresOperatingSystemFamily;
  * @package     Joomla.UnitTest
  * @subpackage  SiteStatus
  *
- * @testdox     The SiteStatus plugin
- *
  * @since       4.2.0
  */
+#[TestDox('The SiteStatus plugin')]
 class SiteStatusPluginTest extends UnitTestCase
 {
     /**
@@ -75,12 +75,11 @@ class SiteStatusPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can set the config from online to offline
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can set the config from online to offline')]
     public function testSetOnlineWhenOffline()
     {
         $language = $this->createStub(Language::class);
@@ -103,12 +102,11 @@ class SiteStatusPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can keep the config online
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can keep the config online')]
     public function testSetOnlineWhenOnline()
     {
         $language = $this->createStub(Language::class);
@@ -131,12 +129,11 @@ class SiteStatusPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can set the config from offline to online
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can set the config from offline to online')]
     public function testSetOfflineWhenOnline()
     {
         $language = $this->createStub(Language::class);
@@ -159,12 +156,11 @@ class SiteStatusPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can keep the config offline
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can keep the config offline')]
     public function testSetOfflineWhenOffline()
     {
         $language = $this->createStub(Language::class);
@@ -187,12 +183,11 @@ class SiteStatusPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can toggle the config from online to offline
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can toggle the config from online to offline')]
     public function testToggleOffline()
     {
         $language = $this->createStub(Language::class);
@@ -215,12 +210,11 @@ class SiteStatusPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can toggle the config from offline to online
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can toggle the config from offline to online')]
     public function testToggleOnline()
     {
         $language = $this->createStub(Language::class);
@@ -243,13 +237,12 @@ class SiteStatusPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can't set the config file'
-     *
      * @return  void
      *
      * @since   4.2.0
      */
     #[RequiresOperatingSystemFamily('Linux')]
+    #[TestDox("can't set the config file'")]
     public function testInvalidConfigFile()
     {
         $language = $this->createStub(Language::class);

@@ -149,7 +149,6 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     *
      * @return  void
      * @since   4.0.0
      * @throws \Exception

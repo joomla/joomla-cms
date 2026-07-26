@@ -21,6 +21,7 @@ use Joomla\CMS\User\User;
 use Joomla\Event\Dispatcher;
 use Joomla\Plugin\EditorsXtd\PageBreak\Extension\PageBreak;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for PageBreak editor button plugin
@@ -28,19 +29,17 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  PageBreak
  *
- * @testdox     The PageBreak plugin
- *
  * @since       4.4.0
  */
+#[TestDox('The PageBreak plugin')]
 class PageBreakTest extends UnitTestCase
 {
     /**
-     * @testdox  that the button is properly loaded
-     *
      * @return  void
      *
      * @since   4.4.0
      */
+    #[TestDox('that the button is properly loaded')]
     public function testButton()
     {
         $user = $this->createStub(User::class);
@@ -76,12 +75,11 @@ class PageBreakTest extends UnitTestCase
     }
 
     /**
-     * @testdox  that the user has not enough permission
-     *
      * @return  void
      *
      * @since   4.4.0
      */
+    #[TestDox('that the user has not enough permission')]
     public function testInvalidPermissions()
     {
         $user = $this->createStub(User::class);
@@ -110,12 +108,11 @@ class PageBreakTest extends UnitTestCase
     }
 
     /**
-     * @testdox  that the button is not returned when a none web CMS application is used
-     *
      * @return  void
      *
      * @since   4.4.0
      */
+    #[TestDox('that the button is not returned when a none web CMS application is used')]
     public function testInvalidApplication()
     {
         $btnsReg = new ButtonsRegistry();

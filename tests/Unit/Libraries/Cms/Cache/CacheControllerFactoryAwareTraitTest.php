@@ -13,6 +13,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Cache;
 use Joomla\CMS\Cache\CacheControllerFactory;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for \Joomla\CMS\Cache\CacheControllerFactoryAwareTrait
@@ -20,19 +21,17 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @testdoc     The CacheControllerFactoryAwareTrait
- *
  * @since       4.2.0
  */
+#[TestDox('The CacheControllerFactoryAwareTrait')]
 class CacheControllerFactoryAwareTraitTest extends UnitTestCase
 {
     /**
-     * @testdox  can set a cache controller factory
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can set a cache controller factory')]
     public function testGetCacheControllerFactory()
     {
         $cacheControllerFactory = new CacheControllerFactory();

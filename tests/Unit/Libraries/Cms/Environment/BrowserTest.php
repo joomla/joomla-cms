@@ -12,14 +12,16 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Environment;
 
 use Joomla\CMS\Environment\Browser;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for JBrowser.
  *
  * @since   4.0.0
- *
- * @backupGlobals enabled
  */
+#[BackupGlobals(true)]
 class BrowserTest extends UnitTestCase
 {
     /**
@@ -151,10 +153,7 @@ class BrowserTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A browser with a given user agent is correctly detected
-     *
      * @covers        JBrowser::match
-     * @dataProvider  dataMatch
      *
      * @param   string   $userAgent             The user agent to test
      * @param   string   $expectedBrowser       The expected browser value
@@ -165,6 +164,8 @@ class BrowserTest extends UnitTestCase
      * @return  void
      * @since   4.0.0
      */
+    #[DataProvider('dataMatch')]
+    #[TestDox('A browser with a given user agent is correctly detected')]
     public function testBrowserMatching($userAgent, $expectedBrowser, $expectedPlatform, $expectedMajorVersion, $expectedMobile)
     {
         $this->browser->match($userAgent);

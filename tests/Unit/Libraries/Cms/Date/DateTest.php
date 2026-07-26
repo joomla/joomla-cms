@@ -12,15 +12,15 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Date;
 
 use Joomla\CMS\Date\Date;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 class DateTest extends UnitTestCase
 {
     /**
-     * @testdox  Test that the Date class can init and has the right timezones
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that the Date class can init and has the right timezones')]
     public function testConstruct()
     {
         // Test passing timezone as a DateTimeZone instance
@@ -45,11 +45,10 @@ class DateTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test that the date is cast correctly to ISO8601
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that the date is cast correctly to ISO8601')]
     public function testtoISO8601()
     {
         $date = new Date("8th March 1978 6:06pm", new \DateTimeZone('UTC'));
@@ -58,11 +57,10 @@ class DateTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test that the date is cast correctly to RFC822
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that the date is cast correctly to RFC822')]
     public function testtoRFC822()
     {
         $date = new Date("8th March 1978 6:06pm", new \DateTimeZone('UTC'));
@@ -71,11 +69,10 @@ class DateTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test that the date is cast correctly for use in SQL
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that the date is cast correctly for use in SQL')]
     public function testtoSql()
     {
         $date = new Date("8th March 1978 6:06pm", new \DateTimeZone('UTC'));
@@ -84,11 +81,10 @@ class DateTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test that the date is cast correctly to a unix timestamp
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that the date is cast correctly to a unix timestamp')]
     public function testtoUnix()
     {
         $date = new Date("8th March 1978 6:06pm", new \DateTimeZone('UTC'));
@@ -97,11 +93,10 @@ class DateTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test that timezones can be changed on the fly
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that timezones can be changed on the fly')]
     public function testTzChange()
     {
         $date = new Date("8th March 1978 6:06pm", new \DateTimeZone('UTC'));
@@ -115,11 +110,10 @@ class DateTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test that timezones can be cast to string
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that timezones can be cast to string')]
     public function testCastToString()
     {
         $date = new Date("8th March 1978 6:06pm", new \DateTimeZone('UTC'));
@@ -128,11 +122,10 @@ class DateTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test that Sunday is zero - because it should be
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that Sunday is zero - because it should be')]
     public function testdayToString()
     {
         $date = Date::getInstance("8th March 1978 6:06pm", new \DateTimeZone('UTC'));
@@ -142,11 +135,10 @@ class DateTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test magic getter
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test magic getter')]
     public function testMagicGetter()
     {
         $date = Date::getInstance("8th March 1978 6:06pm", new \DateTimeZone('UTC'));
@@ -166,11 +158,10 @@ class DateTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test getting an instance
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test getting an instance')]
     public function testGetInstance()
     {
         $date = Date::getInstance("8th March 1978 6:06pm", new \DateTimeZone('UTC'));

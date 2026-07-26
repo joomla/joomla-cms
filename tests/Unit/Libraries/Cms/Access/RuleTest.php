@@ -157,7 +157,6 @@ class RuleTest extends UnitTestCase
     }
 
     /**
-     *
      * @return void
      * @since   4.0.0
      */

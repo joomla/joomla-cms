@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Uri;
 
 use Joomla\CMS\Uri\Uri;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\BackupGlobals;
 
 /**
  * Test class for Uri.
@@ -19,9 +20,8 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  Uri
  * @since       1.7.0
- *
- * @backupGlobals enabled
  */
+#[BackupGlobals(true)]
 class UriTest extends UnitTestCase
 {
     /**

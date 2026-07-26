@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Form\Rule;
 
 use Joomla\CMS\Form\Rule\NumberRule;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for NumberRule.
@@ -72,8 +73,8 @@ class NumberRuleTest extends UnitTestCase
      * @return  void
      *
      * @since   5.4.3
-     * @dataProvider dataTest
      */
+    #[DataProvider('dataTest')]
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
     {
         $this->assertEquals($expected, (new NumberRule())->test($element, $value));

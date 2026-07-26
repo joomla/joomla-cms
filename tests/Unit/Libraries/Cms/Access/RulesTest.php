@@ -22,7 +22,6 @@ use Joomla\Tests\Unit\UnitTestCase;
 class RulesTest extends UnitTestCase
 {
     /**
-     *
      * @return void
      * @since   4.0.0
      */
@@ -47,7 +46,6 @@ class RulesTest extends UnitTestCase
     }
 
     /**
-     *
      * @return void
      * @since   4.0.0
      */
@@ -346,7 +344,6 @@ class RulesTest extends UnitTestCase
     }
 
     /**
-     *
      * @return void
      * @since   4.0.0
      */

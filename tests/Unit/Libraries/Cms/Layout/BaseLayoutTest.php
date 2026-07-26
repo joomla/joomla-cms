@@ -13,6 +13,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Layout;
 use Joomla\CMS\Layout\BaseLayout;
 use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * BaseLayoutTest
@@ -56,22 +57,20 @@ class BaseLayoutTest extends UnitTestCase
     }
 
     /**
-     * @testdox  BaseLayout->setOptions() returns a BaseLayout instance with empty parameter.
-     *
      * @return void
      * @since    3.3.7
      */
+    #[TestDox('BaseLayout->setOptions() returns a BaseLayout instance with empty parameter.')]
     public function testSetOptionsReturnsInstanceWithEmptyParameters()
     {
         $this->assertInstanceOf(BaseLayout::class, $this->baseLayout->setOptions());
     }
 
     /**
-     * @testdox  BaseLayout->setOptions() returns a BaseLayout instance with JRegistry parameter.
-     *
      * @return void
      * @since    3.3.7
      */
+    #[TestDox('BaseLayout->setOptions() returns a BaseLayout instance with JRegistry parameter.')]
     public function testSetOptionsReturnsInstanceWithRegistryParameter()
     {
         $registry = $this->createMock(Registry::class);
@@ -80,22 +79,20 @@ class BaseLayoutTest extends UnitTestCase
     }
 
     /**
-     * @testdox  BaseLayout->setOptions() returns a BaseLayout instance with an array parameter.
-     *
      * @return void
      * @since    3.3.7
      */
+    #[TestDox('BaseLayout->setOptions() returns a BaseLayout instance with an array parameter.')]
     public function testSetOptionsReturnsInstanceWithAnArrayParameter()
     {
         $this->assertInstanceOf(BaseLayout::class, $this->baseLayout->setOptions([]));
     }
 
     /**
-     * @testdox  BaseLayout->getOptions() returns a JRegistry object when options parameter is empty.
-     *
      * @return void
      * @since    3.3.7
      */
+    #[TestDox('BaseLayout->getOptions() returns a JRegistry object when options parameter is empty.')]
     public function testGetOptionsReturnsAnEmptyRegistryObject()
     {
         $options = $this->baseLayout->getOptions();
@@ -105,11 +102,10 @@ class BaseLayoutTest extends UnitTestCase
     }
 
     /**
-     * @testdox  BaseLayout->getOptions() returns a JRegistry object when options parameter is an array.
-     *
      * @return void
      * @since    3.3.7
      */
+    #[TestDox('BaseLayout->getOptions() returns a JRegistry object when options parameter is an array.')]
     public function testGetOptionsReturnsAnRegistryObjectWhenOptionsIsArray()
     {
         $this->baseLayout->setOptions([]);
@@ -120,11 +116,10 @@ class BaseLayoutTest extends UnitTestCase
     }
 
     /**
-     * @testdox  BaseLayout->getOptions() returns a JRegistry object when options parameter is a JRegistry object.
-     *
      * @return void
      * @since    3.3.7
      */
+    #[TestDox('BaseLayout->getOptions() returns a JRegistry object when options parameter is a JRegistry object.')]
     public function testGetOptionsReturnsARegistryObjectWhenOptionsParameterIsRegistryObject()
     {
         $registry = $this->createMock(Registry::class);
@@ -136,11 +131,10 @@ class BaseLayoutTest extends UnitTestCase
     }
 
     /**
-     * @testdox  BaseLayout->resetOptions() and check options is empty.
-     *
      * @return void
      * @since    3.3.7
      */
+    #[TestDox('BaseLayout->resetOptions() and check options is empty.')]
     public function testResetOptions()
     {
         $this->baseLayout->setOptions(['not' => 'empty']);
@@ -202,22 +196,20 @@ class BaseLayoutTest extends UnitTestCase
     }
 
     /**
-     * @testdox  JLayoutBase->getDebugMessages() retrieves a list of debug messages in an array.
-     *
      * @return void
      * @since    3.3.7
      */
+    #[TestDox('JLayoutBase->getDebugMessages() retrieves a list of debug messages in an array.')]
     public function testRetrievingTheListOfDebugMessagesIsAnArray()
     {
         $this->assertIsArray($this->baseLayout->getDebugMessages());
     }
 
     /**
-     * @testdox  JLayoutBase->renderDebugMessages() returns debug message
-     *
      * @return void
      * @since    3.3.7
      */
+    #[TestDox('JLayoutBase->renderDebugMessages() returns debug message')]
     public function testRenderDebugMessageReturnsDebugMessage()
     {
         $this->baseLayout->addDebugMessage('Debug message 1');
@@ -226,11 +218,10 @@ class BaseLayoutTest extends UnitTestCase
     }
 
     /**
-     * @testdox  JLayoutBase->renderDebugMessages() returns string of messages separated by newline character.
-     *
      * @return void
      * @since    3.3.7
      */
+    #[TestDox('JLayoutBase->renderDebugMessages() returns string of messages separated by newline character.')]
     public function testRenderDebugMessageReturnsStringOfMessagesSeparatedByNewlineCharacter()
     {
         $this->baseLayout->addDebugMessage('Debug message 1');
@@ -240,11 +231,10 @@ class BaseLayoutTest extends UnitTestCase
     }
 
     /**
-     * @testdox  JLayoutBase->render() returns an empty string.
-     *
      * @return void
      * @since    3.3.7
      */
+    #[TestDox('JLayoutBase->render() returns an empty string.')]
     public function testRenderReturnsAnEmptyString()
     {
         $this->assertEquals('', $this->baseLayout->render('Data'), 'BaseLayout::render does not render an output');
