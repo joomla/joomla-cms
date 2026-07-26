@@ -13,6 +13,7 @@ namespace Joomla\Tests\Unit\Libraries\Tuf;
 use Joomla\CMS\Table\Tuf;
 use Joomla\CMS\TUF\DatabaseStorage;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 
 /**
  * Test class for DatabaseStorage
@@ -28,6 +29,7 @@ class DatabaseStorageTest extends UnitTestCase
      *
      * @since   5.1.0
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testConstructorWritesColumnMetadataToInternalStorage()
     {
         $table  = $this->getTableMock(['root' => 'rootfoo']);
@@ -41,6 +43,7 @@ class DatabaseStorageTest extends UnitTestCase
      *
      * @since   5.1.0
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testConstructorIgnoresNonMetadataColumns()
     {
         $table  = $this->getTableMock(['foobar' => 'aaa']);
@@ -54,6 +57,7 @@ class DatabaseStorageTest extends UnitTestCase
      *
      * @since   5.1.0
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testReadReturnsStorageValueForExistingColumns()
     {
         $object = new DatabaseStorage($this->getTableMock(['root' => 'foobar']));
@@ -65,6 +69,7 @@ class DatabaseStorageTest extends UnitTestCase
      *
      * @since   5.1.0
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testReadReturnsNullForNonexistentColumns()
     {
         $object = new DatabaseStorage($this->getTableMock([]));
@@ -76,6 +81,7 @@ class DatabaseStorageTest extends UnitTestCase
      *
      * @since   5.1.0
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testWriteUpdatesGivenInternalStorageValue()
     {
         $object = new DatabaseStorage($this->getTableMock(['root' => 'foo']));
@@ -89,6 +95,7 @@ class DatabaseStorageTest extends UnitTestCase
      *
      * @since   5.1.0
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testWriteCreatesNewInternalStorageValue()
     {
         $object = new DatabaseStorage($this->getTableMock(['root' => 'foo']));
@@ -102,6 +109,7 @@ class DatabaseStorageTest extends UnitTestCase
      *
      * @since   5.1.0
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testDeleteRemovesRowFromInternalStorage()
     {
         $object = new DatabaseStorage($this->getTableMock(['root' => 'foo']));

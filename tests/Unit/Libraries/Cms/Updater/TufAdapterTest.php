@@ -34,9 +34,7 @@ class TufAdapterTest extends UnitTestCase
         $this->expectException(MetadataException::class);
         $this->expectExceptionMessage("No trusted hashes are available for 'nohash.json'");
 
-        $object = $this->getMockBuilder(TufAdapter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $object = $this->createStub(TufAdapter::class);
 
         $method = $this->getPublicMethod($object, 'processTufTarget');
         $method->invoke($object, 'nohash.json', []);
@@ -49,9 +47,7 @@ class TufAdapterTest extends UnitTestCase
      */
     public function testProcesstuftargetAssignsCustomTargetKeys()
     {
-        $object = $this->getMockBuilder(TufAdapter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $object = $this->createStub(TufAdapter::class);
 
         $method = $this->getPublicMethod($object, 'processTufTarget');
         $result = $method->invoke($object, 'targets.json', $this->getMockTarget([
@@ -72,9 +68,7 @@ class TufAdapterTest extends UnitTestCase
      */
     public function testProcesstuftargetAssignsClientId()
     {
-        $object = $this->getMockBuilder(TufAdapter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $object = $this->createStub(TufAdapter::class);
 
 
         $method = $this->getPublicMethod($object, 'processTufTarget');
@@ -92,9 +86,7 @@ class TufAdapterTest extends UnitTestCase
      */
     public function testProcesstuftargetAssignsInfoUrl()
     {
-        $object = $this->getMockBuilder(TufAdapter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $object = $this->createStub(TufAdapter::class);
 
 
         $method = $this->getPublicMethod($object, 'processTufTarget');

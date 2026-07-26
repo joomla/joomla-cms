@@ -73,7 +73,7 @@ class BaseLayoutTest extends UnitTestCase
     #[TestDox('BaseLayout->setOptions() returns a BaseLayout instance with JRegistry parameter.')]
     public function testSetOptionsReturnsInstanceWithRegistryParameter()
     {
-        $registry = $this->createMock(Registry::class);
+        $registry = $this->createStub(Registry::class);
 
         $this->assertInstanceOf(BaseLayout::class, $this->baseLayout->setOptions($registry));
     }
@@ -122,7 +122,7 @@ class BaseLayoutTest extends UnitTestCase
     #[TestDox('BaseLayout->getOptions() returns a JRegistry object when options parameter is a JRegistry object.')]
     public function testGetOptionsReturnsARegistryObjectWhenOptionsParameterIsRegistryObject()
     {
-        $registry = $this->createMock(Registry::class);
+        $registry = $this->createStub(Registry::class);
         $this->baseLayout->setOptions($registry);
 
         $options = $this->baseLayout->getOptions();

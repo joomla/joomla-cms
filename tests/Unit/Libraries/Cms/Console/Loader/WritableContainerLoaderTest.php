@@ -49,7 +49,7 @@ class WritableContainerLoaderTest extends UnitTestCase
      */
     public function testTheLoaderCanBeWrittenTo()
     {
-        $command = $this->createMock(AbstractCommand::class);
+        $command = $this->createStub(AbstractCommand::class);
 
         $commandName = 'test:command';
         $serviceId   = 'test.loader';
@@ -71,7 +71,7 @@ class WritableContainerLoaderTest extends UnitTestCase
      */
     public function testTheLoaderRetrievesACommand()
     {
-        $command = $this->createMock(AbstractCommand::class);
+        $command = $this->createStub(AbstractCommand::class);
 
         $commandName = 'test:command';
         $serviceId   = 'test.loader';

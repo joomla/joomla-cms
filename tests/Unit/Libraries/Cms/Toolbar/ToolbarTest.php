@@ -92,8 +92,8 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
     public function testGetItemsReturnsButtons()
     {
         $toolbar = $this->createToolbar();
-        $button1 = $this->createMock(ToolbarButton::class);
-        $button2 = $this->createMock(ToolbarButton::class);
+        $button1 = $this->createStub(ToolbarButton::class);
+        $button2 = $this->createStub(ToolbarButton::class);
 
         $toolbar->appendButton($button1);
         $toolbar->appendButton($button2);
@@ -116,8 +116,8 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
     {
         $toolbar = $this->createToolbar();
         $toolbar->setItems([
-            $this->createMock(ToolbarButton::class),
-            $this->createMock(ToolbarButton::class),]);
+            $this->createStub(ToolbarButton::class),
+            $this->createStub(ToolbarButton::class),]);
 
         $button = $this->createMock(ToolbarButton::class);
         $button->expects($this->once())
@@ -139,8 +139,8 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
     {
         $toolbar = $this->createToolbar();
         $toolbar->setItems([
-            $this->createMock(ToolbarButton::class),
-            $this->createMock(ToolbarButton::class),]);
+            $this->createStub(ToolbarButton::class),
+            $this->createStub(ToolbarButton::class),]);
 
         $button = ['Separator', 'spacer', 25];
 
@@ -209,7 +209,7 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
      */
     public function testLoadButtonTypeReturnsButton()
     {
-        $buttonMock         = $this->createMock(ToolbarButton::class);
+        $buttonMock         = $this->createStub(ToolbarButton::class);
         $toolbarFactoryMock = $this->createMock(ToolbarFactoryInterface::class);
         $toolbarFactoryMock
             ->expects($this->once())
@@ -299,7 +299,7 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
      */
     protected function createToolbar($name = 'my-toolbar'): Toolbar
     {
-        $toolbarFactoryMock = $this->createMock(ToolbarFactoryInterface::class);
+        $toolbarFactoryMock = $this->createStub(ToolbarFactoryInterface::class);
 
         return new Toolbar($name, $toolbarFactoryMock);
     }

@@ -33,10 +33,11 @@ class ModuleAdapterTest extends UnitTestCase
      */
     protected function setUp(): void
     {
-        $this->moduleAdapter = $this->getMockBuilder(ModuleAdapter::class)
-            ->onlyMethods([])
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->moduleAdapter = new class () extends ModuleAdapter {
+            public function __construct()
+            {
+            }
+        };
 
         parent::setUp();
     }

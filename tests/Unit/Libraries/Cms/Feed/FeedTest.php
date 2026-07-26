@@ -350,7 +350,7 @@ class FeedTest extends UnitTestCase
      */
     public function testAddNewEntry()
     {
-        $feedEntry = $this->createMock(FeedEntry::class);
+        $feedEntry = $this->createStub(FeedEntry::class);
 
         $this->feed->addEntry($feedEntry);
 
@@ -367,7 +367,7 @@ class FeedTest extends UnitTestCase
      */
     public function testAddExistingEntry()
     {
-        $feedEntry = $this->createMock(FeedEntry::class);
+        $feedEntry = $this->createStub(FeedEntry::class);
 
         $this->feed->addEntry($feedEntry);
         $this->feed->addEntry($feedEntry);
@@ -385,8 +385,8 @@ class FeedTest extends UnitTestCase
      */
     public function testAddMultipleEntries()
     {
-        $feedEntry1       = $this->createMock(FeedEntry::class);
-        $feedEntry2       = $this->createMock(FeedEntry::class);
+        $feedEntry1       = $this->createStub(FeedEntry::class);
+        $feedEntry2       = $this->createStub(FeedEntry::class);
         $feedEntry2->name = 'name2';
 
         $this->feed->addEntry($feedEntry1);
@@ -406,7 +406,7 @@ class FeedTest extends UnitTestCase
      */
     public function testOffsetExists()
     {
-        $feedEntry = $this->createMock(FeedEntry::class);
+        $feedEntry = $this->createStub(FeedEntry::class);
 
         $this->feed->addEntry($feedEntry);
 
@@ -422,7 +422,7 @@ class FeedTest extends UnitTestCase
      */
     public function testOffsetGet()
     {
-        $feedEntry = $this->createMock(FeedEntry::class);
+        $feedEntry = $this->createStub(FeedEntry::class);
 
         $this->feed->addEntry($feedEntry);
 
@@ -451,7 +451,7 @@ class FeedTest extends UnitTestCase
      */
     public function testOffsetSet()
     {
-        $feedEntry = $this->createMock(FeedEntry::class);
+        $feedEntry = $this->createStub(FeedEntry::class);
 
         $this->feed->offsetSet(1, $feedEntry);
 
@@ -468,7 +468,7 @@ class FeedTest extends UnitTestCase
      */
     public function testOffsetUnset()
     {
-        $feedEntry = $this->createMock(FeedEntry::class);
+        $feedEntry = $this->createStub(FeedEntry::class);
 
         $this->feed->offsetSet(10, $feedEntry);
         $this->feed->offsetUnset(10);
@@ -525,7 +525,7 @@ class FeedTest extends UnitTestCase
      */
     public function testRemoveEntry()
     {
-        $feedEntry = $this->createMock(FeedEntry::class);
+        $feedEntry = $this->createStub(FeedEntry::class);
 
         $this->feed->addEntry($feedEntry);
         $this->feed->removeEntry($feedEntry);

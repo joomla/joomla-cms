@@ -673,7 +673,8 @@ class DocumentTest extends UnitTestCase
     #[TestDox('Test that loadRenderer returns the intended object')]
     public function testEnsureLoadRendererReturnsCorrectObjectFromFactory()
     {
-        $documentDependencyMocks = $this->getDocumentDependencyMocks();
+        $documentDependencyMocks            = $this->getDocumentDependencyMocks();
+        $documentDependencyMocks['factory'] = $this->createMock(FactoryInterface::class);
         $documentDependencyMocks['factory']
             ->expects($this->once())
             ->method('createRenderer');
@@ -723,8 +724,8 @@ class DocumentTest extends UnitTestCase
     protected function getDocumentDependencyMocks(): array
     {
         return [
-            'factory'         => $this->createMock(FactoryInterface::class),
-            'webAssetManager' => $this->createMock(WebAssetManager::class),
+            'factory'         => $this->createStub(FactoryInterface::class),
+            'webAssetManager' => $this->createStub(WebAssetManager::class),
         ];
     }
 }

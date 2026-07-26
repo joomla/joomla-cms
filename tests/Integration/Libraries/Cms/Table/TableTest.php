@@ -246,7 +246,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
         ];
 
         $matcher        = $this->exactly(2);
-        $dispatcherMock = $this->getMockBuilder(DispatcherInterface::class)->getMock();
+        $dispatcherMock = $this->createMock(DispatcherInterface::class);
         $dispatcherMock->expects($matcher)
             ->method('dispatch')
             ->willReturnCallback(function (...$parameters) use ($matcher) {
@@ -282,7 +282,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
         $this->object->setError('Generic error');
 
         $matcher        = $this->exactly(2);
-        $dispatcherMock = $this->getMockBuilder(DispatcherInterface::class)->getMock();
+        $dispatcherMock = $this->createMock(DispatcherInterface::class);
         $dispatcherMock->expects($matcher)
             ->method('dispatch')
             ->willReturnCallback(function (...$parameters) use ($matcher) {

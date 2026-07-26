@@ -94,7 +94,7 @@ class FeedFactoryTest extends UnitTestCase
     public function testRegisterParser()
     {
         $tagName            = 'parser-mock';
-        $parseMock          = $this->createMock(FeedParser::class);
+        $parseMock          = $this->createStub(FeedParser::class);
         $defaultParserCount = \count($this->feedFactory->getParsers());
 
         $this->feedFactory->registerParser($tagName, \get_class($parseMock));
@@ -125,7 +125,7 @@ class FeedFactoryTest extends UnitTestCase
     public function testRegisterParserWithInvalidTag()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $parseMock = $this->createMock(FeedParser::class);
+        $parseMock = $this->createStub(FeedParser::class);
         $this->feedFactory->registerParser('42tag', \get_class($parseMock));
     }
 
@@ -139,7 +139,7 @@ class FeedFactoryTest extends UnitTestCase
     public function testFetchFeedParser()
     {
         $tagName   = 'parser-mock';
-        $parseMock = $this->createMock(FeedParser::class);
+        $parseMock = $this->createStub(FeedParser::class);
         $this->feedFactory->registerParser($tagName, \get_class($parseMock));
 
         // Use reflection to test private method

@@ -91,7 +91,7 @@ class ConstraintCheckerTest extends UnitTestCase
     #[DataProvider('supportedDatabasesDataProvider')]
     public function testCheckSupportedDatabases($currentDatabase, $supportedDatabases, $expectedResult)
     {
-        $dbMock = $this->createMock(DatabaseDriver::class);
+        $dbMock = $this->createStub(DatabaseDriver::class);
         $dbMock->method('getServerType')->willReturn($currentDatabase['type']);
         $dbMock->method('getVersion')->willReturn($currentDatabase['version']);
         Factory::$database = $dbMock;
