@@ -29,26 +29,29 @@ $key   = $column['key'] ?? '';
 $type  = $column['type'] ?? 'text';
 $value = \is_object($item) ? ($item->$key ?? '') : ($item[$key] ?? '');
 
+// Security note: only execute trusted Closure instances here.
+// We intentionally avoid generic `is_callable()` / `call_user_func()` usage so
+// configuration cannot resolve arbitrary string or method callables at runtime.
+$resolveOption = static function (string $option, $default = null) use ($column, $value, $item, $rowIndex) {
+    $resolved = $column[$option] ?? $default;
+
+    if ($resolved instanceof \Closure) {
+        $resolved = $resolved($value, $item, $rowIndex);
+    }
+
+    return $resolved;
+};
+
 switch ($type) {
     case 'badge':
-        $badgeClass = $column['badgeClass'] ?? 'secondary';
-        if (isset($column['badgeClass']) && \is_callable($column['badgeClass'])) {
-            $badgeClass = \call_user_func($column['badgeClass'], $value, $item, $rowIndex);
-        }
+        $badgeClass = $resolveOption('badgeClass', 'secondary');
 
         echo '<span class="badge bg-' . htmlspecialchars($badgeClass, ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($value, ENT_QUOTES, 'UTF-8') . '</span>';
         break;
 
     case 'link':
-        $url = $column['url'] ?? '';
-        if (isset($column['url']) && \is_callable($column['url'])) {
-            $url = \call_user_func($column['url'], $value, $item, $rowIndex);
-        }
-
-        $title = $column['linkTitle'] ?? '';
-        if (isset($column['linkTitle']) && \is_callable($column['linkTitle'])) {
-            $title = \call_user_func($column['linkTitle'], $value, $item, $rowIndex);
-        }
+        $url   = $resolveOption('url', '');
+        $title = $resolveOption('linkTitle', '');
 
         echo '<a href="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '"' .
             ($title ? ' title="' . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '"' : '') . '>' .
@@ -74,10 +77,7 @@ switch ($type) {
 
     case 'progress':
         $percentage    = (float) $value;
-        $progressClass = $column['progressClass'] ?? 'primary';
-        if (isset($column['progressClass']) && \is_callable($column['progressClass'])) {
-            $progressClass = \call_user_func($column['progressClass'], $value, $item, $rowIndex);
-        }
+        $progressClass = $resolveOption('progressClass', 'primary');
 
         echo '<div class="progress" style="height: 20px;">'
             . '<div class="progress-bar bg-' . htmlspecialchars($progressClass, ENT_QUOTES, 'UTF-8') . '"'
@@ -91,17 +91,16 @@ switch ($type) {
         break;
 
     case 'icon':
-        $iconClass = $column['iconClass'] ?? 'fas fa-info';
-        if (isset($column['iconClass']) && \is_callable($column['iconClass'])) {
-            $iconClass = \call_user_func($column['iconClass'], $value, $item, $rowIndex);
-        }
+        $iconClass = $resolveOption('iconClass', 'fas fa-info');
 
         echo '<span class="' . htmlspecialchars($iconClass, ENT_QUOTES, 'UTF-8') . '" aria-hidden="true"></span>';
         break;
 
     case 'custom':
-        if (isset($column['renderer']) && \is_callable($column['renderer'])) {
-            echo \call_user_func($column['renderer'], $value, $item, $rowIndex, $column);
+        $renderer = $column['renderer'] ?? null;
+
+        if ($renderer instanceof \Closure) {
+            echo $renderer($value, $item, $rowIndex, $column);
             break;
         }
 
