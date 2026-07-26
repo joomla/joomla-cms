@@ -101,7 +101,7 @@
           const defaultButton = filterBar.querySelector('[data-filter="all"]') || filterButtons[0];
 
           if (defaultButton) {
-              setActiveButton(defaultButton);
+            setActiveButton(defaultButton);
           }
 
           filterItems('all');
