@@ -165,10 +165,7 @@ class CMSObjectTest extends UnitTestCase
 
         $exception = new \Exception('error');
         $object->setError($exception);
-        $this->assertThat(
-            $object->getError(3, true),
-            $this->equalTo('error')
-        );
+        $this->assertSame('error', $object->getError(3, true));
     }
 
     /**

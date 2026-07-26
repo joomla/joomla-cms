@@ -152,27 +152,27 @@ class BaseLayoutTest extends UnitTestCase
      */
     public function testEscapingSpecialCharactersIntoHtmlEntities()
     {
-        $this->assertThat(
+        $this->assertSame(
+            '&amp;',
             $this->baseLayout->escape('&'),
-            $this->equalTo('&amp;'),
             'Test the ampersand is converted to HTML code'
         );
 
-        $this->assertThat(
+        $this->assertSame(
+            '&quot;',
             $this->baseLayout->escape('"'),
-            $this->equalTo('&quot;'),
             'Test the double quote is converted to HTML code'
         );
 
-        $this->assertThat(
+        $this->assertSame(
+            "&#039;",
             $this->baseLayout->escape("'"),
-            $this->equalTo("&#039;"),
             'Test the single quote is converted to HTML code'
         );
 
-        $this->assertThat(
+        $this->assertSame(
+            "&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;",
             $this->baseLayout->escape("<a href='test'>Test</a>"),
-            $this->equalTo("&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;"),
             'Test the characters <> are not converted'
         );
     }

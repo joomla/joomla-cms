@@ -222,7 +222,7 @@ class AbstractViewTest extends UnitTestCase
     {
         $event      = new Event('test');
         $dispatcher = $this->createMock(DispatcherInterface::class);
-        $dispatcher->expects($this->once())->method('dispatch')->with($this->equalTo('test'), $this->equalTo($event));
+        $dispatcher->expects($this->once())->method('dispatch')->with('test', $event);
 
         $view = new class () extends AbstractView {
             public function dispatchEvent(EventInterface $event)

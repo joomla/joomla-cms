@@ -235,7 +235,7 @@ class BaseControllerTest extends UnitTestCase
     public function testGetModelWithInjectedPrefix()
     {
         $mvcFactory = $this->createMock(LegacyFactory::class);
-        $mvcFactory->expects($this->once())->method('createModel')->with($this->equalTo('Unit'), $this->equalTo('Test'));
+        $mvcFactory->expects($this->once())->method('createModel')->with('Unit', 'Test');
 
         $controller = new class (['model_prefix' => 'Test', 'base_path' => __DIR__], $mvcFactory, $this->createStub(CMSApplicationInterface::class), new Input()) extends BaseController {
         };
@@ -251,7 +251,7 @@ class BaseControllerTest extends UnitTestCase
     public function testGetModelWithAppNamePrefix()
     {
         $mvcFactory = $this->createMock(MVCFactoryInterface::class);
-        $mvcFactory->expects($this->once())->method('createModel')->with($this->equalTo('Unit'), $this->equalTo('Test'));
+        $mvcFactory->expects($this->once())->method('createModel')->with('Unit', 'Test');
 
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getName')->willReturn('Test');
@@ -339,7 +339,7 @@ class BaseControllerTest extends UnitTestCase
     public function testGetViewWithInjectedPrefix()
     {
         $mvcFactory = $this->createMock(LegacyFactory::class);
-        $mvcFactory->expects($this->once())->method('createView')->with($this->equalTo('Unit'), $this->equalTo('TestView'))
+        $mvcFactory->expects($this->once())->method('createView')->with('Unit', 'TestView')
             ->willReturn($this->createStub(AbstractView::class));
 
         $controller = new class (['name' => 'Test', 'base_path' => __DIR__], $mvcFactory, $this->createStub(CMSApplicationInterface::class), new Input()) extends BaseController {
@@ -579,7 +579,7 @@ class BaseControllerTest extends UnitTestCase
     public function testHoldEditId()
     {
         $app = $this->createMock(CMSWebApplicationInterface::class);
-        $app->expects($this->once())->method('setUserState')->with($this->equalTo('unit.id'), $this->equalTo([1]));
+        $app->expects($this->once())->method('setUserState')->with('unit.id', [1]);
 
         $controller = new class (['base_path' => __DIR__], $this->createStub(MVCFactoryInterface::class), $app, new Input()) extends BaseController {
             public function holdEditId($context, $id)
@@ -620,7 +620,7 @@ class BaseControllerTest extends UnitTestCase
     {
         $app = $this->createMock(CMSWebApplicationInterface::class);
         $app->method('getUserState')->willReturn([1, 2]);
-        $app->expects($this->once())->method('setUserState')->with($this->equalTo('unit.id'), $this->equalTo([1 => 2]));
+        $app->expects($this->once())->method('setUserState')->with('unit.id', [1 => 2]);
 
         $controller = new class (['base_path' => __DIR__], $this->createStub(MVCFactoryInterface::class), $app, new Input()) extends BaseController {
             public function releaseEditId($context, $id)
@@ -711,8 +711,8 @@ class BaseControllerTest extends UnitTestCase
     public function testRedirect()
     {
         $app = $this->createMock(CMSWebApplicationInterface::class);
-        $app->expects($this->once())->method('redirect')->with($this->equalTo('unit/test'));
-        $app->expects($this->once())->method('enqueueMessage')->with($this->equalTo('unit test'));
+        $app->expects($this->once())->method('redirect')->with('unit/test');
+        $app->expects($this->once())->method('enqueueMessage')->with('unit test');
 
         $controller = new class (['base_path' => __DIR__], $this->createStub(MVCFactoryInterface::class), $app, new Input()) extends BaseController {
             public function redirect()

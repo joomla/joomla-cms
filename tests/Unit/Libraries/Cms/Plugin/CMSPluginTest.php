@@ -169,7 +169,7 @@ class CMSPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
         $language   = $this->createMock(Language::class);
-        $language->expects($this->once())->method('load')->with($this->equalTo('plg__'), JPATH_ADMINISTRATOR)->willReturn(true);
+        $language->expects($this->once())->method('load')->with('plg__', JPATH_ADMINISTRATOR)->willReturn(true);
 
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
@@ -190,7 +190,7 @@ class CMSPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
         $language   = $this->createMock(Language::class);
-        $language->expects($this->once())->method('load')->with($this->equalTo('test'), __DIR__)->willReturn(true);
+        $language->expects($this->once())->method('load')->with('test', __DIR__)->willReturn(true);
 
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
