@@ -455,7 +455,7 @@ class AtomParserTest extends UnitTestCase
         $feedEntryMock
             ->expects($this->any())
             ->method('__get')
-            ->will($this->returnValueMap($map));
+            ->willReturnMap($map);
 
         // Use reflection to test protected method
         $atomParser      = new AtomParser(new \XMLReader());
