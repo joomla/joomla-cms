@@ -78,8 +78,7 @@ if (!$emptySubform) {
     Factory::getApplication()
         ->getDocument()
         ->addStyleDeclaration('.subform-table-sublayout-section .controls { margin-left: 0px }');
-
-} 
+}
 ?>
 
 <div class="subform-repeatable-wrapper subform-table-layout subform-table-sublayout-<?php echo $sublayout; ?>">
