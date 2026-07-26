@@ -763,7 +763,7 @@ class MicrodataTest extends UnitTestCase
      * @since 4.0.0
      *
      */
-    public function displayTypes(): array
+    public static function displayTypes(): array
     {
         return [
             ['inline', "itemprop='datePublished'"],
@@ -811,7 +811,7 @@ class MicrodataTest extends UnitTestCase
      * @since 4.0.0
      *
      */
-    public function displayTypesWithContent(): array
+    public static function displayTypesWithContent(): array
     {
         return [
             ['inline', 'Some content', "itemprop='datePublished'"],

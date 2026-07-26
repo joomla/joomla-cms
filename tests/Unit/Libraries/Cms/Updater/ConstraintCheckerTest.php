@@ -142,7 +142,7 @@ class ConstraintCheckerTest extends UnitTestCase
      *
      * @return array[]
      */
-    protected function supportedDatabasesDataProvider()
+    protected static function supportedDatabasesDataProvider()
     {
         return [
             [
@@ -190,7 +190,7 @@ class ConstraintCheckerTest extends UnitTestCase
      *
      * @return array[]
      */
-    protected function targetplatformDataProvider()
+    protected static function targetplatformDataProvider()
     {
         return [
             [(array) ["name" => "foobar", "version" => "1.*"], false],

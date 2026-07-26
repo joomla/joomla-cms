@@ -30,7 +30,7 @@ class HtmlDateTest extends UnitTestCase
      *
      * @since   3.1
      */
-    public function dataTestRelative(): array
+    public static function dataTestRelative(): array
     {
         $now1 = new Date('now');
         usleep(1);

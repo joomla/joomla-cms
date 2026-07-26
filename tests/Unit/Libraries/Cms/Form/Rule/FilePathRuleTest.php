@@ -29,7 +29,7 @@ class FilePathRuleTest extends UnitTestCase
      *
      * @since   3.9.26
      */
-    public function dataTest(): array
+    public static function dataTest(): array
     {
         $xml = new \SimpleXMLElement('<field
 			name="file_path"

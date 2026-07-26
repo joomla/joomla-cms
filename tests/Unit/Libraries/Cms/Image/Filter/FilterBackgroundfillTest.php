@@ -130,7 +130,7 @@ class FilterBackgroundfillTest extends UnitTestCase
      *
      * @since   1.1.3
      */
-    public function dataSanitizeColor()
+    public static function dataSanitizeColor()
     {
         return [
             [0, 0, 0, 0, 0],

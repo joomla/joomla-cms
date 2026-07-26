@@ -29,7 +29,7 @@ class MailHelperTest extends UnitTestCase
      *
      * @since   3.0.0
      */
-    public function dataCleanLine(): array
+    public static function dataCleanLine(): array
     {
         return [
             ["test\n\nme\r\r", 'testme'],
@@ -62,7 +62,7 @@ class MailHelperTest extends UnitTestCase
      *
      * @since   3.0.0
      */
-    public function dataCleanText(): array
+    public static function dataCleanText(): array
     {
         return [
             ["test\nme", "test\nme"],
@@ -124,7 +124,7 @@ class MailHelperTest extends UnitTestCase
      *
      * @since   3.0.0
      */
-    public function dataCleanBody(): array
+    public static function dataCleanBody(): array
     {
         return [
             ["testFrom: Foobar me", "test me"],
@@ -167,7 +167,7 @@ class MailHelperTest extends UnitTestCase
      *
      * @since   3.0.0
      */
-    public function dataCleanSubject(): array
+    public static function dataCleanSubject(): array
     {
         return [
             ["testFrom: Foobar me", "test me"],
@@ -208,7 +208,7 @@ class MailHelperTest extends UnitTestCase
      *
      * @since   3.0.0
      */
-    public function dataCleanAddress(): array
+    public static function dataCleanAddress(): array
     {
         return [
             ["testme", "testme"],
@@ -243,7 +243,7 @@ class MailHelperTest extends UnitTestCase
      *
      * @since   3.0.0
      */
-    public function dataIsEmailAddress(): array
+    public static function dataIsEmailAddress(): array
     {
         return [
             ["joe", false],

@@ -31,7 +31,7 @@ class DocumentTest extends UnitTestCase
      *
      * @since   4.0.0
      */
-    public function constructData(): array
+    public static function constructData(): array
     {
         return [
             [

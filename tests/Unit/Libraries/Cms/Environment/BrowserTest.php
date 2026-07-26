@@ -66,7 +66,7 @@ class BrowserTest extends UnitTestCase
      *
      * @since   4.0.0
      */
-    public function dataMatch(): array
+    public static function dataMatch(): array
     {
         return [
             'Edge 75' => [

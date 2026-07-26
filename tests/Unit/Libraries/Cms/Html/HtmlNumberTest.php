@@ -29,7 +29,7 @@ class HtmlNumberTest extends UnitTestCase
      *
      * @since   3.1
      */
-    public function dataTestBytes(): array
+    public static function dataTestBytes(): array
     {
         return [
             // Element order: result, bytes, unit, precision

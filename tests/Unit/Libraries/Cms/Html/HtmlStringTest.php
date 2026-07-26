@@ -29,7 +29,7 @@ class HtmlStringTest extends UnitTestCase
      *
      * @since   3.1
      */
-    public function getTestAbridgeData(): array
+    public static function getTestAbridgeData(): array
     {
         return [
             'No change case' => [
@@ -54,7 +54,7 @@ class HtmlStringTest extends UnitTestCase
      *
      * @since   3.1
      */
-    public function getTestTruncateData(): array
+    public static function getTestTruncateData(): array
     {
         return [
             'No change case' => [
@@ -241,7 +241,7 @@ class HtmlStringTest extends UnitTestCase
      *
      * @since   3.1
      */
-    public function getTestTruncateComplexData(): array
+    public static function getTestTruncateComplexData(): array
     {
         return [
 

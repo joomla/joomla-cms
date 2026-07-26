@@ -29,7 +29,7 @@ class FolderPathExistsRuleTest extends UnitTestCase
      *
      * @since   4.0.0
      */
-    public function dataTest(): array
+    public static function dataTest(): array
     {
         $xml = new \SimpleXMLElement('<field
 			name="file_path"

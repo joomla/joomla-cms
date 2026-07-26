@@ -27,7 +27,7 @@ class NumberRuleTest extends UnitTestCase
      *
      * @since   5.4.3
      */
-    public function dataTest(): array
+    public static function dataTest(): array
     {
         $xml = new \SimpleXMLElement('<field
 			name="unittest"

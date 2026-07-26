@@ -126,7 +126,7 @@ class ImageTest extends UnitTestCase
      *
      * @since   4.0.0
      */
-    public function getPrepareDimensionsData()
+    public static function getPrepareDimensionsData()
     {
         return [
             // Note: inputHeight, inputWidth, inputScale, imageHeight, imageWidth, expectedHeight, expectedWidth
@@ -147,7 +147,7 @@ class ImageTest extends UnitTestCase
      *
      * @since   4.0.0
      */
-    public function getSanitizeDimensionData()
+    public static function getSanitizeDimensionData()
     {
         return [
             // Note: inputHeight, inputWidth, imageHeight, imageWidth, expectedHeight, expectedWidth
@@ -171,7 +171,7 @@ class ImageTest extends UnitTestCase
      *
      * @since   4.0.0
      */
-    public function getCropData()
+    public static function getCropData()
     {
         return [
             // Note: startHeight, startWidth, cropHeight, cropWidth, cropTop, cropLeft, transparency
@@ -190,7 +190,7 @@ class ImageTest extends UnitTestCase
      *
      * @since   4.0.0
      */
-    public function getSanitizeOffsetData()
+    public static function getSanitizeOffsetData()
     {
         return [
             // Note: input, expected

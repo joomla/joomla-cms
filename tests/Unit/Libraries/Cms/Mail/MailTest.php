@@ -66,7 +66,7 @@ class MailTest extends UnitTestCase
      *
      * @since   4.0.0
      */
-    public function seedTestAdd(): array
+    public static function seedTestAdd(): array
     {
         // Recipient, name, $expected
         return [
@@ -167,7 +167,7 @@ class MailTest extends UnitTestCase
      *
      * @since   4.0.0
      */
-    public function seedTestAddReplyTo(): array
+    public static function seedTestAddReplyTo(): array
     {
         // Recipient, name, $expected
         return [
@@ -278,7 +278,7 @@ class MailTest extends UnitTestCase
      *
      * @since   3.0.0
      */
-    public function dataUseSmtp(): array
+    public static function dataUseSmtp(): array
     {
         return [
             'SMTP without Authentication' => [
