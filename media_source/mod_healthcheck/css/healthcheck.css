@@ -12,6 +12,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+  align-items: flex-start;
   gap: .25rem;
 }
 
@@ -60,19 +61,6 @@
 .quick-icons.health-checks .quickicon-group.d-none {
   opacity: 0;
   transform: scale(.95);
-}
-
-/* Responsive adjustments */
-@media (max-width: 576px) {
-  .healthcheck-filters .btn-group {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .healthcheck-filters .btn {
-    margin-bottom: .25rem;
-    border-radius: .25rem !important;
-  }
 }
 
 /* Gauge */
