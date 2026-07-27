@@ -77,11 +77,6 @@ if ($hasLink) {
             $linkAttributes .= ' rel="noopener noreferrer"';
         }
     }
-    if (!empty($linktitle)) {
-        $linkAttributes .= ' title="' . htmlspecialchars($linktitle) . '"';
-    } else {
-        $linkAttributes .= ' title="' . htmlspecialchars(Text::sprintf('MOD_HEALTHCHECK_GAUGE_LINK_TITLE', $label, $score, $unit)) . '"';
-    }
 }
 
 // Calculate percentage for the pie chart
