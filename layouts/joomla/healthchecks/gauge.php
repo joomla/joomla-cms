@@ -68,6 +68,7 @@ if (isset($displayData['status'])) {
 
 // Prepare link attributes
 $hasLink = !empty($link);
+$linkAttributes = '';
 if ($hasLink) {
     $linkAttributes = 'href="' . htmlspecialchars($link) . '"';
     if (!empty($linktarget)) {
