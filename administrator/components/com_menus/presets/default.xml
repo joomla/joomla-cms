@@ -320,13 +320,25 @@
 		link="index.php?option=com_cpanel&amp;view=cpanel&amp;dashboard=system"
 	/>
 
+	<!-- Health Check: only show this entry when at least one mod_healthcheck instance
+	     is published in the cpanel-healthcheck position. If no such module exists
+	     (e.g. not yet installed or unpublished) the menu item is suppressed entirely. -->
 	<menuitem
-		title="MOD_MENU_HEALTHCHECK"
-		type="component"
-		element="com_cpanel"
-		class="class:heart"
-		link="index.php?option=com_cpanel&amp;view=cpanel&amp;dashboard=healthcheck"
-	/>
+		type="separator"
+		hidden="true"
+		sql_select="m.module"
+		sql_from="#__modules AS m"
+		sql_where="m.module = 'mod_healthcheck' AND m.client_id = 1 AND m.published = 1 AND m.position = 'cpanel-healthcheck'"
+		sql_group="m.module"
+	>
+		<menuitem
+			title="MOD_MENU_HEALTHCHECK"
+			type="component"
+			element="com_cpanel"
+			class="class:fa fa-heart-pulse"
+			link="index.php?option=com_cpanel&amp;view=cpanel&amp;dashboard=healthcheck"
+		/>
+	</menuitem>
 
 	<menuitem
 		title="MOD_MENU_HELP"

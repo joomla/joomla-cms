@@ -4,10 +4,18 @@
 	xmlns="urn:joomla.org"
 	xsi:schemaLocation="urn:joomla.org menu.xsd"
 >
+	<!-- Only render this menu group when at least one mod_healthcheck instance is
+	     published in the cpanel-healthcheck position. The sql_* attributes cause
+	     the entire heading (and its children) to be skipped if the query returns
+	     no rows, so the Health Check section is invisible until a module is available. -->
 	<menuitem
 		title="MOD_MENU_HEALTHCHECK_PARENT_OVERVIEW"
 		type="heading"
-		icon="heart"
+		class="class:fa fa-heart-pulse"
+		sql_select="m.module"
+		sql_from="#__modules AS m"
+		sql_where="m.module = 'mod_healthcheck' AND m.client_id = 1 AND m.published = 1 AND m.position = 'cpanel-healthcheck'"
+		sql_group="m.module"
 	>
 		<menuitem
 			title="MOD_MENU_HEALTHCHECK_DASHBOARD"
