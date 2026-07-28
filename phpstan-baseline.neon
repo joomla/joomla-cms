@@ -16199,6 +16199,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method storeUcmBase\(\) of class Joomla\\CMS\\Table\\CoreContent\:
+				5\.4\.0 will be removed in 7\.0 without replacement$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: libraries/src/Table/CoreContent.php
+
+		-
+			message: '''
 				#^Access to deprecated property \$_db of class Joomla\\CMS\\Table\\Table\:
 				5\.4\.0 will be removed in 7\.0
 				             Use setDatabase\(\) and getDatabase\(\) instead
