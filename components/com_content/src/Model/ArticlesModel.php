@@ -195,63 +195,6 @@ class ArticlesModel extends ListModel
     }
 
     /**
-     * Builds a subquery to return article ids mapped to a category
-     * through secondary category relations.
-     *
-     * @param   integer|array  $categoryIds           Category id(s).
-     * @param   boolean        $includeSubcategories  Include child categories.
-     * @param   integer        $levels                Subcategory depth.
-     *
-     * @return  QueryInterface
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function getSecondaryCategoryQuery(int|array $categoryIds, bool $includeSubcategories = false, int $levels = 1): QueryInterface
-    {
-        $db = $this->getDatabase();
-
-        $categoryIds = ArrayHelper::toInteger((array) $categoryIds);
-        $categoryIds = array_values(array_unique(array_filter($categoryIds)));
-
-        $query = $db->createQuery()
-            ->select('DISTINCT ' . $db->quoteName('cim.item_id'))
-            ->from($db->quoteName('#__category_item_map', 'cim'))
-            ->where($db->quoteName('cim.context') . ' = ' . $db->quote('com_content.article'));
-
-        if (!$categoryIds) {
-            return $query->where('1 = 0');
-        }
-
-        $categoryIdsSql = implode(',', $categoryIds);
-
-        if ($includeSubcategories) {
-            $subQuery = $db->createQuery()
-                ->select($db->quoteName('sub.id'))
-                ->from($db->quoteName('#__categories', 'sub'))
-                ->join(
-                    'INNER',
-                    $db->quoteName('#__categories', 'parent'),
-                    $db->quoteName('sub.lft') . ' > ' . $db->quoteName('parent.lft')
-                    . ' AND ' . $db->quoteName('sub.rgt') . ' < ' . $db->quoteName('parent.rgt')
-                )
-                ->where($db->quoteName('parent.id') . ' IN (' . $categoryIdsSql . ')');
-
-            if ($levels >= 0) {
-                $subQuery->where($db->quoteName('sub.level') . ' <= ' . $db->quoteName('parent.level') . ' + ' . (int) $levels);
-            }
-
-            $query->where(
-                '(' . $db->quoteName('cim.category_id') . ' IN (' . $categoryIdsSql . ')'
-                . ' OR ' . $db->quoteName('cim.category_id') . ' IN (' . $subQuery . ')' . ')'
-            );
-        } else {
-            $query->where($db->quoteName('cim.category_id') . ' IN (' . $categoryIdsSql . ')');
-        }
-
-        return $query;
-    }
-
-    /**
      * Get the master query for retrieving a list of articles subject to the model state.
      *
      * @return  QueryInterface
