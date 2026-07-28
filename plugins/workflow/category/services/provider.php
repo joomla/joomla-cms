@@ -31,15 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function () {
+            $container->lazy(Category::class, function (Container $container) {
                 $plugin = new Category(
                     (array) PluginHelper::getPlugin('workflow', 'category')
                 );
-
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\Workflow\Category\Extension;
 
 use Doctrine\Inflector\InflectorFactory;
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
@@ -45,12 +44,6 @@ final class Category extends CMSPlugin implements SubscriberInterface
      * @since  __DEPLOY_VERSION__
      */
     protected $autoloadLanguage = true;
-
-    /**
-     * @var  CMSApplication
-     * @since  __DEPLOY_VERSION__
-     */
-    protected $app;
 
     /**
      * Returns an array of events this subscriber will listen to.

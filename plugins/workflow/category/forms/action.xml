@@ -1,21 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
-    <fields name="options">
-        <fieldset
-            name="actions"
-            label="COM_WORKFLOW_TRANSITION_ACTIONS_LABEL"
-            >
-            <field
-                name="category_id"
-                type="category"
-                label="PLG_WORKFLOW_CATEGORY_FIELD_CATEGORY_LABEL"
-                description="PLG_WORKFLOW_CATEGORY_FIELD_CATEGORY_DESC"
-                filter="integer"
-                default=""
-                hide_all="true"
-                >
-                <option value="">JOPTION_DO_NOT_USE</option>
-            </field>
-        </fieldset>
-    </fields>
+	<fields name="options">
+		<fieldset name="actions" label="COM_WORKFLOW_TRANSITION_ACTIONS_LABEL">
+			<field
+				name="category_id"
+				type="category"
+				label="PLG_WORKFLOW_CATEGORY_FIELD_CATEGORY_LABEL"
+				description="PLG_WORKFLOW_CATEGORY_FIELD_CATEGORY_DESC"
+				filter="integer"
+				default=""
+				>
+				<option value="">JOPTION_DO_NOT_USE</option>
+			</field>
+		</fieldset>
+	</fields>
 </form>
