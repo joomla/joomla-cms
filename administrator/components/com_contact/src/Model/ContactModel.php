@@ -353,10 +353,20 @@ class ContactModel extends AdminModel implements VersionableModelInterface
             }
         }
 
-        if (\is_array($data)) {
-            $data['fieldscatid'] = array_values(array_merge([(int) ($data['catid'] ?? 0)], (array) ($data['secondary_categories'] ?? [])));
+        $isArray   = \is_array($data);
+        $catId     = (int) ($isArray ? ($data['catid'] ?? 0) : ($data->catid ?? 0));
+        $secondary = (array) ($isArray ? ($data['secondary_categories'] ?? []) : ($data->secondary_categories ?? []));
+
+        $manageable          = $this->getManageableSecondaryCategoryIds($catId);
+        $authorizedSecondary = array_values(array_intersect($secondary, $manageable));
+        $fieldscatid         = array_merge([$catId], $authorizedSecondary);
+
+        if ($isArray) {
+            $data['secondary_categories'] = $authorizedSecondary;
+            $data['fieldscatid']          = $fieldscatid;
         } else {
-            $data->fieldscatid = array_values(array_merge([(int) ($data->catid ?? 0)], (array) ($data->secondary_categories ?? [])));
+            $data->secondary_categories = $authorizedSecondary;
+            $data->fieldscatid          = $fieldscatid;
         }
 
         $this->preprocessData('com_contact.contact', $data);
