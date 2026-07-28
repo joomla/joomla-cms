@@ -265,7 +265,7 @@ class CoreContent extends Table implements CurrentUserInterface
      *
      * @return  boolean  True when the base row exists.
      *
-     * @since   5.4.8
+     * @since   __DEPLOY_VERSION__
      */
     protected function hasUcmBase()
     {
