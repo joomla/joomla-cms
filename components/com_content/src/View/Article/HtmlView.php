@@ -54,13 +54,6 @@ class HtmlView extends BaseHtmlView
     protected $params = null;
 
     /**
-     * Should the print button be displayed or not?
-     *
-     * @var   boolean
-     */
-    protected $print = false;
-
-    /**
      * The model state
      *
      * @var   \Joomla\Registry\Registry
