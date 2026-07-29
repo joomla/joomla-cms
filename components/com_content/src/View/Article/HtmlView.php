@@ -350,6 +350,5 @@ class HtmlView extends BaseHtmlView
                 $this->item->page_title . ' - ' . Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('list.offset') + 1)
             );
         }
-
     }
 }
