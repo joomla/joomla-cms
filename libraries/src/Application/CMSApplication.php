@@ -750,10 +750,17 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      */
     public function getUserStateFromRequest($key, $request, $default = null, $type = 'none')
     {
-        $cur_state = $this->getUserState($key, $default);
+        $cur_state    = $this->getUserState($key, $default);
+        $allowsArrays = \is_array($default) || \in_array(strtolower($type), ['array', 'none', 'raw'], true);
+
+        if (!$allowsArrays && \is_array($cur_state)) {
+            $cur_state = $default;
+            $this->setUserState($key, $cur_state);
+        }
+
         $new_state = $this->input->get($request, null, $type);
 
-        if ($new_state === null) {
+        if ($new_state === null || (!$allowsArrays && \is_array($new_state))) {
             return $cur_state;
         }
 
