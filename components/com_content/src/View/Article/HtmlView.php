@@ -104,7 +104,6 @@ class HtmlView extends BaseHtmlView
         /** @var ArticleModel $model */
         $model       = $this->getModel();
         $this->item  = $model->getItem();
-        $this->print = $app->getInput()->getBool('print', false);
         $this->state = $model->getState();
         $this->user  = $user;
 
@@ -352,8 +351,5 @@ class HtmlView extends BaseHtmlView
             );
         }
 
-        if ($this->print) {
-            $this->getDocument()->setMetaData('robots', 'noindex, nofollow');
-        }
     }
 }
