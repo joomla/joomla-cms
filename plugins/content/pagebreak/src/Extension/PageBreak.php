@@ -95,8 +95,6 @@ final class PageBreak extends CMSPlugin implements SubscriberInterface
 
         $showall = $input->getBool('showall');
 
-        $row->text = preg_replace($regex, '<br>', $row->text);
-
         // Simple performance check to determine whether bot should process further.
         if (StringHelper::strpos($row->text, 'class="system-pagebreak') === false) {
             if ($page > 0) {
