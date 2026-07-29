@@ -95,10 +95,6 @@ final class PageBreak extends CMSPlugin implements SubscriberInterface
 
         $showall = $input->getBool('showall');
 
-        if (!$this->params->get('enabled', 1)) {
-            $return;
-        }
-
         $row->text = preg_replace($regex, '<br>', $row->text);
 
         // Simple performance check to determine whether bot should process further.
