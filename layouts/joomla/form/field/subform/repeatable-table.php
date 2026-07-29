@@ -60,10 +60,8 @@ if (!empty($groupByFieldset)) {
 
     $sublayout = 'section-byfieldsets';
 } else {
-    $fields     = $tmpl->getGroup('');
-    // Avoid division by zero in case of empty subform
-    $fieldCount = max(1, count($fields));
-    $th_width   = 92 / $fieldCount;
+    $fields   = $tmpl->getGroup('');
+    $th_width = count($fields) ? 92 / count($fields) : 0;
     foreach ($fields as $field) {
         $table_head .= '<th scope="col" style="width:' . $th_width . '%">' . strip_tags($field->label);
 
