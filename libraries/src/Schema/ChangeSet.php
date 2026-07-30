@@ -163,7 +163,7 @@ class ChangeSet
                 $scope = 'index';
                 break;
 
-            // CREATE_TABLE and RENAME_TABLE cannot be superseded
+                // CREATE_TABLE and RENAME_TABLE cannot be superseded
             default:
                 return null;
         }
