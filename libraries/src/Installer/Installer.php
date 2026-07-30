@@ -617,7 +617,9 @@ class Installer extends Adapter implements DatabaseAwareInterface
         if ($path && is_dir(Path::clean($path))) {
             $this->setPath('source', $path);
         } else {
-            if (disk_free_space(dirname($path)) < 51200) {
+            $filePath=$this->getPath('source');
+            $fileSize=filesize($filePath);
+            if (disk_free_space(dirname($path)) < $fileSize) {
                 $this->abort(Text::_('JLIB_INSTALLER_ABORT_DISK_FULL'));
             }else{
                 $this->abort(Text::_('JLIB_INSTALLER_ABORT_NOINSTALLPATH'));
