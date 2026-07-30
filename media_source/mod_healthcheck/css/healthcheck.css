@@ -11,8 +11,8 @@
 .healthcheck-filters .btn-group {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
   align-items: flex-start;
+  justify-content: flex-start;
   gap: .25rem;
 }
 
