@@ -51,7 +51,7 @@ class MemcachedStorage extends CacheStorage
      * a hash of its cache id.
      *
      * @var    integer
-     * @since  6.2.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $_indexShards = 16;
 
@@ -68,8 +68,8 @@ class MemcachedStorage extends CacheStorage
 
         $app = Factory::getApplication();
 
-        $this->_compress     = $app->get('memcached_compress', false) ? \Memcached::OPT_COMPRESSION : 0;
-        $this->_indexShards  = max(1, (int) $app->get('memcached_index_shards', 16));
+        $this->_compress = $app->get('memcached_compress', false) ? \Memcached::OPT_COMPRESSION : 0;
+        $this->_indexShards = max(1, (int) $app->get('memcached_index_shards', 16));
 
         if (static::$_db === null) {
             $this->getConnection();
@@ -161,7 +161,7 @@ class MemcachedStorage extends CacheStorage
      *
      * @return  string  The Memcached key of the index shard responsible for the item
      *
-     * @since   6.2.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function getIndexShardKey($cacheId)
     {
@@ -179,7 +179,7 @@ class MemcachedStorage extends CacheStorage
      *
      * @return  string[]  The Memcached keys of every index shard
      *
-     * @since   6.2.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function getIndexShardKeys()
     {
