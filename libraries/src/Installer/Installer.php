@@ -652,15 +652,13 @@ class Installer implements DatabaseAwareInterface
     {
         if ($path && is_dir(Path::clean($path))) {
             $this->setPath('source', $path);
-        } else {
             $filePath=$this->getPath('source');
             $fileSize=filesize($filePath);
             if (disk_free_space(dirname($path)) < $fileSize) {
                 $this->abort(Text::_('JLIB_INSTALLER_ABORT_DISK_FULL'));
-            }else{
-                $this->abort(Text::_('JLIB_INSTALLER_ABORT_NOINSTALLPATH'));
-            }
-
+                return false;
+        } else {
+            $this->abort(Text::_('JLIB_INSTALLER_ABORT_NOINSTALLPATH'));
             return false;
         }
 
@@ -847,6 +845,11 @@ class Installer implements DatabaseAwareInterface
     {
         if ($path && is_dir(Path::clean($path))) {
             $this->setPath('source', $path);
+            $filePath=$this->getPath('source');
+            $fileSize=filesize($filePath);
+            if (disk_free_space(dirname($path)) < $fileSize) {
+                $this->abort(Text::_('JLIB_INSTALLER_ABORT_DISK_FULL'));
+                return false;
         } else {
             $this->abort(Text::_('JLIB_INSTALLER_ABORT_NOUPDATEPATH'));
 
