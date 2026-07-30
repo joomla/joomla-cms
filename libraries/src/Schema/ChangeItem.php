@@ -78,7 +78,8 @@ abstract class ChangeItem
     /**
      * Query type: To be used in building a language key for a
      * message to tell user what was checked / changed
-     * Possible values: ADD_TABLE, ADD_COLUMN, CHANGE_COLUMN_TYPE, ADD_INDEX
+     * Possible values: ADD_COLUMN, ADD_INDEX, CHANGE_COLUMN_TYPE,
+     * CREATE_TABLE, DROP_COLUMN, DROP_INDEX, RENAME_TABLE.
      *
      * @var    string
      * @since  2.5
@@ -89,7 +90,7 @@ abstract class ChangeItem
      * Array with values for use in a Text::sprintf statement indicating what was checked
      *
      * Tells you what the message should be, based on which elements are defined, as follows:
-     *     For ADD_TABLE: table
+     *     For CREATE_TABLE: table
      *     For ADD_COLUMN: table, column
      *     For CHANGE_COLUMN_TYPE: table, column, type
      *     For ADD_INDEX: table, index
@@ -114,6 +115,22 @@ abstract class ChangeItem
      * @since  2.5
      */
     public $rerunStatus = 0;
+
+    /**
+     * Has this change item been superseded by a newer one?
+     *
+     * Records whether a later update file changes the same schema object as this item,
+     * making this item's expectation obsolete.
+     *
+     * A superseded item is still re-run by fix(), because it may be a necessary intermediate
+     * step (a column rename, say) on a database which really is out of date. It is, however,
+     * not reported as an error because its expectation no longer describes the schema the
+     * extension intends.
+     *
+     * @var    boolean
+     * @since  __DEPLOY_VERSION__
+     */
+    public $superseded = false;
 
     /**
      * Constructor: builds check query and message from $updateQuery
