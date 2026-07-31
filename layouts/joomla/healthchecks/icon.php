@@ -28,9 +28,7 @@ $title = empty($displayData['title']) ? '' : (' title="' . $this->escape($displa
 // The information
 $text = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $displayData['text'] . '</span>');
 
-// Make the class string
-
-// depending on status, determine additional class
+// Depending on status, determine additional class
 $class        = '';
 $filterStatus = 'healthy'; // Default to "healthy"
 if (isset($displayData['status'])) {
