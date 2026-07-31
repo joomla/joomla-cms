@@ -1,11 +1,10 @@
 .subhead {
   position: sticky;
-  top: 0;
-  right: 0;
-  left: 0;
+  inset-block-start: 0;
+  inset-inline: 0;
   z-index: $zindex-toolbar;
-  width: auto;
-  min-height: 43px;
+  inline-size: auto;
+  min-block-size: 43px;
   padding: 8px 1rem;
   color: var(--atum-subhead-color);
   background: var(--atum-subhead-bg);
@@ -13,8 +12,7 @@
   box-shadow: var(--atum-box-shadow);
 
   .row {
-    margin-right: 0;
-    margin-left: 0;
+    margin-inline: 0;
   }
 
   &.noshadow {
@@ -34,7 +32,7 @@
     .btn > span,
     .dropdown-item > span {
       margin-inline-end: .5rem;
-      width: 1.25em;
+      inline-size: 1.25em;
       text-align: center;
     }
   }
@@ -131,7 +129,7 @@
       align-items: center;
 
       &::after {
-        width: 2.375rem;
+        inline-size: 2.375rem;
         font-family: "Font Awesome 6 Free";
         font-weight: 900;
         content: "\f078";
@@ -172,7 +170,7 @@
   .contentpane & {
     margin: -15px -15px 0;
     background-image: none;
-    border-bottom: 1px solid var(--template-bg-dark-7); // TODO: unified variables for light and dark mode
+    border-block-end: 1px solid var(--template-bg-dark-7); // TODO: unified variables for light and dark mode
   }
 }
 
@@ -183,17 +181,17 @@
   }
 
   #myTab {
-    margin-top: 1rem;
-    margin-bottom: 1.5rem;
+    margin-block-start: 1rem;
+    margin-block-end: 1.5rem;
   }
 
   joomla-tab[view=accordion] ul li {
-    width: 100%;
+    inline-size: 100%;
   }
 
   .toggler-toolbar {
-    top: 0;
-    bottom: auto;
+    inset-block-start: 0;
+    inset-block-end: auto;
     z-index: $zindex-alerts;
     padding: 7px 10px;
     margin: 5px;
@@ -212,20 +210,19 @@
   }
 
   .subhead {
-    padding-right: 0;
-    padding-left: 0;
+    padding-inline: 0;
 
     joomla-toolbar-button,
     .btn-group,
     .btn {
-      width: 100%;
-      margin-left: 0;
+      inline-size: 100%;
+      margin-inline-start: 0;
       text-align: left;
     }
 
     .btn-toolbar > .btn-group,
     .btn-toolbar > joomla-toolbar-button {
-      margin-left: 0;
+      margin-inline-start: 0;
     }
 
     .btn.btn-action::after {
@@ -234,7 +231,7 @@
     }
 
     .dropdown-toggle-split {
-      width: auto;
+      inline-size: auto;
     }
   }
 }
@@ -243,8 +240,8 @@
 @if $enable-dark-mode {
   @include color-mode(dark) {
     .subhead {
-      border-top: 1px solid rgba(255,255,255,.05);
-      border-bottom: 1px solid rgba(255,255,255,.05);
+      border-block-start: 1px solid rgba(255,255,255,.05);
+      border-block-end: 1px solid rgba(255,255,255,.05);
     }
   }
 }

@@ -67,7 +67,7 @@ final class ReadMore extends CMSPlugin implements SubscriberInterface
      *
      * @since   1.5
      *
-     * @deprecated  5.0 Use onEditorButtonsSetup event
+     * @deprecated  5.0 Use onEditorButtonsSetup event instead, will be removed in 7.0
      */
     public function onDisplay($name)
     {

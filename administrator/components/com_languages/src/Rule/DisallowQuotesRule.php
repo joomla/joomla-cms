@@ -24,7 +24,7 @@ use Joomla\Registry\Registry;
  * The DisallowQuotesRule Class.
  * Validates that non-superadmins can not use quotes or doublequotes in i18n overrides
  *
- * @since  joomla 5.4.7
+ * @since  joomla 6.1.2
  */
 class DisallowQuotesRule extends FormRule
 {

@@ -35,15 +35,15 @@ describe('Test that the task notification system plugin', () => {
       });
       cy.get('joomla-dialog[type="inline"]').should('be.visible');
       cy.get('joomla-dialog[type="inline"]').within(() => {
-        cy.get('header.joomla-dialog-header').should('contain', `Test task (ID: ${task.id})`);
+        cy.get('header.joomla-dialog-header').should('contain', `Run Task (ID: ${task.id})`);
         cy.get('div.scheduler-status').should('contain', 'Status: Completed');
       });
       cy.task('getMails').then((mails) => {
         cy.wrap(mails).should('have.lengthOf', 1);
         cy.wrap(mails[0].body).should('have.string', `Scheduled Task#${task.id}, Test task, has been successfully executed`);
         cy.wrap(mails[0].headers.subject).should('have.string', 'Task Successful');
-        cy.wrap(mails[0].headers.from).should('equal', `"${Cypress.env('sitename')}" <${Cypress.env('email')}>`);
-        cy.wrap(mails[0].headers.to).should('equal', Cypress.env('email'));
+        cy.wrap(mails[0].headers.from).should('equal', `"${Cypress.expose('sitename')}" <${Cypress.expose('email')}>`);
+        cy.wrap(mails[0].headers.to).should('equal', Cypress.expose('email'));
       });
     });
   });
@@ -70,7 +70,7 @@ describe('Test that the task notification system plugin', () => {
       });
       cy.get('joomla-dialog[type="inline"]').should('be.visible');
       cy.get('joomla-dialog[type="inline"]').within(() => {
-        cy.get('header.joomla-dialog-header').should('contain', `Test task (ID: ${task.id})`);
+        cy.get('header.joomla-dialog-header').should('contain', `Run Task (ID: ${task.id})`);
         cy.get('div.scheduler-status').should('contain', 'Status: Completed');
       });
       cy.task('getMails').then((mails) => {
@@ -78,8 +78,8 @@ describe('Test that the task notification system plugin', () => {
         cy.wrap(mails[0].body).should('have.string', `Scheduled Task#${task.id}, Test task, has failed with exit code 5`);
         cy.wrap(mails[0].attachments).should('have.lengthOf', 1);
         cy.wrap(mails[0].headers.subject).should('have.string', 'Task Failure');
-        cy.wrap(mails[0].headers.from).should('equal', `"${Cypress.env('sitename')}" <${Cypress.env('email')}>`);
-        cy.wrap(mails[0].headers.to).should('equal', Cypress.env('email'));
+        cy.wrap(mails[0].headers.from).should('equal', `"${Cypress.expose('sitename')}" <${Cypress.expose('email')}>`);
+        cy.wrap(mails[0].headers.to).should('equal', Cypress.expose('email'));
       });
     });
   });

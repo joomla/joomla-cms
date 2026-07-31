@@ -29,7 +29,7 @@
   }
 
   &-title {
-    margin-bottom: .25rem;
+    margin-block-end: .25rem;
     font-size: 1rem;
     font-weight: 700;
   }
@@ -44,12 +44,12 @@
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    width: 2.5rem;
+    inline-size: 2.5rem;
     font-size: 1.2rem;
     background: $new-module-link-bg;
 
     span {
-      margin-bottom: 10px;
+      margin-block-end: 10px;
       color: $new-module-link-span;
     }
 

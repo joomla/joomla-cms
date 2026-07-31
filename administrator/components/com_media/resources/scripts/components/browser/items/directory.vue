@@ -9,8 +9,23 @@
       @dblclick.stop.prevent="onPreviewDblClick()"
       @keyup.enter="onPreviewDblClick()"
     >
-      <div class="file-background">
-        <div class="folder-icon">
+      <div
+        class="file-background"
+        :class="{ 'with-thumbnail': thumbURL }"
+      >
+        <img
+          v-if="thumbURL"
+          class="image-cropped"
+          alt=""
+          :src="thumbURL"
+          :loading="thumbLoading"
+          :width="thumbWidth"
+          :height="thumbHeight"
+        >
+        <div
+          v-if="!thumbURL"
+          class="folder-icon"
+        >
           <span class="icon-folder" />
         </div>
       </div>
@@ -46,6 +61,26 @@ export default {
     return {
       showActions: false,
     };
+  },
+  computed: {
+    thumbURL() {
+      let path = this.item.thumb_path || '';
+
+      if (path && this.item.modified_date) {
+        path = path + (path.includes('?') ? '&' : '?') + this.item.modified_date;
+      }
+
+      return path;
+    },
+    thumbWidth() {
+      return this.item.thumb_width || null;
+    },
+    thumbHeight() {
+      return this.item.thumb_height || null;
+    },
+    thumbLoading() {
+      return this.item.thumb_width ? 'lazy' : null;
+    },
   },
   methods: {
     /* Handle the on preview double click event */

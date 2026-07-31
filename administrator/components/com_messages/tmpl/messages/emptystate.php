@@ -19,6 +19,8 @@ $displayData = [
     'formURL'    => 'index.php?option=com_messages&view=messages',
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Private_Messages',
     'icon'       => 'icon-envelope inbox',
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 if (

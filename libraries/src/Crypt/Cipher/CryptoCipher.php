@@ -21,7 +21,7 @@ use Joomla\Crypt\Key;
  *
  * @since       3.5
  *
- * @deprecated  4.3 will be removed in 6.0
+ * @deprecated  4.3 will be removed in 7.0
  *              Will be removed without replacement use SodiumCipher instead
  */
 class CryptoCipher implements CipherInterface

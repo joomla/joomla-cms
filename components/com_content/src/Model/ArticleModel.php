@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ItemModel;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Content;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -96,7 +96,7 @@ class ArticleModel extends ItemModel
         if (!isset($this->_item[$pk])) {
             try {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
 
                 $query->select(
                     $this->getState(
@@ -230,24 +230,17 @@ class ArticleModel extends ItemModel
                 $data->params = clone $this->getState('params');
                 $globalParams = ComponentHelper::getParams('com_content', true);
 
-                $menuParamsArray = $this->getState('params')->toArray();
-                $articleArray    = [];
-
-                foreach ($menuParamsArray as $key => $value) {
+                /**
+                 * For menu item parameters set to use_article, we will take value from article option and fallback
+                 * to global value if the article option set to Use Global
+                 */
+                foreach ($data->params->toArray() as $key => $value) {
                     if ($value === 'use_article') {
-                        if ($registry->get($key) != '') {
-                            // Article has an explicit value, use it
-                            $articleArray[$key] = $registry->get($key);
-                        } else {
-                            // Article is "Use Global", fall back to global component param
-                            $articleArray[$key] = $globalParams->get($key);
-                        }
+                        $data->params->set($key, $registry->get($key, $globalParams->get($key)));
                     }
                 }
 
-                if (\count($articleArray)) {
-                    $data->params->merge(new Registry($articleArray));
-                }
+                $data->params->merge($registry);
 
                 $data->metadata = new Registry($data->metadata);
 
@@ -314,7 +307,7 @@ class ArticleModel extends ItemModel
         if ($hitcount) {
             $pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
-            $table = Table::getInstance('Content', '\\Joomla\\CMS\\Table\\');
+            $table = new Content($this->getDatabase());
             $table->hit($pk);
         }
 
@@ -339,7 +332,7 @@ class ArticleModel extends ItemModel
 
             // Initialize variables.
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             // Create the base select statement.
             $query->select('*')
@@ -361,7 +354,7 @@ class ArticleModel extends ItemModel
 
             // There are no ratings yet, so lets insert our rating
             if (!$rating) {
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
 
                 // Create the base insert statement.
                 $query->insert($db->quoteName('#__content_rating'))
@@ -390,7 +383,7 @@ class ArticleModel extends ItemModel
                 }
             } else {
                 if ($userIP != $rating->lastip) {
-                    $query = $db->getQuery(true);
+                    $query = $db->createQuery();
 
                     // Create the base update statement.
                     $query->update($db->quoteName('#__content_rating'))
@@ -434,15 +427,13 @@ class ArticleModel extends ItemModel
     /**
      * Cleans the cache of com_content and content modules
      *
-     * @param   string   $group     The cache group
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   3.9.9
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         parent::cleanCache('com_content');
         parent::cleanCache('mod_articles');

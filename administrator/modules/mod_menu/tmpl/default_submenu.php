@@ -38,13 +38,7 @@ if (!$this->enabled) {
     }
 }
 
-if ($current->level == 1) {
-    $class .= ' item-level-1';
-} elseif ($current->level == 2) {
-    $class .= ' item-level-2';
-} elseif ($current->level == 3) {
-    $class .= ' item-level-3';
-}
+$class .= ' item-level-' . (int) $current->level;
 
 // Set the correct aria role and print the item
 if ($current->type == 'separator') {
@@ -55,17 +49,12 @@ if ($current->type == 'separator') {
 
 // Print a link if it exists
 $linkClass  = [];
-$dataToggle = '';
 $iconClass  = '';
 $itemIconClass = '';
 $itemImage  = '';
 
 if ($current->hasChildren()) {
     $linkClass[] = 'has-arrow';
-
-    if ($current->level > 2) {
-        $dataToggle  = ' data-bs-toggle="dropdown"';
-    }
 } else {
     $linkClass[] = 'no-dropdown';
 
@@ -119,15 +108,15 @@ if ($icon == '' && $iconClass == '' && $current->level == 1 && $current->target 
 }
 
 if ($link != '' && $current->target != '') {
-    echo '<a' . $linkClass . $dataToggle . $ariaCurrent . ' href="' . $link . '" target="' . $current->target . '">'
+    echo '<a' . $linkClass . $ariaCurrent . ' href="' . $link . '" target="' . $current->target . '">'
         . $iconClass
         . '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $ajax . '</a>';
 } elseif ($link != '' && $current->type !== 'separator') {
-    echo '<a' . $linkClass . $dataToggle . $ariaCurrent . ' href="' . $link . '" aria-label="' . Text::_($current->title) . '">'
+    echo '<a' . $linkClass . $ariaCurrent . ' href="' . $link . '" aria-label="' . Text::_($current->title) . '">'
         . $iconClass
         . '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $iconImage . '</a>';
 } elseif ($current->title != '' && $current->type !== 'separator') {
-    echo '<a' . $linkClass . $dataToggle . $ariaCurrent . ' href="#">'
+    echo '<a' . $linkClass . $ariaCurrent . ' href="#">'
         . $iconClass
         . '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $ajax . '</a>';
 } elseif ($current->title != '' && $current->type === 'separator') {

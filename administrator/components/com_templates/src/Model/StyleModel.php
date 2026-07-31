@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Path;
 use Joomla\String\StringHelper;
@@ -224,9 +224,10 @@ class StyleModel extends AdminModel
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -290,7 +291,7 @@ class StyleModel extends AdminModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  mixed  Object on success, false on failure.
+     * @return  \stdClass|false  Object on success, false on failure.
      */
     public function getItem($pk = null)
     {
@@ -397,7 +398,7 @@ class StyleModel extends AdminModel
     public function save($data)
     {
         // Detect disabled extension
-        $extension = Table::getInstance('Extension', 'Joomla\\CMS\\Table\\');
+        $extension = new Extension($this->getDatabase());
 
         if ($extension->load(['enabled' => 0, 'type' => 'template', 'element' => $data['template'], 'client_id' => $data['client_id']])) {
             $this->setError(Text::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
@@ -465,7 +466,7 @@ class StyleModel extends AdminModel
                 $data['assigned'] = ArrayHelper::toInteger($data['assigned']);
 
                 // Update the mapping for menu items that this style IS assigned to.
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->update($db->quoteName('#__menu'))
                     ->set($db->quoteName('template_style_id') . ' = :newtsid')
                     ->whereIn($db->quoteName('id'), $data['assigned'])
@@ -481,7 +482,7 @@ class StyleModel extends AdminModel
 
             // Remove style mappings for menu items this style is NOT assigned to.
             // If unassigned then all existing maps will be removed.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__menu'))
                 ->set($db->quoteName('template_style_id') . ' = 0');
 
@@ -540,7 +541,7 @@ class StyleModel extends AdminModel
         }
 
         // Detect disabled extension
-        $extension = Table::getInstance('Extension', 'Joomla\\CMS\\Table\\');
+        $extension = new Extension($this->getDatabase());
 
         if ($extension->load(['enabled' => 0, 'type' => 'template', 'element' => $style->template, 'client_id' => $style->client_id])) {
             throw new \Exception(Text::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
@@ -550,7 +551,7 @@ class StyleModel extends AdminModel
         $id       = (int) $id;
 
         // Reset the home fields for the client_id.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__template_styles'))
             ->set($db->quoteName('home') . ' = ' . $db->quote('0'))
             ->where($db->quoteName('client_id') . ' = :clientid')
@@ -560,7 +561,7 @@ class StyleModel extends AdminModel
         $db->execute();
 
         // Set the new home style.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__template_styles'))
             ->set($db->quoteName('home') . ' = ' . $db->quote('1'))
             ->where($db->quoteName('id') . ' = :id')
@@ -596,7 +597,7 @@ class StyleModel extends AdminModel
         $id = (int) $id;
 
         // Lookup the client_id.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['client_id', 'home']))
             ->from($db->quoteName('#__template_styles'))
             ->where($db->quoteName('id') . ' = :id')
@@ -613,7 +614,7 @@ class StyleModel extends AdminModel
         }
 
         // Set the new home style.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__template_styles'))
             ->set($db->quoteName('home') . ' = ' . $db->quote('0'))
             ->where($db->quoteName('id') . ' = :id')
@@ -651,8 +652,8 @@ class StyleModel extends AdminModel
     public function getAdminTemplate(int $styleId): \stdClass
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
-            ->select($db->quoteName(['s.template', 's.params', 's.inheritable', 's.parent']))
+        $query = $db->createQuery()
+            ->select($db->quoteName(['s.template', 's.params', 's.inheritable', 's.parent', 'e.custom_data']))
             ->from($db->quoteName('#__template_styles', 's'))
             ->join(
                 'LEFT',
@@ -696,8 +697,8 @@ class StyleModel extends AdminModel
     public function getSiteTemplates(): array
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
-            ->select($db->quoteName(['id', 'home', 'template', 's.params', 'inheritable', 'parent']))
+        $query = $db->createQuery()
+            ->select($db->quoteName(['id', 'home', 'template', 's.params', 'inheritable', 'parent', 'e.custom_data']))
             ->from($db->quoteName('#__template_styles', 's'))
             ->where(
                 [
@@ -721,15 +722,13 @@ class StyleModel extends AdminModel
     /**
      * Custom clean cache method
      *
-     * @param   string   $group     The cache group
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   1.6
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         parent::cleanCache('com_templates');
         parent::cleanCache('_system');

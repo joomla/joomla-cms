@@ -10,11 +10,11 @@
 
 namespace Joomla\Component\Languages\Api\Controller;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\MVC\Controller\Exception;
-use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -87,8 +87,11 @@ class OverridesController extends ApiController
      */
     protected function save($recordKey = null)
     {
+        $inflector = InflectorFactory::create()->build();
+        $modelName = $inflector->singularize($this->contentType);
+
         /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
-        $model = $this->getModel(Inflector::singularize($this->contentType));
+        $model = $this->getModel($modelName);
 
         if (!$model) {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));

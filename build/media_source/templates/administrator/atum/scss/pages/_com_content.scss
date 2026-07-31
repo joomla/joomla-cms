@@ -1,6 +1,6 @@
 .com_content.layout-edit {
   joomla-field-media .field-media-preview {
-    height: 10.25rem;
+    block-size: 10.25rem;
   }
 
   joomla-tab {
@@ -12,19 +12,19 @@
 
       .form-group {
         flex: 0 0 50%;
-        max-width: 50%;
+        max-inline-size: 50%;
         box-shadow: none;
 
         &:nth-child(1),
         &:nth-child(19) {
           flex: 0 0 100%;
-          max-width: 100%;
+          max-inline-size: 100%;
         }
       }
 
       .field-spacer {
         flex: 0 0 100%;
-        max-width: 100%;
+        max-inline-size: 100%;
       }
     }
   }

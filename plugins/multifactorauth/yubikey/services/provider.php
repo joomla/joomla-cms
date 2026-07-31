@@ -31,12 +31,12 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Yubikey::class, function (Container $container) {
                 $plugin = new Yubikey((array) PluginHelper::getPlugin('multifactorauth', 'yubikey'));
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

@@ -19,9 +19,9 @@
 				extension="com_content"
 				multiple="true"
 				layout="joomla.form.field.list-fancy-select"
-				default=" "
+				default=""
 				>
-				<option value=" ">JOPTION_ALL_CATEGORIES</option>
+				<option value="">JOPTION_ALL_CATEGORIES</option>
 			</field>
 		</fieldset>
 	</fields>

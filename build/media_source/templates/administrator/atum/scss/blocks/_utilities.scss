@@ -6,8 +6,8 @@
 // Keep B/C
 .element-invisible {
   position: absolute;
-  width: 1px;
-  height: 1px;
+  inline-size: 1px;
+  block-size: 1px;
   padding: 0;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
@@ -133,63 +133,63 @@
 // Sizing
 
 .w-1 {
-  width: 1%;
+  inline-size: 1%;
 }
 
 .w-3 {
-  width: 3%;
+  inline-size: 3%;
 }
 
 .w-5 {
-  width: 5%;
+  inline-size: 5%;
 }
 
 .w-6 {
-  width: 6%;
+  inline-size: 6%;
 }
 
 .w-7 {
-  width: 7%;
+  inline-size: 7%;
 }
 
 .w-10 {
-  width: 10%;
+  inline-size: 10%;
 }
 
 .w-12 {
-  width: 12%;
+  inline-size: 12%;
 }
 
 .w-15 {
-  width: 15%;
+  inline-size: 15%;
 }
 
 .w-20 {
-  width: 20%;
+  inline-size: 20%;
 }
 
 .w-30 {
-  width: 30%;
+  inline-size: 30%;
 }
 
 .w-35 {
-  width: 35%;
+  inline-size: 35%;
 }
 
 .w-40 {
-  width: 40%;
+  inline-size: 40%;
 }
 
 .w-60 {
-  width: 60%;
+  inline-size: 60%;
 }
 
 .w-80 {
-  width: 80%;
+  inline-size: 80%;
 }
 
 .editor-xtd-buttons .btn {
-  margin-bottom: 5px;
+  margin-block-end: 5px;
 }
 
 // Visibility depend from ColorScheme

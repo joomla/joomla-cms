@@ -46,7 +46,7 @@ class LevelsController extends ApiController
      *
      * @return  array
      *
-     * @since   5.4.7
+     * @since   6.1.2
      */
     protected function preprocessSaveData(array $data): array
     {

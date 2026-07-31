@@ -50,14 +50,41 @@ const urlVersioning = (fromFile) => ({
 });
 
 /**
+ * Non-destructive fallback: only rewrite url() values via plain text replacement
+ * and leave the rest of the CSS untouched. Used when lightningcss cannot parse
+ * the file because vendor CSS (TinyMCE, Bootstrap, FontAwesome, …) ships modern
+ * CSS syntax that the parser does not yet understand.
+ *
+ * @param {String} content - the raw css content
+ * @param {String} fromFile - the filepath for the css file
+ * @returns {String} - the css content with versioned url() values
+ */
+const versionUrlsTextually = (content, fromFile) => content.replace(
+  /url\(\s*("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|[^)'"\s]+)\s*\)/gi,
+  (match, raw) => {
+    let quote = '';
+    let urlValue = raw;
+    if ((urlValue.startsWith('"') && urlValue.endsWith('"'))
+        || (urlValue.startsWith("'") && urlValue.endsWith("'"))) {
+      quote = urlValue[0];
+      urlValue = urlValue.slice(1, -1);
+    }
+
+    return `url(${quote}${version(urlValue, fromFile)}${quote})`;
+  },
+);
+
+/**
  * Adds a hash to the url() parts of the static css
  *
  * @param file
  * @returns {Promise<void>}
  */
 const fixVersion = async (file) => {
+  const originalContent = await readFile(file, { encoding: 'utf8' });
+
   try {
-    let content = await readFile(file, { encoding: 'utf8' });
+    let content = originalContent;
     // To preserve the licence the comment needs to start at the beginning of the file
     const replaceUTF8String = file.endsWith('.min.css') ? '@charset "UTF-8";' : '@charset "UTF-8";\n';
     content = content.startsWith(replaceUTF8String) ? content.replace(replaceUTF8String, '') : content;
@@ -84,7 +111,15 @@ const fixVersion = async (file) => {
       mode: 0o644,
     });
   } catch (error) {
-    throw new Error(error);
+    // lightningcss could not parse the file (e.g. modern vendor CSS syntax).
+    // Fall back to a non-destructive, text-only url() rewrite that leaves the
+    // rest of the CSS – including any syntax the parser rejected – untouched.
+    console.log(`Could not parse ${file} (${error.message}). Falling back to text-based url() versioning.`);
+
+    await writeFile(file, versionUrlsTextually(originalContent, file), {
+      encoding: 'utf8',
+      mode: 0o644,
+    });
   }
 };
 

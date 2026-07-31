@@ -11,8 +11,10 @@
 namespace Joomla\Component\Users\Administrator\Model;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -24,7 +26,7 @@ use Joomla\CMS\Versioning\VersionableModelTrait;
  *
  * @since  2.5
  */
-class NoteModel extends AdminModel
+class NoteModel extends AdminModel implements VersionableModelInterface
 {
     use VersionableModelTrait;
 
@@ -42,20 +44,14 @@ class NoteModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   2.5
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_users.note', 'note', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_users.note', 'note', ['control' => 'jform', 'load_data' => $loadData]);
     }
 
     /**
@@ -105,7 +101,7 @@ class NoteModel extends AdminModel
 
             // Prime some default values.
             if ($this->getState('note.id') == 0) {
-                $data->set('catid', $app->getInput()->get('catid', $app->getUserState('com_users.notes.filter.category_id'), 'int'));
+                $data->catid = $app->getInput()->get('catid', $app->getUserState('com_users.notes.filter.category_id'), 'int');
             }
 
             $userId = $app->getInput()->get('u_id', 0, 'int');

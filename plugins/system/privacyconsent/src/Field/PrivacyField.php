@@ -84,7 +84,7 @@ class PrivacyField extends RadioField
 
         if ($privacyArticle && Factory::getApplication()->isClient('site')) {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName(['id', 'alias', 'catid', 'language']))
                 ->from($db->quoteName('#__content'))
                 ->where($db->quoteName('id') . ' = :id')
@@ -104,7 +104,7 @@ class PrivacyField extends RadioField
 
             if (Multilanguage::isEnabled()) {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName(['id', 'language']))
                     ->from($db->quoteName('#__menu'))
                     ->where($db->quoteName('id') . ' = :id')

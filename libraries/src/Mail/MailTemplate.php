@@ -113,7 +113,7 @@ class MailTemplate
      * The language factory
      *
      * @var    LanguageFactoryInterface
-     * @since  5.4.7
+     * @since  6.1.2
      */
     protected LanguageFactoryInterface $languageFactory;
 
@@ -231,6 +231,20 @@ class MailTemplate
         } else {
             $this->plain_data = array_merge($this->plain_data, $data);
         }
+    }
+
+    /**
+     * Get the template data.
+     *
+     * @param   bool   $plain Data used for plain-text emails.
+     *
+     * @return array
+     *
+     * @since   6.1.0
+     */
+    public function getTemplateData($plain = false): array
+    {
+        return !$plain ? $this->data : $this->plain_data;
     }
 
     /**
@@ -396,7 +410,7 @@ class MailTemplate
                     ]);
                 }
 
-                $htmlBody = $layoutFile->render(['mail' => $htmlBody, 'extra' => $this->layoutTemplateData], null);
+                $htmlBody = $layoutFile->render(['mail' => $htmlBody, 'extra' => $this->layoutTemplateData]);
 
                 $htmlBody = $this->replaceTags($language->_($htmlBody), $this->data);
             }
@@ -504,7 +518,7 @@ class MailTemplate
                             }
                         }
 
-                        $text = str_replace($match, $replacement, $text);
+                        $text = str_ireplace($match, $replacement, $text);
                     }
                 }
             } else {
@@ -513,7 +527,7 @@ class MailTemplate
                     $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
                 }
 
-                $text = str_replace('{' . strtoupper($key) . '}', $value, $text);
+                $text = str_ireplace('{' . strtoupper($key) . '}', $value, $text);
             }
         }
 
@@ -533,7 +547,7 @@ class MailTemplate
     public static function getTemplate($key, $language)
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select('*')
             ->from($db->quoteName('#__mail_templates'))
             ->where($db->quoteName('template_id') . ' = :key')
@@ -624,7 +638,7 @@ class MailTemplate
     public static function deleteTemplate($key)
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->delete($db->quoteName('#__mail_templates'))
             ->where($db->quoteName('template_id') . ' = :key')
             ->bind(':key', $key);

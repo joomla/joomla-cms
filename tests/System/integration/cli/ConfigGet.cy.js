@@ -1,6 +1,6 @@
 describe('Test CLI command config:get', () => {
   it('can get all configuration options', () => {
-    cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php config:get`)
+    cy.exec(`php ${Cypress.expose('cmsPath')}/cli/joomla.php config:get`)
       .then((result) => {
         expect(result.stdout).to.contain('Option');
         expect(result.stdout).to.contain('Value');
@@ -10,7 +10,7 @@ describe('Test CLI command config:get', () => {
   });
 
   it('can get database configuration group', () => {
-    cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php config:get --group=db`)
+    cy.exec(`php ${Cypress.expose('cmsPath')}/cli/joomla.php config:get --group=db`)
       .then((result) => {
         // Check output contains expected database configuration options
         expect(result.stdout).to.contain('Option');
@@ -24,13 +24,13 @@ describe('Test CLI command config:get', () => {
         expect(result.stdout).to.contain('dbencryption');
         expect(result.stdout).to.contain('dbsslverifyservercert');
         // Check for specific values
-        expect(result.stdout.toLowerCase()).to.contain(Cypress.env('db_type').toLowerCase());
+        expect(result.stdout.toLowerCase()).to.contain(Cypress.expose('db_type').toLowerCase());
         expect(result.stdout).to.contain('root');
     });
   });
 
   it('can get mail configuration group', () => {
-    cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php config:get --group=mail`)
+    cy.exec(`php ${Cypress.expose('cmsPath')}/cli/joomla.php config:get --group=mail`)
       .then((result) => {
         // Check output contains expected mail configuration options
         expect(result.stdout).to.contain('Option');
@@ -49,7 +49,7 @@ describe('Test CLI command config:get', () => {
   })
 
   it('can get session configuration group', () => {
-    cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php config:get --group=session`)
+    cy.exec(`php ${Cypress.expose('cmsPath')}/cli/joomla.php config:get --group=session`)
       .then((result) => {
         // Check output contains expected session configuration options
         expect(result.stdout).to.contain('Option');
@@ -65,7 +65,7 @@ describe('Test CLI command config:get', () => {
   });
 
   it('get error for non existent configuration group', () => {
-    cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php config:get --group=test`, { failOnNonZeroExit: false })
+    cy.exec(`php ${Cypress.expose('cmsPath')}/cli/joomla.php config:get --group=test`, { failOnNonZeroExit: false })
       .then((result) => {
         expect(result.stdout).to.contain('[ERROR] Group *test* not found');
     });

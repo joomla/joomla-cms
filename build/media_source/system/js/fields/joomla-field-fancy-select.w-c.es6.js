@@ -111,14 +111,20 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
     this.isDisconnected = false;
 
-    // Add placeholder option for multiple mode,
-    // Because it not supported as parameter by Choices for <select> https://github.com/jshjohnson/Choices#placeholder
-    if (this.select.multiple && this.placeholder) {
-      const option = document.createElement('option');
-      option.setAttribute('placeholder', '');
-      option.textContent = this.placeholder;
-      this.select.appendChild(option);
+    // START Work around for issue https://github.com/joomla/joomla-cms/issues/47507
+    // For single-select fields, if selectedIndex is 0 and no option has a
+    // selected attribute, set it before choices.js init.
+    //
+    // This workaround can be removed when choices.js
+    // handles this state on init.
+    if (!this.select.multiple
+      && this.select.options.length
+      && this.select.selectedIndex === 0
+      && !this.select.querySelector('option[selected]')) {
+      this.select.options[0].selected = true;
+      this.select.options[0].setAttribute('selected', '');
     }
+    // END workaround for issue #47507
 
     // Init Choices
     this.choicesInstance = new Choices(this.select, {
@@ -254,8 +260,10 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     // Handle remote search
     if (this.remoteSearch && this.url) {
       // Cache existing
-      this.choicesInstance.config.choices.forEach((choiceItem) => {
-        this.choicesCache[choiceItem.value] = choiceItem.label;
+      this.choicesInstance.passedElement.optionsAsChoices().forEach((choiceItem) => {
+        if (choiceItem.value !== undefined) {
+          this.choicesCache[choiceItem.value] = choiceItem.label;
+        }
       });
 
       const lookupDelay = 300;

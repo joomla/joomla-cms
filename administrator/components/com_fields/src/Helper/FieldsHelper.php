@@ -601,7 +601,7 @@ class FieldsHelper
         }
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select($db->quoteName('a.category_id'))
             ->from($db->quoteName('#__fields_categories', 'a'))
@@ -630,7 +630,7 @@ class FieldsHelper
         }
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select($db->quoteName('c.title'))
             ->from($db->quoteName('#__fields_categories', 'a'))
@@ -653,7 +653,7 @@ class FieldsHelper
     public static function getFieldsPluginId()
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))

@@ -11,7 +11,7 @@ import dotenv from 'dotenv';
 
 import { minifyCode } from './minify.mjs';
 
-dotenv.config();
+dotenv.config({ quiet: true });
 
 const inputJS = 'administrator/components/com_media/resources/scripts/mediamanager.es6.js';
 const isProduction = process.env.NODE_ENV !== 'DEVELOPMENT';

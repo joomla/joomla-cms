@@ -65,7 +65,7 @@ final class Content extends PrivacyPlugin implements SubscriberInterface
         $domains[] = $domain;
         $db        = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__content'))
             ->where($db->quoteName('created_by') . ' = ' . (int) $user->id)

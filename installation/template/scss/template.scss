@@ -308,8 +308,25 @@ body {
   }
 }
 
-.languageForm {
-  padding: 0 0 30px;
+#languageForm {
+  joomla-dialog {
+    dialog {
+      &::backdrop {
+        background-color: rgba(0, 0, 0, .5);
+      }
+    }
+    .joomla-dialog-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: .5rem;
+      h3 {
+        margin: 0 .5rem;
+      }
+      .buttons-holder {
+        margin-inline-start: auto;
+      };
+    }
+  }
 
   .form-select {
     width: 100%;
