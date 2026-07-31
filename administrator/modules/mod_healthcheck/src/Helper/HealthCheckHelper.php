@@ -201,8 +201,8 @@ class HealthCheckHelper
         ];
 
         $requiredFields = [
-            ['score'], // Must have score
-            ['unit'],  // Must have unit
+            ['score'],
+            ['unit'],
         ];
 
         return $this->getHealthCheckData(
@@ -320,7 +320,7 @@ class HealthCheckHelper
 
         $requiredFields = [
             ['columns'],
-            ['data'], // Must have either text or name
+            ['data'],
         ];
 
         return $this->getHealthCheckData(
@@ -394,7 +394,7 @@ class HealthCheckHelper
         ];
 
         $requiredFields = [
-            ['info'], // Must have info
+            ['info'],
         ];
 
         return $this->getHealthCheckData(
@@ -427,7 +427,7 @@ class HealthCheckHelper
         ];
 
         $requiredFields = [
-            ['info'], // Must have info
+            ['info'],
         ];
 
         return $this->getHealthCheckData(
