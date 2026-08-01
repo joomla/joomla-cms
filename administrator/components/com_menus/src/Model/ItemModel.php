@@ -1993,7 +1993,7 @@ class ItemModel extends AdminModel
                 $existingSet[(int) $row->moduleid . ':' . (int) $row->menuid] = true;
             }
 
-            $insert     = $db->createQuery()
+            $insert = $db->createQuery()
                 ->insert($db->quoteName('#__modules_menu'))
                 ->columns($db->quoteName(['moduleid', 'menuid', 'inherit']));
             $hasInserts = false;
