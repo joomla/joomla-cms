@@ -220,7 +220,7 @@ trait DisplayTrait
         $ignore_filter = false;
 
         // Text filtering
-        if ($levelParams->get('use_config_textfilters', 0)) {
+        if ($levelParams->get('use_config_textfilters', 1)) {
             // Use filters from com_config
             $filter            = static::getGlobalFilters($user);
             $ignore_filter     = $filter === false;
