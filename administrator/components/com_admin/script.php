@@ -1274,7 +1274,7 @@ class JoomlaInstallerScript
             // From 6.1.1 to 6.1.2
             '/libraries/vendor/algo26-matthias/idna-convert/Dockerfile',
             '/libraries/vendor/algo26-matthias/idna-convert/compose.yml',
-            // From 6.2.0-alpha3 to 6.2.0-alpha4
+            // From 6.2.0-alpha3 to 6.2.0-beta1
             '/media/vendor/tinymce/langs/bs.min.js',
             '/media/vendor/tinymce/langs/bs.min.js.gz',
         ];
