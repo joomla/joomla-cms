@@ -72,7 +72,7 @@ abstract class UpdateAdapter
      * @var    array
      * @since  3.0.0
      */
-    protected $updatecols = ['NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL', 'CHANGELOGURL', 'EXTRA_QUERY'];
+    protected $updatecols = ['NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL', 'CHANGELOGURL', 'EXTRA_QUERY', 'SECURITY'];
 
     /**
      * Should we try appending a .xml extension to the update site's URL?
