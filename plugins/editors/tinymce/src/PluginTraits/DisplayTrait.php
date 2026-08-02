@@ -257,8 +257,10 @@ trait DisplayTrait
             'importcss',
             'quickbars',
             'jxtdbuttons',
+            'jfilepicker',
         ];
         $wa->useScript('plg_editors_tinymce.jxtdbuttons');
+        $wa->useScript('plg_editors_tinymce.jfilepicker');
 
         // Allowed elements
         $elements = [

@@ -564,18 +564,12 @@ class ItemController extends FormController
         $app = $this->app;
 
         $results  = [];
-        $menutype = $this->input->get->get('menutype');
+        $menutype = $this->input->getCmd('menutype');
 
         if ($menutype) {
-            /** @var \Joomla\Component\Menus\Administrator\Model\ItemsModel $model */
-            $model = $this->getModel('Items', 'Administrator', []);
-            $model->getState();
-            $model->setState('filter.menutype', $menutype);
-            $model->setState('list.select', 'a.id, a.title, a.level');
-            $model->setState('list.start', '0');
-            $model->setState('list.limit', '0');
-
-            $results = $model->getItems();
+            /** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
+            $model   = $this->getModel('Item', 'Administrator', []);
+            $results = $model->getParentItems($menutype);
 
             // Pad the option text with spaces using depth level as a multiplier.
             foreach ($results as $result) {
