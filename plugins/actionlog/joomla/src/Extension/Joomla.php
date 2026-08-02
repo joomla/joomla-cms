@@ -306,7 +306,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName([$params->title_holder, $params->id_holder]))
             ->from($db->quoteName($params->table_name))
             ->whereIn($db->quoteName($params->id_holder), ArrayHelper::toInteger($pks));
@@ -678,9 +678,10 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
         if ($task === 'block' || $task === 'unblock') {
             $messageLanguageKey = $task === 'block' ? 'PLG_ACTIONLOG_JOOMLA_USER_BLOCK' : 'PLG_ACTIONLOG_JOOMLA_USER_UNBLOCK';
             $message['action']  = $task;
-        }
+            $this->addLog([$message], $messageLanguageKey, $context, $userId);
 
-        $this->addLog([$message], $messageLanguageKey, $context, $userId);
+            return;
+        }
 
         // Check if on save a block / unblock has changed
         if ($action === 'update') {
@@ -694,11 +695,11 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
                     $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_BLOCK';
                     $action             = 'block';
                 }
-
-                $message['action'] = $action;
-                $this->addLog([$message], $messageLanguageKey, $context, $userId);
             }
         }
+
+        $message['action'] = $action;
+        $this->addLog([$message], $messageLanguageKey, $context, $userId);
     }
 
     /**
@@ -864,7 +865,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
 
         // Get the user id for the given username
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['id', 'username']))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('username') . ' = :username')
