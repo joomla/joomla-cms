@@ -262,6 +262,16 @@ trait DisplayTrait
         $wa->useScript('plg_editors_tinymce.jxtdbuttons');
         $wa->useScript('plg_editors_tinymce.jfilepicker');
 
+        // The link picker for the native Link dialog (registers the 'file' picker)
+        $wa->useStyle('plg_editors_tinymce.linkpicker');
+        $wa->useScript('plg_editors_tinymce.linkpicker');
+
+        // UI strings for the link picker
+        Text::script('PLG_TINY_LINK_PICKER_TITLE');
+        Text::script('PLG_TINY_LINK_MEDIA');
+        Text::script('JSELECT');
+        Text::script('JCLOSE');
+
         // Allowed elements
         $elements = [
             'hr[id|title|alt|class|width|size|noshade]',
