@@ -36,7 +36,7 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * A task plugin. Offers 2 task routines Invalidate Expired Consents and Remind Expired Consents
+ * A task plugin. Offers 2 task routines Joomla! Update Notification and Extensions Update Notification
  * {@see ExecuteTaskEvent}.
  *
  * @since 5.0.0
@@ -56,6 +56,11 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
         'update.notification' => [
             'langConstPrefix' => 'PLG_TASK_UPDATENOTIFICATION_SEND',
             'method'          => 'sendNotification',
+            'form'            => 'sendForm',
+        ],
+        'update.extensions' => [
+            'langConstPrefix' => 'PLG_TASK_UPDATENOTIFICATION_EXTENSIONS',
+            'method'          => 'sendExtensionsNotification',
             'form'            => 'sendForm',
         ],
     ];
@@ -233,6 +238,192 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
         $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_UPDATENOTIFICATION_END'), 'info');
 
         return Status::OK;
+    }
+
+    /**
+     * Method to send a summary of the updates available for the third party extensions of this site.
+     *
+     * @param   ExecuteTaskEvent  $event  The `onExecuteTask` event.
+     *
+     * @return  integer  The routine exit code.
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception
+     */
+    private function sendExtensionsNotification(ExecuteTaskEvent $event): int
+    {
+        // Load the parameters.
+        $specificEmail  = $event->getArgument('params')->email ?? '';
+        $forcedLanguage = $event->getArgument('params')->language_override ?? '';
+
+        $eids = $this->getUpdatableExtensionIds();
+
+        // Without extensions offering an update server there is nothing to check.
+        if (!$eids) {
+            return Status::OK;
+        }
+
+        // Use the update check settings of the Installer, this is the same check its "Check for Updates" button does.
+        $minimumStability = (int) ComponentHelper::getParams('com_installer')
+            ->get('minimum_stability', Updater::STABILITY_STABLE);
+
+        // Get any available updates
+        $updater = Updater::getInstance();
+        $results = $updater->findUpdates($eids, 0, $minimumStability);
+
+        // If there are no updates our job is done. We need BOTH this check AND the one below.
+        if (!$results) {
+            return Status::OK;
+        }
+
+        /*
+         * Load the appropriate language. We try to load English (UK), the current user's language and the forced
+         * language preference, in this order. This ensures that we'll never end up with untranslated strings in the
+         * update email which would make Joomla! seem bad. So, please, if you don't fully understand what the
+         * following code does DO NOT TOUCH IT. It makes the difference between a hobbyist CMS and a professional
+         * solution!
+         */
+        $jLanguage = $this->getApplication()->getLanguage();
+        $jLanguage->load('plg_task_updatenotification', JPATH_ADMINISTRATOR, 'en-GB', true, true);
+        $jLanguage->load('plg_task_updatenotification', JPATH_ADMINISTRATOR, null, true, false);
+
+        // Then try loading the preferred (forced) language
+        if (!empty($forcedLanguage)) {
+            $jLanguage->load('plg_task_updatenotification', JPATH_ADMINISTRATOR, $forcedLanguage, true, false);
+        }
+
+        // The model translates the extension types while it builds the items, so this has to be loaded upfront.
+        $jLanguage->load('com_installer', JPATH_ADMINISTRATOR);
+
+        // Get the update model, it excludes the Joomla! core update which the update.notification routine handles.
+        $model = $this->getApplication()->bootComponent('com_installer')
+            ->getMVCFactory()->createModel('Update', 'Administrator', ['ignore_request' => true]);
+
+        $updates = $model->getItems();
+
+        // If there are no updates we don't have to notify anyone about anything. This is NOT a duplicate check.
+        if (empty($updates)) {
+            return Status::OK;
+        }
+
+        // If we're here, we have updates. First, get a link to the Joomla! Installer component.
+        $baseURL  = Uri::base();
+        $baseURL  = rtrim($baseURL, '/');
+        $baseURL .= (!str_ends_with($baseURL, 'administrator')) ? '/administrator/' : '/';
+        $baseURL .= 'index.php?option=com_installer&view=update';
+        $uri      = new Uri($baseURL);
+
+        /**
+         * Some third party security solutions require a secret query parameter to allow log in to the administrator
+         * backend of the site. The link generated above will be invalid and could probably block the user out of their
+         * site, confusing them (they can't understand the third party security solution is not part of Joomla! proper).
+         * So, we're calling the onBuildAdministratorLoginURL system plugin event to let these third party solutions
+         * add any necessary secret query parameters to the URL. The plugins are supposed to have a method with the
+         * signature:
+         *
+         * public function onBuildAdministratorLoginURL(Uri &$uri);
+         *
+         * The plugins should modify the $uri object directly and return null.
+         */
+        $this->getApplication()->triggerEvent('onBuildAdministratorLoginURL', [&$uri]);
+
+        // Let's find out the email addresses to notify
+        $superUsers = [];
+
+        if (!empty($specificEmail)) {
+            $superUsers = $this->getSuperUsers($specificEmail);
+        }
+
+        if (empty($superUsers)) {
+            $superUsers = $this->getSuperUsers();
+        }
+
+        if (empty($superUsers)) {
+            return Status::KNOCKOUT;
+        }
+
+        // Build the list of the extensions to update, one per line
+        $lines = [];
+
+        foreach ($updates as $update) {
+            $lines[] = \sprintf(
+                $jLanguage->_('PLG_TASK_UPDATENOTIFICATION_EXTENSIONS_EMAIL_LINE'),
+                $update->name,
+                $update->type_translated,
+                $update->current_version,
+                $update->version
+            );
+        }
+
+        // Replace merge codes with their values
+        $substitutions = [
+            'sitename'   => $this->getApplication()->get('sitename'),
+            'url'        => Uri::base(),
+            'link'       => $uri->toString(),
+            'count'      => \count($lines),
+            'extensions' => implode("\n", $lines),
+        ];
+
+        // Send the emails to the Super Users
+        foreach ($superUsers as $superUser) {
+            try {
+                $mailer = new MailTemplate(
+                    'plg_task_updatenotification.extensions',
+                    $jLanguage->getTag(),
+                    $this->getMailerFactory()->createMailer(),
+                    $this->getLanguageFactory()
+                );
+                $mailer->addRecipient($superUser->email);
+                $mailer->addTemplateData($substitutions);
+
+                // The extension names are provided by third party update servers, they are not to be trusted in HTML.
+                $mailer->addUnsafeTags(['extensions']);
+                $mailer->send();
+            } catch (MailDisabledException | phpMailerException $exception) {
+                try {
+                    $this->logTask($jLanguage->_($exception->getMessage()));
+                } catch (\RuntimeException) {
+                    return Status::KNOCKOUT;
+                }
+            }
+        }
+
+        $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_UPDATENOTIFICATION_EXTENSIONS_END'), 'info');
+
+        return Status::OK;
+    }
+
+    /**
+     * Returns the extension IDs of all third party extensions which are updatable on their own, meaning they are
+     * neither part of the Joomla! core nor installed as part of a package.
+     *
+     * @return  array  The list of extension IDs.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function getUpdatableExtensionIds(): array
+    {
+        $db    = $this->getDatabase();
+        $query = $db->createQuery()
+            ->select('DISTINCT ' . $db->quoteName('e.extension_id'))
+            ->from($db->quoteName('#__extensions', 'e'))
+            ->join(
+                'INNER',
+                $db->quoteName('#__update_sites_extensions', 'se'),
+                $db->quoteName('se.extension_id') . ' = ' . $db->quoteName('e.extension_id')
+            )
+            ->join(
+                'INNER',
+                $db->quoteName('#__update_sites', 's'),
+                $db->quoteName('s.update_site_id') . ' = ' . $db->quoteName('se.update_site_id')
+            )
+            ->where($db->quoteName('e.package_id') . ' = 0')
+            ->where($db->quoteName('s.enabled') . ' = 1')
+            ->whereNotIn($db->quoteName('e.extension_id'), ExtensionHelper::getCoreExtensionIds());
+
+        $db->setQuery($query);
+
+        return array_map('intval', $db->loadColumn());
     }
 
     /**

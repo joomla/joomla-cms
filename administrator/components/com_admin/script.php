@@ -148,6 +148,13 @@ class JoomlaInstallerScript
             $this->collectError('Further update', $e);
         }
 
+        // Add the scheduled tasks which are new in this release
+        try {
+            $this->createExtensionUpdatesTask();
+        } catch (\Throwable $e) {
+            $this->collectError('createExtensionUpdatesTask', $e);
+        }
+
         // Clean cache
         try {
             $this->cleanJoomlaCache();
@@ -1456,6 +1463,60 @@ class JoomlaInstallerScript
         }
 
         return true;
+    }
+
+    /**
+     * Method to create the scheduled task which notifies about available extension updates, unless the site
+     * already has one.
+     *
+     * @return  void
+     *
+     * @since   6.2.0
+     */
+    private function createExtensionUpdatesTask()
+    {
+        $db = Factory::getDbo();
+
+        $existing = $db->setQuery(
+            $db->createQuery()
+                ->select($db->quoteName('id'))
+                ->from($db->quoteName('#__scheduler_tasks'))
+                ->where($db->quoteName('type') . ' = ' . $db->quote('update.extensions'))
+                ->setLimit(1)
+        )->loadResult();
+
+        if ($existing) {
+            return;
+        }
+
+        /** @var \Joomla\Component\Scheduler\Administrator\Model\TaskModel $model */
+        $model = Factory::getApplication()->bootComponent('com_scheduler')->getMVCFactory()
+            ->createModel('Task', 'Administrator', ['ignore_request' => true]);
+
+        // Mirrors the task a new installation gets seeded with
+        $model->save([
+            'title'           => 'Extensions Update Notification',
+            'type'            => 'update.extensions',
+            'execution_rules' => [
+                'rule-type'      => 'interval-hours',
+                'interval-hours' => 24,
+                'exec-day'       => gmdate('d'),
+                'exec-time'      => gmdate('H:00'),
+            ],
+            'state'  => 1,
+            'params' => [
+                'individual_log'    => false,
+                'log_file'          => '',
+                'notifications'     => [
+                    'success_mail'       => '0',
+                    'failure_mail'       => '1',
+                    'fatal_failure_mail' => '1',
+                    'orphan_mail'        => '1',
+                ],
+                'email'             => '',
+                'language_override' => '',
+            ],
+        ]);
     }
 
     /**
