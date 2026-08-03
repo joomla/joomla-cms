@@ -70,6 +70,22 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
     }
 
     /**
+     * Get the list of resources that can be autowired into the class.
+     *
+     * @return array List of resources
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getAutowireResources(): array
+    {
+        return array_merge([
+            'setFormFactory' => FormFactoryInterface::class,
+        ],
+            parent::getAutowireResources()
+        );
+    }
+
+    /**
      * Method to checkin a row.
      *
      * @param   integer  $pk  The numeric id of the primary key.

@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Access\Rules;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\Checkin\AfterCheckinEvent as GlobalAfterCheckinEvent;
 use Joomla\CMS\Factory;
@@ -26,6 +27,7 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Filesystem\Path;
 use Joomla\String\StringHelper;
+use Psr\Log\LoggerAwareInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -236,6 +238,21 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             ]
         );
         $this->getDispatcher()->dispatch('onTableObjectCreate', $event);
+    }
+
+    /**
+     * Get the list of resources that can be autowired into the class.
+     *
+     * @return array List of resources
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getAutowireResources(): array
+    {
+        return [
+            'setDispatcher' => DispatcherAwareInterface::class,
+            'setDatabase'   => DatabaseAwareInterface::class,
+        ];
     }
 
     /**

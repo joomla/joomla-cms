@@ -12,6 +12,7 @@ namespace Joomla\CMS\MVC\View;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\DocumentAwareInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -116,6 +117,21 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
         if (!empty($config['option'])) {
             $this->option = $config['option'];
         }
+    }
+
+    /**
+     * Get the list of resources that can be autowired into the class.
+     *
+     * @return array List of resources
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getAutowireResources(): array
+    {
+        return [
+            'setDispatcher' => DispatcherInterface::class,
+            'setLanguage'   => Language::class,
+        ];
     }
 
     /**

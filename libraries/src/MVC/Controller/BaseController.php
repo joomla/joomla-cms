@@ -198,6 +198,22 @@ class BaseController implements
     protected $app;
 
     /**
+     * Get the list of resources that can be autowired into the class.
+     *
+     * @return array List of resources
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getAutowireResources(): array
+    {
+        return [
+            'setDispatcher'             => DispatcherAwareInterface::class,
+            'setLogger'                 => LoggerAwareInterface::class,
+            'setCacheControllerFactory' => CacheControllerFactoryAwareInterface::class,
+        ];
+    }
+
+    /**
      * Adds to the stack of model paths in LIFO order.
      *
      * @param   mixed   $path    The directory (string), or list of directories (array) to add.

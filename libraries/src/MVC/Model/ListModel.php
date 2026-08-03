@@ -14,6 +14,7 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
+use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\Database\QueryInterface;
@@ -127,6 +128,22 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
         if (empty($this->context)) {
             $this->context = strtolower($this->option . '.' . $this->getName());
         }
+    }
+
+    /**
+     * Get the list of resources that can be autowired into the class.
+     *
+     * @return array List of resources
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getAutowireResources(): array
+    {
+        return array_merge([
+            'setFormFactory' => FormFactoryInterface::class,
+        ],
+            parent::getAutowireResources()
+        );
     }
 
     /**
