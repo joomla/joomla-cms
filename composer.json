@@ -57,7 +57,7 @@
     "joomla/crypt": "^4.0",
     "joomla/data": "^4.0",
     "joomla/database": "^4.0",
-    "joomla/di": "^4.0",
+    "joomla/di": "dev-4.x/autowire",
     "joomla/event": "^4.0",
     "joomla/filter": "4.0.2",
     "joomla/filesystem": "^4.1",
