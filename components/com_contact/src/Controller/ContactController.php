@@ -29,6 +29,8 @@ use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\DI\AbstractAutowireInterface;
+use Joomla\DI\AbstractAutowireSetterAwareTrait;
 use Joomla\Utilities\ArrayHelper;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 
@@ -41,8 +43,9 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  *
  * @since  1.5.19
  */
-class ContactController extends FormController implements UserFactoryAwareInterface, MailerFactoryAwareInterface, LanguageFactoryAwareInterface
+class ContactController extends FormController implements UserFactoryAwareInterface, MailerFactoryAwareInterface, LanguageFactoryAwareInterface, AbstractAutowireInterface
 {
+    use AbstractAutowireSetterAwareTrait;
     use UserFactoryAwareTrait;
     use VersionableControllerTrait;
     use MailerFactoryAwareTrait;

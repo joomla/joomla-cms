@@ -20,6 +20,8 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Category;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
+use Joomla\DI\AbstractAutowireInterface;
+use Joomla\DI\AbstractAutowireSetterAwareTrait;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -33,8 +35,10 @@ use Joomla\Registry\Registry;
  * @subpackage  com_contact
  * @since       1.5
  */
-class CategoryModel extends ListModel
+class CategoryModel extends ListModel implements AbstractAutowireInterface
 {
+    use AbstractAutowireSetterAwareTrait;
+
     /**
      * Category item data
      *

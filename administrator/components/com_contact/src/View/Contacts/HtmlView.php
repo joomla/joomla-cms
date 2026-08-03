@@ -15,6 +15,8 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\View\ListView;
 use Joomla\CMS\Session\Session;
+use Joomla\DI\AbstractAutowireInterface;
+use Joomla\DI\AbstractAutowireSetterAwareTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -25,8 +27,10 @@ use Joomla\CMS\Session\Session;
  *
  * @since  1.6
  */
-class HtmlView extends ListView
+class HtmlView extends ListView implements AbstractAutowireInterface
 {
+    use AbstractAutowireSetterAwareTrait;
+
     /**
      * The help link for the view
      *

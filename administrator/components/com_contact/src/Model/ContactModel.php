@@ -22,6 +22,8 @@ use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Database\ParameterType;
+use Joomla\DI\AbstractAutowireInterface;
+use Joomla\DI\AbstractAutowireSetterAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -34,8 +36,9 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ContactModel extends AdminModel implements VersionableModelInterface
+class ContactModel extends AdminModel implements VersionableModelInterface, AbstractAutowireInterface
 {
+    use AbstractAutowireSetterAwareTrait;
     use VersionableModelTrait;
 
     /**

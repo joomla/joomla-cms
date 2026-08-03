@@ -14,6 +14,8 @@ use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
+use Joomla\DI\AbstractAutowireInterface;
+use Joomla\DI\AbstractAutowireSetterAwareTrait;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -25,8 +27,9 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ContactController extends FormController
+class ContactController extends FormController implements AbstractAutowireInterface
 {
+    use AbstractAutowireSetterAwareTrait;
     use VersionableControllerTrait;
 
     /**
