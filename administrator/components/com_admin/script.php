@@ -1505,9 +1505,9 @@ class JoomlaInstallerScript
             ],
             'state'  => 1,
             'params' => [
-                'individual_log'    => false,
-                'log_file'          => '',
-                'notifications'     => [
+                'individual_log' => false,
+                'log_file'       => '',
+                'notifications'  => [
                     'success_mail'       => '0',
                     'failure_mail'       => '1',
                     'fatal_failure_mail' => '1',
