@@ -388,6 +388,7 @@ class Updater implements DatabaseAwareInterface
 
                             if (version_compare($current_update->version, $data['version'], $operator) == 1) {
                                 $current_update->extension_id = $eid;
+                                $current_update->security     = $this->findeSeverity($data['version'], $current_update, $update_result['security'] ?? []);
                                 $retVal[]                     = $current_update;
                             }
                         } else {
@@ -405,6 +406,10 @@ class Updater implements DatabaseAwareInterface
 
                         // If there is an update, check that the version is newer then replaces
                         if (version_compare($current_update->version, $update->version, $operator) == 1) {
+                            $extension->load($eid);
+                            $data                         = json_decode($extension->manifest_cache, true);
+                            $current_update->security     = $this->findeSeverity($data['version'], $current_update, $update_result['security'] ?? []);
+
                             $retVal[] = $current_update;
                         }
                     }
@@ -413,6 +418,31 @@ class Updater implements DatabaseAwareInterface
         }
 
         return $retVal;
+    }
+
+    /**
+     * Searches for the highest severity in security updates since the installed version.
+     *
+     * @param   string       $installedVersion  The installed version
+     * @param   UpdateTable  $update  The latest compatible update
+     * @param   array        $securityUpdates  The found security updates
+     *
+     * @return  int|null
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function findeSeverity(string $installedVersion, UpdateTable $update, array $securityUpdates): ?int
+    {
+        $severity = null;
+
+        /** @var \Joomla\CMS\Table\Update $securityUpdate */
+        foreach ($securityUpdates as $securityUpdate) {
+            if (version_compare($securityUpdate->version, $installedVersion, '>') && $update->security < $securityUpdate->security) {
+                $severity = (int)$securityUpdate->security;
+            }
+        }
+
+        return $severity;
     }
 
     /**

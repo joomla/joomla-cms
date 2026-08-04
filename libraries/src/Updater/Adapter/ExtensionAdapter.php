@@ -31,6 +31,7 @@ class ExtensionAdapter extends UpdateAdapter
 {
     protected $currentUpdate;
     protected $latest;
+    protected array $security = [];
 
     /**
      * Start element parser callback.
@@ -219,6 +220,10 @@ class ExtensionAdapter extends UpdateAdapter
                             // We don't have any possible updates yet, assume this is an available update.
                             $this->latest = $this->currentUpdate;
                         }
+
+                        if (!empty($this->currentUpdate->security)) {
+                            $this->security[] = $this->currentUpdate;
+                        }
                     }
                 }
                 break;
@@ -275,6 +280,8 @@ class ExtensionAdapter extends UpdateAdapter
             return false;
         }
 
+        $this->security = [];
+
         /**
          * Unset the latest update which might have been found for a previous update site, avoid
          * strange issue reported at https://github.com/joomla/joomla-cms/issues/46066
@@ -323,7 +330,7 @@ class ExtensionAdapter extends UpdateAdapter
             $updates = [];
         }
 
-        return ['update_sites' => [], 'updates' => $updates];
+        return ['update_sites' => [], 'updates' => $updates, 'security' => $this->security];
     }
 
     /**
