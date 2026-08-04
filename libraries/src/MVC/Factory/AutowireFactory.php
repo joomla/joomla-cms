@@ -162,8 +162,11 @@ final class AutowireFactory implements MVCFactoryInterface, ContainerAwareInterf
         $classInterfaces = $reflection->getInterfaceNames();
 
         if (array_intersect([ConstructorAutowireInterface::class, AbstractAutowireInterface::class], $classInterfaces)) {
+            $localContainer = $this->getContainer()->createChild();
+            $localContainer->set('scalar.config', $config);
+
             /** @var ModelInterface */
-            return $this->getContainer()->buildObject($className);
+            return $localContainer->buildObject($className);
         }
 
         // todo This is a b/c fallback if we load objects not prepared for autowiring
@@ -216,8 +219,11 @@ final class AutowireFactory implements MVCFactoryInterface, ContainerAwareInterf
         $classInterfaces = $reflection->getInterfaceNames();
 
         if (array_intersect([ConstructorAutowireInterface::class, AbstractAutowireInterface::class], $classInterfaces)) {
+            $localContainer = $this->getContainer()->createChild();
+            $localContainer->set('scalar.config', $config);
+
             /** @var ViewInterface */
-            return $this->getContainer()->buildObject($className);
+            return $localContainer->buildObject($className);
         }
 
         $view = new $className($config);
