@@ -143,7 +143,7 @@ if ($inheritEnabled) {
                                                     data-inherit-menu-title="<?php echo $this->escape($inheritTitle); ?>"
                                                     aria-label="<?php echo $this->escape(Text::sprintf('COM_MODULES_INHERIT_TO_MENU_ITEM_LABEL', $inheritTitle)); ?>"
                                                 >
-                                                    <option value="0"<?php echo $inheritValue === 0 ? ' selected' : ''; ?>><?php echo Text::_('COM_MODULES_INHERIT_NONE'); ?></option>
+                                                    <option value="0"<?php echo $inheritValue === 0 ? ' selected' : ''; ?>><?php echo Text::_('COM_MODULES_INHERIT_NOT_SET'); ?></option>
                                                     <option value="1"<?php echo $inheritValue === 1 ? ' selected' : ''; ?>><?php echo Text::_('COM_MODULES_INHERIT_DIRECT'); ?></option>
                                                     <option value="2"<?php echo $inheritValue === 2 ? ' selected' : ''; ?>><?php echo Text::_('COM_MODULES_INHERIT_ALL'); ?></option>
                                                 </select>
