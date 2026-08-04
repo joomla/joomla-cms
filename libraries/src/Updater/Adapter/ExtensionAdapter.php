@@ -221,7 +221,7 @@ class ExtensionAdapter extends UpdateAdapter
                             $this->latest = $this->currentUpdate;
                         }
 
-                        if (!empty($this->currentUpdate->security)) {
+                        if (isset($this->currentUpdate->security)) {
                             $this->security[] = $this->currentUpdate;
                         }
                     }
