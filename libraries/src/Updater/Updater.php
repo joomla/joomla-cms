@@ -433,7 +433,7 @@ class Updater implements DatabaseAwareInterface
      */
     private function findHighestSeverity(string $installedVersion, UpdateTable $update, array $securityUpdates): ?int
     {
-        $severity = null;
+        $severity = $update->security;
 
         /** @var \Joomla\CMS\Table\Update $securityUpdate */
         foreach ($securityUpdates as $securityUpdate) {
