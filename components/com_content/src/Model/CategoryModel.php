@@ -220,6 +220,16 @@ class CategoryModel extends ListModel
 
         // Set the featured articles state
         $this->setState('filter.featured', $params->get('show_featured'));
+
+        $authorFilteringType = (int) $params->get('list_author_filtering_type', 1);
+
+        if ($authorFilteringType === 2) {
+            $this->setState('filter.author_id', [(int) $user->id]);
+            $this->setState('filter.author_id.include', true);
+        } else {
+            $this->setState('filter.author_id', (array) $params->get('list_author', []));
+            $this->setState('filter.author_id.include', (bool) $authorFilteringType);
+        }
     }
 
     /**
@@ -259,6 +269,8 @@ class CategoryModel extends ListModel
             $model->setState('list.direction', $this->getState('list.direction'));
             $model->setState('list.filter', $this->getState('list.filter'));
             $model->setState('filter.tag', $this->getState('filter.tag'));
+            $model->setState('filter.author_id', $this->getState('filter.author_id'));
+            $model->setState('filter.author_id.include', $this->getState('filter.author_id.include', true));
 
             // Filter.subcategories indicates whether to include articles from subcategories in the list or blog
             $model->setState('filter.subcategories', $this->getState('filter.subcategories'));
@@ -348,10 +360,11 @@ class CategoryModel extends ListModel
     {
         if (!\is_object($this->_item)) {
             if (isset($this->state) && !empty($this->state->get('params'))) {
-                $params                = $this->state->get('params');
-                $options               = [];
-                $options['countItems'] = $params->get('show_cat_num_articles', 1) || !$params->get('show_empty_categories_cat', 0);
-                $options['access']     = $params->get('check_access_rights', 1);
+                $params                   = $this->state->get('params');
+                $options                  = [];
+                $options['countItems']    = $params->get('show_cat_num_articles', 1) || !$params->get('show_empty_categories_cat', 0);
+                $options['access']        = $params->get('check_access_rights', 1);
+                $options['accessOnItems'] = !$params->get('show_noauth', 0);
             } else {
                 $options['countItems'] = 0;
             }

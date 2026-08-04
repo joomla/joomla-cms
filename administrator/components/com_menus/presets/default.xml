@@ -38,14 +38,6 @@
 		/>
 
 		<menuitem
-			title="COM_CONTENT_MENUS_FEATURED"
-			type="component"
-			element="com_content"
-			link="index.php?option=com_content&amp;view=articles&amp;filter[featured]=1"
-			class="class:featured"
-		/>
-
-		<menuitem
 			title="COM_CONTENT_MENUS_WORKFLOW"
 			type="component"
 			element="com_workflow"

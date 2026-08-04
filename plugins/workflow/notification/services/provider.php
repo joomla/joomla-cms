@@ -34,7 +34,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Notification::class, function (Container $container) {
                 $plugin     = new Notification(
                     (array) PluginHelper::getPlugin('workflow', 'notification'),
                     $container->get(LanguageFactoryInterface::class)
@@ -44,7 +44,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

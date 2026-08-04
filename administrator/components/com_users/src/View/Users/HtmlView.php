@@ -99,7 +99,7 @@ class HtmlView extends BaseHtmlView
 
         // Add form control fields
         $this->filterForm
-            ->addControlField('task', '')
+            ->addControlField('task')
             ->addControlField('boxchecked', '0');
 
         $this->addToolbar();
@@ -159,6 +159,7 @@ class HtmlView extends BaseHtmlView
 
             if ($canDo->get('core.delete')) {
                 $childBar->delete('users.delete', 'JTOOLBAR_DELETE')
+                    ->icon('icon-exclamation-triangle')
                     ->message('JGLOBAL_CONFIRM_DELETE')
                     ->listCheck(true);
             }

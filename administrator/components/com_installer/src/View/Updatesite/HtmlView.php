@@ -79,7 +79,7 @@ class HtmlView extends InstallerViewDefault
 
         // Add form control fields
         $this->form
-            ->addControlField('task', '');
+            ->addControlField('task');
 
         parent::display($tpl);
     }

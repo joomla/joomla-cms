@@ -142,7 +142,6 @@ class Response
         $params = ComponentHelper::getParams('com_finder');
 
         if ($params->get('enable_logging', '0')) {
-            $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
             $options['text_file'] = 'indexer.php';
             Log::addLogger($options);
         }

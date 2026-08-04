@@ -333,7 +333,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             /*
             * If unable to find the class file in the Table include paths. Return false.
             * The warning JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND has been removed in 3.6.3.
-            * In 6.0 an Exception (type to be determined) will be thrown.
+            * in 7.0 an Exception (type to be determined) will be thrown.
             * For more info see https://github.com/joomla/joomla-cms/issues/11570
             */
 
@@ -1056,9 +1056,6 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             $filterValue = $this->$orderingFilter;
             $this->reorder($orderingFilter ? $db->quoteName($orderingFilter) . ' = ' . $db->quote($filterValue) : '');
         }
-
-        // Set the error to empty and return true.
-        $this->setError('');
 
         return true;
     }
@@ -1846,8 +1843,6 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
                 $this->$publishedField = $state;
             }
         }
-
-        $this->setError('');
 
         // Pre-processing by observers
         $event = AbstractEvent::create(

@@ -32,9 +32,10 @@ class Category extends Categories
      */
     public function __construct($options = [])
     {
-        $options['table']      = '#__contact_details';
-        $options['extension']  = 'com_contact';
-        $options['statefield'] = 'published';
+        $options['table']       = '#__contact_details';
+        $options['extension']   = 'com_contact';
+        $options['accessfield'] = 'access';
+        $options['statefield']  = 'published';
 
         parent::__construct($options);
     }

@@ -121,7 +121,7 @@ class Indexer
     public function __construct(?DatabaseInterface $db = null)
     {
         if ($db === null) {
-            @trigger_error('Database will be mandatory in 5.0.', E_USER_DEPRECATED);
+            @trigger_error('Database will be mandatory in 7.0.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
@@ -157,7 +157,7 @@ class Indexer
         }
 
         // If we couldn't load from the internal state, try the session.
-        $session = Factory::getSession();
+        $session = Factory::getApplication()->getSession();
         $data    = $session->get('_finder.state', null);
 
         // If the state is empty, load the values for the first time.
@@ -244,7 +244,7 @@ class Indexer
         static::$state = $data;
 
         // Set the new session state.
-        Factory::getSession()->set('_finder.state', $data);
+        Factory::getApplication()->getSession()->set('_finder.state', $data);
 
         return true;
     }
@@ -262,7 +262,7 @@ class Indexer
         self::$state = null;
 
         // Reset the session state to null.
-        Factory::getSession()->set('_finder.state', null);
+        Factory::getApplication()->getSession()->set('_finder.state', null);
     }
 
     /**

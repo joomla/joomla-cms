@@ -12,6 +12,8 @@ namespace Joomla\Component\Menus\Administrator\Model;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model\AfterSaveEvent;
+use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Associations;
@@ -932,7 +934,16 @@ class ItemModel extends AdminModel
 
         if (!$app->isClient('api')) {
             $parentId = $app->getUserState('com_menus.edit.item.parent_id');
-            $menuType = $app->getUserStateFromRequest('com_menus.items.menutype', 'menutype', '', 'string');
+
+            /**
+             * When editing an existing item, read menutype from request only (don't update session).
+             * When creating a new item, use getUserStateFromRequest which updates the session so that Save & Close returns to the new item's menu.
+             */
+            if ($pk) {
+                $menuType = $app->getInput()->getString('menutype', '');
+            } else {
+                $menuType = $app->getUserStateFromRequest('com_menus.items.menutype', 'menutype', '', 'string');
+            }
         } else {
             $parentId = null;
             $menuType = $app->getInput()->get('com_menus.items.menutype');
@@ -961,8 +972,8 @@ class ItemModel extends AdminModel
         // Forced client id will override/clear menuType if conflicted
         $forcedClientId = $app->getInput()->get('client_id', null, 'string');
 
-        if (!$app->isClient('api')) {
-            // Set the menu type and client id on the list view state, so we return to this menu after saving.
+        if (!$app->isClient('api') && !$pk) {
+            // Set the menu type and client id on the list view state (when creating new item), so we return to this menu after saving.
             $app->setUserState('com_menus.items.menutype', $menuType);
             $app->setUserState('com_menus.items.client_id', $clientId);
         }
@@ -1039,6 +1050,52 @@ class ItemModel extends AdminModel
         $menu = $this->getMenuType($menutype);
 
         return (int) $menu->id;
+    }
+
+    /**
+     * Gets the parent items for a given menu type.
+     *
+     * @param   string  $menutype  The menu type.
+     *
+     * @return  array  An array of menu item objects with id, title, and level properties.
+     *
+     * @since   6.2.0
+     */
+    public function getParentItems(string $menutype): array
+    {
+        $db       = $this->getDatabase();
+        $clientId = $menutype === 'main' ? 1 : 0;
+
+        if ($menutype !== 'main') {
+            $clientQuery = $db->getQuery(true)
+                ->select($db->quoteName('client_id'))
+                ->from($db->quoteName('#__menu_types'))
+                ->where($db->quoteName('menutype') . ' = :menutype')
+                ->bind(':menutype', $menutype);
+            $clientId = (int) $db->setQuery($clientQuery)->loadResult();
+        }
+
+        $query = $db->getQuery(true)
+            ->select(
+                [
+                    $db->quoteName('id'),
+                    $db->quoteName('title'),
+                    $db->quoteName('level'),
+                ]
+            )
+            ->from($db->quoteName('#__menu'))
+            ->where(
+                [
+                    $db->quoteName('menutype') . ' = :menutype',
+                    $db->quoteName('client_id') . ' = :clientId',
+                ]
+            )
+            ->whereIn($db->quoteName('published'), [0, 1], ParameterType::INTEGER)
+            ->bind(':menutype', $menutype)
+            ->bind(':clientId', $clientId, ParameterType::INTEGER)
+            ->order($db->quoteName('lft'));
+
+        return $db->setQuery($query)->loadObjectList() ?: [];
     }
 
     /**
@@ -1316,7 +1373,8 @@ class ItemModel extends AdminModel
         $context = $this->option . '.' . $this->name;
 
         // Include the plugins for the on save events.
-        PluginHelper::importPlugin($this->events_map['save']);
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin($this->events_map['save'], null, true, $dispatcher);
 
         // Load the row if saving an existing item.
         if ($pk > 0) {
@@ -1398,7 +1456,12 @@ class ItemModel extends AdminModel
         }
 
         // Trigger the before save event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew, $data]);
+        $result = $dispatcher->dispatch($this->event_before_save, new BeforeSaveEvent($this->event_before_save, [
+            'context' => $context,
+            'subject' => $table,
+            'isNew'   => $isNew,
+            'data'    => $data,
+        ]))->getArgument('result', []);
 
         // Store the data.
         if (\in_array(false, $result, true) || !$table->store()) {
@@ -1408,7 +1471,12 @@ class ItemModel extends AdminModel
         }
 
         // Trigger the after save event.
-        Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, $isNew]);
+        $dispatcher->dispatch($this->event_after_save, new AfterSaveEvent($this->event_after_save, [
+            'context' => $context,
+            'subject' => $table,
+            'isNew'   => $isNew,
+            'data'    => $data,
+        ]));
 
         // Rebuild the tree path.
         if (!$table->rebuildPath($table->id)) {

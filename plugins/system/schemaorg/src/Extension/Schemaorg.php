@@ -203,7 +203,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         $app     = $this->getApplication();
         $db      = $this->getDatabase();
 
-        if (!$app->isClient('administrator') || !$this->isSupported($context)) {
+        if (!$app->isClient('administrator') && !$app->isClient('api') || !$this->isSupported($context)) {
             return;
         }
 
@@ -435,6 +435,14 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                 $localSchema->set('isPartOf', ['@id' => $webPageId]);
 
                 $itemSchema = $localSchema->toArray();
+
+                if (!empty($itemSchema['image'])) {
+                    $url = $itemSchema['image'] ?? '';
+
+                    if (!preg_match('#^(https?:)?//#i', $url)) {
+                        $itemSchema['image'] = Uri::root() . HTMLHelper::_('cleanImageUrl', $url)->url;
+                    }
+                }
 
                 $baseSchema['@graph'][] = $itemSchema;
             }

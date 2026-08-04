@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Form;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Field\SubformField;
@@ -434,7 +435,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 
         // Detect the field type if not set
         if (!isset($this->type)) {
-            $parts = Normalise::fromCamelCase(\get_called_class(), true);
+            $parts = Normalise::fromCamelCase(static::class, true);
 
             if ($parts[0] === 'J') {
                 $this->type = StringHelper::ucfirst($parts[\count($parts) - 1], '_');
@@ -1119,7 +1120,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                     return \call_user_func(explode('::', $filter), $value);
                 }
 
-                /** @deprecated Can be removed with Joomla 6.0 since the class alias is deprecated since Joomla 7.0*/
+                /** @deprecated Can be removed with Joomla 7.0 since the class alias is deprecated since Joomla 4.0*/
                 [$class, $method] = explode('::', $filter);
                 if ($class === 'JComponentHelper') {
                     throw new \UnexpectedValueException(
@@ -1128,7 +1129,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                             \get_class($this),
                             $this->element['name'],
                             $class,
-                            '\\Joomla\\CMS\\Component\\ComponentHelper'
+                            ComponentHelper::class
                         )
                     );
                 }
@@ -1238,7 +1239,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                 try {
                     $rule->setDatabase($this->getDatabase());
                 } catch (DatabaseNotFoundException) {
-                    @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
+                    @trigger_error('Database must be set, this will not be caught anymore in 7.0.', E_USER_DEPRECATED);
                     $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
                 }
             }
@@ -1263,7 +1264,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                 try {
                     $rule->setDatabase($this->getDatabase());
                 } catch (DatabaseNotFoundException) {
-                    @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
+                    @trigger_error('Database must be set, this will not be caught anymore in 7.0.', E_USER_DEPRECATED);
                     $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
                 }
             }

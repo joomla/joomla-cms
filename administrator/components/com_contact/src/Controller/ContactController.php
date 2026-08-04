@@ -131,7 +131,6 @@ class ContactController extends FormController
             $link = 'index.php?option=com_contact&view=contact';
             $type = 'component';
 
-            $editState['id']            = $id;
             $editState['link']          = $link;
             $editState['title']         = $model->getItem($id)->name;
             $editState['type']          = $type;

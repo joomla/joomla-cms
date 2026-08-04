@@ -190,31 +190,6 @@ final class ApiApplication extends CMSApplication
     }
 
     /**
-     * Gets the name of the current template.
-     *
-     * @param   boolean  $params  True to return the template parameters
-     *
-     * @return  string|\stdClass
-     *
-     * @since   4.0.0
-     */
-    public function getTemplate($params = false)
-    {
-        // The API application should not need to use a template
-        if ($params) {
-            $template              = new \stdClass();
-            $template->template    = 'system';
-            $template->params      = new Registry();
-            $template->inheritable = 0;
-            $template->parent      = '';
-
-            return $template;
-        }
-
-        return 'system';
-    }
-
-    /**
      * Route the application.
      *
      * Routing is the process of examining the request environment to determine which
@@ -438,5 +413,30 @@ final class ApiApplication extends CMSApplication
             'onAfterDispatch',
             new AfterDispatchEvent('onAfterDispatch', ['subject' => $this])
         );
+    }
+
+    /**
+     * Gets current template data
+     *
+     * This overrides the parent to skip the template validity check to prevent InvalidArgumentException being thrown
+     * when getTemplate() is called in the API application
+     *
+     * @param   boolean  $params  An optional associative array of configuration settings
+     *
+     * @return  string|\stdClass  The name of the template if the params argument is false. The template object if the params argument is true.
+     *
+     * @since   6.1.1
+     */
+    public function getTemplate($params = false)
+    {
+        if (!\is_object($this->template)) {
+            $this->initialiseTemplate();
+        }
+
+        if ($params) {
+            return $this->template;
+        }
+
+        return $this->template->template;
     }
 }
