@@ -19,6 +19,23 @@ if ($value == '') {
     return;
 }
 
+// If "mailto" is the only allowed scheme, the stored value is a plain e-mail address (see
+// plugins/fields/url onCustomFieldsPrepareDom()). Build the mailto: link here so the scheme
+// never has to be typed by the user or shown to the visitor. Values saved before this fix may
+// still carry a manually typed "mailto:" prefix (the previously documented workaround); strip
+// it either way so old and new data render identically. See GH #37029.
+$schemes = (array) $fieldParams->get('schemes', []);
+
+if (\count($schemes) === 1 && reset($schemes) === 'mailto') {
+    $email = preg_replace('/^mailto:/i', '', $value);
+    $href  = 'mailto:' . $email;
+    $text  = $fieldParams->get('show_url', 0) ? htmlspecialchars($email) : Text::_('JVISIT_LINK');
+
+    echo sprintf('<a href="%s">%s</a>', htmlspecialchars($href), $text);
+
+    return;
+}
+
 $attributes = '';
 
 if (!Uri::isInternal($value)) {
