@@ -139,7 +139,8 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      */
     public static function getAutowireResources(): array
     {
-        return array_merge([
+        return array_merge(
+            [
             'setFormFactory' => FormFactoryInterface::class,
         ],
             parent::getAutowireResources()

@@ -29,14 +29,14 @@ use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseInterface;
+use Joomla\DI\AbstractAutowireInterface;
+use Joomla\DI\ConstructorAutowireInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Input\Input;
-use Joomla\DI\AbstractAutowireInterface;
-use Joomla\DI\ConstructorAutowireInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 

@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Access\Rules;
-use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\Checkin\AfterCheckinEvent as GlobalAfterCheckinEvent;
 use Joomla\CMS\Factory;
@@ -27,7 +26,6 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Filesystem\Path;
 use Joomla\String\StringHelper;
-use Psr\Log\LoggerAwareInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
