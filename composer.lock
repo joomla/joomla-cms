@@ -1525,12 +1525,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/di.git",
-                "reference": "ea71c29010d650978e3e5d631ba7e98acfef9aca"
+                "reference": "2c288422aa4999ab128ff414838383eda3a00f72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/di/zipball/ea71c29010d650978e3e5d631ba7e98acfef9aca",
-                "reference": "ea71c29010d650978e3e5d631ba7e98acfef9aca",
+                "url": "https://api.github.com/repos/joomla-framework/di/zipball/2c288422aa4999ab128ff414838383eda3a00f72",
+                "reference": "2c288422aa4999ab128ff414838383eda3a00f72",
                 "shasum": ""
             },
             "require": {
@@ -1572,7 +1572,7 @@
                 "issues": "https://github.com/joomla-framework/di/issues",
                 "source": "https://github.com/joomla-framework/di/tree/4.x/autowire"
             },
-            "time": "2026-08-03T16:17:53+00:00"
+            "time": "2026-08-04T14:53:28+00:00"
         },
         {
             "name": "joomla/event",
