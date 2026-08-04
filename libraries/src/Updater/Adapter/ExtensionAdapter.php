@@ -268,7 +268,7 @@ class ExtensionAdapter extends UpdateAdapter
      *
      * @param   array  $options  Update options.
      *
-     * @return  array|boolean  Array containing the array of update sites and array of updates. False on failure
+     * @return  array|boolean  Array containing the array of update sites, an array of updates and an array of security updates. False on failure
      *
      * @since   1.7.0
      */
