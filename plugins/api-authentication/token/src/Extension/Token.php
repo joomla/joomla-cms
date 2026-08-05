@@ -188,6 +188,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
 
         // An empty secret! What kind of monster are you?!
         if (empty($siteSecret)) {
+                \Joomla\CMS\Log\Log::add('No site secret configured in configuration.php.', \Joomla\CMS\Log\Log::ERROR, 'security');
             return;
         }
 
