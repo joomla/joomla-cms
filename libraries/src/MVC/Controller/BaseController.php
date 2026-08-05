@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Document\DocumentAwareInterface;
 use Joomla\CMS\Factory;
@@ -211,9 +212,9 @@ class BaseController implements
     public static function getAutowireResources(): array
     {
         return [
-            'setDispatcher'             => DispatcherAwareInterface::class,
-            'setLogger'                 => LoggerAwareInterface::class,
-            'setCacheControllerFactory' => CacheControllerFactoryAwareInterface::class,
+            'setDispatcher'             => DispatcherInterface::class,
+            'setLogger'                 => LoggerInterface::class,
+            'setCacheControllerFactory' => CacheControllerFactoryInterface::class,
         ];
     }
 
