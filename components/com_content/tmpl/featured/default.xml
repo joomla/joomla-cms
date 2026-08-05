@@ -251,6 +251,7 @@
 				>
 				<option value="0">COM_CONTENT_FIELD_OPTION_FIELDS_POSITION_END</option>
 				<option value="1">COM_CONTENT_FIELD_OPTION_FIELDS_POSITION_AFTER_TEXT</option>
+				<option value="-1">COM_CONTENT_FIELD_OPTION_FIELDS_POSITION_NONE</option>
 			</field>
 
 			<field
