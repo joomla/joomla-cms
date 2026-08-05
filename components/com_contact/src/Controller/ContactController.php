@@ -12,7 +12,6 @@ namespace Joomla\Component\Contact\Site\Controller;
 
 use Joomla\CMS\Event\Contact\SubmitContactEvent;
 use Joomla\CMS\Event\Contact\ValidateContactEvent;
-use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\LanguageFactoryAwareInterface;
 use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\LanguageFactoryInterface;
@@ -82,8 +81,8 @@ class ContactController extends FormController implements UserFactoryAwareInterf
     {
         return array_merge(
             [
-                'setUserFactory' => UserFactoryInterface::class,
-                'setMailerFactory' => MailerFactoryInterface::class,
+                'setUserFactory'     => UserFactoryInterface::class,
+                'setMailerFactory'   => MailerFactoryInterface::class,
                 'setLanguageFactory' => LanguageFactoryInterface::class,
             ],
             parent::getAutowireResources()
