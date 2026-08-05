@@ -51,7 +51,7 @@ final class Url extends FieldsPlugin implements SubscriberInterface
         // value or resolve it as a path relative to the site root. See GH #37029.
         $schemes = (array) $field->fieldparams->get('schemes', []);
 
-        if (\count($schemes) === 1 && reset($schemes) === 'mailto') {
+        if (\count($schemes) === 1 && \in_array('mailto', $schemes, true)) {
             $fieldNode->setAttribute('validate', 'email');
             $fieldNode->setAttribute('filter', 'raw');
         } else {
