@@ -23,14 +23,14 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 /** @var \Joomla\Component\Content\Site\View\Article\HtmlView $this */
 // Create shortcuts to some parameters.
-$params    = $this->item->params;
-$canEdit   = $params->get('access-edit');
-$user      = $this->getCurrentUser();
-$info      = $params->get('info_block_position', 0);
-$htag      = $this->params->get('show_page_heading') ? 'h2' : 'h1';
+$params  = $this->item->params;
+$canEdit = $params->get('access-edit');
+$user    = $this->getCurrentUser();
+$info    = $params->get('info_block_position', 0);
+$htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 
 // Position of fields (0 = end of content, 1 = after text, -1 = no fields display)
-$afterText = (int) $params->get('content_fields_position', 0);
+$afterText = (int) $params->get('article_fields_position', 0);
 
 // Check if associations are implemented. If they are, define the parameter.
 $assocParam        = (Associations::isEnabled() && $params->get('show_associations'));

@@ -73,7 +73,7 @@
 			</field>
 
 			<field
-				name="content_fields_position"
+				name="article_fields_position"
 				type="list"
 				label="COM_CONTENT_FIELD_FIELDS_POSITION_LABEL"
 				useglobal="true"

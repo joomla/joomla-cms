@@ -26,7 +26,7 @@ $canEdit = $this->item->params->get('access-edit');
 $info    = $this->item->params->get('info_block_position', 0);
 
 // Position of fields 
-$afterText = (int) $params->get('content_fields_position', 0);
+$afterText = (int) $params->get('blog_fields_position', 0);
 
 // Check if associations are implemented. If they are, define the parameter.
 $assocParam = (Associations::isEnabled() && $params->get('show_associations'));

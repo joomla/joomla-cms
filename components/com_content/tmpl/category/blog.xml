@@ -442,7 +442,7 @@
 			</field>
 
 			<field
-				name="content_fields_position"
+				name="blog_fields_position"
 				type="list"
 				label="COM_CONTENT_FIELD_FIELDS_POSITION_LABEL"
 				useglobal="true"
@@ -450,6 +450,7 @@
 				>
 				<option value="0">COM_CONTENT_FIELD_OPTION_FIELDS_POSITION_END</option>
 				<option value="1">COM_CONTENT_FIELD_OPTION_FIELDS_POSITION_AFTER_TEXT</option>
+				<option value="-1">JHIDE</option>
 			</field>
 
 			<field
