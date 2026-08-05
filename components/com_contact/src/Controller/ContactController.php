@@ -12,13 +12,16 @@ namespace Joomla\Component\Contact\Site\Controller;
 
 use Joomla\CMS\Event\Contact\SubmitContactEvent;
 use Joomla\CMS\Event\Contact\ValidateContactEvent;
+use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\LanguageFactoryAwareInterface;
 use Joomla\CMS\Language\LanguageFactoryAwareTrait;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Mail\MailerFactoryAwareInterface;
 use Joomla\CMS\Mail\MailerFactoryAwareTrait;
+use Joomla\CMS\Mail\MailerFactoryInterface;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -27,6 +30,7 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\DI\AbstractAutowireInterface;
@@ -66,6 +70,25 @@ class ContactController extends FormController implements UserFactoryAwareInterf
      * @since  4.0.0
      */
     protected $view_list = 'categories';
+
+    /**
+     * Get the list of resources that can be autowired into the class.
+     *
+     * @return array List of resources
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getAutowireResources(): array
+    {
+        return array_merge(
+            [
+                'setUserFactory' => UserFactoryInterface::class,
+                'setMailerFactory' => MailerFactoryInterface::class,
+                'setLanguageFactory' => LanguageFactoryInterface::class,
+            ],
+            parent::getAutowireResources()
+        );
+    }
 
     /**
      * Method to get a model object, loading it if required.
