@@ -12,6 +12,8 @@ namespace Joomla\CMS\MVC\Model;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
+use Joomla\DI\AbstractAutowireInterface;
+use Joomla\DI\AbstractAutowireSetterAwareTrait;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -24,8 +26,9 @@ use Joomla\Filesystem\Path;
  * @since  4.0.0
  */
 #[\AllowDynamicProperties]
-abstract class BaseModel implements ModelInterface, StatefulModelInterface
+abstract class BaseModel implements ModelInterface, StatefulModelInterface, AbstractAutowireInterface
 {
+    use AbstractAutowireSetterAwareTrait;
     use StateBehaviorTrait;
     use LegacyModelLoaderTrait;
     use LegacyErrorHandlingTrait;

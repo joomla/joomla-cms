@@ -29,6 +29,8 @@ use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\DI\AbstractAutowireInterface;
+use Joomla\DI\AbstractAutowireSetterAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
@@ -55,8 +57,10 @@ class BaseController implements
     ControllerInterface,
     DispatcherAwareInterface,
     LoggerAwareInterface,
-    CacheControllerFactoryAwareInterface
+    CacheControllerFactoryAwareInterface,
+    AbstractAutowireInterface
 {
+    use AbstractAutowireSetterAwareTrait;
     use LoggerAwareTrait;
     use DispatcherAwareTrait;
     use CacheControllerFactoryAwareTrait;

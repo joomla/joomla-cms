@@ -18,6 +18,8 @@ use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
+use Joomla\DI\AbstractAutowireInterface;
+use Joomla\DI\AbstractAutowireSetterAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
@@ -35,8 +37,9 @@ use Joomla\Event\EventInterface;
  * @since  2.5.5
  */
 #[\AllowDynamicProperties]
-abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, DocumentAwareInterface, LanguageAwareInterface
+abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, DocumentAwareInterface, LanguageAwareInterface, AbstractAutowireInterface
 {
+    use AbstractAutowireSetterAwareTrait;
     use DispatcherAwareTrait;
     use LanguageAwareTrait;
     use LegacyErrorHandlingTrait;
