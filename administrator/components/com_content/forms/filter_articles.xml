@@ -66,7 +66,7 @@
         >
             <option value="">JOPTION_CATEGORY_MATCH_ALL</option>
             <option value="1">JOPTION_CATEGORY_MATCH_PRIMARY</option>
-            <option value="2">JOPTION_CATEGORY_MATCH_SECONDARY</option>
+            <option value="2">JOPTION_CATEGORY_MATCH_ADDITIONAL</option>
         </field>
 
 		<field

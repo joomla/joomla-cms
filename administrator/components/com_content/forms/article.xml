@@ -70,8 +70,8 @@
 			name="secondary_categories"
 			type="categorymultiple"
 			primarycategoryfield="catid"
-            label="JSECONDARY_CATEGORIES"
-			description="COM_CONTENT_FIELD_SECONDARY_CATEGORIES_DESC"
+            label="JADDITIONAL_CATEGORIES"
+			description="COM_CONTENT_FIELD_ADDITIONAL_CATEGORIES_DESC"
 			multiple="true"
 			extension="com_content"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
@@ -380,28 +380,6 @@
 					name="link_category"
 					type="list"
 					label="JGLOBAL_LINK_CATEGORY_LABEL"
-					useglobal="true"
-					validate="options"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="show_secondary_categories"
-					type="list"
-					label="JGLOBAL_SHOW_SECONDARY_CATEGORIES_LABEL"
-					useglobal="true"
-					validate="options"
-					>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
-				</field>
-
-				<field
-					name="link_secondary_categories"
-					type="list"
-					label="JGLOBAL_LINK_SECONDARY_CATEGORIES_LABEL"
 					useglobal="true"
 					validate="options"
 					>

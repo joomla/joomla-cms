@@ -44,10 +44,6 @@ $blockPosition = $displayData['params']->get('info_block_position', 0);
             <?php echo $this->sublayout('category', $displayData); ?>
         <?php endif; ?>
 
-        <?php if ($displayData['params']->get('show_secondary_categories')) :?>
-            <?php echo $this->sublayout('secondary_categories', $displayData); ?>
-        <?php endif; ?>
-
         <?php if ($displayData['params']->get('show_associations')) : ?>
             <?php echo $this->sublayout('associations', $displayData); ?>
         <?php endif; ?>

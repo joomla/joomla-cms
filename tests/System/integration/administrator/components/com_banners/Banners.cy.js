@@ -22,6 +22,12 @@ describe('Test in backend that the banners list', () => {
     cy.contains('Banners: New');
   });
 
+  it('shows category match filter options', () => {
+    cy.get('#filter_category_match').should('contain.text', '- Select Category Match -');
+    cy.get('#filter_category_match').should('contain.text', 'Main Category');
+    cy.get('#filter_category_match').should('contain.text', 'Additional Categories');
+  });
+
   it('can publish the test banner', () => {
     cy.db_createBanner({ name: 'Test banner', state: 0 }).then(() => {
       cy.reload();

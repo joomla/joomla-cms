@@ -22,6 +22,12 @@ describe('Test in backend that the contacts list', () => {
     cy.contains('Contacts: New');
   });
 
+  it('shows category match filter options', () => {
+    cy.get('#filter_category_match').should('contain.text', '- Select Category Match -');
+    cy.get('#filter_category_match').should('contain.text', 'Main Category');
+    cy.get('#filter_category_match').should('contain.text', 'Additional Categories');
+  });
+
   it('can publish the test contact', () => {
     cy.db_createContact({ name: 'Test contact', published: 0 }).then(() => {
       cy.reload();

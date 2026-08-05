@@ -22,6 +22,12 @@ describe('Test in backend that the newsfeeds list', () => {
     cy.contains('News Feeds: New');
   });
 
+  it('shows category match filter options', () => {
+    cy.get('#filter_category_match').should('contain.text', '- Select Category Match -');
+    cy.get('#filter_category_match').should('contain.text', 'Main Category');
+    cy.get('#filter_category_match').should('contain.text', 'Additional Categories');
+  });
+
   it('can publish the test newsfeed', () => {
     cy.db_createNewsFeed({ name: 'Test newsfeed', link: 'https://newsfeedtesturl', published: 0 }).then(() => {
       cy.reload();

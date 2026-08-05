@@ -22,6 +22,12 @@ describe('Test in backend that the articles list', () => {
     cy.contains('Articles: New');
   });
 
+  it('shows category match filter options', () => {
+    cy.get('#filter_category_match').should('contain.text', '- Select Category Match -');
+    cy.get('#filter_category_match').should('contain.text', 'Main Category');
+    cy.get('#filter_category_match').should('contain.text', 'Additional Categories');
+  });
+
   it('can publish the test article', () => {
     cy.db_createArticle({ title: 'Test article', state: 0 }).then(() => {
       cy.reload();

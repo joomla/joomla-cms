@@ -148,8 +148,8 @@ if ($saveOrder && !empty($this->items)) {
                                             <div class="small">
                                                 <?php
                                                 echo Text::_(count($item->secondary_categories) > 1
-                                                        ? 'JSECONDARY_CATEGORIES'
-                                                        : 'JSECONDARY_CATEGORY') . ': ';
+                                                        ? 'JADDITIONAL_CATEGORIES'
+                                                        : 'JADDITIONAL_CATEGORY') . ': ';
                                                 ?>
 
                                                 <?php foreach ($item->secondary_categories as $index => $category) :

@@ -110,7 +110,7 @@
 			name="secondary_categories"
 			type="categorymultiple"
 			primarycategoryfield="catid"
-            label="JSECONDARY_CATEGORIES"
+            label="JADDITIONAL_CATEGORIES"
 			multiple="true"
 			extension="com_content"
 		/>

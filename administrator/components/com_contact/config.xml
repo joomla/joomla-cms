@@ -561,7 +561,7 @@
 		<field
 			name="include_secondary_categories"
 			type="radio"
-			label="JGLOBAL_INCLUDE_SECONDARY_CATEGORIES_LABEL"
+			label="JGLOBAL_INCLUDE_ADDITIONAL_CATEGORIES_LABEL"
 			default="1"
 			layout="joomla.form.field.radio.switcher"
 			>

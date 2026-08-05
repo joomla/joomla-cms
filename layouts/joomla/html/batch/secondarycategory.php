@@ -24,8 +24,8 @@ extract($displayData);
 
 // Create the add/remove secondary category options.
 $options = [
-    HTMLHelper::_('select.option', 'a', Text::_('JLIB_HTML_BATCH_SECONDARY_CATEGORY_ADD')),
-    HTMLHelper::_('select.option', 'r', Text::_('JLIB_HTML_BATCH_SECONDARY_CATEGORY_REMOVE')),
+    HTMLHelper::_('select.option', 'a', Text::_('JLIB_HTML_BATCH_ADDITIONAL_CATEGORY_ADD')),
+    HTMLHelper::_('select.option', 'r', Text::_('JLIB_HTML_BATCH_ADDITIONAL_CATEGORY_REMOVE')),
 ];
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -37,18 +37,18 @@ $categoryOptions = HTMLHelper::_('category.options', $extension, ['filter.publis
 
 ?>
 <label id="batch-secondary-category-choose-action-lbl" for="batch-secondary-category-id">
-    <?php echo Text::_('JLIB_HTML_BATCH_SECONDARY_CATEGORY_LABEL'); ?>
+    <?php echo Text::_('JLIB_HTML_BATCH_ADDITIONAL_CATEGORY_LABEL'); ?>
 </label>
 <div id="batch-secondary-category-choose-action" class="control-group">
     <select name="batch[secondary_category]" class="form-select" id="batch-secondary-category-id">
-        <option value=""><?php echo Text::_('JLIB_HTML_BATCH_SECONDARY_CATEGORY_NOCHANGE'); ?></option>
+        <option value=""><?php echo Text::_('JLIB_HTML_BATCH_ADDITIONAL_CATEGORY_NOCHANGE'); ?></option>
         <?php echo HTMLHelper::_('select.options', $categoryOptions); ?>
     </select>
 </div>
 <div id="batch-secondary-category-addremove" class="control-group radio">
     <fieldset id="batch-secondary-category-addremove-id">
         <legend>
-            <?php echo Text::_('JLIB_HTML_BATCH_SECONDARY_CATEGORY_ADDREMOVE_QUESTION'); ?>
+            <?php echo Text::_('JLIB_HTML_BATCH_ADDITIONAL_CATEGORY_ADDREMOVE_QUESTION'); ?>
         </legend>
         <?php echo HTMLHelper::_('select.radiolist', $options, 'batch[secondary_category_addremove]', '', 'value', 'text', 'a'); ?>
     </fieldset>
