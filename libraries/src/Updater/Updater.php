@@ -438,7 +438,7 @@ class Updater implements DatabaseAwareInterface
         /** @var \Joomla\CMS\Table\Update $securityUpdate */
         foreach ($securityUpdates as $securityUpdate) {
             if (version_compare($securityUpdate->version, $installedVersion, '>') && $update->security < $securityUpdate->security) {
-                $severity = (int)$securityUpdate->security;
+                $severity = (int) $securityUpdate->security;
             }
         }
 
