@@ -1,0 +1,13 @@
+--
+-- Add article_display_position and blog_display_position param to com_content
+--
+
+UPDATE `#__extensions`
+SET `params` = jsonb_set(
+    jsonb_set("params"::jsonb,
+    '{article_display_position}', '0', true),
+    '{blog_display_position}', '0', true)
+WHERE "element" = 'com_content'
+  AND `type` = 'component'
+  AND `params`::jsonb->>'article_display_position' IS NULL
+  AND `params`::jsonb->>'blog_display_position' IS NULL;
