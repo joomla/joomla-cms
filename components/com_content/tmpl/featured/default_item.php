@@ -22,7 +22,7 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 /** @var \Joomla\Component\Content\Site\View\Featured\HtmlView $this */
 // Create a shortcut for params.
 $params  = &$this->item->params;
-$canEdit = $this->item->params->get('access-edit');
+$canEdit = $params->get('access-edit');
 $info    = $this->item->params->get('info_block_position', 0);
 
 // Position of fields

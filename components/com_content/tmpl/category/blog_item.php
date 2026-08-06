@@ -21,7 +21,7 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 /** @var \Joomla\Component\Content\Site\View\Category\HtmlView $this */
 // Create a shortcut for params.
 $params  = $this->item->params;
-$canEdit = $this->item->params->get('access-edit');
+$canEdit = $params->get('access-edit');
 $info    = $params->get('info_block_position', 0);
 
 // Position of fields (0 = end of content, 1 = after text, -1 = hide fields)
