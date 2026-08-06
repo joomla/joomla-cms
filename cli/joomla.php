@@ -38,7 +38,7 @@ if (!\defined('_JDEFINES')) {
 if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT . '/media/vendor')) {
     echo 'It looks like you are trying to run Joomla! from our git repository.' . PHP_EOL;
     echo 'To do so requires you complete a couple of extra steps first.' . PHP_EOL;
-    echo 'Please see https://docs.joomla.org/Special:MyLanguage/J5.x:Setting_Up_Your_Local_Environment for further details.' . PHP_EOL;
+    echo 'Please see https://guide.joomla.org/user-manual/hosting/local-environment-setup for further details.' . PHP_EOL;
 
     exit;
 }
@@ -49,6 +49,8 @@ if (
     || (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10)
 ) {
     echo 'Install Joomla to run cli commands' . PHP_EOL;
+    echo 'To install Joomla from the cli run the following command:' . PHP_EOL;
+    echo 'php installation/joomla.php install' . PHP_EOL;
 
     exit;
 }

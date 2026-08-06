@@ -119,7 +119,7 @@ class HtmlView extends BaseHtmlView
 
         // Add form control fields
         $this->filterForm
-            ->addControlField('task', '')
+            ->addControlField('task')
             ->addControlField('boxchecked', '0');
 
         $this->addToolbar();
@@ -143,6 +143,9 @@ class HtmlView extends BaseHtmlView
         // Requests can only be created if mail sending is enabled
         if (Factory::getApplication()->get('mailonline', 1)) {
             $toolbar->addNew('request.add');
+        } else {
+            // Display a message if mail is not enabled
+            Factory::getApplication()->enqueueMessage(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'), 'error');
         }
 
         $toolbar->preferences('com_privacy');

@@ -78,7 +78,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
 
         // Add form control fields
         $this->form
-            ->addControlField('task', '');
+            ->addControlField('task');
 
         parent::display($tpl);
         $this->addToolbar();

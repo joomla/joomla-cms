@@ -31,14 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Fields::class, function (Container $container) {
                 $plugin     = new Fields(
                     (array) PluginHelper::getPlugin('editors-xtd', 'fields')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

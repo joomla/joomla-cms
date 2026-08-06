@@ -210,12 +210,12 @@ class ApiController extends BaseController
 
         if (\array_key_exists('offset', $paginationInfo)) {
             $offset = $paginationInfo['offset'];
-            $this->modelState->set($this->context . '.limitstart', $offset);
+            $this->modelState->set($this->context . '.limitstart', (int) $offset);
         }
 
         if (\array_key_exists('limit', $paginationInfo)) {
             $limit = $paginationInfo['limit'];
-            $this->modelState->set($this->context . '.list.limit', $limit);
+            $this->modelState->set($this->context . '.list.limit', (int) $limit);
         }
 
         $viewType   = $this->app->getDocument()->getType();
@@ -246,8 +246,25 @@ class ApiController extends BaseController
         // Push the model into the view (as default)
         $view->setModel($model, true);
 
+        /**
+         * Check the currently set order values in the modelstate against the valid filters
+         */
+        if (
+            $this->modelState->get('list.ordering')
+            && !$model->isValidFilterColumn($this->modelState->get('list.ordering'))
+        ) {
+            $model->setState('list.ordering', null);
+        }
+
+        if (
+            $this->modelState->get('list.direction')
+            && !\in_array(strtolower($this->modelState->get('list.direction')), ['asc', 'desc'], true)
+        ) {
+            $model->setState('list.direction', 'asc');
+        }
+
         if ($offset) {
-            $model->setState('list.start', $offset);
+            $model->setState('list.start', (int) $offset);
         }
 
         /**
@@ -255,7 +272,7 @@ class ApiController extends BaseController
          * the last page of data. If there isn't a limit start then set
          */
         if ($limit) {
-            $model->setState('list.limit', $limit);
+            $model->setState('list.limit', (int) $limit);
         } else {
             $model->setState('list.limit', $this->itemsPerPage);
         }
@@ -319,9 +336,22 @@ class ApiController extends BaseController
                 ];
                 echo new JsonResponse($body);
                 $this->app->close();
-            } else {
-                throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_DELETE'), 500);
             }
+        }
+
+        // If the model has set a 404 status code in the session, we return a 404 http status codee
+        if ($this->app->getSession()->get('http_status_code_404', false)) {
+            $this->app->getSession()->clear('http_status_code_404');
+            $this->app->setHeader('status', 404, true);
+            $this->app->setHeader('Content-Type', 'application/json');
+            $this->app->sendHeaders();
+            $body = [
+                'status'  => 'not found',
+                'code'    => 404,
+                'message' => 'Resource not found',
+            ];
+            echo new JsonResponse($body);
+            $this->app->close();
         }
 
         $this->app->setHeader('status', 204);

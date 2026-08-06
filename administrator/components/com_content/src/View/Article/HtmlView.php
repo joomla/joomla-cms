@@ -112,7 +112,7 @@ class HtmlView extends FormView
 
         // Add form control fields
         $this->form
-            ->addControlField('task', '')
+            ->addControlField('task')
             ->addControlField('return', $input->getBase64('return', ''))
             ->addControlField('forcedLanguage', $forcedLanguage);
     }
@@ -128,6 +128,9 @@ class HtmlView extends FormView
      */
     protected function addToolbar()
     {
+        if ($this->getLayout() === 'pagebreak') {
+            return;
+        }
         if ($this->getLayout() === 'modal') {
             $this->addModalToolbar();
 

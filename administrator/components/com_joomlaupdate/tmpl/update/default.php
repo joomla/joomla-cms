@@ -45,7 +45,7 @@ Text::script('JLIB_SIZE_YB');
 $password = Factory::getApplication()->getUserState('com_joomlaupdate.password', null);
 $filesize = Factory::getApplication()->getUserState('com_joomlaupdate.filesize', null);
 $ajaxUrl = Uri::base() . 'components/com_joomlaupdate/extract.php';
-$returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise&' . Factory::getSession()->getFormToken() . '=1';
+$returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise&' . Factory::getApplication()->getSession()->getFormToken() . '=1';
 
 $this->getDocument()->addScriptOptions(
     'joomlaupdate',

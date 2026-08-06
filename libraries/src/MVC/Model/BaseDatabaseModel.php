@@ -98,14 +98,14 @@ abstract class BaseDatabaseModel extends BaseModel implements
         }
 
         /**
-         * @deprecated  4.3 will be Removed in 6.0
+         * @deprecated  4.3 will be Removed in 7.0
          *              Database instance is injected through the setter function,
          *              subclasses should not use the db instance in constructor anymore
          */
         $db = \array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo();
 
         if ($db) {
-            @trigger_error('Database is not available in constructor in 6.0.', E_USER_DEPRECATED);
+            @trigger_error('Database is not available in constructor in 7.0.', E_USER_DEPRECATED);
             $this->setDatabase($db);
 
             // Is needed, when models use the deprecated MVC DatabaseAwareTrait, as the trait is overriding the local functions
@@ -394,7 +394,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   4.2.0
      * @throws  \UnexpectedValueException
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use getDatabase() instead
      *              Example: $model->getDatabase();
      */
@@ -416,7 +416,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      *
      * @since   4.2.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use setDatabase() instead
      *              Example: $model->setDatabase($db);
      */
@@ -438,7 +438,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      *
      * @since   4.2.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use getDatabase() instead of directly accessing _db
      */
     public function __get($name)

@@ -26,7 +26,7 @@ use Joomla\Filesystem\Path;
  *
  * @since       4.0.0
  *
- * @deprecated  4.3 will be removed in 6.0
+ * @deprecated  4.3 will be removed in 7.0
  *              Will be removed without replacement
  */
 trait LegacyModelLoaderTrait
@@ -41,7 +41,7 @@ trait LegacyModelLoaderTrait
      *
      * @since       3.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Will be removed without replacement
      */
     protected static function _createFileName($type, $parts = [])
@@ -60,7 +60,7 @@ trait LegacyModelLoaderTrait
      *
      * @since       3.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Will be removed without replacement. Get the model through the MVCFactory instead
      *              Example: Factory::getApplication()->bootComponent('com_xxx')->getMVCFactory()->createModel($type, $prefix, $config);
      */
@@ -114,7 +114,7 @@ trait LegacyModelLoaderTrait
      *
      * @since       3.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Will be removed without replacement. Get the model through the MVCFactory instead
      */
     public static function addTablePath($path)
@@ -133,7 +133,7 @@ trait LegacyModelLoaderTrait
      *
      * @since       4.0.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Will be removed without replacement
      */
     private static function createModelFromComponent($type, $prefix = '', $config = []): ?ModelInterface

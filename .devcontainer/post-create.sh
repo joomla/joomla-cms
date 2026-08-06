@@ -54,12 +54,21 @@ echo "✅ Joomla installed."
 echo "--> Applying development settings..."
 # Enable debug mode and maximum error reporting for easier troubleshooting.
 php cli/joomla.php config:set error_reporting=maximum
+# Configure mail settings for Mailpit
+php cli/joomla.php config:set mailer=smtp
+php cli/joomla.php config:set smtphost=mailpit
+php cli/joomla.php config:set smtpport=1025
+php cli/joomla.php config:set smtpauth=0
+php cli/joomla.php config:set smtpsecure=none
 echo "✅ Development settings applied."
 
 # --- 5. Install and Configure phpMyAdmin ---
 PMA_ROOT="${JOOMLA_ROOT}/phpmyadmin"
 echo "--> Downloading phpMyAdmin into $PMA_ROOT..."
-PMA_VERSION=5.2.2
+# Get the latest version
+PMA_VERSION=$(curl -s https://api.github.com/repos/phpmyadmin/phpmyadmin/releases/latest | grep '"tag_name":' | sed -E 's/.*"RELEASE_([^"]+)".*/\1/' | tr '_' '.')
+
+echo "The current version is: $PMA_VERSION"
 mkdir -p $PMA_ROOT
 curl -o /tmp/phpmyadmin.tar.gz https://files.phpmyadmin.net/phpMyAdmin/${PMA_VERSION}/phpMyAdmin-${PMA_VERSION}-all-languages.tar.gz
 tar xf /tmp/phpmyadmin.tar.gz --strip-components=1 -C $PMA_ROOT
@@ -147,6 +156,10 @@ DETAILS_FILE="${JOOMLA_ROOT}/codespace-details.txt"
     echo "  URL: Open the 'Web Server' port and add /phpmyadmin"
     echo "  Username: $DB_USER"
     echo "  Password: $DB_PASS"
+    echo ""
+    echo "Mailpit (Email Testing):"
+    echo "  URL: Open the 'Ports' tab, find 'Mailpit Web UI' (8025), and click the Globe icon"
+    echo "  All emails sent by Joomla will appear here for testing"
     echo ""
     echo "Cypress E2E Testing:"
     echo "  Run interactive tests: npx cypress open"

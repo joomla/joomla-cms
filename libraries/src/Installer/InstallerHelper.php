@@ -21,6 +21,7 @@ use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 use Joomla\Http\HttpFactory;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -85,8 +86,12 @@ abstract class InstallerHelper
         $url     = $event->getArgument('url', $url);
         $headers = $event->getArgument('headers', $headers);
 
+        $options = new Registry();
+        $options->set('userAgent', $version->getUserAgent('Joomla', true, false));
+
+        // Get the file
         try {
-            $response = (new HttpFactory())->getHttp()->get($url, $headers);
+            $response = (new HttpFactory())->getHttp($options)->get($url, $headers);
         } catch (\RuntimeException $exception) {
             Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), Log::WARNING, 'jerror');
 
@@ -352,7 +357,7 @@ abstract class InstallerHelper
         foreach ($hashes as $hash) {
             if ($updateObject->get($hash, false)) {
                 $hashPackage = hash_file($hash, $packagefile);
-                $hashRemote  = $updateObject->$hash->_data;
+                $hashRemote  = trim($updateObject->$hash->_data);
                 $hashOnFile  = true;
 
                 if ($hashPackage !== strtolower($hashRemote)) {

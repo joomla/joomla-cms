@@ -1,6 +1,43 @@
 {
   "settings": {
     "vendors": {
+      "altcha": {
+        "name": "altcha",
+        "js": {
+          "dist_external/altcha.js": "js/altcha.js",
+          "dist_external/worker.js": "js/worker.js"
+        },
+        "css": {
+          "dist_external/altcha.css": "css/altcha.css"
+        },
+        "provideAssets": [
+          {
+            "name": "altcha",
+            "type": "script",
+            "uri": "altcha.js",
+            "attributes": {
+              "defer": true,
+              "async": true,
+              "type": "module"
+            }
+          },
+          {
+            "name": "altcha",
+            "type": "style",
+            "uri": "altcha.css"
+          },
+          {
+            "name": "altcha",
+            "type": "preset",
+            "dependencies": [
+              "altcha#script",
+              "altcha#style"
+            ]
+          }
+        ],
+        "dependencies": [],
+        "licenseFilename": "LICENSE.txt"
+      },
       "awesomplete": {
         "name": "awesomplete",
         "js": {
@@ -383,8 +420,8 @@
       "@fortawesome/fontawesome-free": {
         "name": "fontawesome-free",
         "css": {
-          "css/fontawesome.css": "css/fontawesome.css",
-          "css/fontawesome.min.css": "css/fontawesome.min.css"
+          "css/all.css": "css/fontawesome.css",
+          "css/all.min.css": "css/fontawesome.min.css"
         },
         "filesExtra": {
           "scss": "scss",
@@ -607,7 +644,7 @@
       },
       "tinymce": {
         "name": "tinymce",
-        "licenseFilename": "license.txt"
+        "licenseFilename": "license.md"
       },
       "accessibility": {
         "name": "accessibility",

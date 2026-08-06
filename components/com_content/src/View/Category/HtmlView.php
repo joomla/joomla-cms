@@ -11,6 +11,10 @@
 namespace Joomla\Component\Content\Site\View\Category;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Event\Content\AfterDisplayEvent;
+use Joomla\CMS\Event\Content\AfterTitleEvent;
+use Joomla\CMS\Event\Content\BeforeDisplayEvent;
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\CategoryView;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -73,6 +77,14 @@ class HtmlView extends CategoryView
      */
     public function display($tpl = null)
     {
+        /**
+         * Pass the current layout to the model so it can apply special handling for the
+         * blog layout. In the blog layout, if the total number of articles (leading +
+         * intro + links) is 0, we skip loading any articles to avoid the performance
+         * cost of loading all records when the limit is 0.
+         */
+        $this->getModel()->setState('view.layout', $this->getLayout());
+
         $this->commonCategoryDisplay();
 
         // Flag indicates to not add limitstart=0 to URL
@@ -86,7 +98,8 @@ class HtmlView extends CategoryView
         $numLinks   = $params->def('num_links', 4);
         $this->vote = PluginHelper::isEnabled('content', 'vote');
 
-        PluginHelper::importPlugin('content');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
         $app     = Factory::getApplication();
 
@@ -121,19 +134,32 @@ class HtmlView extends CategoryView
                 $item->text = $item->introtext;
             }
 
-            $app->triggerEvent('onContentPrepare', ['com_content.category', &$item, &$item->params, 0]);
+            $contentEventArguments = [
+                'context' => 'com_content.category',
+                'subject' => $item,
+                'params'  => $item->params,
+                'page'    => 0,
+            ];
+
+            $dispatcher->dispatch(
+                'onContentPrepare',
+                new ContentPrepareEvent('onContentPrepare', $contentEventArguments)
+            );
 
             // Old plugins: Use processed text as introtext
             $item->introtext = $item->text;
 
-            $results                        = $app->triggerEvent('onContentAfterTitle', ['com_content.category', &$item, &$item->params, 0]);
-            $item->event->afterDisplayTitle = trim(implode("\n", $results));
+            $contentEvents = [
+                'afterDisplayTitle'    => new AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
+                'beforeDisplayContent' => new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
+                'afterDisplayContent'  => new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
+            ];
 
-            $results                           = $app->triggerEvent('onContentBeforeDisplay', ['com_content.category', &$item, &$item->params, 0]);
-            $item->event->beforeDisplayContent = trim(implode("\n", $results));
+            foreach ($contentEvents as $resultKey => $event) {
+                $results = $dispatcher->dispatch($event->getName(), $event)->getArgument('result', []);
 
-            $results                          = $app->triggerEvent('onContentAfterDisplay', ['com_content.category', &$item, &$item->params, 0]);
-            $item->event->afterDisplayContent = trim(implode("\n", $results));
+                $item->event->{$resultKey} = trim(implode("\n", $results));
+            }
         }
 
         // For blog layouts, preprocess the breakdown of leading, intro and linked articles.

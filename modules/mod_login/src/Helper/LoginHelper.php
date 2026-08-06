@@ -41,19 +41,23 @@ class LoginHelper
      */
     public function getReturnUrlString(Registry $params, $type, CMSApplicationInterface $app): string
     {
-        $item = $app->getMenu()->getItem($params->get($type));
-
         // Stay on the same page
         $url = Uri::getInstance()->toString();
 
-        if ($item) {
-            $lang = '';
+        $returnMenuId = $params->get($type, 0);
 
-            if ($item->language !== '*' && Multilanguage::isEnabled()) {
-                $lang = '&lang=' . $item->language;
+        if ($returnMenuId > 0) {
+            $item = $app->getMenu()->getItem($returnMenuId);
+
+            if ($item) {
+                $lang = '';
+
+                if ($item->language !== '*' && Multilanguage::isEnabled()) {
+                    $lang = '&lang=' . $item->language;
+                }
+
+                $url = 'index.php?Itemid=' . $item->id . $lang;
             }
-
-            $url = 'index.php?Itemid=' . $item->id . $lang;
         }
 
         return base64_encode($url);

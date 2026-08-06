@@ -55,7 +55,7 @@ class Category extends Nested implements TaggableTableInterface, CurrentUserInte
     public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         /**
-         * @deprecated  4.0 will be removed in 6.0
+         * @deprecated  4.0 will be removed in 7.0
          *              This format was used by tags and versioning before 4.0 before
          *              the introduction of the getTypeAlias function.
          */

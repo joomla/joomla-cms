@@ -31,14 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(EmailCloak::class, function (Container $container) {
                 $plugin     = new EmailCloak(
                     (array) PluginHelper::getPlugin('content', 'emailcloak')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

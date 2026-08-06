@@ -61,10 +61,12 @@ trait DisplayTrait
         $csrf            = Session::getFormToken();
 
         // Editor variables
+        $defaultWidth    = $this->params->get('html_width', '100%');
+        $defaultHeight   = $this->params->get('html_height', '550px');
         $col             = $attributes['col'] ?? '';
         $row             = $attributes['row'] ?? '';
-        $width           = $attributes['width'] ?? '';
-        $height          = $attributes['height'] ?? '';
+        $width           = ($attributes['width'] ?? '') ?: $defaultWidth;
+        $height          = ($attributes['height'] ?? '') ?: $defaultHeight;
         $id              = $attributes['id'] ?? $name;
         $id              = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
         $nameGroup       = explode('[', preg_replace('/\[\]|\]/', '', $name));
@@ -102,13 +104,13 @@ trait DisplayTrait
             $options['tinyMCE'][$fieldName] = [];
         }
 
-        // Width and height
+        // Add editor Width and height to options if not already set
         if ($width && empty($options['tinyMCE'][$fieldName]['width'])) {
-            $options['tinyMCE'][$fieldName]['width'] = $width;
+            $options['tinyMCE'][$fieldName]['width'] = $textarea->width;
         }
 
         if ($height && empty($options['tinyMCE'][$fieldName]['height'])) {
-            $options['tinyMCE'][$fieldName]['height'] = $height;
+            $options['tinyMCE'][$fieldName]['height'] = $textarea->height;
         }
 
         // Set editor to readonly mode
@@ -218,7 +220,7 @@ trait DisplayTrait
         $ignore_filter = false;
 
         // Text filtering
-        if ($levelParams->get('use_config_textfilters', 0)) {
+        if ($levelParams->get('use_config_textfilters', 1)) {
             // Use filters from com_config
             $filter            = static::getGlobalFilters($user);
             $ignore_filter     = $filter === false;
@@ -255,8 +257,20 @@ trait DisplayTrait
             'importcss',
             'quickbars',
             'jxtdbuttons',
+            'jfilepicker',
         ];
         $wa->useScript('plg_editors_tinymce.jxtdbuttons');
+        $wa->useScript('plg_editors_tinymce.jfilepicker');
+
+        // The link picker for the native Link dialog (registers the 'file' picker)
+        $wa->useStyle('plg_editors_tinymce.linkpicker');
+        $wa->useScript('plg_editors_tinymce.linkpicker');
+
+        // UI strings for the link picker
+        Text::script('PLG_TINY_LINK_PICKER_TITLE');
+        Text::script('PLG_TINY_LINK_MEDIA');
+        Text::script('JSELECT');
+        Text::script('JCLOSE');
 
         // Allowed elements
         $elements = [
@@ -395,6 +409,20 @@ trait DisplayTrait
                 . $levelParams->get('content_template_path') . '&' . $csrf . '=1';
         }
 
+        // Load the abbreviation plugin?
+        if (!empty($allButtons['abbr'])) {
+            $wa->useScript('plg_editors_tinymce.abbr');
+            $plugins[] = 'abbr';
+            Text::script('PLG_TINY_ABBREVIATION_DESCRIPTION_LABEL');
+            Text::script('PLG_TINY_ABBREVIATION_EDIT');
+            Text::script('PLG_TINY_ABBREVIATION_INSERT');
+            Text::script('PLG_TINY_ABBREVIATION_WARNING_NO_DESCRIPTION');
+            Text::script('PLG_TINY_ABBREVIATION_WARNING_NO_SELECTION');
+            Text::script('PLG_TINY_ABBREVIATION_WARNING_REMOVE');
+            Text::script('PLG_TINY_TOOLBAR_BUTTON_ABBREVIATION');
+            Text::script('PLG_TINY_TOOLBAR_BUTTON_REMOVE_ABBREVIATION');
+        }
+
         // User custom plugins and buttons
         $custom_plugin = trim($levelParams->get('custom_plugin', ''));
         $custom_button = trim($levelParams->get('custom_button', ''));
@@ -516,8 +544,8 @@ trait DisplayTrait
                 'document_base_url' => Uri::root(true) . '/',
                 'image_caption'     => true,
                 'importcss_append'  => true,
-                'height'            => $this->params->get('html_height', '550px'),
-                'width'             => $this->params->get('html_width', ''),
+                'height'            => $defaultHeight,
+                'width'             => $defaultWidth,
                 'elementpath'       => (bool) $levelParams->get('element_path', true),
                 'resize'            => $resizing,
                 'external_plugins'  => empty($externalPlugins) ? null : $externalPlugins,

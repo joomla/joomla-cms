@@ -304,8 +304,6 @@ class ExtensionAdapter extends UpdateAdapter
             return false;
         }
 
-        xml_parser_free($this->xmlParser);
-
         if (isset($this->latest)) {
             if (isset($this->latest->client) && \strlen($this->latest->client)) {
                 /**

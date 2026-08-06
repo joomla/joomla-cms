@@ -10,9 +10,13 @@
 
 namespace Joomla\Plugin\System\TaskNotification\Extension;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\UserGroupsHelper;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
@@ -44,6 +48,8 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * The task notification form. This form is merged into the task item form by {@see
@@ -125,7 +131,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
     {
         /** @var Task $task */
         $task = $event->getArgument('subject');
-        $data = $this->getDataFromTask($event->getArgument('subject'));
+        $data = $this->getDataFromTask($task);
         $this->saveLog($data);
 
         if (!(int) $task->get('params.notifications.failure_mail', 1)) {
@@ -134,10 +140,10 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         // Load translations
         $this->loadLanguage();
-        $groups = $task->get('params.notifications.notification_failure_groups');
+        $groups = $task->get('params.notifications.notification_failure_groups', []);
 
         // @todo safety checks, multiple files [?]
-        $outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
+        $outFile = $task->getContent()['output_file'] ?? '';
         $this->sendMail('plg_system_tasknotification.failure_mail', $data, $outFile, $groups);
     }
 
@@ -164,9 +170,9 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         // Load translations
         $this->loadLanguage();
-        $groups = $task->get('params.notifications.notification_orphan_groups');
+        $groups = $task->get('params.notifications.notification_orphan_groups', []);
 
-        $data = $this->getDataFromTask($event->getArgument('subject'));
+        $data = $this->getDataFromTask($task);
         $this->sendMail('plg_system_tasknotification.orphan_mail', $data, '', $groups);
     }
 
@@ -184,7 +190,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
     {
         /** @var Task $task */
         $task = $event->getArgument('subject');
-        $data = $this->getDataFromTask($event->getArgument('subject'));
+        $data = $this->getDataFromTask($task);
         $this->saveLog($data);
 
         if (!(int) $task->get('params.notifications.success_mail', 0)) {
@@ -193,10 +199,10 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         // Load translations
         $this->loadLanguage();
-        $groups = $task->get('params.notifications.notification_success_groups');
+        $groups = $task->get('params.notifications.notification_success_groups', []);
 
         // @todo safety checks, multiple files [?]
-        $outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
+        $outFile = $task->getContent()['output_file'] ?? '';
         $this->sendMail('plg_system_tasknotification.success_mail', $data, $outFile, $groups);
     }
 
@@ -241,9 +247,9 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         // Load translations
         $this->loadLanguage();
-        $groups = $task->get('params.notifications.notification_fatal_groups');
+        $groups = $task->get('params.notifications.notification_fatal_groups', []);
 
-        $data = $this->getDataFromTask($event->getArgument('subject'));
+        $data = $this->getDataFromTask($task);
         $this->sendMail('plg_system_tasknotification.fatal_recovery_mail', $data, '', $groups);
     }
 
@@ -266,7 +272,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
             'EXEC_DATE_TIME' => $lockOrExecTime,
             'TASK_OUTPUT'    => $task->getContent()['output_body'] ?? '',
             'TASK_TIMES'     => $task->get('times_executed'),
-            'TASK_DURATION'  => $task->getContent()['duration'],
+            'TASK_DURATION'  => $task->getContent()['duration'] ?? 0,
         ];
     }
 
@@ -283,6 +289,18 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
      */
     private function sendMail(string $template, array $data, string $attachment = '', array $groups = []): void
     {
+        // If no user groups configured, fallback to Super Users user group
+        if (empty($groups)) {
+            $usergroups = UserGroupsHelper::getInstance()->getAll();
+
+            // Find groups with core.admin (Super User) right
+            foreach ($usergroups as $group) {
+                if (Access::checkGroup($group->id, 'core.admin')) {
+                    $groups[] = $group->id;
+                }
+            }
+        }
+
         $app = $this->getApplication();
         $db  = $this->getDatabase();
 
@@ -315,7 +333,12 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         // Mail all matching users.
         foreach ($users as $user) {
             try {
-                $mailer = new MailTemplate($template, $app->getLanguage()->getTag());
+                $mailer = new MailTemplate(
+                    $template,
+                    $app->getLanguage()->getTag(),
+                    $this->getMailerFactory()->createMailer(),
+                    $this->getLanguageFactory()
+                );
                 $mailer->addTemplateData($data);
                 $mailer->addRecipient($user->email);
 
@@ -356,7 +379,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         $obj           = new \stdClass();
         $obj->tasktype = SchedulerHelper::getTaskOptions()->findOption($taskInfo->type)->title ?? '';
         $obj->taskname = $data['TASK_TITLE'];
-        $obj->duration = $data['TASK_DURATION'] ?? 0;
+        $obj->duration = $data['TASK_DURATION'];
         $obj->jobid    = $data['TASK_ID'];
         $obj->exitcode = $data['EXIT_CODE'];
         $obj->taskid   = $data['TASK_TIMES'];

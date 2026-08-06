@@ -94,7 +94,7 @@ class HtmlView extends FormView
 
         // Add form control fields
         $this->form
-            ->addControlField('task', '')
+            ->addControlField('task')
             ->addControlField('forcedLanguage', $forcedLanguage);
     }
 

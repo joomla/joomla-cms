@@ -78,7 +78,8 @@ final class DeleteActionLogs extends CMSPlugin implements SubscriberInterface
     private function deleteLogs(ExecuteTaskEvent $event): int
     {
         $daysToDeleteAfter = (int) $event->getArgument('params')->logDeletePeriod ?? 0;
-        $this->logTask(\sprintf('Delete Logs after %d days', $daysToDeleteAfter));
+        $this->logTask(\sprintf($this->getApplication()->getLanguage()->_('PLG_TASK_DELETEACTIONLOGS_LOG_DELETE_AFTER'), $daysToDeleteAfter));
+
         $now               = Factory::getDate()->toSql();
         $db                = $this->getDatabase();
         $query             = $db->createQuery();
@@ -100,7 +101,7 @@ final class DeleteActionLogs extends CMSPlugin implements SubscriberInterface
             }
         }
 
-        $this->logTask('Delete Logs end');
+        $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_DELETEACTIONLOGS_LOG_DELETE_END'), 'info');
 
         return Status::OK;
     }

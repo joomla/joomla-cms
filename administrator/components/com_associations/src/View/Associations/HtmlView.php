@@ -137,7 +137,7 @@ class HtmlView extends BaseHtmlView
 
         // Add form control fields
         $this->filterForm
-            ->addControlField('task', '');
+            ->addControlField('task');
 
         if (!Associations::isEnabled()) {
             $link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . AssociationsHelper::getLanguagefilterPluginId());

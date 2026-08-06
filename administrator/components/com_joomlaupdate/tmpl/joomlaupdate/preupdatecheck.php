@@ -30,17 +30,16 @@ $wa->useScript('core')
 $this->getDocument()->addScriptOptions('nonCoreCriticalPlugins', $this->nonCoreCriticalPlugins);
 
 // Push Joomla! Update client-side error messages
-Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIRM_MESSAGE');
-Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
-Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
-Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR');
-Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIRM_MESSAGE');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_DESC');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_LIST');
-Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIRM_MESSAGE');
-Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP');
 
 // Push Joomla! core Joomla.Request error messages
 Text::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
@@ -161,7 +160,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                         </thead>
                         <tbody>
                         <?php foreach ($this->phpOptions as $option) : ?>
-                            <tr>
+                            <tr<?php echo ($option->state ? '' : ' class="border-3 border-danger"'); ?>>
                                 <th scope="row">
                                     <?php echo $option->label; ?>
                                     <?php if ($option->notice) : ?>
@@ -171,9 +170,11 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                                     <?php endif; ?>
                                 </th>
                                 <td>
-                                    <span class="badge bg-<?php echo $option->state ? 'success' : 'danger'; ?>">
-                                        <?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
-                                    </span>
+                                    <?php if ($option->state) : ?>
+                                        <span class="badge text-bg-success"><span class="icon-checkmark" aria-hidden="true"></span><?php echo Text::_('JOK'); ?></span>
+                                    <?php else : ?>
+                                        <span class="badge text-bg-danger"><span class="icon-cancel" aria-hidden="true"></span><?php echo Text::_('COM_JOOMLAUPDATE_ACTION_REQUIRED'); ?></span>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

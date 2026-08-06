@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Table\Category;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -223,6 +224,16 @@ class CategoryModel extends ListModel
 
         // Set the featured articles state
         $this->setState('filter.featured', $params->get('show_featured'));
+
+        $authorFilteringType = (int) $params->get('list_author_filtering_type', 1);
+
+        if ($authorFilteringType === 2) {
+            $this->setState('filter.author_id', [(int) $user->id]);
+            $this->setState('filter.author_id.include', true);
+        } else {
+            $this->setState('filter.author_id', (array) $params->get('list_author', []));
+            $this->setState('filter.author_id.include', (bool) $authorFilteringType);
+        }
     }
 
     /**
@@ -237,6 +248,17 @@ class CategoryModel extends ListModel
         $limit = $this->getState('list.limit');
 
         if ($this->_articles === null && $category = $this->getCategory()) {
+            /**
+             * Special case for blog layout with limit 0 - don't load articles for performance reasons. We also need to
+             * create an empty pagination object to avoid fatal errors in the view.
+             */
+            if ($limit == 0 && $this->getState('view.layout') === 'blog') {
+                $this->_articles   = [];
+                $this->_pagination = new Pagination(0, 0, 0);
+
+                return $this->_articles;
+            }
+
             $model = $this->bootComponent('com_content')->getMVCFactory()
                 ->createModel('Articles', 'Site', ['ignore_request' => true]);
             $model->setState('params', Factory::getApplication()->getParams());
@@ -251,6 +273,8 @@ class CategoryModel extends ListModel
             $model->setState('list.direction', $this->getState('list.direction'));
             $model->setState('list.filter', $this->getState('list.filter'));
             $model->setState('filter.tag', $this->getState('filter.tag'));
+            $model->setState('filter.author_id', $this->getState('filter.author_id'));
+            $model->setState('filter.author_id.include', $this->getState('filter.author_id.include', true));
 
             // Filter.subcategories indicates whether to include articles from subcategories in the list or blog
             $model->setState('filter.subcategories', $this->getState('filter.subcategories'));
@@ -339,11 +363,12 @@ class CategoryModel extends ListModel
     public function getCategory()
     {
         if (!\is_object($this->_item)) {
-            if (!empty($this->state->get('params'))) {
-                $params                = $this->state->get('params');
-                $options               = [];
-                $options['countItems'] = $params->get('show_cat_num_articles', 1) || !$params->get('show_empty_categories_cat', 0);
-                $options['access']     = $params->get('check_access_rights', 1);
+            if (isset($this->state) && !empty($this->state->get('params'))) {
+                $params                   = $this->state->get('params');
+                $options                  = [];
+                $options['countItems']    = $params->get('show_cat_num_articles', 1) || !$params->get('show_empty_categories_cat', 0);
+                $options['access']        = $params->get('check_access_rights', 1);
+                $options['accessOnItems'] = !$params->get('show_noauth', 0);
             } else {
                 $options['countItems'] = 0;
             }

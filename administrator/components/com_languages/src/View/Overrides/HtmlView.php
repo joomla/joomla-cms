@@ -11,6 +11,7 @@
 namespace Joomla\Component\Languages\Administrator\View\Overrides;
 
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -60,6 +61,22 @@ class HtmlView extends BaseHtmlView
     protected $languages;
 
     /**
+     * Holds overrides indexed by language tag.
+     *
+     * @var    array
+     * @since  6.1.0
+     */
+    protected $languageOverrides;
+
+    /**
+     * Holds content languages data keyed by language tag.
+     *
+     * @var    array
+     * @since  6.1.0
+     */
+    protected $contentLanguages;
+
+    /**
      * Form object for search filters
      *
      * @var  \Joomla\CMS\Form\Form
@@ -88,15 +105,18 @@ class HtmlView extends BaseHtmlView
         $model = $this->getModel();
         $model->setUseExceptions(true);
 
-        $this->state         = $model->getState();
-        $this->items         = $model->getOverrides();
-        $this->pagination    = $model->getPagination();
-        $this->filterForm    = $model->getFilterForm();
-        $this->activeFilters = $model->getActiveFilters();
+        $this->state             = $model->getState();
+        $this->items             = $model->getOverrides();
+        $this->pagination        = $model->getPagination();
+        $this->filterForm        = $model->getFilterForm();
+        $this->activeFilters     = $model->getActiveFilters();
+        $this->languages         = $model->getLanguages();
+        $this->languageOverrides = $model->getLanguageOverrides();
+        $this->contentLanguages  = LanguageHelper::getLanguages('lang_code');
 
         // Add form control fields
         $this->filterForm
-            ->addControlField('task', '')
+            ->addControlField('task')
             ->addControlField('boxchecked', '0');
 
         $this->addToolbar();

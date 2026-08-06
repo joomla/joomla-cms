@@ -153,7 +153,7 @@ class TaskModel extends AdminModel
      * @param   array  $data      Data that needs to go into the form
      * @param   bool   $loadData  Should the form load its data from the DB?
      *
-     * @return Form|boolean  A Form object on success, false on failure.
+     * @return Form  A Form object
      *
      * @since  4.1.0
      * @throws \Exception
@@ -168,10 +168,6 @@ class TaskModel extends AdminModel
          *  $form->bind($data).
          */
         $form = $this->loadForm('com_scheduler.task', 'task', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         $user = $this->app->getIdentity();
 
@@ -418,11 +414,17 @@ class TaskModel extends AdminModel
      */
     private function hasRunningTasks($db): bool
     {
+        $now       = Factory::getDate('now', 'UTC');
+        $timeout   = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
+        $threshold = (clone $now)->modify("-$timeout seconds")->toSql();
+
         $lockCountQuery = $db->createQuery()
             ->select('COUNT(id)')
             ->from($db->quoteName(self::TASK_TABLE))
             ->where($db->quoteName('locked') . ' IS NOT NULL')
-            ->where($db->quoteName('state') . ' = 1');
+            ->where($db->quoteName('locked') . ' > :threshold')
+            ->where($db->quoteName('state') . ' = 1')
+            ->bind(':threshold', $threshold);
 
         try {
             $runningCount = $db->setQuery($lockCountQuery)->loadResult();
@@ -614,7 +616,12 @@ class TaskModel extends AdminModel
             $data['last_execution'] = Factory::getDate('now', 'UTC')->format('Y-m')
                 . "-$basisDayOfMonth $basisHour:$basisMinute:00";
         } else {
-            $data['last_execution'] = $this->getItem($id)->last_execution;
+            $item = $this->getItem($id);
+
+            $data['last_execution'] = $item->last_execution;
+
+            // Prevent changing the task type when editing an existing task.
+            $data['type'] = $item->type;
         }
 
         // Build the `cron_rules` column from `execution_rules`

@@ -548,11 +548,14 @@ class Update
      */
     public function loadFromTuf(TufMetadata $metadataTable, string $url, $minimumStability = Updater::STABILITY_STABLE, $channel = null)
     {
+        $options = new Registry();
+        $options->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
+
         $tufFetcher = new TufFetcher(
             $metadataTable,
             $url,
             Factory::getContainer()->get(DatabaseDriver::class),
-            (new HttpFactory())->getHttp(),
+            (new HttpFactory())->getHttp($options),
             Factory::getApplication(),
         );
 
@@ -691,8 +694,6 @@ class Update
 
             return false;
         }
-
-        xml_parser_free($this->xmlParser);
 
         return true;
     }

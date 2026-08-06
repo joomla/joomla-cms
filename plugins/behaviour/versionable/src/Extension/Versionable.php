@@ -15,7 +15,6 @@ use Joomla\CMS\Event\Table\AfterStoreEvent;
 use Joomla\CMS\Event\Table\BeforeDeleteEvent;
 use Joomla\CMS\Helper\CMSHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\CMS\Versioning\Versioning;
 use Joomla\Event\SubscriberInterface;
@@ -107,24 +106,14 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
 
         $result = $event['result'];
 
-        $typeAlias               = $table->getTypeAlias();
-        [$component, $modelName] = explode('.', $typeAlias);
-
-        $model = $this->getApplication()->bootComponent($component)->getMVCFactory()->createModel($modelName, 'Administrator');
-
-        if ($model instanceof VersionableModelInterface) {
-            return;
-        }
-
         if (!$result) {
             return;
         }
 
-        if (!(\is_object($table))) {
-            return;
-        }
+        $typeAlias = $table->getTypeAlias();
+        $component = strtok($typeAlias, '.');
 
-        // Get the Tags helper and assign the parsed alias
+        // Do not store version if version history is not enabled for the component
         if ($component === '' || !ComponentHelper::getParams($component)->get('save_history', 0)) {
             return;
         }
