@@ -50,6 +50,33 @@
       ]
     },
     {
+      "name": "plg_editors_tinymce.jfilepicker",
+      "type": "script",
+      "uri": "plg_editors_tinymce/plugins/filepicker/plugin.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "tinymce"
+      ]
+    },
+    {
+      "name": "plg_editors_tinymce.linkpicker",
+      "type": "style",
+      "uri": "plg_editors_tinymce/linkpicker.min.css"
+    },
+    {
+      "name": "plg_editors_tinymce.linkpicker",
+      "type": "script",
+      "uri": "plg_editors_tinymce/linkpicker.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "joomla.dialog"
+      ]
+    },
+    {
       "name": "plg_editors_tinymce.jtemplate",
       "type": "script",
       "uri": "plg_editors_tinymce/plugins/jtemplate/plugin.min.js",

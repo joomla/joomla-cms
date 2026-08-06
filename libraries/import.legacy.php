@@ -9,7 +9,7 @@
  */
 
 trigger_error(
-    sprintf(
+    \sprintf(
         'Bootstrapping Joomla using the %1$s file is deprecated.  Use %2$s instead.',
         __FILE__,
         __DIR__ . '/bootstrap.php'
@@ -20,12 +20,12 @@ trigger_error(
 // Detect the native operating system type.
 $os = strtoupper(substr(PHP_OS, 0, 3));
 
-if (!defined('IS_WIN')) {
-    define('IS_WIN', $os === 'WIN');
+if (!\defined('IS_WIN')) {
+    \define('IS_WIN', $os === 'WIN');
 }
 
-if (!defined('IS_UNIX')) {
-    define('IS_UNIX', $os !== 'MAC' && $os !== 'WIN');
+if (!\defined('IS_UNIX')) {
+    \define('IS_UNIX', $os !== 'MAC' && $os !== 'WIN');
 }
 
 // Import the library loader if necessary.
