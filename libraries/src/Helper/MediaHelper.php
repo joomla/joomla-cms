@@ -517,7 +517,7 @@ class MediaHelper
             }
         }
 
-        if ($isValid === false || \count($svgErrors) > 0) {
+        if ($isValid === false || \count($svgErrors)) {
             if ($shouldLogErrors) {
                 $messages = [];
 
