@@ -375,19 +375,27 @@ class ArticlesHelper implements DatabaseAwareInterface
                 $item->displayDate = HTMLHelper::_('date', $item->$show_date_field, $show_date_format);
             }
 
-            if ($show_category) {
-                $item->displayCategoryTitle = $item->category_title;
-            }
-
-            if ($show_category_link) {
-                $item->displayCategoryLink = Route::_(RouteHelper::getCategoryRoute($item->catid, $item->category_language));
-            }
+            $item->displayCategories = [];
 
             $item->displayAuthorName    = $show_author ? $item->author : '';
             $item->displayCategoryTitle = $show_category ? $item->category_title : '';
-            $item->displayCategoryLink  = $show_category_link ? $item->displayCategoryLink : '';
+            $item->displayCategoryLink  = $show_category_link ? Route::_(RouteHelper::getCategoryRoute($item->catid, $item->category_language)) : '';
             $item->displayDate          = $show_date ? $item->displayDate : '';
             $item->displayHits          = $show_hits ? $item->hits : '';
+
+            if ($show_category) {
+                $item->displayCategories[] = [
+                    'title' => $item->category_title,
+                    'link'  => $show_category_link ? Route::_(RouteHelper::getCategoryRoute($item->catid, $item->category_language)) : '',
+                ];
+
+                foreach (($item->secondary_categories ?? []) as $category) {
+                    $item->displayCategories[] = [
+                        'title' => $category->title,
+                        'link'  => $show_category_link ? Route::_(RouteHelper::getCategoryRoute($category->id, $category->language)) : '',
+                    ];
+                }
+            }
 
             if ($show_introtext) {
                 $item->displayIntrotext = HTMLHelper::_('content.prepare', $item->introtext, '', 'mod_articles.content');
