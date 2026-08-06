@@ -291,24 +291,17 @@ class ArticleModel extends ItemModel
                 $data->params = clone $this->getState('params');
                 $globalParams = ComponentHelper::getParams('com_content', true);
 
-                $menuParamsArray = $this->getState('params')->toArray();
-                $articleArray    = [];
-
-                foreach ($menuParamsArray as $key => $value) {
+                /**
+                 * For menu item parameters set to use_article, we will take value from article option and fallback
+                 * to global value if the article option set to Use Global
+                 */
+                foreach ($data->params->toArray() as $key => $value) {
                     if ($value === 'use_article') {
-                        if ($registry->get($key) != '') {
-                            // Article has an explicit value, use it
-                            $articleArray[$key] = $registry->get($key);
-                        } else {
-                            // Article is "Use Global", fall back to global component param
-                            $articleArray[$key] = $globalParams->get($key);
-                        }
+                        $data->params->set($key, $registry->get($key, $globalParams->get($key)));
                     }
                 }
 
-                if (\count($articleArray)) {
-                    $data->params->merge(new Registry($articleArray));
-                }
+                $data->params->merge($registry);
 
                 $data->metadata = new Registry($data->metadata);
 
