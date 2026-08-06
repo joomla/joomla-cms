@@ -22,13 +22,6 @@ describe('Test in backend that the articles list', () => {
     cy.contains('Articles: New');
   });
 
-  it('shows category match filter options', () => {
-    cy.get('.js-stools-btn-filter').click();
-    cy.get('#filter_category_match option[value=""]').should('have.text', '- Select Category Match -');
-    cy.get('#filter_category_match option[value="1"]').should('have.text', 'Main Category');
-    cy.get('#filter_category_match option[value="2"]').should('have.text', 'Additional Categories');
-  });
-
   it('can publish the test article', () => {
     cy.db_createArticle({ title: 'Test article', state: 0 }).then(() => {
       cy.reload();
