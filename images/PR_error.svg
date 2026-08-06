@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 815 735" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g id="ArtBoard2" transform="matrix(1,0,0,1,-135,458)">
+        <rect x="135" y="-458" width="815" height="735" style="fill:none;"/>
+        <g id="Test-Group">
+            <g transform="matrix(1,0,0,1,165.354331,-435.425197)">
+                <rect x="-9.291" y="8.709" width="349.291" height="313.291" style="fill:rgb(206,187,187);"/>
+            </g>
+            <g transform="matrix(1,0,0,1,0,-515)">
+                <circle cx="583.244" cy="497.465" r="252.535" style="fill:rgb(195,187,206);"/>
+            </g>
+        </g>
+    </g>
+</svg>
