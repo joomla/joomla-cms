@@ -52,6 +52,17 @@
 		</field>
 
 		<field
+			name="article_fields_position"
+			type="list"
+			label="COM_CONTENT_FIELD_FIELDS_POSITION_LABEL"
+			default="0"
+			validate="options"
+			>
+			<option value="0">COM_CONTENT_FIELD_OPTION_FIELDS_POSITION_END</option>
+			<option value="1">COM_CONTENT_FIELD_OPTION_FIELDS_POSITION_AFTER_TEXT</option>
+		</field>
+
+		<field
 			name="info_block_position"
 			type="list"
 			label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
@@ -815,6 +826,17 @@
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+		</field>
+		<field
+			name="blog_fields_position"
+			type="list"
+			label="COM_CONTENT_FIELD_FIELDS_POSITION_LABEL"
+			default="0"
+			validate="options"
+			>
+			<option value="0">COM_CONTENT_FIELD_OPTION_FIELDS_POSITION_END</option>
+			<option value="1">COM_CONTENT_FIELD_OPTION_FIELDS_POSITION_AFTER_TEXT</option>
+			<option value="-1">JHIDE</option>
 		</field>
 	</fieldset>
 	<fieldset
