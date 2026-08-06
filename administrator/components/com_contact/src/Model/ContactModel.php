@@ -139,8 +139,7 @@ class ContactModel extends AdminModel implements VersionableModelInterface
                 'data'    => $fieldsData,
             ]
         );
-        $app = Factory::getApplication();
-        $app->getDispatcher()->dispatch('onContentAfterSave', $event);
+        $this->getDispatcher()->dispatch('onContentAfterSave', $event);
     }
 
     /**

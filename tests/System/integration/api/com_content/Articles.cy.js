@@ -315,8 +315,8 @@ describe('Test that content API endpoint', () => {
           metadesc: '',
           metadata: '',
           com_fields: {
-            'test-article-secondary-field': 'This is article field data!'
-          }
+            'test-article-secondary-field': 'This is article field data!',
+          },
         });
       })
       .then((response) => {

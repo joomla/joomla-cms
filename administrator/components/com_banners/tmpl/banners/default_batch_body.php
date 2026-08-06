@@ -42,7 +42,7 @@ $published = (int) $this->state->get('filter.published');
                     <?php echo LayoutHelper::render('joomla.html.batch.item', ['extension' => 'com_banners']); ?>
                 </div>
             </div>
-            <?php endif; ?>
+        <?php endif; ?>
         <div class="form-group col-md-6">
             <div class="controls">
                 <?php echo LayoutHelper::render('joomla.html.batch.secondarycategory', ['extension' => 'com_banners']); ?>
