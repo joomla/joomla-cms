@@ -1095,6 +1095,12 @@ class JoomlaInstallerScript
             // From 6.1.1 to 6.1.2
             '/libraries/vendor/algo26-matthias/idna-convert/Dockerfile',
             '/libraries/vendor/algo26-matthias/idna-convert/compose.yml',
+            // From 6.1.2 to 6.1.3
+            '/administrator/manifests/files/filepatcher.xml',
+            '/filepatcher.php',
+            '/filepatcher.xml',
+            '/LICENSE',
+            '/README.md',
         ];
 
         $folders = [
