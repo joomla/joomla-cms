@@ -575,7 +575,7 @@ class TagModel extends AdminModel implements VersionableModelInterface
             $table->alias    = $alias;
 
             // Unpublish because we are making a copy
-            $this->table->published = 0;
+            $table->published = 0;
 
             // Check the row.
             if (!$table->check()) {
