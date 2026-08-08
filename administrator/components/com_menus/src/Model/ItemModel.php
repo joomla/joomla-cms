@@ -935,7 +935,16 @@ class ItemModel extends AdminModel
 
         if (!$app->isClient('api')) {
             $parentId = $app->getUserState('com_menus.edit.item.parent_id');
-            $menuType = $app->getUserStateFromRequest('com_menus.items.menutype', 'menutype', '', 'string');
+
+            /**
+             * When editing an existing item, read menutype from request only (don't update session).
+             * When creating a new item, use getUserStateFromRequest which updates the session so that Save & Close returns to the new item's menu.
+             */
+            if ($pk) {
+                $menuType = $app->getInput()->getString('menutype', '');
+            } else {
+                $menuType = $app->getUserStateFromRequest('com_menus.items.menutype', 'menutype', '', 'string');
+            }
         } else {
             $parentId = null;
             $menuType = $app->getInput()->get('com_menus.items.menutype');
@@ -964,8 +973,8 @@ class ItemModel extends AdminModel
         // Forced client id will override/clear menuType if conflicted
         $forcedClientId = $app->getInput()->get('client_id', null, 'string');
 
-        if (!$app->isClient('api')) {
-            // Set the menu type and client id on the list view state, so we return to this menu after saving.
+        if (!$app->isClient('api') && !$pk) {
+            // Set the menu type and client id on the list view state (when creating new item), so we return to this menu after saving.
             $app->setUserState('com_menus.items.menutype', $menuType);
             $app->setUserState('com_menus.items.client_id', $clientId);
         }
@@ -1042,6 +1051,52 @@ class ItemModel extends AdminModel
         $menu = $this->getMenuType($menutype);
 
         return (int) $menu->id;
+    }
+
+    /**
+     * Gets the parent items for a given menu type.
+     *
+     * @param   string  $menutype  The menu type.
+     *
+     * @return  array  An array of menu item objects with id, title, and level properties.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getParentItems(string $menutype): array
+    {
+        $db       = $this->getDatabase();
+        $clientId = $menutype === 'main' ? 1 : 0;
+
+        if ($menutype !== 'main') {
+            $clientQuery = $db->getQuery(true)
+                ->select($db->quoteName('client_id'))
+                ->from($db->quoteName('#__menu_types'))
+                ->where($db->quoteName('menutype') . ' = :menutype')
+                ->bind(':menutype', $menutype);
+            $clientId = (int) $db->setQuery($clientQuery)->loadResult();
+        }
+
+        $query = $db->getQuery(true)
+            ->select(
+                [
+                    $db->quoteName('id'),
+                    $db->quoteName('title'),
+                    $db->quoteName('level'),
+                ]
+            )
+            ->from($db->quoteName('#__menu'))
+            ->where(
+                [
+                    $db->quoteName('menutype') . ' = :menutype',
+                    $db->quoteName('client_id') . ' = :clientId',
+                ]
+            )
+            ->whereIn($db->quoteName('published'), [0, 1], ParameterType::INTEGER)
+            ->bind(':menutype', $menutype)
+            ->bind(':clientId', $clientId, ParameterType::INTEGER)
+            ->order($db->quoteName('lft'));
+
+        return $db->setQuery($query)->loadObjectList() ?: [];
     }
 
     /**
