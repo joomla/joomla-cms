@@ -773,7 +773,7 @@
 					part.options.add(new Option(self.strings.am, "am", pm ? '' : selAttr, pm ? '' : selAttr));
 					AP = part;
 
-          // AM/PM change handler — apply the same RTL swap as H/M
+					// AM/PM change handler — apply the same RTL swap as H/M
 					AP.addEventListener("change", function (event) {
 						var c = event.target.parentNode.parentNode.childNodes;
 						if (self.params.direction === 'rtl') {
