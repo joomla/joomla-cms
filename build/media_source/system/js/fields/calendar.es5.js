@@ -774,14 +774,14 @@
 					AP = part;
 
           // AM/PM change handler — apply the same RTL swap as H/M
-          AP.addEventListener("change", function (event) {
-              var c = event.target.parentNode.parentNode.childNodes;
-              if (self.params.direction === 'rtl') {
-                  self.updateTime(c[2].childNodes[0].value, c[1].childNodes[0].value, c[3].childNodes[0].value);
-              } else {
-                  self.updateTime(c[1].childNodes[0].value, c[2].childNodes[0].value, c[3].childNodes[0].value);
-              }
-          }, false);
+					AP.addEventListener("change", function (event) {
+						var c = event.target.parentNode.parentNode.childNodes;
+						if (self.params.direction === 'rtl') {
+							self.updateTime(c[2].childNodes[0].value, c[1].childNodes[0].value, c[3].childNodes[0].value);
+						} else {
+							self.updateTime(c[1].childNodes[0].value, c[2].childNodes[0].value, c[3].childNodes[0].value);
+						}
+					}, false);
 				} else if (self.params.weekNumbers) {
 					cell = createElement("td", row);
 					cell.innerHTML = "&#160;";
