@@ -540,10 +540,9 @@ class UsersModel extends ListModel
 
         // Handle dynamic inactive days: 'inactive_X' means last visit more than X days ago (and not null).
         if (preg_match('/^inactive_(\d+)$/', $range, $matches)) {
-            $dNow = false;
             $dStart->modify('-' . (int) $matches[1] . ' day');
 
-            return ['dNow' => $dNow, 'dStart' => $dStart];
+            return ['dNow' => false, 'dStart' => $dStart];
         }
 
         switch ($range) {
