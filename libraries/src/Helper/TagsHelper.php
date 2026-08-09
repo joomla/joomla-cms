@@ -893,16 +893,16 @@ class TagsHelper extends CMSHelper
                 }
 
                 $query = $db->getQuery(true)
-                    ->select($db->quoteName('ucm_id'))
-                    ->from($db->quoteName('#__ucm_base'))
+                    ->select($db->quoteName('core_content_id'))
+                    ->from($db->quoteName('#__ucm_content'))
                     ->where(
                         [
-                            $db->quoteName('ucm_item_id') . ' = :itemId',
-                            $db->quoteName('ucm_type_id') . ' = :typeId',
+                            $db->quoteName('core_content_item_id') . ' = :itemId',
+                            $db->quoteName('core_type_alias') . ' = :typeAlias',
                         ]
                     )
                     ->bind(':itemId', $ucmData['common']['core_content_item_id'], ParameterType::INTEGER)
-                    ->bind(':typeId', $ucmData['common']['core_type_id'], ParameterType::INTEGER);
+                    ->bind(':typeAlias', $ucmData['common']['core_type_alias']);
                 $db->setQuery($query);
 
                 $primaryId = $db->loadResult();
