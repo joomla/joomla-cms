@@ -642,6 +642,29 @@ final class SiteApplication extends CMSApplication
             }
         }
 
+        if (
+            $active !== null
+            && $active->type === 'url'
+            && $active->getParams()->get('url_redirect')
+            && \in_array($this->input->getMethod(), ['GET', 'HEAD'], true)
+        ) {
+            $link = str_replace('&amp;', '&', $active->link);
+
+            // Relative links should redirect to the SEF URL
+            if (str_starts_with($link, 'index.php?')) {
+                $link = Route::_($link, false);
+            }
+
+            if ($link !== '') {
+                $this->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
+                $this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+                $this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate', false);
+                $this->sendHeaders();
+
+                $this->redirect($link, 301);
+            }
+        }
+
         foreach ($result as $key => $value) {
             $this->input->def($key, $value);
         }
