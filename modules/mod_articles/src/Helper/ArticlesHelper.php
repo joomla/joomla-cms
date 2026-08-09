@@ -386,7 +386,7 @@ class ArticlesHelper implements DatabaseAwareInterface
             if ($show_category) {
                 $item->displayCategories[] = [
                     'title' => $item->category_title,
-                    'link'  => $show_category_link ? Route::_(RouteHelper::getCategoryRoute($item->catid, $item->category_language)) : '',
+                    'link'  => $item->displayCategoryLink,
                 ];
 
                 foreach (($item->secondary_categories ?? []) as $category) {
