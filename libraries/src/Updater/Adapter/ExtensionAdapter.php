@@ -31,6 +31,14 @@ class ExtensionAdapter extends UpdateAdapter
 {
     protected $currentUpdate;
     protected $latest;
+
+	/**
+	 * The updates with security fixes.
+	 *
+	 * @var    array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
     protected array $security = [];
 
     /**

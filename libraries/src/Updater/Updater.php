@@ -406,11 +406,18 @@ class Updater implements DatabaseAwareInterface
 
                         // If there is an update, check that the version is newer then replaces
                         if (version_compare($current_update->version, $update->version, $operator) == 1) {
-                            $extension->load($eid);
-                            $data                         = json_decode($extension->manifest_cache, true);
-                            $current_update->security     = $this->findHighestSeverity($data['version'], $current_update, $update_result['security'] ?? []);
-
                             $retVal[] = $current_update;
+							if (!$eid) {
+								continue;
+							}
+
+							$extension->load($eid);
+							$data = json_decode($extension->manifest_cache ?? '', true);
+							if (empty($data['version'])) {
+								continue;
+							}
+
+							$current_update->security = $this->findHighestSeverity($data['version'], $current_update, $update_result['security'] ?? []);
                         }
                     }
                 }
@@ -433,16 +440,16 @@ class Updater implements DatabaseAwareInterface
      */
     private function findHighestSeverity(string $installedVersion, UpdateTable $update, array $securityUpdates): ?int
     {
-        $severity = $update->security;
+        $securityLevel = (int) $update->security;
 
         /** @var \Joomla\CMS\Table\Update $securityUpdate */
         foreach ($securityUpdates as $securityUpdate) {
-            if (version_compare($securityUpdate->version, $installedVersion, '>') && $update->security < $securityUpdate->security) {
-                $severity = (int) $securityUpdate->security;
+            if (version_compare($securityUpdate->version, $installedVersion, '>') && $securityLevel < (int) $securityUpdate->security) {
+                $securityLevel = (int) $securityUpdate->security;
             }
         }
 
-        return $severity;
+        return $securityLevel;
     }
 
     /**
