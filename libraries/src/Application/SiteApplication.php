@@ -645,7 +645,6 @@ final class SiteApplication extends CMSApplication
         if (
             $active !== null
             && $active->type === 'url'
-            && $active->getParams()->get('url_redirect')
             && \in_array($this->input->getMethod(), ['GET', 'HEAD'], true)
         ) {
             $link = str_replace('&amp;', '&', $active->link);

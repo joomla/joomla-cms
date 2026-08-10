@@ -105,10 +105,6 @@ if ($clientId === 1) {
                     echo $this->form->renderField('alias_redirect', 'params');
                 }
 
-                if ($this->item->type == 'url') {
-                    echo $this->form->renderField('url_redirect', 'params');
-                }
-
                 echo $this->form->renderField('browserNav');
                 echo $this->form->renderField('template_style_id');
 
@@ -148,7 +144,7 @@ if ($clientId === 1) {
 
         <?php
         $this->fieldsets = [];
-        $this->ignore_fieldsets = ['aliasoptions', 'urloptions', 'request', 'item_associations'];
+        $this->ignore_fieldsets = ['aliasoptions', 'request', 'item_associations'];
         echo LayoutHelper::render('joomla.edit.params', $this);
         ?>
 
