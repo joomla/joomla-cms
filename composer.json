@@ -25,7 +25,8 @@
     "irc": "irc://chat.freenode.net/joomla/",
     "mattermost": "https://joom.la/chat/",
     "forum": "https://forum.joomla.org/",
-    "docs": "https://guide.joomla.org/"
+    "docs": "https://guide.joomla.org/",
+    "developer docs": "https://manual.joomla.org/"
   },
   "repositories": [
     {
