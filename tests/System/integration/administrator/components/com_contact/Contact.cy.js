@@ -50,6 +50,34 @@ describe('Test in backend that the contact form', () => {
     }));
   });
 
+  it('cannot delete an additional category assigned to a contact', () => {
+    cy.db_createCategory({
+      title: 'Test Contact Primary Category',
+      alias: 'test-contact-primary-category',
+      path: 'test-contact-primary-category',
+      extension: 'com_contact',
+    }).then((primaryCategoryId) => cy.db_createCategory({
+      title: 'Test Contact Additional Category',
+      alias: 'test-contact-additional-category',
+      path: 'test-contact-additional-category',
+      extension: 'com_contact',
+    }).then((additionalCategoryId) => {
+      cy.db_createContact({ name: 'Test contact', catid: primaryCategoryId }).then((contact) => {
+        cy.task('queryDB', `INSERT INTO #__category_item_map (context, item_id, category_id, ordering) VALUES ('com_contact.contact', ${contact.id}, ${additionalCategoryId}, 0)`);
+        cy.task('queryDB', `UPDATE #__categories SET published = -2 WHERE id = ${additionalCategoryId}`);
+        cy.visit('/administrator/index.php?option=com_categories&view=categories&extension=com_contact&filter=');
+        cy.setFilter('published', 'Trashed');
+        cy.searchForItem('Test Contact Additional Category');
+        cy.checkAllResults();
+        cy.clickToolbarButton('empty trash');
+        cy.clickDialogConfirm(true);
+
+        cy.checkForSystemMessage('Delete not allowed for category Test Contact Additional Category. One item is assigned to this category.');
+        cy.task('queryDB', `SELECT id FROM #__categories WHERE id = ${additionalCategoryId}`).should('have.length', 1);
+      });
+    }));
+  });
+
   it('can change access level of a test contact', () => {
     cy.db_createContact({ name: 'Test contact' }).then((contact) => {
       cy.visit(`/administrator/index.php?option=com_contact&task=contact.edit&id=${contact.id}`);

@@ -47,6 +47,34 @@ describe('Test in backend that the newsfeed form', () => {
     }));
   });
 
+  it('cannot delete an additional category assigned to a newsfeed', () => {
+    cy.db_createCategory({
+      title: 'Test Newsfeed Primary Category',
+      alias: 'test-newsfeed-primary-category',
+      path: 'test-newsfeed-primary-category',
+      extension: 'com_newsfeeds',
+    }).then((primaryCategoryId) => cy.db_createCategory({
+      title: 'Test Newsfeed Additional Category',
+      alias: 'test-newsfeed-additional-category',
+      path: 'test-newsfeed-additional-category',
+      extension: 'com_newsfeeds',
+    }).then((additionalCategoryId) => {
+      cy.db_createNewsFeed({ name: 'Test newsfeed', link: 'https://newsfeedtesturl', catid: primaryCategoryId }).then((feed) => {
+        cy.task('queryDB', `INSERT INTO #__category_item_map (context, item_id, category_id, ordering) VALUES ('com_newsfeeds.newsfeed', ${feed.id}, ${additionalCategoryId}, 0)`);
+        cy.task('queryDB', `UPDATE #__categories SET published = -2 WHERE id = ${additionalCategoryId}`);
+        cy.visit('/administrator/index.php?option=com_categories&view=categories&extension=com_newsfeeds&filter=');
+        cy.setFilter('published', 'Trashed');
+        cy.searchForItem('Test Newsfeed Additional Category');
+        cy.checkAllResults();
+        cy.clickToolbarButton('empty trash');
+        cy.clickDialogConfirm(true);
+
+        cy.checkForSystemMessage('Delete not allowed for category Test Newsfeed Additional Category. One item is assigned to this category.');
+        cy.task('queryDB', `SELECT id FROM #__categories WHERE id = ${additionalCategoryId}`).should('have.length', 1);
+      });
+    }));
+  });
+
   it('can change access level of a test newsfeed', () => {
     cy.db_createNewsFeed({ name: 'Test newsfeed', link: 'https://newsfeedtesturl' }).then((feed) => {
       cy.visit(`/administrator/index.php?option=com_newsfeeds&task=newsfeed.edit&id=${feed.id}`);

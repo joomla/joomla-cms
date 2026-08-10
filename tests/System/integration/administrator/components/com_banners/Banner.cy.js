@@ -50,6 +50,34 @@ describe('Test in backend that the banners form', () => {
     }));
   });
 
+  it('cannot delete an additional category assigned to a banner', () => {
+    cy.db_createCategory({
+      title: 'Test Banner Primary Category',
+      alias: 'test-banner-primary-category',
+      path: 'test-banner-primary-category',
+      extension: 'com_banners',
+    }).then((primaryCategoryId) => cy.db_createCategory({
+      title: 'Test Banner Additional Category',
+      alias: 'test-banner-additional-category',
+      path: 'test-banner-additional-category',
+      extension: 'com_banners',
+    }).then((additionalCategoryId) => {
+      cy.db_createBanner({ name: 'Test banner', catid: primaryCategoryId }).then((banner) => {
+        cy.task('queryDB', `INSERT INTO #__category_item_map (context, item_id, category_id, ordering) VALUES ('com_banners.banner', ${banner.id}, ${additionalCategoryId}, 0)`);
+        cy.task('queryDB', `UPDATE #__categories SET published = -2 WHERE id = ${additionalCategoryId}`);
+        cy.visit('/administrator/index.php?option=com_categories&view=categories&extension=com_banners&filter=');
+        cy.setFilter('published', 'Trashed');
+        cy.searchForItem('Test Banner Additional Category');
+        cy.checkAllResults();
+        cy.clickToolbarButton('empty trash');
+        cy.clickDialogConfirm(true);
+
+        cy.checkForSystemMessage('Delete not allowed for category Test Banner Additional Category. One item is assigned to this category.');
+        cy.task('queryDB', `SELECT id FROM #__categories WHERE id = ${additionalCategoryId}`).should('have.length', 1);
+      });
+    }));
+  });
+
   it('check redirection to list view', () => {
     cy.visit('/administrator/index.php?option=com_banners&task=banner.add');
     cy.intercept('index.php?option=com_banners&view=banners').as('listview');

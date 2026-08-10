@@ -907,11 +907,12 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         $query = $db->createQuery();
 
         $supportedTables = [
+                '#__banners'         => 'com_banners.banner',
                 '#__content'         => 'com_content.article',
                 '#__contact_details' => 'com_contact.contact',
+                '#__newsfeeds'       => 'com_newsfeeds.newsfeed',
         ];
 
-        // @todo Remove the condition with the else when all items fully support secondary categories and make the context Generic.
         if (\array_key_exists($table, $supportedTables)) {
             $context = $supportedTables[$table];
 
@@ -1029,11 +1030,12 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                 return 0;
             }
             $supportedTables = [
+                    '#__banners'         => 'com_banners.banner',
                     '#__content'         => 'com_content.article',
                     '#__contact_details' => 'com_contact.contact',
+                    '#__newsfeeds'       => 'com_newsfeeds.newsfeed',
             ];
 
-            // @todo Remove the condition with the else when all items fully support secondary categories and make the context Generic.
             if (\array_key_exists($table, $supportedTables)) {
                 $context = $supportedTables[$table];
 
