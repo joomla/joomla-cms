@@ -1,8 +1,7 @@
 <?php
 
 /**
- * @package     Joomla\CMS
- * @subpackage  Helper
+ * Joomla! Content Management System
  *
  * @copyright   (C) 2026 Open Source Matters, Inc.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt

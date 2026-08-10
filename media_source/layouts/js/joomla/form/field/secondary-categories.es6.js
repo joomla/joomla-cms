@@ -53,7 +53,7 @@
       isRebuilding = true;
 
       try {
-        // Clear all existing chips
+        // Clear all selected categories
         secondaryChoices.removeActiveItems();
 
         // Rebuild dropdown — all options except primary
@@ -84,7 +84,7 @@
       // If primary is in selected secondaries, remove it.
       selectedSecondaries.delete(primaryVal);
 
-      // Rebuild secondary options and chips.
+      // Rebuild secondary options and selected categories.
       rebuildSecondary();
     });
 
