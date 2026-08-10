@@ -408,13 +408,13 @@ class ContactModel extends AdminModel implements VersionableModelInterface
      */
     public function save($data)
     {
-        $form = $this->loadForm('com_contact.' . $this->formName, $this->formName, ['control' => 'jform', 'load_data' => false]);
+        $input = Factory::getApplication()->getInput();
 
-        if ($form->getField('secondary_categories') && !isset($data['secondary_categories'])) {
+        // A multiple select does not submit a value after its final option is removed.
+        // Only form submissions should treat that as an explicit request to clear mappings.
+        if ($input->exists('jform') && !\array_key_exists('secondary_categories', $data)) {
             $data['secondary_categories'] = [];
         }
-
-        $input = Factory::getApplication()->getInput();
 
         // Create new category, if needed.
         $createCategory = true;

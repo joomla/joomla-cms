@@ -751,16 +751,15 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
      */
     public function save($data)
     {
-        // We must detect this and force it to an empty array so the old mappings get deleted.
-        $form = $this->loadForm('com_content.article', 'article', ['control' => 'jform', 'load_data' => false]);
-
-        if ($form->getField('secondary_categories') && !isset($data['secondary_categories'])) {
-            $data['secondary_categories'] = [];
-        }
-
         $app    = Factory::getApplication();
         $input  = $app->getInput();
         $filter = InputFilter::getInstance();
+
+        // A multiple select does not submit a value after its final option is removed.
+        // Only form submissions should treat that as an explicit request to clear mappings.
+        if ($input->exists('jform') && !\array_key_exists('secondary_categories', $data)) {
+            $data['secondary_categories'] = [];
+        }
 
         if (isset($data['metadata']['author'])) {
             $data['metadata']['author'] = $filter->clean($data['metadata']['author'], 'TRIM');
