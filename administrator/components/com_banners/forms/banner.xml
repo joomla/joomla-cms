@@ -40,9 +40,9 @@
 		<field
 			name="secondary_categories"
 			type="categorymultiple"
-			primarycategoryfield="catid"
 			label="JADDITIONAL_CATEGORIES"
 			description="COM_BANNERS_FIELD_ADDITIONAL_CATEGORIES_DESC"
+			primarycategoryfield="catid"
 			multiple="true"
 			extension="com_banners"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
