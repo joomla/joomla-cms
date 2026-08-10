@@ -1334,7 +1334,7 @@ class Nested extends Table
 
         $fields = $this->getFields();
 
-        if (array_key_exists('level', $fields)) {
+        if (\array_key_exists('level', $fields)) {
             $query->where('c.' . $level . ' <> p.' . $level . ' + 1', 'OR');
         }
 
@@ -1402,10 +1402,10 @@ class Nested extends Table
         $path = (string) $path;
 
         $fields      = $this->getFields();
-        $hasLevel    = array_key_exists('level', $fields);
-        $hasAlias    = array_key_exists('alias', $fields);
-        $hasPath     = array_key_exists('path', $fields);
-        $hasOrdering = array_key_exists('ordering', $fields);
+        $hasLevel    = \array_key_exists('level', $fields);
+        $hasAlias    = \array_key_exists('alias', $fields);
+        $hasPath     = \array_key_exists('path', $fields);
+        $hasOrdering = \array_key_exists('ordering', $fields);
 
         // Read the whole adjacency list in a single query.
         $columns = [$k, 'parent_id', 'lft', 'rgt'];
@@ -1478,7 +1478,7 @@ class Nested extends Table
 
                 if (isset($seen[$childId])) {
                     throw new \RuntimeException(
-                        sprintf(
+                        \sprintf(
                             '%1$s::buildTreeState() found a cycle in the adjacency list at record ID %2$d.',
                             \get_class($this),
                             $childId
@@ -1606,8 +1606,8 @@ class Nested extends Table
             ->bind(':id', $id, ParameterType::INTEGER);
 
         $fields   = $this->getFields();
-        $hasLevel = array_key_exists('level', $fields);
-        $hasPath  = array_key_exists('path', $fields);
+        $hasLevel = \array_key_exists('level', $fields);
+        $hasPath  = \array_key_exists('path', $fields);
 
         if ($hasLevel) {
             $query->set($db->quoteName('level') . ' = :level')
