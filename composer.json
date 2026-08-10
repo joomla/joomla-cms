@@ -22,7 +22,7 @@
   "support": {
     "github": "https://github.com/joomla/joomla-cms",
     "issues": "https://issues.joomla.org/",
-    "mattermost": "https://joom.la/chat/",
+    "chat": "https://joom.la/chat/",
     "forum": "https://forum.joomla.org/",
     "docs": "https://guide.joomla.org/",
     "developer docs": "https://manual.joomla.org/"
