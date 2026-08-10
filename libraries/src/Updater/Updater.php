@@ -407,17 +407,17 @@ class Updater implements DatabaseAwareInterface
                         // If there is an update, check that the version is newer then replaces
                         if (version_compare($current_update->version, $update->version, $operator) == 1) {
                             $retVal[] = $current_update;
-							if (!$eid) {
-								continue;
-							}
+                            if (!$eid) {
+                                continue;
+                            }
 
-							$extension->load($eid);
-							$data = json_decode($extension->manifest_cache ?? '', true);
-							if (empty($data['version'])) {
-								continue;
-							}
+                            $extension->load($eid);
+                            $data = json_decode($extension->manifest_cache ?? '', true);
+                            if (empty($data['version'])) {
+                                continue;
+                            }
 
-							$current_update->security = $this->findHighestSeverity($data['version'], $current_update, $update_result['security'] ?? []);
+                            $current_update->security = $this->findHighestSeverity($data['version'], $current_update, $update_result['security'] ?? []);
                         }
                     }
                 }
