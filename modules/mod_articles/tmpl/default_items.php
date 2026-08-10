@@ -80,16 +80,17 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                                 <?php if ($item->displayCategoryTitle) : ?>
                                     <dd class="mod-articles-category <?php echo ($params->get('info_layout') == 1 ? 'list-inline-item' : ''); ?>">
                                         <?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'icon-folder-open icon-fw']); ?>
-                                        <?php foreach (($item->displayCategories ?? []) as $index => $category) : ?>
-                                            <?php echo $index > 0 ? ', ' : ''; ?>
-                                            <?php if ($category['link']) : ?>
-                                                <a href="<?php echo $category['link']; ?>">
-                                                    <?php echo htmlspecialchars($category['title'], ENT_QUOTES, 'UTF-8'); ?>
-                                                </a>
-                                            <?php else : ?>
-                                                <?php echo htmlspecialchars($category['title'], ENT_QUOTES, 'UTF-8'); ?>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
+                                        <?php
+                                            $categoryLinks = [];
+                                            foreach (($item->displayCategories ?? []) as $category) {
+                                                if ($category['link']) {
+                                                    $categoryLinks[] = '<a href="' . $category['link'] . '">' . htmlspecialchars($category['title'], ENT_QUOTES, 'UTF-8') . '</a>';
+                                                } else {
+                                                    $categoryLinks[] = htmlspecialchars($category['title'], ENT_QUOTES, 'UTF-8');
+                                                }
+                                            }
+                                            echo implode(', ', $categoryLinks);
+                                        ?>
                                     </dd>
                                 <?php endif; ?>
 
