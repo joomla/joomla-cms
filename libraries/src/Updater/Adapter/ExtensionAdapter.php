@@ -33,7 +33,7 @@ class ExtensionAdapter extends UpdateAdapter
     protected $latest;
 
     /**
-     * The updates with security fixes.
+     * The updates with security fixes
      *
      * @var    array
      *
