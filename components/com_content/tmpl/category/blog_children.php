@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
@@ -24,6 +25,7 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?
     <?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
         <?php // Check whether category access level allows access to subcategories. ?>
         <?php if (in_array($child->access, $groups)) : ?>
+            <?php $childParams = new \Joomla\Registry\Registry($child->params); ?>
             <?php if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) : ?>
             <div class="com-content-category-blog__child">
                 <?php if ($lang->isRtl()) : ?>
@@ -55,7 +57,15 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?
                     <?php endif; ?>
                 </h3>
                 <?php endif; ?>
-
+                <?php if ($this->params->get('show_subcat_image') && $childParams->get('image')) : ?>
+                    <?php echo LayoutHelper::render(
+                        'joomla.html.image',
+                        [
+                            'src' => $childParams->get('image'),
+                            'alt' => $childParams->get('image_alt', false),
+                        ]
+                    ); ?>
+                <?php endif; ?>
                 <?php if ($this->params->get('show_subcat_desc') == 1) : ?>
                     <?php if ($child->description) : ?>
                     <div class="com-content-category-blog__description category-desc">
