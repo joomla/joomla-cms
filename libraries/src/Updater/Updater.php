@@ -11,6 +11,7 @@ namespace Joomla\CMS\Updater;
 
 use Joomla\CMS\Adapter\Adapter;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Update as UpdateTable;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
