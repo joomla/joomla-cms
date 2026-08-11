@@ -1060,7 +1060,7 @@ class ItemModel extends AdminModel
      *
      * @return  array  An array of menu item objects with id, title, and level properties.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.8
      */
     public function getParentItems(string $menutype): array
     {
