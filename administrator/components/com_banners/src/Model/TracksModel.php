@@ -500,9 +500,9 @@ class TracksModel extends ListModel
     /**
      * Escapes potential characters that start a formula in a CSV value to prevent injection attacks
      *
-     * @param   mixed  $value  csv field value
+     * @param   string  $value  csv field value
      *
-     * @return  mixed
+     * @return  string
      *
      * @since   __DEPLOY_VERSION__
      */
