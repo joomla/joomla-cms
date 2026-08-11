@@ -2011,7 +2011,7 @@ ENDDATA;
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.3
      */
     private function reportCompatibilityUpdateSiteFailure(array $updateSiteInfo, \Throwable $exception): void
     {
