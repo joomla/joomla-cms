@@ -60,7 +60,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
      * @var    array
      * @since  3.9.23
      */
-    private $protectedConfigurationFields = ['password', 'secret', 'smtppass', 'redis_server_auth', 'session_redis_server_auth'];
+    private $protectedConfigurationFields = ['password', 'secret', 'smtppass', 'smtp_oauth2_client_secret', 'smtp_oauth2_refresh_token',  'redis_server_auth', 'session_redis_server_auth'];
 
     /**
      * Method to get a form object.

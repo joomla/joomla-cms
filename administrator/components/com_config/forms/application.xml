@@ -586,22 +586,32 @@
 
 		<field
 			name="smtpauth"
-			type="radio"
-			layout="joomla.form.field.radio.switcher"
+			type="list"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_LABEL"
 			default="0"
 			showon="mailonline:1[AND]mailer:smtp"
-			filter="boolean"
+			filter="options"
 			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+			<option value="0">JDISABLED</option>
+			<option value="1">COM_CONFIG_FIELD_SMTP_AUTH_VALUE_USERNAME_PASSWORD</option>
+			<option value="2">COM_CONFIG_FIELD_SMTP_AUTH_VALUE_OAUTH2</option>
 		</field>
+
+		<field
+			name="smtp_oauth2_info"
+			type="note"
+			label="COM_CONFIG_FIELD_MAIL_SMTP_OAUTH2_INFO_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_SMTP_OAUTH2_INFO_DESCRIPTION"
+			showon="mailonline:1[AND]mailer:smtp[AND]smtpauth:2"
+			filter="string"
+			autocomplete="off"
+		/>
 
 		<field
 			name="smtpuser"
 			type="text"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_USERNAME_LABEL"
-			showon="mailonline:1[AND]mailer:smtp[AND]smtpauth:1"
+			showon="mailonline:1[AND]mailer:smtp[AND]smtpauth:1,2"
 			filter="string"
 			autocomplete="off"
 		/>
@@ -615,6 +625,73 @@
 			autocomplete="off"
 			lock="true"
 		/>
+
+		<field
+			name="smtp_oauth2_client_id"
+			type="text"
+			label="COM_CONFIG_FIELD_MAIL_SMTP_OAUTH2_CLIENT_ID_LABEL"
+			showon="mailonline:1[AND]mailer:smtp[AND]smtpauth:2"
+			filter="string"
+			autocomplete="off"
+		/>
+
+		<field
+			name="smtp_oauth2_client_secret"
+			type="password"
+			label="COM_CONFIG_FIELD_MAIL_SMTP_OAUTH2_CLIENT_SECRET_LABEL"
+			showon="mailonline:1[AND]mailer:smtp[AND]smtpauth:2"
+			filter="raw"
+			autocomplete="off"
+			lock="true"
+		/>
+
+		<field
+			name="smtp_oauth2_scope"
+			type="text"
+			label="COM_CONFIG_FIELD_MAIL_SMTP_OAUTH2_SCOPE_LABEL"
+			showon="mailonline:1[AND]mailer:smtp[AND]smtpauth:2"
+			filter="string"
+		/>
+
+
+		<field
+			name="smtp_oauth2_authorize_url"
+			type="url"
+			label="COM_CONFIG_FIELD_MAIL_SMTP_OAUTH2_AUTHORIZE_URL_LABEL"
+			showon="mailonline:1[AND]mailer:smtp[AND]smtpauth:2"
+			filter="string"
+		/>
+
+		<field
+			name="smtp_oauth2_token_url"
+			type="url"
+			label="COM_CONFIG_FIELD_MAIL_SMTP_OAUTH2_TOKEN_URL_LABEL"
+			showon="mailonline:1[AND]mailer:smtp[AND]smtpauth:2"
+			filter="string"
+		/>
+
+
+		<field
+			name="smtp_oauth2_auth_wizard"
+			type="Oauth2Token"
+			label="COM_CONFIG_FIELD_MAIL_SMTP_OAUTH2_GET_TOKEN_LABEL"
+			showon="mailonline:1[AND]mailer:smtp[AND]smtpauth:2"
+		/>
+
+		<field
+			name="smtp_oauth2_refresh_token"
+			type="hidden"
+			readonly="true"
+		/>
+
+		<field
+			name="smtp_oauth2_token_issued_at"
+			type="hidden"
+			readonly="true"
+		/>
+
+
+
 
 	</fieldset>
 
