@@ -371,9 +371,9 @@ class ContenthistoryHelper
 
             if (!$hasSecondaryCategoriesLookup) {
                 $lookups[] = (object) [
-                    'sourceColumn' => 'secondary_categories',
-                    'targetTable'  => '#__categories',
-                    'targetColumn' => 'id',
+                    'sourceColumn'  => 'secondary_categories',
+                    'targetTable'   => '#__categories',
+                    'targetColumn'  => 'id',
                     'displayColumn' => 'title',
                 ];
             }
@@ -381,8 +381,8 @@ class ContenthistoryHelper
 
         if ($lookups) {
             foreach ($lookups as $lookup) {
-                    $sourceColumn = $lookup->sourceColumn ?? false;
-                    $sourceValue  = $object->$sourceColumn->value ?? false;
+                $sourceColumn = $lookup->sourceColumn ?? false;
+                $sourceValue  = $object->$sourceColumn->value ?? false;
 
                 if (!\is_array($sourceValue)) {
                     if ($sourceColumn && $sourceValue && ($lookupValue = static::getLookupValue($lookup, $sourceValue))) {
