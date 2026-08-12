@@ -86,6 +86,7 @@ trait KnownButtons
             'accordion'      => ['label' => 'Accordion', 'plugin' => 'accordion'],
             'anchor'         => ['label' => 'Anchor', 'plugin' => 'anchor'],
             'hr'             => ['label' => 'Horizontal line'],
+            'readmore'       => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_READMORE'), 'plugin' => 'readmore'],
             'ltr'            => ['label' => 'Left to right', 'plugin' => 'directionality'],
             'rtl'            => ['label' => 'Right to left', 'plugin' => 'directionality'],
             'code'           => ['label' => 'Source code', 'plugin' => 'code'],
@@ -105,7 +106,7 @@ trait KnownButtons
             'searchreplace'  => ['label' => 'Find and replace', 'plugin' => 'searchreplace'],
             'insertdatetime' => ['label' => 'Insert date/time', 'plugin' => 'insertdatetime'],
             'help'           => ['label' => 'Help', 'plugin' => 'help'],
-            'readmore'       => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_READMORE'), 'plugin' => 'readmore'],
+
             ];
     }
 }
