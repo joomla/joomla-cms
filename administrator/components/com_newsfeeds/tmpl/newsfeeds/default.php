@@ -23,8 +23,7 @@ use Joomla\CMS\Session\Session;
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
-    ->useScript('multiselect')
-    ->useScript('field.category-match-toggle');
+    ->useScript('multiselect');
 
 $user      = $this->getCurrentUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));

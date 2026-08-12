@@ -138,13 +138,6 @@ describe('Test that content API endpoint', () => {
             secondaryCategoryId1,
             secondaryCategoryId2,
           ]);
-
-        return cy.api_get(`/content/articles?filter[category]=${secondaryCategoryId2}&filter[category_match]=2`);
-      })
-      .then((response) => {
-        cy.wrap(response)
-          .its('body.data.0.attributes.title')
-          .should('include', 'automated multiple secondary categories article');
       });
   });
 

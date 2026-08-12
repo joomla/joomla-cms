@@ -169,20 +169,10 @@ class BannersModel extends ListModel
 
         if (\count($categoryId)) {
             $categoryId    = array_values(array_filter(ArrayHelper::toInteger($categoryId)));
-            $categoryMatch = (string) $this->getState('filter.category_match', '');
 
             if ($categoryId) {
-                if ($categoryMatch === '1') {
-                    $query->whereIn($db->quoteName('a.catid'), $categoryId, ParameterType::INTEGER);
-                } else {
-                    $helper = new SecondaryCategoriesHelper('com_banners.banner');
-
-                    if ($categoryMatch === '2') {
-                        $query->where($db->quoteName('a.id') . ' IN (' . $helper->getMappedItemIdsQuery($categoryId) . ')');
-                    } else {
-                        $query->where($helper->buildCategoryMembershipCondition($categoryId));
-                    }
-                }
+                $helper = new SecondaryCategoriesHelper('com_banners.banner');
+                $query->where($helper->buildCategoryMembershipCondition($categoryId));
             }
         }
 
@@ -261,7 +251,6 @@ class BannersModel extends ListModel
         $id .= ':' . $this->getState('filter.search');
         $id .= ':' . $this->getState('filter.published');
         $id .= ':' . serialize($this->getState('filter.category_id'));
-        $id .= ':' . $this->getState('filter.category_match');
         $id .= ':' . $this->getState('filter.client_id');
         $id .= ':' . $this->getState('filter.language');
         $id .= ':' . $this->getState('filter.level');
@@ -320,9 +309,6 @@ class BannersModel extends ListModel
     {
         // Load the parameters.
         $this->setState('params', ComponentHelper::getParams('com_banners'));
-
-        // List state information.
-        $this->getUserStateFromRequest($this->context . '.filter.category_match', 'filter_category_match', '');
 
         // List state information.
         parent::populateState($ordering, $direction);

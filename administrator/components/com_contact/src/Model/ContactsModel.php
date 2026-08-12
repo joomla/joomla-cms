@@ -100,9 +100,6 @@ class ContactsModel extends ListModel
             $this->context .= '.' . $forcedLanguage;
         }
 
-        // List state information.
-        $this->getUserStateFromRequest($this->context . '.filter.category_match', 'filter_category_match', '');
-
         parent::populateState($ordering, $direction);
 
         // Force a language.
@@ -130,7 +127,6 @@ class ContactsModel extends ListModel
         $id .= ':' . $this->getState('filter.search');
         $id .= ':' . $this->getState('filter.published');
         $id .= ':' . serialize($this->getState('filter.category_id'));
-        $id .= ':' . $this->getState('filter.category_match');
         $id .= ':' . $this->getState('filter.access');
         $id .= ':' . $this->getState('filter.language');
         $id .= ':' . serialize($this->getState('filter.tag'));
@@ -369,7 +365,6 @@ class ContactsModel extends ListModel
         // Case: Using both categories filter and by level filter
         if (\count($categoryId)) {
             $categoryId          = ArrayHelper::toInteger($categoryId);
-            $categoryMatch       = (string) $this->getState('filter.category_match', '');
             $categoryTable       = new Category($db);
             $subCatItemsWhere    = [];
             $secondaryWhereParts = [];
@@ -405,19 +400,7 @@ class ContactsModel extends ListModel
                 );
             }
 
-            switch ($categoryMatch) {
-                case '1':
-                    $query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
-                    break;
-
-                case '2':
-                    $query->where($db->quoteName('a.id') . ' IN (' . $secondaryQuery . ')');
-                    break;
-
-                default:
-                    $query->where('(' . implode(' OR ', $subCatItemsWhere) . ' OR ' . $db->quoteName('a.id') . ' IN (' . $secondaryQuery . ')' . ')');
-                    break;
-            }
+            $query->where('(' . implode(' OR ', $subCatItemsWhere) . ' OR ' . $db->quoteName('a.id') . ' IN (' . $secondaryQuery . ')' . ')');
         } elseif ($level) {
             // Case: Using only the by level filter
             $query->where($db->quoteName('c.level') . ' <= :level');

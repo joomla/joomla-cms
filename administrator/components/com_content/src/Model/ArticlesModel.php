@@ -143,7 +143,6 @@ class ArticlesModel extends ListModel
         // Required content filters for the administrator menu
         $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
         $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
-        $this->getUserStateFromRequest($this->context . '.filter.category_match', 'filter_category_match', '');
         $this->getUserStateFromRequest($this->context . '.filter.featured', 'filter_featured');
         $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
         $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
@@ -182,7 +181,6 @@ class ArticlesModel extends ListModel
         $id .= ':' . $this->getState('filter.published');
         $id .= ':' . $this->getState('filter.featured');
         $id .= ':' . serialize($this->getState('filter.category_id'));
-        $id .= ':' . $this->getState('filter.category_match');
         $id .= ':' . serialize($this->getState('filter.author_id'));
         $id .= ':' . $this->getState('filter.language');
         $id .= ':' . serialize($this->getState('filter.tag'));
@@ -372,10 +370,9 @@ class ArticlesModel extends ListModel
             }
         }
 
-        // Filter by categories, category match, and by level
-        $categoryId    = $this->getState('filter.category_id', []);
-        $categoryMatch = (string) $this->getState('filter.category_match', '');
-        $level         = (int) $this->getState('filter.level');
+        // Filter by categories and by level
+        $categoryId = $this->getState('filter.category_id', []);
+        $level      = (int) $this->getState('filter.level');
 
         if (!\is_array($categoryId)) {
             $categoryId = $categoryId ? [$categoryId] : [];
@@ -432,22 +429,7 @@ class ArticlesModel extends ListModel
                 ->where($db->quoteName('map.context') . ' = ' . $db->quote('com_content.article'))
                 ->where('(' . implode(' OR ', $secondaryWhereParts) . ')');
 
-            switch ($categoryMatch) {
-                case '1':
-                    // Primary only
-                    $query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
-                    break;
-
-                case '2':
-                    // Secondary only
-                    $query->where($db->quoteName('a.id') . ' IN (' . $secondaryQuery . ')');
-                    break;
-
-                default:
-                    // Primary or Secondary
-                    $query->where('(' . implode(' OR ', $subCatItemsWhere) . ' OR ' . $db->quoteName('a.id') . ' IN (' . $secondaryQuery . ')' . ')');
-                    break;
-            }
+            $query->where('(' . implode(' OR ', $subCatItemsWhere) . ' OR ' . $db->quoteName('a.id') . ' IN (' . $secondaryQuery . ')' . ')');
         } elseif ($level = (int) $level) {
             // Case: Using only the level filter
             $query->where($db->quoteName('c.level') . ' <= :level')

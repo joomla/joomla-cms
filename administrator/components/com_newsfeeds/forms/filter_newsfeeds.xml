@@ -34,19 +34,6 @@
 		/>
 
 		<field
-			name="category_match"
-			type="list"
-			label="JCATEGORY_MATCH"
-			description="COM_NEWSFEEDS_FILTER_CATEGORY_MATCH_DESC"
-			default=""
-			class="js-select-submit-on-change"
-			>
-			<option value="">JOPTION_CATEGORY_MATCH_ALL</option>
-			<option value="1">JOPTION_CATEGORY_MATCH_PRIMARY</option>
-			<option value="2">JOPTION_CATEGORY_MATCH_ADDITIONAL</option>
-		</field>
-
-		<field
 			name="access"
 			type="accesslevel"
 			label="JGRID_HEADING_ACCESS"

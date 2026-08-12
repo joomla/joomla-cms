@@ -556,18 +556,6 @@
       ]
     },
     {
-      "name": "field.category-match-toggle",
-      "type": "script",
-      "uri": "system/fields/category-match-toggle.min.js",
-      "dependencies": [
-          "core",
-          "webcomponent.field-fancy-select"
-      ],
-      "attributes": {
-          "defer": true
-      }
-    },
-    {
       "name": "webcomponent.core-loader-legacy",
       "type": "script",
       "deprecated": true,

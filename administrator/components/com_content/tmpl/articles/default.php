@@ -30,8 +30,7 @@ use Joomla\Utilities\ArrayHelper;
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
-    ->useScript('multiselect')
-    ->useScript('field.category-match-toggle');
+    ->useScript('multiselect');
 
 $app       = Factory::getApplication();
 $user      = $this->getCurrentUser();
