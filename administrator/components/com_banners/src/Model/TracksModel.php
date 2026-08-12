@@ -506,7 +506,7 @@ class TracksModel extends ListModel
      *
      * @since   __DEPLOY_VERSION__
      */
-    private function escapeCsvFormula($value)
+    private function escapeCsvFormula(string $value): string
     {
         if ($value === '') {
             return $value;
