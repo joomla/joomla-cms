@@ -232,6 +232,7 @@ class ContenthistoryHelper
      */
     public static function hideFields($object, ContentType $typeTable)
     {
+        unset($object->fieldscatid);
         if ($options = json_decode($typeTable->content_history_options)) {
             if (isset($options->hideFields) && \is_array($options->hideFields)) {
                 foreach ($options->hideFields as $field) {
