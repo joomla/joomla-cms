@@ -56,14 +56,13 @@
         // Clear all selected categories
         secondaryChoices.removeActiveItems();
 
-        // Rebuild dropdown — all options except primary
+        // Keep the primary category in its tree position, but prevent selecting it twice.
         const choices = allOptions
-          .filter((opt) => opt.value !== primaryValue)
           .map((opt) => ({
             value: opt.value,
-            label: opt.label,
+            label: opt.value === primaryValue ? `${opt.label} (${Joomla.Text._('JMAIN_CATEGORY')})` : opt.label,
             selected: false,
-            disabled: false,
+            disabled: opt.value === primaryValue,
           }));
 
         secondaryChoices.setChoices(choices, 'value', 'label', true);

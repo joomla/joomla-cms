@@ -139,6 +139,8 @@ class CategorymultipleField extends CategoryeditField
      */
     protected function getInput()
     {
+        Text::script('JMAIN_CATEGORY');
+
         $data = $this->getLayoutData();
 
         // Pass the exact variables the categoryedit layout expects
