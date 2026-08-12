@@ -161,6 +161,12 @@ abstract class Menu
                     $parent->removeChild($item);
                     continue;
                 }
+            } elseif ($item->element === 'com_cpanel' && ($query['dashboard'] ?? null) === 'healthcheck') {
+                // Show the healthcheck dashboard only when the healthcheck module is instantiated.
+                if (!MenusHelper::hasPublishedAdministratorModule('mod_healthcheck', 'cpanel-healthcheck')) {
+                    $parent->removeChild($item);
+                    continue;
+                }
             } elseif ($item->element === 'com_workflow') {
                 parse_str($item->link, $query);
 
