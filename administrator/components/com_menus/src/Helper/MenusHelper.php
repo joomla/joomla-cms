@@ -80,7 +80,7 @@ class MenusHelper extends ContentHelper
             return static::$publishedAdministratorModules[$cacheKey];
         }
 
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->createQuery()
             ->select('1')
             ->from($db->quoteName('#__modules'))
