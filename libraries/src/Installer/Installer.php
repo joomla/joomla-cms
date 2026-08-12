@@ -657,6 +657,7 @@ class Installer implements DatabaseAwareInterface
 
             if (disk_free_space(dirname($path)) < $fileSize) {
                 $this->abort(Text::_('JLIB_INSTALLER_ABORT_DISK_FULL'));
+
                 return false;
             }
         } else {
@@ -852,6 +853,7 @@ class Installer implements DatabaseAwareInterface
             
             if (disk_free_space(dirname($path)) < $fileSize) {
                 $this->abort(Text::_('JLIB_INSTALLER_ABORT_DISK_FULL'));
+                
                 return false;
             }
         } else {
