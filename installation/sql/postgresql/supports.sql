@@ -139,6 +139,25 @@ SELECT setval('#__content_types_type_id_seq', 10000, false);
 -- Table structure for table `#__contentitem_tag_map`
 --
 
+-- Display additional category titles in content version history.
+UPDATE "#__content_types"
+SET "content_history_options" = jsonb_set(
+    "content_history_options"::jsonb,
+    '{displayLookup}',
+    "content_history_options"::jsonb->'displayLookup' || jsonb_build_object(
+        'sourceColumn', 'secondary_categories',
+        'targetTable', '#__categories',
+        'targetColumn', 'id',
+        'displayColumn', 'title'
+    )
+)
+WHERE "type_alias" IN (
+    'com_banners.banner',
+    'com_contact.contact',
+    'com_content.article',
+    'com_newsfeeds.newsfeed'
+);
+
 CREATE TABLE IF NOT EXISTS "#__contentitem_tag_map" (
   "type_alias" varchar(255) NOT NULL DEFAULT '',
   "core_content_id" integer NOT NULL,

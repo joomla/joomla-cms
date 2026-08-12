@@ -355,31 +355,52 @@ class ContenthistoryHelper
      */
     public static function processLookupFields($object, ContentType $typesTable)
     {
-        if ($options = json_decode($typesTable->content_history_options)) {
-            if (isset($options->displayLookup) && \is_array($options->displayLookup)) {
-                foreach ($options->displayLookup as $lookup) {
+        $options = json_decode($typesTable->content_history_options);
+        $lookups = $options->displayLookup ?? [];
+
+        if (isset($object->secondary_categories->value)) {
+            $hasSecondaryCategoriesLookup = false;
+
+            foreach ($lookups as $lookup) {
+                if (($lookup->sourceColumn ?? null) === 'secondary_categories') {
+                    $hasSecondaryCategoriesLookup = true;
+
+                    break;
+                }
+            }
+
+            if (!$hasSecondaryCategoriesLookup) {
+                $lookups[] = (object) [
+                    'sourceColumn' => 'secondary_categories',
+                    'targetTable'  => '#__categories',
+                    'targetColumn' => 'id',
+                    'displayColumn' => 'title',
+                ];
+            }
+        }
+
+        if ($lookups) {
+            foreach ($lookups as $lookup) {
                     $sourceColumn = $lookup->sourceColumn ?? false;
                     $sourceValue  = $object->$sourceColumn->value ?? false;
 
-                    if (!\is_array($sourceValue)) {
-                        if ($sourceColumn && $sourceValue && ($lookupValue = static::getLookupValue($lookup, $sourceValue))) {
-                            $object->$sourceColumn->value = $lookupValue;
-                        }
-
-                        continue;
+                if (!\is_array($sourceValue)) {
+                    if ($sourceColumn && $sourceValue && ($lookupValue = static::getLookupValue($lookup, $sourceValue))) {
+                        $object->$sourceColumn->value = $lookupValue;
                     }
 
-                    if (\is_array($sourceValue)) {
-                        $result = [];
+                    continue;
+                }
 
-                        foreach ($sourceValue as $key => $subValue) {
-                            if ($sourceColumn && $subValue && ($lookupValue = static::getLookupValue($lookup, $subValue))) {
-                                $result[$key] = $lookupValue;
-                            }
-
-                            $object->$sourceColumn->value = $result;
-                        }
+                if (\is_array($sourceValue)) {
+                    $result = [];
+                    foreach ($sourceValue as $key => $subValue) {
+                        $result[$key] = $sourceColumn && $subValue && ($lookupValue = static::getLookupValue($lookup, $subValue))
+                            ? $lookupValue
+                            : $subValue;
                     }
+
+                    $object->$sourceColumn->value = $result;
                 }
             }
         }
