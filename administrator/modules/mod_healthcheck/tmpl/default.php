@@ -26,6 +26,7 @@ $wa->useScript('core')
  */
 $wa->registerAndUseScript('mod_healthcheck.filter', 'mod_healthcheck/healthcheck-filter.js', [], ['defer' => true])
     ->registerAndUseScript('mod_healthcheck.async', 'mod_healthcheck/healthcheck-async.js', [], ['defer' => true])
+    ->registerAndUseScript('mod_healthcheck.onclick', 'mod_healthcheck/healthcheck-onclick.js', [], ['defer' => true])
     ->registerAndUseStyle('mod_healthcheck.general', 'mod_healthcheck/healthcheck.css');
 
 $gauges_html  = HTMLHelper::_('healthchecks.gauges', $gauges);
