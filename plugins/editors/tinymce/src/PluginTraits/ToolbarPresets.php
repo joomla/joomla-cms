@@ -37,7 +37,7 @@ trait ToolbarPresets
                     'bold', 'underline', 'strikethrough', '|',
                     'undo', 'redo', '|',
                     'bullist', 'numlist', '|',
-                    'pastetext', 'jxtdbuttons',
+                    'pastetext', 'jxtdbuttons','readmore'
                 ],
                 'toolbar2' => [],
             ],
@@ -53,7 +53,7 @@ trait ToolbarPresets
                     'link', 'unlink', 'anchor', 'code', '|',
                     'hr', 'table', '|',
                     'subscript', 'superscript', '|',
-                    'charmap', 'pastetext', 'preview', 'jxtdbuttons',
+                    'charmap', 'pastetext', 'preview', 'jxtdbuttons','readmore'
                 ],
                 'toolbar2' => [],
             ],
@@ -79,7 +79,7 @@ trait ToolbarPresets
                     'cut', 'copy', 'paste', 'pastetext', '|',
                     'visualchars', 'visualblocks', 'nonbreaking', 'blockquote', 'jtemplate', '|',
                     'print', 'preview', 'codesample', 'insertdatetime', 'removeformat', 'jxtdbuttons',
-                    'language','abbr', 'abbr_remove',
+                    'language','abbr', 'abbr_remove','readmore'
                 ],
                 'toolbar2' => [],
             ],

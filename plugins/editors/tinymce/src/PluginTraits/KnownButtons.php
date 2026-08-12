@@ -98,7 +98,6 @@ trait KnownButtons
             'emoticons'      => ['label' => 'Emoticons', 'plugin' => 'emoticons'],
             'media'          => ['label' => 'Insert/edit video', 'plugin' => 'media'],
             'image'          => ['label' => 'Insert/edit image', 'plugin' => 'image'],
-            'pagebreak'      => ['label' => 'Page break', 'plugin' => 'pagebreak'],
             'print'          => ['label' => 'Print'],
             'preview'        => ['label' => 'Preview', 'plugin' => 'preview'],
             'fullscreen'     => ['label' => 'Fullscreen', 'plugin' => 'fullscreen'],
@@ -106,6 +105,7 @@ trait KnownButtons
             'searchreplace'  => ['label' => 'Find and replace', 'plugin' => 'searchreplace'],
             'insertdatetime' => ['label' => 'Insert date/time', 'plugin' => 'insertdatetime'],
             'help'           => ['label' => 'Help', 'plugin' => 'help'],
-        ];
+            'readmore'       => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_READMORE'), 'plugin' => 'readmore'],
+            ];
     }
 }
