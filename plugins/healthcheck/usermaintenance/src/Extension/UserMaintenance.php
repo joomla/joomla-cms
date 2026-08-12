@@ -17,7 +17,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Database\ParameterType;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Module\Healthcheck\Administrator\Event\HealthChecksEvent;
 
@@ -122,14 +121,14 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
                 $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVE_FIELD_DESC');
                 $item['link'] = Uri::base() . 'index.php?option=com_users&view=users&filter[lastvisitrange]=inactive_' . $inactiveTimespan;
 
-                $db = $this->getDatabase();
+                $db      = $this->getDatabase();
+                $nowDate = Factory::getDate()->toSql();
 
-                $query = $db->createQuery()
-                    ->select('COUNT(*) AS ' . $db->quoteName('number'))
+                $query = $db->createQuery();
+                $query->select('COUNT(*) AS ' . $db->quoteName('number'))
                     ->from($db->quoteName('#__users'))
-                    ->where($db->quoteName('lastvisitDate') . ' < DATE_SUB(NOW(), INTERVAL :inactiveTimespan DAY)')
-                    ->where($db->quoteName('lastvisitDate') . ' IS NOT NULL')
-                    ->bind(':inactiveTimespan', $inactiveTimespan, ParameterType::INTEGER);
+                    ->where($db->quoteName('lastvisitDate') . ' < ' . $query->dateAdd($db->quote($nowDate), -$inactiveTimespan, 'DAY'))
+                    ->where($db->quoteName('lastvisitDate') . ' IS NOT NULL');
 
                 $db->setQuery($query);
 
