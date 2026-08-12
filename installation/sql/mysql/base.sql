@@ -661,7 +661,7 @@ INSERT INTO `#__modules` (`id`, `asset_id`, `title`, `note`, `content`, `orderin
 (107, 84, 'Privacy Requests', '', '', 1, 'cpanel-privacy', NULL, NULL, 1, 'mod_privacy_dashboard', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"cachemode":"static","style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
 (108, 85, 'Privacy Status', '', '', 1, 'cpanel-privacy', NULL, NULL, 1, 'mod_privacy_status', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"cachemode":"static","style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
 (109, 96, 'Guided Tours', '', '', 1, 'status', NULL, NULL, 1, 'mod_guidedtours', 1, 1, '', 1, '*'),
-(110, 100, 'Health Checks', '', '', 1, 'cpanel-healthcheck', NULL, NULL, 1, 'mod_healthcheck', 1, 1, '{"context":"general"}', 1, '*');
+(110, 100, 'Health Checks', '', '', 1, 'cpanel-healthcheck', NULL, NULL, 0, 'mod_healthcheck', 1, 1, '{"context":"general"}', 1, '*');
 
 -- --------------------------------------------------------
 
