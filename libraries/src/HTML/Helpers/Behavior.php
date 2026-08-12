@@ -89,7 +89,7 @@ abstract class Behavior
      *
      * @deprecated  4.0 will be removed in 6.0
      *              Use the webasset manager instead
-     *              Example: Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('awesomeplete');
+     *              Example: Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('awesomplete');
      */
     public static function combobox()
     {
