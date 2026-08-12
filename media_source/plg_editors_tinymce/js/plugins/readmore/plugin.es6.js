@@ -8,7 +8,7 @@
 
   const READMORE_ID = 'system-readmore';
 
-  tinymce.PluginManager.add('readmore', editor => {
+  tinymce.PluginManager.add('readmore', (editor) => {
     const hasReadMore = () => {
       return editor.dom.get(READMORE_ID) !== null;
     };
@@ -19,14 +19,14 @@
       }
 
       editor.insertContent(
-        `<hr id="${READMORE_ID}" />`
+        `<hr id="${READMORE_ID}" />`,
       );
     };
 
-    const onSetupEditable = api => {
+    const onSetupEditable = (api) => {
       const nodeChanged = () => {
         api.setEnabled(
-          editor.selection.isEditable() && !hasReadMore()
+          editor.selection.isEditable() && !hasReadMore(),
         );
       };
 
@@ -47,17 +47,15 @@
       icon: 'readmore',
       tooltip: Joomla.Text._('PLG_TINY_TOOLBAR_BUTTON_READMORE'),
       onAction: insertReadMore,
-      onSetup: onSetupEditable
+      onSetup: onSetupEditable,
     });
-
     return {
       getMetadata() {
         return {
           name: 'Readmore Plugin (Joomla)',
-          url: 'https://www.joomla.org'
+          url: 'https://www.joomla.org',
         };
-      }
+      },
     };
-
   });
 })();
