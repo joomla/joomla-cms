@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 
 $id      = empty($displayData['id']) ? '' : (' id="' . $displayData['id'] . '"');
 $target  = empty($displayData['target']) ? '' : (' target="' . $displayData['target'] . '"');
-$onclick = empty($displayData['onclick']) ? '' : (' onclick="' . $displayData['onclick'] . '"');
+$onclick = empty($displayData['onclick']) ? '' : (' data-onclick="' . $this->escape($displayData['onclick']) . '"');
 
 if (isset($displayData['ajaxurl'])) {
     $dataUrl = 'data-url="' . $displayData['ajaxurl'] . '"';
