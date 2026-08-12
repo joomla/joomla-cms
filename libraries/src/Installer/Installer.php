@@ -626,6 +626,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             }
         } else {
             $this->abort(Text::_('JLIB_INSTALLER_ABORT_NOINSTALLPATH'));
+            
             return false;
         }
 
