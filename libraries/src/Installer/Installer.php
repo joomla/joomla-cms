@@ -851,10 +851,10 @@ class Installer implements DatabaseAwareInterface
             $this->setPath('source', $path);
             $filePath=$this->getPath('source');
             $fileSize=filesize($filePath);
-            
+
             if (disk_free_space(dirname($path)) < $fileSize) {
                 $this->abort(Text::_('JLIB_INSTALLER_ABORT_DISK_FULL'));
-                
+
                 return false;
             }
         } else {
