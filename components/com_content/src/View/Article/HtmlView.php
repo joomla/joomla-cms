@@ -25,6 +25,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Component\Content\Site\Model\ArticleModel;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -283,10 +284,11 @@ class HtmlView extends BaseHtmlView
             $this->params->def('page_heading', Text::_('JGLOBAL_ARTICLES'));
         }
 
+        $attribs = new Registry($this->item->attribs);
         // If the menu item is not linked to this article
         if (!$this->menuItemMatchArticle) {
             // If a browser page title is defined, use that, then fall back to the article title if set, then fall back to the page_title option
-            $title = $this->item->params->get('article_page_title', $this->item->title);
+            $title = $attribs->get('article_page_title', $this->item->title);
 
             // Get ID of the category from active menu item
             if (
@@ -322,7 +324,7 @@ class HtmlView extends BaseHtmlView
             $menuItemParams = $menu->getParams();
             $title          = $menuItemParams->get(
                 'page_title',
-                $this->item->params->get('article_page_title', $this->item->title)
+                $attribs->get('article_page_title', $this->item->title)
             );
         }
 
