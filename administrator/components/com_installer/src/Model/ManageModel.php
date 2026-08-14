@@ -219,7 +219,7 @@ class ManageModel extends InstallerModel
     {
         $db    = $this->getDatabase();
         $query = $db->createQuery()
-            ->select($db->quoteName(['extension_id', 'element', 'type', 'client_id', 'manifest_cache']))
+            ->select($db->quoteName(['extension_id', 'name', 'element', 'type', 'client_id', 'manifest_cache']))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('extension_id') . ' = :eid')
             ->bind(':eid', $eid, ParameterType::INTEGER);
@@ -238,7 +238,7 @@ class ManageModel extends InstallerModel
         $manifest = json_decode($extension->manifest_cache, true);
 
         if (!$manifest) {
-            throw new \RuntimeException(Text::sprintf('COM_INSTALLER_ERROR_MANIFEST_INVALID', $eid), 500);
+            throw new \RuntimeException(Text::sprintf('COM_INSTALLER_ERROR_MANIFEST_INVALID', $extension->name), 500);
         }
 
         $this->rebuildMenuFromManifest($extension);
