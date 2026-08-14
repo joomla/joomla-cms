@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Installer\Administrator\Controller;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -199,18 +198,18 @@ class ManageController extends BaseController
         echo $model->loadChangelog($eid, $source);
     }
 
-	/**
-	 * Rebuilds the admin menu from the selected extension's manifest file.
-	 *
-	 * @return  void
-	 *
-	 * @throws  Exception
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function recreateMenu(): void
-	{
-		$this->checkToken();
+    /**
+     * Rebuilds the admin menu from the selected extension's manifest file.
+     *
+     * @return  void
+     *
+     * @throws  \Exception
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function recreateMenu(): void
+    {
+        $this->checkToken();
 
         try {
             $eids = (array) $this->input->get('cid', [], 'int');
@@ -235,6 +234,6 @@ class ManageController extends BaseController
             $this->setMessage($exception->getMessage(), 'warning');
         }
 
-		$this->setRedirect(Route::_('index.php?option=com_installer&view=manage', false));
-	}
+        $this->setRedirect(Route::_('index.php?option=com_installer&view=manage', false));
+    }
 }
