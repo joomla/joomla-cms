@@ -21,6 +21,7 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
+use Joomla\CMS\Table\Menu;
 use Joomla\Component\Templates\Administrator\Table\StyleTable;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
@@ -352,42 +353,12 @@ class ManageModel extends InstallerModel
 		$menuIds = $db->loadColumn();
 
 		if (!empty($menuIds)) {
+			$menuTable = new Menu($db);
 			foreach ($menuIds as $id) {
-				$this->deleteMenuItemAndChildren($id);
+				if ($menuTable->load($id)) {
+					$menuTable->delete($id, true);
+				}
 			}
-		}
-	}
-
-	/**
-	 * Recursively deletes a menu item and all its children.
-	 *
-	 * @param   integer  $id  The menu item ID
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function deleteMenuItemAndChildren(int $id): void
-	{
-		$db = $this->getDatabase();
-
-		$query = $db->createQuery()
-			->select($db->quoteName(['lft', 'rgt']))
-			->from($db->quoteName('#__menu'))
-			->where($db->quoteName('id') . ' = :id')
-			->bind(':id', $id, ParameterType::INTEGER);
-		$db->setQuery($query);
-		$item = $db->loadObject();
-
-		if ($item) {
-			$query->clear()
-				->delete($db->quoteName('#__menu'))
-				->where($db->quoteName('lft') . ' >= :lft')
-				->where($db->quoteName('rgt') . ' <= :rgt')
-				->bind(':lft', $item->lft, ParameterType::INTEGER)
-				->bind(':rgt', $item->rgt, ParameterType::INTEGER);
-			$db->setQuery($query);
-			$db->execute();
 		}
 	}
 
@@ -407,8 +378,6 @@ class ManageModel extends InstallerModel
      */
 	private function createMenuItem(string $component, string $title, string $type = 'component', int $parentId = 1, ?string $link = null): int
 	{
-		$db = $this->getDatabase();
-
 		if ($link === null) {
 			$link = 'index.php?option=' . $component;
 		}
@@ -421,40 +390,9 @@ class ManageModel extends InstallerModel
 			$alias = strtolower($component) . '-menu';
 		}
 
-		$query = $db->createQuery()
-			->select($db->quoteName(['lft', 'rgt', 'level']))
-			->from($db->quoteName('#__menu'))
-			->where($db->quoteName('id') . ' = :id')
-			->bind(':id', $parentId, ParameterType::INTEGER);
-		$db->setQuery($query);
-		$parent = $db->loadObject();
+		$menuTable = new Menu($this->getDatabase());
 
-		if (!$parent) {
-			throw new RuntimeException(Text::sprintf('COM_INSTALLER_ERROR_PARENT_MENU_ITEM_NOT_FOUND', $parentId), 500);
-		}
-
-		$level = $parent->level + 1;
-
-		$query->clear()
-			->update($db->quoteName('#__menu'))
-			->set($db->quoteName('rgt') . ' = ' . $db->quoteName('rgt') . ' + 2')
-			->where($db->quoteName('rgt') . ' >= :rgt')
-			->bind(':rgt', $parent->rgt, ParameterType::INTEGER);
-		$db->setQuery($query);
-		$db->execute();
-
-		$query->clear()
-			->update($db->quoteName('#__menu'))
-			->set($db->quoteName('lft') . ' = ' . $db->quoteName('lft') . ' + 2')
-			->where($db->quoteName('lft') . ' > :rgt')
-			->bind(':rgt', $parent->rgt, ParameterType::INTEGER);
-		$db->setQuery($query);
-		$db->execute();
-
-		$newLft = $parent->rgt;
-		$newRgt = $parent->rgt + 1;
-
-		$menuItem = (object) [
+		$menuTable->bind([
 			'menutype'    => 'main',
 			'title'       => $title,
 			'alias'       => $alias,
@@ -471,14 +409,19 @@ class ManageModel extends InstallerModel
 			'params'      => '',
 			'path'        => $link,
 			'img'         => '',
-			'lft'         => $newLft,
-			'rgt'         => $newRgt,
-			'level'       => $level,
-		];
+		]);
 
-		$db->insertObject('#__menu', $menuItem);
+		if (!$menuTable->check()) {
+			throw new RuntimeException($menuTable->getError(), 500);
+		}
 
-		return $db->insertid();
+		$menuTable->setLocation($parentId, 'last-child');
+
+		if (!$menuTable->store()) {
+			throw new RuntimeException($menuTable->getError(), 500);
+		}
+
+		return (int) $menuTable->id;
 	}
 
     /**
