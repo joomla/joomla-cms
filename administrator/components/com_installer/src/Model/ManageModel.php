@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
+use Exception;
 use Joomla\CMS\Changelog\Changelog;
 use Joomla\CMS\Event\Model\BeforeChangeStateEvent;
 use Joomla\CMS\Extension\ExtensionHelper;
@@ -23,6 +24,8 @@ use Joomla\CMS\Table\Extension;
 use Joomla\Component\Templates\Administrator\Table\StyleTable;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
+use RuntimeException;
+use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -202,6 +205,281 @@ class ManageModel extends InstallerModel
 
         return $result;
     }
+
+	/**
+	 * Rebuilds the admin menu from the extension's manifest file.
+	 *
+	 * @param   integer  $eid  The extension ID
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 *
+     * @since   __DEPLOY_VERSION__
+     */
+	public function recreateMenu(int $eid): void
+	{
+		$db = $this->getDatabase();
+		$query = $db->createQuery()
+			->select($db->quoteName(['extension_id', 'element', 'type', 'client_id', 'manifest_cache']))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('extension_id') . ' = :eid')
+			->bind(':eid', $eid, ParameterType::INTEGER);
+		$db->setQuery($query);
+
+		$extension = $db->loadObject();
+
+		if (!$extension) {
+			throw new \RuntimeException(Text::sprintf('COM_INSTALLER_ERROR_EXTENSION_NOT_FOUND', $eid), 500);
+		}
+
+		if ($extension->type !== 'component' || $extension->client_id != 1) {
+			throw new \RuntimeException(Text::sprintf('COM_INSTALLER_ERROR_NOT_ADMIN_COMPONENT', $eid), 500);
+		}
+
+		$manifest = json_decode($extension->manifest_cache, true);
+
+		if (!$manifest) {
+			throw new RuntimeException(Text::sprintf('COM_INSTALLER_ERROR_MANIFEST_INVALID', $eid), 500);
+		}
+
+		$this->rebuildMenuFromManifest($extension);
+		$this->cleanCache('mod_menu');
+	}
+
+    /**
+     * Rebuilds menu entries from the manifest data.
+     *
+     * @param   stdClass  $extension  The extension object
+     *
+     * @return  void
+     *
+     * @throws  Exception
+     * @since   __DEPLOY_VERSION__
+     */
+	private function rebuildMenuFromManifest(stdClass $extension): void
+	{
+		$component = $extension->element;
+
+		if ($extension->type !== 'component' || $extension->client_id !== 1) {
+            throw new \RuntimeException(Text::sprintf('COM_INSTALLER_ERROR_NOT_ADMIN_COMPONENT', $extension->id), 500);
+        }
+
+        $menuPath = JPATH_ADMINISTRATOR . '/components/' . $component . '/' . $component . '.xml';
+
+        if (!file_exists($menuPath)) {
+            $altComponent = preg_replace('/^com_/', '', $component);
+            $altPath = JPATH_ADMINISTRATOR . '/components/' . $component . '/' . $altComponent . '.xml';
+            if (file_exists($altPath)) {
+                $menuPath = $altPath;
+            }
+        }
+
+        if (!file_exists($menuPath)) {
+            throw new RuntimeException(Text::sprintf('COM_INSTALLER_ERROR_MANIFEST_FILE_NOT_FOUND', $component), 500);
+        }
+
+        $xml = simplexml_load_file($menuPath);
+
+        if ($xml === false) {
+            throw new RuntimeException(Text::sprintf('COM_INSTALLER_ERROR_MANIFEST_XML_INVALID', $component), 500);
+        }
+
+        $mainMenuTitle  = '';
+        $mainMenuView   = '';
+        $submenuEntries = [];
+
+        if (isset($xml->administration->menu)) {
+            $mainMenu = $xml->administration->menu;
+            $mainMenuTitle = Text::_((string) $mainMenu);
+            $mainMenuView = (string) $mainMenu['view'];
+        }
+
+        if (isset($xml->administration->submenu) && isset($xml->administration->submenu->menu)) {
+            foreach ($xml->administration->submenu->menu as $submenu) {
+                $submenuEntries[] = [
+                    'link' => 'index.php?option=' . $component . '&' . ltrim((string) $submenu['link'], '&'),
+                    'title' => Text::_((string) $submenu)
+                ];
+            }
+        }
+
+        $this->deleteComponentMenuItems($component);
+
+        $mainMenuId = 0;
+
+        if (!empty($mainMenuTitle)) {
+            $mainLink = 'index.php?option=' . $component;
+            if (!empty($mainMenuView)) {
+                $mainLink .= '&view=' . $mainMenuView;
+            }
+            $mainMenuId = $this->createMenuItem($component, $mainMenuTitle, 'component', 1, $mainLink);
+        }
+
+        if (!empty($submenuEntries) && $mainMenuId > 0) {
+            foreach ($submenuEntries as $submenu) {
+                $this->createMenuItem($component, $submenu['title'], 'component', $mainMenuId, $submenu['link']);
+            }
+        }
+	}
+
+	/**
+	 * Deletes existing menu items for a component.
+	 *
+	 * @param   string  $component  The component name (e.g., com_sso)
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function deleteComponentMenuItems(string $component): void
+	{
+        $db       = $this->getDatabase();
+        $link     = '%option=' . $component . '%';
+        $menuType = 'main';
+        $clientId = 1;
+
+		$query = $db->createQuery()
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__menu'))
+			->where($db->quoteName('link') . ' LIKE :link')
+			->where($db->quoteName('menutype') . ' = :menutype')
+			->where($db->quoteName('client_id') . ' = :client_id')
+			->bind(':link', $link, ParameterType::STRING)
+			->bind(':menutype', $menuType, ParameterType::STRING)
+			->bind(':client_id', $clientId, ParameterType::INTEGER);
+		$db->setQuery($query);
+		$menuIds = $db->loadColumn();
+
+		if (!empty($menuIds)) {
+			foreach ($menuIds as $id) {
+				$this->deleteMenuItemAndChildren($id);
+			}
+		}
+	}
+
+	/**
+	 * Recursively deletes a menu item and all its children.
+	 *
+	 * @param   integer  $id  The menu item ID
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function deleteMenuItemAndChildren(int $id): void
+	{
+		$db = $this->getDatabase();
+
+		$query = $db->createQuery()
+			->select($db->quoteName(['lft', 'rgt']))
+			->from($db->quoteName('#__menu'))
+			->where($db->quoteName('id') . ' = :id')
+			->bind(':id', $id, ParameterType::INTEGER);
+		$db->setQuery($query);
+		$item = $db->loadObject();
+
+		if ($item) {
+			$query->clear()
+				->delete($db->quoteName('#__menu'))
+				->where($db->quoteName('lft') . ' >= :lft')
+				->where($db->quoteName('rgt') . ' <= :rgt')
+				->bind(':lft', $item->lft, ParameterType::INTEGER)
+				->bind(':rgt', $item->rgt, ParameterType::INTEGER);
+			$db->setQuery($query);
+			$db->execute();
+		}
+	}
+
+    /**
+     * Creates a menu item with proper nested set values.
+     *
+     * @param   string       $component  The component name
+     * @param   string       $title      The menu item title
+     * @param   string       $type       The menu item type
+     * @param   integer      $parentId   The parent menu item ID (use 1 for root-level admin menu items)
+     * @param   string|null  $link       The link
+     *
+     * @return  integer  The new menu item ID, or 0 on failure
+     *
+     * @throws  Exception
+     * @since   __DEPLOY_VERSION__
+     */
+	private function createMenuItem(string $component, string $title, string $type = 'component', int $parentId = 1, ?string $link = null): int
+	{
+		$db = $this->getDatabase();
+
+		if ($link === null) {
+			$link = 'index.php?option=' . $component;
+		}
+
+		$title = trim($title);
+		$alias = strtolower(preg_replace('/[^a-zA-Z0-9]/', '-', $title));
+		$alias = trim($alias, '-');
+
+		if (empty($alias)) {
+			$alias = strtolower($component) . '-menu';
+		}
+
+		$query = $db->createQuery()
+			->select($db->quoteName(['lft', 'rgt', 'level']))
+			->from($db->quoteName('#__menu'))
+			->where($db->quoteName('id') . ' = :id')
+			->bind(':id', $parentId, ParameterType::INTEGER);
+		$db->setQuery($query);
+		$parent = $db->loadObject();
+
+		if (!$parent) {
+			throw new RuntimeException(Text::sprintf('COM_INSTALLER_ERROR_PARENT_MENU_ITEM_NOT_FOUND', $parentId), 500);
+		}
+
+		$level = $parent->level + 1;
+
+		$query->clear()
+			->update($db->quoteName('#__menu'))
+			->set($db->quoteName('rgt') . ' = ' . $db->quoteName('rgt') . ' + 2')
+			->where($db->quoteName('rgt') . ' >= :rgt')
+			->bind(':rgt', $parent->rgt, ParameterType::INTEGER);
+		$db->setQuery($query);
+		$db->execute();
+
+		$query->clear()
+			->update($db->quoteName('#__menu'))
+			->set($db->quoteName('lft') . ' = ' . $db->quoteName('lft') . ' + 2')
+			->where($db->quoteName('lft') . ' > :rgt')
+			->bind(':rgt', $parent->rgt, ParameterType::INTEGER);
+		$db->setQuery($query);
+		$db->execute();
+
+		$newLft = $parent->rgt;
+		$newRgt = $parent->rgt + 1;
+
+		$menuItem = (object) [
+			'menutype'    => 'main',
+			'title'       => $title,
+			'alias'       => $alias,
+			'link'        => $link,
+			'type'        => $type,
+			'published'   => 1,
+			'parent_id'   => $parentId,
+			'component_id' => 0,
+			'access'      => 1,
+			'client_id'   => 1,
+			'language'    => '*',
+			'browserNav'  => 0,
+			'home'        => 0,
+			'params'      => '',
+			'path'        => $link,
+			'img'         => '',
+			'lft'         => $newLft,
+			'rgt'         => $newRgt,
+			'level'       => $level,
+		];
+
+		$db->insertObject('#__menu', $menuItem);
+
+		return $db->insertid();
+	}
 
     /**
      * Remove (uninstall) an extension

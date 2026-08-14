@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Installer\Administrator\Controller;
 
+use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -197,4 +198,43 @@ class ManageController extends BaseController
 
         echo $model->loadChangelog($eid, $source);
     }
+
+	/**
+	 * Rebuilds the admin menu from the selected extension's manifest file.
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function recreateMenu(): void
+	{
+		$this->checkToken();
+
+        try {
+            $eids = (array) $this->input->get('cid', [], 'int');
+            $eids = array_filter($eids);
+
+            if (empty($eids)) {
+                $this->setMessage(Text::_('COM_INSTALLER_ERROR_NO_EXTENSIONS_SELECTED'), 'warning');
+                $this->setRedirect(Route::_('index.php?option=com_installer&view=manage', false));
+                return;
+            }
+
+            /** @var ManageModel $model */
+            $model = $this->getModel('manage');
+
+            foreach ($eids as $eid) {
+                $model->recreateMenu($eid);
+            }
+
+            $this->setMessage(Text::plural('COM_INSTALLER_N_EXTENSIONS_RECREATED', \count($eids)));
+
+        } catch (\Exception $exception) {
+            $this->setMessage($exception->getMessage(), 'warning');
+        }
+
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=manage', false));
+	}
 }

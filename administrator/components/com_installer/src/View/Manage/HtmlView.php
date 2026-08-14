@@ -130,6 +130,10 @@ class HtmlView extends InstallerViewDefault
         $childBar->standardButton('refresh', 'JTOOLBAR_REFRESH_CACHE', 'manage.refresh')
             ->listCheck(true);
 
+        $childBar->standardButton('recreateMenu', 'COM_INSTALLER_RECREATE_MENU', 'manage.recreateMenu')
+            ->icon('icon-menu')
+            ->listCheck(true);
+
         if ($canDo->get('core.manage')) {
             $toolbar->linkButton('upload', 'COM_INSTALLER_TOOLBAR_INSTALL_EXTENSIONS')
                 ->url('index.php?option=com_installer&view=install');
