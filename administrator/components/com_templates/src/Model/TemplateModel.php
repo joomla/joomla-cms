@@ -1406,7 +1406,7 @@ class TemplateModel extends FormModel
                 return false;
             }
 
-            $url = Path::check($location . '/' . $fileName);
+            $url = Path::clean($location . '/' . $fileName);
 
             return $url;
         }
