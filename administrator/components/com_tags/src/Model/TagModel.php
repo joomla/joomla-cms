@@ -13,11 +13,11 @@ namespace Joomla\Component\Tags\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Versioning\VersionableModelTrait;
-use Joomla\CMS\Filter\OutputFilter;
-use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
