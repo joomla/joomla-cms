@@ -68,12 +68,14 @@ Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
 
     let messagesBox = null;
     let messageWrapper = null;
+    let isUpdated = false;
 
     if (!isKeepOld) {
       messagesBox = existingAlerts.find((alert) => alert.getAttribute('type') === alertClass && !preservedAlerts.includes(alert));
     }
 
     if (messagesBox) {
+      isUpdated = true;
       preservedAlerts.push(messagesBox);
       messageWrapper = messagesBox.querySelector('.alert-wrapper');
 
@@ -116,6 +118,16 @@ Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
       typeMessages.forEach((typeMessage) => {
         messageWrapper.innerHTML += Joomla.sanitizeHtml(`<div class="alert-message">${typeMessage}</div>`);
       });
+
+      if (isUpdated && typeof messageWrapper.animate === 'function') {
+        messageWrapper.animate(
+          [
+            { opacity: 0.3 },
+            { opacity: 1 }
+          ],
+          { duration: 250, easing: 'ease-in-out' }
+        );
+      }
     }
   });
 
