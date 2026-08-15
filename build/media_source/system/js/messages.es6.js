@@ -50,7 +50,8 @@ const getMessageContainer = (container) => {
 Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
   const messageContainer = getMessageContainer(selector);
   const isKeepOld = typeof keepOld !== 'undefined' && keepOld !== false;
-  const updatedAlerts = [];
+  const existingAlerts = Array.from(messageContainer.querySelectorAll('joomla-alert'));
+  const preservedAlerts = [];
 
   Object.keys(messages).forEach((type) => {
     let alertClass = type;
@@ -69,11 +70,11 @@ Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
     let messageWrapper = null;
 
     if (!isKeepOld) {
-      messagesBox = messageContainer.querySelector(`joomla-alert[type="${alertClass}"]`);
+      messagesBox = existingAlerts.find((alert) => alert.getAttribute('type') === alertClass && !preservedAlerts.includes(alert));
     }
 
     if (messagesBox) {
-      updatedAlerts.push(messagesBox);
+      preservedAlerts.push(messagesBox);
       messageWrapper = messagesBox.querySelector('.alert-wrapper');
 
       if (timeout && parseInt(timeout, 10) > 0) {
@@ -119,8 +120,8 @@ Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
   });
 
   if (!isKeepOld) {
-    messageContainer.querySelectorAll('joomla-alert').forEach((alert) => {
-      if (!updatedAlerts.includes(alert)) {
+    existingAlerts.forEach((alert) => {
+      if (!preservedAlerts.includes(alert)) {
         alert.close();
       }
     });
