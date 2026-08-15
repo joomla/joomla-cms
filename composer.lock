@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a57ffa9d593e21ab64d0dacd2c607920",
+    "content-hash": "b1fe10069e0536da45c28054b2343af5",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1643,16 +1643,16 @@
         },
         {
             "name": "joomla/filesystem",
-            "version": "3.3.0",
+            "version": "dev-3.x-shtml",
             "source": {
                 "type": "git",
-                "url": "https://github.com/joomla-framework/filesystem.git",
-                "reference": "0452f6ce0365d90a39fe9d005059aa245613f4e1"
+                "url": "git@github.com:joomla-framework/security-filesystem.git",
+                "reference": "8912e45e2aa2c119e78783d046a37ad2d1df0e61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/0452f6ce0365d90a39fe9d005059aa245613f4e1",
-                "reference": "0452f6ce0365d90a39fe9d005059aa245613f4e1",
+                "url": "https://api.github.com/repos/joomla-framework/security-filesystem/zipball/8912e45e2aa2c119e78783d046a37ad2d1df0e61",
+                "reference": "8912e45e2aa2c119e78783d046a37ad2d1df0e61",
                 "shasum": ""
             },
             "require": {
@@ -1678,7 +1678,11 @@
                     "Joomla\\Filesystem\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Joomla\\Filesystem\\Tests\\": "Tests/"
+                }
+            },
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -1690,10 +1694,20 @@
                 "joomla"
             ],
             "support": {
-                "issues": "https://github.com/joomla-framework/filesystem/issues",
-                "source": "https://github.com/joomla-framework/filesystem/tree/3.3.0"
+                "source": "https://github.com/joomla-framework/security-filesystem/tree/3.x-shtml",
+                "issues": "https://github.com/joomla-framework/security-filesystem/issues"
             },
-            "time": "2026-06-25T19:30:56+00:00"
+            "funding": [
+                {
+                    "type": "github",
+                    "url": "https://github.com/joomla"
+                },
+                {
+                    "type": "custom",
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html"
+                }
+            ],
+            "time": "2026-08-05T17:20:15+00:00"
         },
         {
             "name": "joomla/filter",
@@ -10149,6 +10163,12 @@
     ],
     "aliases": [
         {
+            "package": "joomla/filesystem",
+            "version": "dev-3.x-shtml",
+            "alias": "3.3.1",
+            "alias_normalized": "3.3.1.0"
+        },
+        {
             "package": "voku/portable-utf8",
             "version": "dev-joomla-5.3",
             "alias": "6.0.13",
@@ -10157,6 +10177,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
+        "joomla/filesystem": 20,
         "tobscure/json-api": 20,
         "voku/portable-utf8": 20
     },
