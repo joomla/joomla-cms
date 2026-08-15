@@ -22,17 +22,20 @@ extract($displayData);
  */
 
 $classes = array_filter((array) $classes);
-$id      = $for . '-lbl';
+
+// Allow the layout to accept a pre-defined $id, otherwise fallback to $for . '-lbl'
+$id  = $id ?? ($for ? $for . '-lbl' : '');
+$tag = empty($for) ? 'span' : 'label';
 
 if ($required) {
     $classes[] = 'required';
 }
 
 ?>
-<label id="<?php echo $id; ?>" for="<?php echo $for; ?>"<?php if (!empty($classes)) {
+<<?php echo $tag; ?><?php if ($id) : ?> id="<?php echo $id; ?>"<?php endif; ?><?php if (!empty($for)) : ?> for="<?php echo $for; ?>"<?php endif; ?><?php if (!empty($classes)) {
     echo ' class="' . implode(' ', $classes) . '"';
            } ?>>
     <?php echo $text; ?><?php if ($required) :
         ?><span class="star" aria-hidden="true">&#160;*</span><?php
     endif; ?>
-</label>
+</<?php echo $tag; ?>>
