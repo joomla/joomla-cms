@@ -107,7 +107,9 @@ Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
  */
 Joomla.removeMessages = (container) => {
   const messageContainer = getMessageContainer(container);
-  messageContainer.querySelectorAll('joomla-alert').forEach((alert) => alert.close());
+  messageContainer.querySelectorAll('joomla-alert').forEach((alert) => {
+    alert.parentNode.removeChild(alert);
+  });
 };
 
 document.addEventListener('DOMContentLoaded', () => {
