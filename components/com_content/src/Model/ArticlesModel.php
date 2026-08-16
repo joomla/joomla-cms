@@ -426,14 +426,12 @@ class ArticlesModel extends ListModel
         if ($categoryIds) {
             $include                    = $this->getState('filter.category_id.include', true);
             $includeSubcategories       = $this->getState('filter.subcategories', false);
-            $includeSecondaryCategories = $this->getState('filter.include_secondary_categories', true);
             $levels                     = (int) $this->getState('filter.max_category_levels', 1);
 
             $helper       = new SecondaryCategoriesHelper('com_content.article');
             $allCondition = $helper->buildCategoryMembershipCondition(
                 $categoryIds,
                 $includeSubcategories,
-                $includeSecondaryCategories,
                 $levels
             );
 

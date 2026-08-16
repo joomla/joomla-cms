@@ -127,7 +127,6 @@ class CategoriesModel extends ListModel
             $options                               = [];
             $options['countItems']                 = $params->get('show_cat_num_articles_cat', 1) || !$params->get('show_empty_categories_cat', 0);
             $options['accessOnItems']              = !$params->get('show_noauth', 0);
-            $options['includeSecondaryCategories'] = (bool) $params->get('include_secondary_categories', 1);
 
             $categories    = Categories::getInstance('Content', $options);
             $this->_parent = $categories->get($this->getState('filter.parentId', 'root'));

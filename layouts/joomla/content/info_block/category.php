@@ -28,18 +28,16 @@ if ($displayData['params']->get('link_category') && !empty($displayData['item']-
     $categories[] = '<span>' . $title . '</span>';
 }
 
-if ((int) $displayData['params']->get('include_secondary_categories', 1)) {
-    foreach (($displayData['item']->secondary_categories ?? []) as $category) {
-        $title = $this->escape($category->title);
+foreach (($displayData['item']->secondary_categories ?? []) as $category) {
+    $title = $this->escape($category->title);
 
-        if ($displayData['params']->get('link_category') && !empty($category->id)) {
-            $categories[] = '<a href="' . Route::_(
-                RouteHelper::getCategoryRoute($category->id, $category->language)
-            )
-                . '">' . $title . '</a>';
-        } else {
-            $categories[] = '<span>' . $title . '</span>';
-        }
+    if ($displayData['params']->get('link_category') && !empty($category->id)) {
+        $categories[] = '<a href="' . Route::_(
+            RouteHelper::getCategoryRoute($category->id, $category->language)
+        )
+            . '">' . $title . '</a>';
+    } else {
+        $categories[] = '<span>' . $title . '</span>';
     }
 }
 

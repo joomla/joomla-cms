@@ -317,7 +317,6 @@ class CategoryModel extends ListModel
 
             $options                               = [];
             $options['countItems']                 = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
-            $options['includeSecondaryCategories'] = true;
             $categories                            = Categories::getInstance('Newsfeeds', $options);
             $this->_item                           = $categories->get($this->getState('category.id', 'root'));
 

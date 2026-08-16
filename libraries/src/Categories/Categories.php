@@ -379,14 +379,13 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
 
         // Note: i for item
         if ($this->_options['countItems'] == 1) {
-            $context          = $this->getCategoryMappingContext();
-            $includeSecondary = $this->_options['includeSecondaryCategories'] ?? false;
+            $context = $this->getCategoryMappingContext();
 
             $subQuery = $db->createQuery()
                 ->select('COUNT(DISTINCT ' . $db->quoteName($db->escape('i.' . $this->_key)) . ')')
                 ->from($db->quoteName($db->escape($this->_table), 'i'));
 
-            if ($context !== null && $includeSecondary) {
+            if ($context !== null) {
                 $subQuery->join(
                     'LEFT',
                     $db->quoteName('#__category_item_map', 'm'),

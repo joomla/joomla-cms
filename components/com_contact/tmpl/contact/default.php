@@ -65,15 +65,13 @@ $icon    = $this->params->get('contact_icons') == 0;
             <?php $categories[] = '<span>' . $this->escape($this->item->category_title) . '</span>'; ?>
         <?php endif; ?>
 
-        <?php if ($tparams->get('include_secondary_categories', 1)) : ?>
-            <?php foreach (($this->item->secondary_categories ?? []) as $category) : ?>
-                <?php if ($showContactCategory === 'show_with_link') : ?>
-                    <?php $categories[] = '<a href="' . Route::_(RouteHelper::getCategoryRoute($category->id, $category->language ?? $this->item->language)) . '">' . $this->escape($category->title) . '</a>'; ?>
-                <?php else : ?>
-                    <?php $categories[] = '<span>' . $this->escape($category->title) . '</span>'; ?>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        <?php endif; ?>
+        <?php foreach (($this->item->secondary_categories ?? []) as $category) : ?>
+            <?php if ($showContactCategory === 'show_with_link') : ?>
+                <?php $categories[] = '<a href="' . Route::_(RouteHelper::getCategoryRoute($category->id, $category->language ?? $this->item->language)) . '">' . $this->escape($category->title) . '</a>'; ?>
+            <?php else : ?>
+                <?php $categories[] = '<span>' . $this->escape($category->title) . '</span>'; ?>
+            <?php endif; ?>
+        <?php endforeach; ?>
 
         <<?php echo $htag2; ?>>
             <span class="contact-category">

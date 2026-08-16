@@ -918,7 +918,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
             // Reuse the centralized helper to check primary AND secondary mappings
             $helper    = new SecondaryCategoriesHelper($context);
-            $condition = $helper->buildCategoryMembershipCondition([(int) $catid], false, true, 1, 'a');
+            $condition = $helper->buildCategoryMembershipCondition([(int) $catid], false, 1, 'a');
 
             $query->select('COUNT(DISTINCT ' . $db->quoteName('a.id') . ')')
                 ->from($db->quoteName($table, 'a'))
@@ -1041,7 +1041,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
                 // Reuse the centralized helper to check primary AND secondary mappings
                 $helper    = new SecondaryCategoriesHelper($context);
-                $condition = $helper->buildCategoryMembershipCondition($childCategoryIds, false, true, 1, 'a');
+                $condition = $helper->buildCategoryMembershipCondition($childCategoryIds, false, 1, 'a');
 
                 $query = $db->createQuery()
                     ->select('COUNT(DISTINCT ' . $db->quoteName('a.id') . ')')

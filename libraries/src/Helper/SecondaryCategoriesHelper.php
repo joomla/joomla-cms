@@ -109,7 +109,6 @@ class SecondaryCategoriesHelper extends CMSHelper
      *
      * @param   array   $categoryIds           The category IDs to match.
      * @param   bool    $includeSubcategories   Whether to include child categories in the match.
-     * @param   bool    $includeSecondary       Whether to include secondary category mappings.
      * @param   int     $levels                 Maximum depth of subcategories to include.
      * @param   string  $tableAlias             Table alias for the content table (default: 'a').
      *
@@ -117,7 +116,7 @@ class SecondaryCategoriesHelper extends CMSHelper
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function buildCategoryMembershipCondition(array $categoryIds, bool $includeSubcategories = false, bool $includeSecondary = true, int $levels = 1, string $tableAlias = 'a'): string
+    public function buildCategoryMembershipCondition(array $categoryIds, bool $includeSubcategories = false, int $levels = 1, string $tableAlias = 'a'): string
     {
         $db = $this->getDb();
 
@@ -133,11 +132,6 @@ class SecondaryCategoriesHelper extends CMSHelper
 
         // Build primary category condition (with optional subcategories)
         $primaryCondition = $this->buildPrimaryCategoryCondition($catidColumn, $boundedIds, $categoryIds, $includeSubcategories, $levels);
-
-        // If secondary categories are disabled, return primary only
-        if (!$includeSecondary) {
-            return $primaryCondition;
-        }
 
         // Build secondary category condition (respects subcategories setting)
         $secondaryQuery     = $this->getMappedItemIdsQuery($categoryIds, $includeSubcategories, $levels);

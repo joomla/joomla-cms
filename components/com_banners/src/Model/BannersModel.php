@@ -145,7 +145,7 @@ class BannersModel extends ListModel
         $maxCategoryLevels = (int) $this->getState('filter.max_category_levels', 1);
         if (is_numeric($categoryId)) {
             $helper    = new SecondaryCategoriesHelper('com_banners.banner');
-            $condition = $helper->buildCategoryMembershipCondition([(int) $categoryId], $includeSubcats, true, $maxCategoryLevels);
+            $condition = $helper->buildCategoryMembershipCondition([(int) $categoryId], $includeSubcats, $maxCategoryLevels);
             $query->where($includeCategory ? $condition : 'NOT (' . $condition . ')');
         } elseif (\is_array($categoryId) && (\count($categoryId) > 0)) {
             $categoryId = SecondaryCategoriesHelper::normalizeCategoryIds($categoryId);

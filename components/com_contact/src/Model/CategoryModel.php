@@ -199,13 +199,11 @@ class CategoryModel extends ListModel
         $categoryId                 = (int) $this->getState('category.id');
         $levels                     = (int) $this->getState('filter.max_category_levels', 1);
         $includeSubcategories       = $levels !== 0;
-        $includeSecondaryCategories = (bool) $this->getState('filter.include_secondary_categories', true);
         $helper                     = new SecondaryCategoriesHelper('com_contact.contact');
 
         $query->where($helper->buildCategoryMembershipCondition(
             [$categoryId],
             $includeSubcategories,
-            $includeSecondaryCategories,
             $levels
         ));
 
@@ -329,8 +327,6 @@ class CategoryModel extends ListModel
         $id = $input->get('id', 0, 'int');
         $this->setState('category.id', $id);
         $this->setState('filter.max_category_levels', $params->get('maxLevel', 1));
-        $this->setState('filter.include_secondary_categories', (bool) $params->get('include_secondary_categories', 1));
-
         $user = $this->getCurrentUser();
 
         if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact'))) {
@@ -366,7 +362,6 @@ class CategoryModel extends ListModel
 
             $options                               = [];
             $options['countItems']                 = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
-            $options['includeSecondaryCategories'] = (bool) $params->get('include_secondary_categories', 1);
             $categories                            = Categories::getInstance('Contact', $options);
             $this->_item                           = $categories->get($this->getState('category.id', 'root'));
 

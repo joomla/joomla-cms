@@ -586,17 +586,6 @@
 		</field>
 
 		<field
-		    name="include_secondary_categories"
-			type="radio"
-			label="JGLOBAL_INCLUDE_ADDITIONAL_CATEGORIES_LABEL"
-			default="1"
-			layout="joomla.form.field.radio.switcher"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field
 			name="show_empty_categories"
 			type="radio"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"

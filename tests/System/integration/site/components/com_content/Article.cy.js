@@ -30,7 +30,7 @@ describe('Test in frontend that the content article form', () => {
     cy.get('[type="success"] > .alert-wrapper > .alert-message').should('contain', 'Article submitted.');
   });
 
-  it('shows additional categories in the category info only when included via Menu Item', () => {
+  it('shows all categories in the category info', () => {
     cy.db_createCategory({
       title: 'Test Primary Info Category',
       alias: 'test-primary-info-category',
@@ -57,7 +57,6 @@ describe('Test in frontend that the content article form', () => {
           params: JSON.stringify({
             show_category: 1,
             link_category: 0,
-            include_secondary_categories: 1,
           }),
         }).then((positiveMenuId) => {
           cy.visit(`/index.php?option=com_content&view=article&id=${article.id}&Itemid=${positiveMenuId}`);
@@ -66,25 +65,6 @@ describe('Test in frontend that the content article form', () => {
             .should('contain.text', 'Categories:')
             .and('contain.text', 'Test Primary Info Category')
             .and('contain.text', 'Test Additional Info Category');
-        });
-
-        cy.db_createMenuItem({
-          title: 'Negative Menu Item',
-          alias: 'negative-menu-item',
-          path: 'negative-menu-item',
-          link: `index.php?option=com_content&view=article&id=${article.id}`,
-          params: JSON.stringify({
-            show_category: 1,
-            link_category: 0,
-            include_secondary_categories: 0,
-          }),
-        }).then((negativeMenuId) => {
-          cy.visit(`/index.php?option=com_content&view=article&id=${article.id}&Itemid=${negativeMenuId}`);
-
-          cy.get('.article-info .category-name')
-            .should('contain.text', 'Category:')
-            .and('contain.text', 'Test Primary Info Category')
-            .and('not.contain.text', 'Test Additional Info Category');
         });
       });
     }));

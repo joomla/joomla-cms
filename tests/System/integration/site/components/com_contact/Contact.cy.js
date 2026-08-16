@@ -32,7 +32,7 @@ describe('Test in frontend that the contact details view', () => {
       });
   });
 
-  it('shows additional categories in the category info only when included via Menu Item', () => {
+  it('shows all categories in the category info', () => {
     cy.db_createCategory({
       title: 'Test Contact Primary Category',
       alias: 'test-contact-primary-category',
@@ -58,7 +58,6 @@ describe('Test in frontend that the contact details view', () => {
           link: `index.php?option=com_contact&view=contact&id=${contact.id}`,
           params: JSON.stringify({
             show_contact_category: 'show_no_link',
-            include_secondary_categories: 1,
           }),
         }).then((positiveMenuId) => {
           cy.visit(`/index.php?option=com_contact&view=contact&id=${contact.id}&Itemid=${positiveMenuId}`);
@@ -67,24 +66,6 @@ describe('Test in frontend that the contact details view', () => {
             .should('contain.text', 'Categories:')
             .and('contain.text', 'Test Contact Primary Category')
             .and('contain.text', 'Test Contact Additional Category');
-        });
-
-        cy.db_createMenuItem({
-          title: 'Negative Contact Menu Item',
-          alias: 'negative-contact-menu-item',
-          path: 'negative-contact-menu-item',
-          link: `index.php?option=com_contact&view=contact&id=${contact.id}`,
-          params: JSON.stringify({
-            show_contact_category: 'show_no_link',
-            include_secondary_categories: 0,
-          }),
-        }).then((negativeMenuId) => {
-          cy.visit(`/index.php?option=com_contact&view=contact&id=${contact.id}&Itemid=${negativeMenuId}`);
-
-          cy.get('.contact-category')
-            .should('contain.text', 'Category:')
-            .and('contain.text', 'Test Contact Primary Category')
-            .and('not.contain.text', 'Test Contact Additional Category');
         });
       });
     }));

@@ -229,7 +229,6 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
                 'view'                       => 'category',
                 'params'                     => $menuParams,
                 'categoryIds'                => [(int) ($menu->query['id'] ?? 0)],
-                'includeSecondaryCategories' => (bool) $menuParams->get('include_secondary_categories', 1),
                 'includeSubcategories'       => $showSubcategories > 0,
                 'maxCategoryLevels'          => $showSubcategories ?: 1,
                 'featured'                   => $menuParams->get('show_featured', 'show'),
@@ -242,7 +241,6 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
                 'view'                       => 'featured',
                 'params'                     => $menuParams,
                 'categoryIds'                => (array) $menuParams->get('featured_categories', []),
-                'includeSecondaryCategories' => true,
                 'includeSubcategories'       => false,
                 'maxCategoryLevels'          => 1,
                 'published'                  => ContentComponent::CONDITION_PUBLISHED,
@@ -253,7 +251,6 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
             'view'                       => 'archive',
             'params'                     => $menuParams,
             'categoryIds'                => (array) ($menu->query['catid'] ?? $menuParams->get('catid', [])),
-            'includeSecondaryCategories' => true,
             'includeSubcategories'       => false,
             'maxCategoryLevels'          => 1,
             'published'                  => ContentComponent::CONDITION_ARCHIVED,
@@ -276,7 +273,6 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
             'view'                       => 'article',
             'params'                     => $params,
             'categoryIds'                => [(int) $row->catid],
-            'includeSecondaryCategories' => true,
             'includeSubcategories'       => false,
             'maxCategoryLevels'          => 1,
             'published'                  => (int) $row->state,
@@ -377,7 +373,6 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
             $helper->buildCategoryMembershipCondition(
                 $categoryIds,
                 (bool) ($context['includeSubcategories'] ?? false),
-                (bool) ($context['includeSecondaryCategories'] ?? true),
                 (int) ($context['maxCategoryLevels'] ?? 1),
                 'a'
             )
