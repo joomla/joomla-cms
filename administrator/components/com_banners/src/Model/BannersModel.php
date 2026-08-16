@@ -168,7 +168,7 @@ class BannersModel extends ListModel
         }
 
         if (\count($categoryId)) {
-            $categoryId    = array_values(array_filter(ArrayHelper::toInteger($categoryId)));
+            $categoryId = array_values(array_filter(ArrayHelper::toInteger($categoryId)));
 
             if ($categoryId) {
                 $helper = new SecondaryCategoriesHelper('com_banners.banner');
