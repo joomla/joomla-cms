@@ -226,34 +226,34 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
         if ($view === 'category') {
             $showSubcategories = (int) $menuParams->get('show_subcategory_content', 0);
             return [
-                'view'                       => 'category',
-                'params'                     => $menuParams,
-                'categoryIds'                => [(int) ($menu->query['id'] ?? 0)],
-                'includeSubcategories'       => $showSubcategories > 0,
-                'maxCategoryLevels'          => $showSubcategories ?: 1,
-                'featured'                   => $menuParams->get('show_featured', 'show'),
-                'published'                  => ContentComponent::CONDITION_PUBLISHED,
+                'view'                 => 'category',
+                'params'               => $menuParams,
+                'categoryIds'          => [(int) ($menu->query['id'] ?? 0)],
+                'includeSubcategories' => $showSubcategories > 0,
+                'maxCategoryLevels'    => $showSubcategories ?: 1,
+                'featured'             => $menuParams->get('show_featured', 'show'),
+                'published'            => ContentComponent::CONDITION_PUBLISHED,
             ];
         }
 
         if ($view === 'featured') {
             return [
-                'view'                       => 'featured',
-                'params'                     => $menuParams,
-                'categoryIds'                => (array) $menuParams->get('featured_categories', []),
-                'includeSubcategories'       => false,
-                'maxCategoryLevels'          => 1,
-                'published'                  => ContentComponent::CONDITION_PUBLISHED,
+                'view'                 => 'featured',
+                'params'               => $menuParams,
+                'categoryIds'          => (array) $menuParams->get('featured_categories', []),
+                'includeSubcategories' => false,
+                'maxCategoryLevels'    => 1,
+                'published'            => ContentComponent::CONDITION_PUBLISHED,
             ];
         }
 
         return [
-            'view'                       => 'archive',
-            'params'                     => $menuParams,
-            'categoryIds'                => (array) ($menu->query['catid'] ?? $menuParams->get('catid', [])),
-            'includeSubcategories'       => false,
-            'maxCategoryLevels'          => 1,
-            'published'                  => ContentComponent::CONDITION_ARCHIVED,
+            'view'                 => 'archive',
+            'params'               => $menuParams,
+            'categoryIds'          => (array) ($menu->query['catid'] ?? $menuParams->get('catid', [])),
+            'includeSubcategories' => false,
+            'maxCategoryLevels'    => 1,
+            'published'            => ContentComponent::CONDITION_ARCHIVED,
         ];
     }
 
@@ -270,12 +270,12 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
     private function getFallbackNavigationContext(object $row, Registry $params): array
     {
         return [
-            'view'                       => 'article',
-            'params'                     => $params,
-            'categoryIds'                => [(int) $row->catid],
-            'includeSubcategories'       => false,
-            'maxCategoryLevels'          => 1,
-            'published'                  => (int) $row->state,
+            'view'                 => 'article',
+            'params'               => $params,
+            'categoryIds'          => [(int) $row->catid],
+            'includeSubcategories' => false,
+            'maxCategoryLevels'    => 1,
+            'published'            => (int) $row->state,
         ];
     }
 
