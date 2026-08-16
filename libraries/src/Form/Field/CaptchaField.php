@@ -166,32 +166,6 @@ class CaptchaField extends FormField
     }
 
     /**
-     * Method to get the field label markup.
-     *
-     * @return  string  The field label markup.
-     *
-     * @since   4.3.0
-     */
-    protected function getLabel()
-    {
-        if ($this->hidden || $this->_captcha === null) {
-            return '';
-        }
-
-        $data = $this->collectLayoutData();
-
-        $extraData = [
-            'text'     => $data['label'],
-            'for'      => '',
-            'id'       => $this->id . '-lbl',
-            'classes'  => explode(' ', $data['labelclass']),
-            'position' => '',
-        ];
-
-        return $this->getRenderer($this->renderLabelLayout)->render(array_merge($data, $extraData));
-    }
-
-    /**
      * Method to get the field input.
      *
      * @return  string  The field input.
