@@ -150,7 +150,11 @@ class JsonapiView extends BaseApiView
     public function displayList(?array $items = null)
     {
         foreach (FieldsHelper::getFields('com_content.article') as $field) {
-            $this->fieldsToRenderList[] = $field->name;
+            $fieldKey = \in_array($field->name, $this->fieldsToRenderList, true) ? 'cf_' . $field->name : $field->name;
+
+            if (!\in_array($fieldKey, $this->fieldsToRenderList, true)) {
+                $this->fieldsToRenderList[] = $fieldKey;
+            }
         }
 
         return parent::displayList();
@@ -170,7 +174,11 @@ class JsonapiView extends BaseApiView
         $this->relationship[] = 'modified_by';
 
         foreach (FieldsHelper::getFields('com_content.article') as $field) {
-            $this->fieldsToRenderItem[] = $field->name;
+            $fieldKey = \in_array($field->name, $this->fieldsToRenderItem, true) ? 'cf_' . $field->name : $field->name;
+
+            if (!\in_array($fieldKey, $this->fieldsToRenderItem, true)) {
+                $this->fieldsToRenderItem[] = $fieldKey;
+            }
         }
 
         if (Multilanguage::isEnabled()) {
@@ -212,7 +220,11 @@ class JsonapiView extends BaseApiView
         );
 
         foreach (FieldsHelper::getFields('com_content.article', $item, true) as $field) {
-            $item->{$field->name} = $field->apivalue ?? $field->rawvalue;
+            // When a custom field name collides with a core article property, expose
+            // it under a "cf_" prefix so both the core value and the custom field
+            // value are present in the API response without either being lost.
+            $fieldKey           = property_exists($item, $field->name) ? 'cf_' . $field->name : $field->name;
+            $item->{$fieldKey}  = $field->apivalue ?? $field->rawvalue;
         }
 
         if (Multilanguage::isEnabled() && !empty($item->associations)) {
