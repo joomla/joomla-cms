@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ad312a9eae54a16ad1d3196c28f442f5",
+	"content-hash": "a57e52f84005b7342adbc9a0d04a9ab5",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1991,6 +1991,66 @@
             "time": "2026-04-15T17:57:50+00:00"
         },
         {
+			"name": "joomla/preload",
+			"version": "4.1.0",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/joomla-framework/preload.git",
+				"reference": "ed4ac287d3659f5122fd6deef6d8ea5a0d67bcab"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/joomla-framework/preload/zipball/ed4ac287d3659f5122fd6deef6d8ea5a0d67bcab",
+				"reference": "ed4ac287d3659f5122fd6deef6d8ea5a0d67bcab",
+				"shasum": ""
+			},
+			"require": {
+				"fig/link-util": "^1.0",
+				"php": "^8.3.0",
+				"psr/link": "^1.1|^2.0"
+			},
+			"require-dev": {
+				"joomla/application": "^4.0",
+				"joomla/di": "^4.0",
+				"joomla/event": "^4.0",
+				"joomla/input": "^4.0",
+				"joomla/uri": "^4.0",
+				"phpstan/phpstan": "2.1.17",
+				"phpstan/phpstan-deprecation-rules": "2.0.3",
+				"phpunit/phpunit": "^12.0",
+				"squizlabs/php_codesniffer": "^3.10.2",
+				"symfony/web-link": "^7.3"
+			},
+			"suggest": {
+				"joomla/application": "To use the PreloadSubscriber event listener, install `^2.0`",
+				"joomla/di": "To use the PreloadProvider service provider, install `^1.5|^2.0`",
+				"joomla/event": "To use the PreloadSubscriber event listener, install `^2.0`",
+				"symfony/web-link": "To use the PreloadSubscriber event listener, install `^3.4|^4.4|^5.0`"
+			},
+			"type": "joomla-package",
+			"autoload": {
+				"psr-4": {
+					"Joomla\\Preload\\": "src/"
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"GPL-2.0-or-later"
+			],
+			"description": "Joomla Preload Package",
+			"homepage": "https://github.com/joomla-framework/preload",
+			"keywords": [
+				"console",
+				"framework",
+				"joomla"
+			],
+			"support": {
+				"issues": "https://github.com/joomla-framework/preload/issues",
+				"source": "https://github.com/joomla-framework/preload/tree/4.1.0"
+			},
+			"time": "2026-05-07T09:30:19+00:00"
+		},
+		{
             "name": "joomla/registry",
             "version": "4.0.0",
             "source": {

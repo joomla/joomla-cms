@@ -66,6 +66,7 @@
     "joomla/language": "^4.0",
     "joomla/oauth1": "^4.0",
     "joomla/oauth2": "^4.0",
+    "joomla/preload": "^4.1",
     "joomla/registry": "^4.0",
     "joomla/router": "^4.0",
     "joomla/session": "^4.0",
