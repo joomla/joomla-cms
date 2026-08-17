@@ -20,10 +20,12 @@
     }
   },
   "support": {
+    "github": "https://github.com/joomla/joomla-cms",
     "issues": "https://issues.joomla.org/",
-    "irc": "irc://chat.freenode.net/joomla/",
+    "chat": "https://joom.la/chat/",
     "forum": "https://forum.joomla.org/",
-    "docs": "https://docs.joomla.org/"
+    "docs": "https://guide.joomla.org/",
+    "developer docs": "https://manual.joomla.org/"
   },
   "repositories": [
     {
