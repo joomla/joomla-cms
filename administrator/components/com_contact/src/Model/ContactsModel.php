@@ -17,6 +17,8 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Category;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
+use Joomla\DI\AbstractAutowireInterface;
+use Joomla\DI\AbstractAutowireSetterAwareTrait;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -28,8 +30,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ContactsModel extends ListModel
+class ContactsModel extends ListModel implements AbstractAutowireInterface
 {
+    use AbstractAutowireSetterAwareTrait;
+
     /**
      * Constructor.
      *

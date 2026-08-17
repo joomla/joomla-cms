@@ -14,6 +14,8 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\DI\AbstractAutowireInterface;
+use Joomla\DI\AbstractAutowireSetterAwareTrait;
 use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -25,8 +27,10 @@ use Joomla\Input\Input;
  *
  * @since  1.5
  */
-class DisplayController extends BaseController
+class DisplayController extends BaseController implements AbstractAutowireInterface
 {
+    use AbstractAutowireSetterAwareTrait;
+
     /**
      * @param   array                 $config   An optional associative array of configuration settings.
      *                                          Recognized key values include 'name', 'default_task', 'model_path', and

@@ -23,6 +23,8 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
+use Joomla\DI\AbstractAutowireInterface;
+use Joomla\DI\AbstractAutowireSetterAwareTrait;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -36,8 +38,10 @@ use Joomla\Registry\Registry;
  * @subpackage  com_contact
  * @since       1.5
  */
-class ContactModel extends FormModel
+class ContactModel extends FormModel implements AbstractAutowireInterface
 {
+    use AbstractAutowireSetterAwareTrait;
+
     /**
      * The name of the view for a single item
      *

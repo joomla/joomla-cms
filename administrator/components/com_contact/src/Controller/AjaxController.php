@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
+use Joomla\DI\AbstractAutowireInterface;
+use Joomla\DI\AbstractAutowireSetterAwareTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -26,8 +28,10 @@ use Joomla\CMS\Session\Session;
  *
  * @since  3.9.0
  */
-class AjaxController extends BaseController
+class AjaxController extends BaseController implements AbstractAutowireInterface
 {
+    use AbstractAutowireSetterAwareTrait;
+
     /**
      * Method to fetch associations of a contact
      *

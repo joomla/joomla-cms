@@ -25,6 +25,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
+use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\DatabaseQuery;
@@ -138,6 +139,23 @@ abstract class BaseDatabaseModel extends BaseModel implements
         if ($component instanceof MVCFactoryServiceInterface) {
             $this->setMVCFactory($component->getMVCFactory());
         }
+    }
+
+    /**
+     * Get the list of resources that can be autowired into the class.
+     *
+     * @return array List of resources
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getAutowireResources(): array
+    {
+        return [
+            'setDispatcher'             => DispatcherAwareInterface::class,
+            'setDatabase'               => DatabaseAwareInterface::class,
+            'setMVCFactory'             => MVCFactoryInterface::class,
+            'setCacheControllerFactory' => CacheControllerFactoryAwareInterface::class,
+        ];
     }
 
     /**

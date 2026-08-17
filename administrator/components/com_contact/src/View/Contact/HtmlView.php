@@ -15,6 +15,8 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\FormView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\DI\AbstractAutowireInterface;
+use Joomla\DI\AbstractAutowireSetterAwareTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -25,8 +27,10 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  *
  * @since  1.6
  */
-class HtmlView extends FormView
+class HtmlView extends FormView implements AbstractAutowireInterface
 {
+    use AbstractAutowireSetterAwareTrait;
+
     /**
      * Set to true, if saving to menu should be supported
      *

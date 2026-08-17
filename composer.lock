@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ad312a9eae54a16ad1d3196c28f442f5",
+    "content-hash": "83d05271ad7a827db285334d69510b89",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1521,16 +1521,16 @@
         },
         {
             "name": "joomla/di",
-            "version": "4.0.0",
+            "version": "dev-4.x/autowire",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/di.git",
-                "reference": "e8511111e2b5b239f75116f9ff75b43c18809868"
+                "reference": "fb91d17ad7ddde4f1ca4c0404a9a84aefe361203"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/di/zipball/e8511111e2b5b239f75116f9ff75b43c18809868",
-                "reference": "e8511111e2b5b239f75116f9ff75b43c18809868",
+                "url": "https://api.github.com/repos/joomla-framework/di/zipball/fb91d17ad7ddde4f1ca4c0404a9a84aefe361203",
+                "reference": "fb91d17ad7ddde4f1ca4c0404a9a84aefe361203",
                 "shasum": ""
             },
             "require": {
@@ -1570,9 +1570,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/di/issues",
-                "source": "https://github.com/joomla-framework/di/tree/4.0.0"
+                "source": "https://github.com/joomla-framework/di/tree/4.x/autowire"
             },
-            "time": "2025-07-24T07:51:22+00:00"
+            "time": "2026-08-05T19:39:58+00:00"
         },
         {
             "name": "joomla/event",
@@ -9740,6 +9740,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "joomla/di": 20,
         "tobscure/json-api": 20
     },
     "prefer-stable": false,

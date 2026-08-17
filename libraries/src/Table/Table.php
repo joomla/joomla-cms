@@ -239,6 +239,21 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     }
 
     /**
+     * Get the list of resources that can be autowired into the class.
+     *
+     * @return array List of resources
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getAutowireResources(): array
+    {
+        return [
+            'setDispatcher' => DispatcherAwareInterface::class,
+            'setDatabase'   => DatabaseAwareInterface::class,
+        ];
+    }
+
+    /**
      * Get the columns from database table.
      *
      * @param   bool  $reload  flag to reload cache

@@ -12,11 +12,14 @@ namespace Joomla\CMS\MVC\View;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\DocumentAwareInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
+use Joomla\DI\AbstractAutowireInterface;
+use Joomla\DI\AbstractAutowireSetterAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
@@ -34,8 +37,9 @@ use Joomla\Event\EventInterface;
  * @since  2.5.5
  */
 #[\AllowDynamicProperties]
-abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, DocumentAwareInterface, LanguageAwareInterface
+abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, DocumentAwareInterface, LanguageAwareInterface, AbstractAutowireInterface
 {
+    use AbstractAutowireSetterAwareTrait;
     use DispatcherAwareTrait;
     use LanguageAwareTrait;
     use LegacyErrorHandlingTrait;
@@ -116,6 +120,21 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
         if (!empty($config['option'])) {
             $this->option = $config['option'];
         }
+    }
+
+    /**
+     * Get the list of resources that can be autowired into the class.
+     *
+     * @return array List of resources
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getAutowireResources(): array
+    {
+        return [
+            'setDispatcher' => DispatcherInterface::class,
+            'setLanguage'   => Language::class,
+        ];
     }
 
     /**

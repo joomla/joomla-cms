@@ -160,6 +160,23 @@ class FormController extends BaseController implements FormFactoryAwareInterface
     }
 
     /**
+     * Get the list of resources that can be autowired into the class.
+     *
+     * @return array List of resources
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getAutowireResources(): array
+    {
+        return array_merge(
+            [
+                'setFormFactory' => FormFactoryInterface::class,
+            ],
+            parent::getAutowireResources()
+        );
+    }
+
+    /**
      * Method to add a new record.
      *
      * @return  boolean  True if the record can be added, false if not.

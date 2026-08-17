@@ -13,6 +13,8 @@ namespace Joomla\Component\Contact\Administrator\Controller;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
+use Joomla\DI\AbstractAutowireInterface;
+use Joomla\DI\AbstractAutowireSetterAwareTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,8 +25,10 @@ use Joomla\CMS\Router\Route;
  *
  * @since  1.5
  */
-class DisplayController extends BaseController
+class DisplayController extends BaseController implements AbstractAutowireInterface
 {
+    use AbstractAutowireSetterAwareTrait;
+
     /**
      * The default view.
      *

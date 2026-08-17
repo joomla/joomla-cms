@@ -21,6 +21,8 @@ use Joomla\CMS\Tag\TaggableTableTrait;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseInterface;
+use Joomla\DI\AbstractAutowireInterface;
+use Joomla\DI\AbstractAutowireSetterAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\String\StringHelper;
 
@@ -33,8 +35,9 @@ use Joomla\String\StringHelper;
  *
  * @since  1.0
  */
-class ContactTable extends Table implements TaggableTableInterface, CurrentUserInterface
+class ContactTable extends Table implements TaggableTableInterface, CurrentUserInterface, AbstractAutowireInterface
 {
+    use AbstractAutowireSetterAwareTrait;
     use TaggableTableTrait;
     use CurrentUserTrait;
 

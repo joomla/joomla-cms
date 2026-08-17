@@ -15,6 +15,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\DI\AbstractAutowireInterface;
+use Joomla\DI\AbstractAutowireSetterAwareTrait;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
@@ -27,8 +29,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ContactsController extends AdminController
+class ContactsController extends AdminController implements AbstractAutowireInterface
 {
+    use AbstractAutowireSetterAwareTrait;
+
     /**
      * Constructor.
      *

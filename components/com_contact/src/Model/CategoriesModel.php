@@ -14,6 +14,8 @@ use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\DI\AbstractAutowireInterface;
+use Joomla\DI\AbstractAutowireSetterAwareTrait;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -25,8 +27,10 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class CategoriesModel extends ListModel
+class CategoriesModel extends ListModel implements AbstractAutowireInterface
 {
+    use AbstractAutowireSetterAwareTrait;
+
     /**
      * Model context string.
      *
