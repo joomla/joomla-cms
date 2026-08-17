@@ -956,7 +956,7 @@ class Indexer
                  */
                 foreach ($data[self::AGG_COUNTS] as $context => $occurrences) {
                     $multiplier = $state->weights[$context] ?? 0;
-                    $weight    += round($data[self::AGG_WEIGHT] * $occurrences * $multiplier, 8);
+                    $weight += round($data[self::AGG_WEIGHT] * $occurrences * $multiplier, 8);
                 }
 
                 $this->linkTerms[$termId] = ($this->linkTerms[$termId] ?? 0.0) + $weight;
