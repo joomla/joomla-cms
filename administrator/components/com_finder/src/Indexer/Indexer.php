@@ -16,7 +16,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
-use Joomla\Database\QueryInterface;
 use Joomla\Filesystem\File;
 use Joomla\String\StringHelper;
 
@@ -104,12 +103,61 @@ class Indexer
     protected $db;
 
     /**
-     * Reusable Query Template. To be used with clone.
+     * Offsets of the fields inside a single entry of $tokenAggregate. Packed arrays are used
+     * instead of associative ones because this map holds one entry per distinct term of the
+     * item and the hash tables of associative arrays would roughly double its size.
      *
-     * @var    QueryInterface
-     * @since  3.8.0
+     * @since  __DEPLOY_VERSION__
      */
-    protected $addTokensToDbQueryTemplate;
+    private const AGG_STEM   = 0;
+    private const AGG_COMMON = 1;
+    private const AGG_PHRASE = 2;
+    private const AGG_WEIGHT = 3;
+    private const AGG_COUNTS = 4;
+
+    /**
+     * The tokens of the item which is currently being indexed, aggregated by language, term
+     * and context. This replaces the #__finder_tokens scratch table: the tokens are counted
+     * in memory while they are produced, so the raw token stream never has to be written to
+     * the database only to be grouped and read back.
+     *
+     * The structure is [language][term] => [stem, common, phrase, weight, [context => count]].
+     *
+     * @var    array
+     * @since  __DEPLOY_VERSION__
+     */
+    private $tokenAggregate = [];
+
+    /**
+     * The number of distinct terms currently held in $tokenAggregate. Tracked separately
+     * because counting a nested array on every token would be needlessly expensive.
+     *
+     * @var    integer
+     * @since  __DEPLOY_VERSION__
+     */
+    private $tokenAggregateSize = 0;
+
+    /**
+     * The resolved term ids of the item which is currently being indexed, mapped to their
+     * accumulated weight. This replaces the #__finder_tokens_aggregate scratch table.
+     *
+     * @var    array
+     * @since  __DEPLOY_VERSION__
+     */
+    private $linkTerms = [];
+
+    /**
+     * The number of distinct terms after which $tokenAggregate is resolved to term ids and
+     * released. A resolved entry costs roughly a tenth of an unresolved one, so this keeps
+     * the memory usage of pathological items bounded without changing the result.
+     *
+     * Items only reach this in unusual setups, most notably a large document combined with
+     * phrase indexing (tuplecount = 3), where nearly every n-gram is distinct.
+     *
+     * @var    integer
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $aggregateFlushThreshold = 50000;
 
     /**
      * Indexer constructor.
@@ -126,20 +174,6 @@ class Indexer
         }
 
         $this->db = $db;
-
-        // Set up query template for addTokensToDb
-        $this->addTokensToDbQueryTemplate = $db->createQuery()->insert($db->quoteName('#__finder_tokens'))
-            ->columns(
-                [
-                    $db->quoteName('term'),
-                    $db->quoteName('stem'),
-                    $db->quoteName('common'),
-                    $db->quoteName('phrase'),
-                    $db->quoteName('weight'),
-                    $db->quoteName('context'),
-                    $db->quoteName('language'),
-                ]
-            );
     }
 
     /**
@@ -167,32 +201,6 @@ class Indexer
 
             // Load the default configuration options.
             $data->options = ComponentHelper::getParams('com_finder');
-            $db            = Factory::getDbo();
-
-            if ($db->getServerType() == 'mysql') {
-                /**
-                 * Try to calculate the heapsize for the memory table for indexing. If this fails,
-                 * we fall back on a reasonable small size. We want to prevent the system to fail
-                 * and block saving content.
-                 */
-                try {
-                    $db->setQuery('SHOW VARIABLES LIKE ' . $db->quote('max_heap_table_size'));
-                    $heapsize = $db->loadObject();
-
-                    /**
-                     * In tests, the size of a row seems to have been around 720 bytes.
-                     * We take 800 to be on the safe side.
-                     */
-                    $memory_table_limit = (int) ($heapsize->Value / 800);
-                    $data->options->set('memory_table_limit', $memory_table_limit);
-                } catch (\Exception) {
-                    // Something failed. We fall back to a reasonable guess.
-                    $data->options->set('memory_table_limit', 7500);
-                }
-            } else {
-                // We are running on PostgreSQL and don't have this issue, so we set a rather high number.
-                $data->options->set('memory_table_limit', 50000);
-            }
 
             // Setup the weight lookup information.
             $data->weights = [
@@ -280,8 +288,7 @@ class Indexer
     {
         // Mark beforeIndexing in the profiler.
         static::$profiler ? static::$profiler->mark('beforeIndexing') : null;
-        $db         = $this->db;
-        $serverType = strtolower($db->getServerType());
+        $db = $this->db;
 
         // Check if the item is in the database.
         $query = $db->createQuery()
@@ -292,9 +299,6 @@ class Indexer
         // Load the item  from the database.
         $db->setQuery($query);
         $link = $db->loadObject();
-
-        // Get the indexer state.
-        $state = static::getState();
 
         // Get the signatures of the item.
         $curSig = static::getSignature($item);
@@ -379,11 +383,8 @@ class Indexer
         // Mark afterLinking in the profiler.
         static::$profiler ? static::$profiler->mark('afterLinking') : null;
 
-        // Truncate the tokens tables.
-        $db->truncateTable('#__finder_tokens');
-
-        // Truncate the tokens aggregate table.
-        $db->truncateTable('#__finder_tokens_aggregate');
+        // Drop whatever a previous item left behind.
+        $this->resetTokens();
 
         /*
          * Process the item's content. The items can customize their
@@ -413,12 +414,7 @@ class Indexer
                         }
 
                         // Tokenize a string of content and add it to the database.
-                        $count += $this->tokenizeToDb($ip, $group, $item->language, $format, $count);
-
-                        // Check if we're approaching the memory limit of the token table.
-                        if ($count > static::$state->options->get('memory_table_limit', 7500)) {
-                            $this->toggleTables(false);
-                        }
+                        $count = $this->tokenizeToDb($ip, $group, $item->language, $format, $count);
                     }
                 } else {
                     /*
@@ -433,12 +429,7 @@ class Indexer
                     }
 
                     // Tokenize a string of content and add it to the database.
-                    $count += $this->tokenizeToDb($item->$property, $group, $item->language, $format, $count);
-
-                    // Check if we're approaching the memory limit of the token table.
-                    if ($count > static::$state->options->get('memory_table_limit', 30000)) {
-                        $this->toggleTables(false);
-                    }
+                    $count = $this->tokenizeToDb($item->$property, $group, $item->language, $format, $count);
                 }
             }
         }
@@ -471,132 +462,11 @@ class Indexer
         static::$profiler ? static::$profiler->mark('afterProcessing') : null;
 
         /*
-         * At this point, all of the item's content has been parsed, tokenized
-         * and inserted into the #__finder_tokens table. Now, we need to
-         * aggregate all the data into that table into a more usable form. The
-         * aggregated data will be inserted into #__finder_tokens_aggregate
-         * table.
+         * At this point all of the item's content has been parsed, tokenized and
+         * aggregated in memory. Now the terms have to be resolved against the terms
+         * table and mapped to the link.
          */
-        $query = 'INSERT INTO ' . $db->quoteName('#__finder_tokens_aggregate') .
-            ' (' . $db->quoteName('term_id') .
-            ', ' . $db->quoteName('term') .
-            ', ' . $db->quoteName('stem') .
-            ', ' . $db->quoteName('common') .
-            ', ' . $db->quoteName('phrase') .
-            ', ' . $db->quoteName('term_weight') .
-            ', ' . $db->quoteName('context') .
-            ', ' . $db->quoteName('context_weight') .
-            ', ' . $db->quoteName('total_weight') .
-            ', ' . $db->quoteName('language') . ')' .
-            ' SELECT' .
-            ' COALESCE(t.term_id, 0), t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context,' .
-            ' ROUND( t1.weight * COUNT( t2.term ) * %F, 8 ) AS context_weight, 0, t1.language' .
-            ' FROM (' .
-            '   SELECT DISTINCT t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
-            '   FROM ' . $db->quoteName('#__finder_tokens') . ' AS t1' .
-            '   WHERE t1.context = %d' .
-            ' ) AS t1' .
-            ' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term AND t2.language = t1.language' .
-            ' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term AND t.language = t1.language' .
-            ' WHERE t2.context = %d' .
-            ' GROUP BY t1.term, t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
-            ' ORDER BY t1.term DESC';
-
-        // Iterate through the contexts and aggregate the tokens per context.
-        foreach ($state->weights as $context => $multiplier) {
-            // Run the query to aggregate the tokens for this context..
-            $db->setQuery(\sprintf($query, $multiplier, $context, $context));
-            $db->execute();
-        }
-
-        // Mark afterAggregating in the profiler.
-        static::$profiler ? static::$profiler->mark('afterAggregating') : null;
-
-        /*
-         * When we pulled down all of the aggregate data, we did a LEFT JOIN
-         * over the terms table to try to find all the term ids that
-         * already exist for our tokens. If any of the rows in the aggregate
-         * table have a term of 0, then no term record exists for that
-         * term so we need to add it to the terms table.
-         */
-        $db->setQuery(
-            'INSERT INTO ' . $db->quoteName('#__finder_terms') .
-            ' (' . $db->quoteName('term') .
-            ', ' . $db->quoteName('stem') .
-            ', ' . $db->quoteName('common') .
-            ', ' . $db->quoteName('phrase') .
-            ', ' . $db->quoteName('weight') .
-            ', ' . $db->quoteName('soundex') .
-            ', ' . $db->quoteName('language') . ')' .
-            ' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language' .
-            ' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
-            ' WHERE ta.term_id = 0' .
-            ' GROUP BY ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language'
-        );
-        $db->execute();
-
-        /*
-         * Now, we just inserted a bunch of new records into the terms table
-         * so we need to go back and update the aggregate table with all the
-         * new term ids.
-         */
-        $query = $db->createQuery()
-            ->update($db->quoteName('#__finder_tokens_aggregate', 'ta'))
-            ->innerJoin($db->quoteName('#__finder_terms', 't'), 't.term = ta.term AND t.language = ta.language')
-            ->where('ta.term_id = 0');
-
-        if ($serverType == 'mysql') {
-            $query->set($db->quoteName('ta.term_id') . ' = ' . $db->quoteName('t.term_id'));
-        } else {
-            $query->set($db->quoteName('term_id') . ' = ' . $db->quoteName('t.term_id'));
-        }
-
-        $db->setQuery($query);
-        $db->execute();
-
-        // Mark afterTerms in the profiler.
-        static::$profiler ? static::$profiler->mark('afterTerms') : null;
-
-        /*
-         * After we've made sure that all of the terms are in the terms table
-         * and the aggregate table has the correct term ids, we need to update
-         * the links counter for each term by one.
-         */
-        $query->clear()
-            ->update($db->quoteName('#__finder_terms', 't'))
-            ->innerJoin($db->quoteName('#__finder_tokens_aggregate', 'ta'), 'ta.term_id = t.term_id');
-
-        if ($serverType == 'mysql') {
-            $query->set($db->quoteName('t.links') . ' = t.links + 1');
-        } else {
-            $query->set($db->quoteName('links') . ' = t.links + 1');
-        }
-
-        $db->setQuery($query);
-        $db->execute();
-
-        // Mark afterTerms in the profiler.
-        static::$profiler ? static::$profiler->mark('afterTerms') : null;
-
-        /*
-         * At this point, the aggregate table contains a record for each
-         * term in each context. So, we're going to pull down all of that
-         * data while grouping the records by term and add all of the
-         * sub-totals together to arrive at the final total for each token for
-         * this link. Then, we insert all of that data into the mapping table.
-         */
-        $db->setQuery(
-            'INSERT INTO ' . $db->quoteName('#__finder_links_terms') .
-            ' (' . $db->quoteName('link_id') .
-            ', ' . $db->quoteName('term_id') .
-            ', ' . $db->quoteName('weight') . ')' .
-            ' SELECT ' . (int) $linkId . ', ' . $db->quoteName('term_id') . ',' .
-            ' ROUND(SUM(' . $db->quoteName('context_weight') . '), 8)' .
-            ' FROM ' . $db->quoteName('#__finder_tokens_aggregate') .
-            ' GROUP BY ' . $db->quoteName('term') . ', ' . $db->quoteName('term_id') .
-            ' ORDER BY ' . $db->quoteName('term') . ' DESC'
-        );
-        $db->execute();
+        $this->storeTokens($linkId);
 
         // Mark afterMapping in the profiler.
         static::$profiler ? static::$profiler->mark('afterMapping') : null;
@@ -617,17 +487,8 @@ class Indexer
         // Mark afterSigning in the profiler.
         static::$profiler ? static::$profiler->mark('afterSigning') : null;
 
-        // Truncate the tokens tables.
-        $db->truncateTable('#__finder_tokens');
-
-        // Truncate the tokens aggregate table.
-        $db->truncateTable('#__finder_tokens_aggregate');
-
-        // Toggle the token tables back to memory tables.
-        $this->toggleTables(true);
-
-        // Mark afterTruncating in the profiler.
-        static::$profiler ? static::$profiler->mark('afterTruncating') : null;
+        // Release the aggregated tokens of this item.
+        $this->resetTokens();
 
         // Trigger a plugin event after indexing
         PluginHelper::importPlugin('finder');
@@ -865,8 +726,8 @@ class Indexer
                     $string = $buffer;
                 }
 
-                // Parse, tokenise and add tokens to the database.
-                $count = $this->tokenizeToDbShort($string, $context, $lang, $format, $count);
+                // Parse, tokenise and aggregate the chunk.
+                $count = $this->tokenizeChunk($string, $context, $lang, $format, $count);
 
                 unset($string);
             }
@@ -874,16 +735,16 @@ class Indexer
             return $count;
         }
 
-        // Parse, tokenise and add tokens to the database.
-        $count = $this->tokenizeToDbShort($input, $context, $lang, $format, $count);
+        // Parse, tokenise and aggregate the input.
+        $count = $this->tokenizeChunk($input, $context, $lang, $format, $count);
 
         return $count;
     }
 
     /**
-     * Method to parse input, tokenise it, then add the tokens to the database.
+     * Method to parse input, tokenise it, then aggregate the tokens in memory.
      *
-     * @param   string   $input    String to parse, tokenise and add to database.
+     * @param   string   $input    String to parse, tokenise and aggregate.
      * @param   integer  $context  The context of the input. See context constants.
      * @param   string   $lang     The language of the input.
      * @param   string   $format   The format of the input.
@@ -891,9 +752,9 @@ class Indexer
      *
      * @return  integer  Cumulative number of tokens extracted from the input so far.
      *
-     * @since   3.7.0
+     * @since   __DEPLOY_VERSION__
      */
-    private function tokenizeToDbShort($input, $context, $lang, $format, $count)
+    protected function tokenizeChunk($input, $context, $lang, $format, $count)
     {
         static $filterCommon, $filterNumeric;
 
@@ -918,117 +779,332 @@ class Indexer
             return $count;
         }
 
-        $query = clone $this->addTokensToDbQueryTemplate;
+        $context = (int) $context;
 
-        // Break into chunks of no more than 128 items
-        $chunks = array_chunk($tokens, 128);
-
-        foreach ($chunks as $tokens) {
-            $query->clear('values');
-
-            foreach ($tokens as $token) {
-                // Database size for a term field
-                if ($token->length > 75) {
-                    continue;
-                }
-
-                if ($filterCommon && $token->common) {
-                    continue;
-                }
-
-                if ($filterNumeric && $token->numeric) {
-                    continue;
-                }
-
-                $query->values(
-                    $this->db->quote($token->term) . ', '
-                    . $this->db->quote($token->stem) . ', '
-                    . (int) $token->common . ', '
-                    . (int) $token->phrase . ', '
-                    . $this->db->quote($token->weight) . ', '
-                    . (int) $context . ', '
-                    . $this->db->quote($token->language)
-                );
-                $count++;
+        foreach ($tokens as $token) {
+            // Database size for a term field
+            if ($token->length > 75) {
+                continue;
             }
 
-            // Check if we're approaching the memory limit of the token table.
-            if ($count > static::$state->options->get('memory_table_limit', 7500)) {
-                $this->toggleTables(false);
+            if ($filterCommon && $token->common) {
+                continue;
             }
 
-            // Only execute the query if there are tokens to insert
-            if ($query->values !== null) {
-                $this->db->setQuery($query)->execute();
+            if ($filterNumeric && $token->numeric) {
+                continue;
             }
+
+            /*
+             * The language of a token is not necessarily the language of the item: on a site
+             * which is not multilingual every token gets the '*' of the default language.
+             */
+            $language = $token->language;
+            $term     = $token->term;
+
+            /*
+             * The counter is incremented in place. Reading the counters out, changing them
+             * and writing them back would copy the array on every single token, and this is
+             * the hottest loop of the whole indexer.
+             */
+            if (isset($this->tokenAggregate[$language][$term][self::AGG_COUNTS][$context])) {
+                $this->tokenAggregate[$language][$term][self::AGG_COUNTS][$context]++;
+            } elseif (isset($this->tokenAggregate[$language][$term])) {
+                $this->tokenAggregate[$language][$term][self::AGG_COUNTS][$context] = 1;
+            } else {
+                $this->tokenAggregate[$language][$term] = [
+                    self::AGG_STEM   => $token->stem,
+                    self::AGG_COMMON => (int) $token->common,
+                    self::AGG_PHRASE => (int) $token->phrase,
+                    self::AGG_WEIGHT => (float) $token->weight,
+                    self::AGG_COUNTS => [$context => 1],
+                ];
+
+                $this->tokenAggregateSize++;
+            }
+
+            $count++;
+        }
+
+        // Keep the memory usage of pathologically large items bounded.
+        if ($this->tokenAggregateSize >= $this->aggregateFlushThreshold) {
+            $this->flushTokenAggregate();
         }
 
         return $count;
     }
 
     /**
+     * Method to discard everything that has been aggregated for the previous item.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function resetTokens()
+    {
+        $this->tokenAggregate     = [];
+        $this->tokenAggregateSize = 0;
+        $this->linkTerms          = [];
+    }
+
+    /**
+     * Method to write the aggregated tokens of the current item to the index.
+     *
+     * @param   integer  $linkId  The id of the link the terms belong to.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception on database error.
+     */
+    protected function storeTokens($linkId)
+    {
+        // Resolve whatever is still unresolved.
+        $this->flushTokenAggregate();
+
+        if (!$this->linkTerms) {
+            return;
+        }
+
+        $db     = $this->db;
+        $linkId = (int) $linkId;
+
+        // Mark afterAggregating in the profiler.
+        static::$profiler ? static::$profiler->mark('afterAggregating') : null;
+
+        // Bump the link counter of every term this link uses.
+        foreach (array_chunk(array_keys($this->linkTerms), 1000) as $chunk) {
+            $query = $db->createQuery()
+                ->update($db->quoteName('#__finder_terms'))
+                ->set($db->quoteName('links') . ' = ' . $db->quoteName('links') . ' + 1')
+                ->whereIn($db->quoteName('term_id'), $chunk);
+            $db->setQuery($query)->execute();
+        }
+
+        // Mark afterTerms in the profiler.
+        static::$profiler ? static::$profiler->mark('afterTerms') : null;
+
+        $insert = 'INSERT INTO ' . $db->quoteName('#__finder_links_terms')
+            . ' (' . $db->quoteName('link_id')
+            . ', ' . $db->quoteName('term_id')
+            . ', ' . $db->quoteName('weight') . ') VALUES ';
+
+        // Map the terms to the link.
+        foreach (array_chunk($this->linkTerms, 1000, true) as $chunk) {
+            $values = [];
+
+            foreach ($chunk as $termId => $weight) {
+                // %F instead of %f, the latter would use the decimal separator of the locale.
+                $values[] = $linkId . ', ' . (int) $termId . ', ' . \sprintf('%.8F', $weight);
+            }
+
+            $db->setQuery($insert . '(' . implode('), (', $values) . ')')->execute();
+        }
+
+        $this->linkTerms = [];
+    }
+
+    /**
+     * Method to resolve the currently aggregated terms to term ids and fold their weights
+     * into the link => term map.
+     *
+     * A resolved entry is an integer key with a float value, while an unresolved one carries
+     * the term, its stem and the per context counters. Releasing the aggregate here is what
+     * allows tokenizeChunk() to cap its memory usage without changing the outcome.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception on database error.
+     */
+    private function flushTokenAggregate()
+    {
+        if (!$this->tokenAggregate) {
+            return;
+        }
+
+        $state = static::getState();
+
+        foreach ($this->tokenAggregate as $language => $terms) {
+            $termIds = $this->resolveTermIds((string) $language, $terms);
+
+            foreach ($terms as $term => $data) {
+                /*
+                 * PHP casts numeric array keys to integers, so the key has to be turned back
+                 * into a string before it is looked up in the result of the database.
+                 */
+                $termId = $termIds[(string) $term] ?? null;
+
+                /*
+                 * A term can be missing here when another request removed it as an orphan
+                 * between us creating it and reading it back. Skipping it costs this one
+                 * document one term until it is indexed again, whereas aborting would cost
+                 * the whole document, so this deliberately does not throw.
+                 */
+                if ($termId === null) {
+                    continue;
+                }
+
+                $termId = (int) $termId;
+                $weight = 0.0;
+
+                /*
+                 * The weight of a term in a context is its own weight, multiplied by the
+                 * number of occurrences and by the multiplier configured for that context.
+                 * The total weight is the sum over all contexts.
+                 */
+                foreach ($data[self::AGG_COUNTS] as $context => $occurrences) {
+                    $multiplier = $state->weights[$context] ?? 0;
+                    $weight    += round($data[self::AGG_WEIGHT] * $occurrences * $multiplier, 8);
+                }
+
+                $this->linkTerms[$termId] = ($this->linkTerms[$termId] ?? 0.0) + $weight;
+            }
+        }
+
+        $this->tokenAggregate     = [];
+        $this->tokenAggregateSize = 0;
+    }
+
+    /**
+     * Method to look up the term ids for a set of terms, creating the ones that do not exist
+     * in the terms table yet.
+     *
+     * @param   string  $language  The language the terms belong to.
+     * @param   array   $terms     The aggregated terms, keyed by term.
+     *
+     * @return  array  The term ids, keyed by term.
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception on database error.
+     */
+    private function resolveTermIds($language, array $terms)
+    {
+        $result = [];
+
+        // Find the terms which the index already knows.
+        foreach (array_chunk(array_keys($terms), 500) as $chunk) {
+            $result += $this->loadTermIds($language, $chunk);
+        }
+
+        $missing = array_diff_key($terms, $result);
+
+        if (!$missing) {
+            return $result;
+        }
+
+        // Create the ones which are new.
+        foreach (array_chunk($missing, 500, true) as $chunk) {
+            $this->createTerms($language, $chunk);
+        }
+
+        /*
+         * The ids are read back instead of being derived from the insert id: with
+         * innodb_autoinc_lock_mode = 2 the generated ids are not guaranteed to be
+         * consecutive. Reading them back also picks up the rows that a concurrent
+         * request created in the meantime.
+         */
+        foreach (array_chunk(array_keys($missing), 500) as $chunk) {
+            $result += $this->loadTermIds($language, $chunk);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Method to load the ids of the given terms from the terms table.
+     *
+     * @param   string  $language  The language the terms belong to.
+     * @param   array   $terms     The terms to look up.
+     *
+     * @return  array  The term ids, keyed by term.
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception on database error.
+     */
+    private function loadTermIds($language, array $terms)
+    {
+        $db    = $this->db;
+        $query = $db->createQuery()
+            ->select($db->quoteName(['term', 'term_id']))
+            ->from($db->quoteName('#__finder_terms'))
+            ->where($db->quoteName('language') . ' = :language')
+            ->bind(':language', $language)
+            ->whereIn($db->quoteName('term'), array_map('strval', $terms), ParameterType::STRING);
+
+        return $db->setQuery($query)->loadAssocList('term', 'term_id') ?: [];
+    }
+
+    /**
+     * Method to add new terms to the terms table.
+     *
+     * The soundex is computed by the database instead of PHP, because PHP and the database
+     * do not agree on the result and the search side computes it with SQL as well.
+     *
+     * Terms that a concurrent request created in the meantime are ignored rather than
+     * aborting the insert, the caller reads the ids back afterwards either way.
+     *
+     * @param   string  $language  The language the terms belong to.
+     * @param   array   $terms     The aggregated terms to create, keyed by term.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception on database error.
+     */
+    private function createTerms($language, array $terms)
+    {
+        $db     = $this->db;
+        $values = [];
+
+        foreach ($terms as $term => $data) {
+            $quoted   = $db->quote((string) $term);
+            $values[] = $quoted . ', '
+                . $db->quote($data[self::AGG_STEM]) . ', '
+                . $data[self::AGG_COMMON] . ', '
+                . $data[self::AGG_PHRASE] . ', '
+                . \sprintf('%.8F', $data[self::AGG_WEIGHT]) . ', '
+                . 'SOUNDEX(' . $quoted . '), '
+                . $db->quote($language);
+        }
+
+        $columns = $db->quoteName('term')
+            . ', ' . $db->quoteName('stem')
+            . ', ' . $db->quoteName('common')
+            . ', ' . $db->quoteName('phrase')
+            . ', ' . $db->quoteName('weight')
+            . ', ' . $db->quoteName('soundex')
+            . ', ' . $db->quoteName('language');
+
+        if (strtolower($db->getServerType()) === 'postgresql') {
+            $sql = 'INSERT INTO ' . $db->quoteName('#__finder_terms') . ' (' . $columns . ')'
+                . ' VALUES (' . implode('), (', $values) . ')'
+                . ' ON CONFLICT (' . $db->quoteName('term') . ', ' . $db->quoteName('language') . ') DO NOTHING';
+        } else {
+            $sql = 'INSERT IGNORE INTO ' . $db->quoteName('#__finder_terms') . ' (' . $columns . ')'
+                . ' VALUES (' . implode('), (', $values) . ')';
+        }
+
+        $db->setQuery($sql)->execute();
+    }
+
+    /**
      * Method to switch the token tables from Memory tables to Disk tables
      * when they are close to running out of memory.
-     * Since this is not supported/implemented in all DB-drivers, the default is a stub method, which simply returns true.
      *
      * @param   boolean  $memory  Flag to control how they should be toggled.
      *
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  \Exception on database error.
+     *
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 8.0
+     *              The indexer aggregates the tokens in PHP and no longer uses scratch
+     *              tables, so there is nothing left to toggle.
      */
     protected function toggleTables($memory)
     {
-        static $supported = true;
-
-        if (!$supported) {
-            return true;
-        }
-
-        if (strtolower($this->db->getServerType()) != 'mysql') {
-            $supported = false;
-
-            return true;
-        }
-
-        static $state;
-
-        // Get the database adapter.
-        $db = $this->db;
-
-        // Check if we are setting the tables to the Memory engine.
-        if ($memory === true && $state !== true) {
-            try {
-                // Set the tokens table to Memory.
-                $db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = MEMORY');
-                $db->execute();
-
-                // Set the tokens aggregate table to Memory.
-                $db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = MEMORY');
-                $db->execute();
-            } catch (\RuntimeException) {
-                $supported = false;
-
-                return true;
-            }
-
-            // Set the internal state.
-            $state = $memory;
-        } elseif ($memory === false && $state !== false) {
-            // We must be setting the tables to the InnoDB engine.
-            // Set the tokens table to InnoDB.
-            $db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = INNODB');
-            $db->execute();
-
-            // Set the tokens aggregate table to InnoDB.
-            $db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = INNODB');
-            $db->execute();
-
-            // Set the internal state.
-            $state = $memory;
-        }
-
         return true;
     }
 }
