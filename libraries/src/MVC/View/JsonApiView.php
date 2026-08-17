@@ -267,6 +267,89 @@ abstract class JsonApiView extends JsonView
     }
 
     /**
+     * Get the effective API field key for a custom field, using the cf_ prefix
+     * when it would otherwise collide with an existing property or a core field.
+     *
+     * @param   object|null  $item       The item being prepared, if available
+     * @param   string       $fieldName  The original custom field name
+     *
+     * @return  string
+     *
+     * @since   5.4.0
+     */
+    protected function getApiFieldKey(?object $item, string $fieldName): string
+    {
+        if ($item !== null && property_exists($item, $fieldName)) {
+            return 'cf_' . $fieldName;
+        }
+
+        if (\in_array($fieldName, $this->fieldsToRenderItem, true)
+            || \in_array($fieldName, $this->fieldsToRenderList, true)
+        ) {
+            return 'cf_' . $fieldName;
+        }
+
+        return $fieldName;
+    }
+
+    /**
+     * Register custom fields for rendering in list or item responses, using
+     * a collision-safe key derived from the original field name.
+     *
+     * @param   array  $fields   The list of custom field objects
+     * @param   bool   $forList  True when registering for list views, false for item views
+     *
+     * @return  void
+     *
+     * @since   5.4.0
+     */
+    protected function registerApiFields(array $fields, bool $forList): void
+    {
+        foreach ($fields as $field) {
+            $fieldKey = $this->getApiFieldKey(null, $field->name);
+
+            if ($forList) {
+                if (!\in_array($fieldKey, $this->fieldsToRenderList, true)) {
+                    $this->fieldsToRenderList[] = $fieldKey;
+                }
+            } else {
+                if (!\in_array($fieldKey, $this->fieldsToRenderItem, true)) {
+                    $this->fieldsToRenderItem[] = $fieldKey;
+                }
+            }
+        }
+    }
+
+    /**
+     * Assign values of custom fields to the item and register them for
+     * rendering in both item and list responses using a collision-safe key.
+     *
+     * @param   array   $fields  The list of custom field objects
+     * @param   object  $item    The item being prepared
+     *
+     * @return  void
+     *
+     * @since   5.4.0
+     */
+    protected function assignApiFieldValues(array $fields, $item): void
+    {
+        foreach ($fields as $field) {
+            $value    = $field->apivalue ?? $field->rawvalue ?? null;
+            $fieldKey = $this->getApiFieldKey($item, $field->name);
+
+            $item->{$fieldKey} = $value;
+
+            if (!\in_array($fieldKey, $this->fieldsToRenderItem, true)) {
+                $this->fieldsToRenderItem[] = $fieldKey;
+            }
+
+            if (!\in_array($fieldKey, $this->fieldsToRenderList, true)) {
+                $this->fieldsToRenderList[] = $fieldKey;
+            }
+        }
+    }
+
+    /**
      * Encode square brackets in the URI query, according to JSON API specification.
      *
      * @param   string  $query  The URI query

@@ -44,7 +44,24 @@ describe('Test that content API endpoint', () => {
         .its('title')
         .should('include', 'automated test article'));
   });
-
+  it('keeps core article images when a custom field is named images', () => {
+    cy.db_createField({
+      title: 'images field',
+      name: 'images',
+      label: 'images',
+      context: 'com_content.article',
+      required: 0,
+    })
+    .then(() => cy.db_createArticle({
+      title: 'automated test article with images',
+      images: '{"image_intro":"images/sampledata/cassiopeia/images/headers/flowers.jpg","image_intro_alt":"","float_intro":"","image_intro_caption":"","image_fulltext":"images/sampledata/cassiopeia/images/headers/flowers.jpg","image_fulltext_alt":"","float_fulltext":"","image_fulltext_caption":""}',
+    }))
+    .then((article) => cy.api_get(`/content/articles/${article.id}`))
+    .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+      .its('images')
+      .its('image_intro')
+      .should('include', 'flowers.jpg'));
+  });
   it('can create an article', () => {
     cy.db_createCategory({ extension: 'com_content' })
       .then((categoryId) => cy.api_post('/content/articles', {

@@ -141,9 +141,7 @@ class JsonapiView extends BaseApiView
      */
     public function displayList(?array $items = null)
     {
-        foreach (FieldsHelper::getFields('com_contact.contact') as $field) {
-            $this->fieldsToRenderList[] = $field->name;
-        }
+        $this->registerApiFields(FieldsHelper::getFields('com_contact.contact'), true);
 
         return parent::displayList();
     }
@@ -159,9 +157,7 @@ class JsonapiView extends BaseApiView
      */
     public function displayItem($item = null)
     {
-        foreach (FieldsHelper::getFields('com_contact.contact') as $field) {
-            $this->fieldsToRenderItem[] = $field->name;
-        }
+        $this->registerApiFields(FieldsHelper::getFields('com_contact.contact'), false);
 
         if (Multilanguage::isEnabled()) {
             $this->fieldsToRenderItem[] = 'languageAssociations';
@@ -182,9 +178,7 @@ class JsonapiView extends BaseApiView
      */
     protected function prepareItem($item)
     {
-        foreach (FieldsHelper::getFields('com_contact.contact', $item, true) as $field) {
-            $item->{$field->name} = $field->apivalue ?? $field->rawvalue;
-        }
+        $this->assignApiFieldValues(FieldsHelper::getFields('com_contact.contact', $item, true), $item);
 
         if (Multilanguage::isEnabled() && !empty($item->associations)) {
             $associations = [];

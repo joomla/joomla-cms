@@ -105,9 +105,7 @@ class JsonapiView extends BaseApiView
      */
     public function displayList(?array $items = null)
     {
-        foreach (FieldsHelper::getFields('com_content.categories') as $field) {
-            $this->fieldsToRenderList[] = $field->name;
-        }
+        $this->registerApiFields(FieldsHelper::getFields('com_content.categories'), true);
 
         return parent::displayList();
     }
@@ -123,9 +121,7 @@ class JsonapiView extends BaseApiView
      */
     public function displayItem($item = null)
     {
-        foreach (FieldsHelper::getFields('com_content.categories') as $field) {
-            $this->fieldsToRenderItem[] = $field->name;
-        }
+        $this->registerApiFields(FieldsHelper::getFields('com_content.categories'), false);
 
         if ($item === null) {
             /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
@@ -155,9 +151,7 @@ class JsonapiView extends BaseApiView
      */
     protected function prepareItem($item)
     {
-        foreach (FieldsHelper::getFields('com_content.categories', $item, true) as $field) {
-            $item->{$field->name} = $field->apivalue ?? $field->rawvalue;
-        }
+        $this->assignApiFieldValues(FieldsHelper::getFields('com_content.categories', $item, true), $item);
 
         return parent::prepareItem($item);
     }

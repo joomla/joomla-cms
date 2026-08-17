@@ -77,9 +77,7 @@ class JsonapiView extends BaseApiView
      */
     public function displayList(?array $items = null)
     {
-        foreach (FieldsHelper::getFields('com_users.user') as $field) {
-            $this->fieldsToRenderList[] = $field->name;
-        }
+        $this->registerApiFields(FieldsHelper::getFields('com_users.user'), true);
 
         return parent::displayList();
     }
@@ -95,9 +93,7 @@ class JsonapiView extends BaseApiView
      */
     public function displayItem($item = null)
     {
-        foreach (FieldsHelper::getFields('com_users.user') as $field) {
-            $this->fieldsToRenderItem[] = $field->name;
-        }
+        $this->registerApiFields(FieldsHelper::getFields('com_users.user'), false);
 
         return parent::displayItem();
     }
@@ -117,9 +113,7 @@ class JsonapiView extends BaseApiView
             throw new RouteNotFoundException('Item does not exist');
         }
 
-        foreach (FieldsHelper::getFields('com_users.user', $item, true) as $field) {
-            $item->{$field->name} = $field->apivalue ?? $field->rawvalue;
-        }
+        $this->assignApiFieldValues(FieldsHelper::getFields('com_users.user', $item, true), $item);
 
         return parent::prepareItem($item);
     }
