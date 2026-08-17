@@ -385,12 +385,6 @@ class IndexModel extends ListModel
         ];
         $db->insertObject('#__finder_taxonomy', $root);
 
-        // Truncate the tokens tables.
-        $db->truncateTable('#__finder_tokens');
-
-        // Truncate the tokens aggregate table.
-        $db->truncateTable('#__finder_tokens_aggregate');
-
         // Include the finder plugins for the on purge events.
         PluginHelper::importPlugin('finder');
         Factory::getApplication()->triggerEvent($this->event_after_purge);
