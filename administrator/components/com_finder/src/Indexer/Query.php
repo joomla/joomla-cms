@@ -544,10 +544,10 @@ class Query
         if ((int) $params->get('active_user_only') === 1) {
             $filters = array_diff($filters, $this->getAuthorTaxonomyIds());
 
-            $authorId = $this->getActiveUserAuthorTaxonomyId();
+            $authorIds = $this->getActiveUserAuthorTaxonomyIds();
 
-            if ($authorId) {
-                $filters[] = $authorId;
+            if ($authorIds) {
+                $filters = array_merge($filters, $authorIds);
             } else {
                 $this->filters['Author'][-1] = '';
             }
@@ -610,13 +610,13 @@ class Query
     }
 
     /**
-     * Get the author taxonomy node id for the active user.
+     * Get the author taxonomy node ids for the active user.
      *
-     * @return  integer
+     * @return  integer[]
      *
      * @since   __DEPLOY_VERSION__
      */
-    private function getActiveUserAuthorTaxonomyId(): int
+    private function getActiveUserAuthorTaxonomyIds(): array
     {
         $db     = $this->getDatabase();
         $user   = Factory::getApplication()->getIdentity();
@@ -629,16 +629,21 @@ class Query
                 $db->quoteName('#__finder_taxonomy', 'p'),
                 $db->quoteName('p.id') . ' = ' . $db->quoteName('t.parent_id')
             )
-            ->where($db->quoteName('t.title') . ' = :userName')
+            ->innerJoin(
+                $db->quoteName('#__content', 'c') . ' ON ' . $db->quoteName('c.created_by') . ' = :userId'
+                . ' AND ' . $db->quoteName('t.title') . ' = CASE WHEN ' . $db->quoteName('c.created_by_alias')
+                . ' <> ' . $db->quote('') . ' THEN ' . $db->quoteName('c.created_by_alias') . ' ELSE :userName END'
+            )
             ->where($db->quoteName('t.state') . ' = 1')
             ->whereIn($db->quoteName('t.access'), $groups)
             ->where($db->quoteName('p.title') . ' = :branch')
             ->where($db->quoteName('p.state') . ' = 1')
             ->whereIn($db->quoteName('p.access'), $groups)
+            ->bind(':userId', $user->id, ParameterType::INTEGER)
             ->bind(':userName', $user->name, ParameterType::STRING)
             ->bind(':branch', $author, ParameterType::STRING);
 
-        return (int) $db->setQuery($query)->loadResult();
+        return array_unique(array_map('intval', $db->setQuery($query)->loadColumn()));
     }
 
     /**
