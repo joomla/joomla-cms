@@ -45,7 +45,7 @@ class Language extends BaseLanguage
      * Cached fallback chains, keyed by language tag.
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  6.2.0
      */
     protected $fallbackChains = [];
 
@@ -53,7 +53,7 @@ class Language extends BaseLanguage
      * Cached admin fallback overrides (language tag => fallback tag), or null until first read.
      *
      * @var    array|null
-     * @since  __DEPLOY_VERSION__
+     * @since  6.2.0
      */
     protected $fallbackOverrides = null;
 
@@ -696,7 +696,7 @@ class Language extends BaseLanguage
      *
      * @return  string[]  Ordered list of fallback language tags, strongest first.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     protected function getFallbackChain($lang)
     {
@@ -737,7 +737,7 @@ class Language extends BaseLanguage
      *
      * @return  array  Map of language tag => fallback tag.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     protected function getFallbackOverrides()
     {

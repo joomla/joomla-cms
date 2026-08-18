@@ -26,7 +26,7 @@ namespace Joomla\Component\Content\Administrator\Service;
  *   $token  = $helper->createToken($articleId, 24);
  *   $valid  = $helper->validateToken($token, $articleId);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  6.2.0
  */
 class PreviewTokenService
 {
@@ -40,7 +40,7 @@ class PreviewTokenService
     /**
      * @param   string  $secret  The secret key
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     public function __construct(string $secret)
     {
@@ -55,7 +55,7 @@ class PreviewTokenService
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     public function createToken(int $id, int $expiresInMinutes): string
     {
@@ -83,7 +83,7 @@ class PreviewTokenService
      *
      * @return  bool
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     public function validateToken(string $token, int $id): bool
     {
@@ -129,7 +129,7 @@ class PreviewTokenService
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     private function encode(string $data): string
     {
@@ -143,7 +143,7 @@ class PreviewTokenService
      *
      * @return  string|false
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     private function decode(string $data): string|false
     {
