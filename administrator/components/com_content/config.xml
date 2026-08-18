@@ -641,6 +641,17 @@
 		</field>
 
 		<field
+			name="show_subcat_image"
+			type="radio"
+			label="JGLOBAL_SHOW_SUBCATEGORIES_IMAGE_LABEL"
+			default="0"
+			layout="joomla.form.field.radio.switcher"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field
 			name="show_cat_num_articles"
 			type="radio"
 			label="COM_CONTENT_NUMBER_CATEGORY_ITEMS_LABEL"
