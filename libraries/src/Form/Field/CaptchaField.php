@@ -175,7 +175,7 @@ class CaptchaField extends FormField
      *
      * @return  string  The field label markup.
      *
-     * @since   4.3.0
+     * @since   _DEPLOY_VERSION_
      */
     protected function getLabel()
     {
