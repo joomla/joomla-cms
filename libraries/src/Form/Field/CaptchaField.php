@@ -166,6 +166,36 @@ class CaptchaField extends FormField
     }
 
     /**
+     * Method to get the field label markup.
+     *
+     * Overrides the default to guard against null captcha instances and
+     * to produce a proper <label for="..."> pointing at the captcha control.
+     * Captcha plugins receive $this->id via display() and should render their
+     * interactive control with that id, making the for association valid.
+     *
+     * @return  string  The field label markup.
+     *
+     * @since   4.3.0
+     */
+    protected function getLabel()
+    {
+        if ($this->hidden || $this->_captcha === null) {
+            return '';
+        }
+
+        $data = $this->collectLayoutData();
+
+        $extraData = [
+            'text'     => $data['label'],
+            'for'      => $this->id,
+            'classes'  => explode(' ', $data['labelclass']),
+            'position' => '',
+        ];
+
+        return $this->getRenderer($this->renderLabelLayout)->render(array_merge($data, $extraData));
+    }
+
+    /**
      * Method to get the field input.
      *
      * @return  string  The field input.
