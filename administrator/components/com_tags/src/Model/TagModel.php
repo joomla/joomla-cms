@@ -527,6 +527,13 @@ class TagModel extends AdminModel implements VersionableModelInterface
                 continue;
             }
 
+            // Check that the user is allowed to access the item
+            if (!$this->user->authorise('core.edit', $contexts[$pk])) {
+                $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
+                return false;
+            }
+
             // Copy is a bit tricky, because we also need to copy the children
             $query = $db->getQuery(true)
                 ->select($db->quoteName('id'))

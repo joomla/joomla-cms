@@ -149,4 +149,92 @@ class CategoriesController extends ApiController
         return $this->input->exists('extension') ?
             $this->input->get('extension') : $this->input->post->get('extension');
     }
+
+    /**
+     * Method to check if you can add a new record.
+     *
+     * @param   array  $data  An array of input data.
+     *
+     * @return  boolean
+     *
+     * @since   6.1.3
+     */
+    protected function allowAdd($data = [])
+    {
+        $user      = $this->app->getIdentity();
+        $extension = $this->getExtensionFromInput();
+
+        // Require generic management permissions for the component
+        if (!$user->authorise('core.manage', $extension)) {
+            return false;
+        }
+
+        return $user->authorise('core.create', $extension) || \count($user->getAuthorisedCategories($extension, 'core.create'));
+    }
+
+
+    /**
+     * Method to check if you can edit a record.
+     *
+     * @param   array  $data  An array of input data.
+     *
+     * @return  boolean
+     *
+     * @since   6.1.3
+     */
+    protected function allowEdit($data = [], $key = 'id')
+    {
+        $recordId  = isset($data[$key]) ? (int) $data[$key] : 0;
+        $user      = $this->app->getIdentity();
+        $extension = $this->getExtensionFromInput();
+
+        // Require generic management permissions for the component
+        if (!$user->authorise('core.manage', $extension)) {
+            return false;
+        }
+
+        // Need to do a lookup from the model to get the owner
+        $record = $this->getModel('Category')->getItem($recordId);
+
+        if (empty($record) || $record->extension !== $extension) {
+            return false;
+        }
+
+        // Check "edit" permission on record asset (explicit or inherited)
+        if ($user->authorise('core.edit', $extension . '.category.' . $recordId)) {
+            return true;
+        }
+
+        // Check "edit own" permission on record asset (explicit or inherited)
+        if ($user->authorise('core.edit.own', $extension . '.category.' . $recordId)) {
+            $ownerId = $record->created_user_id;
+
+            // If the owner matches 'me' then do the test.
+            if ($ownerId == $user->id) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Method to check if it's allowed to delete a record
+     *
+     * @return  boolean
+     *
+     * @since   6.1.3
+     */
+    protected function allowDelete(): bool
+    {
+        $extension = $this->getExtensionFromInput();
+        $user      = $this->app->getIdentity();
+
+        // Require generic management permissions for the component
+        if (!$user->authorise('core.manage', $extension)) {
+            return false;
+        }
+
+        return $user->authorise('core.delete', $extension);
+    }
 }

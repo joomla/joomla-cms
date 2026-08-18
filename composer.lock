@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ad312a9eae54a16ad1d3196c28f442f5",
+    "content-hash": "4fcf2a4a0a1009078e583bf2d5653502",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1629,16 +1629,16 @@
         },
         {
             "name": "joomla/filesystem",
-            "version": "4.2.0",
+            "version": "dev-4.x-shtml",
             "source": {
                 "type": "git",
-                "url": "https://github.com/joomla-framework/filesystem.git",
-                "reference": "66e6212d4cb4d36e7dd5a01a94c5f257e3026a52"
+                "url": "https://github.com/joomla-framework/security-filesystem.git",
+                "reference": "e71e801053de49a1d0546861b2a16e741768a5d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/66e6212d4cb4d36e7dd5a01a94c5f257e3026a52",
-                "reference": "66e6212d4cb4d36e7dd5a01a94c5f257e3026a52",
+                "url": "https://api.github.com/repos/joomla-framework/security-filesystem/zipball/e71e801053de49a1d0546861b2a16e741768a5d6",
+                "reference": "e71e801053de49a1d0546861b2a16e741768a5d6",
                 "shasum": ""
             },
             "require": {
@@ -1658,7 +1658,11 @@
                     "Joomla\\Filesystem\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Joomla\\Filesystem\\Tests\\": "Tests/"
+                }
+            },
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -1669,11 +1673,7 @@
                 "framework",
                 "joomla"
             ],
-            "support": {
-                "issues": "https://github.com/joomla-framework/filesystem/issues",
-                "source": "https://github.com/joomla-framework/filesystem/tree/4.2.0"
-            },
-            "time": "2026-06-25T19:31:52+00:00"
+            "time": "2026-08-05T17:20:15+00:00"
         },
         {
             "name": "joomla/filter",
@@ -9646,9 +9646,17 @@
             "time": "2025-11-17T20:03:58+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "joomla/filesystem",
+            "version": "dev-4.x-shtml",
+            "alias": "4.2.1",
+            "alias_normalized": "4.2.1.0"
+        }
+    ],
     "minimum-stability": "stable",
     "stability-flags": {
+        "joomla/filesystem": 20,
         "tobscure/json-api": 20
     },
     "prefer-stable": false,
