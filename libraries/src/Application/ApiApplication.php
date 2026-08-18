@@ -218,24 +218,6 @@ final class ApiApplication extends CMSApplication
      * @return  boolean  True if the request origin is present in the whitelist.
      *
      * @since   5.4.8
-     */
-    private function isOriginAllowed(string $requestOrigin, string $allowedOrigins): bool
-    {
-        $whitelist = array_map('trim', explode(',', $allowedOrigins));
-
-        return \in_array($requestOrigin, $whitelist, true);
-    }
-
-    /**
-     * Checks whether a request's Origin header matches an entry in the
-     * configured CORS origin whitelist.
-     *
-     * @param   string  $requestOrigin   The Origin header sent by the browser.
-     * @param   string  $allowedOrigins  The configured cors_allow_origin value; a single
-     *                                   origin, or a comma-separated list of origins.
-     *
-     * @return  boolean  True if the request origin is present in the whitelist.
-     *
      * @since   6.1.3
      */
     private function isOriginAllowed(string $requestOrigin, string $allowedOrigins): bool
