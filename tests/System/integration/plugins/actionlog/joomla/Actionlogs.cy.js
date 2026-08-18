@@ -128,12 +128,12 @@ describe('Test that the Action Logs plugin', () => {
     cy.get('#jform_password1').type('Password123!');
     cy.get('#jform_password2').type('Password123!');
     cy.get('#jform_email1').type('frontendtest@example.com');
-    
+
     cy.get('button[type="submit"]').contains('Register').click();
 
     // Go back to backend to check action log
     cy.visit('/administrator/index.php?option=com_actionlogs&view=actionlogs');
-    
+
     // Asserts that user registration was logged
     cy.contains('registered').should('be.visible');
     cy.db_updateExtensionParameter('allowUserRegistration', '0', 'com_users');
