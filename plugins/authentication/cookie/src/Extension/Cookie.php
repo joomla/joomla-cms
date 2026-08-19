@@ -43,7 +43,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
     /**
      * Create a new series used for authentication of a cookie.
      *
-     * @return string | null
+     * @return  string | null
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -202,6 +202,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             $results = $db->setQuery($query)->loadObjectList();
         } catch (\RuntimeException $e) {
             $response->status = Authentication::STATUS_FAILURE;
+
             return;
         }
 
@@ -217,6 +218,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
                 ]
             );
             $response->status = Authentication::STATUS_FAILURE;
+
             return;
         }
 
@@ -329,7 +331,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             // Stop event propagation when status is STATUS_SUCCESS
             $event->stopPropagation();
 
-            $length       = $this->params->get('key_length', 16);
+            $length = $this->params->get('key_length', 16);
             // Generate new cookie
             $token        = UserHelper::genRandomPassword($length);
             $hashedToken  = UserHelper::hashPassword($token);
@@ -431,7 +433,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             ]
         );
 
-        $future      = (time() + $lifetime);
+        $future      = time() + $lifetime;
         $hashedToken = UserHelper::hashPassword($token);
 
         // Create new record
