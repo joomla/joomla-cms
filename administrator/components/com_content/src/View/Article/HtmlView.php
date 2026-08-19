@@ -89,12 +89,25 @@ class HtmlView extends FormView
 
         $url = RouteHelper::getArticleRoute($this->item->id . ':' . $this->item->alias, $this->item->catid, $this->item->language);
 
+        // check that we have a secret in configuration.php, otherwise we cannot validate the token
+        $secret = Factory::getApplication()->get('secret');
+
+        if (empty($secret)) {
+            \Joomla\CMS\Log\Log::add(
+                'No site secret configured in configuration.php.',
+                \Joomla\CMS\Log\Log::ERROR,
+                'security'
+            );
+
+            throw new \RuntimeException('No site secret is configured. Please check configuration.php.');
+        }
+
         // Generate preview token if editing an existing article
         if ($this->item->id > 0) {
             $params     = ComponentHelper::getParams('com_content');
             $expiration = (int) $params->get('preview_token_expiration', 15);
 
-            $tokenHelper = new PreviewTokenService(Factory::getApplication()->get('secret'));
+            $tokenHelper = new PreviewTokenService($secret);
             $token       = $tokenHelper->createToken((int) $this->item->id, $expiration);
 
             // Append token using proper URL query parameter handling

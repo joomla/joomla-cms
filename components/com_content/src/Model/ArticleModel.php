@@ -72,8 +72,21 @@ class ArticleModel extends ItemModel
         // Validate preview token if present, before any permission checks.
         $token = $app->getInput()->getString('preview_token', '');
 
+        // check that we have a secret in configuration.php, otherwise we cannot validate the token
+        $secret = $app->get('secret');
+
+        if (empty($secret)) {
+            \Joomla\CMS\Log\Log::add(
+                'No site secret configured in configuration.php.',
+                \Joomla\CMS\Log\Log::ERROR,
+                'security'
+            );
+
+            throw new \RuntimeException('No site secret is configured. Please check configuration.php.');
+        }
+
         if ($token !== '' && $pk > 0) {
-            $previewTokenHelper = new PreviewTokenService($app->get('secret'));
+            $previewTokenHelper = new PreviewTokenService($secret);
 
             if ($previewTokenHelper->validateToken($token, $pk)) {
                 $this->setState('article.preview', true);
