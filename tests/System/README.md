@@ -238,6 +238,8 @@ The following commands are available and are served by the file [tests/System/su
 - **db_enableExtension** – Sets the enabled status for the given extension
 - **db_getUserId** – Returns the id of the currently logged in user
 - **db_updateExtensionParameter** – Sets the parameter for the given extension
+- **db_deleteMenuItem** - Deletes a menu item with the given title
+- **db_deleteCategory** - Deletes a category with the given title
 
 
 #### API Commands
