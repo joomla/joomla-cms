@@ -1,6 +1,6 @@
 {
   "name": "joomla",
-  "version": "6.1.3",
+  "version": "6.1.4",
   "description": "Joomla CMS",
   "license": "GPL-2.0-or-later",
   "repository": {
@@ -134,5 +134,13 @@
     "stylelint-order": "^7.0.1",
     "stylelint-scss": "^6.14.0",
     "totp-generator": "^1.0.0"
+  },
+  "allowScripts": {
+    "core-js@3.48.0": true,
+    "cypress@15.18.0": true,
+    "esbuild@0.27.7": true,
+    "fsevents@2.3.3": true,
+    "vue-demi@0.13.11": true,
+    "vue-demi@0.14.10": true
   }
 }
