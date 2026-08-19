@@ -44,10 +44,12 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
      * Create a new series used for authentication of a cookie.
      *
      * @return string | null
+     *
+     * @since   __DEPLOY_VERSION__
      */
     private function createNewSeries(): string
     {
-        $series = "";
+        $series = '';
         $db     = $this->getDatabase();
         do {
             $series = UserHelper::genRandomPassword(20);
@@ -281,9 +283,11 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             ->where($db->quoteName('user_id') . ' = :userid')
             ->where($db->quoteName('uastring') . ' = :uastring')
             ->where($db->quoteName('id') . ' < :token_id')
+            ->where($db->quoteName('series') . ' = :series')
             ->bind(':userid', $user_id)
             ->bind(':uastring', $cookieName)
-            ->bind(':token_id', $token_id);
+            ->bind(':token_id', $token_id)
+            ->bind(':series', $series);
 
         try {
             $db->setQuery($query)->execute();
@@ -329,12 +333,6 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             // Generate new cookie
             $token        = UserHelper::genRandomPassword($length);
             $hashedToken  = UserHelper::hashPassword($token);
-            $series = $this->createNewSeries();
-            if ($series === null) {
-                $response->status = Authentication::STATUS_FAILURE;
-
-                return;
-            }
             $cookieValue  = $token . '.' . $series;
             $lifetime     = $this->params->get('cookie_lifetime', 60) * 24 * 60 * 60;
 
@@ -352,7 +350,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             );
 
             // Insert the new value in the DB. For concurrency reason, old cookies are deleted
-            // only after the next successful athentication.
+            // only after the next successful authentication.
             $query = $db->createQuery()
                 ->insert($db->quoteName('#__user_keys'))
                 ->set($db->quoteName('user_id') . ' = :userid')
