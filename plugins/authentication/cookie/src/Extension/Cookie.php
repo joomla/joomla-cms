@@ -222,14 +222,14 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
 
         // For concurrency correction, we keep multiple token in the DB for each session,
         // and delete all older ones (same user agent, smaller id) *after* auth with a newer token.
-        $token_id = -1;
+        $token_id   = -1;
         $token_time = 0;
-        $user_id = $results[0]->user_id;
-        for ($id=0; $id<count($results); $id++) {
+        $user_id    = $results[0]->user_id;
+        for ($id=0; $id < \count($results); $id++) {
             if (UserHelper::verifyPassword($cookieArray[0], $results[$id]->token)) {
-                $token_id = $results[$id]->id;
+                $token_id   = $results[$id]->id;
                 $token_time = $results[$id]->time;
-                $user_id = $results[$id]->user_id;
+                $user_id    = $results[$id]->user_id;
                 break;
             }
         }
@@ -431,7 +431,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             ]
         );
 
-        $future = (time() + $lifetime);
+        $future      = (time() + $lifetime);
         $hashedToken = UserHelper::hashPassword($token);
 
         // Create new record
