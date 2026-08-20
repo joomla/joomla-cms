@@ -331,12 +331,12 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             // Stop event propagation when status is STATUS_SUCCESS
             $event->stopPropagation();
 
-            $length = $this->params->get('key_length', 16);
+            $length      = $this->params->get('key_length', 16);
             // Generate new cookie
-            $token        = UserHelper::genRandomPassword($length);
-            $hashedToken  = UserHelper::hashPassword($token);
-            $cookieValue  = $token . '.' . $series;
-            $lifetime     = $this->params->get('cookie_lifetime', 60) * 24 * 60 * 60;
+            $token       = UserHelper::genRandomPassword($length);
+            $hashedToken = UserHelper::hashPassword($token);
+            $cookieValue = $token . '.' . $series;
+            $lifetime    = $this->params->get('cookie_lifetime', 60) * 24 * 60 * 60;
 
             // Overwrite existing cookie with new value
             $app->getInput()->cookie->set(
