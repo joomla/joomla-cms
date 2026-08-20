@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ad312a9eae54a16ad1d3196c28f442f5",
+    "content-hash": "2409c13ac45e0db9103c9377e0a7fd00",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1629,16 +1629,16 @@
         },
         {
             "name": "joomla/filesystem",
-            "version": "4.2.0",
+            "version": "4.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filesystem.git",
-                "reference": "66e6212d4cb4d36e7dd5a01a94c5f257e3026a52"
+                "reference": "a79ed5044970b81a5aed22049199c1d6bc902d9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/66e6212d4cb4d36e7dd5a01a94c5f257e3026a52",
-                "reference": "66e6212d4cb4d36e7dd5a01a94c5f257e3026a52",
+                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/a79ed5044970b81a5aed22049199c1d6bc902d9a",
+                "reference": "a79ed5044970b81a5aed22049199c1d6bc902d9a",
                 "shasum": ""
             },
             "require": {
@@ -1671,22 +1671,22 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/filesystem/issues",
-                "source": "https://github.com/joomla-framework/filesystem/tree/4.2.0"
+                "source": "https://github.com/joomla-framework/filesystem/tree/4.2.1"
             },
-            "time": "2026-06-25T19:31:52+00:00"
+            "time": "2026-08-18T15:44:34+00:00"
         },
         {
             "name": "joomla/filter",
-            "version": "4.0.2",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filter.git",
-                "reference": "c7bdd35af5bee9dd4bdf2674f483eff44ef28065"
+                "reference": "f61782cddb50f3d27a970b355ac1712bc6b16689"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/c7bdd35af5bee9dd4bdf2674f483eff44ef28065",
-                "reference": "c7bdd35af5bee9dd4bdf2674f483eff44ef28065",
+                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/f61782cddb50f3d27a970b355ac1712bc6b16689",
+                "reference": "f61782cddb50f3d27a970b355ac1712bc6b16689",
                 "shasum": ""
             },
             "require": {
@@ -1722,9 +1722,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/filter/issues",
-                "source": "https://github.com/joomla-framework/filter/tree/4.0.2"
+                "source": "https://github.com/joomla-framework/filter/tree/4.1.0"
             },
-            "time": "2026-05-26T16:05:47+00:00"
+            "time": "2026-08-14T10:06:10+00:00"
         },
         {
             "name": "joomla/http",
@@ -9751,9 +9751,9 @@
         "ext-gd": "*",
         "ext-dom": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.3.0"
     },
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.6.0"
 }
