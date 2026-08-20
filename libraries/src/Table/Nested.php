@@ -1290,7 +1290,7 @@ class Nested extends Table
      *
      * @return  array  A list of detected problems, empty when the tree is sound.
      *
-     * @since   6.2.0
+     * @since   __DEPLOY_VERSION__
      * @throws  \RuntimeException on database error.
      */
     public function checkTreeIntegrity(): array
@@ -1392,7 +1392,7 @@ class Nested extends Table
      * @return  array  An array with the keys 'target' (id => values), 'rows'
      *                 (id => current row) and 'next' (1 + rgt of the start node).
      *
-     * @since   6.2.0
+     * @since   __DEPLOY_VERSION__
      * @throws  \RuntimeException when the adjacency list contains a cycle.
      */
     protected function buildTreeState(int $parentId, int $leftId = 0, int $level = 0, ?string $path = null): array
@@ -1536,7 +1536,7 @@ class Nested extends Table
      *
      * @return  array  The subset of $target whose values differ from the stored ones.
      *
-     * @since   6.2.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function diffTreeState(array $target, array $rows): array
     {
@@ -1579,7 +1579,7 @@ class Nested extends Table
      *
      * @return  integer  The number of rows written.
      *
-     * @since   6.2.0
+     * @since   __DEPLOY_VERSION__
      * @throws  \RuntimeException on database error.
      */
     protected function applyTreeState(array $dirty): int
