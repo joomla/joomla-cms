@@ -42,7 +42,26 @@ class ContentHistoryTest extends UnitTestCase
     {
         parent::setUp();
 
-        $db         = $this->createStub(DatabaseInterface::class);
+        $db = $this->createMock(DatabaseInterface::class);
+        $db->method('getServerType')->willReturn('mysql');
+        $db->method('getName')->willReturn('joomla_ut');
+        $db->method('getTableColumns')->willReturn([
+            'version_id'      => 'int',
+            'item_id'         => 'varchar',
+            'save_date'       => 'datetime',
+            'version_note'    => 'varchar',
+            'version_data'    => 'mediumtext',
+            'keep_forever'    => 'tinyint',
+            'user_id'         => 'int',
+            'character_count' => 'int',
+            'sha1_hash'       => 'varchar',
+            'version'         => 'int',
+            'data'            => 'mediumtext',
+            'type_id'         => 'int',
+            'type_title'      => 'varchar',
+            'type_alias'      => 'varchar',
+        ]);
+
         $dispatcher = $this->createStub(DispatcherInterface::class);
 
         $this->historyTable = new ContentHistory($db, $dispatcher);
