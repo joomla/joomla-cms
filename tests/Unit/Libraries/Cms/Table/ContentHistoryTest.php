@@ -19,7 +19,7 @@ use Joomla\Tests\Unit\UnitTestCase;
 /**
  * Test class for \Joomla\CMS\Table\ContentHistory.
  *
- * @since  5.4.0
+ * @since  __DEPLOY_VERSION__
  */
 class ContentHistoryTest extends UnitTestCase
 {
