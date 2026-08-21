@@ -407,7 +407,7 @@ class ConfigurationModel extends BaseInstallationModel
         $registry->set('cors', false);
         $registry->set('cors_allow_origin', '*');
         $registry->set('cors_allow_methods', '');
-        $registry->set('cors_allow_headers', 'Content-Type,X-Joomla-Token');
+        $registry->set('cors_allow_headers', 'Content-Type,X-Joomla-Token,Authorization');
 
         // Mail settings.
         $registry->set('mailonline', true);
