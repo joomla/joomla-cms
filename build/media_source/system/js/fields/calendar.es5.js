@@ -528,28 +528,7 @@
     var self = this,
       code = ev.code;
 
-    if (
-      ev.target.matches &&
-      ev.target.matches('.time-hours, .time-minutes')
-    ) {
-      if (code === 'Tab' && ev.shiftKey && ev.target.matches('.time-hours')) {
-        ev.preventDefault();
-        this.inputField.focus();
-        return;
-      }
-
-      if (
-        code === 'ArrowUp' ||
-        code === 'ArrowDown' ||
-        code === 'ArrowLeft' ||
-        code === 'ArrowRight' ||
-        code === 'Tab'
-      ) {
-        return;
-      }
-    }
-
-    // Get value from input
+    // Tab from the calendar input moves into the time controls.
     if (ev.target === this.inputField && (code === 'Enter' || code === 'Tab')) {
       if (code === 'Tab' && !ev.shiftKey && self.params.showsTime) {
         var hoursEl = this.table.querySelector('.time-hours');
@@ -564,10 +543,28 @@
       this.close();
     }
 
-    // Select the currently highlighted date
-    if (code === 'Enter' && self.currentDateEl) {
-      self.cellClick(self.currentDateEl, ev);
-      return;
+    // Handle keyboard navigation and focus within the time controls.
+    if (
+      ev.target.matches &&
+      ev.target.matches('.time-hours, .time-minutes')
+    ) {
+      // Shift+Tab from Hours returns to the calendar input.
+      if (code === 'Tab' && ev.shiftKey && ev.target.matches('.time-hours')) {
+        ev.preventDefault();
+        this.inputField.focus();
+        return;
+      }
+
+      // Let the time selects handle arrow keys and Tab natively.
+      if (
+        code === 'ArrowUp' ||
+        code === 'ArrowDown' ||
+        code === 'ArrowLeft' ||
+        code === 'ArrowRight' ||
+        code === 'Tab'
+      ) {
+        return;
+      }
     }
 
     if (self.params.direction === 'rtl') {
@@ -576,6 +573,12 @@
       } else if (code === 'ArrowRight') {
         code = 'ArrowLeft';
       }
+    }
+
+    // Select the currently highlighted date.
+    if (code === 'Enter' && self.currentDateEl) {
+      self.cellClick(self.currentDateEl, ev);
+      return;
     }
 
     if (ev.shiftKey && code === 'Space') {
@@ -604,7 +607,8 @@
       this.moveCursorBy(-1);
     }
   };
-	/** Method to create the html structure of the calendar */
+
+  /** Method to create the html structure of the calendar */
 	JoomlaCalendar.prototype._create = function () {
 		var self   = this,
 			parent = this.element,
