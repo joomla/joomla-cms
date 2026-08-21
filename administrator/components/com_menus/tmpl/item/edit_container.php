@@ -20,7 +20,6 @@ use Joomla\Registry\Registry;
 $menuLinks = MenusHelper::getMenuLinks('main');
 $lang      = $this->getLanguage();
 
-
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('joomla.treeselectmenu')
