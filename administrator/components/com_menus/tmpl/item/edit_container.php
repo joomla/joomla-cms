@@ -18,6 +18,8 @@ use Joomla\Registry\Registry;
 
 // Initialise related data.
 $menuLinks = MenusHelper::getMenuLinks('main');
+        $lang      = $this->getLanguage();
+
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
