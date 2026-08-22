@@ -126,10 +126,10 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $this->_accessfield = $options['accessfield'] ?? null;
         $this->_statefield  = $options['statefield'] ?? 'state';
 
-        $options['access']        ??= 'true';
-        $options['published']     ??= 1;
-        $options['countItems']    ??= 0;
-        $options['accessOnItems'] ??= 1;
+        $options['access']                 ??= 'true';
+        $options['published']              ??= 1;
+        $options['countItems']             ??= 0;
+        $options['accessOnItems']          ??= 1;
         $options['categoryMappingContext'] ??= null;
         $options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
 
