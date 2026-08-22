@@ -111,12 +111,14 @@ class SecondaryCategoriesHelper extends CMSHelper
      * @param   bool    $includeSubcategories   Whether to include child categories in the match.
      * @param   int     $levels                 Maximum depth of subcategories to include.
      * @param   string  $tableAlias             Table alias for the content table (default: 'a').
+     * @param   string  $categoryColumn         Primary category column name (default: 'catid').
+     * @param   string  $keyColumn              Item key column name (default: 'id').
      *
      * @return  string  The complete SQL condition, or '1 = 0' if no valid categories.
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function buildCategoryMembershipCondition(array $categoryIds, bool $includeSubcategories = false, int $levels = 1, string $tableAlias = 'a'): string
+    public function buildCategoryMembershipCondition(array $categoryIds, bool $includeSubcategories = false, int $levels = 1, string $tableAlias = 'a', string $categoryColumn = 'catid', string $keyColumn = 'id'): string
     {
         $db = $this->getDb();
 
@@ -127,8 +129,8 @@ class SecondaryCategoriesHelper extends CMSHelper
         }
 
         $boundedIds  = implode(',', $categoryIds);
-        $catidColumn = $db->quoteName($tableAlias . '.catid');
-        $idColumn    = $db->quoteName($tableAlias . '.id');
+        $catidColumn = $db->quoteName($tableAlias . '.' . $categoryColumn);
+        $idColumn    = $db->quoteName($tableAlias . '.' . $keyColumn);
 
         // Build primary category condition (with optional subcategories)
         $primaryCondition = $this->buildPrimaryCategoryCondition($catidColumn, $boundedIds, $categoryIds, $includeSubcategories, $levels);

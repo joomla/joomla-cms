@@ -41,7 +41,7 @@ class CategorymultipleField extends CategoryeditField
      *
      * @since __DEPLOY_VERSION__
      */
-    protected $layout = 'joomla.form.field.categoryedit';
+    protected $layout = 'joomla.form.field.categorymultiple';
 
     /**
      * Method to get the field options.

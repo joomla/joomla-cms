@@ -58,17 +58,10 @@ class OverridesController extends AdminController
             $model = $this->getModel('overrides');
 
             // Remove the items.
-            try {
-                $result = $model->delete($cid);
-            } catch (\Exception $e) {
-                $result = false;
-                $msg    = $e->getMessage();
-            }
-
-            if ($result) {
+            if ($model->delete($cid)) {
                 $this->setMessage(Text::plural($this->text_prefix . '_N_ITEMS_DELETED', \count($cid)));
             } else {
-                $this->setMessage($msg ?? Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+                $this->setMessage($model->getError(), 'error');
             }
         }
 

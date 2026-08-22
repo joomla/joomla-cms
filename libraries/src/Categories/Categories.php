@@ -130,6 +130,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $options['published']     ??= 1;
         $options['countItems']    ??= 0;
         $options['accessOnItems'] ??= 1;
+        $options['categoryMappingContext'] ??= null;
         $options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
 
         $this->_options = $options;
@@ -234,7 +235,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
     }
 
     /**
-     * Get the context to use for category mapping.
+     * Get the configured context to use for category mapping.
      *
      * @return string|null
      *
@@ -242,13 +243,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      */
     protected function getCategoryMappingContext(): ?string
     {
-        return match ($this->_extension) {
-            'com_content'   => 'com_content.article',
-            'com_contact'   => 'com_contact.contact',
-            'com_banners'   => 'com_banners.banner',
-            'com_newsfeeds' => 'com_newsfeeds.newsfeed',
-            default         => null,
-        };
+        return $this->_options['categoryMappingContext'];
     }
 
     /**

@@ -112,7 +112,6 @@ class HtmlView extends BaseHtmlView
             ->addControlField('task')
             ->addControlField('forcedLanguage', $forcedLanguage);
 
-        $this->getDocument()->getWebAssetManager()->registerAndUseScript('field.secondary-categories', 'layouts/joomla/form/field/secondary-categories.min.js', [], ['defer' => true], ['core', 'webcomponent.field-fancy-select']);
 
         if ($this->getLayout() !== 'modal') {
             $this->addToolbar();

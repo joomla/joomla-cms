@@ -41,14 +41,7 @@ class InstalledController extends BaseController
         $cid   = (string) $this->input->get('cid', '', 'string');
         $model = $this->getModel('installed');
 
-        try {
-            $result = $model->publish($cid);
-        } catch (\Exception $e) {
-            $result = false;
-            $msg    = $e->getMessage();
-        }
-
-        if ($result) {
+        if ($model->publish($cid)) {
             // Switching to the new administrator language for the message
             if ($model->getState('client_id') == 1) {
                 $language          = Factory::getLanguage();
@@ -66,7 +59,7 @@ class InstalledController extends BaseController
                 $type = 'message';
             }
         } else {
-            $msg  = $msg ?? Text::_('JERROR_AN_ERROR_HAS_OCCURRED');
+            $msg  = $model->getError();
             $type = 'error';
         }
 
@@ -96,14 +89,7 @@ class InstalledController extends BaseController
 
         $info = LanguageHelper::parseXMLLanguageFile($file);
 
-        try {
-            $result = $model->switchAdminLanguage($cid);
-        } catch (\Exception $e) {
-            $result = false;
-            $msg    = $e->getMessage();
-        }
-
-        if ($result) {
+        if ($model->switchAdminLanguage($cid)) {
             // Switching to the new language for the message
             $languageName      = $info['nativeName'];
             $language          = Factory::getLanguage();
@@ -115,7 +101,7 @@ class InstalledController extends BaseController
             $msg  = Text::sprintf('COM_LANGUAGES_MSG_SWITCH_ADMIN_LANGUAGE_SUCCESS', $languageName);
             $type = 'message';
         } else {
-            $msg  = $msg ?? Text::_('JERROR_AN_ERROR_HAS_OCCURRED');
+            $msg  = $model->getError();
             $type = 'error';
         }
 
