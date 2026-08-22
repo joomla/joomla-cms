@@ -1438,6 +1438,8 @@ abstract class AdminModel extends FormModel
                 return false;
             }
 
+            $this->postStore($table, $data);
+
             // Clean the cache.
             $this->cleanCache();
 
@@ -1561,6 +1563,20 @@ abstract class AdminModel extends FormModel
         }
 
         return true;
+    }
+
+    /**
+     * Perform operations after an item has been stored and before the after-save event is dispatched.
+     *
+     * @param   TableInterface  $table  The stored table.
+     * @param   array           $data   The submitted data.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function postStore(TableInterface $table, array $data): void
+    {
     }
 
     /**

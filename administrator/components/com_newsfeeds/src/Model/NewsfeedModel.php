@@ -296,10 +296,23 @@ class NewsfeedModel extends AdminModel implements VersionableModelInterface
             return false;
         }
 
-        $data['id'] = (int) $this->getState($this->getName() . '.id');
-        $this->saveSecondaryCategories($data);
-
         return true;
+    }
+
+    /**
+     * Save additional category mappings before plugins handle the after-save event.
+     *
+     * @param   TableInterface  $table  The stored table.
+     * @param   array           $data   The submitted data.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function postStore(TableInterface $table, array $data): void
+    {
+        $data['id'] = (int) $table->id;
+        $this->saveSecondaryCategories($data);
     }
 
     /**

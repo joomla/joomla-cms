@@ -346,8 +346,12 @@ final class Content extends Adapter implements SubscriberInterface
         $categories = $this->getApplication()->bootComponent('com_content')->getCategory(['published' => false, 'access' => false]);
 
         if (\in_array('category', $taxonomies)) {
-            $helper       = new SecondaryCategoriesHelper('com_content.article');
-            $categoryIds  = [$item->catid, ...$helper->getCurrentSecondaryCategoriesByItem($item->id)];
+            $categoryIds = [$item->catid];
+
+            if (!empty($item->id)) {
+                $helper      = new SecondaryCategoriesHelper('com_content.article');
+                $categoryIds = [...$categoryIds, ...$helper->getCurrentSecondaryCategoriesByItem((int) $item->id)];
+            }
 
             foreach ($categoryIds as $categoryId) {
                 $taxonomyCategory = $categories->get($categoryId);
@@ -355,13 +359,7 @@ final class Content extends Adapter implements SubscriberInterface
                 if (!$taxonomyCategory) {
                     continue;
                 }
-                $item->addNestedTaxonomy(
-                    'Category',
-                    $taxonomyCategory,
-                    $this->translateState($taxonomyCategory->published),
-                    $taxonomyCategory->access,
-                    $taxonomyCategory->language
-                );
+                $item->addNestedTaxonomy('Category', $taxonomyCategory, $this->translateState($taxonomyCategory->published), $taxonomyCategory->access, $taxonomyCategory->language);
             }
         }
 

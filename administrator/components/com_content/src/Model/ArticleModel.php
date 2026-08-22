@@ -929,17 +929,30 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
                 }
             }
 
-            if (\array_key_exists('secondary_categories', $data)) {
-                $data['id'] = (int) $this->getState($this->getName() . '.id');
-                $this->saveSecondaryCategories($data);
-            }
-
             $this->workflowAfterSave($data);
 
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * Save additional category mappings before plugins handle the after-save event.
+     *
+     * @param   TableInterface  $table  The stored table.
+     * @param   array           $data   The submitted data.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function postStore(TableInterface $table, array $data): void
+    {
+        if (\array_key_exists('secondary_categories', $data)) {
+            $data['id'] = (int) $table->id;
+            $this->saveSecondaryCategories($data);
+        }
     }
 
     /**
