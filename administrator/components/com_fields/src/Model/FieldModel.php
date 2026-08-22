@@ -1175,11 +1175,17 @@ class FieldModel extends AdminModel
         $user      = $this->getCurrentUser();
         $table     = $this->getTable();
         $newIds    = [];
-        $component = $this->state->get('filter.component');
         $value     = (int) $value;
 
         foreach ($pks as $pk) {
-            if ($user->authorise('core.create', $component . '.fieldgroup.' . $value)) {
+            $table->reset();
+            $table->load($pk);
+            [$recordComponent] = explode('.', (string) $table->context);
+
+            if (
+                $user->authorise('core.create', $recordComponent . '.fieldgroup.' . $value)
+                && $user->authorise('core.edit', $recordComponent . '.field.' . $pk)
+            ) {
                 // Find all assigned categories to this field
                 $db    = $this->getDatabase();
                 $query = $db->createQuery();
@@ -1189,9 +1195,6 @@ class FieldModel extends AdminModel
                     ->where($db->quoteName('field_id') . ' = ' . (int) $pk);
 
                 $assignedCatIds = $db->setQuery($query)->loadColumn();
-
-                $table->reset();
-                $table->load($pk);
 
                 $table->group_id = $value;
 
