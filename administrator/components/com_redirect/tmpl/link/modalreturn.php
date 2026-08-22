@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 /** @var \Joomla\Component\Content\Administrator\View\Article\HtmlView $this */
 
