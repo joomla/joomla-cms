@@ -968,6 +968,13 @@ class CategoryModel extends AdminModel
                 continue;
             }
 
+            // Check that the user is allowed to access the item
+            if (!$this->user->authorise('core.edit', $contexts[$pk])) {
+                $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
+                return false;
+            }
+
             // Copy is a bit tricky, because we also need to copy the children
             $lft = (int) $this->table->lft;
             $rgt = (int) $this->table->rgt;
