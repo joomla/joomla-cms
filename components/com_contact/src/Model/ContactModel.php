@@ -287,7 +287,7 @@ class ContactModel extends FormModel
 
             if (!empty($this->_item[$pk]->secondary_categories)) {
                 foreach ($this->_item[$pk]->secondary_categories as $secCat) {
-                    $secondaryIds[] = (int) ($secCat->id ?? $secCat);
+                    $secondaryIds[] = (int) $secCat->id;
                 }
             }
 

@@ -169,12 +169,9 @@ class BannerModel extends BaseDatabaseModel
             $id = (int) $this->getState('banner.id');
 
             // For PHP 5.3 compat we can't use $this in the lambda function below, so grab the database driver now to use it
-            $db      = $this->getDatabase();
-            $user    = Factory::getApplication()->getIdentity();
-            $isAdmin = $user->authorise('core.admin');
-            $cacheId = md5(__METHOD__ . $id . ':' . (int) $isAdmin . ':' . implode(',', $user->getAuthorisedViewLevels()));
-            $loader  = function ($id) use ($db, $user, $isAdmin) {
+            $db = $this->getDatabase();
 
+            $loader = function ($id) use ($db) {
                 $nowDate = Factory::getDate()->toSql();
                 $query   = $db->createQuery();
 
@@ -182,17 +179,14 @@ class BannerModel extends BaseDatabaseModel
                     [
                         $db->quoteName('a.clickurl'),
                         $db->quoteName('a.cid'),
-                        $db->quoteName('a.catid'),
                         $db->quoteName('a.track_clicks'),
                         $db->quoteName('cl.track_clicks', 'client_track_clicks'),
                     ]
                 )
                     ->from($db->quoteName('#__banners', 'a'))
                     ->join('LEFT', $db->quoteName('#__banner_clients', 'cl'), $db->quoteName('cl.id') . ' = ' . $db->quoteName('a.cid'))
-                    ->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
                     ->where($db->quoteName('a.id') . ' = :id')
                     ->where($db->quoteName('a.state') . ' = 1')
-                    ->where($db->quoteName('c.published') . ' = 1')
                     ->extendWhere(
                         'AND',
                         [
@@ -212,16 +206,13 @@ class BannerModel extends BaseDatabaseModel
                     ->bind(':id', $id, ParameterType::INTEGER)
                     ->bind(':nowDate', $nowDate);
 
-                if (!$isAdmin) {
-                    $query->whereIn($db->quoteName('c.access'), $user->getAuthorisedViewLevels(), ParameterType::INTEGER);
-                }
                 $db->setQuery($query);
 
                 return $db->loadObject();
             };
 
             try {
-                $this->_item = $cache->get($loader, [$id], $cacheId);
+                $this->_item = $cache->get($loader, [$id], md5(__METHOD__ . $id));
             } catch (CacheExceptionInterface) {
                 $this->_item = $loader($id);
             }

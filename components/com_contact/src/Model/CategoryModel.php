@@ -155,7 +155,7 @@ class CategoryModel extends ListModel
 
             if (!empty($item->secondary_categories)) {
                 foreach ($item->secondary_categories as $secCat) {
-                    $secondaryIds[] = (int) ($secCat->id ?? $secCat);
+                    $secondaryIds[] = (int) $secCat->id;
                 }
             }
 
