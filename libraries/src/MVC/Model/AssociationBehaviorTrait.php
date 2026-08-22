@@ -139,12 +139,10 @@ trait AssociationBehaviorTrait
         foreach ($pks as $i => $pk) {
             $table->reset();
 
-            if (!$table->load($pk) || $this->canEditState($table)) {
-                continue;
+            if (!$table->load($pk) || !$this->canEditState($table)) {
+                unset($pks[$i]);
+                Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
             }
-
-            unset($pks[$i]);
-            Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
         }
 
         if (!$pks) {
