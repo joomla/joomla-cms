@@ -33,7 +33,7 @@ program
   .command('builders-list')
   .description('Show list of builders')
   .action(() => {
-    console.log(builders.join("\n"));
+    console.log(builders.join('\n'));
   });
 
 program
@@ -52,10 +52,10 @@ program
 program
   .command('watch')
   .description('Watch specified asset and rebuild on changes')
+  .option('-a,--all', 'watch all assets')
   .option('-n,--name <builder_name,builder_name>', 'builder(s) to watch')
   .action((options) => {
     watchCommand(program, options, builders);
   });
 
-program.parse(process.argv)
-
+program.parse(process.argv);

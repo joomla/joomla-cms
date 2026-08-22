@@ -19,7 +19,7 @@ namespace Joomla\CMS\Filesystem;
  * Holds support functions for the filesystem, particularly the stream
  *
  * @since  1.7.0
- * @deprecated  4.4 will be removed in 6.0
+ * @deprecated  4.4 will be removed in 7.0
  *              Use Joomla\Filesystem\Helper instead.
  */
 class FilesystemHelper
@@ -33,7 +33,7 @@ class FilesystemHelper
      *
      * @link    https://www.php.net/manual/en/function.filesize.php
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Helper::remotefsize() instead.
      */
     public static function remotefsize($url)
@@ -118,7 +118,7 @@ class FilesystemHelper
      *
      * @link    https://www.php.net/manual/en/function.ftp-chmod.php
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Helper::ftpChmod() instead.
      */
     public static function ftpChmod($url, $mode)
@@ -183,7 +183,7 @@ class FilesystemHelper
      * @return  array
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Helper::getWriteModes() instead.
      */
     public static function getWriteModes()
@@ -200,7 +200,7 @@ class FilesystemHelper
      * @return  array  Streams
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Helper::getSupported() instead.
      */
     public static function getSupported()
@@ -221,7 +221,7 @@ class FilesystemHelper
      * @return  array
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Helper::getTransports() instead.
      */
     public static function getTransports()
@@ -236,7 +236,7 @@ class FilesystemHelper
      * @return  array
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Helper::getFilters() instead.
      */
     public static function getFilters()
@@ -252,7 +252,7 @@ class FilesystemHelper
      * @return  array
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Helper::getJStreams() instead.
      */
     public static function getJStreams()
@@ -284,7 +284,7 @@ class FilesystemHelper
      * @return  boolean  True for a Joomla Stream
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Helper::isJoomlaStream() instead.
      */
     public static function isJoomlaStream($streamname)

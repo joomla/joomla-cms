@@ -18,8 +18,10 @@ use Joomla\CMS\Event\User\AfterSaveEvent;
 use Joomla\CMS\Event\User\LoginEvent;
 use Joomla\CMS\Event\User\LogoutEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
@@ -45,6 +47,8 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -240,7 +244,12 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             'email'    => $user['email'],
         ];
 
-        $mailer = new MailTemplate('plg_user_joomla.mail', $userLocale);
+        $mailer = new MailTemplate(
+            'plg_user_joomla.mail',
+            $userLocale,
+            $this->getMailerFactory()->createMailer(),
+            $this->getLanguageFactory()
+        );
         $mailer->addTemplateData($data);
         $mailer->addUnsafeTags(['username', 'password', 'name', 'email']);
         $mailer->addRecipient($user['email'], $user['name']);
@@ -333,6 +342,9 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
         // Register the needed session variables
         $session->set('user', $instance);
+
+        // Reset the MFA check state
+        $session->set('com_users.mfa_checked', 0);
 
         // Update the user related fields for the Joomla sessions table if tracking session metadata.
         if ($this->getApplication()->get('session_metadata', true)) {
