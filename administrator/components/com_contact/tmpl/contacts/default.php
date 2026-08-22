@@ -168,6 +168,17 @@ if ($saveOrder && !empty($this->items)) {
                                 </td>
                                 <?php if ($assoc) : ?>
                                 <td class="d-none d-md-table-cell">
+                                    <?php if (!empty($item->association_outdated)) : ?>
+                                        <button type="button"
+                                            class="js-grid-item-action badge bg-warning text-dark border-0"
+                                            data-item-id="cb<?php echo $i; ?>"
+                                            data-item-task="contacts.translationuptodate"
+                                            title="<?php echo Text::_('JGLOBAL_ASSOCIATIONS_MARK_UPTODATE'); ?>"
+                                            <?php echo $canChange ? '' : 'disabled'; ?>>
+                                            <span class="icon-exclamation-triangle" aria-hidden="true"></span>
+                                            <?php echo Text::_('JGLOBAL_ASSOCIATIONS_OUTDATED'); ?>
+                                        </button>
+                                    <?php endif; ?>
                                     <?php if ($item->association) : ?>
                                         <?php echo HTMLHelper::_('contactadministrator.association', $item->id); ?>
                                     <?php endif; ?>

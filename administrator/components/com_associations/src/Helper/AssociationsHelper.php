@@ -320,6 +320,12 @@ class AssociationsHelper extends ContentHelper
                 . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
             $classes = 'badge ' . $labelClass;
 
+            if (!empty($items[$langCode]['association_outdated'])) {
+                $text .= ' <span class="icon-exclamation-triangle text-warning" aria-hidden="true"></span>'
+                    . '<span class="visually-hidden">' . Text::_('JGLOBAL_ASSOCIATIONS_OUTDATED') . '</span>';
+                $tooltip .= '<br>' . Text::_('JGLOBAL_ASSOCIATIONS_OUTDATED');
+            }
+
             $items[$langCode]['link'] = '<a href="' . $url . '" class="' . $classes . '">' . $text . '</a>'
                 . '<div role="tooltip">' . $tooltip . '</div>';
         }

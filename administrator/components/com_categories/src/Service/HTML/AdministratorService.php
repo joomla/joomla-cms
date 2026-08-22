@@ -61,9 +61,16 @@ class AdministratorService
                         $db->quoteName('l.lang_code'),
                         $db->quoteName('l.image'),
                         $db->quoteName('l.title', 'language_title'),
+                        $db->quoteName('assoc.outdated'),
                     ]
                 )
                 ->from($db->quoteName('#__categories', 'c'))
+                ->join(
+                    'LEFT',
+                    $db->quoteName('#__associations', 'assoc'),
+                    $db->quoteName('assoc.id') . ' = ' . $db->quoteName('c.id')
+                    . ' AND ' . $db->quoteName('assoc.context') . ' = ' . $db->quote('com_categories.item')
+                )
                 ->whereIn($db->quoteName('c.id'), array_values($associations))
                 ->where($db->quoteName('c.id') . ' != :catid')
                 ->bind(':catid', $catid, ParameterType::INTEGER)
@@ -91,6 +98,12 @@ class AdministratorService
                         $tooltip  = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
                             . htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');
                         $classes  = 'badge bg-secondary';
+
+                        if (!empty($item->outdated)) {
+                            $text .= ' <span class="icon-exclamation-triangle text-warning" aria-hidden="true"></span>'
+                                . '<span class="visually-hidden">' . Text::_('JGLOBAL_ASSOCIATIONS_OUTDATED') . '</span>';
+                            $tooltip .= '<br>' . Text::_('JGLOBAL_ASSOCIATIONS_OUTDATED');
+                        }
 
                         $item->link = '<a href="' . $url . '" class="' . $classes . '">' . $text . '</a>'
                             . '<div role="tooltip" id="tip-' . (int) $catid . '-' . (int) $item->id . '">' . $tooltip . '</div>';

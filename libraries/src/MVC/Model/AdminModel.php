@@ -42,6 +42,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 abstract class AdminModel extends FormModel
 {
+    use AssociationBehaviorTrait;
+
     /**
      * The type alias for this content type (for example, 'com_content.article').
      *
@@ -1372,97 +1374,7 @@ abstract class AdminModel extends FormModel
 
         $this->setState($this->getName() . '.new', $isNew);
 
-        if ($this->associationsContext && Associations::isEnabled() && !empty($data['associations'])) {
-            $associations = $data['associations'];
-
-            // Unset any invalid associations
-            $associations = ArrayHelper::toInteger($associations);
-
-            // Unset any invalid associations
-            foreach ($associations as $tag => $id) {
-                if (!$id) {
-                    unset($associations[$tag]);
-                }
-            }
-
-            // Show a warning if the item isn't assigned to a language but we have associations.
-            if ($associations && $table->language === '*') {
-                $app->enqueueMessage(
-                    Text::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
-                    'warning'
-                );
-            }
-
-            // Get associationskey for edited item
-            $db    = $this->getDatabase();
-            $id    = (int) $table->$key;
-            $query = $db->createQuery()
-                ->select($db->quoteName('key'))
-                ->from($db->quoteName('#__associations'))
-                ->where($db->quoteName('context') . ' = :context')
-                ->where($db->quoteName('id') . ' = :id')
-                ->bind(':context', $this->associationsContext)
-                ->bind(':id', $id, ParameterType::INTEGER);
-            $db->setQuery($query);
-            $oldKey = $db->loadResult();
-
-            if ($associations || $oldKey !== null) {
-                // Deleting old associations for the associated items
-                $query = $db->createQuery()
-                    ->delete($db->quoteName('#__associations'))
-                    ->where($db->quoteName('context') . ' = :context')
-                    ->bind(':context', $this->associationsContext);
-
-                $where = [];
-
-                if ($associations) {
-                    $where[] = $db->quoteName('id') . ' IN (' . implode(',', $query->bindArray(array_values($associations))) . ')';
-                }
-
-                if ($oldKey !== null) {
-                    $where[] = $db->quoteName('key') . ' = :oldKey';
-                    $query->bind(':oldKey', $oldKey);
-                }
-
-                $query->extendWhere('AND', $where, 'OR');
-                $db->setQuery($query);
-                $db->execute();
-            }
-
-            // Adding self to the association
-            if ($table->language !== '*') {
-                $associations[$table->language] = (int) $table->$key;
-            }
-
-            if (\count($associations) > 1) {
-                // Adding new association for these items
-                $key   = md5(json_encode($associations));
-                $query = $db->createQuery()
-                    ->insert($db->quoteName('#__associations'))
-                    ->columns(
-                        [
-                            $db->quoteName('id'),
-                            $db->quoteName('context'),
-                            $db->quoteName('key'),
-                        ]
-                    );
-
-                foreach ($associations as $id) {
-                    $query->values(
-                        implode(
-                            ',',
-                            $query->bindArray(
-                                [$id, $this->associationsContext, $key],
-                                [ParameterType::INTEGER, ParameterType::STRING, ParameterType::STRING]
-                            )
-                        )
-                    );
-                }
-
-                $db->setQuery($query);
-                $db->execute();
-            }
-        }
+        $this->storeAssociations($table, $data);
 
         if ($this instanceof VersionableModelInterface) {
             $this->saveHistory($data, $this->typeAlias);
