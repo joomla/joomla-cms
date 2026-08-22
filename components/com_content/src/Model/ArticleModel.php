@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\CMS\Table\Content;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Component\Content\Administrator\Service\PreviewTokenService;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\IpHelper;
@@ -67,6 +68,17 @@ class ArticleModel extends ItemModel
 
         // If $pk is set then authorise on complete asset, else on component only
         $asset = empty($pk) ? 'com_content' : 'com_content.article.' . $pk;
+
+        // Validate preview token if present, before any permission checks.
+        $token = $app->getInput()->getString('preview_token', '');
+
+        if ($token !== '' && $pk > 0) {
+            $previewTokenHelper = new PreviewTokenService($app->get('secret'));
+
+            if ($previewTokenHelper->validateToken($token, $pk)) {
+                $this->setState('article.preview', true);
+            }
+        }
 
         if ((!$user->authorise('core.edit.state', $asset)) && (!$user->authorise('core.edit', $asset))) {
             $this->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
@@ -230,8 +242,11 @@ class ArticleModel extends ItemModel
                     $query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
                 }
 
+                $isPreview = $this->getState('article.preview', false);
+
                 if (
-                    !$user->authorise('core.edit.state', 'com_content.article.' . $pk)
+                    !$isPreview
+                    && !$user->authorise('core.edit.state', 'com_content.article.' . $pk)
                     && !$user->authorise('core.edit', 'com_content.article.' . $pk)
                 ) {
                     // Filter by start and end dates.
@@ -260,7 +275,7 @@ class ArticleModel extends ItemModel
                 $published = $this->getState('filter.published');
                 $archived  = $this->getState('filter.archived');
 
-                if (is_numeric($published)) {
+                if (!$isPreview && is_numeric($published)) {
                     $query->whereIn($db->quoteName('a.state'), [(int) $published, (int) $archived]);
                 }
 
@@ -281,7 +296,7 @@ class ArticleModel extends ItemModel
                 $data->fieldscatid = array_values((array_merge([(int) $data->catid], $secondaryIds)));
 
                 // Check for published state if filter set.
-                if ((is_numeric($published) || is_numeric($archived)) && ($data->state != $published && $data->state != $archived)) {
+                if (!$isPreview && (is_numeric($published) || is_numeric($archived)) && ($data->state != $published && $data->state != $archived)) {
                     throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
                 }
 
@@ -323,8 +338,8 @@ class ArticleModel extends ItemModel
                 }
 
                 // Compute view access permissions.
-                if ($this->getState('filter.access')) {
-                    // If the access filter has been set, we already know this user can view.
+                if ($isPreview || $this->getState('filter.access')) {
+                    // Valid preview token or access filter set — user can view.
                     $data->params->set('access-view', true);
                 } else {
                     // If no access filter is set, the layout takes some responsibility for display of limited information.

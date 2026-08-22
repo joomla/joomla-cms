@@ -44,7 +44,7 @@ class JsonapiView extends BaseApiView
         'asset_id',
         'title',
     /**
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 8.0
+     * @deprecated  6.2.0 will be removed in 8.0
      *              Will be removed without replacement.
      */
         'text',
@@ -90,7 +90,7 @@ class JsonapiView extends BaseApiView
         'asset_id',
         'title',
     /**
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 8.0
+     * @deprecated  6.2.0 will be removed in 8.0
      *              Will be removed without replacement.
      */
         'text',
@@ -221,7 +221,7 @@ class JsonapiView extends BaseApiView
         $item->fieldscatid = array_values(array_unique(array_filter($fieldCategoryIds)));
 
         /**
-         * @deprecated  __DEPLOY_VERSION__ will be removed in 8.0
+         * @deprecated  6.2.0 will be removed in 8.0
          *              Will be removed without replacement.
          */
         $item->text = $item->introtext . ' ' . $item->fulltext;
