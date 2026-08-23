@@ -53,23 +53,30 @@ Joomla.setlanguage = function (form) {
 Joomla.checkInputs = function () {
   document.getElementById('jform_admin_password2').value = document.getElementById('jform_admin_password').value;
 
-  var inputs = [].slice.call(document.querySelectorAll('input[type="password"], input[type="text"], input[type="email"], select')),
-    state = true;
-  inputs.forEach(function (item) {
-    if (!item.valid) state = false;
-  });
   document.getElementById('progress-text').classList.remove('error');
   document.getElementById('progress-text').setAttribute('role', 'status');
   document.getElementById('progress-text').innerText = Joomla.Text._('INSTL_IN_PROGRESS');
   document.getElementById('progressbar').setAttribute('value', 0);
 
-  // Reveal everything
-  document.getElementById('installStep1').classList.add('active');
-  document.getElementById('installStep2').classList.add('active');
-  document.getElementById('installStep3').classList.add('active');
+  var fields = ['#jform_site_name', '#jform_admin_user', '#jform_admin_email', '#jform_admin_password', '#jform_db_type', '#jform_db_host', '#jform_db_user', '#jform_db_name'];
 
-  if (Joomla.checkFormField(['#jform_site_name', '#jform_admin_user', '#jform_admin_email', '#jform_admin_password', '#jform_db_type', '#jform_db_host', '#jform_db_user', '#jform_db_name'])) {
+  if (Joomla.checkFormField(fields)) {
     Joomla.checkDbCredentials();
+
+    return;
+  }
+
+  // Reveal only the step holding the first invalid field
+  var invalid = fields.map(function (field) {
+    return document.querySelector(field);
+  }).filter(function (el) {
+    return el && el.classList.contains('invalid');
+  })[0];
+
+  if (invalid) {
+    document.getElementById('installStep3').classList.remove('active');
+    invalid.closest('.j-install-step').classList.add('active');
+    invalid.focus();
   }
 };
 
@@ -116,8 +123,6 @@ Joomla.checkDbCredentials = function () {
       Joomla.replaceTokens(response.token);
 
       if (response.error) {
-        document.getElementById('installStep1').classList.add('active');
-        document.getElementById('installStep2').classList.add('active');
         document.getElementById('installStep3').classList.add('active');
         document.getElementById('installStep4').classList.remove('active');
         progress_text.innerText = Joomla.Text._('INSTL');
@@ -130,18 +135,30 @@ Joomla.checkDbCredentials = function () {
       }
     },
     onError: function (xhr) {
-      Joomla.renderMessages([['', Joomla.Text._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
-      progress_text.setAttribute('role', 'alert');
-      progress_text.classList.add('error');
-      progress_text.innerText = response.message;
-      // Install.goToPage('summary');
+      var response = {};
 
       try {
-        var r = JSON.parse(xhr.responseText);
-        Joomla.replaceTokens(r.token);
-        alert(r.message);
+        response = JSON.parse(xhr.responseText);
       } catch (e) {
+        // Not a JSON response, the generic AJAX error is used below
       }
+
+      if (response.token) {
+        Joomla.replaceTokens(response.token);
+      }
+
+      if (response.message) {
+        Joomla.renderMessages({ error: [response.message] });
+      } else {
+        Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
+      }
+
+      progress_text.setAttribute('role', 'alert');
+      progress_text.classList.add('error');
+      progress_text.innerText = response.message || Joomla.Text._('INSTL');
+
+      document.getElementById('installStep3').classList.add('active');
+      document.getElementById('installStep4').classList.remove('active');
     },
   });
 };

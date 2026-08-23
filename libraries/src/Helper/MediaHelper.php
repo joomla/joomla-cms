@@ -519,7 +519,22 @@ class MediaHelper
 
         if ($isValid === false || \count($svgErrors)) {
             if ($shouldLogErrors) {
-                Factory::getApplication()->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
+                $messages = [];
+
+                foreach ($svgErrors as $error) {
+                    $messages[] = Text::sprintf(
+                        'JLIB_MEDIA_ERROR_SVG_ISSUE',
+                        htmlspecialchars($error['message'] ?? Text::_('JLIB_MEDIA_ERROR_SVG_UNKNOWN'), ENT_QUOTES, 'UTF-8')
+                    );
+                }
+
+                $messageText = Text::_('JLIB_MEDIA_ERROR_WARNIEXSS');
+
+                if (!empty($messages)) {
+                    $messageText .= '<br>' . implode('<br>', $messages);
+                }
+
+                Factory::getApplication()->enqueueMessage($messageText, 'error');
             }
 
             return false;

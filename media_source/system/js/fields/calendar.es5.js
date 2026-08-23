@@ -172,7 +172,7 @@
 
 	JoomlaCalendar.prototype.checkInputs = function () {
 		// Get the date from the input
-		var inputAltValueDate = Date.parseFieldDate(this.inputField.getAttribute('data-alt-value'), this.params.dateFormat, 'gregorian', this.strings);
+		var inputAltValueDate = Date.parseFieldDate(this.inputField.getAttribute('data-alt-value'), this.params.dateFormat, 'gregorian', this.strings, false);
 
 		if (this.inputField.value !== '') {
 			this.date = inputAltValueDate;
@@ -763,7 +763,7 @@
 					cell.colSpan = self.params.weekNumbers ? 3 : 2;
 
 					var selAttr = true,
-						altDate = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, 'gregorian', self.strings);
+						altDate = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, 'gregorian', self.strings, false);
 					pm = (altDate.getHours() >= 12);
 
 					var part = createElement("select", cell);
@@ -773,11 +773,14 @@
 					part.options.add(new Option(self.strings.am, "am", pm ? '' : selAttr, pm ? '' : selAttr));
 					AP = part;
 
-					// Event listener for the am/pm select
+					// AM/PM change handler — apply the same RTL swap as H/M
 					AP.addEventListener("change", function (event) {
-						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
+						var c = event.target.parentNode.parentNode.childNodes;
+						if (self.params.direction === 'rtl') {
+							self.updateTime(c[2].childNodes[0].value, c[1].childNodes[0].value, c[3].childNodes[0].value);
+						} else {
+							self.updateTime(c[1].childNodes[0].value, c[2].childNodes[0].value, c[3].childNodes[0].value);
+						}
 					}, false);
 				} else if (self.params.weekNumbers) {
 					cell = createElement("td", row);
@@ -786,25 +789,51 @@
 				}
 
 				if (self.params.weekNumbers) {
-					H.addEventListener("change", function (event) {
-						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
-					}, false);
-					M.addEventListener("change", function (event) {
-						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
-					}, false);
+					// Since the DOM order is reversed in RTL, we must reverse the order of child nodes.
+					if (self.params.direction === 'rtl') {
+						H.addEventListener("change", function (event) {
+							self.updateTime(event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
+						}, false);
+						M.addEventListener("change", function (event) {
+							self.updateTime(event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
+						}, false);
+					} else {
+						H.addEventListener("change", function (event) {
+							self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
+						}, false);
+						M.addEventListener("change", function (event) {
+							self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
+						}, false);
+					}
 				} else {
-					H.addEventListener("change", function (event) {
-						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value);
-					}, false);
-					M.addEventListener("change", function (event) {
-						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value);
-					}, false);
+					// Since the DOM order is reversed in RTL, we must reverse the order of child nodes.
+					if (self.params.direction === 'rtl') {
+						H.addEventListener("change", function (event) {
+							self.updateTime(event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[1].childNodes[0].value);
+						}, false);
+						M.addEventListener("change", function (event) {
+							self.updateTime(event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[1].childNodes[0].value);
+						}, false);
+					} else {
+						H.addEventListener("change", function (event) {
+							self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[2].childNodes[0].value);
+						}, false);
+						M.addEventListener("change", function (event) {
+							self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[2].childNodes[0].value);
+						}, false);
+					}
 				}
 			})();
 		}
@@ -853,18 +882,87 @@
 						self.inputField.setAttribute('data-local-value', self.inputField.value);
 					}
 					if (typeof self.dateClicked === 'undefined') {
-						// value needs to be validated
-						self.inputField.setAttribute('data-alt-value', Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings)
-							.print(self.params.dateFormat, 'gregorian', false, self.strings));
+						// Value needs to be validated. Just like in the "input" and "blur" listeners,
+						// the value displayed to the user may be in local calendar (eg. Jalali)
+						// and must go through Date.localCalToGregorian() before being stored,
+						// otherwise the raw local y/m/d digits get saved mislabeled as a Gregorian date.
+						var date = Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings, false);
+
+						if (self.params.dateType !== 'gregorian') {
+							// Use date.rawYear/rawMonth/rawDay: custom, non-native properties.
+							// See the "input" listener for why they're needed instead
+							// of getFullYear()/getMonth()/getDate(), and why +1/-1.
+							var ndate = Date.localCalToGregorian(date.rawYear, date.rawMonth + 1, date.rawDay);
+
+							// Rebuild atomically - see the "input" listener for why
+							// setFullYear()/setMonth()/setDate() in sequence is unsafe here.
+							date = new Date(ndate[0], ndate[1] - 1, ndate[2], date.getHours(), date.getMinutes(), date.getSeconds());
+						}
+						self.inputField.setAttribute('data-alt-value', date.print(self.params.dateFormat, 'gregorian', false, self.strings));
 					} else {
 						self.inputField.setAttribute('data-alt-value', self.date.print(self.params.dateFormat, 'gregorian', false, self.strings));
 					}
 				} else {
 					self.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
 				}
-				self.date = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, self.params.dateType, self.strings);
+				self.date = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, self.params.dateType, self.strings, false);
 			}
 			self.close();
+		});
+
+		// Validate the date and time when they are manually entered in the input field.
+		self.inputField.addEventListener('input', function (e) {
+			if (self.inputField.value) {
+				if (self.params.dateType !== 'gregorian') {
+					self.inputField.setAttribute('data-local-value', self.inputField.value);
+					// We need to transform the date for the data-alt-value.
+					// ## Strict parsing ##
+					// While the user is still typing, the string is necessarily incomplete for most keystrokes.
+					// So we bail out until we have a genuinely complete, valid date, leaving data-alt-value untouched.
+					var date = Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings, true);
+
+					if (!date) {
+						return;
+					}
+
+					// ## Custom Properties ##
+					// Use date.rawYear/rawMonth/rawDay, custom, non-native properties (see non-gregorian local calendar date-helper.js) -
+					// Do not use date.getFullYear()/getMonth()/getDate(): the Date object built by parseFieldDate() may already
+					// have silently rolled over if the typed day doesn't exist in the *native Gregorian* month at that index
+					// (e.g. Jalali day 31 landing on native April, which only have 30 days).
+					// ## Month +1/-1 ##
+					// Date.localCalToGregorian() (JalaliDate.jalaliToGregorian) expects a 1-indexed month
+					// (rawMonth is 0-indexed like getMonth()), and its returned month is 1-indexed too,
+					// while setMonth() (the Date constructor) expects 0-indexed.
+					// Forgetting either conversion causes an off-by-one day (or month) error.
+					var ndate = Date.localCalToGregorian(date.rawYear, date.rawMonth + 1, date.rawDay);
+	
+					// Rebuild the Date atomically (year/month/day in one constructor call) instead of calling
+					// setFullYear()/setMonth()/setDate() in sequence:
+					// mutating month before day meant the OLD day (e.g. 31) could briefly clash with
+					// the NEW month (e.g. a 30-day month), causing JS to silently roll over into the
+					// following month before setDate() even ran (e.g. day 31 becomes day 30 of the next month).
+					date = new Date(ndate[0], ndate[1] - 1, ndate[2], date.getHours(), date.getMinutes(), date.getSeconds());
+					self.inputField.setAttribute('data-alt-value', date.print(self.params.dateFormat, 'gregorian', false, self.strings));
+				} else {
+					// Value needs to be validated
+					var gdate = Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings, true);
+					if (!gdate) {
+						return;
+					}
+					self.inputField.setAttribute('data-alt-value', gdate.print(self.params.dateFormat, 'gregorian', false, self.strings));
+				}
+			} else {
+				self.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
+			}
+			self.date = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, self.params.dateType, self.strings, false);
+
+			// Keep the picker's day grid and time selectors (hours/minutes/am-pm)
+			// in sync with what was just typed, without touching inputField.value
+			// (processCalendar() only redraws the picker, it never rewrites the input).
+			if (!self.hidden) {
+				self.processCalendar();
+			}
 		});
 
 		this.processCalendar();
@@ -992,12 +1090,9 @@
 
 			/* remove the selected class  for the hours*/
 			this.resetSelected(hoursEl);
-			if (!this.params.time24)
-			{
+			if (!this.params.time24) {
 				hoursEl.value = (hrs == "00") ? "12" : hrs;
-			}
-			else
-			{
+			} else {
 				hoursEl.value = hrs;
 			}
 
@@ -1005,8 +1100,7 @@
 			this.resetSelected(minsEl);
 			minsEl.value = mins;
 
-			if (!this.params.time24)
-			{
+			if (!this.params.time24) {
 				var dateAlt = new Date(this.inputField.getAttribute('data-alt-value')),
 					ampmEl = this.table.querySelector('.time-ampm'),
 					hrsAlt = dateAlt.getHours();
@@ -1047,16 +1141,30 @@
 						calObj.inputField.setAttribute('data-local-value', calObj.inputField.value);
 
 						if (calObj.params.dateType !== 'gregorian') {
-							// We need to transform the date for the data-alt-value
-							var ndate, date = Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType, calObj.strings);
-							ndate = Date.localCalToGregorian(date.getFullYear(), date.getMonth(), date.getDate());
-							date.setFullYear(ndate[0]);
-							date.setMonth(ndate[1]);
-							date.setDate(ndate[2]);
-							calObj.inputField.setAttribute('data-alt-value', date.print(calObj.params.dateFormat, 'gregorian', false, calObj.strings));
+							// We need to transform the date for the data-alt-value.
+							// ## Strict parsing ##
+							// if the field was left with an incomplete or invalid value (e.g. the user clicked away mid-edit),
+							// do not convert it as if it were a valid Jalali date - fall back to an empty value instead.
+							var date = Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType, calObj.strings, true);
+
+							if (!date) {
+								calObj.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
+							} else {
+								// Use date.rawYear/rawMonth/rawDay: custom, non-native properties.
+								// See the "input" listener for why they're needed instead
+								// of getFullYear()/getMonth()/getDate(), and why +1/-1.
+								var ndate = Date.localCalToGregorian(date.rawYear, date.rawMonth + 1, date.rawDay);
+
+								// Rebuild atomically - see the "input" listener for why
+								// setFullYear()/setMonth()/setDate() in sequence is unsafe here.
+								date = new Date(ndate[0], ndate[1] - 1, ndate[2], self.date.getHours(), self.date.getMinutes(), date.getSeconds());
+								calObj.inputField.setAttribute('data-alt-value', date.print(calObj.params.dateFormat, 'gregorian', false, calObj.strings));
+							}
 						} else {
-							calObj.inputField.setAttribute('data-alt-value', Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType, calObj.strings)
-								.print(calObj.params.dateFormat, 'gregorian', false, calObj.strings));
+							var gdate = Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType, calObj.strings, true);
+							calObj.inputField.setAttribute('data-alt-value', gdate
+								? gdate.print(calObj.params.dateFormat, 'gregorian', false, calObj.strings)
+								: '0000-00-00 00:00:00');
 						}
 					} else {
 						calObj.inputField.setAttribute('data-alt-value', calObj.date.print(calObj.params.dateFormat, 'gregorian', false, calObj.strings));
@@ -1064,9 +1172,8 @@
 				} else {
 					calObj.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
 				}
-				calObj.date = Date.parseFieldDate(calObj.inputField.getAttribute('data-alt-value'), calObj.params.dateFormat, calObj.params.dateType, calObj.strings);
+				calObj.date = Date.parseFieldDate(calObj.inputField.getAttribute('data-alt-value'), calObj.params.dateFormat, calObj.params.dateType, calObj.strings, false);
 			}
-
 			self.close();
 		}, true);
 		this.button.addEventListener('click', function() {
