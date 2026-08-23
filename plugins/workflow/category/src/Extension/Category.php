@@ -225,7 +225,7 @@ final class Category extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Check whether any published transition of any published workflow of the given context sets a category.
+     * Check whether any published transition of the given context sets a category.
      *
      * @param   string  $context  The context, e.g. com_content.article
      *
@@ -251,7 +251,6 @@ final class Category extends CMSPlugin implements SubscriberInterface
             ->where(
                 [
                     $db->quoteName('t.published') . ' = 1',
-                    $db->quoteName('w.published') . ' = 1',
                     $db->quoteName('w.extension') . ' = :context',
                 ]
             )
