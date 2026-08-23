@@ -13,6 +13,7 @@
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Plugin\Workflow\Category\Extension\Category;
@@ -36,6 +37,7 @@ return new class () implements ServiceProviderInterface {
                     (array) PluginHelper::getPlugin('workflow', 'category')
                 );
                 $plugin->setApplication(Factory::getApplication());
+                $plugin->setDatabase($container->get(DatabaseInterface::class));
 
                 return $plugin;
             })

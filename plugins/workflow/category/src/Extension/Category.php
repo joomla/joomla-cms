@@ -19,8 +19,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\DatabaseModelInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\CMS\Workflow\Workflow;
 use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\ParameterType;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
@@ -35,6 +38,7 @@ use Joomla\Registry\Registry;
  */
 final class Category extends CMSPlugin implements SubscriberInterface
 {
+    use DatabaseAwareTrait;
     use WorkflowPluginTrait;
 
     /**
@@ -44,6 +48,22 @@ final class Category extends CMSPlugin implements SubscriberInterface
      * @since  __DEPLOY_VERSION__
      */
     protected $autoloadLanguage = true;
+
+    /**
+     * Cache for the "does this workflow set a category" lookup, keyed by workflow ID.
+     *
+     * @var    boolean[]
+     * @since  __DEPLOY_VERSION__
+     */
+    private $workflowUsesCategoryCache = [];
+
+    /**
+     * Cache for the "does any workflow of this context set a category" lookup, keyed by context.
+     *
+     * @var    boolean[]
+     * @since  __DEPLOY_VERSION__
+     */
+    private $contextUsesCategoryCache = [];
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -146,10 +166,122 @@ final class Category extends CMSPlugin implements SubscriberInterface
             return true;
         }
 
+        $keyName = $table->getKeyName();
+        $itemId  = (int) ($data->$keyName ?? $form->getValue($keyName, null, 0));
+
+        // A new item has no workflow association yet, so the category stays editable.
+        if (!$itemId) {
+            return true;
+        }
+
+        $association = (new Workflow($context, $this->getApplication(), $this->getDatabase()))->getAssociation($itemId);
+
+        if (empty($association->workflow_id)) {
+            return true;
+        }
+
+        // Only take over the category when the workflow of this item actually sets one.
+        if (!$this->workflowUsesCategory((int) $association->workflow_id)) {
+            return true;
+        }
+
         $form->setFieldAttribute($fieldname, 'readonly', 'true');
         $form->setFieldAttribute($fieldname, 'value', $value);
 
         return true;
+    }
+
+    /**
+     * Check whether any published transition of the given workflow sets a category.
+     *
+     * @param   integer  $workflowId  The workflow ID
+     *
+     * @return  boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function workflowUsesCategory(int $workflowId): bool
+    {
+        if (isset($this->workflowUsesCategoryCache[$workflowId])) {
+            return $this->workflowUsesCategoryCache[$workflowId];
+        }
+
+        $db = $this->getDatabase();
+
+        $query = $db->createQuery()
+            ->select($db->quoteName('options'))
+            ->from($db->quoteName('#__workflow_transitions'))
+            ->where(
+                [
+                    $db->quoteName('workflow_id') . ' = :workflowId',
+                    $db->quoteName('published') . ' = 1',
+                ]
+            )
+            ->bind(':workflowId', $workflowId, ParameterType::INTEGER);
+
+        $options = $db->setQuery($query)->loadColumn();
+
+        return $this->workflowUsesCategoryCache[$workflowId] = $this->hasCategoryOption($options);
+    }
+
+    /**
+     * Check whether any published transition of any published workflow of the given context sets a category.
+     *
+     * @param   string  $context  The context, e.g. com_content.article
+     *
+     * @return  boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function contextUsesCategory(string $context): bool
+    {
+        if (isset($this->contextUsesCategoryCache[$context])) {
+            return $this->contextUsesCategoryCache[$context];
+        }
+
+        $db = $this->getDatabase();
+
+        $query = $db->createQuery()
+            ->select($db->quoteName('t.options'))
+            ->from($db->quoteName('#__workflow_transitions', 't'))
+            ->innerJoin(
+                $db->quoteName('#__workflows', 'w'),
+                $db->quoteName('w.id') . ' = ' . $db->quoteName('t.workflow_id')
+            )
+            ->where(
+                [
+                    $db->quoteName('t.published') . ' = 1',
+                    $db->quoteName('w.published') . ' = 1',
+                    $db->quoteName('w.extension') . ' = :context',
+                ]
+            )
+            ->bind(':context', $context);
+
+        $options = $db->setQuery($query)->loadColumn();
+
+        return $this->contextUsesCategoryCache[$context] = $this->hasCategoryOption($options);
+    }
+
+    /**
+     * Check whether one of the given transition option sets holds a usable category.
+     *
+     * @param   string[]  $transitionOptions  The raw options columns of a set of transitions
+     *
+     * @return  boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function hasCategoryOption(array $transitionOptions): bool
+    {
+        foreach ($transitionOptions as $transitionOption) {
+            $categoryId = (new Registry($transitionOption))->get('category_id', 0);
+
+            if (is_numeric($categoryId) && (int) $categoryId > 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -173,7 +305,14 @@ final class Category extends CMSPlugin implements SubscriberInterface
         // We need the single model context for checking for workflow
         $singularsection = InflectorFactory::create()->build()->singularize($section);
 
-        if (!$this->isSupported($component . '.' . $singularsection)) {
+        $context = $component . '.' . $singularsection;
+
+        if (!$this->isSupported($context)) {
+            return;
+        }
+
+        // The list can hold items of several workflows, so only take over batch when at least one of them sets a category.
+        if (!$this->contextUsesCategory($context)) {
             return;
         }
 
