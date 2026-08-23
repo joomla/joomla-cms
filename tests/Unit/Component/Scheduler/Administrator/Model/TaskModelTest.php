@@ -48,10 +48,7 @@ class TaskModelTest extends UnitTestCase
         Factory::$application = $app;
 
         $taskOptions = new TaskOptions();
-        $option = new TaskOption();
-        $option->id = 'test.routine';
-        $option->title = 'Test Routine';
-        $taskOptions->options[] = $option;
+        $taskOptions->options[] = new TaskOption('test.routine', 'PLG_TASK_TEST');
 
         $ref = new \ReflectionProperty(SchedulerHelper::class, 'taskOptionsCache');
         $ref->setAccessible(true);
