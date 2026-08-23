@@ -208,6 +208,7 @@ class ComponentlayoutField extends FormField
                             $groups[$template->name]['id']    = $this->id . '_' . $template->element;
                             $groups[$template->name]['text']  = Text::sprintf('JOPTION_FROM_TEMPLATE', $template->name);
                             $groups[$template->name]['items'] = [];
+
                             foreach ($files as $file) {
                                 // Add an option to the template group
                                 $value = basename($file, '.php');
@@ -230,6 +231,7 @@ class ComponentlayoutField extends FormField
                     }
                 }
             }
+
             // Compute attributes for the grouped list
             $attr = $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
             $attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
