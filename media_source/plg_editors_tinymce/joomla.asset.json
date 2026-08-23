@@ -61,6 +61,22 @@
       ]
     },
     {
+      "name": "plg_editors_tinymce.linkpicker",
+      "type": "style",
+      "uri": "plg_editors_tinymce/linkpicker.min.css"
+    },
+    {
+      "name": "plg_editors_tinymce.linkpicker",
+      "type": "script",
+      "uri": "plg_editors_tinymce/linkpicker.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "joomla.dialog"
+      ]
+    },
+    {
       "name": "plg_editors_tinymce.jtemplate",
       "type": "script",
       "uri": "plg_editors_tinymce/plugins/jtemplate/plugin.min.js",
@@ -86,6 +102,17 @@
       "name": "plg_editors_tinymce.abbr",
       "type": "script",
       "uri": "plg_editors_tinymce/plugins/abbr/plugin.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "tinymce"
+      ]
+    },
+    {
+      "name": "plg_editors_tinymce.readmore",
+      "type": "script",
+      "uri": "plg_editors_tinymce/plugins/readmore/plugin.min.js",
       "attributes": {
         "type": "module"
       },
