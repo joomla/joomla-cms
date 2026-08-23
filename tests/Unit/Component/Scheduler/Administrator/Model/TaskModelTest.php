@@ -10,9 +10,15 @@
 
 namespace Joomla\Tests\Unit\Component\Scheduler\Administrator\Model;
 
+use Joomla\CMS\Application\AdministratorApplication;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Model\TaskModel;
+use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
+use Joomla\Component\Scheduler\Administrator\Task\TaskOptions;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
@@ -24,6 +30,52 @@ use Joomla\Tests\Unit\UnitTestCase;
  */
 class TaskModelTest extends UnitTestCase
 {
+    /**
+     * Set up test fixtures.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $app = $this->createStub(AdministratorApplication::class);
+        $dispatcher = $this->createStub(DispatcherInterface::class);
+        $app->method('getDispatcher')->willReturn($dispatcher);
+
+        Factory::$application = $app;
+
+        $taskOptions = new TaskOptions();
+        $option = new TaskOption();
+        $option->id = 'test.routine';
+        $option->title = 'Test Routine';
+        $taskOptions->options[] = $option;
+
+        $ref = new \ReflectionProperty(SchedulerHelper::class, 'taskOptionsCache');
+        $ref->setAccessible(true);
+        $ref->setValue(null, $taskOptions);
+    }
+
+    /**
+     * Tear down test fixtures.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function tearDown(): void
+    {
+        Factory::$application = null;
+
+        $ref = new \ReflectionProperty(SchedulerHelper::class, 'taskOptionsCache');
+        $ref->setAccessible(true);
+        $ref->setValue(null, null);
+
+        parent::tearDown();
+    }
+
     /**
      * @testdox  Test that getTask returns null when the task queue has no due tasks
      *

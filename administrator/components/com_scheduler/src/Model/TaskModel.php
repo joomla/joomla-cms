@@ -142,7 +142,7 @@ class TaskModel extends AdminModel
             $this->event_unlock = 'onContentUnlock';
         }
 
-        $this->app = Factory::getApplication();
+        $this->app = $config['app'] ?? Factory::getApplication();
 
         parent::__construct($config, $factory, $formFactory);
     }
