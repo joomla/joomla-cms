@@ -77,6 +77,30 @@ class TaskModelTest extends UnitTestCase
     }
 
     /**
+     * Helper to create a configured DatabaseDriver mock.
+     *
+     * @return  DatabaseDriver
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function createDatabaseMock(): DatabaseDriver
+    {
+        $db = $this->createMock(DatabaseDriver::class);
+        $db->method('getQuery')->willReturnCallback(function () use ($db) {
+            return $this->getQueryStub($db);
+        });
+        $db->method('setQuery')->willReturnSelf();
+        $db->method('quoteName')->willReturnCallback(function ($name) {
+            return \is_array($name) ? implode(', ', $name) : (string) $name;
+        });
+        $db->method('quote')->willReturnCallback(function ($text) {
+            return "'" . $text . "'";
+        });
+
+        return $db;
+    }
+
+    /**
      * @testdox  Test that getTask returns null when the task queue has no due tasks
      *
      * @return  void
@@ -85,10 +109,7 @@ class TaskModelTest extends UnitTestCase
      */
     public function testGetTaskReturnsNullWhenQueueIsEmpty(): void
     {
-        $db = $this->createMock(DatabaseDriver::class);
-        $db->method('getQuery')->willReturnCallback(function () use ($db) {
-            return $this->getQueryStub($db);
-        });
+        $db = $this->createDatabaseMock();
         $db->method('loadResult')->willReturn(0);
 
         $model = new TaskModel(['dbo' => $db], $this->createStub(MVCFactoryInterface::class));
@@ -107,10 +128,7 @@ class TaskModelTest extends UnitTestCase
      */
     public function testGetTaskReturnsNullWhenFetchTaskRecordNotFound(): void
     {
-        $db = $this->createMock(DatabaseDriver::class);
-        $db->method('getQuery')->willReturnCallback(function () use ($db) {
-            return $this->getQueryStub($db);
-        });
+        $db = $this->createDatabaseMock();
         $db->method('getAffectedRows')->willReturn(1);
         $db->method('loadObject')->willReturn(null);
 
@@ -138,10 +156,7 @@ class TaskModelTest extends UnitTestCase
             'cron_rules'      => '{"cron":"* * * * *"}',
         ];
 
-        $db = $this->createMock(DatabaseDriver::class);
-        $db->method('getQuery')->willReturnCallback(function () use ($db) {
-            return $this->getQueryStub($db);
-        });
+        $db = $this->createDatabaseMock();
         $db->method('getAffectedRows')->willReturn(1);
         $db->method('loadObject')->willReturn($rawTask);
 
