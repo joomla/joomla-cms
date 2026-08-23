@@ -384,16 +384,18 @@ class TaskModel extends AdminModel
 
             $lockQuery = $this->buildLockQuery($db, $now, $options);
 
-            if ($options['id'] > 0) {
+            $taskId = (int) $options['id'];
+
+            if ($taskId > 0) {
                 $lockQuery->where($db->quoteName('id') . ' = :taskId')
-                    ->bind(':taskId', $options['id'], ParameterType::INTEGER);
+                    ->bind(':taskId', $taskId, ParameterType::INTEGER);
             } else {
-                $id = $this->getNextTaskId($db, $now, $options);
-                if (\count($id) === 0) {
+                $taskId = $this->getNextTaskId($db, $now, $options);
+                if ($taskId <= 0) {
                     return null;
                 }
                 $lockQuery->where($db->quoteName('id') . ' = :taskId')
-                    ->bind(':taskId', $id, ParameterType::INTEGER);
+                    ->bind(':taskId', $taskId, ParameterType::INTEGER);
             }
 
             $db->setQuery($lockQuery)->execute();
@@ -408,7 +410,7 @@ class TaskModel extends AdminModel
             return null;
         }
 
-        return $this->fetchTask($db, $now);
+        return $this->fetchTask($db, $taskId);
     }
 
     /**
@@ -494,12 +496,12 @@ class TaskModel extends AdminModel
      *                       - includeCliExclusive: Whether to include CLI exclusive tasks.
      *                       - bypassScheduling: Whether to bypass scheduling.
      *                       - allowDisabled: Whether to allow disabled tasks.
-     * @return array The ID of the next task, or an empty array if no task is found.
+     * @return int The ID of the next task, or 0 if no task is found.
      *
      * @since 5.2.0
      * @throws \RuntimeException If there is an error executing the query.
      */
-    private function getNextTaskId($db, $now, $options)
+    private function getNextTaskId($db, $now, $options): int
     {
         $idQuery = $db->getQuery(true)
             ->from($db->quoteName(self::TASK_TABLE))
@@ -526,38 +528,43 @@ class TaskModel extends AdminModel
         $stateCondition = $options['allowDisabled'] ? [0, 1] : [1];
         $idQuery->whereIn($db->quoteName('state'), $stateCondition);
 
-        $idQuery->where($db->quoteName('next_execution') . ' IS NOT NULL')
+        $idQuery->where($db->quoteName('locked') . ' IS NULL')
+            ->where($db->quoteName('next_execution') . ' IS NOT NULL')
             ->order($db->quoteName('priority') . ' DESC')
             ->order($db->quoteName('next_execution') . ' ASC')
             ->setLimit(1);
 
         try {
-            return $db->setQuery($idQuery)->loadColumn();
+            return (int) $db->setQuery($idQuery)->loadResult();
         } catch (\RuntimeException) {
-            return [];
+            return 0;
         }
     }
 
     /**
-     * Fetches a task from the database based on the current time.
+     * Fetches a task from the database by its primary key ID.
      *
      * @param DatabaseInterface $db The database driver to use.
-     * @param string $now The current time in the database's time format.
+     * @param int $taskId The ID of the task to fetch.
      * @return \stdClass|null The fetched task object, or null if no task was found.
      * @since 5.2.0
      * @throws \RuntimeException If there was an error executing the query.
      */
-    private function fetchTask($db, $now): ?\stdClass
+    private function fetchTask($db, int $taskId): ?\stdClass
     {
         $getQuery = $db->getQuery(true)
             ->select('*')
             ->from($db->quoteName(self::TASK_TABLE))
-            ->where($db->quoteName('locked') . ' = :now')
-            ->bind(':now', $now);
+            ->where($db->quoteName('id') . ' = :taskId')
+            ->bind(':taskId', $taskId, ParameterType::INTEGER);
 
         try {
             $task = $db->setQuery($getQuery)->loadObject();
         } catch (\RuntimeException) {
+            return null;
+        }
+
+        if (!$task) {
             return null;
         }
 
