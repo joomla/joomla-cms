@@ -23,7 +23,7 @@ interface TransportConfigurableMailerInterface
     /**
      * Use SMTP for sending the email.
      *
-     * @param   string   $auth    SMTP Authentication [optional]
+     * @param   integer   $auth    SMTP Authentication [optional]
      * @param   string   $host    SMTP Host [optional]
      * @param   string   $user    SMTP Username [optional]
      * @param   string   $pass    SMTP Password [optional]

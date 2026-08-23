@@ -15,8 +15,7 @@ namespace Joomla\Component\Config\Administrator\Field;
 // phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Form\FormField;
-use Joomla\CMS\Router\Route;
-use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Renders OAuth2 token actions for Global Configuration mail settings.
@@ -50,19 +49,20 @@ class Oauth2TokenField extends FormField
      */
     protected function getInput()
     {
+
         $formData      = $this->form->getData();
-        $clientId      = (string) $formData->get('oauth2_client_id');
-        $refreshToken  = (string) $formData->get('oauth2_refresh_token');
-        $tokenIssuedAt = (string) $formData->get('oauth2_token_issued_at');
+        $clientId      = (string) $formData->get('smtp_oauth2_client_id');
+        $refreshToken  = (string) $formData->get('smtp_oauth2_refresh_token');
+        $tokenIssuedAt = (string) $formData->get('smtp_oauth2_token_issued_at');
 
         $data = $this->getLayoutData();
 
         $data['clientId']      = $clientId;
-        $data['refreshToken']  = $refreshToken;
+        $data['refreshToken']  = !empty($refreshToken);
         $data['tokenIssuedAt'] = $tokenIssuedAt;
-        $data['callbackUrl']   = ConfigHelper::getOAuth2CallbackUrl();
-        $data['issueUrl']      = Route::_('index.php?option=com_config&task=request.oauth2auth', false);
-        $data['checkUrl']      = Route::_('index.php?option=com_config&task=request.oauth2checktoken', false);
+        $data['callbackUrl']   = Uri::base() . 'index.php?option=com_config&task=mail.oauth2callback&format=raw';
+        $data['issueUrl']      = 'index.php?option=com_config&task=mail.oauth2auth';
+        $data['checkUrl']      = 'index.php?option=com_config&task=mail.oauth2checktoken';
 
         return $this->getRenderer($this->layout)->render($data);
     }

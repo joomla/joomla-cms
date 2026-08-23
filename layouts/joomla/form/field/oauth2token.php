@@ -13,11 +13,12 @@
 // phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /** @var array $displayData */
 
 $clientId      = (string) ($displayData['clientId'] ?? '');
-$refreshToken  = (string) ($displayData['refreshToken'] ?? '');
+$refreshToken  = $displayData['refreshToken'] ?? false;
 $tokenIssuedAt = (string) ($displayData['tokenIssuedAt'] ?? '');
 $callbackUrl   = (string) ($displayData['callbackUrl'] ?? '');
 $issueUrl      = (string) ($displayData['issueUrl'] ?? '');
@@ -29,19 +30,16 @@ if ($clientId === '') {
     return;
 }
 
-$buttonLabel = $refreshToken !== ''
-    ? Text::_('COM_CONFIG_MAIL_OAUTH2_BUTTON_REISSUE')
-    : Text::_('COM_CONFIG_MAIL_OAUTH2_BUTTON_ISSUE');
 ?>
 <div class="d-flex flex-column gap-2">
     <div class="btn-group" role="group">
-        <a class="btn btn-primary" href="<?php echo htmlspecialchars($issueUrl, ENT_QUOTES, 'UTF-8'); ?>">
-            <?php echo htmlspecialchars($buttonLabel, ENT_QUOTES, 'UTF-8'); ?>
+        <a class="btn btn-primary" href="<?php echo Joomla\CMS\Router\Route::_($issueUrl); ?>">
+            <?php echo Text::_('COM_CONFIG_MAIL_OAUTH2_BUTTON_' . ($refreshToken ? 'REISSUE' : 'ISSUE')); ?>
         </a>
         <a
-            class="btn btn-outline-secondary<?php echo $refreshToken === '' ? ' disabled' : ''; ?>"
-            href="<?php echo $refreshToken === '' ? '#' : htmlspecialchars($checkUrl, ENT_QUOTES, 'UTF-8'); ?>"
-            <?php echo $refreshToken === '' ? 'aria-disabled="true"' : ''; ?>
+            class="btn btn-outline-secondary<?php echo !$refreshToken ? ' disabled' : ''; ?>"
+            href="<?php echo !$refreshToken ? '#' : Route::_($checkUrl); ?>"
+            <?php echo !$refreshToken ? 'aria-disabled="true"' : ''; ?>
         >
             <?php echo Text::_('COM_CONFIG_MAIL_OAUTH2_BUTTON_CHECK'); ?>
         </a>
@@ -49,11 +47,11 @@ $buttonLabel = $refreshToken !== ''
 
     <?php if ($tokenIssuedAt !== '') : ?>
         <div class="small text-muted">
-            <?php echo Text::sprintf('COM_CONFIG_MAIL_OAUTH2_TOKEN_ISSUED_AT', htmlspecialchars($tokenIssuedAt, ENT_QUOTES, 'UTF-8')); ?>
+            <?php echo Text::sprintf('COM_CONFIG_MAIL_OAUTH2_TOKEN_ISSUED_AT', $tokenIssuedAt); ?>
         </div>
     <?php endif; ?>
 
     <div class="small text-muted">
-        <?php echo Text::sprintf('COM_CONFIG_MAIL_OAUTH2_CALLBACK_HINT', htmlspecialchars($callbackUrl, ENT_QUOTES, 'UTF-8')); ?>
+        <?php echo Text::sprintf('COM_CONFIG_MAIL_OAUTH2_CALLBACK_HINT', $callbackUrl); ?>
     </div>
 </div>
