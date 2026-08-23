@@ -63,7 +63,7 @@ function behindproxy_postinstall_action()
     // Set the configuration file path.
     $file = JPATH_CONFIGURATION . '/configuration.php';
 
-    // Attempt to make the file writeable
+    // Attempt to make the file writable
     if (Path::isOwner($file) && !Path::setPermissions($file, '0644')) {
         Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'error');
 
@@ -79,7 +79,7 @@ function behindproxy_postinstall_action()
         return;
     }
 
-    // Attempt to make the file unwriteable
+    // Attempt to make the file unwritable
     if (Path::isOwner($file) && !Path::setPermissions($file, '0444')) {
         Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'error');
     }
