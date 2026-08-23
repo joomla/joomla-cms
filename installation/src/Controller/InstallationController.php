@@ -71,6 +71,7 @@ class InstallationController extends JSONController
         if ($model->validate($data, 'setup') === false) {
             $this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
             $r->validated = false;
+            $r->error     = true;
             $this->sendJsonResponse($r);
 
             return;
@@ -298,6 +299,44 @@ class InstallationController extends JSONController
         $this->app->getSession()->destroy();
 
         // We can't send a response with sendJsonResponse because our installation classes now do not exist
+        echo json_encode(['error' => false]);
+    }
+
+    /**
+     * Opt out from automated updates
+     *
+     * @return  void
+     *
+     * @since   5.4.0
+     */
+    public function disableAutomatedUpdates()
+    {
+        $this->checkValidToken();
+
+        /** @var \Joomla\CMS\Installation\Model\AutomatedUpdatesModel $model */
+        $model = $this->getModel('AutomatedUpdates');
+
+        if (!$model->disable()) {
+            // We can't send a response with sendJsonResponse because our installation classes might not exist yet
+            $error = [
+                'token' => Session::getFormToken(true),
+                'error' => true,
+                'data'  => [
+                    'view' => 'remove',
+                ],
+                'messages' => [
+                    'warning' => [
+                        Text::sprintf('INSTL_COMPLETE_ERROR_AUTOMATED_UPDATES_DISABLE'),
+                    ],
+                ],
+            ];
+
+            echo json_encode($error);
+
+            return;
+        }
+
+        // We can't send a response with sendJsonResponse because our installation classes do not exist yet
         echo json_encode(['error' => false]);
     }
 }

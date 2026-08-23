@@ -46,13 +46,13 @@ namespace Joomla\CMS\Event;
  * All this is achieved by the reshapeArguments() method in this trait which has to be called in the
  * constructor of the concrete event class.
  *
- * This trait is marked as deprecated with a removal target of 6.0 because in Joomla 6 we will only
+ * This trait is marked as deprecated with a removal target of 7.0 because in Joomla 7 we will only
  * be using concrete event classes with named arguments, removing legacy listeners and their
  * positional arguments headaches.
  *
  * @since  4.2.0
  *
- * @deprecated  4.3 will be removed in 6.0
+ * @deprecated  4.3 will be removed in 7.0
  *              Will be removed without replacement
  */
 trait ReshapeArgumentsAware

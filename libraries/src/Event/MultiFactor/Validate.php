@@ -59,7 +59,7 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
      * @return  MfaTable
      * @since   4.2.0
      *
-     * @deprecated 4.4.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 7.0
      *                Use counterpart with onSet prefix
      */
     public function setRecord(MfaTable $value): MfaTable
@@ -79,7 +79,7 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
      * @return  User
      * @since   4.2.0
      *
-     * @deprecated 4.4.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 7.0
      *                Use counterpart with onSet prefix
      */
     public function setUser(User $value): User
@@ -99,7 +99,7 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
      * @return  string|null
      * @since   4.2.0
      *
-     * @deprecated 4.4.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 7.0
      *                Use counterpart with onSet prefix
      */
     public function setCode(?string $value): ?string

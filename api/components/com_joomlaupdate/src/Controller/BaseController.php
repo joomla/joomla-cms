@@ -12,6 +12,7 @@ namespace Joomla\Component\Joomlaupdate\Api\Controller;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFound;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 abstract class BaseController extends ApiController
@@ -30,7 +31,7 @@ abstract class BaseController extends ApiController
         $config = ComponentHelper::getParams('com_joomlaupdate');
 
         if ($config->get('updatesource') !== 'default' || (int) $config->get('minimum_stability') !== 4 || !$config->get('autoupdate')) {
-            throw new \RuntimeException('Auto update is disabled', 404);
+            throw new ResourceNotFound('Auto update is disabled', 404);
         }
 
         $token = $this->input->server->get('HTTP_X_JUPDATE_TOKEN', '', 'STRING');

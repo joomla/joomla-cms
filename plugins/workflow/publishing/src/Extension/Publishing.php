@@ -10,11 +10,13 @@
 
 namespace Joomla\Plugin\Workflow\Publishing\Extension;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\Table\BeforeStoreEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\DatabaseModelInterface;
@@ -23,10 +25,10 @@ use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
-use Joomla\String\Inflector;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -210,7 +212,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
         $section   = $event->getArgument('section');
 
         // We need the single model context for checking for workflow
-        $singularsection = Inflector::singularize($section);
+        $singularsection = InflectorFactory::create()->build()->singularize($section);
 
         if (!$this->isSupported($component . '.' . $singularsection)) {
             return;
@@ -282,11 +284,14 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
          */
         $this->getApplication()->set('plgWorkflowPublishing.' . $context, $pks);
 
-        $result = $this->getApplication()->triggerEvent('onContentBeforeChangeState', [
-            $context,
-            $pks,
-            $value,
-            ]);
+        $result = Factory::getContainer()->get(DispatcherInterface::class)->dispatch(
+            'onContentBeforeChangeState',
+            new Model\BeforeChangeStateEvent('onContentBeforeChangeState', [
+                'context' => $context,
+                'subject' => $pks,
+                'value'   => $value,
+            ])
+        )->getArgument('result', []);
 
         // Release allowed pks, the job is done
         $this->getApplication()->set('plgWorkflowPublishing.' . $context, []);

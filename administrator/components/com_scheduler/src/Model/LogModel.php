@@ -21,7 +21,7 @@ use Joomla\CMS\Table\Table;
 /**
  * MVC Model to interact with the Scheduler logs.
  *
- * @since  __DPELOY_VERSION__
+ * @since  5.3.0
  */
 class LogModel extends AdminModel
 {
@@ -31,7 +31,7 @@ class LogModel extends AdminModel
      * @param   array  $data      Data that needs to go into the form
      * @param   bool   $loadData  Should the form load its data from the DB?
      *
-     * @return Form|boolean  A Form object on success, false on failure.
+     * @return Form|boolean  A Form object, false on failure.
      *
      * @since  5.3.0
      * @throws \Exception

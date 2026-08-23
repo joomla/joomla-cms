@@ -32,7 +32,7 @@ $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('modal-content-select')
     ->useScript('com_contact.admin-contacts-modal');
 
-// @todo: Use of Function and Editor is deprecated and should be removed in 6.0. It stays only for backward compatibility.
+// @todo: Use of Function and Editor is deprecated and should be removed in 7.0. It stays only for backward compatibility.
 $function  = $app->getInput()->getCmd('function', 'jSelectContact');
 $editor    = $app->getInput()->getCmd('editor', '');
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -161,9 +161,7 @@ if (!empty($editor)) {
 
         <?php endif; ?>
 
-        <input type="hidden" name="task" value="">
-        <input type="hidden" name="forcedLanguage" value="<?php echo $app->getInput()->get('forcedLanguage', '', 'CMD'); ?>">
-        <?php echo HTMLHelper::_('form.token'); ?>
+        <?php echo $this->filterForm->renderControlFields(); ?>
 
     </form>
 </div>

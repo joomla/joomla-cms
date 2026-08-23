@@ -79,6 +79,15 @@ class TransitionField extends GroupedlistField
             } else {
                 $this->workflowStage = $input->getInt('id');
             }
+
+            $db = $this->getDatabase();
+
+            $query = $db->getQuery(true)
+                ->select($db->quoteName('workflow_id'))
+                ->from($db->quoteName('#__workflow_stages'))
+                ->where($db->quoteName('id') . ' = ' . (int) $this->workflowStage);
+
+            $this->form->setFieldAttribute('transition', 'workflow_id', (int) $db->setQuery($query)->loadResult());
         }
 
         return $result;
@@ -98,7 +107,7 @@ class TransitionField extends GroupedlistField
         $extension     = $this->extension;
         $workflowStage = (int) $this->workflowStage;
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('t.id', 'value'),
@@ -150,7 +159,7 @@ class TransitionField extends GroupedlistField
         }
 
         // Get workflow stage title
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('title'))
             ->from($db->quoteName('#__workflow_stages'))
             ->where($db->quoteName('id') . ' = :stage')

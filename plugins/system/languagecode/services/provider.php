@@ -14,7 +14,6 @@ use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\LanguageCode\Extension\LanguageCode;
 
 return new class () implements ServiceProviderInterface {
@@ -31,14 +30,13 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(LanguageCode::class, function (Container $container) {
                 $plugin     = new LanguageCode(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('system', 'languagecode')
                 );
 
                 return $plugin;
-            }
+            })
         );
     }
 };

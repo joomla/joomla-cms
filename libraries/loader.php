@@ -9,7 +9,7 @@
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Static class to handle loading of libraries.
@@ -94,7 +94,7 @@ abstract class JLoader
      *
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to
      *              register an autoloader for your files.
      */
@@ -176,7 +176,7 @@ abstract class JLoader
      *
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to
      *              register an autoloader for your files.
      */
@@ -207,7 +207,7 @@ abstract class JLoader
                 // Only register the class for autoloading if the file exists.
                 if (is_file($base . '/' . $path . '.php')) {
                     self::$classes[strtolower($class)] = $base . '/' . $path . '.php';
-                    $success = true;
+                    $success                           = true;
                 }
             } else {
                 /**
@@ -282,14 +282,14 @@ abstract class JLoader
      *
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to
      *              register an autoloader for your files.
      */
     public static function register($class, $path, $force = true)
     {
         // When an alias exists, register it as well
-        if (array_key_exists(strtolower($class), self::$classAliases)) {
+        if (\array_key_exists(strtolower($class), self::$classAliases)) {
             self::register(self::stripFirstBackslash(self::$classAliases[strtolower($class)]), $path, $force);
         }
 
@@ -466,7 +466,7 @@ abstract class JLoader
      *
      * @since       3.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use JLoader::loadByPsr instead
      */
     public static function loadByPsr4($class)
@@ -509,7 +509,7 @@ abstract class JLoader
 
                 // Loop through paths registered to this namespace until we find a match.
                 foreach ($paths as $path) {
-                    $classFilePath = realpath($path . DIRECTORY_SEPARATOR . substr_replace($classPath, '', 0, strlen($nsPath) + 1));
+                    $classFilePath = realpath($path . DIRECTORY_SEPARATOR . substr_replace($classPath, '', 0, \strlen($nsPath) + 1));
 
                     // We do not allow files outside the namespace root to be loaded
                     if (strpos($classFilePath, realpath($path)) !== 0) {
@@ -590,10 +590,10 @@ abstract class JLoader
     public static function _autoload($class)
     {
         foreach (self::$prefixes as $prefix => $lookup) {
-            $chr = strlen($prefix) < strlen($class) ? $class[strlen($prefix)] : 0;
+            $chr = \strlen($prefix) < \strlen($class) ? $class[\strlen($prefix)] : 0;
 
             if (strpos($class, $prefix) === 0 && ($chr === strtoupper($chr))) {
-                return self::_load(substr($class, strlen($prefix)), $lookup);
+                return self::_load(substr($class, \strlen($prefix)), $lookup);
             }
         }
 
@@ -613,8 +613,8 @@ abstract class JLoader
     private static function _load($class, $lookup)
     {
         // Split the class name into parts separated by camelCase.
-        $parts = preg_split('/(?<=[a-z0-9])(?=[A-Z])/x', $class);
-        $partsCount = count($parts);
+        $parts      = preg_split('/(?<=[a-z0-9])(?=[A-Z])/x', $class);
+        $partsCount = \count($parts);
 
         foreach ($lookup as $base) {
             // Generate the path based on the class name parts.
@@ -665,7 +665,7 @@ abstract class JLoader
      */
     private static function loadAliasFor($class)
     {
-        if (!array_key_exists($class, self::$classAliasesInverse)) {
+        if (!\array_key_exists($class, self::$classAliasesInverse)) {
             return;
         }
 
@@ -691,7 +691,7 @@ abstract class JLoader
 }
 
 // Check if jexit is defined first (our unit tests mock this)
-if (!function_exists('jexit')) {
+if (!\function_exists('jexit')) {
     /**
      * Global application exit.
      *
@@ -720,7 +720,7 @@ if (!function_exists('jexit')) {
  *
  * @since       1.7.0
  *
- * @deprecated  4.3 will be removed in 6.0
+ * @deprecated  4.3 will be removed in 7.0
  *              Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to
  *              register an autoloader for your files.
  */

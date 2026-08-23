@@ -90,6 +90,14 @@ class ArticlesController extends ApiController
             $this->modelState->set('filter.modified_end', $filter->clean($apiFilterInfo['modified_end'], 'STRING'));
         }
 
+        if (\array_key_exists('checked_out', $apiFilterInfo)) {
+            $this->modelState->set('filter.checked_out', $filter->clean($apiFilterInfo['checked_out'], 'INT'));
+        }
+
+        if (\array_key_exists('stage', $apiFilterInfo)) {
+            $this->modelState->set('filter.stage', $filter->clean($apiFilterInfo['stage'], 'INT'));
+        }
+
         $apiListInfo = $this->input->get('list', [], 'array');
 
         if (\array_key_exists('ordering', $apiListInfo)) {

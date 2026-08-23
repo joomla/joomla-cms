@@ -33,6 +33,15 @@ class ExtensionAdapter extends UpdateAdapter
     protected $latest;
 
     /**
+     * The updates with security fixes
+     *
+     * @var    array
+     *
+     * @since  6.2.0
+     */
+    protected array $security = [];
+
+    /**
      * Start element parser callback.
      *
      * @param   object  $parser  The parser object.
@@ -134,7 +143,7 @@ class ExtensionAdapter extends UpdateAdapter
 
                     // Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
                     if (isset($this->currentUpdate->supported_databases)) {
-                        $db           = Factory::getDbo();
+                        $db           = $this->db;
                         $dbType       = strtolower($db->getServerType());
                         $dbVersion    = $db->getVersion();
                         $supportedDbs = $this->currentUpdate->supported_databases;
@@ -219,6 +228,10 @@ class ExtensionAdapter extends UpdateAdapter
                             // We don't have any possible updates yet, assume this is an available update.
                             $this->latest = $this->currentUpdate;
                         }
+
+                        if (isset($this->currentUpdate->security)) {
+                            $this->security[] = $this->currentUpdate;
+                        }
                     }
                 }
                 break;
@@ -263,7 +276,7 @@ class ExtensionAdapter extends UpdateAdapter
      *
      * @param   array  $options  Update options.
      *
-     * @return  array|boolean  Array containing the array of update sites and array of updates. False on failure
+     * @return  array|boolean  Array containing the array of update sites, an array of updates and an array of security updates. False on failure
      *
      * @since   1.7.0
      */
@@ -275,6 +288,14 @@ class ExtensionAdapter extends UpdateAdapter
             return false;
         }
 
+        $this->security = [];
+
+        /**
+         * Unset the latest update which might have been found for a previous update site, avoid
+         * strange issue reported at https://github.com/joomla/joomla-cms/issues/46066
+         */
+        unset($this->latest);
+
         if (\array_key_exists('minimum_stability', $options)) {
             $this->minimum_stability = $options['minimum_stability'];
         }
@@ -283,7 +304,7 @@ class ExtensionAdapter extends UpdateAdapter
         xml_set_element_handler($this->xmlParser, [$this, '_startElement'], [$this, '_endElement']);
         xml_set_character_data_handler($this->xmlParser, [$this, '_characterData']);
 
-        if (!xml_parse($this->xmlParser, $response->body)) {
+        if (!xml_parse($this->xmlParser, (string) $response->getBody())) {
             // If the URL is missing the .xml extension, try appending it and retry loading the update
             if (!$this->appendExtension && (!str_ends_with($this->_url, '.xml'))) {
                 $options['append_extension'] = true;
@@ -297,8 +318,6 @@ class ExtensionAdapter extends UpdateAdapter
 
             return false;
         }
-
-        xml_parser_free($this->xmlParser);
 
         if (isset($this->latest)) {
             if (isset($this->latest->client) && \strlen($this->latest->client)) {
@@ -319,7 +338,7 @@ class ExtensionAdapter extends UpdateAdapter
             $updates = [];
         }
 
-        return ['update_sites' => [], 'updates' => $updates];
+        return ['update_sites' => [], 'updates' => $updates, 'security' => $this->security];
     }
 
     /**

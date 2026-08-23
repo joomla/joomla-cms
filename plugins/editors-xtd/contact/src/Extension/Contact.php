@@ -71,7 +71,7 @@ final class Contact extends CMSPlugin implements SubscriberInterface
      *
      * @since   3.7.0
      *
-     * @deprecated  5.0 Use onEditorButtonsSetup event
+     * @deprecated  5.0 Use onEditorButtonsSetup event instead, will be removed in 7.0
      */
     public function onDisplay($name)
     {
@@ -105,6 +105,16 @@ final class Contact extends CMSPlugin implements SubscriberInterface
                     'name' => $this->_type . '_' . $this->_name,
                 ]
             );
+
+            // Register as a link source for editors that offer a link picker (e.g. TinyMCE)
+            $this->getApplication()->getDocument()->addScriptOptions('editor-link-providers', [
+                $this->_name => [
+                    'title'  => Text::_('PLG_EDITORS-XTD_CONTACT_BUTTON_CONTACT'),
+                    'icon'   => 'address',
+                    'src'    => 'index.php?option=com_contact&view=contacts&layout=modal&tmpl=component',
+                    'select' => 'content',
+                ],
+            ], true);
 
             return $button;
         }

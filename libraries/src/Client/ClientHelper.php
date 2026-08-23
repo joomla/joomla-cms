@@ -39,10 +39,9 @@ class ClientHelper
         static $credentials = [];
 
         $client = strtolower($client);
+        $app    = Factory::getApplication();
 
         if (!isset($credentials[$client]) || $force) {
-            $app = Factory::getApplication();
-
             // Fetch the client layer configuration options for the specific client
             switch ($client) {
                 case 'ftp':
@@ -63,7 +62,7 @@ class ClientHelper
 
             // If user and pass are not set in global config lets see if they are in the session
             if ($options['enabled'] && ($options['user'] == '' || $options['pass'] == '')) {
-                $session         = Factory::getSession();
+                $session         = $app->getSession();
                 $options['user'] = $session->get($client . '.user', null, 'JClientHelper');
                 $options['pass'] = $session->get($client . '.pass', null, 'JClientHelper');
             }
@@ -95,11 +94,11 @@ class ClientHelper
     {
         $return = false;
         $client = strtolower($client);
+        $app    = Factory::getApplication();
 
         // Test if the given credentials are valid
         switch ($client) {
             case 'ftp':
-                $app     = Factory::getApplication();
                 $options = ['enabled' => $app->get('ftp_enable'), 'host' => $app->get('ftp_host'), 'port' => $app->get('ftp_port')];
 
                 if ($options['enabled']) {
@@ -122,7 +121,7 @@ class ClientHelper
 
         if ($return) {
             // Save valid credentials to the session
-            $session = Factory::getSession();
+            $session = $app->getSession();
             $session->set($client . '.user', $user, 'JClientHelper');
             $session->set($client . '.pass', $pass, 'JClientHelper');
 
@@ -146,11 +145,11 @@ class ClientHelper
     {
         $return = false;
         $client = strtolower($client);
+        $app    = Factory::getApplication();
 
         // Get (unmodified) credentials for this client
         switch ($client) {
             case 'ftp':
-                $app     = Factory::getApplication();
                 $options = ['enabled' => $app->get('ftp_enable'), 'user' => $app->get('ftp_user'), 'pass' => $app->get('ftp_pass')];
                 break;
 
@@ -167,7 +166,7 @@ class ClientHelper
             $return = true;
         } else {
             // Check if login credentials are available in the session
-            $session = Factory::getSession();
+            $session = $app->getSession();
             $user    = $session->get($client . '.user', null, 'JClientHelper');
             $pass    = $session->get($client . '.pass', null, 'JClientHelper');
 

@@ -330,6 +330,17 @@
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 			<option value="-1">JHIDE</option>
 		</field>
+
+		<field
+			name="preview_token_expiration"
+			type="number"
+			label="COM_CONTENT_FIELD_PREVIEW_TOKEN_EXPIRATION_LABEL"
+			description="COM_CONTENT_FIELD_PREVIEW_TOKEN_EXPIRATION_DESC"
+			default="15"
+			min="1"
+			step="5"
+			filter="integer"
+		/>
 	</fieldset>
 	<fieldset
 		name="editinglayout"
@@ -508,7 +519,7 @@
 		<field
 			name="float_intro"
 			type="text"
-			label="COM_CONTENT_IMAGE_INTRO_CLASS_LABEL"
+			label="COM_CONTENT_FIGURE_INTRO_CLASS_LABEL"
 			validate="CssIdentifier"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 		/>
@@ -516,7 +527,7 @@
 		<field
 			name="float_fulltext"
 			type="text"
-			label="COM_CONTENT_IMAGE_FULLTEXT_CLASS_LABEL"
+			label="COM_CONTENT_FIGURE_FULLTEXT_CLASS_LABEL"
 			validate="CssIdentifier"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 		/>
@@ -623,6 +634,17 @@
 			type="radio"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 			default="1"
+			layout="joomla.form.field.radio.switcher"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="show_subcat_image"
+			type="radio"
+			label="JGLOBAL_SHOW_SUBCATEGORIES_IMAGE_LABEL"
+			default="0"
 			layout="joomla.form.field.radio.switcher"
 			>
 			<option value="0">JHIDE</option>

@@ -86,7 +86,7 @@ class JsonapiView extends BaseApiView
         $fileinformation['id'] = 'prepareUpdate';
 
         $element = (new Resource((object) $fileinformation, $this->serializer))
-            ->fields(['updates' => ['password', 'filesize']]);
+            ->fields(['updates' => ['password', 'filesize', 'filename']]);
 
         $this->getDocument()->setData($element);
         $this->getDocument()->addLink('self', Uri::current());
@@ -98,20 +98,22 @@ class JsonapiView extends BaseApiView
      * Run the finalize update steps
      *
      * @param string $fromVersion The from version
+     * @param string $updateFileName The name of the update file
      *
      * @return string  The rendered data
      *
      * @since  5.4.0
      */
-    public function finalizeUpdate($fromVersion)
+    public function finalizeUpdate($fromVersion, $updateFileName)
     {
         /**
          * @var UpdateModel $model
          */
         $model = $this->getModel();
 
-        // Write old version to state for usage in model
+        // Write old version and filename to state for usage in model
         Factory::getApplication()->setUserState('com_joomlaupdate.oldversion', $fromVersion);
+        Factory::getApplication()->setUserState('com_joomlaupdate.file', $updateFileName);
 
         try {
             // Perform the finalization action
@@ -134,13 +136,19 @@ class JsonapiView extends BaseApiView
         $model->resetUpdateSource();
 
         $success = true;
+        $errors  = [];
 
+        // Append any errors to the API response for debugging purposes
         if ($model->getErrors()) {
             $success = false;
+
+            $errors = array_map(function ($error) {
+                return (string) $error;
+            }, $model->getErrors());
         }
 
-        $element = (new Resource((object) ['success' => $success, 'id' => 'finalizeUpdate'], $this->serializer))
-            ->fields(['updates' => ['success']]);
+        $element = (new Resource((object) ['success' => $success, 'id' => 'finalizeUpdate', 'errors' => $errors], $this->serializer))
+            ->fields(['updates' => ['success', 'errors']]);
 
         $this->getDocument()->setData($element);
         $this->getDocument()->addLink('self', Uri::current());

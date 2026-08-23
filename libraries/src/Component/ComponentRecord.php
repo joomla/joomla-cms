@@ -66,6 +66,14 @@ class ComponentRecord
     public $enabled;
 
     /**
+     * The component custom data
+     *
+     * @var    string
+     * @since  6.1.0
+     */
+    public $custom_data;
+
+    /**
      * Class constructor
      *
      * @param   array  $data  The component record data to load
@@ -88,7 +96,7 @@ class ComponentRecord
      *
      * @since   3.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Access the item parameters through the `getParams()` method
      *              Example:
      *              $componentRecord->getParams();
@@ -112,7 +120,7 @@ class ComponentRecord
      *
      * @since   3.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Set the item parameters through the `setParams()` method
      *              Example:
      *              $componentRecord->setParams($value);

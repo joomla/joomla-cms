@@ -17,7 +17,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
@@ -99,7 +99,7 @@ $canChange = $user->authorise('core.edit.state', 'com_scheduler');
                                         <?php echo (int) $item->taskid; ?>
                                     </td>
                                     <td class="small d-none d-md-table-cell">
-                                        <?php echo HTMLHelper::_('date.relative', $item->lastdate, Text::_('DATE_FORMAT_LC6')); ?>
+                                        <?php echo $item->lastdate ? HTMLHelper::_('date.relative', $item->lastdate, Text::_('DATE_FORMAT_LC6')) : '-'; ?>
                                     </td>
                                     <td class="small d-none d-md-table-cell">
                                         <?php echo $item->duration; ?>
@@ -120,7 +120,7 @@ $canChange = $user->authorise('core.edit.state', 'com_scheduler');
                                         ?>
                                     </td>
                                     <td class="small d-none d-md-table-cell">
-                                        <?php echo HTMLHelper::_('date', $item->nextdate, Text::_('DATE_FORMAT_LC6')); ?>
+                                        <?php echo $item->nextdate ? HTMLHelper::_('date', $item->nextdate, Text::_('DATE_FORMAT_LC6')) : '-'; ?>
                                     </td>
                                     <td class="small d-none d-md-table-cell">
                                         <?php echo (int) $item->id; ?>
@@ -133,9 +133,8 @@ $canChange = $user->authorise('core.edit.state', 'com_scheduler');
                     ?>
                     <?php echo $this->pagination->getListFooter(); ?>
                 <?php endif; ?>
-                <input type="hidden" name="task" value="">
-                <input type="hidden" name="boxchecked" value="0">
-                <?php echo HTMLHelper::_('form.token'); ?>
+
+                <?php echo $this->filterForm->renderControlFields(); ?>
             </div>
         </div>
     </div>

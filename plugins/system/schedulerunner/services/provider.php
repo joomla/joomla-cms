@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\ScheduleRunner\Extension\ScheduleRunner;
 
 return new class () implements ServiceProviderInterface {
@@ -32,15 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
-                $plugin     = new ScheduleRunner(
-                    $container->get(DispatcherInterface::class),
+            $container->lazy(ScheduleRunner::class, function (Container $container) {
+                $plugin = new ScheduleRunner(
                     (array) PluginHelper::getPlugin('system', 'schedulerunner')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

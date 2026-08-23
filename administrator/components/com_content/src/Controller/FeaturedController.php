@@ -18,11 +18,22 @@ namespace Joomla\Component\Content\Administrator\Controller;
  * Featured content controller class.
  *
  * @since  1.6
- *
- * @deprecated  6.0 will be removed in 8.0
- *              Use \Joomla\Component\Content\Administrator\Controller\ArticlesController instead
- *              For Quickicons use articles.getQuickiconFeatured()
  */
 class FeaturedController extends ArticlesController
 {
+    /**
+     * Method to get a model object, loading it if required.
+     *
+     * @param   string  $name    The model name. Optional.
+     * @param   string  $prefix  The class prefix. Optional.
+     * @param   array   $config  Configuration array for model. Optional.
+     *
+     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+     *
+     * @since   1.6
+     */
+    public function getModel($name = 'Feature', $prefix = 'Administrator', $config = ['ignore_request' => true])
+    {
+        return parent::getModel($name, $prefix, $config);
+    }
 }

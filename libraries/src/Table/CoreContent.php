@@ -155,23 +155,6 @@ class CoreContent extends Table implements CurrentUserInterface
     }
 
     /**
-     * Override \Joomla\CMS\Table\Table delete method to include deleting corresponding row from #__ucm_base.
-     *
-     * @param   integer  $pk  primary key value to delete. Must be set or throws an exception.
-     *
-     * @return  boolean  True on success.
-     *
-     * @since   3.1
-     * @throws  \UnexpectedValueException
-     */
-    public function delete($pk = null)
-    {
-        $baseTable = new Ucm($this->getDatabase(), $this->getDispatcher());
-
-        return parent::delete($pk) && $baseTable->delete($pk);
-    }
-
-    /**
      * Method to delete a row from the #__ucm_content table by content_item_id.
      *
      * @param   integer  $contentItemId  value of the core_content_item_id to delete. Corresponds to the primary key of the content table.
@@ -179,8 +162,8 @@ class CoreContent extends Table implements CurrentUserInterface
      *
      * @return  boolean  True on success.
      *
-     * @since   3.1
      * @throws  \UnexpectedValueException
+     * @since   3.1
      */
     public function deleteByContentId($contentItemId = null, $typeAlias = null)
     {
@@ -195,7 +178,7 @@ class CoreContent extends Table implements CurrentUserInterface
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select($db->quoteName('core_content_id'))
             ->from($db->quoteName('#__ucm_content'))
             ->where(
@@ -263,9 +246,7 @@ class CoreContent extends Table implements CurrentUserInterface
             $this->setRules('{}');
         }
 
-        $result = parent::store($updateNulls);
-
-        return $result && $this->storeUcmBase($updateNulls, $isNew);
+        return parent::store($updateNulls);
     }
 
     /**
@@ -277,12 +258,13 @@ class CoreContent extends Table implements CurrentUserInterface
      * @return  boolean  True on success.
      *
      * @since   3.1
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
      */
     protected function storeUcmBase($updateNulls = true, $isNew = false)
     {
         // Store the ucm_base row
         $db         = $this->getDatabase();
-        $query      = $db->getQuery(true);
+        $query      = $db->createQuery();
         $languageId = ContentHelper::getLanguageId($this->core_language);
 
         // Selecting "all languages" doesn't give a language id - we can't store a blank string in non mysql databases, so save 0 (the default value)

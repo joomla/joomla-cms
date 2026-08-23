@@ -12,8 +12,10 @@ namespace Joomla\Plugin\Task\PrivacyConsent\Extension;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
@@ -44,6 +46,8 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
     use DatabaseAwareTrait;
     use TaskPluginTrait;
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * @var string[]
@@ -122,7 +126,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
         $now      = Factory::getDate()->toSql();
         $period   = '-' . ($expire - $remind);
         $db       = $this->getDatabase();
-        $query    = $db->getQuery(true);
+        $query    = $db->createQuery();
 
         $query->select($db->quoteName(['r.id', 'r.user_id', 'u.email']))
             ->from($db->quoteName('#__privacy_consents', 'r'))
@@ -159,7 +163,12 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
                     'token'    => $token,
                 ];
 
-                $mailer = new MailTemplate('plg_task_privacyconsent.request.reminder', $app->getLanguage()->getTag());
+                $mailer = new MailTemplate(
+                    'plg_task_privacyconsent.request.reminder',
+                    $app->getLanguage()->getTag(),
+                    $this->getMailerFactory()->createMailer(),
+                    $this->getLanguageFactory()
+                );
                 $mailer->addTemplateData($templateData);
                 $mailer->addRecipient($user->email);
 
@@ -190,7 +199,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
                 return Status::KNOCKOUT;
             }
         }
-        $this->logTask('Remind end');
+        $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_PRIVACYCONSENT_LOG_REMIND_END'), 'info');
 
         return Status::OK;
     }
@@ -210,7 +219,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
         $now    = Factory::getDate()->toSql();
         $period = '-' . $expire;
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true);
+        $query  = $db->createQuery();
 
         $query->select($db->quoteName(['id', 'user_id']))
             ->from($db->quoteName('#__privacy_consents'))
@@ -237,7 +246,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
         foreach ($users as $user) {
             $userId = (int) $user->id;
-            $query  = $db->getQuery(true)
+            $query  = $db->createQuery()
                 ->update($db->quoteName('#__privacy_consents'))
                 ->set($db->quoteName('state') . ' = 0')
                 ->where($db->quoteName('id') . ' = :userid')

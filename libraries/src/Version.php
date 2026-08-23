@@ -47,7 +47,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const MINOR_VERSION = 0;
+    public const MINOR_VERSION = 2;
 
     /**
      * Patch release version.
@@ -66,7 +66,7 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
-    public const EXTRA_VERSION = 'alpha2-dev';
+    public const EXTRA_VERSION = 'beta2-dev';
 
     /**
      * Development status.
@@ -82,7 +82,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const CODENAME = 'Kuimarisha';
+    public const CODENAME = 'Mwezi';
 
     /**
      * Release date.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '27-May-2025';
+    public const RELDATE = '18-August-2026';
 
     /**
      * Release time.
@@ -98,7 +98,6 @@ final class Version
      * @var    string
      * @since  3.5
      */
-
     public const RELTIME = '18:01';
 
     /**

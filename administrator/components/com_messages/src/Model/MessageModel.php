@@ -14,10 +14,15 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rule;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
@@ -37,9 +42,11 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  *
  * @since  1.6
  */
-class MessageModel extends AdminModel implements UserFactoryAwareInterface
+class MessageModel extends AdminModel implements UserFactoryAwareInterface, MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * Message
@@ -143,7 +150,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                     if ($replyId = (int) $this->getState('reply.id')) {
                         // If replying to a message, preload some data.
                         $db    = $this->getDatabase();
-                        $query = $db->getQuery(true)
+                        $query = $db->createQuery()
                             ->select($db->quoteName(['subject', 'user_id_from', 'user_id_to']))
                             ->from($db->quoteName('#__messages'))
                             ->where($db->quoteName('message_id') . ' = :messageid')
@@ -178,7 +185,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                 } else {
                     // Mark message read
                     $db    = $this->getDatabase();
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->update($db->quoteName('#__messages'))
                         ->set($db->quoteName('state') . ' = 1')
                         ->where($db->quoteName('message_id') . ' = :messageid')
@@ -202,20 +209,14 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_messages.message', 'message', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_messages.message', 'message', ['control' => 'jform', 'load_data' => $loadData]);
     }
 
     /**
@@ -378,7 +379,12 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
             $message  = strip_tags(html_entity_decode($table->message, ENT_COMPAT, 'UTF-8'));
 
             // Send the email
-            $mailer = new MailTemplate('com_messages.new_message', $lang->getTag());
+            $mailer = new MailTemplate(
+                'com_messages.new_message',
+                $lang->getTag(),
+                $this->getMailerFactory()->createMailer(),
+                $this->getLanguageFactory()
+            );
             $data   = [
                 'subject'   => $subject,
                 'message'   => $message,
@@ -397,18 +403,14 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                 $mailer->send();
             } catch (MailDisabledException | phpMailerException $exception) {
                 try {
-                    Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
-
-                    $this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'));
-
-                    return false;
-                } catch (\RuntimeException $exception) {
-                    Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
-
-                    $this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'));
-
-                    return false;
+                    Log::add($exception->getMessage(), Log::WARNING, 'com_messages');
+                } catch (\RuntimeException $e) {
                 }
+
+                Factory::getApplication()->enqueueMessage(
+                    Text::sprintf('COM_MESSAGES_ERROR_MAIL_FAILED_REASON', $exception->getMessage()),
+                    'warning'
+                );
             }
         }
 
@@ -457,7 +459,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                 return false;
             }
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('map.user_id'))
                 ->from($db->quoteName('#__user_usergroup_map', 'map'))
                 ->join(

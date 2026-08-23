@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 
@@ -64,7 +63,6 @@ class Autoupdate extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor
      *
-     * @param   DispatcherInterface  $dispatcher   The object to observe
      * @param   Document             $document     The document
      * @param   array                $config       An optional associative array of configuration settings.
      *                                             Recognized key values include 'name', 'group', 'params', 'language'
@@ -72,9 +70,9 @@ class Autoupdate extends CMSPlugin implements SubscriberInterface
      *
      * @since   5.4.0
      */
-    public function __construct($dispatcher, Document $document, array $config = [])
+    public function __construct(Document $document, array $config = [])
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->document = $document;
     }
@@ -104,11 +102,13 @@ class Autoupdate extends CMSPlugin implements SubscriberInterface
         Text::script('PLG_QUICKICON_AUTOUPDATE_ERROR');
         Text::script('PLG_QUICKICON_AUTOUPDATE_OK');
         Text::script('PLG_QUICKICON_AUTOUPDATE_OUTDATED');
+        Text::script('PLG_QUICKICON_AUTOUPDATE_UNAVAILABLE');
         Text::script('PLG_QUICKICON_AUTOUPDATE_DISABLED');
         Text::script('MESSAGE');
         Text::script('ERROR');
         Text::script('INFO');
         Text::script('WARNING');
+        Text::script('SUCCESS');
 
         $this->document->addScriptOptions(
             'js-auto-update',
@@ -128,7 +128,7 @@ class Autoupdate extends CMSPlugin implements SubscriberInterface
         $result[] = [
             [
                 'link'  => 'index.php?option=com_config&view=component&component=com_joomlaupdate#automated-updates',
-                'image' => 'icon-health',
+                'image' => 'fas fa-arrows-spin',
                 'icon'  => '',
                 'text'  => Text::_('PLG_QUICKICON_AUTOUPDATE_CHECKING'),
                 'id'    => 'plg_quickicon_autoupdate',
