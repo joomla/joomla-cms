@@ -250,6 +250,18 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
     }
 
     /**
+     * Validates a column name against the list of valid columns defined in the model
+     *
+     * @return bool
+     *
+     * @since   5.4.4
+     */
+    public function isValidFilterColumn($columnName): bool
+    {
+        return \in_array($columnName, $this->filter_fields, true);
+    }
+
+    /**
      * Method to get an array of data items.
      *
      * @return  mixed  An array of data items on success, false on failure.
@@ -387,10 +399,10 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
         $start = $this->getState('list.start');
 
         if ($start > 0) {
-            $limit = $this->getState('list.limit');
+            $limit = (int) $this->getState('list.limit');
             $total = $this->getTotal();
 
-            if ($start > $total - $limit) {
+            if ($start > $total - $limit && $limit > 0) {
                 $start = max(0, (int) (ceil($total / $limit) - 1) * $limit);
             }
         }
