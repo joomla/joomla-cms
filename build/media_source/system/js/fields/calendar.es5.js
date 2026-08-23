@@ -156,10 +156,10 @@
 		};
 		this._documentClick = function(event) {
 			return self._handleDocumentClick(event);
-    };
-    this._focusOut = function (event) {
-      return self._handleFocusOut(event);
-    };
+		};
+		this._focusOut = function (event) {
+			return self._handleFocusOut(event);
+		};
 
 		// Set it up
 		this.checkInputs();
@@ -236,11 +236,11 @@
 	JoomlaCalendar.prototype.moveCursorBy = function (step) {
 		var date = new Date(this.date);
 		date.setDate(date.getDate() - step);
-    if (!date.equalsTo(this.date)) {
-      this.date = date;
-      this.callHandler();
-    }
-  };
+		if (!date.equalsTo(this.date)) {
+			this.date = date;
+			this.callHandler();
+		}
+	};
 
 	/** Reset select element */
 	JoomlaCalendar.prototype.resetSelected = function (element) {
@@ -294,8 +294,8 @@
 		this.hidden = false;
 
 		document.addEventListener("keydown", this._calKeyEvent, true);
-    document.addEventListener("mousedown", this._documentClick, true);
-    document.addEventListener("focusout", this._focusOut, true);
+		document.addEventListener("mousedown", this._documentClick, true);
+		document.addEventListener("focusout", this._focusOut, true);
 
 		/** Move the calendar to top position if it doesn't fit below. */
 		var containerTmp = this.element.querySelector('.js-calendar');
@@ -313,7 +313,7 @@
 	JoomlaCalendar.prototype.hide = function () {
 		document.removeEventListener("keydown", this._calKeyEvent, true);
 		document.removeEventListener("mousedown", this._documentClick, true);
-    document.removeEventListener("focusout", this._focusOut, true);
+		document.removeEventListener("focusout", this._focusOut, true);
 
 		this.dropdownElement.classList.remove('open');
 		this.dropdownElement.setAttribute('hidden', '');
@@ -335,16 +335,16 @@
 		}
 	};
 
-  JoomlaCalendar.prototype._handleFocusOut = function (ev) {
-    var relatedTarget = ev.relatedTarget;
+	JoomlaCalendar.prototype._handleFocusOut = function (ev) {
+		var relatedTarget = ev.relatedTarget;
 
-    // Focus is still somewhere inside the calendar field.
-    if (relatedTarget && this.element.contains(relatedTarget)) {
-      return;
-    }
+		// Focus is still somewhere inside the calendar field.
+		if (relatedTarget && this.element.contains(relatedTarget)) {
+			return;
+		}
 
-    this.hide();
-  };
+		this.hide();
+	};
 
 	/** Method to handle mouse click events (menus, buttons) **/
 	JoomlaCalendar.prototype._handleDayMouseDown = function (ev) {
@@ -524,91 +524,91 @@
 	};
 
 	/** Method to handle keyboard click events **/
-  JoomlaCalendar.prototype._handleCalKeyEvent = function (ev) {
-    var self = this,
-      code = ev.code;
+	JoomlaCalendar.prototype._handleCalKeyEvent = function (ev) {
+		var self = this,
+			code = ev.code;
 
-    // Tab from the calendar input moves into the time controls.
-    if (ev.target === this.inputField && (code === 'Enter' || code === 'Tab')) {
-      if (code === 'Tab' && !ev.shiftKey && self.params.showsTime) {
-        var hoursEl = this.table.querySelector('.time-hours');
+		// Tab from the calendar input moves into the time controls.
+		if (ev.target === this.inputField && (code === 'Enter' || code === 'Tab')) {
+			if (code === 'Tab' && !ev.shiftKey && self.params.showsTime) {
+				var hoursEl = this.table.querySelector('.time-hours');
 
-        if (hoursEl) {
-          ev.preventDefault();
-          hoursEl.focus();
-          return;
-        }
-      }
+				if (hoursEl) {
+					ev.preventDefault();
+					hoursEl.focus();
+					return;
+				}
+			}
 
-      this.close();
-    }
+			this.close();
+		}
 
-    // Handle keyboard navigation and focus within the time controls.
-    if (
-      ev.target.matches &&
-      ev.target.matches('.time-hours, .time-minutes')
-    ) {
-      // Shift+Tab from Hours returns to the calendar input.
-      if (code === 'Tab' && ev.shiftKey && ev.target.matches('.time-hours')) {
-        ev.preventDefault();
-        this.inputField.focus();
-        return;
-      }
+		// Handle keyboard navigation and focus within the time controls.
+		if (
+			ev.target.matches &&
+			ev.target.matches('.time-hours, .time-minutes')
+		) {
+			// Shift+Tab from Hours returns to the calendar input.
+			if (code === 'Tab' && ev.shiftKey && ev.target.matches('.time-hours')) {
+				ev.preventDefault();
+				this.inputField.focus();
+				return;
+			}
 
-      // Let the time selects handle arrow keys and Tab natively.
-      if (
-        code === 'ArrowUp' ||
-        code === 'ArrowDown' ||
-        code === 'ArrowLeft' ||
-        code === 'ArrowRight' ||
-        code === 'Tab'
-      ) {
-        return;
-      }
-    }
+			// Let the time selects handle arrow keys and Tab natively.
+			if (
+				code === 'ArrowUp' ||
+				code === 'ArrowDown' ||
+				code === 'ArrowLeft' ||
+				code === 'ArrowRight' ||
+				code === 'Tab'
+			) {
+				return;
+			}
+		}
 
-    if (self.params.direction === 'rtl') {
-      if (code === 'ArrowLeft') {
-        code = 'ArrowRight';
-      } else if (code === 'ArrowRight') {
-        code = 'ArrowLeft';
-      }
-    }
+		if (self.params.direction === 'rtl') {
+			if (code === 'ArrowLeft') {
+				code = 'ArrowRight';
+			} else if (code === 'ArrowRight') {
+				code = 'ArrowLeft';
+			}
+		}
 
-    // Select the currently highlighted date.
-    if (code === 'Enter' && self.currentDateEl) {
-      self.cellClick(self.currentDateEl, ev);
-      return;
-    }
+		// Select the currently highlighted date.
+		if (code === 'Enter' && self.currentDateEl) {
+			self.cellClick(self.currentDateEl, ev);
+			return;
+		}
 
-    if (ev.shiftKey && code === 'Space') {
-      ev.preventDefault();
-      this.cellClick(self._nav_now, ev);
-      self.close();
-    }
+		if (ev.shiftKey && code === 'Space') {
+			ev.preventDefault();
+			this.cellClick(self._nav_now, ev);
+			self.close();
+		}
 
-    if (code === 'Escape') {
-      this.close();
-    }
+		if (code === 'Escape') {
+			this.close();
+		}
 
-    if (code === 'ArrowUp') {
-      this.moveCursorBy(7);
-    }
+		if (code === 'ArrowUp') {
+			this.moveCursorBy(7);
+		}
 
-    if (code === 'ArrowDown') {
-      this.moveCursorBy(-7);
-    }
+		if (code === 'ArrowDown') {
+			this.moveCursorBy(-7);
+		}
 
-    if (code === 'ArrowLeft') {
-      this.moveCursorBy(1);
-    }
+		if (code === 'ArrowLeft') {
+			this.moveCursorBy(1);
+		}
 
-    if (code === 'ArrowRight') {
-      this.moveCursorBy(-1);
-    }
-  };
+		if (code === 'ArrowRight') {
+			this.moveCursorBy(-1);
+		}
+	};
 
-  /** Method to create the html structure of the calendar */
+	/** Method to create the html structure of the calendar */
 	JoomlaCalendar.prototype._create = function () {
 		var self   = this,
 			parent = this.element,
