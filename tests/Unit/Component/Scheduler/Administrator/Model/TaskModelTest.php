@@ -17,7 +17,7 @@ use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Model\TaskModel;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOptions;
-use Joomla\Database\DatabaseInterface;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Tests\Unit\UnitTestCase;
 
@@ -85,7 +85,7 @@ class TaskModelTest extends UnitTestCase
      */
     public function testGetTaskReturnsNullWhenQueueIsEmpty(): void
     {
-        $db = $this->createMock(DatabaseInterface::class);
+        $db = $this->createMock(DatabaseDriver::class);
         $db->method('getQuery')->willReturnCallback(function () use ($db) {
             return $this->getQueryStub($db);
         });
@@ -107,7 +107,7 @@ class TaskModelTest extends UnitTestCase
      */
     public function testGetTaskReturnsNullWhenFetchTaskRecordNotFound(): void
     {
-        $db = $this->createMock(DatabaseInterface::class);
+        $db = $this->createMock(DatabaseDriver::class);
         $db->method('getQuery')->willReturnCallback(function () use ($db) {
             return $this->getQueryStub($db);
         });
@@ -138,7 +138,7 @@ class TaskModelTest extends UnitTestCase
             'cron_rules'      => '{"cron":"* * * * *"}',
         ];
 
-        $db = $this->createMock(DatabaseInterface::class);
+        $db = $this->createMock(DatabaseDriver::class);
         $db->method('getQuery')->willReturnCallback(function () use ($db) {
             return $this->getQueryStub($db);
         });

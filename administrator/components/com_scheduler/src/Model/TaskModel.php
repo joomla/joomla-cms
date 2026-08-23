@@ -470,7 +470,11 @@ class TaskModel extends AdminModel
             SchedulerHelper::getTaskOptions()->options
         );
 
-        $lockQuery->whereIn($db->quoteName('type'), $activeRoutines, ParameterType::STRING);
+        if (!empty($activeRoutines)) {
+            $lockQuery->whereIn($db->quoteName('type'), $activeRoutines, ParameterType::STRING);
+        } else {
+            $lockQuery->where('1 = 0');
+        }
 
         if (!$options['includeCliExclusive']) {
             $lockQuery->where($db->quoteName('cli_exclusive') . ' = 0');
@@ -513,6 +517,10 @@ class TaskModel extends AdminModel
             },
             SchedulerHelper::getTaskOptions()->options
         );
+
+        if (empty($activeRoutines)) {
+            return 0;
+        }
 
         $idQuery->whereIn($db->quoteName('type'), $activeRoutines, ParameterType::STRING);
 
