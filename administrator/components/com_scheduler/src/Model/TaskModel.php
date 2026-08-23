@@ -420,11 +420,17 @@ class TaskModel extends AdminModel
      */
     private function hasRunningTasks($db): bool
     {
+        $now       = Factory::getDate('now', 'UTC');
+        $timeout   = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
+        $threshold = (clone $now)->modify("-$timeout seconds")->toSql();
+
         $lockCountQuery = $db->getQuery(true)
             ->select('COUNT(id)')
             ->from($db->quoteName(self::TASK_TABLE))
             ->where($db->quoteName('locked') . ' IS NOT NULL')
-            ->where($db->quoteName('state') . ' = 1');
+            ->where($db->quoteName('locked') . ' > :threshold')
+            ->where($db->quoteName('state') . ' = 1')
+            ->bind(':threshold', $threshold);
 
         try {
             $runningCount = $db->setQuery($lockCountQuery)->loadResult();
@@ -616,7 +622,12 @@ class TaskModel extends AdminModel
             $data['last_execution'] = Factory::getDate('now', 'GMT')->format('Y-m')
                 . "-$basisDayOfMonth $basisHour:$basisMinute:00";
         } else {
-            $data['last_execution'] = $this->getItem($id)->last_execution;
+            $item = $this->getItem($id);
+
+            $data['last_execution'] = $item->last_execution;
+
+            // Prevent changing the task type when editing an existing task.
+            $data['type'] = $item->type;
         }
 
         // Build the `cron_rules` column from `execution_rules`
@@ -709,7 +720,7 @@ class TaskModel extends AdminModel
             $buildExpression .= ' ' . $this->wildcardIfMatch($matches['hours'], range(0, 23), true);
             $buildExpression .= ' ' . $this->wildcardIfMatch($matches['days_month'], range(1, 31), true);
             $buildExpression .= ' ' . $this->wildcardIfMatch($matches['months'], range(1, 12), true);
-            $buildExpression .= ' ' . $this->wildcardIfMatch($matches['days_week'], range(0, 6), true);
+            $buildExpression .= ' ' . $this->wildcardIfMatch($matches['days_week'], range(1, 7), true);
         }
 
         return [
