@@ -245,8 +245,8 @@ class Changelog
             case 'CHANGE':
             case 'REMOVE':
             case 'NOTE':
-                $name                               = strtolower($name);
-				if(\count($this->items)) {
+                $name = strtolower($name);
+				if (\count($this->items)) {
 	                $this->currentChangelog->$name->data = $this->items;
 		            $this->items                         = [];
 				}
@@ -266,16 +266,17 @@ class Changelog
      * @param   object	$rawData
      *
      * @return  object
-     * @since   6.2
+     * @since   __DEPLOY_VERSION__
      */
     private function refine($rawData)
     {
-        foreach($rawData as $key => $value) {
-            if(\getType($value->data)=='string' && $value->data == '' ||
+        foreach ($rawData as $key => $value) {
+            if (\getType($value->data)=='string' && $value->data == '' ||
                     \getType($value->data)=='array' && \count($value->data) == 0) {
                 unset($rawData->$key);
             }
         }
+
         return $rawData;
     }
 
@@ -296,7 +297,7 @@ class Changelog
 
         switch ($tag) {
             case 'ITEM':
-                if(!empty($data)) {
+                if (!empty($data)) {
                     $this->items[] = $data;
                 }
                 break;
