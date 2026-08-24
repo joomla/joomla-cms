@@ -229,7 +229,7 @@ class MenuType extends Table implements CurrentUserInterface
             $db->setQuery($query);
 
             if ($db->loadRowList()) {
-                $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
+                $this->setError(Text::_('JLIB_DATABASE_ERROR_MENUTYPE'));
 
                 return false;
             }
@@ -246,7 +246,7 @@ class MenuType extends Table implements CurrentUserInterface
             $db->setQuery($query);
 
             if ($db->loadRowList()) {
-                $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
+                $this->setError(Text::_('JLIB_DATABASE_ERROR_MENUTYPE'));
 
                 return false;
             }
