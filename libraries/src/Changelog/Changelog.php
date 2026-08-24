@@ -253,7 +253,7 @@ class Changelog
                 break;
             case 'CHANGELOG':
                 $this->changes[$this->currentChangelog->version->data] = $this->refine($this->currentChangelog);
-                $this->currentChangelog = new \stdClass();
+                $this->currentChangelog                                = new \stdClass();
                 break;
             case 'CHANGELOGS':
                 break;
@@ -272,8 +272,8 @@ class Changelog
     {
         foreach ($rawData as $key => $value) {
             if (
-                    \getType($value->data) == 'string' && $value->data == '' ||
-                    \getType($value->data) == 'array' && \count($value->data) == 0
+                \getType($value->data) == 'string' && $value->data == '' ||
+                \getType($value->data) == 'array' && \count($value->data) == 0
             ) {
                 unset($rawData->$key);
             }
