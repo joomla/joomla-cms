@@ -263,7 +263,7 @@ class Changelog
     /**
      * Strip out object properties that hold no data.
      *
-     * @param   object	$rawData
+     * @param   object  $rawData
      *
      * @return  object
      * @since   __DEPLOY_VERSION__
@@ -272,9 +272,9 @@ class Changelog
     {
         foreach ($rawData as $key => $value) {
             if (
-                    \getType($value->data) =='string' && $value->data == '' ||
-                    \getType($value->data) =='array' && \count($value->data) == 0
-                ) {
+                    \getType($value->data) == 'string' && $value->data == '' ||
+                    \getType($value->data) == 'array' && \count($value->data) == 0
+            ) {
                 unset($rawData->$key);
             }
         }
