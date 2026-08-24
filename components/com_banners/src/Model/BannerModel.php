@@ -170,7 +170,7 @@ class BannerModel extends BaseDatabaseModel
 
             // For PHP 5.3 compat we can't use $this in the lambda function below, so grab the database driver now to use it
             $db      = $this->getDatabase();
-            $user    = Factory::getApplication()->getIdentity();
+            $user    = $this->getCurrentUser();
             $cacheId = md5(__METHOD__ . $id . ':' . implode(',', $user->getAuthorisedViewLevels()));
             $loader  = function ($id) use ($db, $user) {
 
