@@ -380,7 +380,6 @@ Joomla = window.Joomla || {};
       }
     }
 
-
     deactiveFilter(element) {
       element.classList.remove('active');
       const chosenId = `#${element.getAttribute('id')}`;

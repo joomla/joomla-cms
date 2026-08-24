@@ -920,9 +920,6 @@ class JoomlaInstallerScript
             '/media/vendor/tinymce/langs/bg.js',
             '/media/vendor/tinymce/langs/bg.min.js',
             '/media/vendor/tinymce/langs/bg.min.js.gz',
-            '/media/vendor/tinymce/langs/bs.js',
-            '/media/vendor/tinymce/langs/bs.min.js',
-            '/media/vendor/tinymce/langs/bs.min.js.gz',
             '/media/vendor/tinymce/langs/fo.js',
             '/media/vendor/tinymce/langs/fo.min.js',
             '/media/vendor/tinymce/langs/fo.min.js.gz',
@@ -1274,6 +1271,18 @@ class JoomlaInstallerScript
             '/media/vendor/tinymce/themes/silver/index.js',
             // From 6.2.0-alpha1 to 6.2.0-alpha2
             '/administrator/help/en-GB/toc.json',
+            // From 6.1.1 to 6.1.2
+            '/libraries/vendor/algo26-matthias/idna-convert/Dockerfile',
+            '/libraries/vendor/algo26-matthias/idna-convert/compose.yml',
+            // From 6.1.2 to 6.1.3
+            '/administrator/manifests/files/filepatcher.xml',
+            '/filepatcher.php',
+            '/filepatcher.xml',
+            '/LICENSE',
+            '/README.md',
+            // From 6.2.0-alpha3 to 6.2.0-beta1
+            '/media/vendor/tinymce/langs/bs.min.js',
+            '/media/vendor/tinymce/langs/bs.min.js.gz',
         ];
 
         $folders = [
