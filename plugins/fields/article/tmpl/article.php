@@ -16,7 +16,7 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 \defined('_JEXEC') or die;
 
-/** 
+/**
  * @var \Joomla\Plugins\Fields\Article\Extension\Article $this
  * @var \stdClass $field
  */

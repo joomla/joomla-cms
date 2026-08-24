@@ -61,7 +61,6 @@ final class Article extends FieldsPlugin implements SubscriberInterface
             ->getMVCFactory()
             ->createModel('Article', 'Site', ['ignore_request' => true]);
 
-        // Clone, the component params are a shared instance and must not be modified.
         $params = clone ComponentHelper::getParams('com_content');
 
         // Works like the equivalent menu item setting: an explicit value wins, 'use_article'
@@ -87,7 +86,6 @@ final class Article extends FieldsPlugin implements SubscriberInterface
         // @todo Decide whether 'filter.language' should be set here as populateState() does.
         // Without it a referenced article is shown on multilingual sites even when its language
         // does not match the active one.
-
         try {
             // ArticleModel::getItem() throws when the article is filtered out (e.g. unpublished, trashed, or missing).
             $article = $articleModel->getItem($articleId);
@@ -113,8 +111,6 @@ final class Article extends FieldsPlugin implements SubscriberInterface
             return;
         }
 
-        // Mirrors the check in com_content's article view: with show_noauth disabled a restricted
-        // article must not be revealed at all, not even its title behind a login link.
         if (
             !$article->params->get('access-view')
             && !$article->params->get('access-edit')
@@ -127,7 +123,6 @@ final class Article extends FieldsPlugin implements SubscriberInterface
 
         $field->value = $article;
 
-        // Let the parent render the layout and add the result to the event.
         parent::prepareField($event);
     }
 
@@ -150,7 +145,7 @@ final class Article extends FieldsPlugin implements SubscriberInterface
 
         $field->type = 'Modal_Article';
 
-        // The parent event method discards the created node, so call the inner hook directly to get hold of it.
+        // The parent event method discards the created node, so call the inner hook directly.
         $fieldNode = parent::onCustomFieldsPrepareDom($field, $event->getFieldset(), $event->getForm());
 
         if (!$fieldNode) {
@@ -175,7 +170,6 @@ final class Article extends FieldsPlugin implements SubscriberInterface
         $articleId = (int) ($field->rawvalue ?? 0);
 
         if ($articleId > 0) {
-            // If the article id is set, load the article and check edit permissions
             $articleModel->setState('article.id', $articleId);
             $article = $articleModel->getItem();
 
