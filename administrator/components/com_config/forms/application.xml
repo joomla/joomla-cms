@@ -653,7 +653,6 @@
 			filter="string"
 		/>
 
-
 		<field
 			name="smtp_oauth2_authorize_url"
 			type="url"
@@ -669,7 +668,6 @@
 			showon="mailonline:1[AND]mailer:smtp[AND]smtpauth:2"
 			filter="string"
 		/>
-
 
 		<field
 			name="smtp_oauth2_auth_wizard"
@@ -689,11 +687,7 @@
 			type="hidden"
 			readonly="true"
 		/>
-
-
-
-
-	</fieldset>
+</fieldset>
 
 	<fieldset
 		name="metadata"
