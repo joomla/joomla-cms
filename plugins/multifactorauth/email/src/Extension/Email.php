@@ -545,7 +545,7 @@ class Email extends CMSPlugin implements SubscriberInterface
             try {
                 Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
             } catch (\RuntimeException $exception) {
-                $this->getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                $this->getApplication()->enqueueMessage(Text::_($exception->getMessage()), 'warning');
             }
         }
 
@@ -571,7 +571,7 @@ class Email extends CMSPlugin implements SubscriberInterface
             try {
                 Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
             } catch (\RuntimeException $exception) {
-                $this->getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                $this->getApplication()->enqueueMessage(Text::_($exception->getMessage()), 'warning');
             }
         }
     }
