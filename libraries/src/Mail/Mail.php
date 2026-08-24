@@ -554,7 +554,7 @@ class Mail extends PHPMailer implements MailerInterface, TransportConfigurableMa
      */
     public function useSmtp($auth = null, $host = null, $user = null, $pass = null, $secure = null, $port = 25, $oauthTokenProvider = null)
     {
-        $this->SMTPAuth = empty($auth);
+        $this->SMTPAuth = !empty($auth);
         $this->Host     = $host;
         $this->Username = $user;
         $this->Password = $pass;
