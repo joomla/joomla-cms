@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_config
+ * @package         Joomla.Administrator
+ * @subpackage      com_config
  *
  * @copyright   (C) 2026 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Config\Administrator\Controller;
@@ -17,7 +17,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Config\Administrator\Model\ApplicationModel;
-use Joomla\Http\HttpFactory;
+use Joomla\OAuth2\Client;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -40,14 +40,14 @@ class MailController extends BaseController
     public function oauth2auth(): void
     {
         if (!$this->app->getIdentity()->authorise('core.admin')) {
-            $this->setRedirect(Route::_('index.php?option=com_config&view=application', false), Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+            $this->setRedirect(
+                Route::_('index.php?option=com_config&view=application', false),
+                Text::_('JERROR_ALERTNOAUTHOR'),
+                'error',
+            );
 
             return;
         }
-
-        $session = $this->app->getSession();
-        $state   = Session::getFormToken();
-        $session->set('com_config.oauth2_state', $state);
 
         $providerConfig = $this->resolveProviderConfig();
 
@@ -55,27 +55,29 @@ class MailController extends BaseController
             $this->setRedirect(
                 Route::_('index.php?option=com_config&view=application', false),
                 Text::_('COM_CONFIG_MAIL_OAUTH2_AUTHORIZE_CONFIG_MISSING'),
-                'warning'
+                'warning',
             );
 
             return;
         }
 
-        $query = [
-            'client_id'     => $providerConfig['client_id'],
-            'response_type' => 'code',
-            'redirect_uri'  => Uri::base() . 'index.php?option=com_config&task=mail.oauth2callback&format=raw',
-            'response_mode' => 'query',
-            'scope'         => $providerConfig['scope'],
-            'state'         => $state,
-            'prompt'        => 'consent',
-            'access_type'   => 'offline',
-        ];
+        $state = Session::getFormToken();
 
-        $authUrl = $providerConfig['authorize_url'] . '?' . http_build_query($query);
+        $this->app->getSession()->set('com_config.oauth2_state', $state);
 
-        $this->setRedirect($authUrl);
+        try {
+            $oauth2 = $this->createOAuth2Client($providerConfig, $state);
+
+            $this->setRedirect($oauth2->createUrl());
+        } catch (\Throwable $e) {
+            $this->setRedirect(
+                Route::_('index.php?option=com_config&view=application', false),
+                $e->getMessage(),
+                'error',
+            );
+        }
     }
+
 
     /**
      * Processes the OAuth2 callback and stores the received refresh token.
@@ -87,102 +89,121 @@ class MailController extends BaseController
     public function oauth2callback(): void
     {
         if (!$this->app->getIdentity()->authorise('core.admin')) {
-            $this->setRedirect(Route::_('index.php?option=com_config&view=application', false), Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+            $this->setRedirect(
+                Route::_('index.php?option=com_config&view=application', false),
+                Text::_('JERROR_ALERTNOAUTHOR'),
+                'error',
+            );
 
             return;
         }
 
+        $session           = $this->app->getSession();
         $stateFromProvider = $this->input->getString('state');
-        $stateFromSession  = $this->app->getSession()->get('com_config.oauth2_state');
-        $code              = $this->input->getString('code');
+        $stateFromSession  = $session->get('com_config.oauth2_state');
 
-        if (!$stateFromProvider || !$stateFromSession || !hash_equals($stateFromSession, $stateFromProvider)) {
-            $this->setRedirect(Route::_('index.php?option=com_config&view=application', false), Text::_('JINVALID_TOKEN'), 'error');
+        if (
+            !$stateFromProvider
+            || !$stateFromSession
+            || !hash_equals($stateFromSession, $stateFromProvider)
+        ) {
+            $this->setRedirect(
+                Route::_('index.php?option=com_config&view=application', false),
+                Text::_('JINVALID_TOKEN'),
+                'error',
+            );
 
             return;
         }
 
-        $this->app->getSession()->set('com_config.oauth2_state', null);
+        $session->set('com_config.oauth2_state', null);
 
-        if (!$code) {
-            $this->setRedirect(Route::_('index.php?option=com_config&view=application', false), Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+        if (!$this->input->getString('code')) {
+            $this->setRedirect(
+                Route::_('index.php?option=com_config&view=application', false),
+                Text::_('JERROR_AN_ERROR_HAS_OCCURRED'),
+                'error',
+            );
 
             return;
         }
 
-        $refreshToken   = '';
         $providerConfig = $this->resolveProviderConfig();
 
-        if (empty($providerConfig['token_url']) || empty($providerConfig['client_id']) || empty($providerConfig['client_secret'])) {
+        if (
+            empty($providerConfig['token_url'])
+            || empty($providerConfig['client_id'])
+            || empty($providerConfig['client_secret'])
+        ) {
             $this->setRedirect(
                 Route::_('index.php?option=com_config&view=application', false),
                 Text::_('COM_CONFIG_MAIL_OAUTH2_TOKEN_CONFIG_MISSING'),
-                'warning'
+                'warning',
             );
 
             return;
         }
 
         try {
-            $httpFactory = new HttpFactory();
-            $http        = $httpFactory->getHttp();
-            $body        = http_build_query(
-                array_filter(
-                    [
-                        'client_id'     => $providerConfig['client_id'],
-                        'client_secret' => $providerConfig['client_secret'],
-                        'code'          => $code,
-                        'grant_type'    => 'authorization_code',
-                        'redirect_uri'  => Uri::base() . 'index.php?option=com_config&task=mail.oauth2callback&format=raw',
-                        'scope'         => $providerConfig['scope'],
-                    ],
-                    static fn ($value) => $value !== ''
-                )
-            );
-            $response = $http->post($providerConfig['token_url'], $body, ['Content-Type' => 'application/x-www-form-urlencoded']);
-            $data     = json_decode((string) $response->getBody(), true);
+            $oauth2 = $this->createOAuth2Client($providerConfig);
 
-            if (!\is_array($data) || empty($data['refresh_token'])) {
-                throw new \RuntimeException(Text::_('COM_CONFIG_MAIL_OAUTH2_TOKEN_CREATE_FAILED'));
+            $token = $oauth2->authenticate();
+
+            if (
+                !\is_array($token)
+                || empty($token['refresh_token'])
+            ) {
+                throw new \RuntimeException(
+                    Text::_('COM_CONFIG_MAIL_OAUTH2_TOKEN_CREATE_FAILED'),
+                );
             }
 
-            $refreshToken = (string) $data['refresh_token'];
+            $refreshToken = (string)$token['refresh_token'];
         } catch (\Throwable $e) {
             $this->setRedirect(
                 Route::_('index.php?option=com_config&view=application', false),
                 $e->getMessage(),
-                'error'
+                'error',
             );
 
             return;
         }
 
-        $formData                         = (array) $this->app->getUserState('com_config.config.global.data', []);
+        $issuedAt = gmdate('Y-m-d H:i:s') . ' UTC';
+
+        $formData = (array)$this->app->getUserState(
+            'com_config.config.global.data',
+            [],
+        );
 
         $formData['smtp_oauth2_refresh_token']   = $refreshToken;
-        $formData['smtp_oauth2_token_issued_at'] = gmdate('Y-m-d H:i:s') . ' UTC';
-        $this->app->setUserState('com_config.config.global.data', $formData);
+        $formData['smtp_oauth2_token_issued_at'] = $issuedAt;
 
-        // Persist token immediately to avoid losing it when the form is submitted without the hidden field value.
+        $this->app->setUserState(
+            'com_config.config.global.data',
+            $formData,
+        );
+
         try {
-            if (!$this->app->getIdentity()->authorise('core.admin')) {
-                throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'));
-            }
-
             $model    = new ApplicationModel();
             $saveData = $model->getData();
 
             $saveData['smtp_oauth2_refresh_token']   = $refreshToken;
-            $saveData['smtp_oauth2_token_issued_at'] = gmdate('Y-m-d H:i:s') . ' UTC';
+            $saveData['smtp_oauth2_token_issued_at'] = $issuedAt;
 
             if (!$model->save($saveData)) {
-                throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'));
+                throw new \RuntimeException(
+                    Text::_('COM_CONFIG_ERROR_WRITE_FAILED'),
+                );
             }
         } catch (\Throwable $e) {
             $this->setRedirect(
                 Route::_('index.php?option=com_config&view=application', false),
-                Text::sprintf('COM_CONFIG_MAIL_OAUTH2_TOKEN_SAVE_FAILED', $e->getMessage()),
-                'warning'
+                Text::sprintf(
+                    'COM_CONFIG_MAIL_OAUTH2_TOKEN_SAVE_FAILED',
+                    $e->getMessage(),
+                ),
+                'warning',
             );
 
             return;
@@ -191,7 +212,7 @@ class MailController extends BaseController
         $this->setRedirect(
             Route::_('index.php?option=com_config&view=application', false),
             Text::_('COM_CONFIG_MAIL_OAUTH2_TOKEN_SAVED'),
-            'message'
+            'message',
         );
     }
 
@@ -205,57 +226,109 @@ class MailController extends BaseController
     public function oauth2checktoken(): void
     {
         if (!$this->app->getIdentity()->authorise('core.admin')) {
-            $this->setRedirect(Route::_('index.php?option=com_config&view=application', false), Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+            $this->setRedirect(
+                Route::_('index.php?option=com_config&view=application', false),
+                Text::_('JERROR_ALERTNOAUTHOR'),
+                'error',
+            );
 
             return;
         }
 
         $providerConfig = $this->resolveProviderConfig();
 
-        if (!$providerConfig['token_url'] || !$providerConfig['client_id'] || !$providerConfig['client_secret'] || !$providerConfig['refresh_token']) {
+        if (
+            empty($providerConfig['token_url'])
+            || empty($providerConfig['client_id'])
+            || empty($providerConfig['client_secret'])
+            || empty($providerConfig['refresh_token'])
+        ) {
             $this->setRedirect(
                 Route::_('index.php?option=com_config&view=application', false),
                 Text::_('COM_CONFIG_MAIL_OAUTH2_TOKEN_CHECK_MISSING'),
-                'warning'
+                'warning',
             );
 
             return;
         }
 
         try {
-            $httpFactory = new HttpFactory();
-            $http        = $httpFactory->getHttp();
-            $body        = http_build_query(
-                array_filter(
-                    [
-                        'client_id'     => $providerConfig['client_id'],
-                        'client_secret' => $providerConfig['client_secret'],
-                        'refresh_token' => $providerConfig['refresh_token'],
-                        'grant_type'    => 'refresh_token',
-                        'scope'         => $providerConfig['scope'],
-                    ],
-                    static fn ($value) => $value !== ''
-                )
+            $oauth2 = $this->createOAuth2Client($providerConfig);
+
+            $token = $oauth2->refreshToken(
+                $providerConfig['refresh_token'],
             );
 
-            $response = $http->post($providerConfig['token_url'], $body, ['Content-Type' => 'application/x-www-form-urlencoded']);
-            $data     = json_decode((string) $response->getBody(), true);
-
-            if (!\is_array($data) || empty($data['access_token'])) {
-                throw new \RuntimeException(Text::_('COM_CONFIG_MAIL_OAUTH2_TOKEN_CHECK_INVALID'));
+            if (
+                !\is_array($token)
+                || empty($token['access_token'])
+            ) {
+                throw new \RuntimeException(
+                    Text::_('COM_CONFIG_MAIL_OAUTH2_TOKEN_CHECK_INVALID'),
+                );
             }
 
-            $expiresIn = isset($data['expires_in']) ? (int) $data['expires_in'] : 0;
-            $message   = Text::sprintf('COM_CONFIG_MAIL_OAUTH2_TOKEN_CHECK_VALID', $expiresIn);
+            $expiresIn = isset($token['expires_in'])
+                ? (int)$token['expires_in']
+                : 0;
 
-            $this->setRedirect(Route::_('index.php?option=com_config&view=application', false), $message, 'message');
+            $this->setRedirect(
+                Route::_('index.php?option=com_config&view=application', false),
+                Text::sprintf(
+                    'COM_CONFIG_MAIL_OAUTH2_TOKEN_CHECK_VALID',
+                    $expiresIn,
+                ),
+                'message',
+            );
         } catch (\Throwable $e) {
             $this->setRedirect(
                 Route::_('index.php?option=com_config&view=application', false),
-                Text::sprintf('COM_CONFIG_MAIL_OAUTH2_TOKEN_CHECK_FAILED', $e->getMessage()),
-                'error'
+                Text::sprintf(
+                    'COM_CONFIG_MAIL_OAUTH2_TOKEN_CHECK_FAILED',
+                    $e->getMessage(),
+                ),
+                'error',
             );
         }
+    }
+
+
+    /**
+     * Creates the OAuth2 client.
+     *
+     * @param array<string, string>  $providerConfig OAuth2 provider configuration.
+     * @param string                 $state          OAuth2 state value.
+     *
+     * @return  Client
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function createOAuth2Client(array  $providerConfig, string $state = ''): Client
+    {
+        $requestParams = [
+            'response_mode' => 'query',
+            'prompt'        => 'consent',
+            'access_type'   => 'offline',
+        ];
+
+        $options = [
+            'authurl'       => $providerConfig['authorize_url'],
+            'tokenurl'      => $providerConfig['token_url'],
+            'clientid'      => $providerConfig['client_id'],
+            'clientsecret'  => $providerConfig['client_secret'],
+            'redirecturi'   => Uri::base() . 'index.php?option=com_config&task=mail.oauth2callback&format=raw',
+            'scope'         => $providerConfig['scope'],
+            'state'         => $state,
+            'requestparams' => $requestParams,
+            'userefresh'    => true,
+            'sendheaders'   => false,
+        ];
+
+        return new Client(
+            $options,
+            null,
+            $this->input,
+        );
     }
 
     /**

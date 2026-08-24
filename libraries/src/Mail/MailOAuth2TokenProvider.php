@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Mail;
 
-use Joomla\Http\HttpFactory;
+use Joomla\OAuth2\Client;
 use PHPMailer\PHPMailer\OAuthTokenProvider;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -33,7 +33,6 @@ final class MailOAuth2TokenProvider implements OAuthTokenProvider
 
     public function __construct(
         private string $tokenUrl,
-        private string $scope,
         private string $clientId,
         private string $clientSecret,
         private string $refreshToken,
@@ -64,30 +63,25 @@ final class MailOAuth2TokenProvider implements OAuthTokenProvider
      */
     private function requestAccessToken(): void
     {
-        $httpFactory = new HttpFactory();
-        $http        = $httpFactory->getHttp();
-        $body        = http_build_query(
-            array_filter(
-                [
-                    'client_id'     => $this->clientId,
-                    'client_secret' => $this->clientSecret,
-                    'refresh_token' => $this->refreshToken,
-                    'grant_type'    => 'refresh_token',
-                    'scope'         => $this->scope,
-                ],
-                static fn ($value) => $value !== ''
-            )
-        );
+        $oauth2 = new Client([
+            'tokenurl'     => $this->tokenUrl,
+            'clientid'     => $this->clientId,
+            'clientsecret' => $this->clientSecret,
+            'userefresh'   => true,
+        ]);
 
-        $response = $http->post($this->tokenUrl, $body, ['Content-Type' => 'application/x-www-form-urlencoded']);
-        $data     = json_decode((string) $response->getBody(), true);
+        $token = $oauth2->refreshToken($this->refreshToken);
 
-        if (!\is_array($data) || empty($data['access_token'])) {
-            throw new \RuntimeException('Failed to acquire SMTP OAuth2 access token.');
+        if (empty($token['access_token'])) {
+            throw new \RuntimeException(
+                'Failed to acquire SMTP OAuth2 access token.'
+            );
         }
 
-        $this->accessToken = (string) $data['access_token'];
-        $expiresIn         = isset($data['expires_in']) ? (int) $data['expires_in'] : 3600;
-        $this->expiresAt   = time() + max(60, $expiresIn - 60);
+        $this->accessToken = (string) $token['access_token'];
+
+        $expiresIn = isset($token['expires_in']) ? (int) $token['expires_in'] : 3600;
+
+        $this->expiresAt = $token['created'] + max(60, $expiresIn - 60);
     }
 }

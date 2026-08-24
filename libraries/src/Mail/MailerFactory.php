@@ -101,7 +101,6 @@ class MailerFactory implements MailerFactoryInterface
                     $oauth2ClientId     = $configuration->get('smtp_oauth2_client_id');
                     $oauth2ClientSecret = $configuration->get('smtp_oauth2_client_secret');
                     $oauth2RefreshToken = $configuration->get('smtp_oauth2_refresh_token');
-                    $oauth2Scope        = $configuration->get('smtp_oauth2_scope');
                     $oauth2TokenUrl     = $configuration->get('smtp_oauth2_token_url');
 
                     if (!$smtpuser || !$oauth2ClientId || !$oauth2ClientSecret || !$oauth2RefreshToken || !$oauth2TokenUrl) {
@@ -110,7 +109,6 @@ class MailerFactory implements MailerFactoryInterface
 
                     $tokenProviderHash = md5(
                         $oauth2TokenUrl . ':' .
-                        $oauth2Scope . ':' .
                         $oauth2ClientId . ':' .
                         $oauth2ClientSecret . ':' .
                         $oauth2RefreshToken . ':' .
@@ -120,7 +118,6 @@ class MailerFactory implements MailerFactoryInterface
                     if (empty($this->oauth2TokenProvider[$tokenProviderHash])) {
                         $this->oauth2TokenProvider[$tokenProviderHash] = new MailOAuth2TokenProvider(
                             $oauth2TokenUrl,
-                            $oauth2Scope,
                             $oauth2ClientId,
                             $oauth2ClientSecret,
                             $oauth2RefreshToken,
