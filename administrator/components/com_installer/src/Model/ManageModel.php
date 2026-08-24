@@ -446,7 +446,6 @@ class ManageModel extends InstallerModel
 
         $modified = [];
         foreach ($changelog->changes as $key => $entry) {
-
             // Read all the entries
             $entries = [
                 'security' => [],

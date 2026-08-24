@@ -246,14 +246,14 @@ class Changelog
             case 'REMOVE':
             case 'NOTE':
                 $name = strtolower($name);
-				if (\count($this->items)) {
-	                $this->currentChangelog->$name->data = $this->items;
-		            $this->items                         = [];
-				}
+                if (\count($this->items)) {
+                    $this->currentChangelog->$name->data = $this->items;
+                    $this->items                         = [];
+                }
                 break;
             case 'CHANGELOG':
                 $this->changes[$this->currentChangelog->version->data] = $this->refine($this->currentChangelog);
-				$this->currentChangelog = new \stdClass();
+                $this->currentChangelog = new \stdClass();
                 break;
             case 'CHANGELOGS':
                 break;
@@ -271,8 +271,10 @@ class Changelog
     private function refine($rawData)
     {
         foreach ($rawData as $key => $value) {
-            if (\getType($value->data)=='string' && $value->data == '' ||
-                    \getType($value->data)=='array' && \count($value->data) == 0) {
+            if (
+                    \getType($value->data) =='string' && $value->data == '' ||
+                    \getType($value->data) =='array' && \count($value->data) == 0
+                ) {
                 unset($rawData->$key);
             }
         }
