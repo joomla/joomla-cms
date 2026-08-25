@@ -128,6 +128,21 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
     }
 
     /**
+     * Load a renderer
+     *
+     * @param   string  $type  The renderer type
+     *
+     * @return  RendererInterface
+     *
+     * @since   6.2.0
+     * @throws  \RuntimeException
+     */
+    public function loadRenderer($type)
+    {
+        return $this->factory->createRenderer($this, $type, 'html');
+    }
+
+    /**
      * Outputs the document.
      *
      * @param   boolean  $cache   If true, cache the output.

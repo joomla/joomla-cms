@@ -318,7 +318,6 @@ abstract class ModuleHelper
         $templateObj   = Factory::getApplication()->getTemplate(true);
         $defaultLayout = $layout;
         $template      = $templateObj->template;
-        $base          = Factory::getApplication()->getClientId() === 3 ? JPATH_SITE : JPATH_BASE;
 
         if (str_contains($layout, ':')) {
             // Get the template and file name from the string
@@ -328,13 +327,13 @@ abstract class ModuleHelper
             $defaultLayout = $temp[1] ?: 'default';
         }
 
-        $dPath = $base . '/modules/' . $module . '/tmpl/default.php';
+        $dPath = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
 
         try {
             // Build the template and base path for the layout
             $tPath = Path::check(JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php');
             $iPath = Path::check(JPATH_THEMES . '/' . $templateObj->parent . '/html/' . $module . '/' . $layout . '.php');
-            $bPath = Path::check($base . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php');
+            $bPath = Path::check(JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php');
         } catch (\Exception) {
             // On error fallback to the default path
             return $dPath;
@@ -407,9 +406,6 @@ abstract class ModuleHelper
         $itemId   = $app->getInput()->getInt('Itemid', 0);
         $groups   = $app->getIdentity()->getAuthorisedViewLevels();
         $clientId = (int) $app->getClientId();
-        if ($clientId === 3) {
-            $clientId = 0;
-        }
 
         // Build a cache ID for the resulting data object
         $cacheId = implode(',', $groups) . '.' . $clientId . '.' . $itemId;
