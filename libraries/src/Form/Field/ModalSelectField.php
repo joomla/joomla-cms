@@ -363,7 +363,7 @@ class ModalSelectField extends FormField
             return false;
         }
 
-        return (int) $data->checked_out !== (int) Factory::getApplication()->getIdentity()->id;
+        return (int) $data->checked_out !== (int) $this->getCurrentUser()->id;
     }
 
     /**
@@ -375,19 +375,16 @@ class ModalSelectField extends FormField
      */
     protected function getLayoutData()
     {
-        // An item which is checked out by another user must not be editable
-        $checkedOut = !empty($this->canDo['edit']) && $this->isValueCheckedOut();
-
-        if ($checkedOut) {
-            $this->canDo['edit'] = false;
-        }
-
         $data                = parent::getLayoutData();
         $data['canDo']       = $this->canDo;
         $data['urls']        = $this->urls;
         $data['modalTitles'] = $this->modalTitles;
         $data['buttonIcons'] = $this->buttonIcons;
-        $data['checkedOut']  = $checkedOut;
+
+        // An item which is checked out by another user must not be editable. The edit action itself stays
+        // enabled, the layout hides the button and the field script keeps it in sync when another item gets
+        // selected, without the round trip which would be needed to ask the server again.
+        $data['checkedOut'] = !empty($this->canDo['edit']) && $this->isValueCheckedOut();
 
         return $data;
     }

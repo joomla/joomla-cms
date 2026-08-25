@@ -201,6 +201,7 @@ class HtmlView extends BaseHtmlView
     {
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
         $toolbar    = $this->getDocument()->getToolbar();
 
         // Since we don't track these assets at the item level, use the category id.
@@ -212,8 +213,8 @@ class HtmlView extends BaseHtmlView
         $canCreate = $isNew && (\count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0);
         $canEdit   = $canDo->get('core.edit');
 
-        // For new records, check the create permission.
-        if ($canCreate || $canEdit) {
+        // For new records, check the create permission. A checked out item can not be saved.
+        if (!$checkedOut && ($canCreate || $canEdit)) {
             $toolbar->apply('newsfeed.apply');
             $toolbar->save('newsfeed.save');
         }

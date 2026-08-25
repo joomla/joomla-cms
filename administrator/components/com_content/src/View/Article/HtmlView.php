@@ -189,8 +189,8 @@ class HtmlView extends FormView
         $canCreate = $isNew && (\count($user->getAuthorisedCategories('com_content', 'core.create')) > 0);
         $canEdit   = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
-        // For new records, check the create permission.
-        if ($canCreate || $canEdit) {
+        // For new records, check the create permission. A checked out item can not be saved.
+        if (!$checkedOut && ($canCreate || $canEdit)) {
             $toolbar->apply('article.apply');
             $toolbar->save('article.save');
         }

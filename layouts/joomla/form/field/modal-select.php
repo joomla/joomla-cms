@@ -59,12 +59,27 @@ if (!$readonly && !$disabled) {
 }
 
 $titleClass = $required ? ' required' : '';
+
+// The check out note is rendered whenever the field allows editing at all, the field script toggles it
+$checkedOutNoteId = !$readonly && !$disabled && !empty($canDo['edit']) ? $id . '-checked-out' : '';
+
+// The value is shown in a read only input, describe it with the field description and the check out note
+$describedBy = [];
+
+if (!empty($description)) {
+    $describedBy[] = ($id ?: $name) . '-desc';
+}
+
+if ($checkedOutNoteId) {
+    $describedBy[] = $checkedOutNoteId;
+}
 ?>
 
-<div class="js-modal-content-select-field <?php echo $class; ?>" <?php echo $dataAttribute; ?>>
+<div class="js-modal-content-select-field <?php echo $class; ?>" data-checked-out="<?php echo empty($checkedOut) ? 0 : 1; ?>" <?php echo $dataAttribute; ?>>
     <div class="input-group">
         <input class="form-control js-input-title<?php echo $titleClass; ?>" type="text" value="<?php echo $this->escape($valueTitle ?? $value); ?>" readonly
                id="<?php echo $id; ?>" name="<?php echo $name; ?>"
+               <?php echo $describedBy ? 'aria-describedby="' . implode(' ', $describedBy) . '"' : ''; ?>
                placeholder="<?php echo $this->escape($hint); ?>"/>
 
         <?php if (!$readonly && !$disabled) :
@@ -74,8 +89,12 @@ $titleClass = $required ? ' required' : '';
         endif; ?>
     </div>
 
-    <?php if (!empty($checkedOut)) : ?>
-        <div class="form-text"><?php echo Text::_('JLIB_FORM_FIELD_MODAL_CHECKED_OUT'); ?></div>
+    <?php if ($checkedOutNoteId) : ?>
+        <div aria-live="polite">
+            <div id="<?php echo $checkedOutNoteId; ?>" class="form-text js-checked-out-note"<?php echo empty($checkedOut) ? ' hidden' : ''; ?>>
+                <?php echo Text::_('JLIB_FORM_FIELD_MODAL_CHECKED_OUT'); ?>
+            </div>
+        </div>
     <?php endif; ?>
 
     <input type="hidden" id="<?php echo $id; ?>_id" class="modal-value js-input-value" data-required="<?php echo (int) $required; ?>"
