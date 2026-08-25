@@ -121,7 +121,7 @@ class ContactField extends ModalSelectField
 
         // Prepare the data source for the value title and the check out state
         $this->sql_title_table        = '#__contact_details';
-        $this->sql_title_column       = 'title';
+        $this->sql_title_column       = 'name';
         $this->sql_title_key          = 'id';
         $this->sql_checked_out_column = 'checked_out';
 
