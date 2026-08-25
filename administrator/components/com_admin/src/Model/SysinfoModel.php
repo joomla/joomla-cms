@@ -317,7 +317,7 @@ class SysinfoModel extends BaseDatabaseModel
             'compatpluginenabled'    => PluginHelper::isEnabled('behaviour', 'compat'),
             'compatpluginparameters' => $this->getCompatPluginParameters(),
             'phpversion'             => PHP_VERSION,
-            'php'                    => php_uname(),
+            'php'                    => \function_exists('php_uname') ? php_uname() : '',
             'dbserver'               => $db->getServerType(),
             'dbversion'              => $db->getVersion(),
             'dbcollation'            => $db->getCollation(),
