@@ -97,6 +97,30 @@ class ModalSelectField extends FormField
     protected $sql_title_key = '';
 
     /**
+     * The check-out column in the $sql_title_table. Leave empty if the table has none.
+     *
+     * @var     string
+     * @since   __DEPLOY_VERSION__
+     */
+    protected $sql_checked_out_column = '';
+
+    /**
+     * The data of the item related to the field value, loaded from the $sql_title_table.
+     *
+     * @var     \stdClass|null
+     * @since   __DEPLOY_VERSION__
+     */
+    protected $valueData;
+
+    /**
+     * Whether the data of the item related to the field value was loaded already.
+     *
+     * @var     boolean
+     * @since   __DEPLOY_VERSION__
+     */
+    protected $valueDataLoaded = false;
+
+    /**
      * Method to attach a Form object to the field.
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
@@ -125,7 +149,7 @@ class ModalSelectField extends FormField
         // Prepare Urls and titles
         foreach (
             ['urlSelect', 'urlNew', 'urlEdit', 'urlCheckin', 'titleSelect', 'titleNew', 'titleEdit', 'iconSelect',
-                     'sql_title_table', 'sql_title_column', 'sql_title_key',] as $attr
+                     'sql_title_table', 'sql_title_column', 'sql_title_key', 'sql_checked_out_column',] as $attr
         ) {
             $this->__set($attr, (string) $this->element[$attr]);
         }
@@ -172,6 +196,7 @@ class ModalSelectField extends FormField
             case 'sql_title_table':
             case 'sql_title_column':
             case 'sql_title_key':
+            case 'sql_checked_out_column':
                 return $this->$name;
             default:
                 return parent::__get($name);
@@ -230,6 +255,7 @@ class ModalSelectField extends FormField
             case 'sql_title_table':
             case 'sql_title_column':
             case 'sql_title_key':
+            case 'sql_checked_out_column':
                 $this->$name = (string) $value;
                 break;
             default:
@@ -268,24 +294,76 @@ class ModalSelectField extends FormField
      */
     protected function getValueTitle()
     {
-        // Selecting the title for the field value, when required info were given
-        if ($this->value && $this->sql_title_table && $this->sql_title_column && $this->sql_title_key) {
-            try {
-                $db    = $this->getDatabase();
-                $query = $db->createQuery()
-                    ->select($db->quoteName($this->sql_title_column))
-                    ->from($db->quoteName($this->sql_title_table))
-                    ->where($db->quoteName($this->sql_title_key) . ' = :value')
-                    ->bind(':value', $this->value, ParameterType::INTEGER);
-                $db->setQuery($query);
+        $data = $this->loadValueData();
 
-                return $db->loadResult() ?: $this->value;
-            } catch (\Throwable $e) {
-                Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-            }
+        return $data && !empty($data->title) ? $data->title : $this->value;
+    }
+
+    /**
+     * Method to load the data of the item related to the field value.
+     *
+     * The title and the check out state are selected with one query, the result is cached in memory.
+     *
+     * @return  \stdClass|null  The item data, null when there is no value or the required info is missing.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function loadValueData(): \stdClass|null
+    {
+        if ($this->valueDataLoaded) {
+            return $this->valueData;
         }
 
-        return $this->value;
+        // Selecting the data for the field value, when required info were given
+        if (!$this->value || !$this->sql_title_table || !$this->sql_title_column || !$this->sql_title_key) {
+            return null;
+        }
+
+        $this->valueDataLoaded = true;
+
+        try {
+            $db      = $this->getDatabase();
+            $columns = [$db->quoteName($this->sql_title_column, 'title')];
+
+            if ($this->sql_checked_out_column) {
+                $columns[] = $db->quoteName($this->sql_checked_out_column, 'checked_out');
+            }
+
+            $query = $db->createQuery()
+                ->select($columns)
+                ->from($db->quoteName($this->sql_title_table))
+                ->where($db->quoteName($this->sql_title_key) . ' = :value')
+                ->bind(':value', $this->value, ParameterType::INTEGER);
+            $db->setQuery($query);
+
+            $this->valueData = $db->loadObject();
+        } catch (\Throwable $e) {
+            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        }
+
+        return $this->valueData;
+    }
+
+    /**
+     * Method to determine whether the item related to the field value is checked out by another user.
+     *
+     * @return  boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function isValueCheckedOut(): bool
+    {
+        if (!$this->sql_checked_out_column) {
+            return false;
+        }
+
+        $data = $this->loadValueData();
+
+        if (!$data || empty($data->checked_out)) {
+            return false;
+        }
+
+        return (int) $data->checked_out !== (int) Factory::getApplication()->getIdentity()->id;
     }
 
     /**
@@ -297,11 +375,19 @@ class ModalSelectField extends FormField
      */
     protected function getLayoutData()
     {
+        // An item which is checked out by another user must not be editable
+        $checkedOut = !empty($this->canDo['edit']) && $this->isValueCheckedOut();
+
+        if ($checkedOut) {
+            $this->canDo['edit'] = false;
+        }
+
         $data                = parent::getLayoutData();
         $data['canDo']       = $this->canDo;
         $data['urls']        = $this->urls;
         $data['modalTitles'] = $this->modalTitles;
         $data['buttonIcons'] = $this->buttonIcons;
+        $data['checkedOut']  = $checkedOut;
 
         return $data;
     }

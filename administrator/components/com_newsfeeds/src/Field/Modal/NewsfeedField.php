@@ -17,7 +17,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -120,38 +119,13 @@ class NewsfeedField extends ModalSelectField
 
         $this->hint = $this->hint ?: Text::_('COM_NEWSFEEDS_SELECT_A_FEED');
 
+        // Prepare the data source for the value title and the check out state
+        $this->sql_title_table        = '#__newsfeeds';
+        $this->sql_title_column       = 'title';
+        $this->sql_title_key          = 'id';
+        $this->sql_checked_out_column = 'checked_out';
+
         return $result;
-    }
-
-    /**
-     * Method to retrieve the title of selected item.
-     *
-     * @return string
-     *
-     * @since   5.1.0
-     */
-    protected function getValueTitle()
-    {
-        $value = (int) $this->value ?: '';
-        $title = '';
-
-        if ($value) {
-            try {
-                $db    = $this->getDatabase();
-                $query = $db->createQuery()
-                    ->select($db->quoteName('name'))
-                    ->from($db->quoteName('#__newsfeeds'))
-                    ->where($db->quoteName('id') . ' = :value')
-                    ->bind(':value', $value, ParameterType::INTEGER);
-                $db->setQuery($query);
-
-                $title = $db->loadResult();
-            } catch (\Throwable $e) {
-                Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-            }
-        }
-
-        return $title ?: $value;
     }
 
     /**

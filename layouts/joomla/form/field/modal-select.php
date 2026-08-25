@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
@@ -47,6 +48,7 @@ extract($displayData);
  * @var   string[] $urls
  * @var   string[] $modalTitles
  * @var   string[] $buttonIcons
+ * @var   boolean  $checkedOut      Is the selected item checked out by another user?
  */
 
 // Add the field script
@@ -71,6 +73,10 @@ $titleClass = $required ? ' required' : '';
             echo $this->sublayout('extra-buttons', $displayData);
         endif; ?>
     </div>
+
+    <?php if (!empty($checkedOut)) : ?>
+        <div class="form-text"><?php echo Text::_('JLIB_FORM_FIELD_MODAL_CHECKED_OUT'); ?></div>
+    <?php endif; ?>
 
     <input type="hidden" id="<?php echo $id; ?>_id" class="modal-value js-input-value" data-required="<?php echo (int) $required; ?>"
            name="<?php echo $name; ?>" value="<?php echo $this->escape($value); ?>"<?php echo $onchange ? ' onchange="' . $onchange . '"' : ''; ?> />

@@ -48,6 +48,7 @@ extract($displayData);
  * @var   string[] $urls
  * @var   string[] $modalTitles
  * @var   string[] $buttonIcons
+ * @var   boolean  $checkedOut      Is the selected item checked out by another user?
  */
 
 // Prepare options for each Modal
