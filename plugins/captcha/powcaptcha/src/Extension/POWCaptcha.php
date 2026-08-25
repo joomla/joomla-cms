@@ -64,13 +64,6 @@ final class POWCaptcha extends CMSPlugin implements SubscriberInterface
      */
     public function handleAjaxRequest(AjaxEvent $event)
     {
-        // CRSF Token check
-        if (!Session::checkToken('get')) {
-            $event->updateEventResult(json_encode([]));
-
-            return;
-        }
-
         $event->updateEventResult(
             json_encode(
                 $this->getProvider()->getChallenge()
