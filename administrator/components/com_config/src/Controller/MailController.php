@@ -16,6 +16,7 @@ use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Config\Administrator\Model\ApplicationModel;
 use Joomla\OAuth2\Client;
 
@@ -61,7 +62,7 @@ class MailController extends BaseController
             return;
         }
 
-        $state = Session::getFormToken();
+        $state = UserHelper::genRandomPassword(32);
 
         $this->app->getSession()->set('com_config.oauth2_state', $state);
 
@@ -117,6 +118,20 @@ class MailController extends BaseController
         }
 
         $session->set('com_config.oauth2_state', null);
+
+        $error = $this->input->getString('error');
+
+        if ($error !== '') {
+            $description = $this->input->getString('error_description');
+
+            $this->setRedirect(
+                Route::_('index.php?option=com_config&view=application', false),
+                $description ?: $error,
+                'error'
+            );
+
+            return;
+        }
 
         if (!$this->input->getString('code')) {
             $this->setRedirect(
