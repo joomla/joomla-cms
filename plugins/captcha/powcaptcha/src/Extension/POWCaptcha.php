@@ -13,7 +13,6 @@ namespace Joomla\Plugin\Captcha\POWCaptcha\Extension;
 use Joomla\CMS\Event\Captcha\CaptchaSetupEvent;
 use Joomla\CMS\Event\Plugin\AjaxEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Session\Session;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\Captcha\POWCaptcha\Provider\POWCaptchaProvider;
 

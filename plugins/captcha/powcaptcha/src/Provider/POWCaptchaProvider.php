@@ -94,7 +94,8 @@ final class POWCaptchaProvider implements CaptchaProviderInterface
                 ENT_QUOTES,
                 'UTF-8'
             ),
-            'challengeurl' => Route::_('index.php?option=com_ajax&plugin=powcaptcha&group=captcha&format=raw',
+            'challengeurl' => Route::_(
+                'index.php?option=com_ajax&plugin=powcaptcha&group=captcha&format=raw',
                 false,
                 false,
                 true
