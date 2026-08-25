@@ -78,7 +78,7 @@ tinymce.PluginManager.add('abbr', function (editor) {
       items: [
         { text: Joomla.Text._('No description (HTML markup only)'), value: 'markup' },
         { text: Joomla.Text._('Description as plain text (recommended on first use)'), value: 'expansion' },
-        { text: Joomla.Text._('Description as title attribute'), value: 'standard'}
+        { text: Joomla.Text._('Description as title attribute'), value: 'standard' },
       ],
     };
     const definitionInput = (enabled) => ({
