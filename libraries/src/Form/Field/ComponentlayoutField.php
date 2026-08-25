@@ -212,8 +212,8 @@ class ComponentlayoutField extends FormField
                             foreach ($files as $file) {
                                 // Add an option to the template group
                                 $value = basename($file, '.php');
-                                $text = $value;
-                                $path = str_replace('.php', '.xml', $file);
+                                $text  = $value;
+                                $path  = str_replace('.php', '.xml', $file);
 
                                 if (is_file($path) && $xml = simplexml_load_file($path)) {
                                     $layout = $xml->xpath('//layout[1]');
