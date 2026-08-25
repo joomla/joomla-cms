@@ -687,7 +687,7 @@
 			type="hidden"
 			readonly="true"
 		/>
-</fieldset>
+	</fieldset>
 
 	<fieldset
 		name="metadata"

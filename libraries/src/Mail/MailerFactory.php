@@ -129,7 +129,6 @@ class MailerFactory implements MailerFactoryInterface
                 }
 
                 $mailer->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport, $oauth2TokenProvider);
-
                 break;
 
             case 'sendmail':

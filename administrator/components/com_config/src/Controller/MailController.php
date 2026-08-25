@@ -292,7 +292,6 @@ class MailController extends BaseController
         }
     }
 
-
     /**
      * Creates the OAuth2 client.
      *
