@@ -134,7 +134,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
      *
      * @return  RendererInterface
      *
-     * @since   6.2.0
+     * @since   __DEPLOY_VERSION__
      * @throws  \RuntimeException
      */
     public function loadRenderer($type)
