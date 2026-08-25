@@ -44,7 +44,7 @@ tinymce.PluginManager.add('abbr', function (editor) {
       level: level ? level : 'info',
       text: `<p>${message}</p>`,
       icon: icon ? icon : 'info',
-    }
+    };
   }
   function openDialog() {
     const abbr = getCurrentAbbr();
