@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Toolbar;
 
-use InvalidArgumentException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
@@ -51,13 +50,13 @@ class Toolbar
     use CoreButtonsTrait;
 
     /** @var int Get the root button of a button group. */
-    const int GET_BUTTON_PARENT_ROOT = 0;
+    public const int GET_BUTTON_PARENT_ROOT = 0;
 
     /** @var int Get the parent group button of a button. Relevant for more then one level of nesting. */
-    const int GET_BUTTON_PARENT_PARENT = 1;
+    public const int GET_BUTTON_PARENT_PARENT = 1;
 
     /** @var int Get the button itself independend of the nesting level. */
-    const int GET_BUTTON_PARENT_BUTTON = 2;
+    public const int GET_BUTTON_PARENT_BUTTON = 2;
 
     /**
      * Toolbar name
@@ -304,7 +303,7 @@ class Toolbar
      *
      * @return  ToolbarButton  Return $button for chaining
      *
-     * @throws  InvalidArgumentException if the reference button is not found in the toolbar
+     * @throws  \InvalidArgumentException if the reference button is not found in the toolbar
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -323,7 +322,7 @@ class Toolbar
      *
      * @return  void
      *
-     * @throws  InvalidArgumentException if the reference button is not found in the toolbar
+     * @throws  \InvalidArgumentException if the reference button is not found in the toolbar
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -340,7 +339,7 @@ class Toolbar
      *
      * @return  ToolbarButton  Return $button for chaining
      *
-     * @throws  InvalidArgumentException if the reference button is not found in the toolbar
+     * @throws  \InvalidArgumentException if the reference button is not found in the toolbar
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -359,7 +358,7 @@ class Toolbar
      *
      * @return  void
      *
-     * @throws  InvalidArgumentException if the reference button is not found in the toolbar
+     * @throws  \InvalidArgumentException if the reference button is not found in the toolbar
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -377,7 +376,7 @@ class Toolbar
      *
      * @return  void
      *
-     * @throws  InvalidArgumentException if the reference button is not found in the toolbar
+     * @throws  \InvalidArgumentException if the reference button is not found in the toolbar
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -397,7 +396,7 @@ class Toolbar
             }
 
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     'Reference button %s not found in childtoolbar',
                     $referenceButton->getName()
                 )
@@ -406,7 +405,7 @@ class Toolbar
 
         foreach ($this->_bar as $k => $v) {
             if ($v === $referenceButton) {
-                foreach($buttons as $button) {
+                foreach ($buttons as $button) {
                     $button->setParent($this);
                 }
 
@@ -416,8 +415,8 @@ class Toolbar
             }
         }
 
-        throw new InvalidArgumentException(
-            sprintf(
+        throw new \InvalidArgumentException(
+            \sprintf(
                 'Reference button %s not found in toolbar',
                 $referenceButton->getName()
             )
@@ -431,7 +430,7 @@ class Toolbar
      *
      * @return ToolbarButton  First toolbar button found with the given name, null if not found
      *
-     * @throws InvalidArgumentException if the button name is not found in the toolbar
+     * @throws \InvalidArgumentException if the button name is not found in the toolbar
      */
     public function getButtonByName(string|array $names, $parent = self::GET_BUTTON_PARENT_ROOT, ?ToolbarButton $parentButton = null): ToolbarButton
     {
@@ -441,7 +440,7 @@ class Toolbar
             foreach ($this->_bar as $button) {
                 if ($button->getName() === $name) {
                     return match($parent) {
-                        self::GET_BUTTON_PARENT_ROOT => $button,
+                        self::GET_BUTTON_PARENT_ROOT   => $button,
                         self::GET_BUTTON_PARENT_PARENT => $parentButton ?? $button,
                         self::GET_BUTTON_PARENT_BUTTON => $button,
                     };
@@ -453,17 +452,17 @@ class Toolbar
                         $childButton = $childToolbar->getButtonByName($name, $parent, $button);
 
                         return match($parent) {
-                            self::GET_BUTTON_PARENT_ROOT => $button,
+                            self::GET_BUTTON_PARENT_ROOT   => $button,
                             self::GET_BUTTON_PARENT_PARENT => $childButton,
                             self::GET_BUTTON_PARENT_BUTTON => $childButton,
                         };
-                    } catch (InvalidArgumentException $e) {
+                    } catch (\InvalidArgumentException $e) {
                     }
                 }
             }
         }
 
-        throw new InvalidArgumentException('Button name not found in toolbar');
+        throw new \InvalidArgumentException('Button name not found in toolbar');
     }
 
 
@@ -562,7 +561,7 @@ class Toolbar
         // For B/C, catch the exceptions thrown by the factory
         try {
             return $this->factory->createButton($this, $type);
-        } catch (InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             Log::add($e->getMessage(), Log::WARNING, 'jerror');
 
             return false;
