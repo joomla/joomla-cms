@@ -541,14 +541,15 @@ class Mail extends PHPMailer implements MailerInterface, TransportConfigurableMa
     /**
      * Use SMTP for sending the email
      *
-     * @param   integer  $auth    SMTP Authentication [optional]
-     * @param   string   $host    SMTP Host [optional]
-     * @param   string   $user    SMTP Username [optional]
-     * @param   string   $pass    SMTP Password [optional]
-     * @param   string   $secure  Use secure methods
-     * @param   integer  $port    The SMTP port
+     * @param integer  $auth               SMTP Authentication [optional]
+     * @param string   $host               SMTP Host [optional]
+     * @param string   $user               SMTP Username [optional]
+     * @param string   $pass               SMTP Password [optional]
+     * @param string   $secure             Use secure methods
+     * @param integer  $port               The SMTP port
+     * @param object   $oauthTokenProvider The OAuth token provider
      *
-     * @return  boolean  True on success
+     * @return boolean  True on success
      *
      * @since   1.7.0
      */
