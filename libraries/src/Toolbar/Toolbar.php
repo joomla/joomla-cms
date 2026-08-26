@@ -55,7 +55,7 @@ class Toolbar
     /** @var int Get the parent group button of a button. Relevant for more than one level of nesting. */
     public const int GET_BUTTON_PARENT_PARENT = 1;
 
-    /** @var int Get the button itself independend of the nesting level. */
+    /** @var int Get the button itself independent of the nesting level. */
     public const int GET_BUTTON_PARENT_BUTTON = 2;
 
     /**
