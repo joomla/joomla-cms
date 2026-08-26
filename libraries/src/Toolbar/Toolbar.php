@@ -52,7 +52,7 @@ class Toolbar
     /** @var int Get the root button of a button group. */
     public const int GET_BUTTON_PARENT_ROOT = 0;
 
-    /** @var int Get the parent group button of a button. Relevant for more then one level of nesting. */
+    /** @var int Get the parent group button of a button. Relevant for more than one level of nesting. */
     public const int GET_BUTTON_PARENT_PARENT = 1;
 
     /** @var int Get the button itself independend of the nesting level. */
@@ -464,7 +464,6 @@ class Toolbar
 
         throw new \InvalidArgumentException('Button name not found in toolbar');
     }
-
 
     /**
      * Render a toolbar.
