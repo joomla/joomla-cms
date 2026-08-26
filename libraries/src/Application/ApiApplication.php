@@ -416,24 +416,6 @@ final class ApiApplication extends CMSApplication
     }
 
     /**
-     * Returns the application Router object.
-     *
-     * @return  ApiRouter
-     *
-     * @since      4.0.0
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Inject the router or load it from the dependency injection container
-     *              Example:
-     *              Factory::getContainer()->get(ApiRouter::class);
-     *
-     */
-    public function getApiRouter()
-    {
-        return $this->getContainer()->get(ApiRouter::class);
-    }
-
-    /**
      * Dispatch the application
      *
      * @param   string  $component  The component which is being rendered.

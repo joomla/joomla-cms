@@ -10,9 +10,10 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\QueryInterface;
 use Joomla\Event\DispatcherInterface;
@@ -28,6 +29,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 abstract class DebugAdapter extends CMSPlugin
 {
+    use DatabaseAwareTrait;
+
     /**
      * The context is somewhat arbitrary but it must be unique or there will be
      * conflicts when managing plugin/indexer state. A good best practice is to
@@ -134,7 +137,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @since   5.0.0
      */
-    public function __construct($config)
+    public function __construct(DispatcherInterface $dispatcher, array $config, ?DatabaseInterface $db = null)
     {
         // Support the same config-first and dispatcher-first constructor signatures as Adapter.
         if ($config instanceof DispatcherInterface) {
@@ -145,6 +148,14 @@ abstract class DebugAdapter extends CMSPlugin
         } else {
             parent::__construct($config);
         }
+
+        if ($db === null) {
+            @trigger_error(__CLASS__ . ': Database must be set, this will not be caught anymore in 9.0.', E_USER_DEPRECATED);
+
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
+        }
+
+        $this->setDatabase($db);
 
         // Get the type id.
         $this->type_id = $this->getTypeId();
@@ -160,7 +171,7 @@ abstract class DebugAdapter extends CMSPlugin
         }
 
         // Get the indexer object
-        $this->indexer = new Indexer($this->db);
+        $this->indexer = new Indexer($this->getDatabase());
     }
 
     /**
@@ -288,7 +299,7 @@ abstract class DebugAdapter extends CMSPlugin
      */
     public function onFinderGarbageCollection()
     {
-        $db      = $this->db;
+        $db      = $this->getDatabase();
         $type_id = $this->getTypeId();
 
         $query    = $db->createQuery();
@@ -331,16 +342,18 @@ abstract class DebugAdapter extends CMSPlugin
             return true;
         }
 
+        $db = $this->getDatabase();
+
         // Get the URL for the content id.
-        $item = $this->db->quote($this->getUrl($id, $this->extension, $this->layout));
+        $item = $db->quote($this->getUrl($id, $this->extension, $this->layout));
 
         // Update the content items.
-        $query = $this->db->createQuery()
-            ->update($this->db->quoteName('#__finder_links'))
-            ->set($this->db->quoteName($property) . ' = ' . (int) $value)
-            ->where($this->db->quoteName('url') . ' = ' . $item);
-        $this->db->setQuery($query);
-        $this->db->execute();
+        $query = $db->createQuery()
+            ->update($db->quoteName('#__finder_links'))
+            ->set($db->quoteName($property) . ' = ' . (int) $value)
+            ->where($db->quoteName('url') . ' = ' . $item);
+        $db->setQuery($query);
+        $db->execute();
 
         return true;
     }
@@ -397,16 +410,18 @@ abstract class DebugAdapter extends CMSPlugin
      */
     protected function remove($id, $removeTaxonomies = true)
     {
+        $db = $this->getDatabase();
+
         // Get the item's URL
-        $url = $this->db->quote($this->getUrl($id, $this->extension, $this->layout));
+        $url = $db->quote($this->getUrl($id, $this->extension, $this->layout));
 
         // Get the link ids for the content items.
-        $query = $this->db->createQuery()
-            ->select($this->db->quoteName('link_id'))
-            ->from($this->db->quoteName('#__finder_links'))
-            ->where($this->db->quoteName('url') . ' = ' . $url);
-        $this->db->setQuery($query);
-        $items = $this->db->loadColumn();
+        $query = $db->createQuery()
+            ->select($db->quoteName('link_id'))
+            ->from($db->quoteName('#__finder_links'))
+            ->where($db->quoteName('url') . ' = ' . $url);
+        $db->setQuery($query);
+        $items = $db->loadColumn();
 
         // Check the items.
         if (empty($items)) {
@@ -448,8 +463,7 @@ abstract class DebugAdapter extends CMSPlugin
         $query->where('c.id = ' . (int) $row->id);
 
         // Get the access level.
-        $this->db->setQuery($query);
-        $items = $this->db->loadObjectList();
+        $items = $this->getDatabase()->setQuery($query)->loadObjectList();
 
         // Adjust the access level for each item within the category.
         foreach ($items as $item) {
@@ -483,8 +497,7 @@ abstract class DebugAdapter extends CMSPlugin
             $query->where('c.id = ' . (int) $pk);
 
             // Get the published states.
-            $this->db->setQuery($query);
-            $items = $this->db->loadObjectList();
+            $items = $this->getDatabase()->setQuery($query)->loadObjectList();
 
             // Adjust the state for each item within the category.
             foreach ($items as $item) {
@@ -508,14 +521,15 @@ abstract class DebugAdapter extends CMSPlugin
      */
     protected function checkCategoryAccess($row)
     {
-        $query = $this->db->createQuery()
-            ->select($this->db->quoteName('access'))
-            ->from($this->db->quoteName('#__categories'))
-            ->where($this->db->quoteName('id') . ' = ' . (int) $row->id);
-        $this->db->setQuery($query);
+        $db    = $this->getDatabase();
+        $query = $db->createQuery()
+            ->select($db->quoteName('access'))
+            ->from($db->quoteName('#__categories'))
+            ->where($db->quoteName('id') . ' = ' . (int) $row->id);
+        $db->setQuery($query);
 
         // Store the access level to determine if it changes
-        $this->old_cataccess = $this->db->loadResult();
+        $this->old_cataccess = $db->loadResult();
     }
 
     /**
@@ -529,14 +543,15 @@ abstract class DebugAdapter extends CMSPlugin
      */
     protected function checkItemAccess($row)
     {
-        $query = $this->db->createQuery()
-            ->select($this->db->quoteName('access'))
-            ->from($this->db->quoteName($this->table))
-            ->where($this->db->quoteName('id') . ' = ' . (int) $row->id);
-        $this->db->setQuery($query);
+        $db    = $this->getDatabase();
+        $query = $db->createQuery()
+            ->select($db->quoteName('access'))
+            ->from($db->quoteName($this->table))
+            ->where($db->quoteName('id') . ' = ' . (int) $row->id);
+        $db->setQuery($query);
 
         // Store the access level to determine if it changes
-        $this->old_access = $this->db->loadResult();
+        $this->old_access = $db->loadResult();
     }
 
     /**
@@ -568,9 +583,7 @@ abstract class DebugAdapter extends CMSPlugin
         }
 
         // Get the total number of content items to index.
-        $this->db->setQuery($query);
-
-        return (int) $this->db->loadResult();
+        return (int) $this->getDatabase()->setQuery($query)->loadResult();
     }
 
     /**
@@ -590,8 +603,7 @@ abstract class DebugAdapter extends CMSPlugin
         $query->where('a.id = ' . (int) $id);
 
         // Get the item to index.
-        $this->db->setQuery($query);
-        $item = $this->db->loadAssoc();
+        $item = $this->getDatabase()->setQuery($query)->loadAssoc();
 
         if (!$item) {
             throw new \UnexpectedValueException(Text::_('COM_FINDER_INDEXER_ERROR_NO_ITEM'));
@@ -624,8 +636,7 @@ abstract class DebugAdapter extends CMSPlugin
     protected function getItems($offset, $limit, $query = null)
     {
         // Get the content items to index.
-        $this->db->setQuery($this->getListQuery($query)->setLimit($limit, $offset));
-        $items = $this->db->loadAssocList();
+        $items = $this->getDatabase()->setQuery($this->getListQuery($query)->setLimit($limit, $offset))->loadAssocList();
 
         foreach ($items as &$item) {
             $item = ArrayHelper::toObject($item, Result::class);
@@ -655,7 +666,7 @@ abstract class DebugAdapter extends CMSPlugin
     protected function getListQuery($query = null)
     {
         // Check if we can use the supplied SQL query.
-        return $query instanceof QueryInterface ? $query : $this->db->createQuery();
+        return $query instanceof QueryInterface ? $query : $this->getDatabase()->createQuery();
     }
 
     /**
@@ -669,14 +680,16 @@ abstract class DebugAdapter extends CMSPlugin
      */
     protected function getPluginType($id)
     {
-        // Prepare the query
-        $query = $this->db->createQuery()
-            ->select($this->db->quoteName('element'))
-            ->from($this->db->quoteName('#__extensions'))
-            ->where($this->db->quoteName('extension_id') . ' = ' . (int) $id);
-        $this->db->setQuery($query);
+        $db = $this->getDatabase();
 
-        return $this->db->loadResult();
+        // Prepare the query
+        $query = $db->createQuery()
+            ->select($db->quoteName('element'))
+            ->from($db->quoteName('#__extensions'))
+            ->where($db->quoteName('extension_id') . ' = ' . (int) $id);
+        $db->setQuery($query);
+
+        return $db->loadResult();
     }
 
     /**
@@ -689,7 +702,7 @@ abstract class DebugAdapter extends CMSPlugin
      */
     protected function getStateQuery()
     {
-        $query = $this->db->createQuery();
+        $query = $this->getDatabase()->createQuery();
 
         // Item ID
         $query->select('a.id');
@@ -716,9 +729,11 @@ abstract class DebugAdapter extends CMSPlugin
      */
     protected function getUpdateQueryByTime($time)
     {
+        $db = $this->getDatabase();
+
         // Build an SQL query based on the modified time.
-        $query = $this->db->createQuery()
-            ->where('a.modified >= ' . $this->db->quote($time));
+        $query = $db->createQuery()
+            ->where('a.modified >= ' . $db->quote($time));
 
         return $query;
     }
@@ -735,7 +750,7 @@ abstract class DebugAdapter extends CMSPlugin
     protected function getUpdateQueryByIds($ids)
     {
         // Build an SQL query based on the item ids.
-        $query = $this->db->createQuery()
+        $query = $this->getDatabase()->createQuery()
             ->where('a.id IN(' . implode(',', $ids) . ')');
 
         return $query;
@@ -751,14 +766,16 @@ abstract class DebugAdapter extends CMSPlugin
      */
     protected function getTypeId()
     {
-        // Get the type id from the database.
-        $query = $this->db->createQuery()
-            ->select($this->db->quoteName('id'))
-            ->from($this->db->quoteName('#__finder_types'))
-            ->where($this->db->quoteName('title') . ' = ' . $this->db->quote($this->type_title));
-        $this->db->setQuery($query);
+        $db = $this->getDatabase();
 
-        return (int) $this->db->loadResult();
+        // Get the type id from the database.
+        $query = $db->createQuery()
+            ->select($db->quoteName('id'))
+            ->from($db->quoteName('#__finder_types'))
+            ->where($db->quoteName('title') . ' = ' . $db->quote($this->type_title));
+        $db->setQuery($query);
+
+        return (int) $db->loadResult();
     }
 
     /**
@@ -796,18 +813,19 @@ abstract class DebugAdapter extends CMSPlugin
         // Set variables
         $user   = $this->getApplication()->getIdentity();
         $groups = implode(',', $user->getAuthorisedViewLevels());
+        $db     = $this->getDatabase();
 
         // Build a query to get the menu params.
-        $query = $this->db->createQuery()
-            ->select($this->db->quoteName('params'))
-            ->from($this->db->quoteName('#__menu'))
-            ->where($this->db->quoteName('link') . ' = ' . $this->db->quote($url))
-            ->where($this->db->quoteName('published') . ' = 1')
-            ->where($this->db->quoteName('access') . ' IN (' . $groups . ')');
+        $query = $db->createQuery()
+            ->select($db->quoteName('params'))
+            ->from($db->quoteName('#__menu'))
+            ->where($db->quoteName('link') . ' = ' . $db->quote($url))
+            ->where($db->quoteName('published') . ' = 1')
+            ->where($db->quoteName('access') . ' IN (' . $groups . ')');
 
         // Get the menu params from the database.
-        $this->db->setQuery($query);
-        $params = $this->db->loadResult();
+        $db->setQuery($query);
+        $params = $db->loadResult();
 
         // Check the results.
         if (empty($params)) {
@@ -840,8 +858,7 @@ abstract class DebugAdapter extends CMSPlugin
         $query->where('a.id = ' . (int) $row->id);
 
         // Get the access level.
-        $this->db->setQuery($query);
-        $item = $this->db->loadObject();
+        $item = $this->getDatabase()->setQuery($query)->loadObject();
 
         // Set the access level.
         $temp = max($row->access, $item->cat_access);
@@ -872,8 +889,7 @@ abstract class DebugAdapter extends CMSPlugin
             $query->where('a.id = ' . (int) $pk);
 
             // Get the published states.
-            $this->db->setQuery($query);
-            $item = $this->db->loadObject();
+            $item = $this->getDatabase()->setQuery($query)->loadObject();
 
             // Translate the state.
             $temp = $this->translateState($value, $item->cat_state);
@@ -900,8 +916,7 @@ abstract class DebugAdapter extends CMSPlugin
             if ($this->getPluginType($pk) == strtolower($this->context)) {
                 // Get all of the items to unindex them
                 $query = clone $this->getStateQuery();
-                $this->db->setQuery($query);
-                $items = $this->db->loadColumn();
+                $items = $this->getDatabase()->setQuery($query)->loadColumn();
 
                 // Remove each item
                 foreach ($items as $item) {
