@@ -17,7 +17,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Component\Config\Administrator\Model\ApplicationModel;
 use Joomla\OAuth2\Client;
 
 // phpcs:disable PSR1.Files.SideEffects
