@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 use Joomla\Registry\Registry;
 
@@ -382,10 +383,12 @@ class QuickIconHelper
             }
             PluginHelper::importPlugin('quickicon');
 
-            $arrays = (array) $application->triggerEvent(
-                'onGetIcons',
-                new QuickIconsEvent('onGetIcons', ['context' => $context])
-            );
+            $arrays = (array) Factory::getContainer()
+                ->get(DispatcherInterface::class)
+                ->dispatch(
+                    'onGetIcons',
+                    new QuickIconsEvent('onGetIcons', ['context' => $context])
+                )->getArgument('result', []);
 
             foreach ($arrays as $response) {
                 if (!\is_array($response)) {

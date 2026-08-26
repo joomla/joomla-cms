@@ -736,12 +736,13 @@ abstract class Bootstrap
      */
     public static function addSlide($selector, $text, $id, $class = ''): string
     {
-        $in        = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] === $id ? ' show' : '';
-        $collapsed = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] === $id ? '' : ' collapsed';
-        $parent    = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
-            'data-bs-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
-        $class        = (!empty($class)) ? ' ' . $class : '';
-        $ariaExpanded = $in === 'show';
+        $item     = static::$loaded[__CLASS__ . '::startAccordion'][$selector];
+        $isActive = $item['active'] === $id;
+
+        $in           = $isActive ? 'show' : '';
+        $collapsed    = $isActive ? '' : 'collapsed';
+        $ariaExpanded = $isActive ? 'true' : 'false';
+        $parent       = $item['parent'] ? 'data-bs-parent="' . $item['parent'] . '"' : '';
 
         return <<<HTMLSTR
 <div class="accordion-item $class">

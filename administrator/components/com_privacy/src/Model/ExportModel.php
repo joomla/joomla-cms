@@ -14,7 +14,11 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Privacy\ExportRequestEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -37,9 +41,11 @@ use PHPMailer\PHPMailer\Exception as phpmailerException;
  *
  * @since  3.9.0
  */
-class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
+class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface, MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * Create the export document for an information request.
@@ -212,7 +218,12 @@ class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
         // The mailer can be set to either throw Exceptions or return boolean false, account for both
         try {
             $app    = Factory::getApplication();
-            $mailer = new MailTemplate('com_privacy.userdataexport', $app->getLanguage()->getTag());
+            $mailer = new MailTemplate(
+                'com_privacy.userdataexport',
+                $app->getLanguage()->getTag(),
+                $this->getMailerFactory()->createMailer(),
+                $this->getLanguageFactory()
+            );
 
             $templateData = [
                 'sitename' => $app->get('sitename'),

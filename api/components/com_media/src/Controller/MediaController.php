@@ -246,6 +246,16 @@ class MediaController extends ApiController
     {
         $user = $this->app->getIdentity();
 
+        // Require generic management permissions for the component
+        if (!$user->authorise('core.manage', 'com_media')) {
+            return false;
+        }
+
+        // In the override mode, adding a file will override and therefore edit an existing file
+        if ($this->input->json->get('override', false)) {
+            return $user->authorise('core.edit', 'com_media');
+        }
+
         return $user->authorise('core.create', 'com_media');
     }
 
@@ -300,6 +310,11 @@ class MediaController extends ApiController
     protected function allowEdit($data = [], $key = 'id'): bool
     {
         $user = $this->app->getIdentity();
+
+        // Require generic management permissions for the component
+        if (!$user->authorise('core.manage', 'com_media')) {
+            return false;
+        }
 
         // com_media's access rules contains no specific update rule.
         return $user->authorise('core.edit', 'com_media');
@@ -421,6 +436,11 @@ class MediaController extends ApiController
     protected function allowDelete(): bool
     {
         $user = $this->app->getIdentity();
+
+        // Require generic management permissions for the component
+        if (!$user->authorise('core.manage', 'com_media')) {
+            return false;
+        }
 
         return $user->authorise('core.delete', 'com_media');
     }

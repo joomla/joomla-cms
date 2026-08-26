@@ -14,8 +14,12 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Router\Route;
@@ -35,9 +39,11 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.5
  */
-class ResetModel extends FormModel implements UserFactoryAwareInterface
+class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * Method to get the password reset request form.
@@ -450,17 +456,22 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
         }
 
         // Assemble the password reset confirmation link.
-        $mode = $app->get('force_ssl', 0) == 2 ? 1 : (-1);
+        $mode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
         $link = 'index.php?option=com_users&view=reset&layout=confirm&token=' . $token;
 
         // Put together the email template data.
         $data              = ArrayHelper::fromObject($user, false);
         $data['sitename']  = $app->get('sitename');
-        $data['link_text'] = Route::_($link, false, $mode);
-        $data['link_html'] = Route::_($link, true, $mode);
+        $data['link_text'] = Route::link('site', $link, false, $mode, true);
+        $data['link_html'] = Route::link('site', $link, true, $mode, true);
         $data['token']     = $token;
 
-        $mailer = new MailTemplate('com_users.password_reset', $app->getLanguage()->getTag());
+        $mailer = new MailTemplate(
+            'com_users.password_reset',
+            $app->getLanguage()->getTag(),
+            $this->getMailerFactory()->createMailer(),
+            $this->getLanguageFactory()
+        );
         $mailer->addTemplateData($data);
         $mailer->addRecipient($user->email, $user->name);
 
@@ -473,7 +484,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
 
                 $return = false;
             } catch (\RuntimeException $exception) {
-                $app->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                $app->enqueueMessage(Text::_($exception->getMessage()), 'warning');
 
                 $return = false;
             }
