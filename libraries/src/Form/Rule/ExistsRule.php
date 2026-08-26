@@ -57,7 +57,7 @@ class ExistsRule extends FormRule implements DatabaseAwareInterface
 
         $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
 
-        if (($value === '')) {
+        if ($value === '') {
             return !$required;
         }
 
