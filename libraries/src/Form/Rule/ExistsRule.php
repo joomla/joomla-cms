@@ -55,6 +55,12 @@ class ExistsRule extends FormRule implements DatabaseAwareInterface
             return true;
         }
 
+        $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
+
+        if (($value === '' || $value === null)) {
+            return !$required;
+        }
+
         // Assume a default column name of `id`
         if ($existsColumn === '') {
             $existsColumn = 'id';
