@@ -62,7 +62,7 @@
     "joomla/di": "^3.1.1",
     "joomla/event": "^3.0.2",
     "joomla/filter": "^3.0.6",
-    "joomla/filesystem": "^3.3.0",
+    "joomla/filesystem": "^3.3.1",
     "joomla/http": "^3.1.4",
     "joomla/input": "~3.0",
     "joomla/language": "~3.0",
