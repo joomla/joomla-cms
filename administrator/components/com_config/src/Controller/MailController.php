@@ -200,7 +200,7 @@ class MailController extends BaseController
         );
 
         try {
-            $model    = new ApplicationModel();
+            $model    = $this->getModel('Application', 'Administrator');
             $saveData = $model->getData();
 
             $saveData['smtp_oauth2_refresh_token']   = $refreshToken;
