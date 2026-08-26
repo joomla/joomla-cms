@@ -83,6 +83,7 @@ abstract class Content
             $model->setState($key, $value);
         }
 
+        $model->setState('params', $state->get('params'));
         $model->setState('filter.category_id', $state->get('category.id'));
         $model->setState('list.start', 0);
         $model->setState('list.limit', -1);
