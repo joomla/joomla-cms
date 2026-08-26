@@ -431,6 +431,8 @@ class Toolbar
      * @return ToolbarButton  First toolbar button found with the given name, null if not found
      *
      * @throws \InvalidArgumentException if the button name is not found in the toolbar
+     *
+     * @since   __DEPLOY_VERSION__
      */
     public function getButtonByName(string|array $names, $parent = self::GET_BUTTON_PARENT_ROOT, ?ToolbarButton $parentButton = null): ToolbarButton
     {
