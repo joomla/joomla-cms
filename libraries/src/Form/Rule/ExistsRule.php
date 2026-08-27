@@ -45,7 +45,12 @@ class ExistsRule extends FormRule implements DatabaseAwareInterface
      */
     public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
-        $value = trim((string) $value);
+        $value    = trim((string) $value);
+        $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
+
+        if ($value === '') {
+            return !$required;
+        }
 
         $existsTable  = (string) $element['exists_table'];
         $existsColumn = (string) $element['exists_column'];
@@ -53,12 +58,6 @@ class ExistsRule extends FormRule implements DatabaseAwareInterface
         // We cannot validate without a table name
         if ($existsTable === '') {
             return true;
-        }
-
-        $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
-
-        if ($value === '') {
-            return !$required;
         }
 
         // Assume a default column name of `id`
