@@ -194,7 +194,7 @@ class GraphController extends AdminController
                 throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_GRAPH_ERROR_INVALID_ID'));
             }
 
-            $user     = $this->app->getIdentity();
+            $user = $this->app->getIdentity();
 
             if (!$user->authorise('core.edit', $this->extension . '.workflow.' . $workflowId) && !$this->hasAnyTransitionPermission($workflowId)) {
                 throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'));
@@ -286,7 +286,7 @@ class GraphController extends AdminController
                 throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_GRAPH_ERROR_INVALID_ID'));
             }
 
-            $user        = $this->app->getIdentity();
+            $user = $this->app->getIdentity();
 
             if (
                 !$user->authorise('core.edit', $this->extension . '.workflow.' . $workflowId)
