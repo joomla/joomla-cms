@@ -9,14 +9,14 @@
 
 namespace Joomla\CMS\Updater;
 
+use Joomla\CMS\Adapter\Adapter;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Update as UpdateTable;
+use Joomla\CMS\Table\Update as UpdateTable;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\CMS\Adapter\Adapter;
-use Joomla\CMS\Table\Update as UpdateTable;
 use Joomla\Database\ParameterType;
 use Joomla\DI\ContainerAwareInterface;
 
