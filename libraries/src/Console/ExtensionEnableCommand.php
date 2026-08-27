@@ -25,7 +25,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command to enable extensions
  *
- * @since  __DEPLOY_VERSION__
+ * @since  6.1.0
  */
 class ExtensionEnableCommand extends AbstractCommand
 {
@@ -35,43 +35,43 @@ class ExtensionEnableCommand extends AbstractCommand
      * The default command name
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     protected static $defaultName = 'extension:enable';
 
     /**
      * @var InputInterface
-     * @since __DEPLOY_VERSION__
+     * @since 6.1.0
      */
     private $cliInput;
 
     /**
      * @var SymfonyStyle
-     * @since __DEPLOY_VERSION__
+     * @since 6.1.0
      */
     private $ioStyle;
 
     /**
      * Exit Code for extensions already enabled\disabled
-     * @since __DEPLOY_VERSION__
+     * @since 6.1.0
      */
     public const ENABLE_NOCHANGE = 3;
 
     /**
      * Exit Code for extensions enable\disable failure
-     * @since __DEPLOY_VERSION__
+     * @since 6.1.0
      */
     public const ENABLE_FAILED = 1;
 
     /**
      * Exit Code for extensions not found
-     * @since __DEPLOY_VERSION__
+     * @since 6.1.0
      */
     public const ENABLE_NOT_FOUND = 2;
 
     /**
      * Exit Code for extensions enable\disable success
-     * @since __DEPLOY_VERSION__
+     * @since 6.1.0
      */
     public const ENABLE_SUCCESSFUL = 0;
 
@@ -80,7 +80,7 @@ class ExtensionEnableCommand extends AbstractCommand
      *
      * @param   DatabaseInterface  $db  The database
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     public function __construct(DatabaseInterface $db)
     {
@@ -97,7 +97,7 @@ class ExtensionEnableCommand extends AbstractCommand
      *
      * @return void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 6.1.0
      *
      */
     private function configureIO(InputInterface $input, OutputInterface $output): void
@@ -111,7 +111,7 @@ class ExtensionEnableCommand extends AbstractCommand
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function configure(): void
     {
@@ -138,7 +138,7 @@ class ExtensionEnableCommand extends AbstractCommand
      *
      * @return  integer  The command exit code
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {

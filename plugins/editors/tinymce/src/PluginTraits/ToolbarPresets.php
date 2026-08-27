@@ -35,7 +35,7 @@ trait ToolbarPresets
                 'menu'     => [],
                 'toolbar1' => [
                     'bold', 'underline', 'strikethrough', '|',
-                    'undo', 'redo', '|',
+                    'readmore', '|', 'undo', 'redo', '|',
                     'bullist', 'numlist', '|',
                     'pastetext', 'jxtdbuttons',
                 ],
@@ -46,7 +46,7 @@ trait ToolbarPresets
                 'toolbar1' => [
                     'bold', 'italic', 'underline', 'strikethrough', '|',
                     'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
-                    'blocks', '|',
+                    'readmore', '|', 'blocks', '|',
                     'bullist', 'numlist', '|',
                     'outdent', 'indent', '|',
                     'undo', 'redo', '|',
@@ -62,7 +62,7 @@ trait ToolbarPresets
                 'toolbar1' => [
                     'bold', 'italic', 'underline', 'strikethrough', '|',
                     'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
-                    'lineheight', '|',
+                    'readmore', '|', 'lineheight', '|',
                     'styles', '|',
                     'blocks', 'fontfamily', 'fontsize', '|',
                     'searchreplace', '|',
@@ -79,7 +79,7 @@ trait ToolbarPresets
                     'cut', 'copy', 'paste', 'pastetext', '|',
                     'visualchars', 'visualblocks', 'nonbreaking', 'blockquote', 'jtemplate', '|',
                     'print', 'preview', 'codesample', 'insertdatetime', 'removeformat', 'jxtdbuttons',
-                    'language',
+                    'language','abbr', 'abbr_remove',
                 ],
                 'toolbar2' => [],
             ],

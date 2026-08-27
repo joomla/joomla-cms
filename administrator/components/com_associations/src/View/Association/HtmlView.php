@@ -250,6 +250,32 @@ class HtmlView extends BaseHtmlView
             if (!empty($this->typeSupports['save2copy'])) {
                 $this->save2copy = true;
             }
+
+            if (\array_key_exists('urlOptions', $details)) {
+                $urlOptions     = $details['urlOptions'];
+                $specialOptions = [];
+
+                foreach ($urlOptions as $tag => $urlOption) {
+                    $helper = $extension->get('helper');
+
+                    if (\array_key_exists('functionName', $urlOption)) {
+                        $func = $urlOption['functionName'];
+                        $args = [];
+
+                        if (\array_key_exists('params', $urlOption)) {
+                            $params = $urlOption['params'];
+
+                            foreach ($params as $param) {
+                                $args[] = $input->get($param);
+                            }
+                        }
+
+                        $value = \call_user_func_array([$helper, $func], $args);
+                    }
+
+                    $specialOptions[$tag] = $value;
+                }
+            }
         }
 
         $this->extensionName = $extensionName;
@@ -287,6 +313,10 @@ class HtmlView extends BaseHtmlView
                 'extension' => $extensionName,
                 'tmpl'      => 'component',
             ];
+        }
+
+        if (!empty($specialOptions)) {
+            $options = array_merge($options, $specialOptions);
         }
 
         // Reference and target edit links.

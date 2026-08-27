@@ -31,14 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Finder::class, function (Container $container) {
                 $plugin     = new Finder(
                     (array) PluginHelper::getPlugin('extension', 'finder')
                 );
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };
