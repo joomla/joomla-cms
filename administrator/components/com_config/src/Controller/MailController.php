@@ -118,7 +118,7 @@ class MailController extends BaseController
 
         $session->set('com_config.oauth2_state', null);
 
-        $error = $this->input->getString('error');
+        $error = $this->input->getString('error', '');
 
         if ($error !== '') {
             $description = $this->input->getString('error_description');
