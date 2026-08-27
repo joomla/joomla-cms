@@ -428,7 +428,7 @@ class Toolbar
      *
      * @param string|string[]  $names  The button name to search for multiple names can be passed, first hit will be returned.
      *
-     * @return ToolbarButton  First toolbar button found with the given name, null if not found
+     * @return ToolbarButton  First toolbar button found with the given name
      *
      * @throws \InvalidArgumentException if the button name is not found in the toolbar
      *
