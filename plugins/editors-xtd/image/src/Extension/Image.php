@@ -103,12 +103,21 @@ final class Image extends CMSPlugin implements SubscriberInterface
             // Register the button assets
             if (!$wa->assetExists('script', 'editor-button.image')) {
                 $wa->registerStyle('editor-button.image', '', [], [], ['webcomponent.media-select']);
+
+                // Helper that lets editors (e.g. TinyMCE's file picker) open the Media Manager and resolve a URL
+                $wa->registerScript(
+                    'editor-button.image-filepicker',
+                    'plg_editors-xtd_image/media-filepicker.js',
+                    [],
+                    ['type' => 'module'],
+                    ['webcomponent.media-select', 'joomla.dialog']
+                );
                 $wa->registerScript(
                     'editor-button.image',
                     'plg_editors-xtd_image/button-image.js',
                     [],
                     ['type' => 'module'],
-                    ['webcomponent.media-select', 'editors', 'joomla.dialog']
+                    ['webcomponent.media-select', 'editors', 'joomla.dialog', 'editor-button.image-filepicker']
                 );
             }
 
@@ -165,6 +174,7 @@ final class Image extends CMSPlugin implements SubscriberInterface
             }
 
             Text::script('JCLOSE');
+            Text::script('JSELECT');
             Text::script('JFIELD_MEDIA_ALT_CHECK_DESC_LABEL');
             Text::script('JFIELD_MEDIA_ALT_CHECK_LABEL');
             Text::script('JFIELD_MEDIA_ALT_LABEL');
@@ -182,6 +192,7 @@ final class Image extends CMSPlugin implements SubscriberInterface
             Text::script('JFIELD_MEDIA_TITLE_LABEL');
             Text::script('JFIELD_MEDIA_UNSUPPORTED');
             Text::script('JFIELD_MEDIA_WIDTH_LABEL');
+            Text::script('PLG_IMAGE_BUTTON_IMAGE');
             Text::script('PLG_IMAGE_BUTTON_INSERT');
 
             $link = 'index.php?option=com_media&view=media&tmpl=component&e_name=' . $name . '&asset=' . $asset . '&mediatypes=0,1,2,3' . '&author=' . $author;

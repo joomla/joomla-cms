@@ -104,6 +104,16 @@ final class Contact extends CMSPlugin implements SubscriberInterface
                 ]
             );
 
+            // Register as a link source for editors that offer a link picker (e.g. TinyMCE)
+            $this->getApplication()->getDocument()->addScriptOptions('editor-link-providers', [
+                $this->_name => [
+                    'title'  => Text::_('PLG_EDITORS-XTD_CONTACT_BUTTON_CONTACT'),
+                    'icon'   => 'address',
+                    'src'    => 'index.php?option=com_contact&view=contacts&layout=modal&tmpl=component',
+                    'select' => 'content',
+                ],
+            ], true);
+
             return $button;
         }
 
