@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Toolbar\Button\AbstractGroupButton;
 use Joomla\CMS\Toolbar\Button\BasicButton;
 use Joomla\CMS\Toolbar\Button\ConfirmButton;
 use Joomla\CMS\Toolbar\Button\CustomButton;
@@ -47,6 +48,15 @@ use Joomla\CMS\Toolbar\Button\StandardButton;
 class Toolbar
 {
     use CoreButtonsTrait;
+
+    /** @var int Get the root button of a button group. */
+    public const int GET_BUTTON_PARENT_ROOT = 0;
+
+    /** @var int Get the parent group button of a button. Relevant for more than one level of nesting. */
+    public const int GET_BUTTON_PARENT_PARENT = 1;
+
+    /** @var int Get the button itself independent of the nesting level. */
+    public const int GET_BUTTON_PARENT_BUTTON = 2;
 
     /**
      * Toolbar name
@@ -283,6 +293,178 @@ class Toolbar
         );
 
         return true;
+    }
+
+    /**
+     * Append a button to the toolbar at a specific position
+     *
+     * @param   ToolbarButton $referenceButton  The reference button for the position.
+     * @param   ToolbarButton $button           The buttons to insert.
+     *
+     * @return  ToolbarButton  Return $button for chaining
+     *
+     * @throws  \InvalidArgumentException if the reference button is not found in the toolbar
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function insertButtonAfter(ToolbarButton $referenceButton, ToolbarButton $button): ToolbarButton
+    {
+        $this->insertButtons(1, $referenceButton, $button);
+
+        return $button;
+    }
+
+    /**
+     * Append a button to the toolbar.
+     *
+     * @param   ToolbarButton   $referenceButton  The reference button for the position.
+     * @param   ToolbarButton[] $buttons          The buttons to insert.
+     *
+     * @return  void
+     *
+     * @throws  \InvalidArgumentException if the reference button is not found in the toolbar
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function insertButtonsAfter(ToolbarButton $referenceButton, ToolbarButton ...$buttons): void
+    {
+        $this->insertButtons(1, $referenceButton, ...$buttons);
+    }
+
+    /**
+     * Prepend a button to the toolbar at a specific position
+     *
+     * @param   ToolbarButton $referenceButton  The reference button for the position.
+     * @param   ToolbarButton $button           The buttons to insert.
+     *
+     * @return  ToolbarButton  Return $button for chaining
+     *
+     * @throws  \InvalidArgumentException if the reference button is not found in the toolbar
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function insertButtonBefore(ToolbarButton $referenceButton, ToolbarButton $button): ToolbarButton
+    {
+        $this->insertButtonsBefore($referenceButton, $button);
+
+        return $button;
+    }
+
+    /**
+     * Append a button to the toolbar.
+     *
+     * @param   ToolbarButton   $referenceButton  The reference button for the position.
+     * @param   ToolbarButton[] $buttons          The buttons to insert.
+     *
+     * @return  void
+     *
+     * @throws  \InvalidArgumentException if the reference button is not found in the toolbar
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function insertButtonsBefore(ToolbarButton $referenceButton, ToolbarButton ...$buttons): void
+    {
+        $this->insertButtons(0, $referenceButton, ...$buttons);
+    }
+
+    /**
+     * Append a button to the toolbar.
+     *
+     * @param   int             $offset           The offset to insert the buttons, 0 before and 1 after the reference button.
+     * @param   ToolbarButton   $referenceButton  The reference button for the position.
+     * @param   ToolbarButton[] $buttons          The buttons to insert.
+     *
+     * @return  void
+     *
+     * @throws  \InvalidArgumentException if the reference button is not found in the toolbar
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function insertButtons(int $offset, ToolbarButton $referenceButton, ToolbarButton ...$buttons): void
+    {
+        if ($referenceButton->getParent() !== $this) {
+            foreach ($this->_bar as $v) {
+                if ($v instanceof AbstractGroupButton) {
+                    $childToolbar = $v->getChildToolbar();
+                    try {
+                        $childToolbar->insertButtons($offset, $referenceButton, ...$buttons);
+
+                        return;
+                    } catch (\InvalidArgumentException $e) {
+                    }
+                }
+            }
+
+            throw new \InvalidArgumentException(
+                \sprintf(
+                    'Reference button %s not found in childtoolbar',
+                    $referenceButton->getName()
+                )
+            );
+        }
+
+        foreach ($this->_bar as $k => $v) {
+            if ($v === $referenceButton) {
+                foreach ($buttons as $button) {
+                    $button->setParent($this);
+                }
+
+                array_splice($this->_bar, $k + $offset, 0, $buttons);
+
+                return;
+            }
+        }
+
+        throw new \InvalidArgumentException(
+            \sprintf(
+                'Reference button %s not found in toolbar',
+                $referenceButton->getName()
+            )
+        );
+    }
+
+    /**
+     * Search for a button by name.
+     *
+     * @param string|string[]  $names  The button name to search for multiple names can be passed, first hit will be returned.
+     *
+     * @return ToolbarButton  First toolbar button found with the given name
+     *
+     * @throws \InvalidArgumentException if the button name is not found in the toolbar
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getButtonByName(string|array $names, $parent = self::GET_BUTTON_PARENT_ROOT, ?ToolbarButton $parentButton = null): ToolbarButton
+    {
+        $names = (array) $names;
+
+        foreach ($names as $name) {
+            foreach ($this->_bar as $button) {
+                if ($button->getName() === $name) {
+                    return match($parent) {
+                        self::GET_BUTTON_PARENT_ROOT   => $button,
+                        self::GET_BUTTON_PARENT_PARENT => $parentButton ?? $button,
+                        self::GET_BUTTON_PARENT_BUTTON => $button,
+                    };
+                }
+
+                if ($button instanceof AbstractGroupButton) {
+                    $childToolbar = $button->getChildToolbar();
+                    try {
+                        $childButton = $childToolbar->getButtonByName($name, $parent, $button);
+
+                        return match($parent) {
+                            self::GET_BUTTON_PARENT_ROOT   => $button,
+                            self::GET_BUTTON_PARENT_PARENT => $childButton,
+                            self::GET_BUTTON_PARENT_BUTTON => $childButton,
+                        };
+                    } catch (\InvalidArgumentException $e) {
+                    }
+                }
+            }
+        }
+
+        throw new \InvalidArgumentException('Button name not found in toolbar');
     }
 
     /**

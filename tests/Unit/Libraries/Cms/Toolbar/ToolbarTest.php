@@ -290,6 +290,230 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY__VERSION
+     */
+    public function insertButtonAfterPlacesButtonAfterReferenceAndReturnsInsertedButton()
+    {
+        $toolbar = $this->createToolbar();
+        $first   = $this->createMock(ToolbarButton::class);
+        $second  = $this->createMock(ToolbarButton::class);
+
+        $first->expects($this->once())
+            ->method('setParent')
+            ->with($toolbar);
+        $second->expects($this->once())
+            ->method('setParent')
+            ->with($toolbar);
+        $first->expects($this->exactly(1))
+            ->method('getParent')
+            ->willReturn($toolbar);
+
+        $toolbar->appendButton($first);
+        $inserted = $toolbar->insertButtonAfter($first, $second);
+
+        $this->assertSame($second, $inserted);
+        $this->assertSame([$first, $second], $toolbar->getItems());
+    }
+
+    /**
+     * @test
+     *
+     * @return  void
+     */
+    public function insertButtonsBeforePlacesButtonsBeforeReferenceInGivenOrder()
+    {
+        $toolbar   = $this->createToolbar();
+        $reference = $this->createMock(ToolbarButton::class);
+        $first     = $this->createMock(ToolbarButton::class);
+        $second    = $this->createMock(ToolbarButton::class);
+
+        $reference->expects($this->once())
+            ->method('setParent')
+            ->with($toolbar);
+        $first->expects($this->once())
+            ->method('setParent')
+            ->with($toolbar);
+        $second->expects($this->once())
+            ->method('setParent')
+            ->with($toolbar);
+        $reference->expects($this->exactly(1))
+            ->method('getParent')
+            ->willReturn($toolbar);
+
+        $toolbar->appendButton($reference);
+        $toolbar->insertButtonsBefore($reference, $first, $second);
+
+        $this->assertSame([$first, $second, $reference], $toolbar->getItems());
+    }
+
+    /**
+     * @test
+     *
+     * @return  void
+     */
+    public function insertButtonsAfterInsertsIntoChildToolbarWhenReferenceIsNested()
+    {
+        $toolbar      = $this->createToolbar();
+        $childToolbar = $this->createToolbar('child-toolbar');
+        $groupButton  = $this->createMock(\Joomla\CMS\Toolbar\Button\AbstractGroupButton::class);
+        $reference    = $this->createMock(ToolbarButton::class);
+        $inserted     = $this->createMock(ToolbarButton::class);
+
+        $groupButton->expects($this->once())
+            ->method('setParent')
+            ->with($toolbar);
+        $groupButton->expects($this->once())
+            ->method('getChildToolbar')
+            ->willReturn($childToolbar);
+        $reference->expects($this->exactly(2))
+            ->method('getParent')
+            ->willReturn($childToolbar);
+        $reference->expects($this->once())
+            ->method('setParent')
+            ->with($childToolbar);
+        $inserted->expects($this->once())
+            ->method('setParent')
+            ->with($childToolbar);
+
+        $toolbar->appendButton($groupButton);
+        $childToolbar->appendButton($reference);
+        $toolbar->insertButtonsAfter($reference, $inserted);
+
+        $this->assertSame([$reference, $inserted], $childToolbar->getItems());
+    }
+
+    /**
+     * @test
+     *
+     * @return  void
+     */
+    public function insertButtonsThrowsExceptionWhenReferenceButtonIsNotFound()
+    {
+        $toolbar   = $this->createToolbar();
+        $reference = $this->createMock(ToolbarButton::class);
+        $inserted  = $this->createMock(ToolbarButton::class);
+
+        $reference->expects($this->once())
+            ->method('getParent')
+            ->willReturn($toolbar);
+        $reference->expects($this->once())
+            ->method('getName')
+            ->willReturn('missing-reference');
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Reference button missing-reference not found in toolbar');
+
+        $toolbar->insertButtonsAfter($reference, $inserted);
+    }
+
+    /**
+     * @test
+     *
+     * @return  void
+     */
+    public function getButtonByNameReturnsMatchingRootButton()
+    {
+        $toolbar = $this->createToolbar();
+        $button  = $this->createMock(ToolbarButton::class);
+
+        $button->expects($this->once())
+            ->method('setParent')
+            ->with($toolbar);
+        $button->expects($this->once())
+            ->method('getName')
+            ->willReturn('publish');
+
+        $toolbar->appendButton($button);
+
+        $this->assertSame($button, $toolbar->getButtonByName('publish'));
+    }
+
+    /**
+     * @test
+     *
+     * @return  void
+     */
+    public function getButtonByNameReturnsFirstMatchingNameFromList()
+    {
+        $toolbar = $this->createToolbar();
+        $button  = $this->createMock(ToolbarButton::class);
+
+        $button->expects($this->once())
+            ->method('setParent')
+            ->with($toolbar);
+        $button->expects($this->exactly(2))
+            ->method('getName')
+            ->willReturn('save');
+
+        $toolbar->appendButton($button);
+
+        $this->assertSame($button, $toolbar->getButtonByName(['missing', 'save']));
+    }
+
+    /**
+     * @test
+     *
+     * @return  void
+     */
+    public function getButtonByNameReturnsRequestedParentForNestedButton()
+    {
+        $toolbar      = $this->createToolbar();
+        $childToolbar = $this->createToolbar('child-toolbar');
+        $groupButton  = $this->createMock(\Joomla\CMS\Toolbar\Button\AbstractGroupButton::class);
+        $childButton  = $this->createMock(ToolbarButton::class);
+
+        $groupButton->expects($this->once())
+            ->method('setParent')
+            ->with($toolbar);
+        $groupButton->expects($this->exactly(3))
+            ->method('getChildToolbar')
+            ->willReturn($childToolbar);
+        $groupButton->method('getName')
+            ->willReturn('group');
+        $childButton->expects($this->once())
+            ->method('setParent')
+            ->with($childToolbar);
+        $childButton->expects($this->exactly(3))
+            ->method('getName')
+            ->willReturn('child-save');
+
+        $toolbar->appendButton($groupButton);
+        $childToolbar->appendButton($childButton);
+
+        $this->assertSame($groupButton, $toolbar->getButtonByName('child-save', Toolbar::GET_BUTTON_PARENT_ROOT));
+        $this->assertSame($groupButton, $toolbar->getButtonByName('child-save', Toolbar::GET_BUTTON_PARENT_PARENT));
+        $this->assertSame($childButton, $toolbar->getButtonByName('child-save', Toolbar::GET_BUTTON_PARENT_BUTTON));
+    }
+
+    /**
+     * @test
+     *
+     * @return  void
+     */
+    public function getButtonByNameThrowsExceptionWhenNoButtonMatches()
+    {
+        $toolbar = $this->createToolbar();
+        $button  = $this->createMock(ToolbarButton::class);
+
+        $button->expects($this->once())
+            ->method('setParent')
+            ->with($toolbar);
+        $button->method('getName')
+            ->willReturn('save');
+
+        $toolbar->appendButton($button);
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Button name not found in toolbar');
+
+        $toolbar->getButtonByName('publish');
+    }
+
+    /**
      * Helper function to create a toolbar
      *
      * @param   string   $name  Name
