@@ -1009,7 +1009,7 @@ class FieldModel extends AdminModel
         if (\in_array($data['type'], ['list', 'checkboxes', 'radio'])
             && !empty($data['fieldparams']['options'])
             && \is_array($data['fieldparams']['options'])) {
-            $tmpValues =[];
+            $tmpValues = [];
             foreach ($data['fieldparams']['options'] as $option) {
                 $tmpValues[] = $option['value'];
             }
