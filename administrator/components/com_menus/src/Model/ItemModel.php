@@ -17,7 +17,6 @@ use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -1241,34 +1240,12 @@ class ItemModel extends AdminModel
 
         // Association menu items, we currently do not support this for admin menu… may be later
         if ($clientId == 0 && Associations::isEnabled()) {
-            $languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
-
-            if (\count($languages) > 1) {
-                $addform = new \SimpleXMLElement('<form />');
-                $fields  = $addform->addChild('fields');
-                $fields->addAttribute('name', 'associations');
-                $fieldset = $fields->addChild('fieldset');
-                $fieldset->addAttribute('name', 'item_associations');
-                $fieldset->addAttribute('addfieldprefix', 'Joomla\Component\Menus\Administrator\Field');
-
-                foreach ($languages as $language) {
-                    $field = $fieldset->addChild('field');
-                    $field->addAttribute('name', $language->lang_code);
-                    $field->addAttribute('type', 'modal_menu');
-                    $field->addAttribute('language', $language->lang_code);
-                    $field->addAttribute('label', $language->title);
-                    $field->addAttribute('translate_label', 'false');
-                    $field->addAttribute('select', 'true');
-                    $field->addAttribute('new', 'true');
-                    $field->addAttribute('edit', 'true');
-                    $field->addAttribute('clear', 'true');
-                    $field->addAttribute('propagate', 'true');
-                    $option = $field->addChild('option', 'COM_MENUS_ITEM_FIELD_ASSOCIATION_NO_VALUE');
-                    $option->addAttribute('value', '');
-                }
-
-                $form->load($addform, false);
-            }
+            $this->associationPreprocessForm(
+                $form,
+                $data,
+                ['type' => 'modal_menu'],
+                'Joomla\Component\Menus\Administrator\Field'
+            );
         }
 
         // Trigger the default form events.
@@ -1519,109 +1496,13 @@ class ItemModel extends AdminModel
         $this->setState('item.menutype', $table->menutype);
 
         // Load associated menu items, for now not supported for admin menu… may be later
-        if ($table->client_id == 0 && Associations::isEnabled()) {
-            // Adding self to the association
-            $associations = $data['associations'] ?? [];
+        if ($table->client_id == 0) {
+            try {
+                $this->storeAssociations($table, $data);
+            } catch (\RuntimeException $e) {
+                $this->setError($e->getMessage());
 
-            // Unset any invalid associations
-            $associations = ArrayHelper::toInteger($associations);
-
-            foreach ($associations as $tag => $id) {
-                if (!$id) {
-                    unset($associations[$tag]);
-                }
-            }
-
-            // Detecting all item menus
-            $all_language = $table->language == '*';
-
-            if ($all_language && !empty($associations)) {
-                Factory::getApplication()->enqueueMessage(Text::_('COM_MENUS_ERROR_ALL_LANGUAGE_ASSOCIATED'), 'notice');
-            }
-
-            // Get associationskey for edited item
-            $db    = $this->getDatabase();
-            $query = $db->createQuery()
-                ->select($db->quoteName('key'))
-                ->from($db->quoteName('#__associations'))
-                ->where(
-                    [
-                        $db->quoteName('context') . ' = :context',
-                        $db->quoteName('id') . ' = :id',
-                    ]
-                )
-                ->bind(':context', $this->associationsContext)
-                ->bind(':id', $table->id, ParameterType::INTEGER);
-            $db->setQuery($query);
-            $oldKey = $db->loadResult();
-
-            if ($associations || $oldKey !== null) {
-                // Deleting old associations for the associated items
-                $where = [];
-                $query = $db->createQuery()
-                    ->delete($db->quoteName('#__associations'))
-                    ->where($db->quoteName('context') . ' = :context')
-                    ->bind(':context', $this->associationsContext);
-
-                if ($associations) {
-                    $where[] = $db->quoteName('id') . ' IN (' . implode(',', $query->bindArray(array_values($associations))) . ')';
-                }
-
-                if ($oldKey !== null) {
-                    $where[] = $db->quoteName('key') . ' = :oldKey';
-                    $query->bind(':oldKey', $oldKey);
-                }
-
-                $query->extendWhere('AND', $where, 'OR');
-
-                try {
-                    $db->setQuery($query);
-                    $db->execute();
-                } catch (\RuntimeException $e) {
-                    $this->setError($e->getMessage());
-
-                    return false;
-                }
-            }
-
-            // Adding self to the association
-            if (!$all_language) {
-                $associations[$table->language] = (int) $table->id;
-            }
-
-            if (\count($associations) > 1) {
-                // Adding new association for these items
-                $key   = md5(json_encode($associations));
-                $query = $db->createQuery()
-                    ->insert($db->quoteName('#__associations'))
-                    ->columns(
-                        [
-                            $db->quoteName('id'),
-                            $db->quoteName('context'),
-                            $db->quoteName('key'),
-                        ]
-                    );
-
-                foreach ($associations as $id) {
-                    $query->values(
-                        implode(
-                            ',',
-                            $query->bindArray(
-                                [$id, $this->associationsContext, $key],
-                                [ParameterType::INTEGER, ParameterType::STRING, ParameterType::STRING]
-                            )
-                        )
-                    );
-                }
-
-                try {
-                    $db->setQuery($query);
-                    $db->execute();
-                } catch (\RuntimeException $e) {
-                    $this->setError($e->getMessage());
-
-                    return false;
-                }
+                return false;
             }
         }
 

@@ -81,6 +81,7 @@ class ArticlesModel extends ListModel
 
             if (Associations::isEnabled()) {
                 $config['filter_fields'][] = 'association';
+                $config['filter_fields'][] = 'translation';
             }
         }
 
@@ -182,6 +183,7 @@ class ArticlesModel extends ListModel
         $id .= ':' . serialize($this->getState('filter.category_id'));
         $id .= ':' . serialize($this->getState('filter.author_id'));
         $id .= ':' . $this->getState('filter.language');
+        $id .= ':' . $this->getState('filter.translation');
         $id .= ':' . serialize($this->getState('filter.tag'));
         $id .= ':' . $this->getState('filter.checked_out');
         $id .= ':' . $this->getState('filter.date_filtering');
@@ -305,6 +307,22 @@ class ArticlesModel extends ListModel
                 );
 
             $query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
+
+            $query->select($db->quoteName('assoc.outdated', 'association_outdated'))
+                ->join(
+                    'LEFT',
+                    $db->quoteName('#__associations', 'assoc'),
+                    $db->quoteName('assoc.id') . ' = ' . $db->quoteName('a.id')
+                    . ' AND ' . $db->quoteName('assoc.context') . ' = ' . $db->quote('com_content.item')
+                );
+
+            $translation = $this->getState('filter.translation');
+
+            if ($translation === 'outdated') {
+                $query->where($db->quoteName('assoc.outdated') . ' = 1');
+            } elseif ($translation === 'uptodate') {
+                $query->where($db->quoteName('assoc.outdated') . ' = 0');
+            }
         }
 
         // Filter by access level.
