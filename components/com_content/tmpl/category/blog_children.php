@@ -25,7 +25,7 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?
     <?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
         <?php // Check whether category access level allows access to subcategories. ?>
         <?php if (in_array($child->access, $groups)) : ?>
-            <?php $childParams = new \Joomla\Registry\Registry($child->params); ?>
+            <?php $childParams = $child->getParams(); ?>
             <?php if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) : ?>
             <div class="com-content-category-blog__child">
                 <?php if ($lang->isRtl()) : ?>
