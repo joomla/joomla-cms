@@ -1302,6 +1302,7 @@ abstract class AdminModel extends FormModel
     {
         $table      = $this->getTable();
         $context    = $this->option . '.' . $this->name;
+        $task       = $this->getState('task');
         $app        = Factory::getApplication();
         $dispatcher = $this->getDispatcher();
 
@@ -1309,9 +1310,18 @@ abstract class AdminModel extends FormModel
             $table->newTags = $data['tags'];
         }
 
-        $key   = $table->getKeyName();
-        $pk    = $data[$key] ?? (int) $this->getState($this->getName() . '.id');
-        $isNew = true;
+        $key      = $table->getKeyName();
+        $pk       = $data[$key] ?? (int)$this->getState($this->getName() . '.id');
+        $isNew    = true;
+        $sourcePk = $pk;
+
+        if ($task === 'save2copy') {
+            $sourcePk = $this->getState('save2copy.id');
+            if ($sourcePk === null) {
+                @trigger_error('state save2copy.id will be mandatory for save2copy task in 8.0.', E_USER_DEPRECATED);
+                $sourcePk = $app->getInput()->getInt($key);
+            }
+        }
 
         // Include the plugins for the save events.
         PluginHelper::importPlugin($this->events_map['save'], null, true, $dispatcher);
@@ -1343,10 +1353,12 @@ abstract class AdminModel extends FormModel
 
             // Trigger the before save event.
             $beforeSaveEvent = new Model\BeforeSaveEvent($this->event_before_save, [
-                'context' => $context,
-                'subject' => $table,
-                'isNew'   => $isNew,
-                'data'    => $data,
+                'context'  => $context,
+                'subject'  => $table,
+                'isNew'    => $isNew,
+                'data'     => $data,
+                'task'     => $task,
+                'sourcePk' => $sourcePk,
             ]);
             $result = $dispatcher->dispatch($this->event_before_save, $beforeSaveEvent)->getArgument('result', []);
 
@@ -1368,10 +1380,12 @@ abstract class AdminModel extends FormModel
 
             // Trigger the after save event.
             $dispatcher->dispatch($this->event_after_save, new Model\AfterSaveEvent($this->event_after_save, [
-                'context' => $context,
-                'subject' => $table,
-                'isNew'   => $isNew,
-                'data'    => $data,
+                'context'  => $context,
+                'subject'  => $table,
+                'isNew'    => $isNew,
+                'data'     => $data,
+                'task'     => $task,
+                'sourcePk' => $sourcePk,
             ]));
         } catch (\Exception $e) {
             $this->setError($e->getMessage());

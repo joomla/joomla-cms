@@ -276,8 +276,6 @@ class ContactModel extends AdminModel implements VersionableModelInterface
      */
     public function save($data)
     {
-        $input = Factory::getApplication()->getInput();
-
         // Create new category, if needed.
         $createCategory = true;
 
@@ -313,9 +311,9 @@ class ContactModel extends AdminModel implements VersionableModelInterface
         }
 
         // Alter the name for save as copy
-        if ($input->get('task') == 'save2copy') {
+        if ($this->getState('task') === 'save2copy') {
             $origTable = $this->getTable();
-            $origTable->load($input->getInt('id'));
+            $origTable->load($this->getState('save2copy.id'));
 
             if ($data['name'] == $origTable->name) {
                 [$name, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
