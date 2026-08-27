@@ -1006,7 +1006,7 @@ class FieldModel extends AdminModel
     public function validate($form, $data, $group = null)
     {
         // Check if the values are unique. This should only apply for list, checkboxes and radio custom field types 
-        if (in_array($data['fielddtype'], ['list', 'checkboxes', 'radio'])
+        if (in_array($data['type'], ['list', 'checkboxes', 'radio'])
             && !empty($data['fieldparams']['options']) 
             && \is_array($data['fieldparams']['options'])) {
             $tmpValues =[];
