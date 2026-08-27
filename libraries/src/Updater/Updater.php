@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Update as UpdateTable;
-use Joomla\CMS\Table\Update as UpdateTable;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
