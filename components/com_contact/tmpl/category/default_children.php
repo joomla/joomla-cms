@@ -21,7 +21,7 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) :
     ?>
 <ul class="com-contact-category__children list-striped list-condensed">
     <?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
-        <?php $childParams = new \Joomla\Registry\Registry($child->params); ?>
+        <?php $childParams = $child->getParams(); ?>
         <?php if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) : ?>
     <li>
         <h4 class="item-title">
