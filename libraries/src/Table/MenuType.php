@@ -247,6 +247,7 @@ class MenuType extends Table implements CurrentUserInterface
 
             if ($db->loadRowList()) {
                 $this->setError(Text::_('JLIB_DATABASE_ERROR_MENUTYPE_MODULE_CHECKOUT'));
+
                 return false;
             }
 
