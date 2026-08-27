@@ -1016,6 +1016,7 @@ class FieldModel extends AdminModel
 
             if (\count($tmpValues) !== \count(array_unique($tmpValues))) {
                 Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_FIELD_INVALID_DUPLICATE_VALUES'), 'error');
+
                 return false;
             }
         }
