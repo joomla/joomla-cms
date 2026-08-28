@@ -354,7 +354,7 @@ final class Stats extends CMSPlugin implements SubscriberInterface
             'db_type'     => $this->getDatabase()->name,
             'db_version'  => $this->getDatabase()->getVersion(),
             'cms_version' => JVERSION,
-            'server_os'   => php_uname('s') . ' ' . php_uname('r'),
+            'server_os'   => \function_exists('php_uname') ? php_uname('s') . ' ' . php_uname('r') : (getenv('OSTYPE') ?: \PHP_OS),
         ];
 
         // Check if we have a MariaDB version string and extract the proper version from it
