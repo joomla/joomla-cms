@@ -11,8 +11,8 @@
 namespace Joomla\Component\Finder\Administrator\Model;
 
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
-use Joomla\Component\Finder\Administrator\Indexer\Adapter;
 use Joomla\Component\Finder\Administrator\Indexer\DebugAdapter;
 use Joomla\Component\Finder\Administrator\Indexer\DebugIndexer;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
@@ -70,7 +70,12 @@ class IndexerModel extends FormModel
      */
     public function debug(DebugAdapter $adapter, int $id)
     {
+        DebugIndexer::$item = null;
         $adapter->setIndexer(new DebugIndexer($this->getDatabase()));
         $adapter->debug($id);
+
+        if (DebugIndexer::$item === null) {
+            throw new \UnexpectedValueException(Text::_('COM_FINDER_INDEXER_ERROR_NO_ITEM'));
+        }
     }
 }
