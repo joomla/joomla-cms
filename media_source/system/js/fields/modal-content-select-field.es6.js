@@ -77,10 +77,8 @@ const updateView = (inputValue, container) => {
   const hasValue = !!inputValue.value;
   container.querySelectorAll('[data-show-when-value]').forEach((el) => {
     if (el.dataset.showWhenValue) {
-
       hasValue ? el.removeAttribute('hidden') : el.setAttribute('hidden', '');
     } else {
-
       hasValue ? el.setAttribute('hidden', '') : el.removeAttribute('hidden');
     }
   });

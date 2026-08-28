@@ -151,9 +151,10 @@ class JoomlaEditorNone extends HTMLElement {
   childrenChange() {
     // Ensure the first child is an input with a textarea type.
     if (this.firstElementChild
-            && this.firstElementChild.tagName
-            && this.firstElementChild.tagName.toLowerCase() === 'textarea'
-            && this.firstElementChild.getAttribute('id')) {
+      && this.firstElementChild.tagName
+      && this.firstElementChild.tagName.toLowerCase() === 'textarea'
+      && this.firstElementChild.getAttribute('id')
+    ) {
       this.editor = this.firstElementChild;
       this.unregisterEditor();
       this.registerEditor();
