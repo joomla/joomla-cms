@@ -86,7 +86,6 @@ class HtmlView extends BaseHtmlView
         $this->form
             ->addControlField('task');
 
-
         parent::display($tpl);
     }
 

@@ -71,7 +71,6 @@ class HtmlView extends FormView
     {
         parent::initializeView();
 
-
         $this->canDo = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
 
         if ($this->getLayout() === 'modalreturn') {
