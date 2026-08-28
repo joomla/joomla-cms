@@ -457,7 +457,7 @@ class TagModel extends AdminModel implements VersionableModelInterface
         $parentId  = (int) $value;
         $table     = $this->getTable();
         $db        = $this->getDatabase();
-        $query     = $db->getQuery(true);
+        $query     = $db->createQuery();
         $newIds    = [];
 
         // Check that the parent exists
@@ -535,7 +535,7 @@ class TagModel extends AdminModel implements VersionableModelInterface
             }
 
             // Copy is a bit tricky, because we also need to copy the children
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__tags'))
                 ->where(
