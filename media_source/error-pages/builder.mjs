@@ -96,7 +96,7 @@ const processPage = async (name, pageInfo, state, template, css, js) => {
     const folder = path.dirname(fullPath);
 
     if (!fs.existsSync(folder)) {
-      fs.mkdirSync(folder, { recursive: true, mode: 0o755});
+      fs.mkdirSync(folder, { recursive: true, mode: 0o755 });
     }
 
     promises.push(fsp.writeFile(fullPath, template, { encoding: 'utf8', mode: 0o644 }));
@@ -127,7 +127,7 @@ const createErrorPages = async (options, basePath) => {
 
   // Lookup and parse language files
   const iniFilesProcess = [];
-  fs.readdirSync(langsPath, { recursive: true, withFileTypes: true}).forEach((file) => {
+  fs.readdirSync(langsPath, { recursive: true, withFileTypes: true }).forEach((file) => {
     if (file.isDirectory() || file.name.endsWith('langmetadata.xml')) {
       return;
     }
@@ -155,15 +155,13 @@ const createErrorPages = async (options, basePath) => {
 
     processPages.push(processPage(name, pageInfo, state, initTemplate, cssContent, jsContent).catch((error) => {
       throw new Error(`Failed to build page "${name}".`, { cause: error });
-    }))
+    }));
   });
 
   return Promise.all(processPages);
 };
 
-
-export default class ErrorPagesModuleBuilder extends DefaultModuleBuilder
-{
+export default class ErrorPagesModuleBuilder extends DefaultModuleBuilder {
   tasksBuild = ['build'];
   tasksExtras = [];
 
