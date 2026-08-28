@@ -9,7 +9,7 @@ The Joomla! 6.2 branch is under heavy development and not all links in this docu
 	* Joomla! 6.2 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_6.2_version_history
 	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/6.2-dev
 	* Release Managers responsible for Joomla! 6.2
-		* Charvi Mehra @charvimehradu
+		* Viviana Menzel @drmenzelit
 		* Martin Kopp @MacJoom
 
 2- What is Joomla?
