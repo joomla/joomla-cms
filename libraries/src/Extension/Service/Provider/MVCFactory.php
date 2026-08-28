@@ -14,6 +14,8 @@ use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Mail\MailerFactoryAwareInterface;
 use Joomla\CMS\Mail\MailerFactoryInterface;
 use Joomla\CMS\MVC\Factory\ApiMVCFactory;
@@ -150,6 +152,10 @@ class MVCFactory implements ServiceProviderInterface
 
         if ($factory instanceof MailerFactoryAwareInterface) {
             $factory->setMailerFactory($container->get(MailerFactoryInterface::class));
+        }
+
+        if ($factory instanceof LanguageFactoryAwareInterface) {
+            $factory->setLanguageFactory($container->get(LanguageFactoryInterface::class));
         }
     }
 }

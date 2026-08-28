@@ -10,6 +10,10 @@
 
 namespace Joomla\Component\Content\Site\View\Archive;
 
+use Joomla\CMS\Event\Content\AfterDisplayEvent;
+use Joomla\CMS\Event\Content\AfterTitleEvent;
+use Joomla\CMS\Event\Content\BeforeDisplayEvent;
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -134,7 +138,8 @@ class HtmlView extends BaseHtmlView
         // Get the page/component configuration
         $params = $state->get('params');
 
-        PluginHelper::importPlugin('content');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
         foreach ($items as $item) {
             $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
@@ -151,19 +156,32 @@ class HtmlView extends BaseHtmlView
                 $item->text = $item->introtext;
             }
 
-            Factory::getApplication()->triggerEvent('onContentPrepare', ['com_content.archive', &$item, &$item->params, 0]);
+            $contentEventArguments = [
+                'context' => 'com_content.archive',
+                'subject' => $item,
+                'params'  => $item->params,
+                'page'    => 0,
+            ];
+
+            $dispatcher->dispatch(
+                'onContentPrepare',
+                new ContentPrepareEvent('onContentPrepare', $contentEventArguments)
+            );
 
             // Old plugins: Use processed text as introtext
             $item->introtext = $item->text;
 
-            $results                        = Factory::getApplication()->triggerEvent('onContentAfterTitle', ['com_content.archive', &$item, &$item->params, 0]);
-            $item->event->afterDisplayTitle = trim(implode("\n", $results));
+            $contentEvents = [
+                'afterDisplayTitle'    => new AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
+                'beforeDisplayContent' => new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
+                'afterDisplayContent'  => new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
+            ];
 
-            $results                           = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_content.archive', &$item, &$item->params, 0]);
-            $item->event->beforeDisplayContent = trim(implode("\n", $results));
+            foreach ($contentEvents as $resultKey => $event) {
+                $results = $dispatcher->dispatch($event->getName(), $event)->getArgument('result', []);
 
-            $results                          = Factory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_content.archive', &$item, &$item->params, 0]);
-            $item->event->afterDisplayContent = trim(implode("\n", $results));
+                $item->event->{$resultKey} = trim(implode("\n", $results));
+            }
         }
 
         $form = new \stdClass();
