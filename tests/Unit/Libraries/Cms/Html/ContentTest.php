@@ -24,7 +24,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Html
- * @since       6.1.0
+ * @since       __DEPLOY_VERSION__
  */
 class ContentTest extends UnitTestCase
 {
@@ -36,7 +36,7 @@ class ContentTest extends UnitTestCase
     /**
      * @return  void
      *
-     * @since   6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function setUp(): void
     {
@@ -48,7 +48,7 @@ class ContentTest extends UnitTestCase
     /**
      * @return  void
      *
-     * @since   6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function tearDown(): void
     {
@@ -60,7 +60,7 @@ class ContentTest extends UnitTestCase
     /**
      * @return  void
      *
-     * @since   6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public function testMonthsPreservesParamsRegistry(): void
     {
