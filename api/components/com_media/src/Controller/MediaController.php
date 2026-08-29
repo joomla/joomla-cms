@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Media\Api\Controller;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\InputFilter;
@@ -19,7 +20,6 @@ use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 use Joomla\Component\Media\Api\Model\MediumModel;
-use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -243,6 +243,16 @@ class MediaController extends ApiController
     {
         $user = $this->app->getIdentity();
 
+        // Require generic management permissions for the component
+        if (!$user->authorise('core.manage', 'com_media')) {
+            return false;
+        }
+
+        // In the override mode, adding a file will override and therefore edit an existing file
+        if ($this->input->json->get('override', false)) {
+            return $user->authorise('core.edit', 'com_media');
+        }
+
         return $user->authorise('core.create', 'com_media');
     }
 
@@ -298,6 +308,11 @@ class MediaController extends ApiController
     {
         $user = $this->app->getIdentity();
 
+        // Require generic management permissions for the component
+        if (!$user->authorise('core.manage', 'com_media')) {
+            return false;
+        }
+
         // com_media's access rules contains no specific update rule.
         return $user->authorise('core.edit', 'com_media');
     }
@@ -314,7 +329,8 @@ class MediaController extends ApiController
     protected function save($recordKey = null)
     {
         // Explicitly get the single item model name.
-        $modelName = $this->input->get('model', Inflector::singularize($this->contentType));
+        $inflector = InflectorFactory::create()->build();
+        $modelName = $this->input->get('model', $inflector->singularize($this->contentType));
 
         /** @var MediumModel $model */
         $model = $this->getModel($modelName, '', ['ignore_request' => true, 'state' => $this->modelState]);
@@ -377,7 +393,8 @@ class MediaController extends ApiController
 
         $this->modelState->set('path', $this->input->get('path', '', 'STRING'));
 
-        $modelName = $this->input->get('model', Inflector::singularize($this->contentType));
+        $inflector = InflectorFactory::create()->build();
+        $modelName = $this->input->get('model', $inflector->singularize($this->contentType));
         $model     = $this->getModel($modelName, '', ['ignore_request' => true, 'state' => $this->modelState]);
 
         $model->delete();
@@ -395,6 +412,11 @@ class MediaController extends ApiController
     protected function allowDelete(): bool
     {
         $user = $this->app->getIdentity();
+
+        // Require generic management permissions for the component
+        if (!$user->authorise('core.manage', 'com_media')) {
+            return false;
+        }
 
         return $user->authorise('core.delete', 'com_media');
     }

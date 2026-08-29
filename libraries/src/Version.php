@@ -39,7 +39,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const MAJOR_VERSION = 5;
+    public const MAJOR_VERSION = 6;
 
     /**
      * Minor release version.
@@ -47,7 +47,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const MINOR_VERSION = 3;
+    public const MINOR_VERSION = 2;
 
     /**
      * Patch release version.
@@ -55,7 +55,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const PATCH_VERSION = 1;
+    public const PATCH_VERSION = 0;
 
     /**
      * Extra release version info.
@@ -66,7 +66,7 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
-    public const EXTRA_VERSION = 'dev';
+    public const EXTRA_VERSION = 'beta2-dev';
 
     /**
      * Development status.
@@ -82,7 +82,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const CODENAME = 'Timu';
+    public const CODENAME = 'Mwezi';
 
     /**
      * Release date.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '15-April-2025';
+    public const RELDATE = '18-August-2026';
 
     /**
      * Release time.
@@ -98,7 +98,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTIME = '16:01';
+    public const RELTIME = '18:01';
 
     /**
      * Release timezone.
@@ -106,7 +106,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTZ = 'GMT';
+    public const RELTZ = 'UTC';
 
     /**
      * Copyright Notice.

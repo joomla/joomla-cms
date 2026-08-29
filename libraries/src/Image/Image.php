@@ -174,7 +174,7 @@ class Image
         }
 
         // Get the image file information.
-        $info = getimagesize($path);
+        $info = @getimagesize($path);
 
         if (!$info) {
             throw new Exception\UnparsableImageException('Unable to get properties for the image.');
@@ -365,27 +365,6 @@ class Image
         }
 
         return $thumbsCreated;
-    }
-
-    /**
-     * Method to create thumbnails from the current image and save them to disk. It allows creation by resizing or cropping the original image.
-     *
-     * @param   mixed    $thumbSizes       string or array of strings. Example: $thumbSizes = ['150x75','250x150'];
-     * @param   integer  $creationMethod   1-3 resize $scaleMethod | 4 create cropping
-     * @param   string   $thumbsFolder     destination thumbs folder. null generates a thumbs folder in the image folder
-     *
-     * @return  array
-     *
-     * @since   2.5.0
-     * @throws  \LogicException
-     * @throws  \InvalidArgumentException
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Use \Joomla\CMS\Image\createThumbnails instead
-     */
-    public function createThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null)
-    {
-        return $this->createThumbnails($thumbSizes, $creationMethod, $thumbsFolder, false);
     }
 
     /**
@@ -1142,7 +1121,9 @@ class Image
     public function destroy()
     {
         if ($this->isLoaded()) {
-            return imagedestroy($this->getHandle());
+            $this->handle = null;
+
+            return true;
         }
 
         return false;

@@ -8,7 +8,7 @@
 	<fieldset name="request">
 		<fields name="request">
 			<field
-				name="extension"
+				name="context"
 				type="ComponentsFields"
 				label="COM_FIELDS_CHOOSE_CONTEXT_LABEL"
 				required="true"

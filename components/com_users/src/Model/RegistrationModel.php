@@ -11,14 +11,20 @@
 namespace Joomla\Component\Users\Site\Model;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Event\Model\PrepareDataEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\FormModel;
@@ -31,6 +37,7 @@ use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -41,9 +48,11 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class RegistrationModel extends FormModel implements UserFactoryAwareInterface
+class RegistrationModel extends FormModel implements UserFactoryAwareInterface, MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * @var    object  The user registration data.
@@ -87,7 +96,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
         $db       = $this->getDatabase();
 
         // Get the user id based on the token.
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('activation') . ' = :activation')
@@ -138,7 +147,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
             $linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
             // Compile the admin notification mail values.
-            $data               = $user->getProperties();
+            $data               = ArrayHelper::fromObject($user, false);
             $data['activation'] = ApplicationHelper::getHash(UserHelper::genRandomPassword());
             $user->activation   = $data['activation'];
             $data['siteurl']    = Uri::base();
@@ -157,7 +166,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
 
             // Get all admin users
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName(['name', 'email', 'sendEmail', 'id']))
                 ->from($db->quoteName('#__users'))
                 ->where($db->quoteName('sendEmail') . ' = 1')
@@ -179,7 +188,12 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
 
                 if ($usercreator->authorise('core.create', 'com_users') && $usercreator->authorise('core.manage', 'com_users')) {
                     try {
-                        $mailer = new MailTemplate('com_users.registration.admin.verification_request', $app->getLanguage()->getTag());
+                        $mailer = new MailTemplate(
+                            'com_users.registration.admin.verification_request',
+                            $app->getLanguage()->getTag(),
+                            $this->getMailerFactory()->createMailer(),
+                            $this->getLanguageFactory()
+                        );
                         $mailer->addTemplateData($data);
                         $mailer->addRecipient($row->email);
                         $return = $mailer->send();
@@ -189,7 +203,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
 
                             $return = false;
                         } catch (\RuntimeException $exception) {
-                            Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                            Factory::getApplication()->enqueueMessage(Text::_($exception->getMessage()), 'warning');
 
                             $return = false;
                         }
@@ -209,13 +223,18 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
             $user->block      = '0';
 
             // Compile the user activated notification mail values.
-            $data = $user->getProperties();
+            $data = ArrayHelper::fromObject($user, false);
             $user->setParam('activate', 0);
             $data['fromname'] = $app->get('fromname');
             $data['mailfrom'] = $app->get('mailfrom');
             $data['sitename'] = $app->get('sitename');
             $data['siteurl']  = Uri::base();
-            $mailer           = new MailTemplate('com_users.registration.user.admin_activated', $app->getLanguage()->getTag());
+            $mailer           = new MailTemplate(
+                'com_users.registration.user.admin_activated',
+                $app->getLanguage()->getTag(),
+                $this->getMailerFactory()->createMailer(),
+                $this->getLanguageFactory()
+            );
             $mailer->addTemplateData($data);
             $mailer->addRecipient($data['email']);
 
@@ -227,7 +246,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
 
                     $return = false;
                 } catch (\RuntimeException $exception) {
-                    Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                    Factory::getApplication()->enqueueMessage(Text::_($exception->getMessage()), 'warning');
 
                     $return = false;
                 }
@@ -306,10 +325,14 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
             unset($this->data->password1, $this->data->password2);
 
             // Get the dispatcher and load the users plugins.
-            PluginHelper::importPlugin('user');
+            $dispatcher = $this->getDispatcher();
+            PluginHelper::importPlugin('user', null, true, $dispatcher);
 
             // Trigger the data preparation event.
-            Factory::getApplication()->triggerEvent('onContentPrepareData', ['com_users.registration', $this->data]);
+            $dispatcher->dispatch('onContentPrepareData', new PrepareDataEvent('onContentPrepareData', [
+                'context' => 'com_users.registration',
+                'data'    => $this->data,
+            ]));
         }
 
         return $this->data;
@@ -324,18 +347,15 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm('com_users.registration', 'registration', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         // When multilanguage is set, a user's default site language should also be a Content Language
         if (Multilanguage::isEnabled()) {
@@ -461,12 +481,13 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
             return false;
         }
 
+        // From this moment the user is registered, so we don't return false anymore
         $app   = Factory::getApplication();
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Compile the notification mail values.
-        $data             = $user->getProperties();
+        $data             = ArrayHelper::fromObject($user, false);
         $data['fromname'] = $app->get('fromname');
         $data['mailfrom'] = $app->get('mailfrom');
         $data['sitename'] = $app->get('sitename');
@@ -509,22 +530,24 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
 
         // Try to send the registration email.
         try {
-            $mailer = new MailTemplate($mailtemplate, $app->getLanguage()->getTag());
+            $mailer = new MailTemplate(
+                $mailtemplate,
+                $app->getLanguage()->getTag(),
+                $this->getMailerFactory()->createMailer(),
+                $this->getLanguageFactory()
+            );
             $mailer->addTemplateData($data);
             $mailer->addRecipient($data['email']);
             $mailer->addUnsafeTags(['username', 'password_clear', 'name']);
+
             $return = $mailer->send();
         } catch (\Exception $exception) {
+            $return = false;
+
             try {
-                Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
-
-                $return = false;
+                Log::add(Text::_($exception->getMessage()), Log::WARNING, 'joomla_registration');
             } catch (\RuntimeException $exception) {
-                Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
-
-                $this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'));
-
-                $return = false;
+                // We set the error message below but we don't need to notify the user that we can't add logs
             }
         }
 
@@ -542,9 +565,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
             try {
                 $rows = $db->loadObjectList();
             } catch (\RuntimeException $e) {
-                $this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()));
-
-                return false;
+                $rows = [];
             }
 
             // Send mail to all superadministrators id
@@ -556,35 +577,30 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
                 }
 
                 try {
-                    $mailer = new MailTemplate('com_users.registration.admin.new_notification', $app->getLanguage()->getTag());
+                    $mailer = new MailTemplate(
+                        'com_users.registration.admin.new_notification',
+                        $app->getLanguage()->getTag(),
+                        $this->getMailerFactory()->createMailer(),
+                        $this->getLanguageFactory()
+                    );
                     $mailer->addTemplateData($data);
                     $mailer->addRecipient($row->email);
                     $mailer->addUnsafeTags(['username', 'name']);
-                    $return = $mailer->send();
+
+                    $mailer->send();
                 } catch (\Exception $exception) {
                     try {
-                        Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
-
-                        $return = false;
+                        Log::add(Text::_($exception->getMessage()), Log::WARNING, 'joomla_registration');
                     } catch (\RuntimeException $exception) {
-                        Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
-
-                        $return = false;
+                        // No message to frontend user
                     }
-                }
-
-                // Check for an error.
-                if ($return !== true) {
-                    $this->setError(Text::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
-
-                    return false;
                 }
             }
         }
 
         // Check for an error.
         if ($return !== true) {
-            $this->setError(Text::_('COM_USERS_REGISTRATION_SEND_MAIL_FAILED'));
+            $app->enqueueMessage(Text::_('COM_USERS_REGISTRATION_SEND_MAIL_FAILED'), CMSApplicationInterface::MSG_WARNING);
 
             // Send a system message to administrators receiving system mails
             $db = $this->getDatabase();
@@ -598,9 +614,12 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
             try {
                 $userids = $db->loadColumn();
             } catch (\RuntimeException $e) {
-                $this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()));
+                $userids = [];
 
-                return false;
+                try {
+                    Log::add(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), Log::WARNING, 'joomla_registration');
+                } catch (\RuntimeException $exception) {
+                }
             }
 
             if (\count($userids) > 0) {
@@ -633,14 +652,13 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
                     try {
                         $db->execute();
                     } catch (\RuntimeException $e) {
-                        $this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()));
-
-                        return false;
+                        try {
+                            Log::add(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), Log::WARNING, 'joomla_registration');
+                        } catch (\RuntimeException $exception) {
+                        }
                     }
                 }
             }
-
-            return false;
         }
 
         if ($useractivation == 1) {

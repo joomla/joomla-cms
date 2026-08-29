@@ -20,8 +20,7 @@ use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\Tag\TaggableTableTrait;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
-use Joomla\CMS\Versioning\VersionableTableInterface;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\String\StringHelper;
 
@@ -34,7 +33,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.0
  */
-class ContactTable extends Table implements VersionableTableInterface, TaggableTableInterface, CurrentUserInterface
+class ContactTable extends Table implements TaggableTableInterface, CurrentUserInterface
 {
     use TaggableTableTrait;
     use CurrentUserTrait;
@@ -58,12 +57,12 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
     /**
      * Constructor
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.0
      */
-    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_contact.contact';
 
@@ -121,7 +120,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
         }
 
         // Verify that the alias is unique
-        $table = new self($this->getDbo(), $this->getDispatcher());
+        $table = new self($this->getDatabase(), $this->getDispatcher());
 
         if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
             // Is the existing contact trashed?

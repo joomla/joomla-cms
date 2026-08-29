@@ -71,8 +71,8 @@ class CaptiveRenderOptions extends DataShapeObject
     /**
      * Attributes other than type and id which will be added to the HTML input box.
      *
-     * @var    array
-     * @@since 4.2.0
+     * @var   array
+     * @since 4.2.0
      */
     protected $input_attributes = [];
 
@@ -185,10 +185,10 @@ class CaptiveRenderOptions extends DataShapeObject
     /**
      * Setter for the input_attributes property.
      *
-     * @param   array  $value  The value to set
+     * @param  array  $value  The value to set
      *
-     * @return  void
-     * @@since  4.2.0
+     * @return void
+     * @since  4.2.0
      */
     // phpcs:ignore
     protected function setInput_attributes(array $value)

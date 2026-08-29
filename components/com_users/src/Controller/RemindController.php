@@ -45,7 +45,7 @@ class RemindController extends BaseController
         $return = $model->processRemindRequest($data);
 
         // Check for a hard error.
-        if ($return == false && JDEBUG) {
+        if (!$return && JDEBUG) {
             // The request failed.
             // Go back to the request form.
             $message = Text::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());

@@ -12,13 +12,11 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Users\Site\Model\CaptiveModel;
-use Joomla\Component\Users\Site\View\Captive\HtmlView;
 use Joomla\Utilities\ArrayHelper;
 
 /**
- * @var HtmlView     $this  View object
- * @var CaptiveModel $model The model
+ * @var \Joomla\Component\Users\Site\View\Captive\HtmlView  $this  View object
+ * @var \Joomla\Component\Users\Site\Model\CaptiveModel     $model The model
  */
 $model = $this->getModel();
 
@@ -58,9 +56,9 @@ $this->getDocument()->getWebAssetManager()
         </div>
     <?php endif; ?>
 
-    <form action="<?php echo Route::_('index.php?option=com_users&task=captive.validate&record_id=' . ((int) $this->record->id)) ?>"
-            id="users-mfa-captive-form"
+    <form action="<?php echo Route::_('index.php?task=captive.validate&record_id=' . ((int) $this->record->id)) ?>"
             method="post"
+            id="users-mfa-captive-form"
             class="form-horizontal"
     >
         <?php echo HTMLHelper::_('form.token') ?>
@@ -117,7 +115,7 @@ $this->getDocument()->getWebAssetManager()
 
                 <?php if (count($this->records) > 1) : ?>
                     <div id="users-mfa-captive-form-choose-another" class="my-3">
-                        <a href="<?php echo Route::_('index.php?option=com_users&view=captive&task=select') ?>">
+                        <a href="<?php echo Route::_('index.php?option=com_users&view=captive&task=captive.select') ?>">
                             <?php echo Text::_('COM_USERS_MFA_USE_DIFFERENT_METHOD'); ?>
                         </a>
                     </div>

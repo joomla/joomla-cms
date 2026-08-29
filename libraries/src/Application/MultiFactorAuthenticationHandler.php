@@ -317,23 +317,27 @@ trait MultiFactorAuthenticationHandler
             return false;
         }
 
-        $allowedViews = ['captive', 'method', 'methods', 'callback'];
-        $allowedTasks = [
-            'captive.display', 'captive.captive', 'captive.validate',
-            'methods.display',
-        ];
+        $allowedTasks = ['captive.captive', 'captive.validate', 'callback.callback', 'captive.select', 'methods.display'];
+        $allowedViews = ['captive', 'methods'];
 
         if (!$onlyCaptive) {
             $allowedTasks = array_merge(
                 $allowedTasks,
                 [
-                    'method.display', 'method.add', 'method.edit', 'method.regenerateBackupCodes',
-                    'method.delete', 'method.save', 'methods.disable', 'methods.doNotShowThisAgain',
+                    'method.add', 'method.edit', 'method.regenerateBackupCodes',
+                    'method.delete', 'method.save', 'methods.doNotShowThisAgain',
+                ]
+            );
+
+            $allowedViews = array_merge(
+                $allowedViews,
+                [
+                    'method', 'methods',
                 ]
             );
         }
 
-        return \in_array($view, $allowedViews) || \in_array($task, $allowedTasks);
+        return \in_array($task, $allowedTasks) || (\in_array($view, $allowedViews) && !$task);
     }
 
     /**
@@ -348,7 +352,7 @@ trait MultiFactorAuthenticationHandler
         $profileKey = 'mfa.dontshow';
         /** @var DatabaseInterface $db */
         $db         = Factory::getContainer()->get(DatabaseInterface::class);
-        $query      = $db->getQuery(true)
+        $query      = $db->createQuery()
             ->select($db->quoteName('profile_value'))
             ->from($db->quoteName('#__user_profiles'))
             ->where($db->quoteName('user_id') . ' = :userId')
@@ -444,7 +448,7 @@ trait MultiFactorAuthenticationHandler
             // Delete any other record with the same user_id and Method.
             $method = 'emergencycodes';
             $userId = $user->id;
-            $query  = $db->getQuery(true)
+            $query  = $db->createQuery()
                 ->delete($db->quoteName('#__user_mfa'))
                 ->where($db->quoteName('user_id') . ' = :user_id')
                 ->where($db->quoteName('method') . ' = :method')

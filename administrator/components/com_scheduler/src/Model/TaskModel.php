@@ -20,7 +20,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
@@ -154,7 +153,7 @@ class TaskModel extends AdminModel
      * @param   array  $data      Data that needs to go into the form
      * @param   bool   $loadData  Should the form load its data from the DB?
      *
-     * @return Form|boolean  A Form object on success, false on failure.
+     * @return Form  A Form object
      *
      * @since  4.1.0
      * @throws \Exception
@@ -169,10 +168,6 @@ class TaskModel extends AdminModel
          *  $form->bind($data).
          */
         $form = $this->loadForm('com_scheduler.task', 'task', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         $user = $this->app->getIdentity();
 
@@ -274,7 +269,6 @@ class TaskModel extends AdminModel
 
         // If the data from UserState is empty, we fetch it with getItem()
         if (empty($data)) {
-            /** @var CMSObject $data */
             $data = $this->getItem();
 
             // @todo : further data processing goes here
@@ -323,14 +317,14 @@ class TaskModel extends AdminModel
         }
 
         // Parent call leaves `execution_rules` and `cron_rules` JSON encoded
-        $item->set('execution_rules', json_decode($item->get('execution_rules', '')));
-        $item->set('cron_rules', json_decode($item->get('cron_rules', '')));
+        $item->execution_rules = json_decode($item->execution_rules ?? '');
+        $item->cron_rules      = json_decode($item->cron_rules ?? '');
 
         $taskOption = SchedulerHelper::getTaskOptions()->findOption(
             ($item->id ?? 0) ? ($item->type ?? 0) : $this->getState('task.type')
         );
 
-        $item->set('taskOption', $taskOption);
+        $item->taskOption = $taskOption;
 
         return $item;
     }
@@ -420,11 +414,17 @@ class TaskModel extends AdminModel
      */
     private function hasRunningTasks($db): bool
     {
-        $lockCountQuery = $db->getQuery(true)
+        $now       = Factory::getDate('now', 'UTC');
+        $timeout   = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
+        $threshold = (clone $now)->modify("-$timeout seconds")->toSql();
+
+        $lockCountQuery = $db->createQuery()
             ->select('COUNT(id)')
             ->from($db->quoteName(self::TASK_TABLE))
             ->where($db->quoteName('locked') . ' IS NOT NULL')
-            ->where($db->quoteName('state') . ' = 1');
+            ->where($db->quoteName('locked') . ' > :threshold')
+            ->where($db->quoteName('state') . ' = 1')
+            ->bind(':threshold', $threshold);
 
         try {
             $runningCount = $db->setQuery($lockCountQuery)->loadResult();
@@ -450,7 +450,7 @@ class TaskModel extends AdminModel
      */
     private function buildLockQuery($db, $now, $options)
     {
-        $lockQuery = $db->getQuery(true)
+        $lockQuery = $db->createQuery()
             ->update($db->quoteName(self::TASK_TABLE))
             ->set($db->quoteName('locked') . ' = :now1')
             ->bind(':now1', $now);
@@ -495,7 +495,7 @@ class TaskModel extends AdminModel
      */
     private function getNextTaskId($db, $now, $options)
     {
-        $idQuery = $db->getQuery(true)
+        $idQuery = $db->createQuery()
             ->from($db->quoteName(self::TASK_TABLE))
             ->select($db->quoteName('id'));
 
@@ -543,7 +543,7 @@ class TaskModel extends AdminModel
      */
     private function fetchTask($db, $now): ?\stdClass
     {
-        $getQuery = $db->getQuery(true)
+        $getQuery = $db->createQuery()
             ->select('*')
             ->from($db->quoteName(self::TASK_TABLE))
             ->where($db->quoteName('locked') . ' = :now')
@@ -613,10 +613,15 @@ class TaskModel extends AdminModel
             $basisDayOfMonth           = $data['execution_rules']['exec-day'];
             [$basisHour, $basisMinute] = explode(':', $data['execution_rules']['exec-time']);
 
-            $data['last_execution'] = Factory::getDate('now', 'GMT')->format('Y-m')
+            $data['last_execution'] = Factory::getDate('now', 'UTC')->format('Y-m')
                 . "-$basisDayOfMonth $basisHour:$basisMinute:00";
         } else {
-            $data['last_execution'] = $this->getItem($id)->last_execution;
+            $item = $this->getItem($id);
+
+            $data['last_execution'] = $item->last_execution;
+
+            // Prevent changing the task type when editing an existing task.
+            $data['type'] = $item->type;
         }
 
         // Build the `cron_rules` column from `execution_rules`
@@ -709,7 +714,7 @@ class TaskModel extends AdminModel
             $buildExpression .= ' ' . $this->wildcardIfMatch($matches['hours'], range(0, 23), true);
             $buildExpression .= ' ' . $this->wildcardIfMatch($matches['days_month'], range(1, 31), true);
             $buildExpression .= ' ' . $this->wildcardIfMatch($matches['months'], range(1, 12), true);
-            $buildExpression .= ' ' . $this->wildcardIfMatch($matches['days_week'], range(0, 6), true);
+            $buildExpression .= ' ' . $this->wildcardIfMatch($matches['days_week'], range(1, 7), true);
         }
 
         return [

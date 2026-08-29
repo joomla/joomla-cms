@@ -30,7 +30,7 @@ use Joomla\CMS\Factory;
 function admin_postinstall_languageaccess340_condition()
 {
     $db    = Factory::getDbo();
-    $query = $db->getQuery(true)
+    $query = $db->createQuery()
         ->select($db->quoteName('access'))
         ->from($db->quoteName('#__languages'))
         ->where($db->quoteName('access') . ' = ' . $db->quote('0'));
@@ -38,11 +38,6 @@ function admin_postinstall_languageaccess340_condition()
     $db->execute();
     $numRows = $db->getNumRows();
 
-    if (isset($numRows) && $numRows != 0) {
-        // We have rows here so we have at minimum one row with access set to 0
-        return true;
-    }
-
-    // All good the query return nothing.
-    return false;
+    // Return true if we have have at minimum one row with access set to 0
+    return $numRows > 0;
 }

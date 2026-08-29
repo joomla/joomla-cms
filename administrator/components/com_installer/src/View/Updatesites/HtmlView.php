@@ -12,7 +12,6 @@ namespace Joomla\Component\Installer\Administrator\View\Updatesites;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\Component\Installer\Administrator\Model\UpdatesitesModel;
@@ -75,16 +74,18 @@ class HtmlView extends InstallerViewDefault
     public function display($tpl = null): void
     {
         /** @var UpdatesitesModel $model */
-        $model               = $this->getModel();
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
         $this->items         = $model->getItems();
         $this->pagination    = $model->getPagination();
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
 
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task')
+            ->addControlField('boxchecked', '0');
 
         // Display the view
         parent::display($tpl);
@@ -118,7 +119,9 @@ class HtmlView extends InstallerViewDefault
             $childBar->unpublish('updatesites.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
 
             if ($canDo->get('core.delete')) {
-                $childBar->delete('updatesites.delete')->listCheck(true);
+                $childBar->delete('updatesites.delete')
+                    ->icon('icon-exclamation-triangle')
+                    ->listCheck(true);
             }
 
             $childBar->checkin('updatesites.checkin')->listCheck(true);

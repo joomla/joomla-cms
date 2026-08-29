@@ -1,8 +1,8 @@
 import { TOTP } from 'totp-generator';
 
-afterEach(() => cy.db_getUserId().then((uid) => cy.task('queryDB', `DELETE FROM #__user_mfa WHERE user_id = ${uid}`)));
-
 describe('Test in frontend that the user', () => {
+  afterEach(() => cy.db_getUserId().then((uid) => cy.task('queryDB', `DELETE FROM #__user_mfa WHERE user_id = ${uid}`)));
+
   it('can login with Multi-factor Authentication (email)', () => {
     cy.doFrontendLogin();
     cy.visit('/index.php?option=com_users&view=profile&layout=edit');
@@ -20,8 +20,8 @@ describe('Test in frontend that the user', () => {
     cy.get('#com-users-method-edit').submit();
     cy.get('.com-users-methods-list-method-name-email .com-users-methods-list-method-record').contains('Test Code');
     cy.doFrontendLogout();
-    cy.get('form.mod-login input[name="username"]').type(Cypress.env('username'));
-    cy.get('form.mod-login input[name="password"]').type(Cypress.env('password'));
+    cy.get('form.mod-login input[name="username"]').type(Cypress.expose('username'));
+    cy.get('form.mod-login input[name="password"]').type(Cypress.expose('password'));
     cy.get('form.mod-login').submit();
     cy.get('#users-mfa-title').contains('Test Code');
     cy.task('getMails').then((mails) => {
@@ -53,8 +53,8 @@ describe('Test in frontend that the user', () => {
     cy.get('#com-users-method-edit').submit();
     cy.get('.com-users-methods-list-method-name-totp .com-users-methods-list-method-record').contains('Test Code');
     cy.doFrontendLogout();
-    cy.get('form.mod-login input[name="username"]').type(Cypress.env('username'));
-    cy.get('form.mod-login input[name="password"]').type(Cypress.env('password'));
+    cy.get('form.mod-login input[name="username"]').type(Cypress.expose('username'));
+    cy.get('form.mod-login input[name="password"]').type(Cypress.expose('password'));
     cy.get('form.mod-login').submit();
     cy.get('#users-mfa-title').contains('Verification code');
     cy.get('@secret').then((secret) => cy.get('#users-mfa-code').clear().type(TOTP.generate(secret).otp));
@@ -64,6 +64,37 @@ describe('Test in frontend that the user', () => {
     cy.get('.com-users-methods-list-method-name-totp a.com-users-methods-list-method-record-delete').click();
     cy.on('window:confirm', (text) => expect(text).to.contains('Are you sure you want to delete?'));
     cy.get('#com-users-methods-reset-message').contains('not enabled');
+  });
+
+  it('can login with Multi-factor Authentication (passkey)', { browser: '!firefox' }, () => {
+    Cypress.automation('remote:debugger:protocol', { command: 'WebAuthn.enable', params: {} }).then(() => {
+      Cypress.automation('remote:debugger:protocol', {
+        command: 'WebAuthn.addVirtualAuthenticator',
+        params: {
+          options: {
+            protocol: 'ctap2', transport: 'internal', hasResidentKey: true, hasUserVerification: true, isUserVerified: true,
+          },
+        },
+      });
+    });
+    cy.doFrontendLogin();
+    cy.visit('/index.php?option=com_users&view=profile&layout=edit');
+    cy.get('.com-users-methods-list-method-name-webauthn a.com-users-methods-list-method-addnew').click();
+    cy.get('#com-users-method-edit-title').clear().type('Test Passkey');
+    cy.get('#com-users-method-edit button.multifactorauth_webauthn_setup').click();
+    cy.get('.com-users-methods-list-method-name-webauthn .com-users-methods-list-method-record').contains('Test Passkey');
+    cy.doFrontendLogout();
+    cy.get('form.mod-login input[name="username"]').type(Cypress.expose('username'));
+    cy.get('form.mod-login input[name="password"]').type(Cypress.expose('password'));
+    cy.get('form.mod-login').submit();
+    cy.get('#users-mfa-title').contains('Passkey');
+    cy.get('#users-mfa-captive-button-submit').click();
+    cy.visit('/index.php?option=com_users&view=profile&layout=edit');
+    cy.get('#com-users-methods-reset-message').contains('is enabled');
+    cy.get('.com-users-methods-list-method-name-webauthn a.com-users-methods-list-method-record-delete').click();
+    cy.on('window:confirm', (text) => expect(text).to.contains('Are you sure you want to delete?'));
+    cy.get('#com-users-methods-reset-message').contains('not enabled');
+    cy.then(() => Cypress.automation('remote:debugger:protocol', { command: 'WebAuthn.disable', params: {} }));
   });
 
   it('can login with Multi-factor Authentication (backup codes)', () => {
@@ -85,8 +116,8 @@ describe('Test in frontend that the user', () => {
       .click();
     cy.get('table > tbody > tr > td').first().invoke('text').then((code) => cy.wrap(/\d{8}/.exec(code)[0]).as('code'));
     cy.doFrontendLogout();
-    cy.get('form.mod-login input[name="username"]').type(Cypress.env('username'));
-    cy.get('form.mod-login input[name="password"]').type(Cypress.env('password'));
+    cy.get('form.mod-login input[name="username"]').type(Cypress.expose('username'));
+    cy.get('form.mod-login input[name="password"]').type(Cypress.expose('password'));
     cy.get('form.mod-login').submit();
     cy.get('#users-mfa-title').contains('Verification code');
     cy.get('#users-mfa-captive-form-choose-another a').click();

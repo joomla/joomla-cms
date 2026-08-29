@@ -11,13 +11,11 @@
 namespace Joomla\Plugin\ApiAuthentication\Token\Extension;
 
 use Joomla\CMS\Authentication\Authentication;
-use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Event\User\AuthenticationEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Filter\InputFilter;
 
@@ -74,15 +72,14 @@ final class Token extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface   $dispatcher   The dispatcher
      * @param   array                 $config       An optional associative array of configuration settings
      * @param   InputFilter           $filter       The input filter
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, InputFilter $filter)
+    public function __construct(array $config, InputFilter $filter)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->filter = $filter;
     }
@@ -170,6 +167,11 @@ final class Token extends CMSPlugin implements SubscriberInterface
          */
         $allowedAlgo = \in_array($algo, $this->allowedAlgos);
 
+        // If the algorithm is not allowed, fail authentication gracefully.
+        if (!$allowedAlgo) {
+            return;
+        }
+
         /**
          * Make sure the user ID is an integer
          */
@@ -192,13 +194,19 @@ final class Token extends CMSPlugin implements SubscriberInterface
         $referenceTokenData = $this->getTokenSeedForUser($userId);
         $referenceTokenData = empty($referenceTokenData) ? '' : $referenceTokenData;
         $referenceTokenData = base64_decode($referenceTokenData);
+
+        // If the reference token data is empty, user has no token configured.
+        if (empty($referenceTokenData)) {
+            return;
+        }
+
         $referenceHMAC      = hash_hmac($algo, $referenceTokenData, $siteSecret);
 
         // Is the token enabled?
         $enabled = $this->isTokenEnabledForUser($userId);
 
         // Do the tokens match? Use a timing safe string comparison to prevent timing attacks.
-        $hashesMatch = Crypt::timingSafeCompare($referenceHMAC, $tokenHMAC);
+        $hashesMatch = hash_equals($referenceHMAC, $tokenHMAC);
 
         // Is the user in the allowed user groups?
         $inAllowedUserGroups = $this->isInAllowedUserGroup($userId);
@@ -271,7 +279,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
     {
         try {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('profile_value'))
                 ->from($db->quoteName('#__user_profiles'))
                 ->where($db->quoteName('profile_key') . ' = :profileKey')
@@ -300,7 +308,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
     {
         try {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('profile_value'))
                 ->from($db->quoteName('#__user_profiles'))
                 ->where($db->quoteName('profile_key') . ' = :profileKey')

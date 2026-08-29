@@ -22,8 +22,11 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Module;
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\Component\Categories\Administrator\Table\CategoryTable;
+use Joomla\Component\Content\Administrator\Table\ArticleTable;
+use Joomla\Component\Menus\Administrator\Table\MenuTable;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
@@ -127,6 +130,15 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        if (!$this->getApplication()->getIdentity()->authorise('core.manage', 'com_installer')) {
+            $response            = [];
+            $response['success'] = false;
+            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_MULTILANG_ERROR_LANGFILTER', 1, Text::_('JERROR_ALERTNOAUTHOR'));
+
+            $event->addResult($response);
+            return;
+        }
+
         $languages = LanguageHelper::getContentLanguages([0, 1]);
 
         if (\count($languages) < 2) {
@@ -216,6 +228,15 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
     public function onAjaxSampledataApplyStep3(AjaxEvent $event): void
     {
         if (!Session::checkToken('get') || $this->getApplication()->getInput()->get('type') != $this->_name) {
+            return;
+        }
+
+        if (!$this->getApplication()->getIdentity()->authorise('core.edit', 'com_languages')) {
+            $response            = [];
+            $response['success'] = false;
+            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_MULTILANG_ERROR_CONTENTLANGUAGES', 3);
+
+            $event->addResult($response);
             return;
         }
 
@@ -455,6 +476,15 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        if (!$this->getApplication()->getIdentity()->authorise('core.edit.state', 'com_modules')) {
+            $response            = [];
+            $response['success'] = false;
+            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_MULTILANG_ERROR_MAINMENU_MODULE', 7);
+
+            $event->addResult($response);
+            return;
+        }
+
         if (!ComponentHelper::isEnabled('com_modules')) {
             $response            = [];
             $response['success'] = true;
@@ -514,7 +544,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
     {
         // Create a new db object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query
             ->update($db->quoteName('#__extensions'))
@@ -572,7 +602,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
     {
         // Create a new db object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Disable main menu module with Home set to ALL languages.
         $query
@@ -606,7 +636,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
      */
     private function addModuleLanguageSwitcher()
     {
-        $tableModule = Table::getInstance('Module', 'Joomla\\CMS\\Table\\');
+        $tableModule = new Module($this->getDatabase());
 
         $moduleData  = [
             'id'        => 0,
@@ -655,7 +685,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
      */
     private function addModuleMenu($itemLanguage)
     {
-        $tableModule = Table::getInstance('Module', 'Joomla\\CMS\\Table\\');
+        $tableModule = new Module($this->getDatabase());
         $title       = 'Main menu ' . $itemLanguage->language;
 
         $moduleData = [
@@ -738,7 +768,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
      *
      * @param   \stdClass  $itemLanguage  Language Object.
      *
-     * @return  Table|boolean Menu Item Object. False otherwise.
+     * @return  MenuTable|boolean Menu Item Object. False otherwise.
      *
      * @since   4.0.0
      */
@@ -813,7 +843,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
      * @param   \stdClass  $itemLanguage  Language Object.
      * @param   integer   $categoryId    The id of the category displayed by the blog.
      *
-     * @return  Table|boolean Menu Item Object. False otherwise.
+     * @return  MenuTable|boolean Menu Item Object. False otherwise.
      *
      * @since   4.0.0
      */
@@ -895,7 +925,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
 
         foreach ($groupedAssociations as $context => $associations) {
             $key   = md5(json_encode($associations));
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->insert($db->quoteName('#__associations'));
 
             foreach ($associations as $language => $id) {
@@ -943,7 +973,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
     {
         // Create a new db object.
         $db       = $this->getDatabase();
-        $query    = $db->getQuery(true);
+        $query    = $db->createQuery();
         $moduleId = (int) $moduleId;
 
         // Add Module in Module menus.
@@ -968,7 +998,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
      *
      * @param   \stdClass  $itemLanguage  Language Object.
      *
-     * @return  Table|boolean Category Object. False otherwise.
+     * @return  CategoryTable|boolean Category Object. False otherwise.
      *
      * @since   4.0.0
      */
@@ -1039,7 +1069,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
      * @param   \stdClass  $itemLanguage  Language Object.
      * @param   integer   $categoryId    The id of the category where we want to add the article.
      *
-     * @return  Table|boolean Article Object. False otherwise.
+     * @return  ArticleTable|boolean Article Object. False otherwise.
      *
      * @since   4.0.0
      */
@@ -1112,7 +1142,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
         // Get the new item ID.
         $newId = $article->get('id');
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->insert($db->quoteName('#__content_frontpage'))
             ->values($newId . ', 0, NULL, NULL');
 
@@ -1149,7 +1179,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
     private function publishContentLanguages()
     {
         // Publish the Content Languages.
-        $tableLanguage = Table::getInstance('Language');
+        $tableLanguage = new \Joomla\CMS\Table\Language($this->getDatabase());
 
         $siteLanguages = $this->getInstalledlangs('site');
 
@@ -1256,7 +1286,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
     {
         // Create a new db object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select field element from the extensions table.
         $query->select($db->quoteName(['element', 'name']))
@@ -1337,7 +1367,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the admin user ID
         $query

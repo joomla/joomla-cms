@@ -9,7 +9,7 @@
  */
 
 trigger_error(
-    sprintf(
+    \sprintf(
         'Bootstrapping Joomla using the %1$s file is deprecated.  Use %2$s instead.',
         __FILE__,
         __DIR__ . '/bootstrap.php'
@@ -17,25 +17,15 @@ trigger_error(
     E_USER_DEPRECATED
 );
 
-/**
- * Set the platform root path as a constant if necessary.
- *
- * @deprecated 4.4.0 will be removed in 6.0
- *             Use defined('_JEXEC') or die; to detect if the CMS is loaded correctly
- **/
-if (!defined('JPATH_PLATFORM')) {
-    define('JPATH_PLATFORM', __DIR__);
-}
-
 // Detect the native operating system type.
 $os = strtoupper(substr(PHP_OS, 0, 3));
 
-if (!defined('IS_WIN')) {
-    define('IS_WIN', $os === 'WIN');
+if (!\defined('IS_WIN')) {
+    \define('IS_WIN', $os === 'WIN');
 }
 
-if (!defined('IS_UNIX')) {
-    define('IS_UNIX', IS_WIN === false);
+if (!\defined('IS_UNIX')) {
+    \define('IS_UNIX', IS_WIN === false);
 }
 
 // Import the library loader if necessary.

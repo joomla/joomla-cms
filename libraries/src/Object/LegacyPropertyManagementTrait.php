@@ -19,7 +19,7 @@ namespace Joomla\CMS\Object;
  *
  * @since       4.3.0
  *
- * @deprecated  4.3.0 will be removed in 6.0
+ * @deprecated  4.3.0 will be removed in 7.0
  *              Will be removed without replacement
  *              Create proper setter functions for the individual properties or use a \Joomla\Registry\Registry
  */
@@ -35,7 +35,7 @@ trait LegacyPropertyManagementTrait
      *
      * @since   1.7.0
      *
-     * @deprecated 4.3.0 will be removed in 6.0
+     * @deprecated 4.3.0 will be removed in 7.0
      *             Defining dynamic properties should not be used anymore
      */
     public function def($property, $default = null)
@@ -57,7 +57,7 @@ trait LegacyPropertyManagementTrait
      *
      * @see     CMSObject::getProperties()
      *
-     * @deprecated 4.3.0 will be removed in 6.0
+     * @deprecated 4.3.0 will be removed in 7.0
      *             Create a proper getter function for the property
      */
     public function get($property, $default = null)
@@ -80,7 +80,7 @@ trait LegacyPropertyManagementTrait
      *
      * @see     CMSObject::get()
      *
-     * @deprecated 4.3.0 will be removed in 6.0
+     * @deprecated 4.3.0 will be removed in 7.0
      *             Create a proper getter function for the property
      */
     public function getProperties($public = true)
@@ -126,7 +126,7 @@ trait LegacyPropertyManagementTrait
      *
      * @since   1.7.0
      *
-     * @deprecated 4.3.0 will be removed in 6.0
+     * @deprecated 4.3.0 will be removed in 7.0
      *             Create a proper setter function for the property
      */
     public function set($property, $value = null)
@@ -148,7 +148,7 @@ trait LegacyPropertyManagementTrait
      *
      * @see     CMSObject::set()
      *
-     * @deprecated 4.3.0 will be removed in 6.0
+     * @deprecated 4.3.0 will be removed in 7.0
      *             Create a proper setter function for the property
      */
     public function setProperties($properties)

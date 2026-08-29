@@ -47,7 +47,7 @@ class StatsHelper implements DatabaseAwareInterface
     {
         $db         = $this->getDatabase();
         $rows       = [];
-        $query      = $db->getQuery(true);
+        $query      = $db->createQuery();
         $serverinfo = $params->get('serverinfo', 0);
         $siteinfo   = $params->get('siteinfo', 0);
         $counter    = $params->get('counter', 0);

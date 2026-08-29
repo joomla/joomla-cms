@@ -75,7 +75,7 @@ class SpacerField extends FormField
 
             // Build the class for the label.
             $class = !empty($this->description) ? 'hasPopover' : '';
-            $class = $this->required == true ? $class . ' required' : $class;
+            $class = $this->required ? $class . ' required' : $class;
 
             // Add the opening label tag and main attributes attributes.
             $label .= '<label id="' . $this->id . '-lbl" class="' . $class . '"';

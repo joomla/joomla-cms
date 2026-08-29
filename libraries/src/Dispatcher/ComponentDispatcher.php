@@ -85,7 +85,7 @@ class ComponentDispatcher extends Dispatcher
     {
         // Load common and local language files.
         $this->app->getLanguage()->load($this->option, JPATH_BASE) ||
-        $this->app->getLanguage()->load($this->option, JPATH_COMPONENT);
+        $this->app->getLanguage()->load($this->option, JPATH_BASE . '/components/' . $this->option);
     }
 
     /**
@@ -171,7 +171,7 @@ class ComponentDispatcher extends Dispatcher
 
         // Check if the controller could be created
         if (!$controller) {
-            throw new \InvalidArgumentException(Text::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $name));
+            throw new \InvalidArgumentException(Text::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $name), 404);
         }
 
         return $controller;

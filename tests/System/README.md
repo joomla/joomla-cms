@@ -178,6 +178,8 @@ The Joomla System Tests come with some convenient [Cypress Tasks](https://docs.c
 - **writeRelativeFile** – Writes a file relative to the CMS root folder
 - **deleteRelativePath** – Deletes a file or folder relative to the CMS root folder
 - **copyRelativeFile** – Copies a file relative to the CMS root folder
+- **checkForLogs** – Checks the log file (path defined in configuration) for errors
+- **clearLogs** – Clears the logs in the log file from the configuration
 - **startMailServer** – Starts the smtp-tester SMTP server
 - **getMails** – Get received mails from smtp-tester
 - **clearEmails** – Clear all smtp-tester received mails
@@ -233,6 +235,8 @@ The following commands are available and are served by the file [tests/System/su
 - **db_enableExtension** – Sets the enabled status for the given extension
 - **db_getUserId** – Returns the id of the currently logged in user
 - **db_updateExtensionParameter** – Sets the parameter for the given extension
+- **db_deleteMenuItem** - Deletes a menu item with the given title
+- **db_deleteCategory** - Deletes a category with the given title
 
 
 #### API Commands

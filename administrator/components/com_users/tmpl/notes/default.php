@@ -97,7 +97,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                                 </div>
                             </th>
                             <td class="d-none d-md-table-cell">
-                                <?php echo $this->escape($item->user_name); ?>
+                                <?php echo !empty($item->user_name) ? $this->escape($item->user_name) : '[ ' . Text::_('JNONE') . ' ]'; ?>
                             </td>
                             <td class="d-none d-md-table-cell">
                                 <?php if ($item->review_time !== null) : ?>
@@ -119,11 +119,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 
                 <?php endif; ?>
 
-                <div>
-                    <input type="hidden" name="task" value="">
-                    <input type="hidden" name="boxchecked" value="0">
-                    <?php echo HTMLHelper::_('form.token'); ?>
-                </div>
+                <?php echo $this->filterForm->renderControlFields(); ?>
             </div>
         </div>
     </div>

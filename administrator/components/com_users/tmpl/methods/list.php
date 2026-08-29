@@ -18,9 +18,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\MethodsModel;
-use Joomla\Component\Users\Administrator\View\Methods\HtmlView;
 
-/** @var HtmlView $this */
+/** @var \Joomla\Component\Users\Administrator\View\Methods\HtmlView $this */
 
 HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 

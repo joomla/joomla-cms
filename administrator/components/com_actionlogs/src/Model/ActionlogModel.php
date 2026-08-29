@@ -13,8 +13,12 @@ namespace Joomla\Component\Actionlogs\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\User\UserFactoryAwareInterface;
@@ -32,9 +36,11 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  *
  * @since  3.9.0
  */
-class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterface
+class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterface, MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * Function to add logs to the database
@@ -123,7 +129,7 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
         $app   = Factory::getApplication();
         $lang  = $app->getLanguage();
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query
             ->select($db->quoteName(['u.email', 'l.extensions']))
@@ -160,12 +166,14 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
         $tempPlain = [];
 
         foreach ($messages as $message) {
-            $m              = [];
-            $m['extension'] = Text::_($extension);
-            $m['message']   = ActionlogsHelper::getHumanReadableLogMessage($message);
-            $m['date']      = HTMLHelper::_('date', $message->log_date, 'Y-m-d H:i:s T', 'UTC');
-            $m['username']  = $username;
-            $temp[]         = $m;
+            $m               = [];
+            $m['extension']  = Text::_($extension);
+            $m['message']    = ActionlogsHelper::getHumanReadableLogMessage($message);
+            $tzOffset        = Factory::getApplication()->get('offset');
+            $m['date']       = HTMLHelper::_('date', $message->log_date, 'Y-m-d H:i:s T', $tzOffset);
+            $m['ip_address'] = Text::_($message->ip_address);
+            $m['username']   = $username;
+            $temp[]          = $m;
 
             // copy replacement tags array and set non-HTML message.
             $mPlain            = array_merge([], $m);
@@ -180,7 +188,12 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
             'messages' => $tempPlain,
         ];
 
-        $mailer = new MailTemplate('com_actionlogs.notification', $app->getLanguage()->getTag());
+        $mailer = new MailTemplate(
+            'com_actionlogs.notification',
+            $app->getLanguage()->getTag(),
+            $this->getMailerFactory()->createMailer(),
+            $this->getLanguageFactory()
+        );
         $mailer->addTemplateData($templateData);
         $mailer->addTemplateData($templateDataPlain, true);
 

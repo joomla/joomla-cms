@@ -20,9 +20,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
-use Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView;
 
-/** @var  HtmlView  $this*/
+/** @var  \Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView  $this*/
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
@@ -214,8 +213,8 @@ if ($this->hasDueTasks === true) {
                                 <?php echo HTMLHelper::_('jgrid.action', $i, 'unlock', ['enabled' => $canChange, 'prefix' => 'tasks.',
                                     'active_class' => 'none fa fa-running border-dark text-body',
                                     'inactive_class' => 'none fa fa-running', 'tip' => true, 'translate' => false,
-                                    'active_title' => Text::sprintf('COM_SCHEDULER_RUNNING_SINCE', HTMLHelper::_('date', $item->last_execution, 'DATE_FORMAT_LC5')),
-                                    'inactive_title' => Text::sprintf('COM_SCHEDULER_RUNNING_SINCE', HTMLHelper::_('date', $item->last_execution, 'DATE_FORMAT_LC5')),
+                                    'active_title' => Text::sprintf('COM_SCHEDULER_RUNNING_SINCE', HTMLHelper::_('date', $item->locked, 'DATE_FORMAT_LC5')),
+                                    'inactive_title' => Text::sprintf('COM_SCHEDULER_RUNNING_SINCE', HTMLHelper::_('date', $item->locked, 'DATE_FORMAT_LC5')),
                                     ]); ?>
                             <?php endif; ?>
                             <span class="task-title">
@@ -301,8 +300,6 @@ if ($this->hasDueTasks === true) {
 
         <?php endif; ?>
 
-        <input type="hidden" name="task" value="">
-        <input type="hidden" name="boxchecked" value="0">
-        <?php echo HTMLHelper::_('form.token'); ?>
+        <?php echo $this->filterForm->renderControlFields(); ?>
     </div>
 </form>
