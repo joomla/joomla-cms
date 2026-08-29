@@ -510,6 +510,11 @@ Cypress.Commands.add('db_createMenuItem', (menuItemData) => {
     defaultMenuItemOptions.rgt = myrgt[0].rgt + 1;
 
     const menuItem = { ...defaultMenuItemOptions, ...menuItemData };
+    ['params'].forEach((key) => {
+      if (typeof menuItem[key] === 'object') {
+        menuItem[key] = JSON.stringify(menuItem[key]);
+      }
+    });
     // Extract the component from the link
     const component = (new URLSearchParams(menuItem.link.replace('index.php', ''))).get('option');
     return cy.task('queryDB', `SELECT extension_id FROM #__extensions WHERE name = '${component}'`).then((id) => {
