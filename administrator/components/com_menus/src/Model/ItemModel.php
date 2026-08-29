@@ -233,6 +233,15 @@ class ItemModel extends AdminModel
                 continue;
             }
 
+            // Check that the user is allowed to access the item
+            $itemMenuTypeId = (int) $this->getMenuTypeId($table->menutype);
+
+            if ($table->menutype === 'main' || !$this->user->authorise('core.edit', 'com_menus.menu.' . $itemMenuTypeId)) {
+                $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
+                return false;
+            }
+
             // Copy is a bit tricky, because we also need to copy the children
             $query = $db->getQuery(true)
                 ->select($db->quoteName('id'))
@@ -1060,7 +1069,7 @@ class ItemModel extends AdminModel
      *
      * @return  array  An array of menu item objects with id, title, and level properties.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.8
      */
     public function getParentItems(string $menutype): array
     {

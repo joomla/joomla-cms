@@ -1005,6 +1005,21 @@ class FieldModel extends AdminModel
      */
     public function validate($form, $data, $group = null)
     {
+        // Check if the values are unique. This should only apply for list, checkboxes and radio custom field types
+        if (\in_array($data['type'], ['list', 'checkboxes', 'radio'])
+            && !empty($data['fieldparams']['options'])
+            && \is_array($data['fieldparams']['options'])) {
+            $tmpValues = [];
+            foreach ($data['fieldparams']['options'] as $option) {
+                $tmpValues[] = $option['value'];
+            }
+
+            if (\count($tmpValues) !== \count(array_unique($tmpValues))) {
+                Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_FIELD_INVALID_DUPLICATE_VALUES'), 'error');
+
+                return false;
+            }
+        }
         if (!$this->getCurrentUser()->authorise('core.admin', 'com_fields')) {
             if (isset($data['rules'])) {
                 unset($data['rules']);
@@ -1186,11 +1201,17 @@ class FieldModel extends AdminModel
         $user      = $this->getCurrentUser();
         $table     = $this->getTable();
         $newIds    = [];
-        $component = $this->state->get('filter.component');
         $value     = (int) $value;
 
         foreach ($pks as $pk) {
-            if ($user->authorise('core.create', $component . '.fieldgroup.' . $value)) {
+            $table->reset();
+            $table->load($pk);
+            [$recordComponent] = explode('.', (string) $table->context);
+
+            if (
+                $user->authorise('core.create', $recordComponent . '.fieldgroup.' . $value)
+                && $user->authorise('core.edit', $recordComponent . '.field.' . $pk)
+            ) {
                 // Find all assigned categories to this field
                 $db    = $this->getDatabase();
                 $query = $db->getQuery(true);
@@ -1200,9 +1221,6 @@ class FieldModel extends AdminModel
                     ->where($db->quoteName('field_id') . ' = ' . (int) $pk);
 
                 $assignedCatIds = $db->setQuery($query)->loadColumn();
-
-                $table->reset();
-                $table->load($pk);
 
                 $table->group_id = $value;
 
