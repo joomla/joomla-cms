@@ -384,6 +384,7 @@ class UpdateModel extends BaseDatabaseModel
         // We have to manually follow the redirects here so we set the option to false.
         $httpOptions = new Registry();
         $httpOptions->set('follow_location', false);
+        $httpOptions->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
 
         $response = ['basename' => false, 'check' => null, 'version' => $updateInfo['latest']];
 
@@ -567,7 +568,7 @@ class UpdateModel extends BaseDatabaseModel
         return [
             'password' => $app->getUserState('com_joomlaupdate.password'),
             'filesize' => $app->getUserState('com_joomlaupdate.filesize'),
-            'filename' => $app->getUserState('com_joomlaupdate.file'),
+            'filename' => $fileInformation['basename'],
         ];
     }
 
@@ -584,7 +585,10 @@ class UpdateModel extends BaseDatabaseModel
         $this->cleanCache('_system');
 
         // Prepare connection
-        $http = (new HttpFactory())->getHttp();
+        $options = new Registry();
+        $options->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
+
+        $http = (new HttpFactory())->getHttp($options);
 
         $url = self::AUTOUPDATE_URL;
         $url .= ($targetState === AutoupdateRegisterState::Subscribe) ? '/register' : '/delete';
@@ -777,8 +781,11 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Download the package
+        $options = new Registry();
+        $options->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
+
         try {
-            $result = (new HttpFactory())->getHttp([], ['curl', 'stream'])->get($url);
+            $result = (new HttpFactory())->getHttp($options, ['curl', 'stream'])->get($url);
         } catch (\RuntimeException) {
             return false;
         }
@@ -1251,9 +1258,10 @@ ENDDATA;
         $tmp_dest = tempnam(Factory::getApplication()->get('tmp_path'), 'ju');
         $tmp_src  = $userfile['tmp_name'];
 
-        // Move uploaded file.
+        // Move uploaded file. Allow "unsafe" files: the Joomla update package legitimately contains
+        // PHP, which the File::upload() safety scan (default since joomla/filesystem 4.2.0) would reject.
         try {
-            File::upload($tmp_src, $tmp_dest);
+            File::upload($tmp_src, $tmp_dest, false, true);
         } catch (FilesystemException $exception) {
             throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500, $exception);
         }
@@ -1289,11 +1297,7 @@ ENDDATA;
         $authenticate = Authentication::getInstance();
         $response     = $authenticate->authenticate($credentials);
 
-        if ($response->status !== Authentication::STATUS_SUCCESS) {
-            return false;
-        }
-
-        return true;
+        return $response->status === Authentication::STATUS_SUCCESS;
     }
 
     /**
@@ -1307,11 +1311,7 @@ ENDDATA;
     {
         $file = Factory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
 
-        if (empty($file) || !is_file($file)) {
-            return false;
-        }
-
-        return true;
+        return !empty($file) && is_file($file);
     }
 
     /**
@@ -1422,33 +1422,37 @@ ENDDATA;
             $option->notice = $option->state ? null : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DATABASE_NOT_SUPPORTED_NOTICE');
             $options[]      = $option;
 
-            // Check if the Joomla 5 backwards compatibility plugin is disabled
-            $plugin = ExtensionHelper::getExtensionRecord('compat', 'plugin', 0, 'behaviour');
+            // Check if the backwards compatibility plugin of current Joomla major version is disabled
+            $plugin = ExtensionHelper::getExtensionRecord('compat' . Version::MAJOR_VERSION, 'plugin', 0, 'behaviour');
 
-            $this->translateExtensionName($plugin);
+            if ($plugin) {
+                $this->translateExtensionName($plugin);
 
-            $option         = new \stdClass();
-            $option->state  = !PluginHelper::isEnabled('behaviour', 'compat');
-            $option->label  = $option->state
-                ? $plugin->name
-                : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_DISABLED_TITLE', $plugin->name);
-            $option->notice = $option->state
-                ? null
-                : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_DISABLED_NOTICE', $plugin->name, $plugin->folder, $plugin->element);
-            $options[]      = $option;
+                $option         = new \stdClass();
+                $option->state  = !PluginHelper::isEnabled($plugin->folder, $plugin->element);
+                $option->label  = $option->state
+                    ? $plugin->name
+                    : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_DISABLED_TITLE', $plugin->name);
+                $option->notice = $option->state
+                    ? null
+                    : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_DISABLED_NOTICE', $plugin->name, $plugin->folder, $plugin->element);
+                $options[]      = $option;
+            }
 
-            // Check if the Joomla 6 backwards compatibility plugin is enabled
-            $plugin = ExtensionHelper::getExtensionRecord('compat6', 'plugin', 0, 'behaviour');
+            // Check if the backwards compatibility plugin of next Joomla major version is enabled
+            $plugin = ExtensionHelper::getExtensionRecord('compat' . (Version::MAJOR_VERSION + 1), 'plugin', 0, 'behaviour');
 
-            $this->translateExtensionName($plugin);
+            if ($plugin) {
+                $this->translateExtensionName($plugin);
 
-            $option         = new \stdClass();
-            $option->state  = PluginHelper::isEnabled('behaviour', 'compat6');
-            $option->label  = $option->state
-                ? $plugin->name
-                : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_ENABLED_TITLE', $plugin->name);
-            $option->notice = $option->state ? null : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_ENABLED_NOTICE', $plugin->folder, $plugin->element);
-            $options[]      = $option;
+                $option         = new \stdClass();
+                $option->state  = PluginHelper::isEnabled($plugin->folder, $plugin->element);
+                $option->label  = $option->state
+                    ? $plugin->name
+                    : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_ENABLED_TITLE', $plugin->name);
+                $option->notice = $option->state ? null : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_ENABLED_NOTICE', $plugin->folder, $plugin->element);
+                $options[]      = $option;
+            }
         }
 
         // Check if database structure is up to date
@@ -1675,13 +1679,8 @@ ENDDATA;
             return false;
         }
 
-        // Check if database schema version does not match CMS version
-        if ($model->getSchemaVersion($coreExtensionInfo->extension_id) != $changeInformation['schema']) {
-            return false;
-        }
-
-        // No database problems found
-        return true;
+        // Check if database schema version match CMS version
+        return $model->getSchemaVersion($coreExtensionInfo->extension_id) === $changeInformation['schema'];
     }
 
     /**
@@ -1806,22 +1805,35 @@ ENDDATA;
             return (object) ['state' => 2];
         }
 
-        foreach ($updateSites as $updateSite) {
-            if ($updateSite['type'] === 'collection') {
-                $updateFileUrls = $this->getCollectionDetailsUrls($updateSite, $joomlaTargetVersion);
+        $hasUpdateSiteError = false;
 
-                foreach ($updateFileUrls as $updateFileUrl) {
-                    $compatibleVersions = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
+        foreach ($updateSites as $updateSite) {
+            try {
+                if ($updateSite['type'] === 'collection') {
+                    $updateFileUrls = $this->getCollectionDetailsUrls($updateSite, $joomlaTargetVersion);
+
+                    foreach ($updateFileUrls as $updateFileUrl) {
+                        $compatibleVersions = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
+
+                        // Return the compatible versions
+                        return (object) ['state' => 1, 'compatibleVersions' => $compatibleVersions];
+                    }
+                } else {
+                    $compatibleVersions = $this->checkCompatibility($updateSite['location'], $joomlaTargetVersion);
 
                     // Return the compatible versions
                     return (object) ['state' => 1, 'compatibleVersions' => $compatibleVersions];
                 }
-            } else {
-                $compatibleVersions = $this->checkCompatibility($updateSite['location'], $joomlaTargetVersion);
+            } catch (\Throwable $exception) {
+                $this->reportCompatibilityUpdateSiteFailure($updateSite, $exception);
+                $hasUpdateSiteError = true;
 
-                // Return the compatible versions
-                return (object) ['state' => 1, 'compatibleVersions' => $compatibleVersions];
+                continue;
             }
+        }
+
+        if ($hasUpdateSiteError) {
+            return (object) ['state' => 3];
         }
 
         // In any other case we mark this extension as not compatible
@@ -1845,6 +1857,8 @@ ENDDATA;
 
         $query->select(
             [
+                $db->quoteName('us.update_site_id'),
+                $db->quoteName('us.name', 'update_site_name'),
                 $db->quoteName('us.type'),
                 $db->quoteName('us.location'),
                 $db->quoteName('e.element', 'ext_element'),
@@ -1891,7 +1905,10 @@ ENDDATA;
     {
         $return = [];
 
-        $http = (new HttpFactory())->getHttp();
+        $options = new Registry();
+        $options->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
+
+        $http = (new HttpFactory())->getHttp($options);
 
         try {
             $response = $http->get($updateSiteInfo['location']);
@@ -1903,7 +1920,18 @@ ENDDATA;
             return $return;
         }
 
-        $updateSiteXML = simplexml_load_string((string) $response->getBody());
+        $useInternalXmlErrors = libxml_use_internal_errors(true);
+        $updateSiteXML        = simplexml_load_string((string) $response->getBody());
+        libxml_clear_errors();
+        libxml_use_internal_errors($useInternalXmlErrors);
+
+        if ($updateSiteXML === false) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_UPDATE_SITE_INVALID_XML'));
+        }
+
+        if (!isset($updateSiteXML->extension)) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_UPDATE_SITE_XML_MISSING_EXTENSION'));
+        }
 
         foreach ($updateSiteXML->extension as $extension) {
             $attribs = new \stdClass();
@@ -1946,7 +1974,10 @@ ENDDATA;
 
         $update = new Update();
         $update->setTargetVersion($joomlaTargetVersion);
-        $update->loadFromXml($updateFileUrl, $minimumStability);
+
+        if (!$update->loadFromXml($updateFileUrl, $minimumStability)) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_UPDATE_SITE_INVALID_XML'));
+        }
 
         $compatibleVersions = $update->get('compatibleVersions');
 
@@ -1961,6 +1992,46 @@ ENDDATA;
         usort($compatibleVersions, 'version_compare');
 
         return $compatibleVersions;
+    }
+
+    /**
+     * Report an update site compatibility check failure.
+     *
+     * @param   array       $updateSiteInfo  The update site and extension information record.
+     * @param   \Throwable  $exception       The caught failure.
+     *
+     * @return  void
+     *
+     * @since   6.1.3
+     */
+    private function reportCompatibilityUpdateSiteFailure(array $updateSiteInfo, \Throwable $exception): void
+    {
+        $updateSiteId   = (int) ($updateSiteInfo['update_site_id'] ?? 0);
+        $updateSiteName = $updateSiteInfo['update_site_name'] ?? '';
+        $updateSiteUrl  = $updateSiteInfo['location'] ?? '';
+
+        Log::add(
+            \sprintf(
+                'Error checking compatibility for update site #%d "%s" (%s): %s',
+                $updateSiteId,
+                $updateSiteName,
+                $updateSiteUrl,
+                $exception->getMessage()
+            ),
+            Log::WARNING,
+            'updater'
+        );
+
+        Factory::getApplication()->enqueueMessage(
+            Text::sprintf(
+                'COM_JOOMLAUPDATE_UPDATE_SITE_COMPATIBILITY_ERROR',
+                $updateSiteId,
+                htmlspecialchars($updateSiteName, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
+                htmlspecialchars($updateSiteUrl, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
+                htmlspecialchars($exception->getMessage(), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
+            ),
+            'warning'
+        );
     }
 
     /**

@@ -571,7 +571,7 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
      *
      * @return  void
      *
-     * @since   __DEPLOYMENT_VERSION__
+     * @since   6.1.0
      */
     protected function prepareTable($table)
     {
@@ -826,6 +826,13 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
                 // Not fatal error
                 $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
                 continue;
+            }
+
+            // Check that the user is allowed to access the item
+            if (!$this->user->authorise('core.edit', $contexts[$pk])) {
+                $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
+                return false;
             }
 
             // Copy is a bit tricky, because we also need to copy the children

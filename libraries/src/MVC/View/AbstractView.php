@@ -50,7 +50,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      * @var    Document
      * @since  3.0
      *
-     * @deprecated 4.4.0 will be removed in 7.0
+     * @deprecated 4.4.0 will be made private in 7.0
      *             Use $this->getDocument() instead
      */
     public $document;
@@ -308,7 +308,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
     {
         if (!$this->dispatcher) {
             @trigger_error(
-                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 7.0', __CLASS__),
                 E_USER_DEPRECATED
             );
 

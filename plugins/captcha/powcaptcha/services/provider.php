@@ -31,14 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(POWCaptcha::class, function (Container $container) {
                 $plugin = new POWCaptcha(
                     (array) PluginHelper::getPlugin('captcha', 'powcaptcha')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

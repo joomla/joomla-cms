@@ -31,14 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(ConfirmConsent::class, function (Container $container) {
                 $plugin     = new ConfirmConsent(
                     (array) PluginHelper::getPlugin('content', 'confirmconsent')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

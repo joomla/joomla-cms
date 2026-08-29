@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
@@ -194,5 +195,46 @@ class StagesController extends AdminController
     protected function getRedirectToListAppend()
     {
         return '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '') . '&workflow_id=' . $this->workflowId;
+    }
+
+    /**
+     * Method to save stage positions
+     *
+     * @return  boolean  True if successful, false otherwise.
+     *
+     * @since   6.1.0
+     */
+    public function updateStagesPosition()
+    {
+        try {
+            // Check for request forgeries
+            if (!$this->checkToken('post', false)) {
+                throw new \RuntimeException(Text::_('JINVALID_TOKEN'));
+            }
+
+            // Check if the user has permission to publish items
+            if (!$this->app->getIdentity()->authorise('core.edit.state', $this->extension . '.workflow.' . $this->workflowId)) {
+                throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'));
+            }
+
+            $app        = $this->app;
+            $input      = $app->getInput();
+            $workflowId = $input->getInt('id');
+            $positions  = $input->get('positions', [], 'array');
+            $model      = $this->getModel('Stages', 'Administrator');
+
+            $response = [];
+            $success  = $model->updatePositions($positions, $workflowId);
+
+            $response = [
+                'success' => true,
+                'message' => Text::_('COM_WORKFLOW_POSITIONS_SAVED'),
+            ];
+            echo new JsonResponse($response);
+        } catch (\Exception $e) {
+            $this->app->setHeader('status', 500);
+            echo new JsonResponse($e->getMessage(), 'error', true);
+        }
+        $this->app->close();
     }
 }

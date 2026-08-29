@@ -10,7 +10,8 @@
 
 namespace Joomla\Plugin\System\Webauthn;
 
-use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Encoding\JoseEncoder;
+use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Token\Plain;
 use Webauthn\MetadataService\MetadataStatementRepository;
 use Webauthn\MetadataService\Statement\MetadataStatement;
@@ -126,8 +127,8 @@ final class MetadataRepository implements MetadataStatementRepository
         }
 
         try {
-            $jwtConfig = Configuration::forUnsecuredSigner();
-            $token     = $jwtConfig->parser()->parse($rawJwt);
+            $parser = new Parser(new JoseEncoder());
+            $token  = $parser->parse($rawJwt);
         } catch (\Exception) {
             return;
         }

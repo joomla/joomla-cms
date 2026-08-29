@@ -233,6 +233,7 @@ class HtmlView extends BaseHtmlView
             $url = $help->url;
         }
 
+        $toolbar->inlinehelp();
         $toolbar->help($help->key, $help->local, $url);
     }
 

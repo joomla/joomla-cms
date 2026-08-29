@@ -12,6 +12,9 @@ namespace Joomla\Component\Modules\Administrator\Model;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model\AfterDeleteEvent;
+use Joomla\CMS\Event\Model\AfterSaveEvent;
+use Joomla\CMS\Event\Model\BeforeDeleteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ModuleHelper;
@@ -23,6 +26,8 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Versioning\VersionableModelInterface;
+use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Folder;
@@ -40,8 +45,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ModuleModel extends AdminModel
+class ModuleModel extends AdminModel implements VersionableModelInterface
 {
+    use VersionableModelTrait;
+
     /**
      * The type alias for this content type.
      *
@@ -54,7 +61,7 @@ class ModuleModel extends AdminModel
      * The context used for the associations table
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     protected $associationsContext = 'com_modules.item';
 
@@ -169,7 +176,10 @@ class ModuleModel extends AdminModel
         $newIds = [];
 
         foreach ($pks as $pk) {
-            if ($user->authorise('core.create', 'com_modules')) {
+            if (
+                $user->authorise('core.create', 'com_modules')
+                && $user->authorise('core.edit', $contexts[$pk])
+            ) {
                 $table->reset();
                 $table->load($pk);
 
@@ -336,14 +346,14 @@ class ModuleModel extends AdminModel
      */
     public function delete(&$pks)
     {
-        $app        = Factory::getApplication();
         $pks        = (array) $pks;
         $user       = $this->getCurrentUser();
         $table      = $this->getTable();
         $context    = $this->option . '.' . $this->name;
 
         // Include the plugins for the on delete events.
-        PluginHelper::importPlugin($this->events_map['delete']);
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin($this->events_map['delete'], null, true, $dispatcher);
 
         // Iterate the items to delete each one.
         foreach ($pks as $pk) {
@@ -356,7 +366,10 @@ class ModuleModel extends AdminModel
                 }
 
                 // Trigger the before delete event.
-                $result = $app->triggerEvent($this->event_before_delete, [$context, $table]);
+                $result = $dispatcher->dispatch($this->event_before_delete, new BeforeDeleteEvent($this->event_before_delete, [
+                    'context' => $context,
+                    'subject' => $table,
+                ]))->getArgument('result', []);
 
                 if (\in_array(false, $result, true) || !$table->delete($pk)) {
                     throw new \Exception($table->getError());
@@ -373,7 +386,10 @@ class ModuleModel extends AdminModel
                 $db->execute();
 
                 // Trigger the after delete event.
-                $app->triggerEvent($this->event_after_delete, [$context, $table]);
+                $dispatcher->dispatch($this->event_after_delete, new AfterDeleteEvent($this->event_after_delete, [
+                    'context' => $context,
+                    'subject' => $table,
+                ]));
 
                 // Clear module cache
                 parent::cleanCache($table->module);
@@ -957,7 +973,8 @@ class ModuleModel extends AdminModel
         $context    = $this->option . '.' . $this->name;
 
         // Include the plugins for the save event.
-        PluginHelper::importPlugin($this->events_map['save']);
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin($this->events_map['save'], null, true, $dispatcher);
 
         // Load the row if saving an existing record.
         if ($pk > 0) {
@@ -1057,7 +1074,12 @@ class ModuleModel extends AdminModel
         }
 
         // Trigger the after save event.
-        Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, $isNew]);
+        $dispatcher->dispatch($this->event_after_save, new AfterSaveEvent($this->event_after_save, [
+            'context' => $context,
+            'subject' => $table,
+            'isNew'   => $isNew,
+            'data'    => $data,
+        ]));
 
         // Compute the extension id of this module in case the controller wants it.
         $query->clear()

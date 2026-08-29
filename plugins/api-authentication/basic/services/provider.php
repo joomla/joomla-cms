@@ -33,7 +33,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Basic::class, function (Container $container) {
                 $plugin     = new Basic(
                     (array) PluginHelper::getPlugin('api-authentication', 'basic'),
                 );
@@ -42,7 +42,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

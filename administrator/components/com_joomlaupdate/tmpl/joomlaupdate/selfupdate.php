@@ -15,7 +15,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 $displayData = [
     'textPrefix' => 'COM_JOOMLAUPDATE_SELF',
     'formURL'    => 'index.php?option=com_joomlaupdate&view=joomlaupdate',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Updating_from_an_existing_version',
+    'helpURL'    => 'https://guide.joomla.org/user-manual/migration',
     'icon'       => 'icon-loop joomlaupdate',
     'createURL'  => 'index.php?option=com_installer&view=update'
 ];

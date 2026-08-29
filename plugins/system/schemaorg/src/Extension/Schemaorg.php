@@ -203,7 +203,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         $app     = $this->getApplication();
         $db      = $this->getDatabase();
 
-        if (!$app->isClient('administrator') || !$this->isSupported($context)) {
+        if (!$app->isClient('administrator') && !$app->isClient('api') || !$this->isSupported($context)) {
             return;
         }
 
@@ -468,7 +468,14 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         $schema->set('@graph', $data);
 
         $prettyPrint  = JDEBUG ? JSON_PRETTY_PRINT : 0;
-        $schemaString = $schema->toString('JSON', ['bitmask' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | $prettyPrint]);
+        $bitmask      = JSON_UNESCAPED_SLASHES
+            | JSON_HEX_TAG
+            | JSON_HEX_AMP
+            | JSON_HEX_APOS
+            | JSON_HEX_QUOT
+            | JSON_UNESCAPED_UNICODE
+            | $prettyPrint;
+        $schemaString = $schema->toString('JSON', ['bitmask' => $bitmask]);
 
         if ($schemaString !== '{}') {
             $wa->addInlineScript($schemaString, ['name' => 'inline.schemaorg'], ['type' => 'application/ld+json']);

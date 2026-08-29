@@ -10,7 +10,7 @@
 
 namespace Joomla\Plugin\System\Stats\Extension;
 
-use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Event\Application\AfterDispatchEvent;
 use Joomla\CMS\Event\Application\AfterInitialiseEvent;
 use Joomla\CMS\Event\Plugin\AjaxEvent;
@@ -19,9 +19,11 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Version;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Http\HttpFactory;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -39,6 +41,7 @@ use Joomla\Http\HttpFactory;
 final class Stats extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
+    use CacheControllerFactoryAwareTrait;
 
     /**
      * Indicates sending statistics is always allowed.
@@ -528,9 +531,12 @@ final class Stats extends CMSPlugin implements SubscriberInterface
     {
         $error = false;
 
+        $options = new Registry();
+        $options->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
+
         try {
             // Don't let the request take longer than 2 seconds to avoid page timeout issues
-            $response = (new HttpFactory())->getHttp()->post($this->serverUrl, $this->getStatsData(), [], 2);
+            $response = (new HttpFactory())->getHttp($options)->post($this->serverUrl, $this->getStatsData(), [], 2);
 
             if (!$response) {
                 $error = 'Could not send site statistics to remote server: No response';
@@ -583,8 +589,8 @@ final class Stats extends CMSPlugin implements SubscriberInterface
                     'cachebase'    => $this->getApplication()->get('cache_path', JPATH_CACHE),
                 ];
 
-                $cache = Cache::getInstance('callback', $options);
-                $cache->clean();
+                $this->getCacheControllerFactory()
+                    ->createCacheController('callback', $options)->clean();
             } catch (\Exception) {
                 // Ignore it
             }

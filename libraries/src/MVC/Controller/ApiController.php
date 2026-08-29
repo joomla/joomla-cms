@@ -210,12 +210,12 @@ class ApiController extends BaseController
 
         if (\array_key_exists('offset', $paginationInfo)) {
             $offset = $paginationInfo['offset'];
-            $this->modelState->set($this->context . '.limitstart', $offset);
+            $this->modelState->set($this->context . '.limitstart', (int) $offset);
         }
 
         if (\array_key_exists('limit', $paginationInfo)) {
             $limit = $paginationInfo['limit'];
-            $this->modelState->set($this->context . '.list.limit', $limit);
+            $this->modelState->set($this->context . '.list.limit', (int) $limit);
         }
 
         $viewType   = $this->app->getDocument()->getType();
@@ -246,8 +246,25 @@ class ApiController extends BaseController
         // Push the model into the view (as default)
         $view->setModel($model, true);
 
+        /**
+         * Check the currently set order values in the modelstate against the valid filters
+         */
+        if (
+            $this->modelState->get('list.ordering')
+            && !$model->isValidFilterColumn($this->modelState->get('list.ordering'))
+        ) {
+            $model->setState('list.ordering', null);
+        }
+
+        if (
+            $this->modelState->get('list.direction')
+            && !\in_array(strtolower($this->modelState->get('list.direction')), ['asc', 'desc'], true)
+        ) {
+            $model->setState('list.direction', 'asc');
+        }
+
         if ($offset) {
-            $model->setState('list.start', $offset);
+            $model->setState('list.start', (int) $offset);
         }
 
         /**
@@ -255,7 +272,7 @@ class ApiController extends BaseController
          * the last page of data. If there isn't a limit start then set
          */
         if ($limit) {
-            $model->setState('list.limit', $limit);
+            $model->setState('list.limit', (int) $limit);
         } else {
             $model->setState('list.limit', $this->itemsPerPage);
         }
@@ -282,7 +299,9 @@ class ApiController extends BaseController
      */
     public function delete($id = null)
     {
-        if (!$this->app->getIdentity()->authorise('core.delete', $this->option)) {
+        if (
+            !$this->allowDelete()
+        ) {
             throw new NotAllowed('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED', 403);
         }
 
@@ -532,7 +551,13 @@ class ApiController extends BaseController
      */
     protected function allowEdit($data = [], $key = 'id')
     {
-        return $this->app->getIdentity()->authorise('core.edit', $this->option);
+        $user = $this->app->getIdentity();
+
+        if (!$user->authorise('core.manage', $this->option)) {
+            return false;
+        }
+
+        return $user->authorise('core.edit', $this->option);
     }
 
     /**
@@ -550,7 +575,30 @@ class ApiController extends BaseController
     {
         $user = $this->app->getIdentity();
 
+        if (!$user->authorise('core.manage', $this->option)) {
+            return false;
+        }
+
         return $user->authorise('core.create', $this->option) || \count($user->getAuthorisedCategories($this->option, 'core.create'));
+    }
+
+    /**
+     * Method to check if it's allowed to delete a record
+     *
+     * @return  boolean
+     *
+     * @since   6.1.3
+     */
+    protected function allowDelete(): bool
+    {
+        $user = $this->app->getIdentity();
+
+        // Require generic management permissions for the component
+        if (!$user->authorise('core.manage', $this->option)) {
+            return false;
+        }
+
+        return $user->authorise('core.delete', $this->option);
     }
 
     /**
