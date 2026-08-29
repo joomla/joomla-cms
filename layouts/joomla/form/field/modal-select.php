@@ -56,12 +56,12 @@ if (!$readonly && !$disabled) {
     $wa->useScript('modal-content-select-field');
 }
 
-$fieldClass = $required ? 'required modal-value' : '';
+$titleClass = $required ? ' required' : '';
 ?>
 
 <div class="js-modal-content-select-field <?php echo $class; ?>" <?php echo $dataAttribute; ?>>
     <div class="input-group">
-        <input class="form-control js-input-title" type="text" value="<?php echo $this->escape($valueTitle ?? $value); ?>" readonly
+        <input class="form-control js-input-title<?php echo $titleClass; ?>" type="text" value="<?php echo $this->escape($valueTitle ?? $value); ?>" readonly
                id="<?php echo $id; ?>" name="<?php echo $name; ?>"
                placeholder="<?php echo $this->escape($hint); ?>"/>
 
@@ -72,6 +72,6 @@ $fieldClass = $required ? 'required modal-value' : '';
         endif; ?>
     </div>
 
-    <input type="hidden" id="<?php echo $id; ?>_id" class="<?php echo $fieldClass; ?> js-input-value" data-required="<?php echo (int) $required; ?>"
+    <input type="hidden" id="<?php echo $id; ?>_id" class="modal-value js-input-value" data-required="<?php echo (int) $required; ?>"
            name="<?php echo $name; ?>" value="<?php echo $this->escape($value); ?>"<?php echo $onchange ? ' onchange="' . $onchange . '"' : ''; ?> />
 </div>

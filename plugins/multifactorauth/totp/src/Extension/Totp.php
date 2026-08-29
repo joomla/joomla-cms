@@ -293,7 +293,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
          * If the code is empty but the key already existed in $options someone is simply changing the title / default
          * Method status. We can allow this and stop checking anything else now.
          */
-        $code = $input->getInt('code');
+        $code = $input->getCmd('code');
 
         if (empty($code) && !empty($optionsKey)) {
             $event->addResult($options);
