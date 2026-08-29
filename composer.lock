@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "01e6532c62bf0f5d7d853f0b6932eb97",
+    "content-hash": "a6e6edf902df707a303a31abd4b8befe",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1992,7 +1992,7 @@
         },
         {
             "name": "joomla/registry",
-            "version": "dev-4.x-dev",
+            "version": "4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/registry.git",
@@ -2020,7 +2020,6 @@
                 "ext-simplexml": "ext-simplexml is needed for XML support",
                 "symfony/yaml": "Install symfony/yaml if you require YAML support."
             },
-            "default-branch": true,
             "type": "joomla-package",
             "autoload": {
                 "psr-4": {
@@ -2040,7 +2039,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/registry/issues",
-                "source": "https://github.com/joomla-framework/registry/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/registry/tree/4.0.1"
             },
             "time": "2026-08-24T19:58:10+00:00"
         },
@@ -9647,17 +9646,9 @@
             "time": "2025-11-17T20:03:58+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "joomla/registry",
-            "version": "dev-4.x-dev",
-            "alias": "4.1.0",
-            "alias_normalized": "4.1.0.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "joomla/registry": 20,
         "tobscure/json-api": 20
     },
     "prefer-stable": false,
