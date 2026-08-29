@@ -315,11 +315,11 @@ class CategoryModel extends ListModel
                 $params = new Registry();
             }
 
-            $options                               = [];
-            $options['countItems']                 = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
-            $options['categoryMappingContext']     = 'com_newsfeeds.newsfeed';
-            $categories                            = Categories::getInstance('Newsfeeds', $options);
-            $this->_item                           = $categories->get($this->getState('category.id', 'root'));
+            $options                           = [];
+            $options['countItems']             = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
+            $options['categoryMappingContext'] = 'com_newsfeeds.newsfeed';
+            $categories                        = Categories::getInstance('Newsfeeds', $options);
+            $this->_item                       = $categories->get($this->getState('category.id', 'root'));
 
             if (\is_object($this->_item)) {
                 $this->_children = $this->_item->getChildren();
