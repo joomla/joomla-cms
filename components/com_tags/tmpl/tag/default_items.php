@@ -12,10 +12,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
-use Joomla\CMS\Layout\LayoutHelper;
 
 /** @var \Joomla\Component\Tags\Site\View\Tag\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
