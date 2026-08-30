@@ -165,7 +165,7 @@ class AddUserCommand extends AbstractCommand
         // Load the admin user form XML
         $xmlPath = JPATH_ADMINISTRATOR . '/components/com_users/forms/user.xml';
 
-         if (!is_file($xmlPath) || !$form->loadFile($xmlPath)) {
+        if (!is_file($xmlPath) || !$form->loadFile($xmlPath)) {
             $this->ioStyle->error('Unable to load user form XML: ' . $xmlPath);
             return Command::FAILURE;
         }
