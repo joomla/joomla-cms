@@ -296,7 +296,9 @@ class ApiController extends BaseController
      */
     public function delete($id = null)
     {
-        if (!$this->app->getIdentity()->authorise('core.delete', $this->option)) {
+        if (
+            !$this->allowDelete()
+        ) {
             throw new NotAllowed('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED', 403);
         }
 
@@ -513,7 +515,13 @@ class ApiController extends BaseController
      */
     protected function allowEdit($data = [], $key = 'id')
     {
-        return $this->app->getIdentity()->authorise('core.edit', $this->option);
+        $user = $this->app->getIdentity();
+
+        if (!$user->authorise('core.manage', $this->option)) {
+            return false;
+        }
+
+        return $user->authorise('core.edit', $this->option);
     }
 
     /**
@@ -531,7 +539,30 @@ class ApiController extends BaseController
     {
         $user = $this->app->getIdentity();
 
+        if (!$user->authorise('core.manage', $this->option)) {
+            return false;
+        }
+
         return $user->authorise('core.create', $this->option) || \count($user->getAuthorisedCategories($this->option, 'core.create'));
+    }
+
+    /**
+     * Method to check if it's allowed to delete a record
+     *
+     * @return  boolean
+     *
+     * @since   5.4.8
+     */
+    protected function allowDelete(): bool
+    {
+        $user = $this->app->getIdentity();
+
+        // Require generic management permissions for the component
+        if (!$user->authorise('core.manage', $this->option)) {
+            return false;
+        }
+
+        return $user->authorise('core.delete', $this->option);
     }
 
     /**
