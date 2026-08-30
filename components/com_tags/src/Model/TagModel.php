@@ -249,7 +249,14 @@ class TagModel extends ListModel
 
         $this->setState('list.direction', $listOrder);
 
-        $this->setState('tag.state', 1);
+        // Filter on published state for users without edit rights
+        $user = Factory::getApplication()->getIdentity();
+
+        if ($user->authorise('core.edit', 'com_content')) {
+            $this->setState('tag.state', '0,1');
+        } else {
+            $this->setState('tag.state', 1);
+        }
 
         // Optional filter text
         $filterSearch = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_search', 'filter-search', '', 'string');
