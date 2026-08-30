@@ -181,16 +181,23 @@ class TemplateModel extends FormModel
 
         $template = $this->getTemplate();
 
-        $query->from($db->quoteName('#__template_overrides', 'a'));
+        $query->from($db->quoteName('#__template_overrides', 'a'))
+            ->join(
+                'INNER',
+                $db->quoteName('#__extensions', 'e')
+                . ' ON ' . $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('a.extension_id')
+            )
+            ->where($db->quoteName('e.enabled') . ' = 1')
+            ->where($db->quoteName('e.type') . ' = ' . $db->quote('template'));
 
         if (!$all) {
             $teid = (int) $template->extension_id;
-            $query->where($db->quoteName('extension_id') . ' = :teid')
+            $query->where($db->quoteName('a.extension_id') . ' = :teid')
                 ->bind(':teid', $teid, ParameterType::INTEGER);
         }
 
         if ($state) {
-            $query->where($db->quoteName('state') . ' = 0');
+            $query->where($db->quoteName('a.state') . ' = 0');
         }
 
         $query->order($db->quoteName('a.modified_date') . ' DESC');
