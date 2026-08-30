@@ -874,12 +874,9 @@ class LocalAdapter implements AdapterInterface
         }
 
         /*
-         * The on-disk filename may contain non-ASCII characters preserved from
-         * earlier uploads (FTP, sample data, migrations). canUpload() rejects
-         * any name that differs from File::makeSafe($name), which blocks the
-         * image editor from saving updates to those files. Pass the normalised
-         * name so the size, MIME and executable-extension checks still run
-         * without re-validating the existing filename.
+         * Pass the normalised name so the size, MIME and executable-extension
+         * checks still run without re-validating the existing filename, which may
+         * contain non-ASCII characters preserved from earlier uploads.
          */
         $safeName = File::makeSafe($name) ?: $name;
 

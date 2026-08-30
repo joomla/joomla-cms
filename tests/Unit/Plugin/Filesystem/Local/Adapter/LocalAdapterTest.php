@@ -63,7 +63,6 @@ class LocalAdapterTest extends UnitTestCase
         $record->setParams(new Registry());
 
         $components = new \ReflectionProperty(ComponentHelper::class, 'components');
-        $components->setAccessible(true);
         $components->setValue(null, ['com_media' => $record]);
     }
 
@@ -87,7 +86,6 @@ class LocalAdapterTest extends UnitTestCase
         Factory::$application = null;
 
         $components = new \ReflectionProperty(ComponentHelper::class, 'components');
-        $components->setAccessible(true);
         $components->setValue(null, []);
 
         parent::tearDown();
@@ -113,7 +111,6 @@ class LocalAdapterTest extends UnitTestCase
         imagejpeg($image);
         $bytes = ob_get_clean();
 
-        imagedestroy($image);
 
         return $bytes;
     }
