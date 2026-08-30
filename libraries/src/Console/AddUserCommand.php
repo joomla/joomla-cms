@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Console;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\User\User;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseAwareTrait;
@@ -128,6 +129,10 @@ class AddUserCommand extends AbstractCommand
      */
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
+        $language = $this->getApplication()->getLanguage();
+
+        // Force loading the en-GB version of lib_joomla
+        $language->load('lib_joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
         $this->configureIO($input, $output);
         $this->ioStyle->title('Add User');
         $this->user       = $this->getStringFromOption('username', 'Please enter a username');
@@ -145,26 +150,51 @@ class AddUserCommand extends AbstractCommand
         // Get filter to remove invalid characters
         $filter = new InputFilter();
 
-        $user = [
-            'username' => $filter->clean($this->user, 'USERNAME'),
-            'password' => $this->password,
-            'name'     => $filter->clean($this->name, 'STRING'),
-            'email'    => $this->email,
-            'groups'   => $this->userGroups,
+        $data = [
+            'username'  => $filter->clean($this->user, 'USERNAME'),
+            'password'  => $this->password,
+            'password2' => $this->password,
+            'name'      => $filter->clean($this->name, 'STRING'),
+            'email'     => $this->email,
+            'groups'    => $this->userGroups,
         ];
 
+        // Create a Form instance
+        $form = new Form('com_users.user', ['control' => 'jform']);
+
+        // Load the admin user form XML
+        $xmlPath = JPATH_ADMINISTRATOR . '/components/com_users/forms/user.xml';
+
+         if (!is_file($xmlPath) || !$form->loadFile($xmlPath)) {
+            $this->ioStyle->error('Unable to load user form XML: ' . $xmlPath);
+            return Command::FAILURE;
+        }
+
+        // Validate according to XML rules
+        $validated = $form->validate($data);
+
+        if ($validated === false) {
+            $errors = $form->getErrors();
+
+            foreach ($errors as $error) {
+                $this->ioStyle->error($error->getMessage());
+            }
+
+            return Command::FAILURE;
+        }
+
         $userObj = User::getInstance();
-        $userObj->bind($user);
+        $userObj->bind($data);
 
         if (!$userObj->save()) {
             switch ($userObj->getError()) {
-                case "JLIB_DATABASE_ERROR_USERNAME_INUSE":
+                case "Username in use.":
                     $this->ioStyle->error("The username already exists!");
                     break;
-                case "JLIB_DATABASE_ERROR_EMAIL_INUSE":
+                case "The email address you entered is already in use. Please enter another email address.":
                     $this->ioStyle->error("The email address already exists!");
                     break;
-                case "JLIB_DATABASE_ERROR_VALID_MAIL":
+                case "The email address you entered is invalid. Please enter another email address.":
                     $this->ioStyle->error("The email address is invalid!");
                     break;
             }
@@ -189,7 +219,7 @@ class AddUserCommand extends AbstractCommand
     protected function getGroupId($groupName)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__usergroups'))
             ->where($db->quoteName('title') . ' = :groupName')
@@ -257,7 +287,7 @@ class AddUserCommand extends AbstractCommand
         }
 
         // Generate select list for user
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('title'))
             ->from($db->quoteName('#__usergroups'))
             ->order($db->quoteName('id') . 'ASC');
