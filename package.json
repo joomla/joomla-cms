@@ -1,6 +1,6 @@
 {
   "name": "joomla",
-  "version": "5.4.6",
+  "version": "5.4.9",
   "description": "Joomla CMS",
   "license": "GPL-2.0-or-later",
   "repository": {
@@ -19,8 +19,8 @@
     "build:com_media:dev": "node --env-file=./build/development.env build/build.mjs --com-media",
     "watch": "node build/build.mjs --watch",
     "watch:com_media": "node build/build.mjs --watch-com-media",
-    "lint:js": "eslint --config build/eslint.config.mjs build administrator/components/com_media/resources/scripts",
-    "lint:testjs": "eslint --config build/eslint-tests.mjs tests/System",
+    "lint:js": "eslint --config build/eslint.config.mjs --max-warnings 0 build administrator/components/com_media/resources/scripts",
+    "lint:testjs": "eslint --config build/eslint-tests.mjs --max-warnings 0 tests/System",
     "lint:css": "stylelint --config build/.stylelintrc.json \"administrator/components/com_media/resources/**/*.scss\" \"administrator/templates/**/*.scss\" \"build/media_source/**/*.scss\" \"build/media_source/**/*.css\" \"templates/**/*.scss\" \"installation/template/**/*.scss\"",
     "install": "node build/build.mjs --prepare",
     "update": "node build/build.mjs --copy-assets && node build/build.mjs --build-pages && node build/build.mjs --compile-js && node build/build.mjs --compile-css && node build/build.mjs --compile-bs && node --env-file=./build/production.env build/build.mjs --com-media",
@@ -87,7 +87,7 @@
     "vuex-persist": "^3.1.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.28.4",
+    "@babel/core": "^7.29.7",
     "@babel/preset-env": "^7.28.3",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^28.0.6",
@@ -99,7 +99,7 @@
     "cli-progress": "^3.12.0",
     "commander": "^14.0.1",
     "core-js": "^3.45.1",
-    "cypress": "^15.8.1",
+    "cypress": "^15.18.0",
     "esbuild": "^0.25.10",
     "eslint": "^9.36.0",
     "eslint-plugin-import": "^2.32.0",
@@ -125,5 +125,13 @@
     "stylelint-order": "^7.0.0",
     "stylelint-scss": "^6.12.1",
     "totp-generator": "1.0.0"
+  },
+  "allowScripts": {
+    "core-js@3.45.1": true,
+    "cypress@15.18.0": true,
+    "cypress@13.17.0": true,
+    "esbuild@0.25.10": true,
+    "vue-demi@0.13.11": true,
+    "fsevents@2.3.3": true
   }
 }
