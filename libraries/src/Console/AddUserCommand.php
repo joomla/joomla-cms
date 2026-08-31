@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Console;
 
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\Rule\PasswordRule;
 use Joomla\CMS\User\User;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseAwareTrait;
@@ -130,24 +131,21 @@ class AddUserCommand extends AbstractCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $language = $this->getApplication()->getLanguage();
-
-        // Force loading the en-GB version of lib_joomla
         $language->load('lib_joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
         $this->configureIO($input, $output);
         $this->ioStyle->title('Add User');
+
         $this->user       = $this->getStringFromOption('username', 'Please enter a username');
         $this->name       = $this->getStringFromOption('name', 'Please enter a name (full name of user)');
         $this->email      = $this->getStringFromOption('email', 'Please enter an email address');
-        $this->password   = $this->getStringFromOption('password', 'Please enter a password');
+        $this->password   = $this->getPasswordFromOption();
         $this->userGroups = $this->getUserGroups();
 
         if (\in_array("error", $this->userGroups)) {
             $this->ioStyle->error("'" . $this->userGroups[1] . "' user group doesn't exist!");
-
             return Command::FAILURE;
         }
 
-        // Get filter to remove invalid characters
         $filter = new InputFilter();
 
         $data = [
@@ -159,10 +157,7 @@ class AddUserCommand extends AbstractCommand
             'groups'    => $this->userGroups,
         ];
 
-        // Create a Form instance
         $form = new Form('com_users.user', ['control' => 'jform']);
-
-        // Load the admin user form XML
         $xmlPath = JPATH_ADMINISTRATOR . '/components/com_users/forms/user.xml';
 
         if (!is_file($xmlPath) || !$form->loadFile($xmlPath)) {
@@ -170,16 +165,14 @@ class AddUserCommand extends AbstractCommand
             return Command::FAILURE;
         }
 
-        // Validate according to XML rules
         $validated = $form->validate($data);
+        $this->clearMessageQueue();
 
         if ($validated === false) {
             $errors = $form->getErrors();
-
             foreach ($errors as $error) {
                 $this->ioStyle->error($error->getMessage());
             }
-
             return Command::FAILURE;
         }
 
@@ -198,10 +191,10 @@ class AddUserCommand extends AbstractCommand
                     $this->ioStyle->error("The email address is invalid!");
                     break;
             }
-
             return 1;
         }
 
+        $this->clearMessageQueue();
         $this->ioStyle->success("User created!");
 
         return Command::SUCCESS;
@@ -252,6 +245,36 @@ class AddUserCommand extends AbstractCommand
         }
 
         return $answer;
+    }
+
+    /**
+     * Method to get and validate password from option
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getPasswordFromOption(): string
+    {
+        $password = (string) $this->cliInput->getOption('password');
+
+        while (!$password) {
+            $password = (string) $this->ioStyle->askHidden('Please enter a password');
+
+            if ($password) {
+                $errors = $this->validatePassword($password);
+
+                if ($errors) {
+                    foreach ($errors as $error) {
+                        $this->ioStyle->error($error);
+                    }
+                    $password = '';
+                }
+            }
+        }
+
+        $this->clearMessageQueue();
+        return $password;
     }
 
     /**
@@ -345,5 +368,54 @@ class AddUserCommand extends AbstractCommand
         $this->addOption('usergroup', null, InputOption::VALUE_OPTIONAL, 'usergroup (separate multiple groups with comma ",")');
         $this->setDescription('Add a user');
         $this->setHelp($help);
+    }
+
+    /**
+     * Method to validate password using Joomla's PasswordRule
+     *
+     * @param   string  $password  The password to validate
+     *
+     * @return  array   Array of error messages, empty if valid
+     * 
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function validatePassword($password): array
+    {
+        $errors = [];
+
+        // Construct the XML field element matching password rules
+        $element = new \SimpleXMLElement('<field name="password" type="password" validate="password" required="true" />');
+
+        // Instantiate and execute the rule
+        $rule = new PasswordRule();
+        $isValid = $rule->test($element, $password);
+
+        $app = $this->getApplication();
+
+
+        $messageQueue = $app->getMessageQueue(true);
+
+        if (!$isValid) {
+            foreach ($messageQueue as $message) {
+                $errors[] = $message;
+            }
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Clears the application's message queue.
+     *
+     * @return void
+     * 
+     * @since   __DEPLOY_VERSION__
+     */
+    private function clearMessageQueue(): void
+    {
+        $app = $this->getApplication();
+
+        $property = new \ReflectionProperty($app, 'messages');
+        $property->setValue($app, []);
     }
 }
