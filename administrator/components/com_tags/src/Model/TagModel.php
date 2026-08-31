@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -273,6 +274,30 @@ class TagModel extends AdminModel implements VersionableModelInterface
                 }
 
                 $data['published'] = 0;
+            }
+
+            // Automatic handling of alias for empty fields
+            if (\in_array($input->get('task'), ['apply', 'save', 'save2new']) && (!isset($data['id']) || (int) $data['id'] == 0)) {
+                if (empty($data['alias'])) {
+                    if (Factory::getApplication()->get('unicodeslugs') == 1) {
+                        $data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['title']);
+                    } else {
+                        $data['alias'] = OutputFilter::stringURLSafe($data['title']);
+                    }
+
+                    $tagTable = $this->getTable();
+
+                    if ($tagTable->load(['alias' => $data['alias'], 'parent_id' => $data['parent_id']])) {
+                        $msg = Text::_('COM_TAGS_SAVE_WARNING');
+                    }
+
+                    [$title, $alias] = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
+                    $data['alias']   = $alias;
+
+                    if (isset($msg)) {
+                        Factory::getApplication()->enqueueMessage($msg, 'warning');
+                    }
+                }
             }
 
             // Bind the data.
