@@ -43,7 +43,13 @@ class JsonapiView extends BaseApiView
         'typeAlias',
         'asset_id',
         'title',
+    /**
+     * @deprecated  6.2.0 will be removed in 8.0
+     *              Will be removed without replacement.
+     */
         'text',
+        'introtext',
+        'fulltext',
         'tags',
         'language',
         'state',
@@ -82,7 +88,13 @@ class JsonapiView extends BaseApiView
         'typeAlias',
         'asset_id',
         'title',
+    /**
+     * @deprecated  6.2.0 will be removed in 8.0
+     *              Will be removed without replacement.
+     */
         'text',
+        'introtext',
+        'fulltext',
         'tags',
         'language',
         'state',
@@ -196,6 +208,10 @@ class JsonapiView extends BaseApiView
             return $item;
         }
 
+        /**
+         * @deprecated  6.2.0 will be removed in 8.0
+         *              Will be removed without replacement.
+         */
         $item->text = $item->introtext . ' ' . $item->fulltext;
 
         $params = new Registry($item->params ?? '{}');
