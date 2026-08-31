@@ -131,6 +131,18 @@ final class Requests extends CMSPlugin implements SubscriberInterface
         $options = new Registry();
         $options->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
 
+        foreach ((array) ($params->customHeaders ?? []) as $customHeader) {
+            $customHeader = (object) $customHeader;
+            $headerName   = trim((string) ($customHeader->name ?? ''));
+
+            if ($headerName === '') {
+                continue;
+            }
+
+            $headerValue = (string) ($customHeader->value ?? '');
+            $headers[$headerName] = $headerValue;
+        }
+
         try {
             $response = $this->httpFactory->getHttp($options)->get($url, $headers, $timeout);
         } catch (\Exception $e) {
