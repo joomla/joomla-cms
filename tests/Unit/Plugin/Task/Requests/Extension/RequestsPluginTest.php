@@ -251,6 +251,83 @@ class RequestsPluginTest extends UnitTestCase
     }
 
     /**
+     * @testdox  can perform a HTTP GET request with custom headers
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function testCustomHeadersRequest()
+    {
+        $transport = new class () implements TransportInterface {
+            public $headers;
+
+            public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
+            {
+                $this->headers = $headers;
+
+                $response = new Response('php://memory', 200);
+                $response->getBody()->write('test');
+
+                return $response;
+            }
+
+            public static function isSupported()
+            {
+                return true;
+            }
+        };
+
+        $http    = new Http([], $transport);
+        $factory = $this->createStub(HttpFactory::class);
+        $factory->method('getHttp')->willReturn($http);
+
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
+
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
+
+        $plugin = new Requests([], $factory, $this->tmpFolder);
+        $plugin->setApplication($app);
+
+        $task = $this->createStub(Task::class);
+        $task->method('get')->willReturnMap([['id', null, 1], ['type', null, 'plg_task_requests_task_get']]);
+
+        $event = new ExecuteTaskEvent(
+            'test',
+            [
+                'subject' => $task,
+                'params'  => (object)[
+                    'url'           => 'http://example.com',
+                    'timeout'       => 0,
+                    'auth'          => 1,
+                    'authType'      => 'basic',
+                    'authKey'       => '123',
+                    'customHeaders' => [
+                        ['name' => 'X-Custom-Header', 'value' => 'custom-value'],
+                        // Headers without a name are skipped
+                        ['name' => '   ', 'value' => 'no-name'],
+                        // Names are trimmed and empty values are allowed
+                        (object) ['name' => ' X-Empty-Header ', 'value' => ''],
+                    ],
+                ],
+            ]
+        );
+        $plugin->standardRoutineHandler($event);
+
+        $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+        $this->assertEquals(
+            [
+                'Authorization'   => 'basic 123',
+                'X-Custom-Header' => 'custom-value',
+                'X-Empty-Header'  => '',
+            ],
+            $transport->headers
+        );
+    }
+
+    /**
      * @testdox  can handle an exception during the request
      *
      * @return  void
