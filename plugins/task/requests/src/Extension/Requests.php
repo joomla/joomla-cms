@@ -139,7 +139,7 @@ final class Requests extends CMSPlugin implements SubscriberInterface
                 continue;
             }
 
-            $headerValue = (string) ($customHeader->value ?? '');
+            $headerValue          = (string) ($customHeader->value ?? '');
             $headers[$headerName] = $headerValue;
         }
 
