@@ -73,9 +73,8 @@ if (!empty($tableClass)) {
                     $title = $column['title'] ?? $column['key'] ?? '';
                     $width = $column['width'] ?? '';
                     $align = $column['align'] ?? '';
-                    $scope = $column['scope'] ?? 'col';
                     ?>
-                    <th scope="<?php echo htmlspecialchars($scope, ENT_QUOTES, 'UTF-8'); ?>"
+                    <th scope="col"
                         <?php echo $width ? ' class="' . htmlspecialchars($width, ENT_QUOTES, 'UTF-8') . '"' : ''; ?>
                         <?php echo $align ? ' style="text-align: ' . htmlspecialchars($align, ENT_QUOTES, 'UTF-8') . ';"' : ''; ?>>
                         <?php echo htmlspecialchars($title, ENT_QUOTES, 'UTF-8'); ?>
