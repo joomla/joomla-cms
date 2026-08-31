@@ -157,7 +157,7 @@ class AddUserCommand extends AbstractCommand
             'groups'    => $this->userGroups,
         ];
 
-        $form = new Form('com_users.user', ['control' => 'jform']);
+        $form    = new Form('com_users.user', ['control' => 'jform']);
         $xmlPath = JPATH_ADMINISTRATOR . '/components/com_users/forms/user.xml';
 
         if (!is_file($xmlPath) || !$form->loadFile($xmlPath)) {
@@ -376,7 +376,7 @@ class AddUserCommand extends AbstractCommand
      * @param   string  $password  The password to validate
      *
      * @return  array   Array of error messages, empty if valid
-     * 
+     *
      * @since   __DEPLOY_VERSION__
      */
     protected function validatePassword($password): array
@@ -387,7 +387,7 @@ class AddUserCommand extends AbstractCommand
         $element = new \SimpleXMLElement('<field name="password" type="password" validate="password" required="true" />');
 
         // Instantiate and execute the rule
-        $rule = new PasswordRule();
+        $rule    = new PasswordRule();
         $isValid = $rule->test($element, $password);
 
         $app = $this->getApplication();
@@ -408,7 +408,7 @@ class AddUserCommand extends AbstractCommand
      * Clears the application's message queue.
      *
      * @return void
-     * 
+     *
      * @since   __DEPLOY_VERSION__
      */
     private function clearMessageQueue(): void
