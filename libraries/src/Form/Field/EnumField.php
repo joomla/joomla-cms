@@ -26,7 +26,7 @@ use Joomla\CMS\Language\Text;
  * The option text is the case's name, or - if a "prefix" attribute is given - the translation of
  * "{PREFIX}_{CASE_NAME}" (uppercased).
  *
- * @since __DEPLOY_VERSION__
+ * @since 6.2.0
  */
 class EnumField extends ListField
 {
@@ -34,7 +34,7 @@ class EnumField extends ListField
      * The enum field type.
      *
      * @var   string
-     * @since __DEPLOY_VERSION__
+     * @since 6.2.0
      */
     protected $type = 'enum';
 
@@ -43,7 +43,7 @@ class EnumField extends ListField
      *
      * @return array The field option objects.
      *
-     * @since __DEPLOY_VERSION__
+     * @since 6.2.0
      */
     protected function getOptions(): array
     {
