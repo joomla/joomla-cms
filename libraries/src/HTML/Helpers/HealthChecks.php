@@ -25,7 +25,7 @@ use Joomla\CMS\Layout\FileLayout;
 abstract class HealthChecks
 {
     /**
-     * Method to generate html code for a list of gauges
+     * Method to generate html code for an array of gauges
      *
      * @param   array  $gauges  Array of gauges
      *
@@ -70,7 +70,7 @@ abstract class HealthChecks
     }
 
     /**
-     * Method to generate html code for a list of buttons
+     * Method to generate html code for an array of buttons
      *
      * @param   array  $buttons  Array of buttons
      *
@@ -94,7 +94,7 @@ abstract class HealthChecks
     }
 
     /**
-     * Method to generate html code for a list of buttons
+     * Method to generate html code for a button
      *
      * @param   array  $button  Button properties
      *
@@ -115,7 +115,7 @@ abstract class HealthChecks
     }
 
     /**
-     * Method to generate html code for a list of tables
+     * Method to generate html code for an array of tables
      *
      * @param   array  $tables  Array of tables
      *
@@ -160,7 +160,7 @@ abstract class HealthChecks
     }
 
     /**
-     * Method to generate html code for a list of lists
+     * Method to generate html code for an array of lists
      *
      * @param   array  $lists  Array of lists
      *
@@ -205,9 +205,9 @@ abstract class HealthChecks
     }
 
     /**
-     * Method to generate html code for a set of leading information
+     * Method to generate html code for an array of leading information
      *
-     * @param   array  $reports  Array of leading information
+     * @param   array  $leadings  Array of leading information
      *
      * @return  string
      *
@@ -250,9 +250,9 @@ abstract class HealthChecks
     }
 
     /**
-     * Method to generate html code for a set of footer information
+     * Method to generate html code for an array of footer information
      *
-     * @param   array  $reports  Array of footer information
+     * @param   array  $footers  Array of footer information
      *
      * @return  string
      *
