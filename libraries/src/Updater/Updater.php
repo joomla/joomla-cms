@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Updater;
 
+use Joomla\CMS\Adapter\Adapter;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Table\Extension;
@@ -388,6 +389,7 @@ class Updater implements DatabaseAwareInterface
 
                             if (version_compare($current_update->version, $data['version'], $operator) == 1) {
                                 $current_update->extension_id = $eid;
+                                $current_update->security     = $this->findHighestSeverity($data['version'], $current_update, $update_result['security'] ?? []);
                                 $retVal[]                     = $current_update;
                             }
                         } else {
@@ -406,6 +408,17 @@ class Updater implements DatabaseAwareInterface
                         // If there is an update, check that the version is newer then replaces
                         if (version_compare($current_update->version, $update->version, $operator) == 1) {
                             $retVal[] = $current_update;
+                            if (!$eid) {
+                                continue;
+                            }
+
+                            $extension->load($eid);
+                            $data = json_decode($extension->manifest_cache ?? '', true);
+                            if (empty($data['version'])) {
+                                continue;
+                            }
+
+                            $current_update->security = $this->findHighestSeverity($data['version'], $current_update, $update_result['security'] ?? []);
                         }
                     }
                 }
@@ -413,6 +426,31 @@ class Updater implements DatabaseAwareInterface
         }
 
         return $retVal;
+    }
+
+    /**
+     * Searches for the highest severity in security updates since the installed version.
+     *
+     * @param   string       $installedVersion  The installed version
+     * @param   UpdateTable  $update            The latest compatible update
+     * @param   array        $securityUpdates   The found security updates
+     *
+     * @return  int|null
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function findHighestSeverity(string $installedVersion, UpdateTable $update, array $securityUpdates): ?int
+    {
+        $securityLevel = (int) $update->security;
+
+        /** @var \Joomla\CMS\Table\Update $securityUpdate */
+        foreach ($securityUpdates as $securityUpdate) {
+            if (version_compare($securityUpdate->version, $installedVersion, '>') && $securityLevel < (int) $securityUpdate->security) {
+                $securityLevel = (int) $securityUpdate->security;
+            }
+        }
+
+        return $securityLevel;
     }
 
     /**
