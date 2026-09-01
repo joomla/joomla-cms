@@ -24,7 +24,7 @@ Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
     </h1>
     <?php if ($this->item->version_note) : ?>
         <h2>
-            <?php echo Text::sprintf('COM_CONTENTHISTORY_PREVIEW_SUBTITLE', $this->item->version_note); ?>
+            <?php echo Text::sprintf('COM_CONTENTHISTORY_PREVIEW_SUBTITLE', $this->escape($this->item->version_note)); ?>
         </h2>
     <?php endif; ?>
 
@@ -53,9 +53,9 @@ Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
                             <th scope="row"><em>&nbsp;&nbsp;<?php echo $subValue->label; ?></em></th>
                             <td>
                                 <?php if (\is_array($subValue->value)) : ?>
-                                    <?php echo json_decode($subValue->value); ?>
+                                    <?php echo $this->escape(json_decode($subValue->value)); ?>
                                 <?php else : ?>
-                                    <?php echo $subValue->value; ?>
+                                    <?php echo $this->escape($subValue->value); ?>
                                 <?php endif; ?>
                             </td>
                         </tr>
@@ -67,9 +67,9 @@ Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
                     <th scope="row"><?php echo $value->label; ?></th>
                     <td>
                         <?php if (\is_array($value->value)) : ?>
-                            <?php echo json_encode($value->value); ?>
+                            <?php echo $this->escape(json_encode($value->value)); ?>
                         <?php else : ?>
-                            <?php echo $value->value; ?>
+                            <?php echo $this->escape($value->value); ?>
                         <?php endif; ?>
                     </td>
                 </tr>

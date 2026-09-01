@@ -142,6 +142,17 @@
 			</field>
 
 			<field
+				name="show_subcat_image"
+				type="list"
+				label="JGLOBAL_SHOW_SUBCATEGORIES_IMAGE_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
 				name="show_cat_num_articles"
 				type="list"
 				label="COM_CONTENT_NUMBER_CATEGORY_ITEMS_LABEL"

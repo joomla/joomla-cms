@@ -111,10 +111,28 @@ class FieldModel extends AdminModel
      */
     public function save($data)
     {
-        $field = null;
+        $field                     = null;
+        $hasDuplicateSubformFields = false;
 
         if (isset($data['id']) && $data['id']) {
             $field = $this->getItem($data['id']);
+        }
+
+        $fieldType = $data['type'] ?? ($field->type ?? null);
+
+        if ($fieldType === 'subform' && isset($data['fieldparams']['options']) && \is_array($data['fieldparams']['options'])) {
+            $seenCustomFields = [];
+
+            foreach ($data['fieldparams']['options'] as $option) {
+                $customField = (string) ($option['customfield'] ?? '');
+
+                if (isset($seenCustomFields[$customField])) {
+                    $hasDuplicateSubformFields = true;
+                    break;
+                }
+
+                $seenCustomFields[$customField] = true;
+            }
         }
 
         if (isset($data['params']['searchindex'])) {
@@ -170,6 +188,10 @@ class FieldModel extends AdminModel
 
         if (!parent::save($data)) {
             return false;
+        }
+
+        if ($hasDuplicateSubformFields) {
+            Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_FIELD_SUBFORM_DUPLICATE_FIELDS_REMOVED'), 'warning');
         }
 
         // Save the assigned categories into #__fields_categories
@@ -330,7 +352,7 @@ class FieldModel extends AdminModel
             try {
                 $rule->setDatabase($this->getDatabase());
             } catch (DatabaseNotFoundException) {
-                @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
+                @trigger_error('Database must be set, this will not be caught anymore in 7.0.', E_USER_DEPRECATED);
                 $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
         }
@@ -974,6 +996,21 @@ class FieldModel extends AdminModel
      */
     public function validate($form, $data, $group = null)
     {
+        // Check if the values are unique. This should only apply for list, checkboxes and radio custom field types
+        if (\in_array($data['type'], ['list', 'checkboxes', 'radio'])
+            && !empty($data['fieldparams']['options'])
+            && \is_array($data['fieldparams']['options'])) {
+            $tmpValues = [];
+            foreach ($data['fieldparams']['options'] as $option) {
+                $tmpValues[] = $option['value'];
+            }
+
+            if (\count($tmpValues) !== \count(array_unique($tmpValues))) {
+                Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_FIELD_INVALID_DUPLICATE_VALUES'), 'error');
+
+                return false;
+            }
+        }
         if (!$this->getCurrentUser()->authorise('core.admin', 'com_fields')) {
             if (isset($data['rules'])) {
                 unset($data['rules']);
@@ -1153,11 +1190,17 @@ class FieldModel extends AdminModel
         $user      = $this->getCurrentUser();
         $table     = $this->getTable();
         $newIds    = [];
-        $component = $this->state->get('filter.component');
         $value     = (int) $value;
 
         foreach ($pks as $pk) {
-            if ($user->authorise('core.create', $component . '.fieldgroup.' . $value)) {
+            $table->reset();
+            $table->load($pk);
+            [$recordComponent] = explode('.', (string) $table->context);
+
+            if (
+                $user->authorise('core.create', $recordComponent . '.fieldgroup.' . $value)
+                && $user->authorise('core.edit', $recordComponent . '.field.' . $pk)
+            ) {
                 // Find all assigned categories to this field
                 $db    = $this->getDatabase();
                 $query = $db->createQuery();
@@ -1167,9 +1210,6 @@ class FieldModel extends AdminModel
                     ->where($db->quoteName('field_id') . ' = ' . (int) $pk);
 
                 $assignedCatIds = $db->setQuery($query)->loadColumn();
-
-                $table->reset();
-                $table->load($pk);
 
                 $table->group_id = $value;
 
