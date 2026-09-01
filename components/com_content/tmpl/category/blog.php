@@ -145,7 +145,7 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
         </div>
     <?php endif; ?>
 
-    <?php if ($this->maxLevel != 0 && !empty($this->children[$this->category->id])) : ?>
+    <?php if ($this->maxLevel != 0 && $this->category->hasVisibleChildren($this->getCurrentUser()->getAuthorisedViewLevels(), (bool) $this->params->get('show_empty_categories', 0))) : ?>
         <div class="com-content-category-blog__children cat-children">
             <?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
                 <h3> <?php echo Text::_('JGLOBAL_SUBCATEGORIES'); ?> </h3>

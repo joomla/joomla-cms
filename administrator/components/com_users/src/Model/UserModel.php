@@ -548,7 +548,8 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
                 'com_users.registration.user.admin_activated',
                 $langTag,
                 $this->getMailerFactory()->createMailer(),
-                $this->getLanguageFactory()
+                $this->getLanguageFactory(),
+                $this->getDatabase()
             );
             $mailer->addTemplateData($mailData);
             $mailer->addRecipient($userData['email']);

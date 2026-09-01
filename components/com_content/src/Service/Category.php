@@ -35,6 +35,7 @@ class Category extends Categories
         $options['table']       = '#__content';
         $options['extension']   = 'com_content';
         $options['accessfield'] = 'access';
+        $options['check_dates'] = true;
 
         parent::__construct($options);
     }
