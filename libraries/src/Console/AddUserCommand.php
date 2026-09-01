@@ -274,6 +274,7 @@ class AddUserCommand extends AbstractCommand
         }
 
         $this->clearMessageQueue();
+
         return $password;
     }
 
