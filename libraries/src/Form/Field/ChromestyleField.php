@@ -136,7 +136,7 @@ class ChromestyleField extends GroupedlistField
      */
     protected function getGroups()
     {
-        $groups = [];
+        $groups = parent::getGroups();
 
         // Add Module Style Field
         $tmp            = '---' . Text::_('JLIB_FORM_VALUE_FROM_TEMPLATE') . '---';
