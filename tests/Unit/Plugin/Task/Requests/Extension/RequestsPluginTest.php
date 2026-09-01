@@ -250,7 +250,6 @@ class RequestsPluginTest extends UnitTestCase
         $this->assertEquals(['Authorization' => 'basic 123'], $transport->headers);
     }
 
-
     /**
      * @testdox  can perform a HTTP GET request with custom headers
      *
