@@ -170,9 +170,11 @@ class AddUserCommand extends AbstractCommand
 
         if ($validated === false) {
             $errors = $form->getErrors();
+
             foreach ($errors as $error) {
                 $this->ioStyle->error($error->getMessage());
             }
+
             return Command::FAILURE;
         }
 
