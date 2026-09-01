@@ -18,7 +18,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterSaveConfigurationEvent;
 use Joomla\CMS\Event\Application\BeforeSaveConfigurationEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\LanguageFactoryInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
@@ -50,9 +51,10 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  *
  * @since  3.2
  */
-class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
+class ApplicationModel extends FormModel implements MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
     use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * Array of protected password fields from the configuration.php
@@ -1225,7 +1227,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             'com_config.test_mail',
             $user->getParam('language', $app->get('language')),
             $mail,
-            Factory::getContainer()->get(LanguageFactoryInterface::class),
+            $this->getLanguageFactory(),
             $this->getDatabase()
         );
         $mailer->addTemplateData(
