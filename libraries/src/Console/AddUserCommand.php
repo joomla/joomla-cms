@@ -163,6 +163,7 @@ class AddUserCommand extends AbstractCommand
 
         if (!is_file($xmlPath) || !$form->loadFile($xmlPath)) {
             $this->ioStyle->error('Unable to load user form XML: ' . $xmlPath);
+
             return Command::FAILURE;
         }
 
