@@ -153,7 +153,7 @@ class CaptiveController extends BaseController implements UserFactoryAwareInterf
 
         if (!$model->checkTryLimit($record)) {
             // The try limit is reached, show error and return
-            $captiveURL = Route::_('index.php?option=com_users&view=captive&task=select', false);
+            $captiveURL = Route::_('index.php?option=com_users&view=captive&task=captive.select', false);
             $message    = Text::_('COM_USERS_MFA_TRY_LIMIT_REACHED');
             $this->setRedirect($captiveURL, $message, 'error');
 

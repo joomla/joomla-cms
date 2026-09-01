@@ -383,7 +383,8 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface, Mail
                 'com_messages.new_message',
                 $lang->getTag(),
                 $this->getMailerFactory()->createMailer(),
-                $this->getLanguageFactory()
+                $this->getLanguageFactory(),
+                $this->getDatabase()
             );
             $data   = [
                 'subject'   => $subject,
