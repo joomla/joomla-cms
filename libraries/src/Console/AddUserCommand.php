@@ -143,6 +143,7 @@ class AddUserCommand extends AbstractCommand
 
         if (\in_array("error", $this->userGroups)) {
             $this->ioStyle->error("'" . $this->userGroups[1] . "' user group doesn't exist!");
+
             return Command::FAILURE;
         }
 
@@ -193,6 +194,7 @@ class AddUserCommand extends AbstractCommand
                     $this->ioStyle->error("The email address is invalid!");
                     break;
             }
+
             return 1;
         }
 
