@@ -20,6 +20,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailerFactoryAwareInterface;
 use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFoundException;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
@@ -126,6 +127,10 @@ class RemindModel extends FormModel implements MailerFactoryAwareInterface, Lang
         if ($data === false) {
             // Get the validation messages from the form.
             foreach ($form->getErrors() as $formError) {
+                if ($this->shouldUseExceptions()) {
+                    throw $formError instanceof \Throwable ? $formError : new \RuntimeException((string) $formError);
+                }
+
                 $this->setError($formError->getMessage());
             }
 
@@ -146,6 +151,10 @@ class RemindModel extends FormModel implements MailerFactoryAwareInterface, Lang
         try {
             $user = $db->loadObject();
         } catch (\RuntimeException $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()));
 
             return false;
@@ -153,6 +162,10 @@ class RemindModel extends FormModel implements MailerFactoryAwareInterface, Lang
 
         // Check for a user.
         if (empty($user)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ResourceNotFoundException(Text::_('COM_USERS_USER_NOT_FOUND'));
+            }
+
             $this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
             return false;
@@ -160,6 +173,10 @@ class RemindModel extends FormModel implements MailerFactoryAwareInterface, Lang
 
         // Make sure the user isn't blocked.
         if ($user->block) {
+            if ($this->shouldUseExceptions()) {
+                throw new \RuntimeException(Text::_('COM_USERS_USER_BLOCKED'));
+            }
+
             $this->setError(Text::_('COM_USERS_USER_BLOCKED'));
 
             return false;
@@ -204,6 +221,10 @@ class RemindModel extends FormModel implements MailerFactoryAwareInterface, Lang
 
         // Check for an error.
         if ($return !== true) {
+            if ($this->shouldUseExceptions()) {
+                throw new \RuntimeException(Text::_('COM_USERS_MAIL_FAILED'));
+            }
+
             $this->setError(Text::_('COM_USERS_MAIL_FAILED'));
 
             return false;
