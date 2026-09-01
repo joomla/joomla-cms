@@ -95,10 +95,7 @@ final class POWCaptchaProvider implements CaptchaProviderInterface
                 'UTF-8'
             ),
             'challengeurl' => Route::_(
-                \sprintf(
-                    "index.php?option=com_ajax&plugin=powcaptcha&group=captcha&format=raw&%s=1",
-                    Session::getFormToken()
-                ),
+                'index.php?option=com_ajax&plugin=powcaptcha&group=captcha&format=raw',
                 false,
                 false,
                 true
