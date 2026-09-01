@@ -18,6 +18,7 @@ use Joomla\Filesystem\File;
 use Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter;
 use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for the Local filesystem adapter.
@@ -25,10 +26,9 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  Local
  *
- * @testdox     The Local adapter
- *
  * @since       6.2.0
  */
+#[TestDox('The Local adapter')]
 class LocalAdapterTest extends UnitTestCase
 {
     /**
@@ -116,8 +116,6 @@ class LocalAdapterTest extends UnitTestCase
     }
 
     /**
-     * @testdox  saves an edited file back to its original non-ASCII name
-     *
      * This is the behaviour PR #47935 restores: a file whose on-disk name
      * contains non-ASCII characters (uploaded via FTP, sample data, a
      * migration, ...) can be re-saved by the image editor instead of being
@@ -127,6 +125,7 @@ class LocalAdapterTest extends UnitTestCase
      *
      * @since   6.2.0
      */
+    #[TestDox('saves an edited file back to its original non-ASCII name')]
     public function testUpdateFileSavesBackToNonAsciiName()
     {
         $name = 'erik_schön.jpg';
@@ -145,8 +144,6 @@ class LocalAdapterTest extends UnitTestCase
     }
 
     /**
-     * @testdox  never touches a pre-existing file that already has the safe name
-     *
      * Answers @brianteeman's review question: the "safe" name derived in
      * checkContent() is only handed to canUpload() as a validation string. It
      * is never used to name a file on disk (the probe file uses uniqid(), the
@@ -157,6 +154,7 @@ class LocalAdapterTest extends UnitTestCase
      *
      * @since   6.2.0
      */
+    #[TestDox('never touches a pre-existing file that already has the safe name')]
     public function testUpdateFileDoesNotTouchExistingSafeNamedNeighbour()
     {
         $name     = 'erik_schön.jpg';
