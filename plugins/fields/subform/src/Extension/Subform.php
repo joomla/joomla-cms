@@ -140,6 +140,10 @@ final class Subform extends FieldsPlugin implements SubscriberInterface
             return;
         }
 
+        if ($field->value === null || $field->value === '') {
+            return;
+        }
+
         $decoded_value = json_decode($field->value, true);
 
         if (!$decoded_value || !\is_array($decoded_value)) {
