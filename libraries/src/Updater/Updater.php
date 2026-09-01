@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Updater;
 
-use Joomla\CMS\Adapter\Adapter;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Table\Extension;
