@@ -114,7 +114,7 @@ final class POWCaptchaProvider implements CaptchaProviderInterface
     /**
      * Verify the users answer
      *
-     * @param   null|string  $code  Answer provided by user. Not needed for the Recaptcha implementation
+     * @param   null|string  $code  Answer provided by user.
      *
      * @return  bool  True if the answer is correct, false otherwise
      *
@@ -123,6 +123,10 @@ final class POWCaptchaProvider implements CaptchaProviderInterface
     public function checkAnswer(?string $code = null): bool
     {
         if (!$this->application instanceof CMSWebApplicationInterface) {
+            return false;
+        }
+
+        if (empty($code)) {
             return false;
         }
 
