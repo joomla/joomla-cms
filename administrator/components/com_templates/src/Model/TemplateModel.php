@@ -181,16 +181,23 @@ class TemplateModel extends FormModel
 
         $template = $this->getTemplate();
 
-        $query->from($db->quoteName('#__template_overrides', 'a'));
+        $query->from($db->quoteName('#__template_overrides', 'a'))
+            ->join(
+                'INNER',
+                $db->quoteName('#__extensions', 'e')
+                . ' ON ' . $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('a.extension_id')
+            )
+            ->where($db->quoteName('e.enabled') . ' = 1')
+            ->where($db->quoteName('e.type') . ' = ' . $db->quote('template'));
 
         if (!$all) {
             $teid = (int) $template->extension_id;
-            $query->where($db->quoteName('extension_id') . ' = :teid')
+            $query->where($db->quoteName('a.extension_id') . ' = :teid')
                 ->bind(':teid', $teid, ParameterType::INTEGER);
         }
 
         if ($state) {
-            $query->where($db->quoteName('state') . ' = 0');
+            $query->where($db->quoteName('a.state') . ' = 0');
         }
 
         $query->order($db->quoteName('a.modified_date') . ' DESC');
@@ -1174,11 +1181,11 @@ class TemplateModel extends FormModel
             $client       = ApplicationHelper::getClientInfo($template->client_id);
 
             if (stristr($name, 'mod_') !== false) {
-                $htmlPath   = Path::clean($client->path . '/templates/' . $template->element . '/html/' . $name);
+                $htmlPath   = Path::check($client->path . '/templates/' . $template->element . '/html/' . $name);
             } elseif (stristr($override, 'com_') !== false) {
                 $size = \count($explodeArray);
 
-                $url = Path::check($explodeArray[$size - 3] . '/' . $explodeArray[$size - 1]);
+                $url = Path::clean($explodeArray[$size - 3] . '/' . $explodeArray[$size - 1]);
 
                 if ($explodeArray[$size - 2] == 'layouts') {
                     $htmlPath = Path::check($client->path . '/templates/' . $template->element . '/html/layouts/' . $url);
@@ -1187,7 +1194,7 @@ class TemplateModel extends FormModel
                 }
             } elseif (stripos($override, Path::clean(JPATH_ROOT . '/plugins/')) === 0) {
                 $size       = \count($explodeArray);
-                $layoutPath = Path::check('plg_' . $explodeArray[$size - 2] . '_' . $explodeArray[$size - 1]);
+                $layoutPath = Path::clean('plg_' . $explodeArray[$size - 2] . '_' . $explodeArray[$size - 1]);
                 $htmlPath   = Path::check($client->path . '/templates/' . $template->element . '/html/' . $layoutPath);
             } else {
                 $layoutPath = implode('/', \array_slice($explodeArray, -2));
@@ -1195,7 +1202,7 @@ class TemplateModel extends FormModel
             }
 
             // Check Html folder, create if not exist
-            if (!is_dir(Path::check($htmlPath)) && !Folder::create($htmlPath)) {
+            if (!is_dir($htmlPath) && !Folder::create($htmlPath)) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_ERROR'), 'error');
 
                 return false;
@@ -1212,10 +1219,10 @@ class TemplateModel extends FormModel
                 }
 
                 $return = $this->createTemplateOverride(Path::check($path), $htmlPath);
-            } elseif (stripos($override, Path::check(JPATH_ROOT . '/plugins/')) === 0) {
+            } elseif (stripos($override, Path::clean(JPATH_ROOT . '/plugins/')) === 0) {
                 $return = $this->createTemplateOverride(Path::check($override . '/tmpl'), $htmlPath);
             } else {
-                $return = $this->createTemplateOverride($override, $htmlPath);
+                $return = $this->createTemplateOverride(Path::check($override), $htmlPath);
             }
 
             if ($return) {
@@ -1299,7 +1306,7 @@ class TemplateModel extends FormModel
     {
         if ($this->getTemplate()) {
             $app      = Factory::getApplication();
-            $filePath = $this->getBasePath() . urldecode(base64_decode($file));
+            $filePath = Path::check($this->getBasePath() . urldecode(base64_decode($file)));
 
             try {
                 $return = File::delete($filePath);
@@ -1424,7 +1431,7 @@ class TemplateModel extends FormModel
     {
         if ($this->getTemplate()) {
             $app    = Factory::getApplication();
-            $path   = Path::check($location . '/');
+            $path   = Path::clean($location . '/');
             $base   = $this->getBasePath();
 
             if (file_exists(Path::check($base . $path . $name))) {
@@ -1457,17 +1464,18 @@ class TemplateModel extends FormModel
     public function deleteFolder($location)
     {
         if ($this->getTemplate()) {
-            $app  = Factory::getApplication();
-            $base = $this->getBasePath();
-            $path = Path::check($location . '/');
+            $app        = Factory::getApplication();
+            $base       = $this->getBasePath();
+            $path       = Path::clean($location . '/');
+            $folderPath = Path::check($base . $path);
 
-            if (!file_exists($base . $path)) {
+            if (!file_exists($folderPath)) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_NOT_EXISTS'), 'error');
 
                 return false;
             }
 
-            $return = Folder::delete($base . $path);
+            $return = Folder::delete($folderPath);
 
             if (!$return) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_DELETE_ERROR'), 'error');
