@@ -27,7 +27,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @testdox     The Local adapter
  *
- * @since       __DEPLOY_VERSION__
+ * @since       6.2.0
  */
 class LocalAdapterTest extends UnitTestCase
 {
@@ -35,7 +35,7 @@ class LocalAdapterTest extends UnitTestCase
      * Absolute path of the throw-away media root used by a single test.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.2.0
      */
     private $workDir;
 
@@ -46,7 +46,7 @@ class LocalAdapterTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     protected function setUp(): void
     {
@@ -71,7 +71,7 @@ class LocalAdapterTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     protected function tearDown(): void
     {
@@ -99,7 +99,7 @@ class LocalAdapterTest extends UnitTestCase
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     private function jpegBytes(array $rgb): string
     {
@@ -125,7 +125,7 @@ class LocalAdapterTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     public function testUpdateFileSavesBackToNonAsciiName()
     {
@@ -155,7 +155,7 @@ class LocalAdapterTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     public function testUpdateFileDoesNotTouchExistingSafeNamedNeighbour()
     {

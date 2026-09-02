@@ -23,7 +23,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @testdox     The JobPosting plugin
  *
- * @since       __DEPLOY_VERSION__
+ * @since       6.2.0
  */
 class JobPostingPluginTest extends UnitTestCase
 {
@@ -34,7 +34,7 @@ class JobPostingPluginTest extends UnitTestCase
      *
      * @return  array  The compiled graph entry
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     private function compileGraphEntry(array $entry): array
     {
@@ -58,7 +58,7 @@ class JobPostingPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     public function testTelecommuteIsMappedToUppercaseTelecommute()
     {
@@ -76,7 +76,7 @@ class JobPostingPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     public function testHybridIsMappedToTelecommuteAndKeepsJobLocation()
     {
@@ -101,7 +101,7 @@ class JobPostingPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     public function testOnsiteJobLocationTypeIsOmitted()
     {
@@ -126,7 +126,7 @@ class JobPostingPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     public function testEntryWithoutJobLocationTypeIsUntouched()
     {
@@ -144,7 +144,7 @@ class JobPostingPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     public function testOtherSchemaTypesAreUntouched()
     {
