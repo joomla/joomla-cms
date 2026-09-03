@@ -33,6 +33,15 @@ class ExtensionAdapter extends UpdateAdapter
     protected $latest;
 
     /**
+     * The updates with security fixes
+     *
+     * @var    array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected array $security = [];
+
+    /**
      * Start element parser callback.
      *
      * @param   object  $parser  The parser object.
@@ -219,6 +228,10 @@ class ExtensionAdapter extends UpdateAdapter
                             // We don't have any possible updates yet, assume this is an available update.
                             $this->latest = $this->currentUpdate;
                         }
+
+                        if (isset($this->currentUpdate->security)) {
+                            $this->security[] = $this->currentUpdate;
+                        }
                     }
                 }
                 break;
@@ -263,7 +276,7 @@ class ExtensionAdapter extends UpdateAdapter
      *
      * @param   array  $options  Update options.
      *
-     * @return  array|boolean  Array containing the array of update sites and array of updates. False on failure
+     * @return  array|boolean  Array containing the array of update sites, an array of updates and an array of security updates. False on failure
      *
      * @since   1.7.0
      */
@@ -280,6 +293,8 @@ class ExtensionAdapter extends UpdateAdapter
          * strange issue reported at https://github.com/joomla/joomla-cms/issues/46066
          */
         unset($this->latest);
+
+        $this->security = [];
 
         if (\array_key_exists('minimum_stability', $options)) {
             $this->minimum_stability = $options['minimum_stability'];
@@ -323,7 +338,7 @@ class ExtensionAdapter extends UpdateAdapter
             $updates = [];
         }
 
-        return ['update_sites' => [], 'updates' => $updates];
+        return ['update_sites' => [], 'updates' => $updates, 'security' => $this->security];
     }
 
     /**

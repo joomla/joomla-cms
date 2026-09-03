@@ -16,6 +16,19 @@ describe('Test in backend that the Smart Search', () => {
     cy.contains('Test article').should('exist');
   });
 
+  it('can index content', () => {
+    // Create a new article
+    cy.visit('/administrator/index.php?option=com_content&task=article.add');
+    cy.get('#jform_title').clear().type('Test article');
+    cy.clickToolbarButton('Save & Close');
+    // Visit the smart search page
+    cy.visit('/administrator/index.php?option=com_finder&view=index');
+    // Click the "Index" button. Note: with JDEBUG enabled the button is moved
+    // into the #toolbar-indexing-group dropdown, see com_finder Index HtmlView.
+    cy.get('#toolbar-index > button').click();
+    cy.contains('Test article').should('exist');
+  });
+
   it('can purge the index', () => {
     // Visit the smart search page
     cy.visit('/administrator/index.php?option=com_finder&view=index');
