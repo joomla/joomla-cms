@@ -306,7 +306,6 @@ abstract class UpdateAdapter
             return false;
         }
 
-        // Http transport throws an exception when there's no response.
         // Http transport throws an exception when there's no response or an invalid HTTP status code returned.
         try {
             $http     = (new HttpFactory())->getHttp($httpOption);
