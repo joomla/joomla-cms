@@ -191,4 +191,33 @@ class LocalAdapterTest extends UnitTestCase
 
         $this->assertSame($expected, $remaining, 'No stray files should be left behind.');
     }
+
+    /**
+     * @testdox  creates media files with Joomla's default file permissions
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function testCreateFileAppliesDefaultFilePermissions()
+    {
+        if (DIRECTORY_SEPARATOR === '\\') {
+            $this->markTestSkipped('File permission mode assertions are not portable on Windows.');
+        }
+
+        $oldUmask = umask(0077);
+
+        try {
+            $adapter = new LocalAdapter($this->workDir, 'test-media');
+            $adapter->createFile('upload.jpg', '/', $this->jpegBytes([0, 255, 0]));
+        } finally {
+            umask($oldUmask);
+        }
+
+        $this->assertSame(
+            0644,
+            fileperms($this->workDir . '/upload.jpg') & 0777,
+            'Media uploads should be readable through the web server.'
+        );
+    }
 }

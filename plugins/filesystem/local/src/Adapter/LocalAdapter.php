@@ -263,6 +263,8 @@ class LocalAdapter implements AdapterInterface
         } catch (FilesystemException) {
         }
 
+        $this->setFilePermissions($localPath);
+
         if ($this->thumbnails && MediaHelper::isImage(pathinfo($localPath)['basename'])) {
             $thumbnailPaths = $this->getLocalThumbnailPaths($localPath);
 
@@ -303,6 +305,8 @@ class LocalAdapter implements AdapterInterface
             File::write($localPath, $data);
         } catch (FilesystemException) {
         }
+
+        $this->setFilePermissions($localPath);
 
         if ($this->thumbnails && MediaHelper::isImage(pathinfo($localPath)['basename'])) {
             $thumbnailPaths = $this->getLocalThumbnailPaths($localPath);
@@ -993,6 +997,23 @@ class LocalAdapter implements AdapterInterface
         }
 
         return Uri::root() . $this->getEncodedPath($thumbnailPaths['url']);
+    }
+
+    /**
+     * Sets the Joomla default file permissions on a media file.
+     *
+     * @param   string  $path  The path of the file
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception
+     */
+    private function setFilePermissions(string $path): void
+    {
+        if (!Path::setPermissions($path, '0644')) {
+            throw new \Exception(Text::_('JLIB_FILESYSTEM_ERROR_WARNFS_ERR01'));
+        }
     }
 
     /**
