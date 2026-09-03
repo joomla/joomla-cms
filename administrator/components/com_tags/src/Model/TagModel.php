@@ -15,6 +15,7 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\Model\AfterSaveEvent;
 use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -276,6 +277,30 @@ class TagModel extends AdminModel implements VersionableModelInterface
                 }
 
                 $data['published'] = 0;
+            }
+
+            // Automatic handling of alias for empty fields
+            if (\in_array($input->get('task'), ['apply', 'save', 'save2new']) && (!isset($data['id']) || (int) $data['id'] == 0)) {
+                if (empty($data['alias'])) {
+                    if (Factory::getApplication()->get('unicodeslugs') == 1) {
+                        $data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['title']);
+                    } else {
+                        $data['alias'] = OutputFilter::stringURLSafe($data['title']);
+                    }
+
+                    $tagTable = $this->getTable();
+
+                    if ($tagTable->load(['alias' => $data['alias'], 'parent_id' => $data['parent_id']])) {
+                        $msg = Text::_('COM_TAGS_SAVE_WARNING');
+                    }
+
+                    [$title, $alias] = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
+                    $data['alias']   = $alias;
+
+                    if (isset($msg)) {
+                        Factory::getApplication()->enqueueMessage($msg, 'warning');
+                    }
+                }
             }
 
             // Bind the data.
@@ -540,6 +565,13 @@ class TagModel extends AdminModel implements VersionableModelInterface
                 continue;
             }
 
+            // Check that the user is allowed to access the item
+            if (!$this->user->authorise('core.edit', $contexts[$pk])) {
+                $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
+                return false;
+            }
+
             // Copy is a bit tricky, because we also need to copy the children
             $query = $db->getQuery(true)
                 ->select($db->quoteName('id'))
@@ -588,7 +620,7 @@ class TagModel extends AdminModel implements VersionableModelInterface
             $table->alias    = $alias;
 
             // Unpublish because we are making a copy
-            $this->table->published = 0;
+            $table->published = 0;
 
             // Check the row.
             if (!$table->check()) {

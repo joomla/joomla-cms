@@ -454,6 +454,7 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/mysql/5.4.0-2025-04-23.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.4.0-2025-05-10.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.4.0-2025-08-02.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.4.9-2026-08-11.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-03-11.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-03-17.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-07-12.sql',
@@ -493,6 +494,7 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/postgresql/5.4.0-2025-05-10.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.4.0-2025-08-02.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.4.0-2025-10-07.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.4.9-2026-08-11.sql',
             '/administrator/components/com_content/forms/filter_featured.xml',
             '/administrator/components/com_content/tmpl/featured/default.php',
             '/administrator/components/com_content/tmpl/featured/default.xml',
@@ -920,9 +922,6 @@ class JoomlaInstallerScript
             '/media/vendor/tinymce/langs/bg.js',
             '/media/vendor/tinymce/langs/bg.min.js',
             '/media/vendor/tinymce/langs/bg.min.js.gz',
-            '/media/vendor/tinymce/langs/bs.js',
-            '/media/vendor/tinymce/langs/bs.min.js',
-            '/media/vendor/tinymce/langs/bs.min.js.gz',
             '/media/vendor/tinymce/langs/fo.js',
             '/media/vendor/tinymce/langs/fo.min.js',
             '/media/vendor/tinymce/langs/fo.min.js.gz',
@@ -1277,6 +1276,17 @@ class JoomlaInstallerScript
             // From 6.1.1 to 6.1.2
             '/libraries/vendor/algo26-matthias/idna-convert/Dockerfile',
             '/libraries/vendor/algo26-matthias/idna-convert/compose.yml',
+            // From 6.1.2 to 6.1.3
+            '/administrator/manifests/files/filepatcher.xml',
+            '/filepatcher.php',
+            '/filepatcher.xml',
+            '/LICENSE',
+            '/README.md',
+            // From 6.2.0-alpha3 to 6.2.0-beta1
+            '/media/vendor/tinymce/langs/bs.min.js',
+            '/media/vendor/tinymce/langs/bs.min.js.gz',
+            // From 6.2.0-beta1 to 6.2.0-beta2
+            '/administrator/components/com_content/src/Service/PreviewTokenService.php',
         ];
 
         $folders = [

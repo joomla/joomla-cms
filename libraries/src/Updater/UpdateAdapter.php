@@ -72,7 +72,7 @@ abstract class UpdateAdapter
      * @var    array
      * @since  3.0.0
      */
-    protected $updatecols = ['NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL', 'CHANGELOGURL', 'EXTRA_QUERY'];
+    protected $updatecols = ['NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL', 'CHANGELOGURL', 'EXTRA_QUERY', 'SECURITY'];
 
     /**
      * Should we try appending a .xml extension to the update site's URL?
@@ -178,8 +178,9 @@ abstract class UpdateAdapter
 
     /**
      * Toggles the enabled status of an update site. Update sites are disabled before getting the update information
-     * from their URL and enabled afterwards. If the URL fetch fails with a PHP fatal error (e.g. timeout) the faulty
-     * update site will remain disabled the next time we attempt to load the update information.
+     * from their URL and enabled again afterwards. A failed fetch (e.g. no response, an invalid HTTP status code or a
+     * PHP fatal error such as a timeout) is caught, the update site is re-enabled and the failure is surfaced to the
+     * user as a warning message rather than by leaving the site disabled.
      *
      * @param   int   $updateSiteId  The numeric ID of the update site to enable/disable
      * @param   bool  $enabled       Enable the site when true, disable it when false
@@ -279,8 +280,8 @@ abstract class UpdateAdapter
             $url .= 'extension.xml';
         }
 
-        // Disable the update site. If the get() below fails with a fatal error (e.g. timeout) the faulty update
-        // site will remain disabled
+        // Disable the update site while we fetch its information. It is re-enabled below once the request returns;
+        // a failed request is caught and surfaced to the user as a warning message instead of leaving the site disabled.
         $this->toggleUpdateSite($this->updateSiteId, false);
 
         $startTime = microtime(true);
@@ -306,10 +307,11 @@ abstract class UpdateAdapter
         }
 
         // Http transport throws an exception when there's no response.
+        // Http transport throws an exception when there's no response or an invalid HTTP status code returned.
         try {
             $http     = (new HttpFactory())->getHttp($httpOption);
             $response = $http->get($newUrl, $headers, 20);
-        } catch (\RuntimeException) {
+        } catch (\Throwable) {
             $response = null;
         }
 
