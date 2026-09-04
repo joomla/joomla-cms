@@ -2048,16 +2048,16 @@
         },
         {
             "name": "joomla/registry",
-            "version": "3.0.2",
+            "version": "3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/registry.git",
-                "reference": "4452de9c66abfec59b535e27c62af3528a539311"
+                "reference": "f84094c218a0fb290a8decbee0c8aa97151a41f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/4452de9c66abfec59b535e27c62af3528a539311",
-                "reference": "4452de9c66abfec59b535e27c62af3528a539311",
+                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/f84094c218a0fb290a8decbee0c8aa97151a41f7",
+                "reference": "f84094c218a0fb290a8decbee0c8aa97151a41f7",
                 "shasum": ""
             },
             "require": {
@@ -2101,9 +2101,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/registry/issues",
-                "source": "https://github.com/joomla-framework/registry/tree/3.0.2"
+                "source": "https://github.com/joomla-framework/registry/tree/3.0.3"
             },
-            "time": "2025-07-19T16:26:22+00:00"
+            "time": "2026-09-04T10:03:16+00:00"
         },
         {
             "name": "joomla/router",
