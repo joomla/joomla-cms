@@ -442,7 +442,7 @@ class TracksModel extends ListModel
 
             foreach ($this->getItems() as $item) {
                 $this->content .= '"' . str_replace('"', '""', $this->escapeCsvFormula($item->banner_name)) . '","'
-                    . str_replace('"', '""', $this->escapeCsvFormula($item->client_name)) . '","'
+                    . str_replace('"', '""', $this->escapeCsvFormula($item->client_name ?? '')) . '","'
                     . str_replace('"', '""', $this->escapeCsvFormula($item->category_title)) . '","'
                     . str_replace('"', '""', ($item->track_type == 1 ? Text::_('COM_BANNERS_IMPRESSION') : Text::_('COM_BANNERS_CLICK'))) . '","'
                     . str_replace('"', '""', $item->count) . '","'
