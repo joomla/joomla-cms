@@ -203,7 +203,7 @@ trait InstallerScriptTrait
         $oldManifest = $this->getOldManifest($adapter);
 
         if ($oldManifest !== null && $oldManifest->version && version_compare($oldManifest->version, $adapter->getManifest()->version, '>')) {
-            Log::add(Text::_('JLIB_INSTALLER_ERROR_DOWNGRADE'), Log::WARNING, 'jerror');
+            Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNGRADE', $oldManifest->version, $adapter->getManifest()->version), Log::WARNING, 'jerror');
 
             return false;
         }
