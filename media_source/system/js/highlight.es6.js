@@ -23,7 +23,15 @@ if (Joomla.getOptions && typeof Joomla.getOptions === 'function' && Joomla.getOp
 
     // Continue only if the element exists
     if (!options.compatibility) {
-      const element = document.querySelector(`.${options.class}`);
+      const selector = options.selector || `.${options.class}`;
+      let element;
+
+      try {
+        element = document.querySelector(selector);
+      } catch (error) {
+        console.warn(`The selector "${selector}" is not valid.`, error);
+        return;
+      }
 
       if (element) {
         const instance = new Mark(element);

@@ -98,23 +98,29 @@ final class Highlight extends CMSPlugin implements SubscriberInterface
 
         /** @var \Joomla\CMS\Document\HtmlDocument $doc */
         $doc = $event->getApplication()->getDocument();
+        $selector = $this->params->get('selector', '');
 
         // Activate the highlighter.
         if (!empty($cleanTerms)) {
             $doc->getWebAssetManager()->useScript('highlight');
-            $doc->addScriptOptions(
-                'highlight',
-                [[
-                    'class'     => 'js-highlight',
-                    'highLight' => $cleanTerms,
-                ]]
-            );
+            $options = [
+                'class'     => 'js-highlight',
+                'highLight' => $cleanTerms,
+            ];
+
+            if ($selector !== '') {
+                $options['selector'] = $selector;
+            }
+
+            $doc->addScriptOptions('highlight', [$options]);
         }
 
-        // Adjust the component buffer.
-        $buf = $doc->getBuffer('component');
-        $buf = '<div class="js-highlight">' . $buf . '</div>';
-        $doc->setBuffer($buf, 'component');
+        // Preserve the original component buffer wrapper behavior.
+        if ($selector === '') {
+            $buf = $doc->getBuffer('component');
+            $buf = '<div class="js-highlight">' . $buf . '</div>';
+            $doc->setBuffer($buf, 'component');
+        }
     }
 
     /**
