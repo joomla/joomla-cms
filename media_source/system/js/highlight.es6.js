@@ -23,13 +23,18 @@ if (Joomla.getOptions && typeof Joomla.getOptions === 'function' && Joomla.getOp
 
     // Continue only if the element exists
     if (!options.compatibility) {
-      const element = document.querySelector(`.${options.class}`);
+      try {
+        const element = document.querySelector(options.selector || `.${options.class}`);
 
-      if (element) {
-        const instance = new Mark(element);
+        if (element) {
+          const instance = new Mark(element);
 
-        // Loop through the terms
-        options.highLight.forEach((term) => instance.mark(term, options));
+          // Loop through the terms
+          options.highLight.forEach((term) => instance.mark(term, options));
+        }
+      } catch {
+        console.warn(`The selector "${options.selector}" is not valid. Please check plugin settings.`);
+        return;
       }
     } else {
       const start = document.querySelector(`#${options.start}`);
