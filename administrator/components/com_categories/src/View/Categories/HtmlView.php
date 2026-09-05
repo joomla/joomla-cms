@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Categories\Administrator\View\Categories;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -119,10 +120,22 @@ class HtmlView extends BaseHtmlView
             $this->setLayout('emptystate');
         }
 
+        // Preload access rules for the items list
+        $assetsList = [];
+        $component  = $this->state->get('filter.component');
+
         // Preprocess the list of items to find ordering divisions.
-        foreach ($this->items as &$item) {
+        foreach ($this->items as $item) {
             $this->ordering[$item->parent_id][] = $item->id;
+
+            $assetsList['c' . $item->id] = $component . '.category.' . $item->id;
+
+            if (!empty($item->parent_id)) {
+                $assetsList['c' . $item->parent_id] = $component . '.category.' . $item->parent_id;
+            }
         }
+
+        Access::preloadItems($component, array_values($assetsList));
 
         // We don't need toolbar in the modal window.
         if ($this->getLayout() !== 'modal') {
