@@ -22,6 +22,14 @@
 	<help key="Admin_Modules:_Privacy_Dashboard" />
 	<config>
 		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="noteSuperUsers"
+					type="note"
+					description="COM_MODULES_SUPERUSERS"
+					class="alert alert-info w-100"
+				/>
+			</fieldset>
 			<fieldset name="advanced">
 				<field
 					name="layout"
