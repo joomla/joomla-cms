@@ -59,10 +59,39 @@ class SaveSetup extends AbstractImmutableEvent implements ResultAwareInterface
      * @return  MfaTable
      * @since   4.2.0
      *
-     * @deprecated 4.4.0 will be removed in 7.0
+     * @deprecated 4.4.0 will be removed in 8.0
      *                Use counterpart with onSet prefix
      */
     public function setRecord(MfaTable $value): MfaTable
+    {
+        return $this->onSetRecord($value);
+    }
+
+    /**
+     * Validate the value of the 'record' named parameter
+     *
+     * @param   Input  $value  The value to validate
+     *
+     * @return  Input
+     * @since   4.2.0
+     *
+     * @deprecated 4.4.0 will be removed in 8.0
+     *                Use counterpart with onSet prefix
+     */
+    public function setInput(Input $value): Input
+    {
+        return $this->onSetInput($value);
+    }
+
+    /**
+     * Validate the value of the 'record' named parameter
+     *
+     * @param   MfaTable  $value  The value to validate
+     *
+     * @return  MfaTable
+     * @since   4.4.0
+     */
+    protected function onSetRecord(MfaTable $value): MfaTable
     {
         if (empty($value)) {
             throw new \DomainException(\sprintf('Argument \'record\' of event %s must be a MfaTable object.', $this->name));
@@ -77,43 +106,14 @@ class SaveSetup extends AbstractImmutableEvent implements ResultAwareInterface
      * @param   Input  $value  The value to validate
      *
      * @return  Input
-     * @since   4.2.0
-     *
-     * @deprecated 4.4.0 will be removed in 7.0
-     *                Use counterpart with onSet prefix
+     * @since   4.4.0
      */
-    public function setInput(Input $value): Input
+    protected function onSetInput(Input $value): Input
     {
         if (empty($value)) {
             throw new \DomainException(\sprintf('Argument \'input\' of event %s must be an Input object.', $this->name));
         }
 
         return $value;
-    }
-
-    /**
-     * Validate the value of the 'record' named parameter
-     *
-     * @param   MfaTable  $value  The value to validate
-     *
-     * @return  MfaTable
-     * @since   4.4.0
-     */
-    protected function onSetRecord(MfaTable $value): MfaTable
-    {
-        return $this->setRecord($value);
-    }
-
-    /**
-     * Validate the value of the 'record' named parameter
-     *
-     * @param   Input  $value  The value to validate
-     *
-     * @return  Input
-     * @since   4.4.0
-     */
-    protected function onSetInput(Input $value): Input
-    {
-        return $this->setInput($value);
     }
 }

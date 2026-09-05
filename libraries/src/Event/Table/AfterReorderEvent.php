@@ -51,16 +51,12 @@ class AfterReorderEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated 4.4.0 will be removed in 7.0
+     * @deprecated 4.4.0 will be removed in 8.0
      *                Use counterpart with onSet prefix
      */
     protected function setWhere($value)
     {
-        if (!empty($value) && !\is_string($value) && !\is_array($value)) {
-            throw new \BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string or array of strings");
-        }
-
-        return $value;
+        return $this->onSetWhere($value);
     }
 
     /**
@@ -76,6 +72,10 @@ class AfterReorderEvent extends AbstractEvent
      */
     protected function onSetWhere($value)
     {
-        return $this->setWhere($value);
+        if (!empty($value) && !\is_string($value) && !\is_array($value)) {
+            throw new \BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string or array of strings");
+        }
+
+        return $value;
     }
 }

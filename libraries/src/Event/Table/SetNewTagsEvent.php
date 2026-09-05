@@ -55,12 +55,12 @@ class SetNewTagsEvent extends AbstractEvent
      *
      * @return  boolean  Normalised value
      *
-     * @deprecated 4.4.0 will be removed in 7.0
+     * @deprecated 4.4.0 will be removed in 8.0
      *                Use counterpart with onSet prefix
      */
     protected function setReplaceTags($value)
     {
-        return (bool) $value;
+        return $this->onSetReplaceTags($value);
     }
 
     /**
@@ -74,6 +74,6 @@ class SetNewTagsEvent extends AbstractEvent
      */
     protected function onSetReplaceTags($value)
     {
-        return $this->setReplaceTags($value);
+        return (bool) $value;
     }
 }
