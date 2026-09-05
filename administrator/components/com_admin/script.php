@@ -2497,6 +2497,12 @@ class JoomlaInstallerScript
             '/media/system/css/fields/calendar-rtl.css',
             '/media/system/css/fields/calendar-rtl.min.css',
             '/media/system/css/fields/calendar-rtl.min.css.gz',
+            // From 5.4.7 to 5.4.8
+            '/administrator/manifests/files/filepatcher.xml',
+            '/filepatcher.php',
+            '/filepatcher.xml',
+            '/LICENSE',
+            '/README.md',
         ];
 
         $folders = [
