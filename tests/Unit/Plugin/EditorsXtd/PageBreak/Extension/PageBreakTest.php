@@ -97,7 +97,7 @@ class PageBreakTest extends UnitTestCase
             'disabledButtons' => [],
         ]);
 
-        $plugin = new PageBreak( ['name' => 'pagebreak', 'type' => 'editors-xtd', 'params' => []]);
+        $plugin = new PageBreak(['name' => 'pagebreak', 'type' => 'editors-xtd', 'params' => []]);
         $plugin->setApplication($app);
         $plugin->onEditorButtonsSetup($event);
 

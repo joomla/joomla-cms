@@ -39,7 +39,7 @@ class CMSPluginTest extends UnitTestCase
     {
         $app        = $this->createStub(CMSApplicationInterface::class);
 
-        $plugin = new class extends CMSPlugin {
+        $plugin = new class () extends CMSPlugin {
             public function getApplication(): CMSApplicationInterface
             {
                 return parent::getApplication();
@@ -59,7 +59,7 @@ class CMSPluginTest extends UnitTestCase
      */
     public function testEmptyParams()
     {
-        $plugin = new class extends CMSPlugin {
+        $plugin = new class () extends CMSPlugin {
         };
 
         $this->assertNull($plugin->params);
@@ -150,7 +150,7 @@ class CMSPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new class extends CMSPlugin {
+        $plugin = new class () extends CMSPlugin {
         };
         $plugin->setApplication($app);
         $plugin->loadLanguage();
@@ -171,7 +171,7 @@ class CMSPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new class extends CMSPlugin {
+        $plugin = new class () extends CMSPlugin {
         };
         $plugin->setApplication($app);
         $plugin->loadLanguage('test', __DIR__);
@@ -193,7 +193,7 @@ class CMSPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new class extends CMSPlugin {
+        $plugin = new class () extends CMSPlugin {
         };
         $plugin->setApplication($app);
         $plugin->loadLanguage();
