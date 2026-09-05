@@ -159,7 +159,8 @@ class RequestModel extends AdminModel implements MailerFactoryAwareInterface, La
                         'com_privacy.notification.export',
                         $app->getLanguage()->getTag(),
                         $this->getMailerFactory()->createMailer(),
-                        $this->getLanguageFactory()
+                        $this->getLanguageFactory(),
+                        $this->getDatabase()
                     );
 
                     break;
@@ -169,7 +170,8 @@ class RequestModel extends AdminModel implements MailerFactoryAwareInterface, La
                         'com_privacy.notification.remove',
                         $app->getLanguage()->getTag(),
                         $this->getMailerFactory()->createMailer(),
-                        $this->getLanguageFactory()
+                        $this->getLanguageFactory(),
+                        $this->getDatabase()
                     );
 
                     break;

@@ -587,6 +587,7 @@ class ApiController extends BaseController
      *
      * @return  boolean
      *
+     * @since   5.4.8
      * @since   6.1.3
      */
     protected function allowDelete(): bool

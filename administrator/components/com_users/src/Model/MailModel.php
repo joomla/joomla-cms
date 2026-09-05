@@ -178,7 +178,8 @@ class MailModel extends AdminModel implements MailerFactoryAwareInterface, Langu
             'com_users.massmail.mail',
             $language->getTag(),
             $this->getMailerFactory()->createMailer(),
-            $this->getLanguageFactory()
+            $this->getLanguageFactory(),
+            $this->getDatabase()
         );
         $params = ComponentHelper::getParams('com_users');
 
