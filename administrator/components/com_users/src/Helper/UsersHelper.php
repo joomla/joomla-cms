@@ -118,22 +118,6 @@ class UsersHelper extends ContentHelper
     }
 
     /**
-     * No longer used.
-     *
-     * @return  array
-     *
-     * @since   3.2.0
-     * @throws  \Exception
-     *
-     * @deprecated  4.2 will be removed in 7.0
-     *              No longer used, will be removed without replacement
-     */
-    public static function getTwoFactorMethods()
-    {
-        return [];
-    }
-
-    /**
      * Get a list of the User Groups for Viewing Access Levels
      *
      * @param   string  $rules  User Groups in JSON format
@@ -161,39 +145,5 @@ class UsersHelper extends ContentHelper
         $groups = implode(', ', $groups);
 
         return $groups;
-    }
-
-    /**
-     * Returns a valid section for users. If it is not valid then null
-     * is returned.
-     *
-     * @param   string  $section  The section to get the mapping for
-     *
-     * @return  string|null  The new section
-     *
-     * @since       3.7.0
-     * @throws      \Exception
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Use \Joomla\Component\Users\Administrator\Extension\UsersComponent::validateSection() instead.
-     */
-    public static function validateSection($section)
-    {
-        return Factory::getApplication()->bootComponent('com_users')->validateSection($section, null);
-    }
-
-    /**
-     * Returns valid contexts
-     *
-     * @return  array
-     *
-     * @since       3.7.0
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Use \Joomla\Component\Users\Administrator\Extension\UsersComponent::getContexts() instead.
-     */
-    public static function getContexts()
-    {
-        return Factory::getApplication()->bootComponent('com_users')->getContexts();
     }
 }
