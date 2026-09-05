@@ -107,9 +107,6 @@ abstract class BaseDatabaseModel extends BaseModel implements
         if ($db) {
             @trigger_error('Database is not available in constructor in 7.0.', E_USER_DEPRECATED);
             $this->setDatabase($db);
-
-            // Is needed, when models use the deprecated MVC DatabaseAwareTrait, as the trait is overriding the local functions
-            $this->setDbo($db);
         }
 
         // Set the default view search path
@@ -394,7 +391,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   4.2.0
      * @throws  \UnexpectedValueException
      *
-     * @deprecated  4.3 will be removed in 7.0
+     * @deprecated  4.3 will be removed in 8.0
      *              Use getDatabase() instead
      *              Example: $model->getDatabase();
      */
@@ -405,53 +402,5 @@ abstract class BaseDatabaseModel extends BaseModel implements
         } catch (DatabaseNotFoundException) {
             throw new \UnexpectedValueException('Database driver not set in ' . __CLASS__);
         }
-    }
-
-    /**
-     * Set the database driver.
-     *
-     * @param   ?DatabaseInterface  $db  The database driver.
-     *
-     * @return  void
-     *
-     * @since   4.2.0
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Use setDatabase() instead
-     *              Example: $model->setDatabase($db);
-     */
-    public function setDbo(?DatabaseInterface $db = null)
-    {
-        if ($db === null) {
-            return;
-        }
-
-        $this->setDatabase($db);
-    }
-
-    /**
-     * Proxy for _db variable.
-     *
-     * @param   string  $name  The name of the element
-     *
-     * @return  mixed  The value of the element if set, null otherwise
-     *
-     * @since   4.2.0
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Use getDatabase() instead of directly accessing _db
-     */
-    public function __get($name)
-    {
-        if ($name === '_db') {
-            return $this->getDatabase();
-        }
-
-        // Default the variable
-        if (!isset($this->$name)) {
-            $this->$name = null;
-        }
-
-        return $this->$name;
     }
 }
