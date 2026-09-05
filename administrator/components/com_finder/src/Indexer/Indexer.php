@@ -521,7 +521,7 @@ class Indexer
          * term so we need to add it to the terms table.
          */
         $db->setQuery(
-            'INSERT INTO ' . $db->quoteName('#__finder_terms') .
+            'INSERT IGNORE INTO ' . $db->quoteName('#__finder_terms') .
             ' (' . $db->quoteName('term') .
             ', ' . $db->quoteName('stem') .
             ', ' . $db->quoteName('common') .
