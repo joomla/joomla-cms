@@ -14,6 +14,8 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Exception\DuplicateEntryException;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
@@ -91,6 +93,10 @@ class BannerTable extends Table
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -112,6 +118,10 @@ class BannerTable extends Table
 
         // Check for a valid category.
         if (!$this->catid = (int) $this->catid) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
+            }
+
             $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
 
             return false;
@@ -133,6 +143,10 @@ class BannerTable extends Table
 
         // Check the publish down date is not earlier than publish up.
         if (!\is_null($this->publish_down) && !\is_null($this->publish_up) && $this->publish_down < $this->publish_up) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+            }
+
             $this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 
             return false;
@@ -179,12 +193,24 @@ class BannerTable extends Table
             $registry = new Registry($array['params']);
 
             if ((int) $registry->get('width', 0) < 0) {
+                if ($this->shouldUseExceptions()) {
+                    throw new ValidationException(
+                        Text::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', Text::_('COM_BANNERS_FIELD_WIDTH_LABEL'))
+                    );
+                }
+
                 $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', Text::_('COM_BANNERS_FIELD_WIDTH_LABEL')));
 
                 return false;
             }
 
             if ((int) $registry->get('height', 0) < 0) {
+                if ($this->shouldUseExceptions()) {
+                    throw new ValidationException(
+                        Text::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', Text::_('COM_BANNERS_FIELD_HEIGHT_LABEL'))
+                    );
+                }
+
                 $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', Text::_('COM_BANNERS_FIELD_HEIGHT_LABEL')));
 
                 return false;
@@ -223,6 +249,10 @@ class BannerTable extends Table
         $table = new self($db, $this->getDispatcher());
 
         if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
+            if ($this->shouldUseExceptions()) {
+                throw new DuplicateEntryException(Text::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'), 'alias');
+            }
+
             $this->setError(Text::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
 
             return false;
@@ -270,6 +300,12 @@ class BannerTable extends Table
             $oldrow = new self($db, $this->getDispatcher());
 
             if (!$oldrow->load($this->id) && $oldrow->getError()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $oldrow->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($oldrow->getError());
             }
 
@@ -314,6 +350,10 @@ class BannerTable extends Table
                 $pks = [$this->$k];
             } else {
                 // Nothing to set publishing state on, return false.
+                if ($this->shouldUseExceptions()) {
+                    throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+                }
+
                 $this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
                 return false;
@@ -327,6 +367,12 @@ class BannerTable extends Table
         foreach ($pks as $pk) {
             // Load the banner
             if (!$table->load($pk)) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
             }
 
@@ -342,6 +388,12 @@ class BannerTable extends Table
 
                 // Store the row
                 if (!$table->store()) {
+                    if ($this->shouldUseExceptions()) {
+                        $error = $table->getError(null, false);
+
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
                     $this->setError($table->getError());
                 }
             }
