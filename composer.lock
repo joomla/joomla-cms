@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a57ffa9d593e21ab64d0dacd2c607920",
+    "content-hash": "0ce9b6e09cb8eec72ad9ec837cf94336",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1643,16 +1643,16 @@
         },
         {
             "name": "joomla/filesystem",
-            "version": "3.3.0",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filesystem.git",
-                "reference": "0452f6ce0365d90a39fe9d005059aa245613f4e1"
+                "reference": "f211285c5ce7661b986867b774153fafb8282229"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/0452f6ce0365d90a39fe9d005059aa245613f4e1",
-                "reference": "0452f6ce0365d90a39fe9d005059aa245613f4e1",
+                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/f211285c5ce7661b986867b774153fafb8282229",
+                "reference": "f211285c5ce7661b986867b774153fafb8282229",
                 "shasum": ""
             },
             "require": {
@@ -1691,9 +1691,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/filesystem/issues",
-                "source": "https://github.com/joomla-framework/filesystem/tree/3.3.0"
+                "source": "https://github.com/joomla-framework/filesystem/tree/3.3.1"
             },
-            "time": "2026-06-25T19:30:56+00:00"
+            "time": "2026-08-18T15:40:35+00:00"
         },
         {
             "name": "joomla/filter",
@@ -2048,16 +2048,16 @@
         },
         {
             "name": "joomla/registry",
-            "version": "3.0.2",
+            "version": "3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/registry.git",
-                "reference": "4452de9c66abfec59b535e27c62af3528a539311"
+                "reference": "f84094c218a0fb290a8decbee0c8aa97151a41f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/4452de9c66abfec59b535e27c62af3528a539311",
-                "reference": "4452de9c66abfec59b535e27c62af3528a539311",
+                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/f84094c218a0fb290a8decbee0c8aa97151a41f7",
+                "reference": "f84094c218a0fb290a8decbee0c8aa97151a41f7",
                 "shasum": ""
             },
             "require": {
@@ -2101,9 +2101,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/registry/issues",
-                "source": "https://github.com/joomla-framework/registry/tree/3.0.2"
+                "source": "https://github.com/joomla-framework/registry/tree/3.0.3"
             },
-            "time": "2025-07-19T16:26:22+00:00"
+            "time": "2026-09-04T10:03:16+00:00"
         },
         {
             "name": "joomla/router",
