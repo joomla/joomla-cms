@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1f726a74d6b14d21a291d78d099b98c9",
+    "content-hash": "a6e6edf902df707a303a31abd4b8befe",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1992,16 +1992,16 @@
         },
         {
             "name": "joomla/registry",
-            "version": "4.0.0",
+            "version": "4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/registry.git",
-                "reference": "5692d8423c9b568627df701e9fd505eae5ea8f72"
+                "reference": "788009a10cb39caad29c39a7c718eb576692ebd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/5692d8423c9b568627df701e9fd505eae5ea8f72",
-                "reference": "5692d8423c9b568627df701e9fd505eae5ea8f72",
+                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/788009a10cb39caad29c39a7c718eb576692ebd8",
+                "reference": "788009a10cb39caad29c39a7c718eb576692ebd8",
                 "shasum": ""
             },
             "require": {
@@ -2011,8 +2011,8 @@
             "require-dev": {
                 "phpstan/phpstan": "^2.1.17",
                 "phpstan/phpstan-deprecation-rules": "^2.0.3",
-                "phpunit/phpunit": "^12.2.6",
-                "squizlabs/php_codesniffer": "^3.7.2",
+                "phpunit/phpunit": "^12.5 || ^13.0",
+                "squizlabs/php_codesniffer": "^4.0",
                 "symfony/yaml": "^7.3"
             },
             "suggest": {
@@ -2039,9 +2039,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/registry/issues",
-                "source": "https://github.com/joomla-framework/registry/tree/4.0.0"
+                "source": "https://github.com/joomla-framework/registry/tree/4.0.1"
             },
-            "time": "2025-07-23T19:26:22+00:00"
+            "time": "2026-08-24T19:58:10+00:00"
         },
         {
             "name": "joomla/router",
