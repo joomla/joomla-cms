@@ -55,7 +55,7 @@ final class Image extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $button = $this->onDisplay($event->getEditorId(), $event->getAsset(), $event->getAuthor());
+        $button = $this->getButton($event->getEditorId(), $event->getAsset(), $event->getAuthor());
 
         if ($button) {
             $event->getButtonsRegistry()->add($button);
@@ -63,17 +63,17 @@ final class Image extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Display the button.
+     * Prepare the button
      *
-     * @param   string   $name    The name of the button to display.
-     * @param   string   $asset   The name of the asset being edited.
-     * @param   integer  $author  The id of the author owning the asset being edited.
+     * @param   string   $name    The name of the button to add
+     * @param   string   $asset   The name of the asset being edited
+     * @param   integer  $author  The id of the author owning the asset being edited
      *
-     * @return  Button|false
+     * @return  ?Button  The button options as Button object, null if ACL check fails
      *
-     * @since   1.5
+     * @since   __DEPLOY_VERSION__
      */
-    public function onDisplay($name, $asset, $author)
+    private function getButton(string $name, $asset, int $author): ?Button
     {
         $doc       = $this->getApplication()->getDocument();
         $user      = $this->getApplication()->getIdentity();
@@ -103,12 +103,21 @@ final class Image extends CMSPlugin implements SubscriberInterface
             // Register the button assets
             if (!$wa->assetExists('script', 'editor-button.image')) {
                 $wa->registerStyle('editor-button.image', '', [], [], ['webcomponent.media-select']);
+
+                // Helper that lets editors (e.g. TinyMCE's file picker) open the Media Manager and resolve a URL
+                $wa->registerScript(
+                    'editor-button.image-filepicker',
+                    'plg_editors-xtd_image/media-filepicker.js',
+                    [],
+                    ['type' => 'module'],
+                    ['webcomponent.media-select', 'joomla.dialog']
+                );
                 $wa->registerScript(
                     'editor-button.image',
                     'plg_editors-xtd_image/button-image.js',
                     [],
                     ['type' => 'module'],
-                    ['webcomponent.media-select', 'editors', 'joomla.dialog']
+                    ['webcomponent.media-select', 'editors', 'joomla.dialog', 'editor-button.image-filepicker']
                 );
             }
 
@@ -165,6 +174,7 @@ final class Image extends CMSPlugin implements SubscriberInterface
             }
 
             Text::script('JCLOSE');
+            Text::script('JSELECT');
             Text::script('JFIELD_MEDIA_ALT_CHECK_DESC_LABEL');
             Text::script('JFIELD_MEDIA_ALT_CHECK_LABEL');
             Text::script('JFIELD_MEDIA_ALT_LABEL');
@@ -182,6 +192,7 @@ final class Image extends CMSPlugin implements SubscriberInterface
             Text::script('JFIELD_MEDIA_TITLE_LABEL');
             Text::script('JFIELD_MEDIA_UNSUPPORTED');
             Text::script('JFIELD_MEDIA_WIDTH_LABEL');
+            Text::script('PLG_IMAGE_BUTTON_IMAGE');
             Text::script('PLG_IMAGE_BUTTON_INSERT');
 
             $link = 'index.php?option=com_media&view=media&tmpl=component&e_name=' . $name . '&asset=' . $asset . '&mediatypes=0,1,2,3' . '&author=' . $author;
@@ -208,6 +219,6 @@ final class Image extends CMSPlugin implements SubscriberInterface
             );
         }
 
-        return false;
+        return null;
     }
 }

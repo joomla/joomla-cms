@@ -114,6 +114,8 @@ final class Vote extends CMSPlugin implements SubscriberInterface
         // Load plugin language files only when needed (ex: they are not needed if show_vote is not active).
         $this->loadLanguage();
 
+        $app = $this->getApplication();
+
         // Get the path for the rating summary layout file
         $path = PluginHelper::getLayoutPath('content', 'vote', 'rating');
 
@@ -122,7 +124,7 @@ final class Vote extends CMSPlugin implements SubscriberInterface
         include $path;
         $html = ob_get_clean();
 
-        if ($this->getApplication()->getInput()->getString('view', '') === 'article' && $row->state == 1) {
+        if ($app->getInput()->getString('view', '') === 'article' && $row->state == 1) {
             // Get the path for the voting form layout file
             $path = PluginHelper::getLayoutPath('content', 'vote', 'vote');
 
