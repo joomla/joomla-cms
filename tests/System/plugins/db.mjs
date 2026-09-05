@@ -170,6 +170,7 @@ function deleteInsertedItems(config) {
 
       if (item.table === `${config.env.db_prefix}content`) {
         promises.push(queryTestDB(`DELETE FROM #__content_frontpage WHERE content_id IN (${item.rows.join(',')})`, config));
+        promises.push(queryTestDB(`DELETE FROM #__contentitem_tag_map WHERE content_item_id IN (${item.rows.join(',')}) AND type_alias = 'com_content.article'`, config));
         promises.push(queryTestDB(`DELETE FROM #__workflow_associations WHERE item_id IN (${item.rows.join(',')}) AND extension = 'com_content.article'`, config));
       }
 
