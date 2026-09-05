@@ -17,7 +17,10 @@ namespace Joomla\CMS\Access\Exception;
  * Exception class defining a not allowed access
  *
  * @since  3.6.3
+ *
+ * @deprecated  __DEPLOY_VERSION__ will be removed in 8.0
+ *              Use the class with the Exception suffix instead.
  */
-class NotAllowed extends \RuntimeException
+class NotAllowed extends NotAllowedException
 {
 }

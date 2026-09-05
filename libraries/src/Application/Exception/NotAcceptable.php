@@ -17,7 +17,10 @@ namespace Joomla\CMS\Application\Exception;
  * Exception class defining a not acceptable class
  *
  * @since  4.0.0
+ *
+ * @deprecated  __DEPLOY_VERSION__ will be removed in 8.0
+ *              Use the class with the Exception suffix instead.
  */
-class NotAcceptable extends \RuntimeException
+class NotAcceptable extends NotAcceptableException
 {
 }
