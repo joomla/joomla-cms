@@ -538,6 +538,13 @@ class UsersModel extends ListModel
         $dNow   = new Date();
         $dStart = clone $dNow;
 
+        // Handle dynamic inactive days: 'inactive_X' means last visit more than X days ago (and not null).
+        if (preg_match('/^inactive_(\d+)$/', $range, $matches)) {
+            $dStart->modify('-' . (int) $matches[1] . ' day');
+
+            return ['dNow' => false, 'dStart' => $dStart];
+        }
+
         switch ($range) {
             case 'past_week':
                 $dStart->modify('-7 day');

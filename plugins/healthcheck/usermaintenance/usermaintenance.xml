@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="healthcheck" method="upgrade">
+	<name>plg_healthcheck_usermaintenance</name>
+	<author>Joomla! Project</author>
+	<creationDate>2026-06</creationDate>
+	<copyright>(C) 2026 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>6.2.0</version>
+	<description>PLG_HEALTHCHECK_USERMAINTENANCE_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Healthcheck\UserMaintenance</namespace>
+	<files>
+		<folder plugin="usermaintenance">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_healthcheck_usermaintenance.ini</language>
+		<language tag="en-GB">language/en-GB/plg_healthcheck_usermaintenance.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="context"
+					type="text"
+					label="PLG_HEALTHCHECK_USERMAINTENANCE_GROUP_LABEL"
+					description="PLG_HEALTHCHECK_USERMAINTENANCE_GROUP_DESC"
+					default="general"
+				/>
+				<field
+					name="inactive_users"
+					type="radio"
+					label="PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVE_FIELD_LABEL"
+					description="PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVE_FIELD_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="boolean"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="inactive_timespan"
+					type="list"
+					label="PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVETIMESPAN_FIELD_LABEL"
+					description="PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVETIMESPAN_FIELD_DESC"
+					default="180"
+					filter="integer"
+					validate="options"
+					showon="inactiveUsers:1"
+					>
+					<option value="90">PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVETIMESPAN_VALUE_M3</option>
+					<option value="180">PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVETIMESPAN_VALUE_M6</option>
+					<option value="360">PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVETIMESPAN_VALUE_Y1</option>
+				</field>
+				<field
+					name="neverloggedin_users"
+					type="radio"
+					label="PLG_HEALTHCHECK_USERMAINTENANCE_NEVERLOGGEDIN_FIELD_LABEL"
+					description="PLG_HEALTHCHECK_USERMAINTENANCE_NEVERLOGGEDIN_FIELD_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="boolean"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="unactivated_users"
+					type="radio"
+					label="PLG_HEALTHCHECK_USERMAINTENANCE_UNACTIVATED_FIELD_LABEL"
+					description="PLG_HEALTHCHECK_USERMAINTENANCE_UNACTIVATED_FIELD_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="boolean"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="orphan_users"
+					type="radio"
+					label="PLG_HEALTHCHECK_USERMAINTENANCE_ORPHAN_FIELD_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="boolean"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="nonmfa_users"
+					type="radio"
+					label="PLG_HEALTHCHECK_USERMAINTENANCE_NONMFA_FIELD_LABEL"
+					description="PLG_HEALTHCHECK_USERMAINTENANCE_NONMFA_FIELD_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="boolean"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="privileged_users"
+					type="radio"
+					label="PLG_HEALTHCHECK_USERMAINTENANCE_PRIVILEGED_FIELD_LABEL"
+					description="PLG_HEALTHCHECK_USERMAINTENANCE_PRIVILEGED_FIELD_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="boolean"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="logging"
+					type="list"
+					description="PLG_HEALTHCHECK_USERMAINTENANCE_LOGGING_FIELD_DESC"
+					label="PLG_HEALTHCHECK_USERMAINTENANCE_LOGGING_FIELD_LABEL"
+					default="0"
+				    >
+					<option value="0">PLG_HEALTHCHECK_USERMAINTENANCE_LOGGING_VALUE_NOLOG</option>
+					<option value="1">PLG_HEALTHCHECK_USERMAINTENANCE_LOGGING_VALUE_PHPLOG</option>
+					<option value="2">PLG_HEALTHCHECK_USERMAINTENANCE_LOGGING_VALUE_JOOMLALOG</option>
+					<option value="3">PLG_HEALTHCHECK_USERMAINTENANCE_LOGGING_VALUE_MESSAGE</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
