@@ -11785,7 +11785,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setDispatcher\(\) of class Joomla\\CMS\\Plugin\\CMSPlugin\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -12832,7 +12832,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\Content\\Finder\\Extension\\Finder\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -12842,7 +12842,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\Content\\Finder\\Extension\\Finder\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -12868,7 +12868,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\Editors\\CodeMirror\\Extension\\Codemirror\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -12878,7 +12878,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\Editors\\CodeMirror\\Extension\\Codemirror\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -12888,7 +12888,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\Editors\\None\\Extension\\None\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -12898,7 +12898,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\Editors\\None\\Extension\\None\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -12908,7 +12908,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\Editors\\TinyMCE\\Extension\\TinyMCE\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -12918,7 +12918,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\Editors\\TinyMCE\\Extension\\TinyMCE\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -13056,7 +13056,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\System\\Cache\\Extension\\Cache\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -13066,7 +13066,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\System\\Cache\\Extension\\Cache\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -13124,7 +13124,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\System\\Jooa11y\\Extension\\Jooa11y\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -13134,7 +13134,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\System\\Jooa11y\\Extension\\Jooa11y\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -13179,7 +13179,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\System\\Schemaorg\\Extension\\Schemaorg\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -13189,7 +13189,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\System\\Schemaorg\\Extension\\Schemaorg\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -13199,7 +13199,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\System\\Shortcut\\Extension\\Shortcut\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -13209,7 +13209,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\System\\Shortcut\\Extension\\Shortcut\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated

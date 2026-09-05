@@ -240,16 +240,23 @@ abstract class PluginHelper
         $reflection         = new \ReflectionClass($plugin);
         $registerOverridden = $reflection->hasMethod('registerListeners') && $reflection->getMethod('registerListeners')->class !== CMSPlugin::class;
 
-        // @TODO: From 7.0 when registerListeners() will be removed from CMSPlugin checking for overridden registerListeners() need to be removed.
+        // @TODO: From 8.0 when registerListeners() will be removed from CMSPlugin checking for overridden registerListeners() need to be removed.
         if ($plugin instanceof SubscriberInterface && !$registerOverridden) {
             $dispatcher->addSubscriber($plugin);
         } else {
-            // @TODO: From 7.0 when DispatcherAwareInterface will be removed from CMSPlugin this should be checked for all plugins.
+            if (!\defined('COMPAT_JOOMLA_7')) {
+                throw new \BadMethodCallException(\sprintf(
+                    '%s Legacy listener registration is only available in compatibility mode (compatibility plugin enabled). Use SubscriberInterface.',
+                    \get_class($plugin)
+                ));
+            }
+
+            // @TODO: From 8.0 when DispatcherAwareInterface will be removed from CMSPlugin this should be checked for all plugins.
             if ($dispatcher && $plugin instanceof DispatcherAwareInterface) {
                 $plugin->setDispatcher($dispatcher);
             }
 
-            // @TODO: From 7.0 it should use $dispatcher->addSubscriber($plugin); for plugins which implement SubscriberInterface.
+            // @TODO: From 8.0 it should use $dispatcher->addSubscriber($plugin); for plugins which implement SubscriberInterface.
             $plugin->registerListeners();
         }
     }
