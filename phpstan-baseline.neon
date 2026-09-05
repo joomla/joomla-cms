@@ -7555,15 +7555,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method __construct\(\) of class Joomla\\CMS\\Encrypt\\Aes\:
-				4\.3 \$strength will be removed in 7\.0$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Application/AdministratorApplication.php
-
-		-
-			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
@@ -7784,15 +7775,6 @@ parameters:
 				              Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
 			'''
 			identifier: staticProperty.deprecated
-			count: 1
-			path: libraries/src/Application/SiteApplication.php
-
-		-
-			message: '''
-				#^Call to deprecated method __construct\(\) of class Joomla\\CMS\\Encrypt\\Aes\:
-				4\.3 \$strength will be removed in 7\.0$#
-			'''
-			identifier: method.deprecated
 			count: 1
 			path: libraries/src/Application/SiteApplication.php
 
@@ -13225,15 +13207,6 @@ parameters:
 			identifier: method.deprecatedInterface
 			count: 1
 			path: plugins/system/stats/src/Field/DataField.php
-
-		-
-			message: '''
-				#^Call to deprecated method __construct\(\) of class Joomla\\CMS\\Encrypt\\Aes\:
-				4\.3 \$strength will be removed in 7\.0$#
-			'''
-			identifier: method.deprecated
-			count: 2
-			path: plugins/system/webauthn/src/CredentialRepository.php
 
 		-
 			message: '''
