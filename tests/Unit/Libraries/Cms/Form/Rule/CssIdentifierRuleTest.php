@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Form\Rule;
 
 use Joomla\CMS\Form\Rule\CssIdentifierRule;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for CssIdentifierRule.
@@ -27,7 +28,7 @@ class CssIdentifierRuleTest extends UnitTestCase
      *
      * @since   5.4.3
      */
-    public function dataTest(): array
+    public static function dataTest(): array
     {
         $xml = new \SimpleXMLElement('<field
 			name="unittest"
@@ -64,10 +65,10 @@ class CssIdentifierRuleTest extends UnitTestCase
      * @return  void
      *
      * @since   5.4.3
-     * @dataProvider dataTest
      */
+    #[DataProvider('dataTest')]
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
     {
-        $this->assertEquals($expected, (new CssIdentifierRule())->test($element, $value));
+        $this->assertSame($expected, (new CssIdentifierRule())->test($element, $value));
     }
 }

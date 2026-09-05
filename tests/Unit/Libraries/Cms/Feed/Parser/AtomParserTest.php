@@ -14,6 +14,7 @@ use Joomla\CMS\Feed\Feed;
 use Joomla\CMS\Feed\FeedEntry;
 use Joomla\CMS\Feed\FeedLink;
 use Joomla\CMS\Feed\Parser\AtomParser;
+use Joomla\Test\TestHelper;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
@@ -31,7 +32,6 @@ class AtomParserTest extends UnitTestCase
      * @return  void
      *
      * @since   3.1.4
-     * @throws \ReflectionException
      */
     public function testHandleAuthor()
     {
@@ -55,10 +55,8 @@ class AtomParserTest extends UnitTestCase
             ->with($author['name'], $author['email'], $author['uri']);
 
         // Use reflection to test protected method
-        $atomParser      = new AtomParser(new \XMLReader());
-        $reflectionClass = new \ReflectionClass($atomParser);
-        $method          = $reflectionClass->getMethod('handleAuthor');
-        $method->invoke($atomParser, $feedMock, $xmlElement);
+        $atomParser = new AtomParser(new \XMLReader());
+        TestHelper::invoke($atomParser, 'handleAuthor', $feedMock, $xmlElement);
     }
 
     /**
@@ -67,7 +65,6 @@ class AtomParserTest extends UnitTestCase
      * @return  void
      *
      * @since   3.1.4
-     * @throws \ReflectionException
      */
     public function testHandleContributor()
     {
@@ -91,10 +88,8 @@ class AtomParserTest extends UnitTestCase
             ->with($contributor['name'], $contributor['email'], $contributor['uri']);
 
         // Use reflection to test protected method
-        $atomParser      = new AtomParser(new \XMLReader());
-        $reflectionClass = new \ReflectionClass($atomParser);
-        $method          = $reflectionClass->getMethod('handleContributor');
-        $method->invoke($atomParser, $feedMock, $xmlElement);
+        $atomParser = new AtomParser(new \XMLReader());
+        TestHelper::invoke($atomParser, 'handleContributor', $feedMock, $xmlElement);
     }
 
     /**
@@ -103,7 +98,6 @@ class AtomParserTest extends UnitTestCase
      * @return  void
      *
      * @since   3.1.4
-     * @throws \ReflectionException
      */
     public function testHandleGenerator()
     {
@@ -120,10 +114,8 @@ class AtomParserTest extends UnitTestCase
             ->with('generator', $generator);
 
         // Use reflection to test protected method
-        $atomParser      = new AtomParser(new \XMLReader());
-        $reflectionClass = new \ReflectionClass($atomParser);
-        $method          = $reflectionClass->getMethod('handleGenerator');
-        $method->invoke($atomParser, $feedMock, $xmlElement);
+        $atomParser = new AtomParser(new \XMLReader());
+        TestHelper::invoke($atomParser, 'handleGenerator', $feedMock, $xmlElement);
     }
 
     /**
@@ -132,7 +124,6 @@ class AtomParserTest extends UnitTestCase
      * @return  void
      *
      * @since   3.1.4
-     * @throws \ReflectionException
      */
     public function testHandleId()
     {
@@ -149,10 +140,8 @@ class AtomParserTest extends UnitTestCase
             ->with('uri', $id);
 
         // Use reflection to test protected method
-        $atomParser      = new AtomParser(new \XMLReader());
-        $reflectionClass = new \ReflectionClass($atomParser);
-        $method          = $reflectionClass->getMethod('handleId');
-        $method->invoke($atomParser, $feedMock, $xmlElement);
+        $atomParser = new AtomParser(new \XMLReader());
+        TestHelper::invoke($atomParser, 'handleId', $feedMock, $xmlElement);
     }
 
     /**
@@ -161,7 +150,6 @@ class AtomParserTest extends UnitTestCase
      * @return  void
      *
      * @since   3.1.4
-     * @throws \ReflectionException
      */
     public function testHandleLink()
     {
@@ -178,17 +166,17 @@ class AtomParserTest extends UnitTestCase
             ->with(
                 'link',
                 $this->callback(
-                    function ($param) use ($href) {
-                        return $param instanceof FeedLink && $param->uri === $href;
+                    function ($param) use ($href): bool {
+                        $this->assertInstanceOf(FeedLink::class, $param);
+                        $this->assertSame($href, $param->uri);
+                        return true;
                     }
                 )
             );
 
         // Use reflection to test protected method
-        $atomParser      = new AtomParser(new \XMLReader());
-        $reflectionClass = new \ReflectionClass($atomParser);
-        $method          = $reflectionClass->getMethod('handleLink');
-        $method->invoke($atomParser, $feedMock, $xmlElement);
+        $atomParser = new AtomParser(new \XMLReader());
+        TestHelper::invoke($atomParser, 'handleLink', $feedMock, $xmlElement);
     }
 
     /**
@@ -197,7 +185,6 @@ class AtomParserTest extends UnitTestCase
      * @return  void
      *
      * @since   3.1.4
-     * @throws \ReflectionException
      */
     public function testHandleRights()
     {
@@ -214,10 +201,8 @@ class AtomParserTest extends UnitTestCase
             ->with('copyright', $copyright);
 
         // Use reflection to test protected method
-        $atomParser      = new AtomParser(new \XMLReader());
-        $reflectionClass = new \ReflectionClass($atomParser);
-        $method          = $reflectionClass->getMethod('handleRights');
-        $method->invoke($atomParser, $feedMock, $xmlElement);
+        $atomParser = new AtomParser(new \XMLReader());
+        TestHelper::invoke($atomParser, 'handleRights', $feedMock, $xmlElement);
     }
 
     /**
@@ -226,7 +211,6 @@ class AtomParserTest extends UnitTestCase
      * @return  void
      *
      * @since   3.1.4
-     * @throws \ReflectionException
      */
     public function testHandleSubtitle()
     {
@@ -243,10 +227,8 @@ class AtomParserTest extends UnitTestCase
             ->with('description', $subtitle);
 
         // Use reflection to test protected method
-        $atomParser      = new AtomParser(new \XMLReader());
-        $reflectionClass = new \ReflectionClass($atomParser);
-        $method          = $reflectionClass->getMethod('handleSubtitle');
-        $method->invoke($atomParser, $feedMock, $xmlElement);
+        $atomParser = new AtomParser(new \XMLReader());
+        TestHelper::invoke($atomParser, 'handleSubtitle', $feedMock, $xmlElement);
     }
 
     /**
@@ -255,7 +237,6 @@ class AtomParserTest extends UnitTestCase
      * @return  void
      *
      * @since   3.1.4
-     * @throws \ReflectionException
      */
     public function testHandleTitle()
     {
@@ -272,10 +253,8 @@ class AtomParserTest extends UnitTestCase
             ->with('title', $title);
 
         // Use reflection to test protected method
-        $atomParser      = new AtomParser(new \XMLReader());
-        $reflectionClass = new \ReflectionClass($atomParser);
-        $method          = $reflectionClass->getMethod('handleTitle');
-        $method->invoke($atomParser, $feedMock, $xmlElement);
+        $atomParser = new AtomParser(new \XMLReader());
+        TestHelper::invoke($atomParser, 'handleTitle', $feedMock, $xmlElement);
     }
 
     /**
@@ -284,7 +263,6 @@ class AtomParserTest extends UnitTestCase
      * @return  void
      *
      * @since   3.1.4
-     * @throws \ReflectionException
      */
     public function testHandleUpdated()
     {
@@ -301,10 +279,8 @@ class AtomParserTest extends UnitTestCase
             ->with('updatedDate', $date);
 
         // Use reflection to test protected method
-        $atomParser      = new AtomParser(new \XMLReader());
-        $reflectionClass = new \ReflectionClass($atomParser);
-        $method          = $reflectionClass->getMethod('handleUpdated');
-        $method->invoke($atomParser, $feedMock, $xmlElement);
+        $atomParser = new AtomParser(new \XMLReader());
+        TestHelper::invoke($atomParser, 'handleUpdated', $feedMock, $xmlElement);
     }
 
     /**
@@ -312,7 +288,6 @@ class AtomParserTest extends UnitTestCase
      *
      * @return void
      * @since         3.1.4
-     * @throws \ReflectionException
      */
     public function testInitialiseSetsDefaultVersionWithXmlDocType()
     {
@@ -323,11 +298,7 @@ class AtomParserTest extends UnitTestCase
         $atomParser = new AtomParser($reader);
         $atomParser->parse();
 
-        // Use reflection to check the value
-        $reflectionClass = new \ReflectionClass($atomParser);
-        $attribute       = $reflectionClass->getProperty('version');
-
-        $this->assertEquals('1.0', $attribute->getValue($atomParser));
+        $this->assertSame('1.0', TestHelper::getValue($atomParser, 'version'));
     }
 
     /**
@@ -335,7 +306,6 @@ class AtomParserTest extends UnitTestCase
      *
      * @return void
      * @since         3.1.4
-     * @throws \ReflectionException
      */
     public function testInitialiseSetsDefaultVersion()
     {
@@ -362,11 +332,7 @@ class AtomParserTest extends UnitTestCase
 
         $atomParser->parse();
 
-        // Use reflection to check the value
-        $reflectionClass = new \ReflectionClass($atomParser);
-        $attribute       = $reflectionClass->getProperty('version');
-
-        $this->assertEquals('1.0', $attribute->getValue($atomParser));
+        $this->assertSame('1.0', TestHelper::getValue($atomParser, 'version'));
     }
 
     /**
@@ -374,7 +340,6 @@ class AtomParserTest extends UnitTestCase
      *
      * @return void
      * @since         3.1.4
-     * @throws \ReflectionException
      */
     public function testInitialiseSetsOldVersion()
     {
@@ -401,11 +366,7 @@ class AtomParserTest extends UnitTestCase
 
         $atomParser->parse();
 
-        // Use reflection to check the value
-        $reflectionClass = new \ReflectionClass($atomParser);
-        $attribute       = $reflectionClass->getProperty('version');
-
-        $this->assertEquals('0.3', $attribute->getValue($atomParser));
+        $this->assertSame('0.3', TestHelper::getValue($atomParser, 'version'));
     }
 
     /**
@@ -414,7 +375,6 @@ class AtomParserTest extends UnitTestCase
      * @return  void
      *
      * @since   3.1.4
-     * @throws \ReflectionException
      */
     public function testProcessFeedEntry()
     {
@@ -424,15 +384,25 @@ class AtomParserTest extends UnitTestCase
 			<title>title</title><updated>August 25, 1991</updated><summary>summary</summary></entry>');
 
         $feedEntryMock = $this->createMock(FeedEntry::class);
+        $matcher       = $this->exactly(4);
         $feedEntryMock
-            ->expects($this->exactly(4))
+            ->expects($matcher)
             ->method('__set')
-            ->withConsecutive(
-                ['uri', 'http://example.com/id'],
-                ['title', 'title'],
-                ['updatedDate', 'August 25, 1991'],
-                ['content', 'summary']
-            );
+            ->willReturnCallback(function (...$parameters) use ($matcher) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame('uri', $parameters[0]);
+                    $this->assertSame('http://example.com/id', $parameters[1]);
+                } elseif ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame('title', $parameters[0]);
+                    $this->assertSame('title', $parameters[1]);
+                } elseif ($matcher->numberOfInvocations() === 3) {
+                    $this->assertSame('updatedDate', $parameters[0]);
+                    $this->assertSame('August 25, 1991', $parameters[1]);
+                } elseif ($matcher->numberOfInvocations() === 4) {
+                    $this->assertSame('content', $parameters[0]);
+                    $this->assertSame('summary', $parameters[1]);
+                }
+            });
 
         /**
          * Ensure that for the test to work we correctly return the content element (as a normal class would do
@@ -443,14 +413,12 @@ class AtomParserTest extends UnitTestCase
         ];
 
         $feedEntryMock
-            ->expects($this->any())
+            ->expects($this->exactly(2))
             ->method('__get')
-            ->will($this->returnValueMap($map));
+            ->willReturnMap($map);
 
         // Use reflection to test protected method
-        $atomParser      = new AtomParser(new \XMLReader());
-        $reflectionClass = new \ReflectionClass($atomParser);
-        $method          = $reflectionClass->getMethod('processFeedEntry');
-        $method->invoke($atomParser, $feedEntryMock, $xmlElement);
+        $atomParser = new AtomParser(new \XMLReader());
+        TestHelper::invoke($atomParser, 'processFeedEntry', $feedEntryMock, $xmlElement);
     }
 }

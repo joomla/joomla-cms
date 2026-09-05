@@ -15,6 +15,7 @@ use Joomla\CMS\Mail\MailerFactoryInterface;
 use Joomla\CMS\Mail\MailerInterface;
 use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for \Joomla\CMS\Mail\MailerFactoryAwareTrait
@@ -26,12 +27,11 @@ use Joomla\Tests\Unit\UnitTestCase;
 class MailerFactoryAwareTraitTest extends UnitTestCase
 {
     /**
-     * @testdox  The mailer factory can be set and accessed by the trait
-     *
      * @return  void
      *
      * @since   4.4.0
      */
+    #[TestDox('The mailer factory can be set and accessed by the trait')]
     public function testGetSetMailerFactory()
     {
         $mailerFactory = new class () implements MailerFactoryInterface {
@@ -88,16 +88,15 @@ class MailerFactoryAwareTraitTest extends UnitTestCase
 
         $trait->setMailerFactory($mailerFactory);
 
-        $this->assertEquals($mailerFactory, $trait->getFactory());
+        $this->assertSame($mailerFactory, $trait->getFactory());
     }
 
     /**
-     * @testdox  The mailer factory can be set and accessed by the trait
-     *
      * @return  void
      *
      * @since   4.4.0
      */
+    #[TestDox('The mailer factory can be set and accessed by the trait')]
     public function testGetMailerFactoryThrowsException()
     {
         $this->expectException(\UnexpectedValueException::class);

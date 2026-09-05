@@ -13,6 +13,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Document;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\DocumentAwareTrait;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for \Joomla\CMS\Document\DocumentAwareTrait
@@ -24,12 +25,11 @@ use Joomla\Tests\Unit\UnitTestCase;
 class DocumentAwareTraitTest extends UnitTestCase
 {
     /**
-     * @testdox  The user document can be set and accessed by the trait
-     *
      * @return  void
      *
      * @since   4.4.0
      */
+    #[TestDox('The user document can be set and accessed by the trait')]
     public function testGetSetDocument()
     {
         $document = new Document();
@@ -44,16 +44,15 @@ class DocumentAwareTraitTest extends UnitTestCase
 
         $trait->setDocument($document);
 
-        $this->assertEquals($document, $trait->get());
+        $this->assertSame($document, $trait->get());
     }
 
     /**
-     * @testdox  The user document can be set and accessed by the trait
-     *
      * @return  void
      *
      * @since   4.4.0
      */
+    #[TestDox('The user document can be set and accessed by the trait')]
     public function testGetDocumentThrowsException()
     {
         $this->expectException(\UnexpectedValueException::class);

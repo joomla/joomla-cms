@@ -13,6 +13,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Language;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for \Joomla\CMS\Language\LanguageAwareTrait
@@ -24,12 +25,11 @@ use Joomla\Tests\Unit\UnitTestCase;
 class LanguageAwareTraitTest extends UnitTestCase
 {
     /**
-     * @testdox  The user language can be set and accessed by the trait
-     *
      * @return  void
      *
      * @since   4.4.0
      */
+    #[TestDox('The user language can be set and accessed by the trait')]
     public function testGetSetLanguage()
     {
         $language = new Language();
@@ -44,16 +44,15 @@ class LanguageAwareTraitTest extends UnitTestCase
 
         $trait->setLanguage($language);
 
-        $this->assertEquals($language, $trait->get());
+        $this->assertSame($language, $trait->get());
     }
 
     /**
-     * @testdox  The user language can be set and accessed by the trait
-     *
      * @return  void
      *
      * @since   4.4.0
      */
+    #[TestDox('The user language can be set and accessed by the trait')]
     public function testGetLanguageThrowsException()
     {
         $this->expectException(\UnexpectedValueException::class);

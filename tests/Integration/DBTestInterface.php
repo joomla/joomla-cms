@@ -29,7 +29,6 @@ interface DBTestInterface
     public function setDBDriver(DatabaseDriver $driver);
 
     /**
-     *
      * @return DatabaseDriver
      *
      * @since   4.0.0
@@ -37,7 +36,6 @@ interface DBTestInterface
     public function getDBDriver(): DatabaseDriver;
 
     /**
-     *
      * @return array
      *
      * @since   4.0.0

@@ -10,12 +10,16 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Image\Filter;
 use Joomla\CMS\Image\Filter\Backgroundfill as FilterBackgroundfill;
 use Joomla\Test\TestHelper;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for Image.
  *
  * @since  4.0.0
  */
+#[CoversMethod(FilterBackgroundfill::class, 'execute')]
+#[CoversMethod(FilterBackgroundfill::class, 'sanitizeColor')]
 class FilterBackgroundfillTest extends UnitTestCase
 {
     /**
@@ -55,7 +59,6 @@ class FilterBackgroundfillTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers   Joomla\CMS\Image\Filter\Backgroundfill::execute
      * @since  4.0.0
      *
      * @note     Because GD2 uses 7bit alpha channel, results differ slightly
@@ -82,14 +85,14 @@ class FilterBackgroundfillTest extends UnitTestCase
 
         // Compare left part
         $color = imagecolorat($imageHandle, 25, 25);
-        $this->assertEquals(
+        $this->assertSame(
             [171, 45, 45],
             [$color >> 16 & 0xFF, $color >> 8 & 0xFF, $color & 0xFF]
         );
 
         // Compare right part
         $color = imagecolorat($imageHandle, 51, 25);
-        $this->assertEquals(
+        $this->assertSame(
             [186, 60, 60], // GD
             [$color >> 16 & 0xFF, $color >> 8 & 0xFF, $color & 0xFF]
         );
@@ -102,7 +105,6 @@ class FilterBackgroundfillTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  Joomla\CMS\Image\Filter\Backgroundfill::execute
      * @since   4.0.0
      */
     public function testExecuteInvalidArgument()
@@ -130,7 +132,7 @@ class FilterBackgroundfillTest extends UnitTestCase
      *
      * @since   1.1.3
      */
-    public function dataSanitizeColor()
+    public static function dataSanitizeColor()
     {
         return [
             [0, 0, 0, 0, 0],
@@ -166,16 +168,15 @@ class FilterBackgroundfillTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers         Joomla\CMS\Image\Filter\Backgroundfill::sanitizeColor
-     * @dataProvider   dataSanitizeColor
      * @since          1.1.3
      */
+    #[DataProvider('dataSanitizeColor')]
     public function testSanitizeColor($color, $red, $green, $blue, $alpha)
     {
         $imageHandle = imagecreatetruecolor(100, 100);
         $filter      = new FilterBackgroundfill($imageHandle);
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'red'   => $red,
                 'green' => $green,

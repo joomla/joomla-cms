@@ -31,27 +31,27 @@ class HtmlTelephoneTest extends UnitTestCase
      */
     public function testTel()
     {
-        $this->assertThat(
+        $this->assertSame(
+            '(941) 955-5555',
             HtmlTelephone::tel('1.9419555555', 'US'),
-            $this->stringContains('(941) 955-5555'),
             'Testing for US format'
         );
 
-        $this->assertThat(
+        $this->assertSame(
+            '+49.15123456789',
             HtmlTelephone::tel('49.15123456789', 'EPP'),
-            $this->stringContains('+49.15123456789'),
             'Testing for EPP format'
         );
 
-        $this->assertThat(
+        $this->assertSame(
+            '+82 12 34 56 78',
             HtmlTelephone::tel('82.12345678', 'ITU-T'),
-            $this->stringContains('+82 12 34 56 78'),
             'Testing for ITU-T format'
         );
 
-        $this->assertThat(
+        $this->assertSame(
+            '+9.8.7.6.1.2.3.1.4.9.1.e164.arpa',
             HtmlTelephone::tel('1.9413216789', 'ARPA'),
-            $this->stringContains('+9.8.7.6.1.2.3.1.4.9.1.e164.arpa'),
             'Testing for ARPA format'
         );
     }

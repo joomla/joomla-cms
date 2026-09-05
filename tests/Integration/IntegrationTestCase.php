@@ -18,7 +18,6 @@ namespace Joomla\Tests\Integration;
 abstract class IntegrationTestCase extends \PHPUnit\Framework\TestCase
 {
     /**
-     *
      * @return  void
      * @since   4.0.0
      */

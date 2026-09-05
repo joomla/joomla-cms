@@ -34,6 +34,6 @@ class CustomButtonTest extends UnitTestCase
         $button = new CustomButton();
         $html   = '<div class="custom-button"><a href="#">My Custom Button</a></div>';
 
-        $this->assertEquals($html, $button->fetchButton('Custom', $html));
+        $this->assertSame($html, $button->fetchButton('Custom', $html));
     }
 }
