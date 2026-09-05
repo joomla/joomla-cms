@@ -199,7 +199,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
         $app->getDispatcher()->dispatch($event->getName(), $event);
 
         // Check for a user and that the tokens match.
-        if (empty($user) || $user->activation !== $token) {
+        if (empty($user) || $user->resetToken !== $token) {
             $this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
             return false;
@@ -221,7 +221,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
 
         // Prepare user data.
         $data['password']   = $data['password1'];
-        $data['activation'] = '';
+        $data['resetToken'] = '';
 
         // Update the user object.
         if (!$user->bind($data)) {
@@ -292,8 +292,8 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
 
         // Find the user id for the given token.
         $db    = $this->getDatabase();
-        $query = $db->createQuery()
-            ->select($db->quoteName(['activation', 'id', 'block']))
+        $query = $db->createQuery(true)
+            ->select($db->quoteName(['activation', 'resetToken', 'lastResetTime', 'id', 'block']))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('username') . ' = :username')
             ->bind(':username', $data['username']);
@@ -314,14 +314,14 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
             return false;
         }
 
-        if (!$user->activation) {
+        if ($user->activation) {
             $this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
             return false;
         }
 
         // Verify the token
-        if (!UserHelper::verifyPassword($data['token'], $user->activation)) {
+        if (!UserHelper::verifyPassword($data['token'], $user->resetToken)) {
             $this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
             return false;
@@ -334,9 +334,21 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
             return false;
         }
 
+        // Check if the token is expired or not
+        $now       = Factory::getDate();
+        $lastReset = Factory::getDate($user->lastResetTime);
+
+        $now->modify('-3 days');
+
+        if ($now > $lastReset) {
+            $this->setError(Text::_('COM_USERS_RESET_TOKEN_EXPIRED'));
+
+            return false;
+        }
+
         // Push the user data into the session.
         $app = Factory::getApplication();
-        $app->setUserState('com_users.reset.token', $user->activation);
+        $app->setUserState('com_users.reset.token', $user->resetToken);
         $app->setUserState('com_users.reset.user', $user->id);
 
         return true;
@@ -440,7 +452,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
         $token       = ApplicationHelper::getHash(UserHelper::genRandomPassword());
         $hashedToken = UserHelper::hashPassword($token);
 
-        $user->activation = $hashedToken;
+        $user->resetToken = $hashedToken;
 
         $event = AbstractEvent::create(
             'onUserBeforeResetRequest',

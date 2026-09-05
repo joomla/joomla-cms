@@ -111,7 +111,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
             <?php if ($app->get('offline_image')) : ?>
                 <?php echo HTMLHelper::_('image', $app->get('offline_image'), $sitename, [], false, 0); ?>
             <?php endif; ?>
-            <?php if ($app->get('display_offline_message', 1) == 1 && trim($app->get('offline_message', '')) != '') : ?>
+            <?php if ($app->get('display_offline_message', 1) == 1 && trim($app->get('offline_message')) != '') : ?>
                 <p><?php echo $app->get('offline_message'); ?></p>
             <?php elseif ($app->get('display_offline_message', 1) == 2) : ?>
                 <p><?php echo Text::_('JOFFLINE_MESSAGE'); ?></p>
