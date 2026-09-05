@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -201,7 +202,7 @@ class StagesModel extends ListModel
             $table->load($workflowId);
         }
 
-        return (object) $table->getProperties();
+        return (object) ArrayHelper::fromObject($table, false);
     }
 
     /**

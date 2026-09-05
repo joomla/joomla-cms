@@ -294,7 +294,7 @@ class TagModel extends ListModel
                     }
 
                     // Convert the Table to a clean object.
-                    $properties   = $table->getProperties(1);
+                    $properties   = ArrayHelper::fromObject($table, false);
                     $this->item[] = ArrayHelper::toObject($properties);
                 } catch (\RuntimeException $e) {
                     $this->setError($e->getMessage());
