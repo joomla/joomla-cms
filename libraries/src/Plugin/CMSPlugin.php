@@ -34,7 +34,8 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  *
- * @TODO  Starting from 7.0 the class will no longer implement DispatcherAwareInterface and LanguageAwareInterface
+ * @TODO  Starting from 7.0 the class will no longer implement LanguageAwareInterface
+ * @TODO  Starting from 8.0 the class will no longer implement DispatcherAwareInterface and LanguageAwareInterface
  */
 abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, LanguageAwareInterface
 {
@@ -101,7 +102,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      * @var    boolean
      * @since  4.0.0
      *
-     * @deprecated  4.3 will be removed in 7.0
+     * @deprecated  4.3 will be removed in 8.0
      *              Implement your plugin methods accepting an AbstractEvent object
      *              Example:
      *              onEventTriggerName(AbstractEvent $event) {
@@ -131,10 +132,18 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
     public function __construct($config = [])
     {
         if ($config instanceof DispatcherInterface) {
+            if (!\defined('COMPAT_JOOMLA_7')) {
+                throw new \BadMethodCallException(\sprintf(
+                    'Passing an instance of %1$s to %2$s() is only available in compatibility mode (compatibility plugin enabled).',
+                    DispatcherInterface::class,
+                    __METHOD__
+                ));
+            }
+
             @trigger_error(
                 \sprintf(
-                    'Passing an instance of %1$s to %2$s() will not be supported in 7.0. '
-                    . 'Starting from 7.0 CMSPlugin class will no longer implement DispatcherAwareInterface.',
+                    'Passing an instance of %1$s to %2$s() will not be supported in 8.0. '
+                    . 'Starting from 8.0 CMSPlugin class will no longer implement DispatcherAwareInterface.',
                     DispatcherInterface::class,
                     __METHOD__
                 ),
@@ -269,12 +278,19 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      *
      * @since   4.0.0
      *
-     * @deprecated  5.4.0 will be removed in 7.0
+     * @deprecated  5.4.0 will be removed in 8.0
      *              Plugin should implement SubscriberInterface.
      *              These plugins will be added to dispatcher in PluginHelper::import().
      */
     public function registerListeners()
     {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            throw new \BadMethodCallException(\sprintf(
+                '%s::%s: Legacy listener registration is only available in compatibility mode (compatibility plugin enabled). Use SubscriberInterface.',
+                __CLASS__, __METHOD__
+            ));
+        }
+
         // Plugins which are SubscriberInterface implementations are handled without legacy layer support
         if ($this instanceof SubscriberInterface) {
             $this->getDispatcher()->addSubscriber($this);
@@ -340,11 +356,18 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      *
      * @since   4.0.0
      *
-     * @deprecated  5.4.0 will be removed in 7.0
+     * @deprecated  5.4.0 will be removed in 8.0
      *              Plugin should implement SubscriberInterface.
      */
     final protected function registerLegacyListener(string $methodName)
     {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            throw new \BadMethodCallException(\sprintf(
+                'Legacy listener registration is only available in compatibility mode (compatibility plugin enabled). Use SubscriberInterface in plugin %s::%s.',
+                __CLASS__, __METHOD__
+            ));
+        }
+
         $this->getDispatcher()->addListener(
             $methodName,
             function (AbstractEvent $event) use ($methodName) {
@@ -391,11 +414,18 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      *
      * @since   4.0.0
      *
-     * @deprecated  5.4.0 will be removed in 7.0
+     * @deprecated  5.4.0 will be removed in 8.0
      *              Plugin should implement SubscriberInterface.
      */
     final protected function registerListener(string $methodName)
     {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            throw new \BadMethodCallException(\sprintf(
+                '%s::%s: Legacy listener registration is only available in compatibility mode (compatibility plugin enabled). Use SubscriberInterface.',
+                __CLASS__, __METHOD__
+            ));
+        }
+
         $this->getDispatcher()->addListener($methodName, [$this, $methodName]);
     }
 
@@ -408,11 +438,18 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      *
      * @since   4.0.0
      *
-     * @deprecated  5.4.0 will be removed in 7.0
+     * @deprecated  5.4.0 will be removed in 8.0
      *              Plugin should implement SubscriberInterface.
      */
     private function parameterImplementsEventInterface(\ReflectionParameter $parameter): bool
     {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            throw new \BadMethodCallException(\sprintf(
+                'Legacy listener registration is only available in compatibility mode (compatibility plugin enabled). Use SubscriberInterface in plugin %s::%s.',
+                __CLASS__, __METHOD__
+            ));
+        }
+
         $reflectionType = $parameter->getType();
 
         // Parameter is not typehinted.
@@ -522,11 +559,18 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      *
      * @since   5.3.0
      *
-     * @deprecated  5.2 will be removed in 7.0
+     * @deprecated  5.2 will be removed in 8.0
      *              Plugin should implement DispatcherAwareInterface on its own, when it is needed.
      */
     public function setDispatcher(DispatcherInterface $dispatcher)
     {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            throw new \BadMethodCallException(\sprintf(
+                '%s::%s: is only available in compatibility mode (compatibility plugin enabled). Implement your own DispatcherAwareInterface.',
+                __CLASS__, __METHOD__
+            ));
+        }
+
         @trigger_error(
             __CLASS__ . ': Use of DispatcherAwareInterface over CMSPlugin will be removed in 7.0.'
             . ' Plugin should implement DispatcherAwareInterface on its own, when it is needed.',
@@ -545,11 +589,18 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      *
      * @since   5.3.0
      *
-     * @deprecated  5.2 will be removed in 7.0
+     * @deprecated  5.2 will be removed in 8.0
      *              Plugin should implement DispatcherAwareInterface on its own, when it is needed.
      */
     public function getDispatcher()
     {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            throw new \BadMethodCallException(\sprintf(
+                '%s::%s: is only available in compatibility mode (compatibility plugin enabled). Implement your own DispatcherAwareInterface.',
+                __CLASS__, __METHOD__
+            ));
+        }
+
         return $this->traitGetDispatcher();
     }
 }
