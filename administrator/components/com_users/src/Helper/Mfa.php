@@ -336,7 +336,7 @@ abstract class Mfa
         }
 
         // I need at least one MFA method plugin for the setup interface to make any sense.
-        $plugins = PluginHelper::getPlugin('multifactorauth');
+        $plugins = PluginHelper::getPlugins('multifactorauth');
 
         if (\count($plugins) < 1) {
             return false;
