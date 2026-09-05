@@ -18,7 +18,6 @@ use Joomla\CMS\Editor\Button\ButtonsRegistry;
 use Joomla\CMS\Event\Editor\EditorButtonsSetupEvent;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\User\User;
-use Joomla\Event\Dispatcher;
 use Joomla\Plugin\EditorsXtd\PageBreak\Extension\PageBreak;
 use Joomla\Tests\Unit\UnitTestCase;
 
@@ -59,8 +58,7 @@ class PageBreakTest extends UnitTestCase
             'disabledButtons' => [],
         ]);
 
-        $dispatcher = new Dispatcher();
-        $plugin     = new PageBreak($dispatcher, ['name' => 'pagebreak', 'type' => 'editors-xtd', 'params' => []]);
+        $plugin = new PageBreak(['name' => 'pagebreak', 'type' => 'editors-xtd', 'params' => []]);
         $plugin->setApplication($app);
         $plugin->onEditorButtonsSetup($event);
 
@@ -99,8 +97,7 @@ class PageBreakTest extends UnitTestCase
             'disabledButtons' => [],
         ]);
 
-        $dispatcher = new Dispatcher();
-        $plugin     = new PageBreak($dispatcher, ['name' => 'pagebreak', 'type' => 'editors-xtd', 'params' => []]);
+        $plugin = new PageBreak( ['name' => 'pagebreak', 'type' => 'editors-xtd', 'params' => []]);
         $plugin->setApplication($app);
         $plugin->onEditorButtonsSetup($event);
 
@@ -125,8 +122,7 @@ class PageBreakTest extends UnitTestCase
             'disabledButtons' => [],
         ]);
 
-        $dispatcher = new Dispatcher();
-        $plugin     = new PageBreak($dispatcher, ['name' => 'pagebreak', 'type' => 'editors-xtd', 'params' => []]);
+        $plugin     = new PageBreak(['name' => 'pagebreak', 'type' => 'editors-xtd', 'params' => []]);
         $app        = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($this->createStub(Language::class));
         $plugin->setApplication($app);
