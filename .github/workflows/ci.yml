@@ -385,11 +385,11 @@ jobs:
           key: ${{ runner.os }}-cypress-${{ hashFiles('package-lock.json') }}
       - name: Run System tests
         run: bash tests/System/entrypoint.sh "$(pwd)" ${{ matrix.config.test_group }} ${{ matrix.config.db_engine }} ${{ matrix.config.db_host }} ${{ matrix.browser }}
-      - name: Archive test results results
+      - name: Archive test results
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
         with:
-          name: system-test-output
+          name: system-test-output-${{ matrix.browser }}-${{ matrix.config.test_group }}
           path: tests/System/output
           if-no-files-found: ignore
     services:
