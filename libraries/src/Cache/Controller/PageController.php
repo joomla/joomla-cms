@@ -97,7 +97,7 @@ class PageController extends CacheController
                 $this->cache->unlock($id, $group);
             }
 
-            $data = unserialize(trim($data));
+            $data = unserialize(trim($data), ['allowed_classes' => false]);
             $data = Cache::getWorkarounds($data);
 
             $this->_setEtag($id);

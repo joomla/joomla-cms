@@ -65,7 +65,7 @@ class ViewController extends CacheController
                 $this->cache->unlock($id);
             }
 
-            $data = unserialize(trim($data));
+            $data = unserialize(trim($data), ['allowed_classes' => false]);
 
             if ($wrkarounds) {
                 echo Cache::getWorkarounds($data);
