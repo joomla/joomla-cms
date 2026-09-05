@@ -39,20 +39,36 @@ trait SecondaryCategoriesSaveTrait
         $user      = $this->getCurrentUser();
         $extension = explode('.', $this->typeAlias)[0];
 
+        $publishedStates = [0, 1, 2];
+        $publishedKeys   = [];
+        foreach (array_keys($publishedStates) as $index) {
+            $publishedKey    = ':publishedState' . $index;
+            $publishedKeys[] = $publishedKey;
+        }
+
         $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__categories'))
             ->where($db->quoteName('extension') . ' = :extension')
-            ->whereIn($db->quoteName('published'), [0, 1, 2])
+            ->where($db->quoteName('published') . ' IN (' . implode(',', $publishedKeys) . ')')
             ->bind(':extension', $extension, ParameterType::STRING);
-
-        if (!$user->authorise('core.admin')) {
-            $query->whereIn(
-                $db->quoteName('access'),
-                $user->getAuthorisedViewLevels()
-            );
+        foreach (array_keys($publishedStates) as $index) {
+            $query->bind(':publishedState' . $index, $publishedStates[$index], ParameterType::INTEGER);
         }
 
+        if (!$user->authorise('core.admin')) {
+            $viewLevels    = array_values($user->getAuthorisedViewLevels());
+            $viewLevelKeys = [];
+            foreach (array_keys($viewLevels) as $index) {
+                $viewLevelKey    = ':viewLevel' . $index;
+                $viewLevelKeys[] = $viewLevelKey;
+            }
+
+            $query->where($db->quoteName('access') . ' IN (' . implode(',', $viewLevelKeys) . ')');
+            foreach (array_keys($viewLevels) as $index) {
+                $query->bind(':viewLevel' . $index, $viewLevels[$index], ParameterType::INTEGER);
+            }
+        }
         $categories = array_map('intval', $db->setQuery($query)->loadColumn());
         $manageable = [];
 

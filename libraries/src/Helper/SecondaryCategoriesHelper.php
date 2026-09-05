@@ -215,16 +215,26 @@ class SecondaryCategoriesHelper extends CMSHelper
                 $db->quoteName('ordering'),
             ]);
 
-        foreach ($catIds as $catId) {
+        $boundValues = [];
+
+        foreach (array_values($catIds) as $index => $catId) {
+            $contextKey    = ':context' . $index;
+            $itemIdKey     = ':itemId' . $index;
+            $categoryIdKey = ':categoryId' . $index;
+            $orderingKey   = ':ordering' . $index;
+
+            $boundValues[$contextKey]    = $this->typeAlias;
+            $boundValues[$itemIdKey]     = $itemId;
+            $boundValues[$categoryIdKey] = (int) $catId;
+            $boundValues[$orderingKey]   = $ordering++;
+
             $query->values(
-                implode(
-                    ',',
-                    $query->bindArray(
-                        [$this->typeAlias, $itemId, (int) $catId, $ordering++],
-                        [ParameterType::STRING, ParameterType::INTEGER, ParameterType::INTEGER, ParameterType::INTEGER]
-                    )
-                )
-            );
+                implode(',', [$contextKey, $itemIdKey, $categoryIdKey, $orderingKey])
+            )
+                ->bind($contextKey, $boundValues[$contextKey], ParameterType::STRING)
+                ->bind($itemIdKey, $boundValues[$itemIdKey], ParameterType::INTEGER)
+                ->bind($categoryIdKey, $boundValues[$categoryIdKey], ParameterType::INTEGER)
+                ->bind($orderingKey, $boundValues[$orderingKey], ParameterType::INTEGER);
         }
 
         $db->setQuery($query)->execute();
@@ -248,13 +258,27 @@ class SecondaryCategoriesHelper extends CMSHelper
 
         $db = $this->getDb();
 
+        $catIds      = array_values($catIds);
+        $boundCatIds = [];
+        $catIdKeys   = [];
+
+        foreach ($catIds as $index => $catId) {
+            $catIdKey               = ':categoryId' . $index;
+            $boundCatIds[$catIdKey] = (int) $catId;
+            $catIdKeys[]            = $catIdKey;
+        }
+
         $query = $db->createQuery()
             ->delete($db->quoteName('#__category_item_map'))
             ->where($db->quoteName('context') . ' = :context')
             ->where($db->quoteName('item_id') . ' = :itemId')
-            ->whereIn($db->quoteName('category_id'), $catIds, ParameterType::INTEGER)
+            ->where($db->quoteName('category_id') . ' IN (' . implode(',', $catIdKeys) . ')')
             ->bind(':context', $this->typeAlias, ParameterType::STRING)
             ->bind(':itemId', $itemId, ParameterType::INTEGER);
+
+        foreach (array_keys($boundCatIds) as $catIdKey) {
+            $query->bind($catIdKey, $boundCatIds[$catIdKey], ParameterType::INTEGER);
+        }
 
         $db->setQuery($query)->execute();
     }
@@ -558,8 +582,28 @@ class SecondaryCategoriesHelper extends CMSHelper
                 $db->quoteName('ordering'),
             ]);
 
+        $boundValues = [];
+
+        $index = 0;
+
         foreach ($catIds as $ordering => $categoryId) {
-            $query->values(implode(',', $query->bindArray([$this->typeAlias, $itemId, (int) $categoryId, (int) $ordering], [ParameterType::STRING, ParameterType::INTEGER, ParameterType::INTEGER, ParameterType::INTEGER])));
+            $contextKey    = ':context' . $index;
+            $itemIdKey     = ':itemId' . $index;
+            $categoryIdKey = ':categoryId' . $index;
+            $orderingKey   = ':ordering' . $index;
+
+            $boundValues[$contextKey]    = $this->typeAlias;
+            $boundValues[$itemIdKey]     = $itemId;
+            $boundValues[$categoryIdKey] = (int) $categoryId;
+            $boundValues[$orderingKey]   = (int) $ordering;
+
+            $query->values(implode(',', [$contextKey, $itemIdKey, $categoryIdKey, $orderingKey]))
+                ->bind($contextKey, $boundValues[$contextKey], ParameterType::STRING)
+                ->bind($itemIdKey, $boundValues[$itemIdKey], ParameterType::INTEGER)
+                ->bind($categoryIdKey, $boundValues[$categoryIdKey], ParameterType::INTEGER)
+                ->bind($orderingKey, $boundValues[$orderingKey], ParameterType::INTEGER);
+
+            $index++;
         }
 
         $db->setQuery($query)->execute();
@@ -582,11 +626,25 @@ class SecondaryCategoriesHelper extends CMSHelper
 
         $db = $this->getDb();
 
+        $itemIds      = array_values($itemIds);
+        $boundItemIds = [];
+        $itemIdKeys   = [];
+
+        foreach ($itemIds as $index => $itemId) {
+            $itemIdKey               = ':itemId' . $index;
+            $boundItemIds[$itemIdKey] = (int) $itemId;
+            $itemIdKeys[]             = $itemIdKey;
+        }
+
         $query = $db->createQuery()
             ->delete($db->quoteName('#__category_item_map'))
             ->where($db->quoteName('context') . ' = :context')
-            ->whereIn($db->quoteName('item_id'), $itemIds, ParameterType::INTEGER)
+            ->where($db->quoteName('item_id') . ' IN (' . implode(',', $itemIdKeys) . ')')
             ->bind(':context', $this->typeAlias, ParameterType::STRING);
+
+        foreach (array_keys($boundItemIds) as $itemIdKey) {
+            $query->bind($itemIdKey, $boundItemIds[$itemIdKey], ParameterType::INTEGER);
+        }
 
         $db->setQuery($query)->execute();
     }
