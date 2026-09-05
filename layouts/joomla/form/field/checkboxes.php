@@ -43,6 +43,7 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
+ * @var   boolean  $emptyValueWhenUnselected  Submit an empty value when nothing is selected.
  */
 
 /**
@@ -63,6 +64,13 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
     <?php echo $autofocus ? 'autofocus' : ''; ?>
     <?php echo $dataAttribute; ?>>
     <legend class="visually-hidden"><?php echo $label; ?></legend>
+
+    <?php
+    // Submit an empty value when nothing is checked,
+    // because browser does not submit anything when <input type="checkbox"> is unchecked.
+    if (!empty($emptyValueWhenUnselected)) : ?>
+    <input type="hidden" name="<?php echo preg_replace('#\[\]$#', '', $name); ?>" value="">
+    <?php endif; ?>
 
     <?php foreach ($options as $i => $option) : ?>
         <?php

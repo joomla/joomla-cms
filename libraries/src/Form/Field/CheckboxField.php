@@ -51,6 +51,16 @@ class CheckboxField extends FormField
     protected $checked = false;
 
     /**
+     * Whether the field should submit an empty value when nothing is selected.
+     * Because browser does not submit anything when <input type="checkbox"> is unchecked.
+     *
+     * @var    boolean
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $emptyValueWhenUnselected = false;
+
+    /**
      * Method to get certain otherwise inaccessible properties from the form field object.
      *
      * @param   string  $name  The property name for which to get the value.
@@ -61,11 +71,16 @@ class CheckboxField extends FormField
      */
     public function __get($name)
     {
-        if ($name === 'checked') {
-            return $this->checked;
-        }
+        switch ($name) {
+            case 'checked':
+                return $this->checked;
 
-        return parent::__get($name);
+            case 'emptyValueWhenUnselected':
+                return $this->emptyValueWhenUnselected;
+
+            default:
+                return parent::__get($name);
+        }
     }
 
     /**
@@ -80,14 +95,19 @@ class CheckboxField extends FormField
      */
     public function __set($name, $value)
     {
-        if ($name === 'checked') {
-            $value         = (string) $value;
-            $this->checked = ($value === 'true' || $value == $name || $value === '1');
+        switch ($name) {
+            case 'checked':
+                $value         = (string) $value;
+                $this->checked = ($value === 'true' || $value == $name || $value === '1');
+                break;
 
-            return;
+            case 'emptyValueWhenUnselected':
+                $this->emptyValueWhenUnselected = \is_bool($value) ? $value : ($value == 'true' || $value == '1');
+                break;
+
+            default:
+                parent::__set($name, $value);
         }
-
-        parent::__set($name, $value);
     }
 
     /**
@@ -122,6 +142,10 @@ class CheckboxField extends FormField
             $this->checked = ($checked === 'true' || $checked === 'checked' || $checked === '1');
 
             empty($this->value) || $this->checked ? null : $this->checked = true;
+
+            if ($element['emptyValueWhenUnselected']) {
+                $this->__set('emptyValueWhenUnselected', $element['emptyValueWhenUnselected']);
+            }
         }
 
         return $return;
@@ -140,6 +164,8 @@ class CheckboxField extends FormField
         // Allow any non-empty string, such as '0', to be used as the default value for a checkbox
         $data['value']   = $this->default !== null && $this->default !== '' ? $this->default : '1';
         $data['checked'] = $this->checked || $this->value;
+
+        $data['emptyValueWhenUnselected'] = $this->emptyValueWhenUnselected;
 
         return $data;
     }

@@ -56,6 +56,16 @@ class CheckboxesField extends ListField
     public $checkedOptions;
 
     /**
+     * Whether the field should submit an empty value when nothing is selected.
+     * Because browser does not submit anything when <input type="checkbox"> is unchecked.
+     *
+     * @var    boolean
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $emptyValueWhenUnselected = false;
+
+    /**
      * Method to get certain otherwise inaccessible properties from the form field object.
      *
      * @param   string  $name  The property name for which to get the value.
@@ -69,6 +79,7 @@ class CheckboxesField extends ListField
         switch ($name) {
             case 'forceMultiple':
             case 'checkedOptions':
+            case 'emptyValueWhenUnselected':
                 return $this->$name;
         }
 
@@ -90,6 +101,10 @@ class CheckboxesField extends ListField
         switch ($name) {
             case 'checkedOptions':
                 $this->checkedOptions = (string) $value;
+                break;
+
+            case 'emptyValueWhenUnselected':
+                $this->emptyValueWhenUnselected = \is_bool($value) ? $value : ($value == 'true' || $value == '1');
                 break;
 
             default:
@@ -133,6 +148,10 @@ class CheckboxesField extends ListField
 
         if ($return) {
             $this->checkedOptions = (string) $this->element['checked'];
+
+            if ($element['emptyValueWhenUnselected']) {
+                $this->__set('emptyValueWhenUnselected', $element['emptyValueWhenUnselected']);
+            }
         }
 
         return $return;
@@ -160,6 +179,8 @@ class CheckboxesField extends ListField
             'hasValue'       => $hasValue,
             'options'        => $this->getOptions(),
         ];
+
+        $extraData['emptyValueWhenUnselected'] = $this->emptyValueWhenUnselected;
 
         return array_merge($data, $extraData);
     }
