@@ -81,7 +81,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
                 $options[CURLOPT_POSTFIELDS] = $data;
             } else {
                 // Otherwise we need to encode the value first.
-                $options[CURLOPT_POSTFIELDS] = http_build_query($data);
+                $options[CURLOPT_POSTFIELDS] = http_build_query($data, '', '&');
             }
 
             if (!isset($headers['Content-Type'])) {

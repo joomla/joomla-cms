@@ -312,7 +312,7 @@ class AssociationsHelper extends ContentHelper
                 'target'   => $target,
             ];
 
-            $url     = Route::_('index.php?' . http_build_query($options));
+            $url     = Route::_('index.php?' . http_build_query($options, '', '&'));
             $url     = $allow && $addLink ? $url : '';
             $text    = $language->lang_code;
 
