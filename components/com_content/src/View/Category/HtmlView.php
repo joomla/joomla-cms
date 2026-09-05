@@ -14,10 +14,12 @@ use Joomla\CMS\Event\Content\AfterDisplayEvent;
 use Joomla\CMS\Event\Content\AfterTitleEvent;
 use Joomla\CMS\Event\Content\BeforeDisplayEvent;
 use Joomla\CMS\Event\Content\ContentPrepareEvent;
+use Joomla\CMS\Event\Content\ItemsDisplayEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\CategoryView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -68,6 +70,13 @@ class HtmlView extends CategoryView
     protected $viewName = 'article';
 
     /**
+     * Prepared dispatcher result for category
+     * @var  \stdClass
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $eventResult;
+
+    /**
      * Execute and display a template script.
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -100,9 +109,10 @@ class HtmlView extends CategoryView
         $dispatcher = $this->getDispatcher();
         PluginHelper::importPlugin('content', null, true, $dispatcher);
 
-        $app     = Factory::getApplication();
+        $app        = Factory::getApplication();
+        $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
 
-        // Compute the article slugs and prepare introtext (runs content plugins).
+        // Compute the article prepare introtext (runs content plugins).
         foreach ($this->items as $item) {
             $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
@@ -111,13 +121,14 @@ class HtmlView extends CategoryView
                 $item->parent_id = null;
             }
 
-            $item->event   = new \stdClass();
+            $dispatcher->dispatch(
+                'onContentPrepare',
+                new ContentPrepareEvent('onContentPrepare', ['context' => 'com_content.category', 'subject' => $item, 'params' => $item->params, 'page' => 0])
+            );
+        }
 
-            // Old plugins: Ensure that text property is available
-            if (!isset($item->text)) {
-                $item->text = $item->introtext;
-            }
-
+        // Compute the article texts (runs content plugins).
+        foreach ($this->items as $item) {
             $contentEventArguments = [
                 'context' => 'com_content.category',
                 'subject' => $item,
@@ -125,19 +136,13 @@ class HtmlView extends CategoryView
                 'page'    => 0,
             ];
 
-            $dispatcher->dispatch(
-                'onContentPrepare',
-                new ContentPrepareEvent('onContentPrepare', $contentEventArguments)
-            );
-
-            // Old plugins: Use processed text as introtext
-            $item->introtext = $item->text;
-
             $contentEvents = [
                 'afterDisplayTitle'    => new AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
                 'beforeDisplayContent' => new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
                 'afterDisplayContent'  => new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
             ];
+
+            $item->event   = new \stdClass();
 
             foreach ($contentEvents as $resultKey => $event) {
                 $results = $dispatcher->dispatch($event->getName(), $event)->getArgument('result', []);
@@ -200,6 +205,45 @@ class HtmlView extends CategoryView
                 $this->getDocument()->setMetaData($k, $v);
             }
         }
+
+        $this->category->text = $this->category->description;
+
+        $contentEventArguments = [
+            'context' => $this->category->extension . '.categories',
+            'subject' => $this->category,
+            'params'  => $this->params,
+            'page'    => 0,
+        ];
+
+        $dispatcher->dispatch('onContentPrepare', new ContentPrepareEvent('onContentPrepare', $contentEventArguments));
+        $this->category->description = $this->category->text;
+
+        $this->eventResult = new \stdClass();
+
+        $results = $dispatcher->dispatch(
+            'onContentAfterTitle',
+            new AfterTitleEvent('onContentAfterTitle', $contentEventArguments)
+        )->getArgument('result', []);
+        $this->eventResult->afterDisplayTitle = trim(implode("\n", $results));
+
+        $results = $dispatcher->dispatch(
+            'onContentBeforeDisplay',
+            new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments)
+        )->getArgument('result', []);
+        $this->eventResult->beforeDisplayContent = trim(implode("\n", $results));
+
+        $results = $dispatcher->dispatch(
+            'onContentAfterDisplay',
+            new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments)
+        )->getArgument('result', []);
+        $this->eventResult->afterDisplayContent = trim(implode("\n", $results));
+
+        $contentEventArguments['subject'] = $this;
+        $results                          = $dispatcher->dispatch(
+            'onContentAfterItems',
+            new ItemsDisplayEvent('onContentAfterItems', $contentEventArguments)
+        )->getArgument('result', []);
+        $this->eventResult->afterDisplayItems = trim(implode("\n", $results));
 
         parent::display($tpl);
     }
