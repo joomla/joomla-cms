@@ -121,7 +121,7 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
         $view->setLayout($viewLayout);
         $view->returnURL = $returnURL;
         $view->user      = $user;
-        $view->document  = $this->app->getDocument();
+        $view->setDocument($this->app->getDocument());
 
         $view->setModel($model, true);
 
@@ -176,7 +176,7 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
         $view->setLayout($viewLayout);
         $view->returnURL = $returnURL;
         $view->user      = $user;
-        $view->document  = $this->app->getDocument();
+        $view->setDocument($this->app->getDocument());
 
         $view->setModel($model, true);
 

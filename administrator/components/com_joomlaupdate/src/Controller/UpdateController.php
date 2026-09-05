@@ -418,7 +418,7 @@ class UpdateController extends BaseController
             $view->setLayout($lName);
 
             // Push document object into the view.
-            $view->document = $document;
+            $view->setDocument($document);
             $view->display();
         }
 
