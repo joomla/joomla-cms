@@ -26,7 +26,7 @@ $groups = $user->getAuthorisedViewLevels();
     <?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
         <?php // Check whether category access level allows access to subcategories. ?>
         <?php if (in_array($child->access, $groups)) : ?>
-            <?php $childParams = new \Joomla\Registry\Registry($child->params); ?>
+            <?php $childParams = $child->getParams(); ?>
             <?php if ($this->params->get('show_empty_categories') || $child->getNumItems(true) || count($child->getChildren())) : ?>
             <div class="com-content-category__children">
                 <?php if ($lang->isRtl()) : ?>

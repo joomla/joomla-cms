@@ -62,7 +62,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface,
      * @var    array
      * @since  3.9.23
      */
-    private $protectedConfigurationFields = ['password', 'secret', 'smtppass', 'redis_server_auth', 'session_redis_server_auth'];
+    private $protectedConfigurationFields = ['password', 'secret', 'smtppass', 'smtp_oauth2_client_secret', 'smtp_oauth2_refresh_token', 'redis_server_auth', 'session_redis_server_auth'];
 
     /**
      * Method to get a form object.
@@ -1206,6 +1206,14 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface,
         $config->set('fromname', $input->get('fromname', '', 'STRING'));
         $config->set('mailer', $input->get('mailer'));
         $config->set('mailonline', $input->get('mailonline'));
+
+        // We do not load the current oauth2 information since this information needs to be already saved after authorization
+        $config->set('smtp_oauth2_client_id', $app->get('smtp_oauth2_client_id', ''));
+        $config->set('smtp_oauth2_client_secret', $app->get('smtp_oauth2_client_secret', ''));
+        $config->set('smtp_oauth2_scope', $app->get('smtp_oauth2_scope', ''));
+        $config->set('smtp_oauth2_authorize_url', $app->get('smtp_oauth2_authorize_url', ''));
+        $config->set('smtp_oauth2_token_url', $app->get('smtp_oauth2_token_url', ''));
+        $config->set('smtp_oauth2_refresh_token', $app->get('smtp_oauth2_refresh_token', ''));
 
         // Use smtppass only if it was submitted
         if ($smtppass !== null) {
