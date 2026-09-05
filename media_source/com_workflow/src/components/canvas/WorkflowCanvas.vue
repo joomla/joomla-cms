@@ -93,12 +93,12 @@
         id="workflow-stages"
         class="visually-hidden"
       >
-        <span>({{ positionedNodes.length }} {{ positionedNodes.length === 1 ? translate('COM_WORKFLOW_GRAPH_STAGE') :  translate('COM_WORKFLOW_GRAPH_STAGES') }})</span>
+        <span>({{ positionedNodes.length }} {{ positionedNodes.length === 1 ? translate('COM_WORKFLOW_GRAPH_STAGE') : translate('COM_WORKFLOW_GRAPH_STAGES') }})</span>
         <ul>
           <li
             v-for="node in positionedNodes"
-            :key="`stage-${node.id}`"
             :id="`stage-list-${node.id}`"
+            :key="`stage-${node.id}`"
           >
             {{ sprintf('COM_WORKFLOW_GRAPH_STAGE_REF', node.data.stage?.title) }} -
             {{ node.data.stage.published ? sprintf('COM_WORKFLOW_GRAPH_STAGE_STATUS_ENABLED', node.data.stage?.title) : sprintf('COM_WORKFLOW_GRAPH_STAGE_STATUS_DISABLED', node.data.stage?.title) }}.
@@ -112,12 +112,12 @@
         id="workflow-transitions"
         class="visually-hidden"
       >
-        <span>({{ styledEdges.length }} {{ styledEdges.length === 1 ? translate('COM_WORKFLOW_GRAPH_TRANSITION') :  translate('COM_WORKFLOW_GRAPH_TRANSITIONS') }})</span>
+        <span>({{ styledEdges.length }} {{ styledEdges.length === 1 ? translate('COM_WORKFLOW_GRAPH_TRANSITION') : translate('COM_WORKFLOW_GRAPH_TRANSITIONS') }})</span>
         <ul>
           <li
             v-for="edge in styledEdges"
-            :key="`transition-${edge.id}`"
             :id="`transition-list-${edge.id}`"
+            :key="`transition-${edge.id}`"
           >
             {{ sprintf('COM_WORKFLOW_GRAPH_TRANSITION_REF', edge.data.title, stages.find((s) => s.id === parseInt(edge.source, 10))?.title || translate('COM_WORKFLOW_GRAPH_FROM_ANY'), stages.find((s) => s.id === parseInt(edge.target, 10))?.title) }}
             {{ edge.data.published ? sprintf('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_ENABLED', edge.data.title) : sprintf('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_DISABLED', edge.data.title) }}
@@ -133,7 +133,10 @@
       role="status"
       aria-live="polite"
     >
-      <div class="spinner-border" role="status">
+      <div
+        class="spinner-border"
+        role="status"
+      >
         <span class="visually-hidden">{{ translate('COM_WORKFLOW_GRAPH_LOADING') }}</span>
       </div>
       <span class="ms-2">{{ translate('COM_WORKFLOW_GRAPH_LOADING') }}</span>
@@ -155,7 +158,6 @@ import {
   ref, computed, onMounted, onUnmounted, watch,
 } from 'vue';
 import { useStore } from 'vuex';
-// eslint-disable-next-line import/no-unresolved
 import JoomlaDialog from 'joomla.dialog';
 import { VueFlow, useVueFlow } from '@vue-flow/core';
 import { Background } from '@vue-flow/background';
@@ -310,14 +312,14 @@ export default {
       isTransitionMode.value = false;
       selectedStage.value = parseInt(id, 10);
       selectedTransition.value = null;
-      announce(liveRegion.value, sprintf('COM_WORKFLOW_GRAPH_STAGE_SELECTED', stages?.value?.find(s => s.id === parseInt(id, 10))?.title || id));
+      announce(liveRegion.value, sprintf('COM_WORKFLOW_GRAPH_STAGE_SELECTED', stages?.value?.find((s) => s.id === parseInt(id, 10))?.title || id));
     }
 
     function selectTransition(id) {
       isTransitionMode.value = true;
       selectedTransition.value = parseInt(id, 10);
       selectedStage.value = null;
-      announce(liveRegion.value, sprintf('COM_WORKFLOW_GRAPH_TRANSITION_SELECTED', transitions?.value?.find(t => t.id === parseInt(id, 10))?.title || id));
+      announce(liveRegion.value, sprintf('COM_WORKFLOW_GRAPH_TRANSITION_SELECTED', transitions?.value?.find((t) => t.id === parseInt(id, 10))?.title || id));
     }
 
     function editStage(id) {
@@ -371,8 +373,8 @@ export default {
         : 'COM_WORKFLOW_GRAPH_TRASH_TRANSITION');
 
       const message = translate(type === 'stage'
-        ? sprintf('COM_WORKFLOW_GRAPH_TRASH_STAGE_CONFIRM', stages?.value?.find(s => s.id === parseInt(id, 10))?.title || id)
-        : sprintf('COM_WORKFLOW_GRAPH_TRASH_TRANSITION_CONFIRM', transitions?.value?.find(t => t.id === parseInt(id, 10))?.title || id));
+        ? sprintf('COM_WORKFLOW_GRAPH_TRASH_STAGE_CONFIRM', stages?.value?.find((s) => s.id === parseInt(id, 10))?.title || id)
+        : sprintf('COM_WORKFLOW_GRAPH_TRASH_TRANSITION_CONFIRM', transitions?.value?.find((t) => t.id === parseInt(id, 10))?.title || id));
 
       JoomlaDialog.confirm(message, title).then((result) => {
         if (result) {
@@ -403,7 +405,7 @@ export default {
       }
       if (source && target) {
         openModal('transition', null, { from_stage_id: source, to_stage_id: target });
-        announce(liveRegion.value, sprintf('COM_WORKFLOW_GRAPH_CREATING_TRANSITION', (stages?.value?.find(s => s.id === parseInt(source, 10))?.title || source), (stages?.value?.find(s => s.id === parseInt(target, 10))?.title || target)));
+        announce(liveRegion.value, sprintf('COM_WORKFLOW_GRAPH_CREATING_TRANSITION', (stages?.value?.find((s) => s.id === parseInt(source, 10))?.title || source), (stages?.value?.find((s) => s.id === parseInt(target, 10))?.title || target)));
       }
     }
 

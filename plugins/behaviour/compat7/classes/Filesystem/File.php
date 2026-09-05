@@ -24,7 +24,7 @@ use Joomla\CMS\Log\Log;
  * A File handling class
  *
  * @since  1.7.0
- * @deprecated  4.4 will be removed in 6.0
+ * @deprecated  4.4 will be removed in 7.0
  *              Use Joomla\Filesystem\File instead.
  */
 class File
@@ -71,7 +71,7 @@ class File
      * @return  string  The file name without the extension
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\File::stripExt() instead.
      */
     public static function stripExt($file)
@@ -87,7 +87,7 @@ class File
      * @return  string  The sanitised string
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\File::makeSafe() instead.
      */
     public static function makeSafe($file)
@@ -117,7 +117,7 @@ class File
      * @return  boolean  True on success
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\File::copy() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -192,7 +192,7 @@ class File
      *                 FALSE from opcache_invalidate (like file not found).
      *
      * @since 4.0.1
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\File::invalidateFileCache() instead.
      */
     public static function invalidateFileCache($filepath, $force = true)
@@ -217,7 +217,7 @@ class File
      * @return boolean TRUE if we can proceed to use opcache_invalidate to flush a file from the OPCache
      *
      * @since 4.0.1
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\File::invalidateFileCache() instead.
      *              This method will be removed without replacement.
      */
@@ -248,7 +248,7 @@ class File
      * @return  boolean  True on success
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\File::delete() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -324,7 +324,7 @@ class File
      * @return  boolean  True on success
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\File::move() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -398,7 +398,7 @@ class File
      * @return  boolean  True on success
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\File::write() instead.
      */
     public static function write($file, $buffer, $useStreams = false)
@@ -522,7 +522,7 @@ class File
      * @return  boolean  True on success
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\File::upload() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -614,7 +614,7 @@ class File
      * @return  boolean  True if path is a file
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use is_file() instead.
      */
     public static function exists($file)
