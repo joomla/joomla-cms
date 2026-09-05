@@ -98,7 +98,7 @@ class TagsHelper extends CMSHelper
      */
     public function addTagMapping($ucmId, TableInterface $table, $tags = [])
     {
-        $db     = $table->getDbo();
+        $db     = Factory::getDbo();
         $key    = $table->getKeyName();
         $item   = $table->$key;
         $query  = $db->createQuery()

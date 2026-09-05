@@ -313,7 +313,7 @@ class MenuType extends Table implements CurrentUserInterface
     protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $assetId = null;
-        $asset   = new Asset($this->getDbo());
+        $asset   = new Asset($this->getDatabase());
 
         if ($asset->loadByName('com_menus')) {
             $assetId = $asset->id;

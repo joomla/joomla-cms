@@ -10762,7 +10762,7 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 13
+			count: 14
 			path: libraries/src/Helper/TagsHelper.php
 
 		-
