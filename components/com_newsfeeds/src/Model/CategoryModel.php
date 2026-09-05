@@ -13,6 +13,7 @@ namespace Joomla\Component\Newsfeeds\Site\Model;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -164,14 +165,15 @@ class CategoryModel extends ListModel
         // Select required fields from the categories.
         $query->select($this->getState('list.select', $db->quoteName('a') . '.*'))
             ->from($db->quoteName('#__newsfeeds', 'a'))
+            ->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
             ->whereIn($db->quoteName('a.access'), $groups);
 
         // Filter by category.
         if ($categoryId = (int) $this->getState('category.id')) {
-            $query->where($db->quoteName('a.catid') . ' = :categoryId')
-                ->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
-                ->whereIn($db->quoteName('c.access'), $groups)
-                ->bind(':categoryId', $categoryId, ParameterType::INTEGER);
+            $helper = new SecondaryCategoriesHelper('com_newsfeeds.newsfeed');
+
+            $query->where($helper->buildCategoryMembershipCondition([$categoryId]))
+                ->whereIn($db->quoteName('c.access'), $groups);
         }
 
         // Filter by state
@@ -180,9 +182,12 @@ class CategoryModel extends ListModel
         if (is_numeric($state)) {
             $state = (int) $state;
             $query->where($db->quoteName('a.published') . ' = :state')
-                ->bind(':state', $state, ParameterType::INTEGER);
+                ->where($db->quoteName('c.published') . ' = :categoryState')
+                ->bind(':state', $state, ParameterType::INTEGER)
+                ->bind(':categoryState', $state, ParameterType::INTEGER);
         } else {
-            $query->where($db->quoteName('a.published') . ' IN (0,1,2)');
+            $query->where($db->quoteName('a.published') . ' IN (0,1,2)')
+                ->where($db->quoteName('c.published') . ' IN (0,1,2)');
         }
 
         // Filter by start and end dates.
@@ -310,10 +315,11 @@ class CategoryModel extends ListModel
                 $params = new Registry();
             }
 
-            $options               = [];
-            $options['countItems'] = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
-            $categories            = Categories::getInstance('Newsfeeds', $options);
-            $this->_item           = $categories->get($this->getState('category.id', 'root'));
+            $options                           = [];
+            $options['countItems']             = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
+            $options['categoryMappingContext'] = 'com_newsfeeds.newsfeed';
+            $categories                        = Categories::getInstance('Newsfeeds', $options);
+            $this->_item                       = $categories->get($this->getState('category.id', 'root'));
 
             if (\is_object($this->_item)) {
                 $this->_children = $this->_item->getChildren();

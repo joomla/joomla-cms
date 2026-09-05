@@ -206,6 +206,10 @@ if ($saveOrder && !empty($this->items)) {
                                         <td class="text-center btns d-none d-md-table-cell itemnumber">
                                             <a class="btn <?php echo ($item->count_published > 0) ? 'btn-success' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1&filter[level]=1'); ?>" aria-describedby="tip-publish<?php echo $i; ?>">
                                                 <?php echo $item->count_published; ?>
+
+                                                <?php if (!empty($item->count_secondary_published)) : ?>
+                                                    <small>(+<?php echo $item->count_secondary_published; ?>)</small>
+                                                <?php endif; ?>
                                             </a>
                                             <div role="tooltip" id="tip-publish<?php echo $i; ?>">
                                                 <?php echo Text::_('COM_CATEGORIES_COUNT_PUBLISHED_ITEMS'); ?>
@@ -216,6 +220,10 @@ if ($saveOrder && !empty($this->items)) {
                                         <td class="text-center btns d-none d-md-table-cell itemnumber">
                                             <a class="btn <?php echo ($item->count_unpublished > 0) ? 'btn-danger' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0&filter[level]=1'); ?>" aria-describedby="tip-unpublish<?php echo $i; ?>">
                                                 <?php echo $item->count_unpublished; ?>
+                                                                                                
+                                                <?php if (!empty($item->count_secondary_unpublished)) : ?>
+                                                    <small>(+<?php echo $item->count_secondary_unpublished; ?>)</small>
+                                                <?php endif; ?>
                                             </a>
                                             <div role="tooltip" id="tip-unpublish<?php echo $i; ?>">
                                                 <?php echo Text::_('COM_CATEGORIES_COUNT_UNPUBLISHED_ITEMS'); ?>
@@ -226,6 +234,10 @@ if ($saveOrder && !empty($this->items)) {
                                         <td class="text-center btns d-none d-md-table-cell itemnumber">
                                             <a class="btn <?php echo ($item->count_archived > 0) ? 'btn-info' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2&filter[level]=1'); ?>" aria-describedby="tip-archive<?php echo $i; ?>">
                                                 <?php echo $item->count_archived; ?>
+                                                                                                
+                                                <?php if (!empty($item->count_secondary_archived)) : ?>
+                                                    <small>(+<?php echo $item->count_secondary_archived; ?>)</small>
+                                                <?php endif; ?>
                                             </a>
                                             <div role="tooltip" id="tip-archive<?php echo $i; ?>">
                                                 <?php echo Text::_('COM_CATEGORIES_COUNT_ARCHIVED_ITEMS'); ?>
@@ -236,6 +248,10 @@ if ($saveOrder && !empty($this->items)) {
                                         <td class="text-center btns d-none d-md-table-cell itemnumber">
                                             <a class="btn <?php echo ($item->count_trashed > 0) ? 'btn-dark' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2&filter[level]=1'); ?>" aria-describedby="tip-trash<?php echo $i; ?>">
                                                 <?php echo $item->count_trashed; ?>
+                                                                                                
+                                                <?php if (!empty($item->count_secondary_trashed)) : ?>
+                                                    <small>(+<?php echo $item->count_secondary_trashed; ?>)</small>
+                                                <?php endif; ?>
                                             </a>
                                             <div role="tooltip" id="tip-trash<?php echo $i; ?>">
                                                 <?php echo Text::_('COM_CATEGORIES_COUNT_TRASHED_ITEMS'); ?>

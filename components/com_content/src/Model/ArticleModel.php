@@ -89,6 +89,59 @@ class ArticleModel extends ItemModel
     }
 
     /**
+     * Get mapped secondary categories for an article.
+     *
+     * @param   integer  $itemId  The article id.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getMappedCategories(int $itemId): array
+    {
+        $db   = $this->getDatabase();
+        $user = $this->getCurrentUser();
+
+        $query = $db->createQuery()
+            ->select(
+                [
+                    $db->quoteName('c.id'),
+                    $db->quoteName('c.title'),
+                    $db->quoteName('c.alias'),
+                    $db->quoteName('c.language'),
+                    $db->quoteName('c.access'),
+                ]
+            )
+            ->from($db->quoteName('#__category_item_map', 'm'))
+            ->join(
+                'INNER',
+                $db->quoteName('#__categories', 'c'),
+                $db->quoteName('c.id') . ' = ' . $db->quoteName('m.category_id')
+            )
+            ->where($db->quoteName('m.context') . ' = :context')
+            ->where($db->quoteName('m.item_id') . ' = :itemId')
+            ->where($db->quoteName('c.published') . ' = 1')
+            ->bind(':context', $this->_context, ParameterType::STRING)
+            ->bind(':itemId', $itemId, ParameterType::INTEGER);
+
+        // Filter by language
+        if ($this->getState('filter.language')) {
+            $query->whereIn($db->quoteName('c.language'), [Factory::getApplication()->getLanguage()->getTag(), '*'], ParameterType::STRING);
+        }
+
+        if (!$user->authorise('core.admin')) {
+            $query->whereIn(
+                $db->quoteName('c.access'),
+                $user->getAuthorisedViewLevels()
+            );
+        }
+
+        $db->setQuery($query);
+
+        return $db->loadObjectList();
+    }
+
+    /**
      * Method to get article data.
      *
      * @param   integer  $pk  The id of the article.
@@ -233,6 +286,14 @@ class ArticleModel extends ItemModel
                 if (empty($data)) {
                     throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
                 }
+
+                $data->secondary_categories = $this->getMappedCategories($data->id);
+
+                $secondaryIds = array_map(function ($cat) {
+                    return (int) $cat->id;
+                }, $data->secondary_categories);
+
+                $data->fieldscatid = array_values((array_merge([(int) $data->catid], $secondaryIds)));
 
                 // Check for published state if filter set.
                 if (!$isPreview && (is_numeric($published) || is_numeric($archived)) && ($data->state != $published && $data->state != $archived)) {

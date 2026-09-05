@@ -80,13 +80,17 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                                 <?php if ($item->displayCategoryTitle) : ?>
                                     <dd class="mod-articles-category <?php echo ($params->get('info_layout') == 1 ? 'list-inline-item' : ''); ?>">
                                         <?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'icon-folder-open icon-fw']); ?>
-                                        <?php if ($item->displayCategoryLink) : ?>
-                                            <a href="<?php echo $item->displayCategoryLink; ?>">
-                                                <?php echo htmlspecialchars($item->displayCategoryTitle, ENT_QUOTES, 'UTF-8'); ?>
-                                            </a>
-                                        <?php else : ?>
-                                            <?php echo htmlspecialchars($item->displayCategoryTitle, ENT_QUOTES, 'UTF-8'); ?>
-                                        <?php endif; ?>
+                                        <?php
+                                            $categoryLinks = [];
+                                            foreach (($item->displayCategories ?? []) as $category) {
+                                                if ($category['link']) {
+                                                    $categoryLinks[] = '<a href="' . $category['link'] . '">' . htmlspecialchars($category['title'], ENT_QUOTES, 'UTF-8') . '</a>';
+                                                } else {
+                                                    $categoryLinks[] = htmlspecialchars($category['title'], ENT_QUOTES, 'UTF-8');
+                                                }
+                                            }
+                                            echo implode(', ', $categoryLinks);
+                                        ?>
                                     </dd>
                                 <?php endif; ?>
 

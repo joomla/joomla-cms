@@ -32,6 +32,238 @@ describe('Test that contacts API endpoint', () => {
         .should('include', 'automated test contact'));
   });
 
+  it('can create a contact with multiple secondary categories', () => {
+    let contactId = 0;
+    let secondaryCategoryId1 = 0;
+    let secondaryCategoryId2 = 0;
+
+    cy.db_createCategory({
+      title: 'api primary category',
+      alias: 'api-primary-category-multi',
+      path: 'api-primary-category-multi',
+      extension: 'com_contact',
+    })
+      .then((primaryCategoryId) => cy.db_createCategory({
+        title: 'api secondary category 1',
+        alias: 'api-secondary-category-1',
+        path: 'api-secondary-category-1',
+        extension: 'com_contact',
+      }).then((categoryId) => {
+        secondaryCategoryId1 = categoryId;
+
+        return cy.db_createCategory({
+          title: 'api secondary category 2',
+          alias: 'api-secondary-category-2',
+          path: 'api-secondary-category-2',
+          extension: 'com_contact',
+        });
+      }).then((categoryId) => {
+        secondaryCategoryId2 = categoryId;
+
+        return cy.api_post('/contacts', {
+          name: 'automated multiple secondary categories contact',
+          alias: 'automated-multiple-secondary-categories-contact',
+          catid: primaryCategoryId,
+          secondary_categories: [
+            secondaryCategoryId1,
+            secondaryCategoryId2,
+          ],
+          published: 1,
+          access: 1,
+          language: '*',
+        });
+      }))
+      .then((response) => {
+        contactId = response.body.data.id;
+
+        cy.wrap(response)
+          .its('body.data.attributes.secondary_categories')
+          .should('deep.equal', [
+            secondaryCategoryId1,
+            secondaryCategoryId2,
+          ]);
+
+        return cy.api_get(`/contacts/${contactId}`);
+      })
+      .then((response) => {
+        cy.wrap(response)
+          .its('body.data.attributes.secondary_categories')
+          .should('deep.equal', [
+            secondaryCategoryId1,
+            secondaryCategoryId2,
+          ]);
+      });
+  });
+
+  it('can replace secondary categories for a contact', () => {
+    let contactId = 0;
+    let secondaryCategoryId1 = 0;
+    let secondaryCategoryId2 = 0;
+
+    cy.db_createCategory({
+      title: 'api primary category',
+      alias: 'api-primary-category-replace',
+      path: 'api-primary-category-replace',
+      extension: 'com_contact',
+    })
+      .then((primaryCategoryId) => cy.db_createCategory({
+        title: 'api secondary category 1',
+        alias: 'api-secondary-category-replace-1',
+        path: 'api-secondary-category-replace-1',
+        extension: 'com_contact',
+      }).then((categoryId) => {
+        secondaryCategoryId1 = categoryId;
+
+        return cy.db_createCategory({
+          title: 'api secondary category 2',
+          alias: 'api-secondary-category-replace-2',
+          path: 'api-secondary-category-replace-2',
+          extension: 'com_contact',
+        });
+      }).then((categoryId) => {
+        secondaryCategoryId2 = categoryId;
+
+        return cy.api_post('/contacts', {
+          name: 'replace secondary categories contact',
+          alias: 'replace-secondary-categories-contact',
+          catid: primaryCategoryId,
+          secondary_categories: [secondaryCategoryId1],
+          published: 1,
+          access: 1,
+          language: '*',
+        });
+      }))
+      .then((response) => {
+        contactId = response.body.data.id;
+
+        cy.wrap(response)
+          .its('body.data.attributes.secondary_categories')
+          .should('deep.equal', [secondaryCategoryId1]);
+
+        return cy.api_patch(`/contacts/${contactId}`, {
+          secondary_categories: [
+            secondaryCategoryId1,
+            secondaryCategoryId2,
+          ],
+        });
+      })
+      .then((response) => {
+        cy.wrap(response)
+          .its('body.data.attributes.secondary_categories')
+          .should('deep.equal', [
+            secondaryCategoryId1,
+            secondaryCategoryId2,
+          ]);
+
+        return cy.api_get(`/contacts/${contactId}`);
+      })
+      .then((response) => {
+        cy.wrap(response)
+          .its('body.data.attributes.secondary_categories')
+          .should('deep.equal', [
+            secondaryCategoryId1,
+            secondaryCategoryId2,
+          ]);
+
+        // Test that patching only the name leaves categories intact
+        return cy.api_patch(`/contacts/${contactId}`, {
+          name: 'updated name',
+        });
+      })
+      .then((response) => {
+        cy.wrap(response)
+          .its('body.data.attributes.secondary_categories')
+          .should('deep.equal', [
+            secondaryCategoryId1,
+            secondaryCategoryId2,
+          ]);
+
+        // Remove one category
+        return cy.api_patch(`/contacts/${contactId}`, {
+          secondary_categories: [secondaryCategoryId2],
+        });
+      })
+      .then((response) => {
+        cy.wrap(response)
+          .its('body.data.attributes.secondary_categories')
+          .should('deep.equal', [secondaryCategoryId2]);
+
+        // Remove all secondary categories
+        return cy.api_patch(`/contacts/${contactId}`, {
+          secondary_categories: [],
+        });
+      })
+      .then((response) => {
+        cy.wrap(response)
+          .its('body.data.attributes.secondary_categories')
+          .should('deep.equal', []);
+
+        // Patch name again to ensure empty categories are preserved
+        return cy.api_patch(`/contacts/${contactId}`, {
+          name: 'updated again',
+        });
+      })
+      .then((response) => {
+        cy.wrap(response)
+          .its('body.data.attributes.secondary_categories')
+          .should('deep.equal', []);
+      });
+  });
+
+  it('returns custom fields assigned to secondary categories', () => {
+    let primaryCategoryId = 0;
+    let secondaryCategoryId = 0;
+    let fieldId = 0;
+    let contactId = 0;
+
+    cy.db_createCategory({ extension: 'com_contact', title: 'Primary Field Cat' })
+      .then((categoryId) => {
+        primaryCategoryId = categoryId;
+        return cy.db_createCategory({ extension: 'com_contact', title: 'Secondary Field Cat' });
+      })
+      .then((categoryId) => {
+        secondaryCategoryId = categoryId;
+
+        return cy.db_createField({
+          title: 'test field',
+          name: 'test-secondary-field',
+          type: 'text',
+          context: 'com_contact.contact',
+          state: 1,
+          access: 1,
+        });
+      })
+      .then((createdFieldId) => {
+        fieldId = createdFieldId;
+
+        return cy.task('queryDB', `INSERT INTO #__fields_categories (field_id, category_id) VALUES (${fieldId}, ${secondaryCategoryId})`);
+      })
+      .then(() => {
+        return cy.api_post('/contacts', {
+          name: 'Contact with secondary fields',
+          alias: 'contact-secondary-fields',
+          catid: primaryCategoryId,
+          secondary_categories: [secondaryCategoryId],
+          published: 1,
+          language: '*',
+          com_fields: {
+            'test-secondary-field': 'This is field data!',
+          },
+        });
+      })
+      .then((response) => {
+        contactId = response.body.data.id;
+        cy.wrap(response).its('body.data.attributes')
+          .should('have.property', 'test-secondary-field', 'This is field data!');
+
+        return cy.api_get(`/contacts/${contactId}`);
+      })
+      .then((response) => {
+        cy.wrap(response).its('body.data.attributes')
+          .should('have.property', 'test-secondary-field', 'This is field data!');
+      });
+  });
+
   it('can update a contact', () => {
     cy.db_createContact({ name: 'automated test contact', access: 1 })
       .then((contact) => cy.api_patch(`/contacts/${contact.id}`, { name: 'updated automated test contact' }))
@@ -60,6 +292,43 @@ describe('Test that contacts API endpoint', () => {
         expect(response.body.data.message).to.include('Resource not found');
       });
     });
+  });
+
+  it('preserves existing tags when updating via patch without sending tags', () => {
+    let contactId = 0;
+    let tagId = 0;
+
+    cy.db_createTag({ title: 'automated test tag' })
+      .then((createdTagId) => {
+        tagId = createdTagId;
+        return cy.db_createCategory({ extension: 'com_contact' });
+      })
+      .then((categoryId) => {
+        return cy.api_post('/contacts', {
+          name: 'contact with initial tag',
+          alias: 'contact-initial-tag',
+          catid: categoryId,
+          published: 1,
+          language: '*',
+          tags: [tagId],
+        });
+      })
+      .then((response) => {
+        contactId = response.body.data.id;
+
+        cy.wrap(response)
+          .its('body.data.attributes.tags')
+          .should('have.property', String(tagId), 'automated test tag');
+
+        return cy.api_patch(`/contacts/${contactId}`, {
+          name: 'updated contact name without tags field',
+        });
+      })
+      .then((response) => {
+        cy.wrap(response)
+          .its('body.data.attributes.tags')
+          .should('have.property', String(tagId), 'automated test tag');
+      });
   });
 
   it('can submit a contact form', () => {

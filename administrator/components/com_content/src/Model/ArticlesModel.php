@@ -12,6 +12,7 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -377,11 +378,12 @@ class ArticlesModel extends ListModel
             $categoryId = $categoryId ? [$categoryId] : [];
         }
 
-        // Case: Using both categories filter and by level filter
+        // Case: Using categories filter
         if (\count($categoryId)) {
-            $categoryId       = ArrayHelper::toInteger($categoryId);
-            $categoryTable    = new Category($db);
-            $subCatItemsWhere = [];
+            $categoryId          = ArrayHelper::toInteger($categoryId);
+            $categoryTable       = new Category($db);
+            $subCatItemsWhere    = [];
+            $secondaryWhereParts = [];
 
             foreach ($categoryId as $key => $filter_catid) {
                 $categoryTable->load($filter_catid);
@@ -396,6 +398,7 @@ class ArticlesModel extends ListModel
                 // Bind values and get parameter names.
                 $bounded = $query->bindArray($valuesToBind);
 
+                // Primary category condition
                 $categoryWhere = $db->quoteName('c.lft') . ' >= ' . $bounded[0] . ' AND ' . $db->quoteName('c.rgt') . ' <= ' . $bounded[1];
 
                 if ($level) {
@@ -403,11 +406,32 @@ class ArticlesModel extends ListModel
                 }
 
                 $subCatItemsWhere[] = '(' . $categoryWhere . ')';
+
+                // Secondary category condition
+                $secondaryWhere = $db->quoteName('sc.lft') . ' >= ' . $bounded[0] . ' AND ' . $db->quoteName('sc.rgt') . ' <= ' . $bounded[1];
+
+                if ($level) {
+                    $secondaryWhere .= ' AND ' . $db->quoteName('sc.level') . ' <= ' . $bounded[2];
+                }
+
+                $secondaryWhere .= ' AND ' . $db->quoteName('sc.access') . ' IN (' . implode(',', ArrayHelper::toInteger($user->getAuthorisedViewLevels())) . ')';
+                $secondaryWhereParts[] = '(' . $secondaryWhere . ')';
             }
 
-            $query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
+            // Secondary category lookup
+            $secondaryQuery = $db->createQuery()
+                ->select($db->quoteName('map.item_id'))
+                ->from($db->quoteName('#__category_item_map', 'map'))
+                ->innerJoin(
+                    $db->quoteName('#__categories', 'sc'),
+                    $db->quoteName('map.category_id') . ' = ' . $db->quoteName('sc.id')
+                )
+                ->where($db->quoteName('map.context') . ' = ' . $db->quote('com_content.article'))
+                ->where('(' . implode(' OR ', $secondaryWhereParts) . ')');
+
+            $query->where('(' . implode(' OR ', $subCatItemsWhere) . ' OR ' . $db->quoteName('a.id') . ' IN (' . $secondaryQuery . ')' . ')');
         } elseif ($level = (int) $level) {
-            // Case: Using only the by level filter
+            // Case: Using only the level filter
             $query->where($db->quoteName('c.level') . ' <= :level')
                 ->bind(':level', $level, ParameterType::INTEGER);
         }
@@ -800,6 +824,9 @@ class ArticlesModel extends ListModel
                 $item->metadata = $registry->toArray();
             }
         }
+
+        $helper = new SecondaryCategoriesHelper('com_content.article');
+        $helper->loadSecondaryCategoriesForItems($items);
 
         return $items;
     }

@@ -11,7 +11,9 @@
 namespace Joomla\Component\Banners\Api\Controller;
 
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -57,5 +59,28 @@ class BannersController extends ApiController
         }
 
         return parent::displayList();
+    }
+
+    /**
+     * Method to preprocess data before saving it.
+     *
+     * @param   array  $data  The data to be processed.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function preprocessSaveData(array $data): array
+    {
+        if (($this->input->getMethod() === 'PATCH') && !(\array_key_exists('secondary_categories', $data))) {
+            $helper                       = new SecondaryCategoriesHelper('com_banners.banner');
+            $data['secondary_categories'] = $helper->getCurrentSecondaryCategoriesByItem((int) $data['id']);
+        }
+
+        if (\array_key_exists('secondary_categories', $data)) {
+            $data['secondary_categories'] = array_values(array_filter(ArrayHelper::toInteger((array) $data['secondary_categories'])));
+        }
+
+        return parent::preprocessSaveData($data);
     }
 }
