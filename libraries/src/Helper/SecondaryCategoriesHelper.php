@@ -631,7 +631,7 @@ class SecondaryCategoriesHelper extends CMSHelper
         $itemIdKeys   = [];
 
         foreach ($itemIds as $index => $itemId) {
-            $itemIdKey               = ':itemId' . $index;
+            $itemIdKey                = ':itemId' . $index;
             $boundItemIds[$itemIdKey] = (int) $itemId;
             $itemIdKeys[]             = $itemIdKey;
         }
