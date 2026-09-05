@@ -104,7 +104,7 @@ abstract class Credentials
         }
 
         try {
-            $publicKeyCredentialCreationOptions = unserialize(base64_decode($encodedOptions));
+            $publicKeyCredentialCreationOptions = unserialize(base64_decode($encodedOptions), ['allowed_classes' => [PublicKeyCredentialCreationOptions::class]]);
         } catch (\Exception) {
             $publicKeyCredentialCreationOptions = null;
         }
@@ -203,7 +203,7 @@ abstract class Credentials
 
         // Make sure the public key credential request options in the session are valid
         $serializedOptions                 = base64_decode($encodedPkOptions);
-        $publicKeyCredentialRequestOptions = unserialize($serializedOptions);
+        $publicKeyCredentialRequestOptions = unserialize($serializedOptions, ['allowed_classes' => [PublicKeyCredentialRequestOptions::class]]);
 
         if (
             !\is_object($publicKeyCredentialRequestOptions)
