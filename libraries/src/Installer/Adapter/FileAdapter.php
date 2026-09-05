@@ -497,6 +497,10 @@ class FileAdapter extends InstallerAdapter
         $packagePath = $this->parent->getPath('source');
         $jRootPath   = Path::clean(JPATH_ROOT);
 
+        if (empty($this->getManifest()->fileset)) {
+            return false;
+        }
+
         // Loop through all elements and get list of files and folders
         foreach ($this->getManifest()->fileset->files as $eFiles) {
             // Check if the element is files element
@@ -553,6 +557,12 @@ class FileAdapter extends InstallerAdapter
                     $this->fileList[] = $path;
                 }
             } else {
+                if (empty($folder) && empty($target)) {
+                    Log::add(Text::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_ROOT_COPY'), Log::WARNING, 'jerror');
+
+                    continue;
+                }
+
                 $files = Folder::files($sourceFolder);
 
                 foreach ($files as $file) {
