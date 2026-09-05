@@ -335,7 +335,7 @@ class Document
      * Returns the global Document object, only creating it
      * if it doesn't already exist.
      *
-     * Only available in compatibility mode (compatibility plugin enabled).
+     * Only available when compatibility plugin enabled.
      *
      * @param   string  $type        The document type to instantiate
      * @param   array   $attributes  Array of attributes
