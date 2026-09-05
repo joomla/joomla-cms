@@ -8,7 +8,7 @@
 				label="PLG_TASK_DELETEACTIONLOGS_LOG_DELETE_PERIOD"
 				default="7"
 				min="1"
-				filter="int"
+				filter="integer"
 				validate="number"
 			/>
 		</fieldset>

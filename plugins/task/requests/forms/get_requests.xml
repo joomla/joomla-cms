@@ -18,7 +18,7 @@
 				step="1"
 				default="120"
 				required="true"
-				filter="int"
+				filter="integer"
 				validate="number"
 			/>
 			<field
