@@ -242,8 +242,8 @@ class InstallModel extends BaseDatabaseModel
         $this->setState('name', $installer->get('name'));
         $this->setState('result', $result);
         $app->setUserState('com_installer.message', $installer->message);
-        $app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
-        $app->setUserState('com_installer.redirect_url', $installer->get('redirect_url'));
+        $app->setUserState('com_installer.extension_message', $installer->extension_message);
+        $app->setUserState('com_installer.redirect_url', $installer->getRedirectUrl());
 
         // Cleanup the install files.
         if (!is_file($package['packagefile'])) {

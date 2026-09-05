@@ -555,13 +555,17 @@ class PackageAdapter extends InstallerAdapter
         // Update the manifest cache for the entry
         $this->extension->manifest_cache = $this->parent->generateManifestCache();
 
-        if (!$this->extension->store()) {
+        try {
+            $this->extension->store();
+        } catch (\Exception $e) {
             // Install failed, roll back changes
             throw new \RuntimeException(
                 Text::sprintf(
                     'JLIB_INSTALLER_ABORT_PACK_INSTALL_ROLLBACK',
-                    $this->extension->getError()
-                )
+                    $e->getMessage(),
+                ),
+                0,
+                $e
             );
         }
 
@@ -631,7 +635,7 @@ class PackageAdapter extends InstallerAdapter
 
         // If in postflight or uninstall, set the message for display
         if (($method === 'uninstall' || $method === 'postflight') && $this->extensionMessage !== '') {
-            $this->parent->set('extension_message', $this->extensionMessage);
+            $this->parent->extension_message = $this->extensionMessage;
         }
 
         return true;

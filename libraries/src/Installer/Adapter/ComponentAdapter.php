@@ -379,6 +379,7 @@ class ComponentAdapter extends InstallerAdapter
         }
 
         $asset = new Asset($this->getDatabase());
+        $asset->setUseExceptions(true);
 
         // Check if an asset already exists for this extension and create it if not
         if (!$asset->loadByName($this->extension->element)) {
@@ -389,14 +390,18 @@ class ComponentAdapter extends InstallerAdapter
             $asset->title     = $this->extension->name;
             $asset->setLocation(1, 'last-child');
 
-            if (!$asset->store()) {
+            try {
+                $asset->store();
+            } catch (\Exception $e) {
                 // Install failed, roll back changes
                 throw new \RuntimeException(
                     Text::sprintf(
                         'JLIB_INSTALLER_ABORT_ROLLBACK',
                         Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
-                        $this->extension->getError()
-                    )
+                        $e->getMessage()
+                    ),
+                    0,
+                    $e
                 );
             }
         }
@@ -903,19 +908,21 @@ class ComponentAdapter extends InstallerAdapter
 
         $this->extension->manifest_cache = $this->parent->generateManifestCache();
 
-        $couldStore = $this->extension->store();
+        try {
+            $this->extension->store();
+        } catch (\Exception $e) {
+            if ($deleteExisting) {
+                // Install failed, roll back changes
+                throw new \RuntimeException(
+                    Text::sprintf(
+                        'JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK',
+                        $e->getMessage()
+                    ),
+                    0,
+                    $e
+                );
+            }
 
-        if (!$couldStore && $deleteExisting) {
-            // Install failed, roll back changes
-            throw new \RuntimeException(
-                Text::sprintf(
-                    'JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK',
-                    $this->extension->getError()
-                )
-            );
-        }
-
-        if (!$couldStore && !$deleteExisting) {
             // Maybe we have a failed installation (e.g. timeout). Let's retry after deleting old records.
             $this->storeExtension(true);
         }
@@ -1170,8 +1177,10 @@ class ComponentAdapter extends InstallerAdapter
         if (!empty($ids)) {
             // Iterate the items to delete each one.
             foreach ($ids as $menuid) {
-                if (!$table->delete((int) $menuid, false)) {
-                    Factory::getApplication()->enqueueMessage($table->getError(), 'error');
+                try {
+                    $table->delete((int) $menuid, false);
+                } catch (\Exception $e) {
+                    Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
                     $result = false;
                 }
@@ -1399,7 +1408,11 @@ class ComponentAdapter extends InstallerAdapter
             return false;
         }
 
-        if (!$table->bind($data) || !$table->check() || !$table->store()) {
+        try {
+            $table->bind($data);
+            $table->check();
+            $table->store();
+        } catch (\Exception $e) {
             $menutype     = $data['menutype'];
             $link         = $data['link'];
             $type         = $data['type'];
@@ -1431,7 +1444,7 @@ class ComponentAdapter extends InstallerAdapter
 
             if (!$menu_id) {
                 // Oops! Could not get the menu ID. Go back and rollback changes.
-                Factory::getApplication()->enqueueMessage($table->getError(), 'error');
+                Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
                 return false;
             }
@@ -1444,9 +1457,13 @@ class ComponentAdapter extends InstallerAdapter
             // Retry creating the menu item
             $table->setLocation($parentId, 'last-child');
 
-            if (!$table->bind($data) || !$table->check() || !$table->store()) {
+            try {
+                $table->bind($data);
+                $table->check();
+                $table->store();
+            } catch (\Exception $e) {
                 // Install failed, warn user and rollback changes
-                Factory::getApplication()->enqueueMessage($table->getError(), 'error');
+                Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
                 return false;
             }

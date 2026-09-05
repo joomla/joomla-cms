@@ -144,7 +144,7 @@ class Installer implements DatabaseAwareInterface
      * @var    string
      * @since  3.1
      */
-    protected $extension_message = null;
+    public $extension_message = null;
 
     /**
      * The redirect URL if this extension (can be null if no redirect)

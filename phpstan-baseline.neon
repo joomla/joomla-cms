@@ -2274,7 +2274,7 @@ parameters:
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
-			count: 3
+			count: 1
 			path: administrator/components/com_installer/src/Model/InstallModel.php
 
 		-
@@ -10803,89 +10803,30 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getError$#
+				#^Call to deprecated method setUseExceptions\(\) of class Joomla\\CMS\\Table\\Table\:
+				7\.0$#
 			'''
 			identifier: method.deprecated
-			count: 5
+			count: 1
 			path: libraries/src/Installer/Adapter/ComponentAdapter.php
 
 		-
 			message: '''
-				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getError$#
+				#^Call to deprecated method setUseExceptions\(\) of class Joomla\\CMS\\Table\\Table\:
+				7\.0$#
 			'''
 			identifier: method.deprecated
-			count: 2
-			path: libraries/src/Installer/Adapter/FileAdapter.php
-
-		-
-			message: '''
-				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getError$#
-			'''
-			identifier: method.deprecated
-			count: 3
+			count: 1
 			path: libraries/src/Installer/Adapter/LanguageAdapter.php
 
 		-
 			message: '''
-				#^Call to deprecated method set\(\) of class Joomla\\CMS\\Installer\\Installer\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper setter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 3
-			path: libraries/src/Installer/Adapter/LanguageAdapter.php
-
-		-
-			message: '''
-				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getError$#
+				#^Call to deprecated method setUseExceptions\(\) of class Joomla\\CMS\\Table\\Table\:
+				7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 1
 			path: libraries/src/Installer/Adapter/LibraryAdapter.php
-
-		-
-			message: '''
-				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getError$#
-			'''
-			identifier: method.deprecated
-			count: 3
-			path: libraries/src/Installer/Adapter/ModuleAdapter.php
-
-		-
-			message: '''
-				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getError$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Installer/Adapter/PackageAdapter.php
-
-		-
-			message: '''
-				#^Call to deprecated method set\(\) of class Joomla\\CMS\\Installer\\Installer\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper setter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Installer/Adapter/PackageAdapter.php
 
 		-
 			message: '''
@@ -10896,28 +10837,6 @@ parameters:
 			identifier: method.deprecatedInterface
 			count: 1
 			path: libraries/src/Installer/Adapter/PackageAdapter.php
-
-		-
-			message: '''
-				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getError$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Installer/Adapter/PluginAdapter.php
-
-		-
-			message: '''
-				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getError$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Installer/Adapter/TemplateAdapter.php
 
 		-
 			message: '''
@@ -11006,18 +10925,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 7\.0
-				             Use the MvcFactory instead or instantiate the table class directly\.
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
-				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Installer/InstallerAdapter.php
-
-		-
-			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
@@ -11041,9 +10948,8 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method set\(\) of class Joomla\\CMS\\Installer\\Installer\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper setter function for the property$#
+				#^Call to deprecated method setUseExceptions\(\) of class Joomla\\CMS\\Table\\Table\:
+				7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 1
@@ -11105,10 +11011,8 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getError$#
+				#^Call to deprecated method setUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 1
