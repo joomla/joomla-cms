@@ -49,6 +49,7 @@ class CategoryField extends ListField
         $extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $this->element['scope'];
         $published = (string) $this->element['published'];
         $language  = (string) $this->element['language'];
+        $exclude   = (string) $this->element['exclude'];
 
         // Load the category options for a given extension.
         if (!empty($extension)) {
@@ -62,6 +63,11 @@ class CategoryField extends ListField
             // Filter over language depending upon if it is present.
             if ($language) {
                 $filters['filter.language'] = explode(',', $language);
+            }
+
+            // Filter to exclude specific category IDs.
+            if ($exclude) {
+                $filters['filter.exclude'] = explode(',', $exclude);
             }
 
             if ($filters === []) {
@@ -96,6 +102,22 @@ class CategoryField extends ListField
 
         // Merge any additional options in the XML definition.
         $options = array_merge(parent::getOptions(), $options);
+
+        // Filter out excluded categories if the exclude attribute is set
+        $excludeAttr = (string) $this->element['exclude'];
+
+        if (!empty($excludeAttr)) {
+            $excludedCategoryIds = array_map('intval', array_filter(array_map('trim', explode(',', $excludeAttr))));
+
+            if (!empty($excludedCategoryIds)) {
+                $options = array_filter(
+                    $options,
+                    function ($option) use ($excludedCategoryIds) {
+                        return !\in_array($option->value, $excludedCategoryIds);
+                    }
+                );
+            }
+        }
 
         return $options;
     }
