@@ -8,6 +8,14 @@ on:
   pull_request_target:
     types: [synchronize]
 
+# Restrict the token to the minimum this workflow needs: read the repository and
+# add/remove the conflict label on pull requests. This is especially important
+# because the workflow runs in the privileged `pull_request_target` context,
+# where the default GITHUB_TOKEN would otherwise have broad read/write scopes.
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   main:
     runs-on: ubuntu-latest
