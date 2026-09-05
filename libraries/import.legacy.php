@@ -40,6 +40,3 @@ if (!class_exists('JLoader')) {
 
 // Setup the autoloaders.
 JLoader::setup();
-
-// Register the PasswordHash lib
-JLoader::register('PasswordHash', JPATH_LIBRARIES . '/phpass/PasswordHash.php');

@@ -10,7 +10,6 @@ parameters:
 	reportUnmatchedIgnoredErrors: false
 	scanDirectories:
 		- libraries/php-encryption
-		- libraries/phpass
 	scanFiles:
 		- libraries/loader.php
 		- libraries/namespacemap.php

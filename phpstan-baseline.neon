@@ -11948,29 +11948,9 @@ parameters:
 
 		-
 			message: '''
-				#^Access to constant on deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
-				4\.0 will be removed in 7\.0
-				             Support for PHPass hashed passwords will be removed without replacement$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 4
-			path: libraries/src/Service/Provider/Authentication.php
-
-		-
-			message: '''
 				#^Instantiation of deprecated class Joomla\\CMS\\Authentication\\Password\\MD5Handler\:
 				4\.0 will be removed in 7\.0
 				             Support for MD5 hashed passwords will be removed without replacement$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: libraries/src/Service/Provider/Authentication.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
-				4\.0 will be removed in 7\.0
-				             Support for PHPass hashed passwords will be removed without replacement$#
 			'''
 			identifier: new.deprecatedClass
 			count: 1
@@ -12713,16 +12693,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to constant on deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
-				4\.0 will be removed in 7\.0
-				             Support for PHPass hashed passwords will be removed without replacement$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 2
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
@@ -12769,69 +12739,9 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method checkIfRehashNeeded\(\) of deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
-				4\.0 will be removed in 7\.0
-				             Support for PHPass hashed passwords will be removed without replacement$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
-				#^Call to method validatePassword\(\) of deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
-				4\.0 will be removed in 7\.0
-				             Support for PHPass hashed passwords will be removed without replacement$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
-				#^Fetching deprecated class constant HASH_ARGON2ID_BC of class Joomla\\CMS\\User\\UserHelper\:
-				4\.0 will be removed in 7\.0
-				             Use UserHelper\:\:HASH_ARGON2ID instead$#
-			'''
-			identifier: classConstant.deprecated
-			count: 1
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
-				#^Fetching deprecated class constant HASH_ARGON2I_BC of class Joomla\\CMS\\User\\UserHelper\:
-				4\.0 will be removed in 7\.0
-				             Use UserHelper\:\:HASH_ARGON2I instead$#
-			'''
-			identifier: classConstant.deprecated
-			count: 1
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
-				#^Fetching deprecated class constant HASH_BCRYPT_BC of class Joomla\\CMS\\User\\UserHelper\:
-				4\.0 will be removed in 7\.0
-				             Use UserHelper\:\:HASH_BCRYPT instead$#
-			'''
-			identifier: classConstant.deprecated
-			count: 1
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
 				#^Fetching deprecated class constant HASH_MD5 of class Joomla\\CMS\\User\\UserHelper\:
 				4\.0 will be removed in 7\.0
 				             Support for MD5 hashed passwords will be removed use any of the other hashing methods$#
-			'''
-			identifier: classConstant.deprecated
-			count: 1
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
-				#^Fetching deprecated class constant HASH_PHPASS of class Joomla\\CMS\\User\\UserHelper\:
-				4\.0 will be removed in 7\.0
-				             Support for PHPass hashed passwords will be removed use any of the other hashing methods$#
 			'''
 			identifier: classConstant.deprecated
 			count: 1
