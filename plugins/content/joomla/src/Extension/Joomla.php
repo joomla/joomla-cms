@@ -352,10 +352,15 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             }, [$id]);
         } elseif (\in_array($view, ['category', 'featured', 'archive'])) {
             $additionalSchemas = $cache->get(function ($view, $id) use ($component, $baseId, $app, $db) {
-                $menu     = $app->getMenu()->getActive();
-                $schemaId = $baseId . 'com_content/' . $view . ($view == 'category' ? '/' . $id : '');
+                $menu = $app->getMenu()->getActive();
 
                 $additionalSchemas = [];
+
+                if (!$menu) {
+                    return $additionalSchemas;
+                }
+
+                $schemaId = $baseId . 'com_content/' . $view . ($view == 'category' ? '/' . $id : '');
 
                 $additionalSchema = [
                     '@type'    => 'Blog',
