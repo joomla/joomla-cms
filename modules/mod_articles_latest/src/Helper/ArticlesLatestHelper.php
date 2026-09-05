@@ -6,6 +6,8 @@
  *
  * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * @deprecated  6.2 will be removed in 8.0 without replacement. Use mod_article.
  */
 
 namespace Joomla\Module\ArticlesLatest\Site\Helper;
@@ -30,6 +32,8 @@ use Joomla\Utilities\ArrayHelper;
  * Helper for mod_articles_latest
  *
  * @since  1.6
+ *
+ * @deprecated  6.2 will be removed in 8.0 without replacement. Use mod_article.
  */
 class ArticlesLatestHelper implements DatabaseAwareInterface
 {
