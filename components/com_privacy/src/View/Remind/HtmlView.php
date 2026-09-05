@@ -13,7 +13,6 @@ namespace Joomla\Component\Privacy\Site\View\Remind;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Privacy\Site\Model\RemindModel;
 use Joomla\Registry\Registry;
@@ -76,14 +75,10 @@ class HtmlView extends BaseHtmlView
     {
         /** @var RemindModel $model */
         $model        = $this->getModel();
+        $model->setUseExceptions(true);
         $this->form   = $model->getForm();
         $this->state  = $model->getState();
         $this->params = $this->state->get('params');
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         // Escape strings for HTML output
         $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
