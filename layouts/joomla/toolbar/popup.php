@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 extract($displayData);
 
@@ -69,7 +69,7 @@ $listAttr = !empty($listCheck) ? ' list-selection' : '';
     value="<?php echo $doTask; ?>"
     class="<?php echo $btnClass; ?>"
     <?php echo $htmlAttributes; ?>
-    <?php echo ArrayHelper::toString($modalAttrs); ?>
+    <?php echo HTMLHelper::_('html.attributes', $modalAttrs); ?>
 >
     <span class="<?php echo $class; ?>" aria-hidden="true"></span>
     <?php echo $text; ?>
