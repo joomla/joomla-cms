@@ -129,6 +129,11 @@
 		/>
 
 		<field
+			name="inherit"
+			type="hidden"
+		/>
+
+		<field
 			name="assigned"
 			type="hidden"
 		/>
