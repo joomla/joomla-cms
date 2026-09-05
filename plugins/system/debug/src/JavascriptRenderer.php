@@ -58,23 +58,18 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
         [$cssFiles, $jsFiles, $inlineCss, $inlineJs, $inlineHead] = $this->getAssets(null, self::RELATIVE_URL);
         $html                                                     = '';
         $doc                                                      = Factory::getApplication()->getDocument();
+        $nonce                                                    = ($doc->cspNonce) ? ' nonce="' . $doc->cspNonce . '"' : '';
 
         foreach ($cssFiles as $file) {
-            $html .= \sprintf('<link rel="stylesheet" type="text/css" href="%s">' . "\n", $file);
+            $html .= \sprintf('<link rel="stylesheet" href="%s">' . "\n", $file);
         }
 
         foreach ($inlineCss as $content) {
-            $html .= \sprintf('<style>%s</style>' . "\n", $content);
+            $html .= \sprintf('<style%s>%s</style>' . "\n", $nonce, $content);
         }
 
         foreach ($jsFiles as $file) {
-            $html .= \sprintf('<script type="text/javascript" src="%s" defer></script>' . "\n", $file);
-        }
-
-        $nonce = '';
-
-        if ($doc->cspNonce) {
-            $nonce = ' nonce="' . $doc->cspNonce . '"';
+            $html .= \sprintf('<script src="%s"%s defer></script>' . "\n", $file, $nonce);
         }
 
         foreach ($inlineJs as $content) {
