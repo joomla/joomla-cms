@@ -96,6 +96,19 @@ class Route
             $app    = Factory::getApplication();
             $client = $app->getName();
 
+            /*
+             * The API and Console applications use parse-only routers
+             * (Joomla\Router\Router) which do not implement build().
+             * Route::_() is nonetheless called indirectly by any code that
+             * generates frontend URLs from those contexts (for example
+             * while rendering an email from an API endpoint or from a
+             * scheduled CLI task). Fall back to the site router so the
+             * helper keeps producing usable URLs instead of crashing.
+             */
+            if ($client === 'api' || $client === 'cli') {
+                $client = 'site';
+            }
+
             return static::link($client, $url, $xhtml, $tls, $absolute);
         } catch (\RuntimeException) {
             /**
