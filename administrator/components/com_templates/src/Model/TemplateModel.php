@@ -1848,11 +1848,32 @@ class TemplateModel extends FormModel
                 $zip = new \ZipArchive();
 
                 if ($zip->open(Path::clean($path . '/' . $fileName)) === true) {
+                    $realPath = realpath($path);
+
                     for ($i = 0; $i < $zip->numFiles; $i++) {
                         $entry = $zip->getNameIndex($i);
 
+                        // Prevent Zip Slip: verify that the resolved entry path stays
+                        // within the template directory before extracting anything.
+                        $entryPath = realpath($path . '/' . $entry);
+
+                        if ($entryPath === false) {
+                            // Entry does not exist yet; normalise manually.
+                            $entryPath = Path::clean($path . '/' . $entry);
+                        }
+
+                        if ($realPath === false || strncmp($entryPath . DIRECTORY_SEPARATOR, $realPath . DIRECTORY_SEPARATOR, \strlen($realPath) + 1) !== 0) {
+                            $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_ILLEGAL_PATH'), 'error');
+
+                            $zip->close();
+
+                            return false;
+                        }
+
                         if (file_exists(Path::clean($path . '/' . $entry))) {
                             $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_EXISTS'), 'error');
+
+                            $zip->close();
 
                             return false;
                         }
