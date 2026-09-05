@@ -10,6 +10,8 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Exception\DuplicateEntryException;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
@@ -72,6 +74,10 @@ class ViewLevel extends Table
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -79,6 +85,10 @@ class ViewLevel extends Table
 
         // Validate the title.
         if ((trim($this->title)) == '') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_VIEWLEVEL'));
+            }
+
             $this->setError(Text::_('JLIB_DATABASE_ERROR_VIEWLEVEL'));
 
             return false;
@@ -98,6 +108,10 @@ class ViewLevel extends Table
         $db->setQuery($query);
 
         if ($db->loadResult() > 0) {
+            if ($this->shouldUseExceptions()) {
+                throw new DuplicateEntryException(Text::sprintf('JLIB_DATABASE_ERROR_USERLEVEL_NAME_EXISTS', $this->title), 'title');
+            }
+
             $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_USERLEVEL_NAME_EXISTS', $this->title));
 
             return false;

@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Event\DispatcherInterface;
 
@@ -51,6 +52,10 @@ class UpdateSite extends Table
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -58,6 +63,10 @@ class UpdateSite extends Table
 
         // Check for valid name
         if (trim($this->name) == '' || trim($this->location) == '') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
+            }
+
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 
             return false;
