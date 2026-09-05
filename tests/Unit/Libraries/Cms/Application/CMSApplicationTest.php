@@ -82,9 +82,9 @@ class CMSApplicationTest extends UnitTestCase
     {
         $filter       = InputFilter::getInstance();
         $serverInput  = new FrameworkInput([
-            'HTTPS'      => '',
-            'HTTP_HOST'  => 'localhost',
-            'PHP_SELF'   => '/index.php',
+            'HTTPS'       => '',
+            'HTTP_HOST'   => 'localhost',
+            'PHP_SELF'    => '/index.php',
             'REQUEST_URI' => '/',
         ]);
         $requestInput = $this->createMock('Joomla\\CMS\\Input\\Input');
