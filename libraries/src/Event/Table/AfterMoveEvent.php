@@ -60,10 +60,9 @@ class AfterMoveEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated 4.4.0 will be removed in 7.0
-     *                Use counterpart with onSet prefix
+     * @since  4.4.0
      */
-    protected function setRow($value)
+    protected function onSetRow($value)
     {
         if (!($value instanceof \stdClass) && !empty($value)) {
             throw new \BadMethodCallException("Argument 'row' of event {$this->name} must be an stdClass object or null");
@@ -81,10 +80,9 @@ class AfterMoveEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated 4.4.0 will be removed in 7.0
-     *                Use counterpart with onSet prefix
+     * @since  4.4.0
      */
-    protected function setDelta($value)
+    protected function onSetDelta($value)
     {
         if (!is_numeric($value)) {
             throw new \BadMethodCallException("Argument 'delta' of event {$this->name} must be an integer");
@@ -102,63 +100,14 @@ class AfterMoveEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated 4.4.0 will be removed in 7.0
-     *                Use counterpart with onSet prefix
+     * @since  4.4.0
      */
-    protected function setWhere($value)
+    protected function onSetWhere($value)
     {
         if (!empty($value) && !\is_string($value)) {
             throw new \BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string");
         }
 
         return $value;
-    }
-
-    /**
-     * Setter for the rows argument
-     *
-     * @param   \stdClass|null  $value  The value to set
-     *
-     * @return  mixed
-     *
-     * @throws  \BadMethodCallException  if the argument is not of the expected type
-     *
-     * @since  4.4.0
-     */
-    protected function onSetRow($value)
-    {
-        return $this->setRow($value);
-    }
-
-    /**
-     * Setter for the delta argument
-     *
-     * @param   int  $value  The value to set
-     *
-     * @return  integer
-     *
-     * @throws  \BadMethodCallException  if the argument is not of the expected type
-     *
-     * @since  4.4.0
-     */
-    protected function onSetDelta($value)
-    {
-        return $this->setDelta($value);
-    }
-
-    /**
-     * Setter for the where argument
-     *
-     * @param   string|null  $value  The value to set
-     *
-     * @return  mixed
-     *
-     * @throws  \BadMethodCallException  if the argument is not of the expected type
-     *
-     * @since  4.4.0
-     */
-    protected function onSetWhere($value)
-    {
-        return $this->setWhere($value);
     }
 }

@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Event\Plugin\System\Stats;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
-use Joomla\CMS\Event\ReshapeArgumentsAware;
 use Joomla\CMS\Event\Result\ResultAware;
 use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\CMS\Event\Result\ResultTypeArrayAware;
@@ -28,19 +27,8 @@ use Joomla\CMS\Event\Result\ResultTypeArrayAware;
  */
 class GetStatsDataEvent extends AbstractImmutableEvent implements ResultAwareInterface
 {
-    use ReshapeArgumentsAware;
     use ResultAware;
     use ResultTypeArrayAware;
-
-    /**
-     * The argument names, in order expected by legacy plugins.
-     *
-     * @var array
-     *
-     * @since  5.3.0
-     * @deprecated 5.3.0 will be removed in 7.0
-     */
-    protected $legacyArgumentsOrder = ['context'];
 
     /**
      * Constructor.
@@ -54,11 +42,6 @@ class GetStatsDataEvent extends AbstractImmutableEvent implements ResultAwareInt
      */
     public function __construct($name, array $arguments = [])
     {
-        // Reshape the arguments array to preserve b/c with legacy listeners
-        if ($this->legacyArgumentsOrder) {
-            $arguments = $this->reshapeArguments($arguments, $this->legacyArgumentsOrder);
-        }
-
         parent::__construct($name, $arguments);
 
         if (!\array_key_exists('context', $this->arguments)) {

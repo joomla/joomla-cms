@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Event\Menu;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
-use Joomla\CMS\Event\ReshapeArgumentsAware;
 use Joomla\CMS\MVC\View\HtmlView;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -24,18 +23,6 @@ use Joomla\CMS\MVC\View\HtmlView;
  */
 class BeforeRenderMenuItemsViewEvent extends AbstractImmutableEvent
 {
-    use ReshapeArgumentsAware;
-
-    /**
-     * The argument names, in order expected by legacy plugins.
-     *
-     * @var array
-     *
-     * @since  5.0.0
-     * @deprecated 5.0 will be removed in 7.0
-     */
-    protected $legacyArgumentsOrder = ['subject'];
-
     /**
      * Constructor.
      *
@@ -48,11 +35,6 @@ class BeforeRenderMenuItemsViewEvent extends AbstractImmutableEvent
      */
     public function __construct($name, array $arguments = [])
     {
-        // Reshape the arguments array to preserve b/c with legacy listeners
-        if ($this->legacyArgumentsOrder) {
-            $arguments = $this->reshapeArguments($arguments, $this->legacyArgumentsOrder);
-        }
-
         parent::__construct($name, $arguments);
 
         if (!\array_key_exists('subject', $this->arguments)) {

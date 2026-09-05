@@ -26,16 +26,6 @@ use Joomla\CMS\Authentication\AuthenticationResponse;
 class AuthenticationEvent extends UserEvent
 {
     /**
-     * The argument names, in order expected by legacy plugins.
-     *
-     * @var array
-     *
-     * @since  5.0.0
-     * @deprecated 5.0 will be removed in 7.0
-     */
-    protected $legacyArgumentsOrder = ['credentials', 'options', 'subject'];
-
-    /**
      * Constructor.
      *
      * @param   string  $name       The event name.

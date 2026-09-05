@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Event\Installer;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
-use Joomla\CMS\Event\ReshapeArgumentsAware;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,18 +22,6 @@ use Joomla\CMS\Event\ReshapeArgumentsAware;
  */
 class BeforePackageDownloadEvent extends AbstractImmutableEvent
 {
-    use ReshapeArgumentsAware;
-
-    /**
-     * The argument names, in order expected by legacy plugins.
-     *
-     * @var array
-     *
-     * @since  5.0.0
-     * @deprecated 5.0 will be removed in 7.0
-     */
-    protected $legacyArgumentsOrder = ['url', 'headers'];
-
     /**
      * Constructor.
      *
@@ -47,13 +34,7 @@ class BeforePackageDownloadEvent extends AbstractImmutableEvent
      */
     public function __construct($name, array $arguments = [])
     {
-        // Reshape the arguments array to preserve b/c with legacy listeners
-        // Do not override existing $arguments in place, or it will break references!
-        if ($this->legacyArgumentsOrder) {
-            parent::__construct($name, $this->reshapeArguments($arguments, $this->legacyArgumentsOrder));
-        } else {
-            parent::__construct($name, $arguments);
-        }
+        parent::__construct($name, $arguments);
 
         if (!\array_key_exists('url', $this->arguments)) {
             throw new \BadMethodCallException("Argument 'url' of event {$name} is required but has not been provided");
@@ -63,15 +44,12 @@ class BeforePackageDownloadEvent extends AbstractImmutableEvent
             throw new \BadMethodCallException("Argument 'headers' of event {$name} is required but has not been provided");
         }
 
-        // For backward compatibility make sure the value is referenced
-        // @todo: Remove in Joomla 7
-        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 7
         if (key($arguments) === 0) {
-            $this->arguments['url']     = &$arguments[0];
-            $this->arguments['headers'] = &$arguments[1];
+            $this->arguments['url']     = $arguments[0];
+            $this->arguments['headers'] = $arguments[1];
         } elseif (\array_key_exists('url', $arguments)) {
-            $this->arguments['url']     = &$arguments['url'];
-            $this->arguments['headers'] = &$arguments['headers'];
+            $this->arguments['url']     = $arguments['url'];
+            $this->arguments['headers'] = $arguments['headers'];
         }
     }
 

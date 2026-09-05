@@ -60,34 +60,15 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @since  4.0.0
-     *
-     * @deprecated 4.4.0 will be removed in 7.0
-     *                Use counterpart with onSet prefix
+     * @since  4.4.0
      */
-    protected function setSubject($value)
+    protected function onSetSubject($value)
     {
         if (!$value || !($value instanceof WebAssetRegistryInterface)) {
             throw new \BadMethodCallException("Argument 'subject' of event {$this->name} is not of the expected type");
         }
 
         return $value;
-    }
-
-    /**
-     * Setter for the subject argument
-     *
-     * @param   WebAssetRegistryInterface  $value  The value to set
-     *
-     * @return  WebAssetRegistryInterface
-     *
-     * @throws  \BadMethodCallException  if the argument is not of the expected type
-     *
-     * @since  4.4.0
-     */
-    protected function onSetSubject($value)
-    {
-        return $this->setSubject($value);
     }
 
     /**

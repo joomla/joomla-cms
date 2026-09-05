@@ -25,16 +25,6 @@ use Joomla\Component\Finder\Administrator\Indexer\Result;
 class PrepareContentEvent extends AbstractFinderEvent
 {
     /**
-     * The argument names, in order expected by legacy plugins.
-     *
-     * @var array
-     *
-     * @since  5.0.0
-     * @deprecated 5.0 will be removed in 7.0
-     */
-    protected $legacyArgumentsOrder = ['subject'];
-
-    /**
      * Setter for the subject argument.
      *
      * @param   Result  $value  The value to set
