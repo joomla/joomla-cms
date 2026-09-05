@@ -245,24 +245,11 @@ export default {
 
     /* Upload files */
     upload(file) {
-      // Create a new file reader instance
-      const reader = new FileReader();
-
-      // Add the on load callback
-      reader.onload = (progressEvent) => {
-        const { result } = progressEvent.target;
-        const splitIndex = result.indexOf('base64') + 7;
-        const content = result.slice(splitIndex, result.length);
-
-        // Upload the file
-        this.$store.dispatch('uploadFile', {
-          name: file.name,
-          parent: this.$store.state.selectedDirectory,
-          content,
-        });
-      };
-
-      reader.readAsDataURL(file);
+      this.$store.dispatch('uploadFile', {
+        name: file.name,
+        parent: this.$store.state.selectedDirectory,
+        content: file,
+      });
     },
 
     // Logic for the dropped file

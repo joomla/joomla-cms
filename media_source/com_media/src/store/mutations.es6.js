@@ -493,4 +493,43 @@ export default {
   [types.UPDATE_SORT_DIRECTION]: (state, payload) => {
     state.sortDirection = payload === 'asc' ? 'asc' : 'desc';
   },
+
+  /**
+   * Update list of active uploads
+   * @param state
+   * @param payload As following {name: fileName, progress: 0} or {name: fileName, completed: true}
+   */
+  [types.UPDATE_ACTIVE_UPLOADS]: (state, payload) => {
+    let isNew = true;
+    let progress = 0;
+    let toRemove = -1;
+
+    // Collect progress for active uploads
+    state.activeUploads.forEach((item, idx) => {
+      if (item.name === payload.name) {
+        isNew = false;
+        item.progress = Math.max(item.progress, Math.min(100, payload.progress || 0));
+
+        if (payload.completed) {
+          toRemove = idx;
+        }
+      }
+      // Pick element with the smallest progress
+      if (item.progress > 0) {
+        progress = !progress ? item.progress : Math.min(progress, item.progress);
+      }
+    });
+
+    // Add new item to the list
+    if (isNew) {
+      state.activeUploads.push({ name: payload.name, progress: payload.progress });
+    }
+
+    // Remove completed item from the list
+    if (toRemove !== -1) {
+      state.activeUploads.splice(toRemove, 1);
+    }
+
+    state.uploadProgress = progress;
+  },
 };
