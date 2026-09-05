@@ -111,7 +111,7 @@ class CMSApplicationTest extends UnitTestCase
 
             public function setUserState($key, $value)
             {
-                $previous             = $this->getUserState($key);
+                $previous              = $this->getUserState($key);
                 $this->userState[$key] = $value;
 
                 return $previous;
