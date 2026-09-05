@@ -99,8 +99,10 @@ $icon    = $this->params->get('contact_icons') == 0;
     <?php echo $this->item->event->beforeDisplayContent; ?>
 
     <?php if ($this->params->get('show_info', 1)) : ?>
-        <div class="com-contact__container">
-            <?php echo '<' . $htag2 . '>' . Text::_('COM_CONTACT_DETAILS') . '</' . $htag2 . '>'; ?>
+    <div class="com-contact__container">
+        <?php if ($tparams->get('show_contact_form_title', 1)) : ?>
+            <<?php echo $htag2; ?>><?php echo Text::_('COM_CONTACT_DETAILS'); ?></<?php echo $htag2; ?>>
+        <?php endif; ?>
 
             <?php if ($this->item->image && $tparams->get('show_image')) : ?>
                 <div class="com-contact__thumbnail thumbnail">
@@ -137,7 +139,10 @@ $icon    = $this->params->get('contact_icons') == 0;
     <?php endif; ?>
 
     <?php if ($tparams->get('show_email_form') && ($this->item->email_to || $this->item->user_id)) : ?>
-        <?php echo '<' . $htag2 . '>' . Text::_('COM_CONTACT_EMAIL_FORM') . '</' . $htag2 . '>'; ?>
+        <?php if ($tparams->get('show_email_form_title', 1)) : ?>
+        <<?php echo $htag2; ?>><?php echo Text::_('COM_CONTACT_EMAIL_FORM'); ?></<?php echo $htag2; ?>>
+        <?php endif; ?>
+
 
         <?php echo $this->loadTemplate('form'); ?>
     <?php endif; ?>
