@@ -13,6 +13,7 @@ namespace Joomla\Plugin\WebServices\Tags\Extension;
 use Joomla\CMS\Event\Application\BeforeApiRouteEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Router\Route;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -57,5 +58,34 @@ final class Tags extends CMSPlugin implements SubscriberInterface
             'tags',
             ['component' => 'com_tags']
         );
+
+        $this->createTagHistoryRoutes($router);
+    }
+
+    /**
+     * Create tag history routes
+     *
+     * @param   ApiRouter  &$router  The API Routing object
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function createTagHistoryRoutes(&$router): void
+    {
+        $defaults    = [
+            'component'  => 'com_contenthistory',
+            'type_alias' => 'com_tags.tag',
+            'type_id'    => 8,
+        ];
+        $getDefaults = array_merge(['public' => false], $defaults);
+
+        $routes = [
+            new Route(['GET'], 'v1/tags/:id/contenthistory', 'history.displayList', ['id' => '(\d+)'], $getDefaults),
+            new Route(['PATCH'], 'v1/tags/:id/contenthistory/keep', 'history.keep', ['id' => '(\d+)'], $defaults),
+            new Route(['DELETE'], 'v1/tags/:id/contenthistory', 'history.delete', ['id' => '(\d+)'], $defaults),
+        ];
+
+        $router->addRoutes($routes);
     }
 }
