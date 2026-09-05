@@ -99,7 +99,7 @@ trait LegacyErrorHandlingTrait
     /**
      * Add an error message.
      *
-     * @param   string  $error  Error message.
+     * @param   string|\Throwable  $error  Error message or Exception object.
      *
      * @return  void
      *
@@ -111,8 +111,15 @@ trait LegacyErrorHandlingTrait
      */
     public function setError($error)
     {
-        if ($this->useExceptions && \is_string($error)) {
-            throw new \Exception($error, 500);
+        if ($this->useExceptions) {
+            // Preserve the concrete type of an already-built Exception/Throwable instead of collapsing it to a generic \Exception.
+            if ($error instanceof \Throwable) {
+                throw $error;
+            }
+
+            if (\is_string($error)) {
+                throw new \Exception($error, 500);
+            }
         }
 
         $this->_errors[] = $error;
