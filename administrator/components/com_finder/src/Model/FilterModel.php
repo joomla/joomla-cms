@@ -14,6 +14,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Component\Finder\Administrator\Table\FilterTable;
+use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -143,4 +145,52 @@ class FilterModel extends AdminModel
 
         return $db->setQuery($query)->loadResult();
     }
+
+    /**
+     * Method to save the form data.
+     *
+     * @param   array  $data  The form data.
+     *
+     * @return  boolean  True on success, false on failure.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function save($data)
+    {
+        $params = new Registry($data['params'] ?? []);
+        $params->set('active_user_only', Factory::getApplication()->getInput()->getInt('active_user_only', 0));
+
+        $data['params'] = $params->toArray();
+
+        if ((int) $params->get('active_user_only') === 1) {
+            $data['data'] = array_diff($data['data'] ?? [], $this->getAuthorTaxonomyIds());
+        }
+
+        return parent::save($data);
+    }
+
+    /**
+     * Get all author taxonomy node ids.
+     *
+     * @return  integer[]
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function getAuthorTaxonomyIds(): array
+    {
+        $db     = $this->getDatabase();
+        $author = 'Author';
+        $query  = $db->getQuery(true)
+            ->select($db->quoteName('t.id'))
+            ->from($db->quoteName('#__finder_taxonomy', 't'))
+            ->innerJoin(
+                $db->quoteName('#__finder_taxonomy', 'p'),
+                $db->quoteName('p.id') . ' = ' . $db->quoteName('t.parent_id')
+            )
+            ->where($db->quoteName('p.title') . ' = :branch')
+            ->bind(':branch', $author, ParameterType::STRING);
+
+        return array_map('intval', $db->setQuery($query)->loadColumn());
+    }
+
 }
