@@ -241,8 +241,7 @@ class IndexerController extends BaseController
 
         try {
             // Optimize the index
-            $indexer = new Indexer();
-            $indexer->optimize();
+            $this->getModel()->optimize();
 
             // Get the indexer state.
             $state           = Indexer::getState();
@@ -351,14 +350,8 @@ class IndexerController extends BaseController
         try {
             // Import the finder plugins.
             class_alias(DebugAdapter::class, Adapter::class);
+            $this->getModel()->debug($this->app->bootPlugin($this->app->getInput()->get('plugin'), 'finder'), $this->app->getInput()->get('id'));
             $plugin             = $this->app->bootPlugin($this->app->getInput()->get('plugin'), 'finder');
-            DebugIndexer::$item = null;
-            $plugin->setIndexer(new DebugIndexer());
-            $plugin->debug($this->app->getInput()->get('id'));
-
-            if (DebugIndexer::$item === null) {
-                throw new \UnexpectedValueException(Text::_('COM_FINDER_INDEXER_ERROR_NO_ITEM'));
-            }
 
             $output = '';
 

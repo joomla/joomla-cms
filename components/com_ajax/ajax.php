@@ -251,19 +251,13 @@ if (!$format) {
 // Return the results in the desired format
 switch ($format) {
     case 'json':
-        if (!($results instanceof Throwable) && $results instanceof StringableInterface) {
+        if (!($results instanceof Throwable) && ($results instanceof StringableInterface || $results instanceof \Stringable)) {
             echo $results;
-        } else {
-            if (\is_object($results) && !($results instanceof Throwable) && $results instanceof \Stringable) {
-                @trigger_error(
-                    'Ajax result object (except Throwable) which implements Stringable interface (implicitly or explicitly), will be rendered directly. Starting from 7.0',
-                    \E_USER_DEPRECATED
-                );
-            }
-
-            // JSONized
-            echo new JsonResponse($results, null, false, $input->get('ignoreMessages', true, 'bool'));
+            break;
         }
+
+        // JSONized
+        echo new JsonResponse($results, null, false, $input->get('ignoreMessages', true, 'bool'));
 
         break;
 

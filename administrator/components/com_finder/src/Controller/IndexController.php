@@ -14,7 +14,6 @@ use Joomla\CMS\Event\Finder\GarbageCollectionEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -61,8 +60,7 @@ class IndexController extends AdminController
         $dispatcher->dispatch('onFinderGarbageCollection', new GarbageCollectionEvent('onFinderGarbageCollection', []));
 
         // Now run the optimisation method from the indexer
-        $indexer = new Indexer();
-        $indexer->optimize();
+        $this->getModel('Indexer')->optimize();
 
         $message = Text::_('COM_FINDER_INDEX_OPTIMISE_FINISHED');
         $this->setRedirect('index.php?option=com_finder&view=index', $message);
