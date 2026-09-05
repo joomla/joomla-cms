@@ -81,6 +81,100 @@
 			showon="mail_style:html[OR]mail_style:both[AND]disable_htmllayout:1"
 		/>
 
+		<fields name="styles">
+			<field
+				name="fontFamily"
+				type="list"
+				label="COM_CONFIG_FIELD_MAILTEMPLATE_FONT_FAMILY"
+				default="Arial, sans-serif"
+				validate="options"
+				showon=".mail_style:html[OR].mail_style:both[AND].disable_htmllayout:1"
+				>
+				<option value="Arial, sans-serif">COM_CONFIG_FIELD_MAILTEMPLATE_FONT_FAMILY_ARIAL</option>
+				<option value="'Times New Roman', serif">COM_CONFIG_FIELD_MAILTEMPLATE_FONT_FAMILY_TIMES</option>
+			</field>
+
+			<field
+				name="backgroundColor"
+				type="color"
+				label="COM_CONFIG_FIELD_MAILTEMPLATE_BACKGROUND_COLOR"
+				default="#efefef"
+				filter="color"
+				showon=".mail_style:html[OR].mail_style:both[AND].disable_htmllayout:1"
+			/>
+
+			<field
+				name="headerBackgroundColor"
+				type="color"
+				label="COM_CONFIG_FIELD_MAILTEMPLATE_HEADER_BACKGROUND_COLOR"
+				default="#ffffff"
+				filter="color"
+				showon=".mail_style:html[OR].mail_style:both[AND].disable_htmllayout:1"
+			/>
+
+			<field
+				name="headerTextColor"
+				type="color"
+				label="COM_CONFIG_FIELD_MAILTEMPLATE_HEADER_TEXT_COLOR"
+				default="#112855"
+				filter="color"
+				showon=".mail_style:html[OR].mail_style:both[AND].disable_htmllayout:1"
+			/>
+
+			<field
+				name="bodyBackgroundColor"
+				type="color"
+				label="COM_CONFIG_FIELD_MAILTEMPLATE_BODY_BACKGROUND_COLOR"
+				default="#ffffff"
+				filter="color"
+				showon=".mail_style:html[OR].mail_style:both[AND].disable_htmllayout:1"
+			/>
+
+			<field
+				name="bodyTextColor"
+				type="color"
+				label="COM_CONFIG_FIELD_MAILTEMPLATE_BODY_TEXT_COLOR"
+				default="#000000"
+				filter="color"
+				showon=".mail_style:html[OR].mail_style:both[AND].disable_htmllayout:1"
+			/>
+
+			<field
+				name="bodyLinkColor"
+				type="color"
+				label="COM_CONFIG_FIELD_MAILTEMPLATE_BODY_LINK_COLOR"
+				default="#112855"
+				filter="color"
+				showon=".mail_style:html[OR].mail_style:both[AND].disable_htmllayout:1"
+			/>
+
+			<field
+				name="footerBackgroundColor"
+				type="color"
+				label="COM_CONFIG_FIELD_MAILTEMPLATE_FOOTER_BACKGROUND_COLOR"
+				default="#112855"
+				filter="color"
+				showon=".mail_style:html[OR].mail_style:both[AND].disable_htmllayout:1"
+			/>
+
+			<field
+				name="footerTextColor"
+				type="color"
+				label="COM_CONFIG_FIELD_MAILTEMPLATE_FOOTER_TEXT_COLOR"
+				default="#ffffff"
+				filter="color"
+				showon=".mail_style:html[OR].mail_style:both[AND].disable_htmllayout:1"
+			/>
+
+			<field
+				name="footerLinkColor"
+				type="color"
+				label="COM_CONFIG_FIELD_MAILTEMPLATE_FOOTER_LINK_COLOR"
+				default="#cccccc"
+				filter="color"
+				showon=".mail_style:html[OR].mail_style:both[AND].disable_htmllayout:1"
+			/>
+		</fields>
 	</fieldset>
 
 	<fieldset
