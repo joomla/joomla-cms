@@ -170,7 +170,8 @@ class InstallModel extends BaseDatabaseModel
         }
 
         // Get an installer instance.
-        $installer = Installer::getInstance();
+        $installer = new Installer();
+        $installer->setDatabase($this->getDatabase());
 
         /*
          * Check for a Joomla core package.
