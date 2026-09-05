@@ -952,6 +952,7 @@ CREATE TABLE IF NOT EXISTS "#__guidedtours" (
   "description" text NOT NULL,
   "ordering" bigint DEFAULT 0 NOT NULL,
   "extensions" text NOT NULL,
+  "url_type" varchar(255) DEFAULT '' NOT NULL,
   "url" varchar(255) NOT NULL,
   "created" timestamp without time zone NOT NULL,
   "created_by" bigint DEFAULT 0 NOT NULL,
