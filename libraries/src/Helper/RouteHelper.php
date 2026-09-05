@@ -36,7 +36,7 @@ class RouteHelper
     protected static $lookup;
 
     /**
-     * @var    string  Option for the extension (such as com_content)
+     * @var    ?string  Option for the extension (such as com_content)
      * @since  3.1
      */
     protected $extension;
@@ -100,6 +100,11 @@ class RouteHelper
                 if ($category) {
                     $needles['category']   = array_reverse($category->getPath());
                     $needles['categories'] = $needles['category'];
+
+                    // Add route category
+                    $needles['category'][]   = '0';
+                    $needles['categories'][] = '0';
+
                     $link .= '&catid=' . $catid;
                 }
             }
@@ -116,6 +121,22 @@ class RouteHelper
         }
 
         return $link;
+    }
+
+    /**
+     * Method to set the extension into the helper
+     *
+     * @param   ?string  $extension  Extension name like com_content
+     *
+     * @return  self
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setExtension(?string $extension)
+    {
+        $this->extension = $extension;
+
+        return $this;
     }
 
     /**
@@ -139,8 +160,8 @@ class RouteHelper
         }
 
         // Prepare the reverse lookup array.
-        if (!isset(static::$lookup[$language])) {
-            static::$lookup[$language] = [];
+        if (!isset(static::$lookup[$this->extension][$language])) {
+            static::$lookup[$this->extension][$language] = [];
 
             $component = ComponentHelper::getComponent($this->extension);
 
@@ -158,8 +179,8 @@ class RouteHelper
                 if (isset($item->query['view'])) {
                     $view = $item->query['view'];
 
-                    if (!isset(static::$lookup[$language][$view])) {
-                        static::$lookup[$language][$view] = [];
+                    if (!isset(static::$lookup[$this->extension][$language][$view])) {
+                        static::$lookup[$this->extension][$language][$view] = [];
                     }
 
                     if (isset($item->query['id'])) {
@@ -172,8 +193,8 @@ class RouteHelper
                          * $language != * can override existing entries
                          * $language == * cannot override existing entries
                          */
-                        if ($item->language !== '*' || !isset(static::$lookup[$language][$view][$item->query['id']])) {
-                            static::$lookup[$language][$view][$item->query['id']] = $item->id;
+                        if ($item->language !== '*' || !isset(static::$lookup[$this->extension][$language][$view][$item->query['id']])) {
+                            static::$lookup[$this->extension][$language][$view][$item->query['id']] = $item->id;
                         }
                     }
                 }
@@ -182,10 +203,10 @@ class RouteHelper
 
         if ($needles) {
             foreach ($needles as $view => $ids) {
-                if (isset(static::$lookup[$language][$view])) {
+                if (isset(static::$lookup[$this->extension][$language][$view])) {
                     foreach ($ids as $id) {
-                        if (isset(static::$lookup[$language][$view][(int) $id])) {
-                            return static::$lookup[$language][$view][(int) $id];
+                        if (isset(static::$lookup[$this->extension][$language][$view][(int) $id])) {
+                            return static::$lookup[$this->extension][$language][$view][(int) $id];
                         }
                     }
                 }
@@ -252,9 +273,13 @@ class RouteHelper
                 $catids                = array_reverse($category->getPath());
                 $needles['category']   = $catids;
                 $needles['categories'] = $catids;
+
+                // Add route category
+                $needles['category'][]   = '0';
+                $needles['categories'][] = '0';
             }
 
-            if ($item = static::lookupItem($needles)) {
+            if ($item = static::lookupItem($needles, $extension)) {
                 $link .= '&Itemid=' . $item;
             }
         }
@@ -265,16 +290,17 @@ class RouteHelper
     /**
      * Static alias to findItem() used to find the item in the menu structure
      *
-     * @param   array  $needles  Array of lookup values
+     * @param   array    $needles    Array of lookup values
+     * @param   ?string  $extension  Extension name like com_content
      *
      * @return  mixed
      *
      * @since   3.2
      */
-    protected static function lookupItem($needles = [])
+    protected static function lookupItem($needles = [], ?string $extension = null)
     {
         $instance = new static();
 
-        return $instance->findItem($needles);
+        return $instance->setExtension($extension)->findItem($needles);
     }
 }
