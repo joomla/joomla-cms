@@ -519,6 +519,35 @@ class TourModel extends AdminModel
     }
 
     /**
+     * Retrieve if a tour is available to use (checks published state and user access)
+     *
+     * @param   string  $pk  the id or uid of a tour
+     *
+     * @return  boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function isAvailable($pk): bool
+    {
+        $tour = $this->getItem($pk);
+
+        if ($tour === false) {
+            return false;
+        }
+
+        if (!$tour->published) {
+            return false;
+        }
+
+        $authorised = $this->getCurrentUser()->getAuthorisedViewLevels();
+        if (!\in_array($tour->access, $authorised)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Sets a tour's autostart value
      *
      * @param   int  $id         Id of a tour
