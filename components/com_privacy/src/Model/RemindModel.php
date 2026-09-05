@@ -13,6 +13,7 @@ namespace Joomla\Component\Privacy\Site\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFoundException;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
@@ -63,6 +64,10 @@ class RemindModel extends AdminModel
         if ($return === false) {
             // Get the validation messages from the form.
             foreach ($form->getErrors() as $formError) {
+                if ($this->shouldUseExceptions()) {
+                    throw $formError instanceof \Throwable ? $formError : new \RuntimeException((string) $formError);
+                }
+
                 $this->setError($formError->getMessage());
             }
 
@@ -86,12 +91,20 @@ class RemindModel extends AdminModel
         try {
             $remind = $db->loadObject();
         } catch (ExecutionFailureException) {
+            if ($this->shouldUseExceptions()) {
+                throw new ResourceNotFoundException(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REMIND'));
+            }
+
             $this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REMIND'));
 
             return false;
         }
 
         if (!$remind) {
+            if ($this->shouldUseExceptions()) {
+                throw new ResourceNotFoundException(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REMIND'));
+            }
+
             $this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REMIND'));
 
             return false;
@@ -99,6 +112,10 @@ class RemindModel extends AdminModel
 
         // Verify the token
         if (!UserHelper::verifyPassword($data['remind_token'], $remind->token)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ResourceNotFoundException(Text::_('COM_PRIVACY_ERROR_NO_REMIND_REQUESTS'));
+            }
+
             $this->setError(Text::_('COM_PRIVACY_ERROR_NO_REMIND_REQUESTS'));
 
             return false;
