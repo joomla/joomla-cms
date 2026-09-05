@@ -10,7 +10,7 @@
 
 namespace Joomla\Component\Categories\Administrator\Model;
 
-use Joomla\CMS\Access\Rules;
+use Joomla\CMS\Access\Exception\NotAllowedException;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
@@ -21,10 +21,12 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFoundException;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Category;
+use Joomla\CMS\Table\Exception\DuplicateEntryException;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
@@ -447,6 +449,10 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
 
                     // Check for an error.
                     if ($form instanceof \Exception) {
+                        if ($this->shouldUseExceptions()) {
+                            throw $form;
+                        }
+
                         $this->setError($form->getMessage());
 
                         return false;
@@ -551,6 +557,12 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
 
             // Rebuild the path for the category:
             if (!$table->rebuildPath($table->id)) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -558,6 +570,12 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
 
             // Rebuild the paths of the category's children:
             if (!$table->rebuild($table->id, $table->lft, $table->level, $table->path)) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -632,6 +650,12 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
         $table = $this->getTable();
 
         if (!$table->rebuild()) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -661,6 +685,12 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
         $table = $this->getTable();
 
         if (!$table->saveorder($idArray, $lftArray)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -750,14 +780,22 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
         // Check that the parent exists
         if ($parentId) {
             if (!$this->table->load($parentId)) {
-                if ($error = $this->table->getError()) {
+                if ($error = $this->table->getError(null, false)) {
                     // Fatal error
-                    $this->setError($error);
+                    if ($this->shouldUseExceptions()) {
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
+                    $this->setError($error instanceof \Throwable ? $error->getMessage() : $error);
 
                     return false;
                 }
 
                 // Non-fatal error
+                if ($this->shouldUseExceptions()) {
+                    throw new ResourceNotFoundException(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+                }
+
                 $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
                 $parentId = 0;
             }
@@ -771,6 +809,10 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
 
             if (!$canCreate) {
                 // Error since user cannot create in parent category
+                if ($this->shouldUseExceptions()) {
+                    throw new NotAllowedException(Text::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
+                }
+
                 $this->setError(Text::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
 
                 return false;
@@ -780,6 +822,12 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
         // If the parent is 0, set it to the ID of the root item in the tree
         if (empty($parentId)) {
             if (!$parentId = $this->table->getRootId()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $this->table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($this->table->getError());
 
                 return false;
@@ -787,6 +835,10 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
 
             if (!$this->user->authorise('core.create', $extension)) {
                 // Make sure we can create in root
+                if ($this->shouldUseExceptions()) {
+                    throw new NotAllowedException(Text::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
+                }
+
                 $this->setError(Text::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
 
                 return false;
@@ -805,6 +857,10 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
         try {
             $count = $db->loadResult();
         } catch (\RuntimeException $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -819,14 +875,22 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
 
             // Check that the row actually exists
             if (!$this->table->load($pk)) {
-                if ($error = $this->table->getError()) {
+                if ($error = $this->table->getError(null, false)) {
                     // Fatal error
-                    $this->setError($error);
+                    if ($this->shouldUseExceptions()) {
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
+                    $this->setError($error instanceof \Throwable ? $error->getMessage() : $error);
 
                     return false;
                 }
 
                 // Not fatal error
+                if ($this->shouldUseExceptions()) {
+                    throw new ResourceNotFoundException(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                }
+
                 $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
                 continue;
             }
@@ -890,6 +954,12 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
 
             // Store the row.
             if (!$this->table->store()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $this->table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($this->table->getError());
 
                 return false;
@@ -922,6 +992,12 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
 
         // Rebuild the hierarchy.
         if (!$this->table->rebuild()) {
+            if ($this->shouldUseExceptions()) {
+                $error = $this->table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($this->table->getError());
 
             return false;
@@ -929,6 +1005,12 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
 
         // Rebuild the tree path.
         if (!$this->table->rebuildPath($this->table->id)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $this->table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($this->table->getError());
 
             return false;
@@ -961,14 +1043,22 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
         // Check that the parent exists.
         if ($parentId) {
             if (!$this->table->load($parentId)) {
-                if ($error = $this->table->getError()) {
+                if ($error = $this->table->getError(null, false)) {
                     // Fatal error.
-                    $this->setError($error);
+                    if ($this->shouldUseExceptions()) {
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
+                    $this->setError($error instanceof \Throwable ? $error->getMessage() : $error);
 
                     return false;
                 }
 
                 // Non-fatal error.
+                if ($this->shouldUseExceptions()) {
+                    throw new ResourceNotFoundException(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+                }
+
                 $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
                 $parentId = 0;
             }
@@ -982,6 +1072,10 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
 
             if (!$canCreate) {
                 // Error since user cannot create in parent category
+                if ($this->shouldUseExceptions()) {
+                    throw new NotAllowedException(Text::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
+                }
+
                 $this->setError(Text::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
 
                 return false;
@@ -992,6 +1086,10 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
             foreach ($pks as $pk) {
                 if (!$this->user->authorise('core.edit', $extension . '.category.' . $pk)) {
                     // Error since user cannot edit this category
+                    if ($this->shouldUseExceptions()) {
+                        throw new NotAllowedException(Text::_('COM_CATEGORIES_BATCH_CANNOT_EDIT'));
+                    }
+
                     $this->setError(Text::_('COM_CATEGORIES_BATCH_CANNOT_EDIT'));
 
                     return false;
@@ -1008,14 +1106,22 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
         foreach ($pks as $pk) {
             // Check that the row actually exists
             if (!$this->table->load($pk)) {
-                if ($error = $this->table->getError()) {
+                if ($error = $this->table->getError(null, false)) {
                     // Fatal error
-                    $this->setError($error);
+                    if ($this->shouldUseExceptions()) {
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
+                    $this->setError($error instanceof \Throwable ? $error->getMessage() : $error);
 
                     return false;
                 }
 
                 // Not fatal error
+                if ($this->shouldUseExceptions()) {
+                    throw new ResourceNotFoundException(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                }
+
                 $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
                 continue;
             }
@@ -1040,6 +1146,10 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
                 try {
                     $children = array_merge($children, (array) $db->loadColumn());
                 } catch (\RuntimeException $e) {
+                    if ($this->shouldUseExceptions()) {
+                        throw $e;
+                    }
+
                     $this->setError($e->getMessage());
 
                     return false;
@@ -1053,6 +1163,10 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
                 ];
 
                 if ($table->load($conditions)) {
+                    if ($this->shouldUseExceptions()) {
+                        throw new DuplicateEntryException(Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'), 'alias');
+                    }
+
                     $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
 
                     return false;
@@ -1061,6 +1175,12 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
 
             // Store the row.
             if (!$this->table->store()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $this->table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($this->table->getError());
 
                 return false;
@@ -1068,6 +1188,12 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
 
             // Rebuild the tree path.
             if (!$this->table->rebuildPath()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $this->table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($this->table->getError());
 
                 return false;
