@@ -247,7 +247,7 @@ abstract class PluginHelper
             if (!\defined('COMPAT_JOOMLA_7')) {
                 throw new \BadMethodCallException(\sprintf(
                     '%s Legacy listener registration is only available in compatibility mode (compatibility plugin enabled). Use SubscriberInterface.',
-                    get_class($plugin)
+                    \get_class($plugin)
                 ));
             }
 

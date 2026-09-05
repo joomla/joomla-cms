@@ -287,7 +287,8 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
         if (!\defined('COMPAT_JOOMLA_7')) {
             throw new \BadMethodCallException(\sprintf(
                 '%s::%s: Legacy listener registration is only available in compatibility mode (compatibility plugin enabled). Use SubscriberInterface.',
-                __CLASS__, __METHOD__
+                __CLASS__,
+                __METHOD__
             ));
         }
 
@@ -364,7 +365,8 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
         if (!\defined('COMPAT_JOOMLA_7')) {
             throw new \BadMethodCallException(\sprintf(
                 'Legacy listener registration is only available in compatibility mode (compatibility plugin enabled). Use SubscriberInterface in plugin %s::%s.',
-                __CLASS__, __METHOD__
+                __CLASS__,
+                __METHOD__
             ));
         }
 
@@ -422,7 +424,8 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
         if (!\defined('COMPAT_JOOMLA_7')) {
             throw new \BadMethodCallException(\sprintf(
                 '%s::%s: Legacy listener registration is only available in compatibility mode (compatibility plugin enabled). Use SubscriberInterface.',
-                __CLASS__, __METHOD__
+                __CLASS__,
+                __METHOD__
             ));
         }
 
@@ -446,7 +449,8 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
         if (!\defined('COMPAT_JOOMLA_7')) {
             throw new \BadMethodCallException(\sprintf(
                 'Legacy listener registration is only available in compatibility mode (compatibility plugin enabled). Use SubscriberInterface in plugin %s::%s.',
-                __CLASS__, __METHOD__
+                __CLASS__,
+                __METHOD__
             ));
         }
 
@@ -567,7 +571,8 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
         if (!\defined('COMPAT_JOOMLA_7')) {
             throw new \BadMethodCallException(\sprintf(
                 '%s::%s: is only available in compatibility mode (compatibility plugin enabled). Implement your own DispatcherAwareInterface.',
-                __CLASS__, __METHOD__
+                __CLASS__,
+                __METHOD__
             ));
         }
 
@@ -597,7 +602,8 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
         if (!\defined('COMPAT_JOOMLA_7')) {
             throw new \BadMethodCallException(\sprintf(
                 '%s::%s: is only available in compatibility mode (compatibility plugin enabled). Implement your own DispatcherAwareInterface.',
-                __CLASS__, __METHOD__
+                __CLASS__,
+                __METHOD__
             ));
         }
 
