@@ -313,6 +313,11 @@ final class Subform extends FieldsPlugin implements SubscriberInterface
 
         // Iterate over the sub fields to call prepareDom on each of those sub-fields
         foreach ($subfields as $subfield) {
+            // Make sure the disabled attribute carries over if applicable.
+            if ($parent_field->getAttribute('disabled') === 'true') {
+                $subfield->disabled = true;
+            }
+
             // Let the relevant plugins do their work and insert the correct
             // DOMElement's into our $parent_fieldset.
             $this->getApplication()->triggerEvent(
