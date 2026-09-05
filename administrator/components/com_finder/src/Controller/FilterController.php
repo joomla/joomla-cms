@@ -44,6 +44,7 @@ class FilterController extends FormController
 
         /** @var \Joomla\Component\Finder\Administrator\Model\FilterModel $model */
         $model   = $this->getModel();
+        $model->setUseExceptions(true);
         $table   = $model->getTable();
         $data    = $this->input->post->get('jform', [], 'array');
         $checkin = $table->hasField('checked_out');
@@ -76,10 +77,14 @@ class FilterController extends FormController
         // The save2copy task needs to be handled slightly differently.
         if ($task === 'save2copy') {
             // Check-in the original row.
-            if ($checkin && $model->checkin($data[$key]) === false) {
+            try {
+                if ($checkin) {
+                    $model->checkin($data[$key]);
+                }
+            } catch (\Exception $e) {
                 // Check-in failed. Go back to the item and display a notice.
                 if (!\count($this->app->getMessageQueue())) {
-                    $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
+                    $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $e->getMessage()), 'error');
                 }
 
                 $this->setRedirect('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $urlVar));
@@ -102,10 +107,10 @@ class FilterController extends FormController
 
         // Validate the posted data.
         // Sometimes the form needs some posted data, such as for plugins and modules.
-        $form = $model->getForm($data, false);
-
-        if (!$form) {
-            $this->app->enqueueMessage($model->getError(), 'error');
+        try {
+            $form = $model->getForm($data, false);
+        } catch (\Exception $e) {
+            $this->app->enqueueMessage($e->getMessage(), 'error');
 
             return false;
         }
@@ -149,12 +154,14 @@ class FilterController extends FormController
         }
 
         // Attempt to save the data.
-        if (!$model->save($validData)) {
+        try {
+            $model->save($validData);
+        } catch (\Exception $e) {
             // Save the data in the session.
             $this->app->setUserState($context . '.data', $validData);
 
             // Redirect back to the edit screen.
-            $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
+            $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $e->getMessage()), 'error');
             $this->setRedirect(
                 Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key), false)
             );
@@ -163,12 +170,16 @@ class FilterController extends FormController
         }
 
         // Save succeeded, so check-in the record.
-        if ($checkin && $model->checkin($validData[$key]) === false) {
+        try {
+            if ($checkin) {
+                $model->checkin($validData[$key]);
+            }
+        } catch (\Exception $e) {
             // Save the data in the session.
             $this->app->setUserState($context . '.data', $validData);
 
             // Check-in failed, so go back to the record and display a notice.
-            $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
+            $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $e->getMessage()), 'error');
             $this->setRedirect('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key));
 
             return false;

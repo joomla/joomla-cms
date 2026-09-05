@@ -87,6 +87,7 @@ class ProfileController extends BaseController
 
         /** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
         $model  = $this->getModel('Profile', 'Site');
+        $model->setUseExceptions(true);
         $user   = $this->app->getIdentity();
         $userId = (int) $user->id;
 
@@ -98,10 +99,6 @@ class ProfileController extends BaseController
 
         // Validate the posted data.
         $form = $model->getForm();
-
-        if (!$form) {
-            throw new \Exception($model->getError(), 500);
-        }
 
         // Send an object which can be modified through the plugin event
         $objData = (object) $requestData;
@@ -146,16 +143,15 @@ class ProfileController extends BaseController
         }
 
         // Attempt to save the data.
-        $return = $model->save($data);
-
-        // Check for errors.
-        if ($return === false) {
+        try {
+            $return = $model->save($data);
+        } catch (\Exception $e) {
             // Save the data in the session.
             $app->setUserState('com_users.edit.profile.data', $data);
 
             // Redirect back to the edit screen.
             $userId = (int) $app->getUserState('com_users.edit.profile.id');
-            $this->setMessage(Text::sprintf('COM_USERS_PROFILE_SAVE_FAILED', $model->getError()), 'warning');
+            $this->setMessage(Text::sprintf('COM_USERS_PROFILE_SAVE_FAILED', $e->getMessage()), 'warning');
             $this->setRedirect(Route::_('index.php?option=com_users&view=profile&layout=edit&user_id=' . $userId, false));
 
             return false;

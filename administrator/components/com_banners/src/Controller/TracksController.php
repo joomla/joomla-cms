@@ -64,6 +64,7 @@ class TracksController extends BaseController
         // Get the model.
         /** @var \Joomla\Component\Banners\Administrator\Model\TracksModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         // Load the filter state.
         $model->setState('filter.type', $this->app->getUserState($this->context . '.filter.type'));
@@ -76,16 +77,22 @@ class TracksController extends BaseController
 
         $count = $model->getTotal();
 
+        $this->setRedirect('index.php?option=com_banners&view=tracks');
+
         // Remove the items.
-        if (!$model->delete()) {
-            $this->app->enqueueMessage($model->getError(), 'warning');
-        } elseif ($count > 0) {
+        try {
+            $model->delete();
+        } catch (\Exception $e) {
+            $this->app->enqueueMessage($e->getMessage(), 'warning');
+
+            return;
+        }
+
+        if ($count > 0) {
             $this->setMessage(Text::plural('COM_BANNERS_TRACKS_N_ITEMS_DELETED', $count));
         } else {
             $this->setMessage(Text::_('COM_BANNERS_TRACKS_NO_ITEMS_DELETED'));
         }
-
-        $this->setRedirect('index.php?option=com_banners&view=tracks');
     }
 
     /**
