@@ -729,3 +729,74 @@ Cypress.Commands.add('db_setValidTufRoot', () => {
   cy.task('queryDB', 'DELETE FROM #__updates WHERE update_site_id = 1');
   cy.task('queryDB', `UPDATE #__tuf_metadata SET root = '${JSON.stringify(validTufMetadata.root)}', targets = '', snapshot = '', timestamp = '' WHERE id = 1`);
 });
+
+/**
+ * Creates a guided tour in the database with the given data. The tour contains some default values when
+ * not all required fields are passed in the given data. The id of the inserted tour is returned.
+ *
+ * TODO: Consider by default adding a step to the tour!
+ *
+ * @param {Object} tourData The tour data to insert
+ *
+ * @returns Object
+ */
+Cypress.Commands.add('db_createTour', (tourData) => {
+  const defaultTourOptions = {
+    title: 'Test tour',
+    uid: 'test-tour',
+    description: 'Test series tour data',
+    extensions: '["*"]',
+    url: 'administrator/index.php?option=com_content&view=articles',
+    published: 1,
+    language: '*',
+    access: 1,
+    // Enabling this affects other tests currently as we don't clean up these tours!
+    autostart: 0,
+    created: '2024-11-04 22:00:00',
+    modified: '2024-11-04 22:00:00',
+  };
+
+  const tour = { ...defaultTourOptions, ...tourData };
+
+  return cy.task('queryDB', createInsertQuery('guidedtours', tour))
+    .then(async (info) => {
+      tour.id = info.insertId;
+
+      return tour;
+    });
+});
+
+/**
+ * Creates a step for a guided tour in the database with the given data. The step contains some default values when
+ * not all required fields are passed in the given data. The id of the inserted step is returned.
+ *
+ * @param {integer} tourId   The tour that the step will be created in
+ * @param {Object}  stepData The step data to insert
+ *
+ * @returns Object
+ */
+Cypress.Commands.add('db_createTourStep', (tourId, stepData) => {
+  const defaultStepOptions = {
+    tour_id: tourId,
+    title: 'Test Tour Step',
+    published: 1,
+    description: 'Test tour data - test step',
+    position: 'top',
+    target: '#testElement',
+    type: 2,
+    interactive_type: 1,
+    url: 'administrator/index.php?option=com_content&view=articles',
+    language: '*',
+    created: '2024-11-04 22:00:00',
+    modified: '2024-11-04 22:00:00',
+  };
+
+  const step = { ...defaultStepOptions, ...stepData };
+
+  return cy.task('queryDB', createInsertQuery('guidedtour_steps', step))
+    .then(async (info) => {
+      step.id = info.insertId;
+
+      return step;
+    });
+});
