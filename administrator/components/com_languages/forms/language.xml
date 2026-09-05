@@ -85,6 +85,7 @@
 			label="JFIELD_ACCESS_LABEL"
 			filter="UINT"
 			validate="options"
+			layout="joomla.form.field.list-fancy-select"
 		/>
 	</fieldset>
 	<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
