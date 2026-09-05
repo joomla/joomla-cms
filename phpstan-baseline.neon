@@ -10255,18 +10255,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/HTML/Helpers/Behavior.php
-
-		-
-			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
@@ -10431,44 +10419,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: libraries/src/HTML/Helpers/JGrid.php
-
-		-
-			message: '''
-				#^Call to deprecated method addScriptDeclaration\(\) of class Joomla\\CMS\\Document\\Document\:
-				4\.3 will be removed in 7\.0
-				             Use WebAssetManager
-				             Example\: \$wa\-\>addInlineScript\(\.\.\.\);$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/HTML/Helpers/Jquery.php
-
-		-
-			message: '''
-				#^Call to deprecated method framework\(\) of class Joomla\\CMS\\HTML\\Helpers\\Jquery\:
-				4\.0 will be removed in 7\.0
-				             Use webasset manager instead
-				             Example\:
-				             \$wa \= Factory\:\:getApplication\(\)\-\>getDocument\(\)\-\>getWebAssetManager\(\);
-				             \$wa\-\>useScript\('jquery'\);
-				             \$wa\-\>useScript\('jquery\-noconflict'\);
-				             \$wa\-\>useScript\('jquery\-migrate'\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/HTML/Helpers/Jquery.php
-
-		-
-			message: '''
-				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the document service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/HTML/Helpers/Jquery.php
 
 		-
 			message: '''
@@ -12806,6 +12756,56 @@ parameters:
 			identifier: method.staticCall
 			count: 2
 			path: plugins/behaviour/compat7/classes/Filesystem/Streams/StreamString.php
+
+		-
+			message: '''
+				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 7\.0
+				             Use the language service in the DI container or get from the application object
+				             Example\:
+				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: plugins/behaviour/compat7/classes/HTML/Helpers/Behavior.php
+
+		-
+			message: '''
+				#^Call to deprecated method addScriptDeclaration\(\) of class Joomla\\CMS\\Document\\Document\:
+				4\.3 will be removed in 7\.0
+				             Use WebAssetManager
+				             Example\: \$wa\-\>addInlineScript\(\.\.\.\);$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: plugins/behaviour/compat7/classes/HTML/Helpers/Jquery.php
+
+		-
+			message: '''
+				#^Call to deprecated method framework\(\) of class Joomla\\CMS\\HTML\\Helpers\\Jquery\:
+				4\.0 will be removed in 7\.0
+				             Use webasset manager instead
+				             Example\:
+				             \$wa \= Factory\:\:getApplication\(\)\-\>getDocument\(\)\-\>getWebAssetManager\(\);
+				             \$wa\-\>useScript\('jquery'\);
+				             \$wa\-\>useScript\('jquery\-noconflict'\);
+				             \$wa\-\>useScript\('jquery\-migrate'\);$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: plugins/behaviour/compat7/classes/HTML/Helpers/Jquery.php
+
+		-
+			message: '''
+				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 7\.0
+				             Use the document service in the DI container or get from the application object
+				             Example\:
+				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: plugins/behaviour/compat7/classes/HTML/Helpers/Jquery.php
 
 		-
 			message: '''

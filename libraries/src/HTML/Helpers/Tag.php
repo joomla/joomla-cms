@@ -172,6 +172,13 @@ abstract class Tag
      */
     public static function ajaxfield($selector = '#jform_tags', $allowCustom = true)
     {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            throw new \BadMethodCallException(\sprintf(
+                '%1$s() is only available in compatibility mode (compatibility plugin enabled).',
+                __METHOD__
+            ));
+        }
+
         // Get the component parameters
         $params        = ComponentHelper::getParams('com_tags');
         $minTermLength = (int) $params->get('min_term_length', 3);

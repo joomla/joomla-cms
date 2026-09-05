@@ -10,7 +10,6 @@
 namespace Joomla\CMS\HTML\Helpers;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
@@ -52,7 +51,7 @@ abstract class Dropdown
         }
 
         // Depends on Bootstrap
-        HTMLHelper::_('bootstrap.framework');
+        Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('dropdown');
 
         Factory::getDocument()->addScriptDeclaration("
 			(function($){
