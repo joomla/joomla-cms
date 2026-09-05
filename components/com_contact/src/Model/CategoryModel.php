@@ -105,6 +105,8 @@ class CategoryModel extends ListModel
         }
 
         parent::__construct($config, $factory);
+
+        $this->localeOrderColumns = ['a.name', 'a.con_position', 'a.suburb', 'a.state', 'a.country'];
     }
 
     /**
@@ -267,7 +269,10 @@ class CategoryModel extends ListModel
             $query->order($db->escape('a.featured') . ' DESC')
                 ->order($db->escape('a.ordering') . ' ASC');
         } else {
-            $query->order($db->escape($this->getState('list.ordering', 'a.ordering')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+            $query->order($this->getOrderByWithLocale(
+                $this->getState('list.ordering', 'a.ordering'),
+                $this->getState('list.direction', 'ASC')
+            ));
         }
 
         return $query;

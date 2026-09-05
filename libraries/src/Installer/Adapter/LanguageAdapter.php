@@ -12,6 +12,7 @@ namespace Joomla\CMS\Installer\Adapter;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Database\LocaleCollation;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Installer;
@@ -444,6 +445,9 @@ class LanguageAdapter extends InstallerAdapter
             $this->createContentLanguage($this->tag);
         }
 
+        // Ensure the collation exists for the language on install
+        (new LocaleCollation($this->getDatabase()))->ensureCollation($this->tag);
+
         // Clobber any possible pending updates
         $update = new Update($this->getDatabase());
         $uid    = $update->find(['element' => $this->tag, 'type' => 'language', 'folder' => '']);
@@ -620,6 +624,9 @@ class LanguageAdapter extends InstallerAdapter
             $this->createContentLanguage($this->tag);
         }
 
+        // Ensure the collation exists for the language on update
+        (new LocaleCollation($this->getDatabase()))->ensureCollation($this->tag);
+
         return $row->extension_id;
     }
 
@@ -709,6 +716,9 @@ class LanguageAdapter extends InstallerAdapter
         if ($client->id === 0) {
             $this->createContentLanguage($short_element);
         }
+
+        // Ensure the collation exists for the language on discover install
+        (new LocaleCollation($this->getDatabase()))->ensureCollation($short_element);
 
         // Clean installed languages cache.
         $this->cleanLanguagesCache();

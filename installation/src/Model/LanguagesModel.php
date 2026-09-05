@@ -12,6 +12,7 @@ namespace Joomla\CMS\Installation\Model;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Database\LocaleCollation;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Installer\Installer;
@@ -487,6 +488,9 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
 
             return false;
         }
+
+        // Ensure the collation exists for the language set as default
+        (new LocaleCollation($this->getDatabase()))->ensureCollation($language);
 
         return true;
     }
