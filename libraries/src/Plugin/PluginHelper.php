@@ -240,15 +240,21 @@ abstract class PluginHelper
         $reflection         = new \ReflectionClass($plugin);
         $registerOverridden = $reflection->hasMethod('registerListeners') && $reflection->getMethod('registerListeners')->class !== CMSPlugin::class;
 
+        // Check whether the plugin declares DispatcherAwareInterface itself instead of inheriting it.
+        $ownsDispatcher = $reflection->hasMethod('setDispatcher') && $reflection->getMethod('setDispatcher')->class !== CMSPlugin::class;
+
         // @TODO: From 7.0 when registerListeners() will be removed from CMSPlugin checking for overridden registerListeners() need to be removed.
-        if ($plugin instanceof SubscriberInterface && !$registerOverridden) {
+        $isSubscriber = $plugin instanceof SubscriberInterface && !$registerOverridden;
+
+        // Hand the plugin the dispatcher its listeners are registered on, so its own events reach them.
+        // @TODO: From 7.0 when DispatcherAwareInterface will be removed from CMSPlugin this should be checked for all plugins.
+        if ($dispatcher && $plugin instanceof DispatcherAwareInterface && (!$isSubscriber || $ownsDispatcher)) {
+            $plugin->setDispatcher($dispatcher);
+        }
+
+        if ($isSubscriber) {
             $dispatcher->addSubscriber($plugin);
         } else {
-            // @TODO: From 7.0 when DispatcherAwareInterface will be removed from CMSPlugin this should be checked for all plugins.
-            if ($dispatcher && $plugin instanceof DispatcherAwareInterface) {
-                $plugin->setDispatcher($dispatcher);
-            }
-
             // @TODO: From 7.0 it should use $dispatcher->addSubscriber($plugin); for plugins which implement SubscriberInterface.
             $plugin->registerListeners();
         }

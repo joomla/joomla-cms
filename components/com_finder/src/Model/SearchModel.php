@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Finder\Site\Model;
 
+use Joomla\CMS\Event\Finder\SortOrderFieldsEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -365,12 +366,16 @@ class SearchModel extends ListModel
         }
 
         // Import Finder plugins
-        PluginHelper::importPlugin('finder');
+        $dispatcher = $this->getDispatcher();
+
+        PluginHelper::importPlugin('finder', null, true, $dispatcher);
 
         // Trigger an event, in case a plugin wishes to change the order fields.
-        $app->triggerEvent('onFinderSortOrderFields', [&$sortOrderFields]);
+        $event = new SortOrderFieldsEvent('onFinderSortOrderFields', ['sortOrderFields' => $sortOrderFields]);
 
-        return $sortOrderFields;
+        $dispatcher->dispatch('onFinderSortOrderFields', $event);
+
+        return $event->getSortOrderFields();
     }
 
     /**

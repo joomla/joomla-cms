@@ -9220,6 +9220,16 @@ parameters:
 			path: libraries/src/Event/Plugin/System/Stats/GetStatsDataEvent.php
 
 		-
+			message: """
+				#^Access to deprecated property \\$resultIsFalseable of class Joomla\\\\CMS\\\\Event\\\\Module\\\\GetStatsEvent\\:
+				4\\.3 will be removed in 7\\.0\r
+				             You should use nullable values or exceptions instead of returning boolean false results\\.$#
+			"""
+			identifier: property.deprecated
+			count: 1
+			path: libraries/src/Event/Module/GetStatsEvent.php
+
+		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\Plugin\\System\\Stats\\GetStatsDataEvent\:
 				4\.3 will be removed in 7\.0
