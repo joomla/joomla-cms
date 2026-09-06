@@ -55,16 +55,12 @@ class GetIconEvent extends AbstractImmutableEvent implements ResultAwareInterfac
      *
      * @since   4.2.0
      *
-     * @deprecated 4.4.0 will be removed in 7.0
+     * @deprecated 4.4.0 will be removed in 8.0
      *                Use counterpart with onSet prefix
      */
     public function setContext(string $value)
     {
-        if (empty($value)) {
-            throw new \DomainException(\sprintf("Argument 'context' of event %s must be a non-empty string.", $this->name));
-        }
-
-        return $value;
+        return $this->onSetContext($value);
     }
 
     /**
@@ -78,6 +74,10 @@ class GetIconEvent extends AbstractImmutableEvent implements ResultAwareInterfac
      */
     protected function onSetContext(string $value)
     {
-        return $this->setContext($value);
+        if (empty($value)) {
+            throw new \DomainException(\sprintf("Argument 'context' of event %s must be a non-empty string.", $this->name));
+        }
+
+        return $value;
     }
 }
