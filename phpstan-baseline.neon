@@ -8431,7 +8431,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\Cache\\AfterPurgeEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -8450,7 +8450,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\Checkin\\AfterCheckinEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -8469,7 +8469,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\Contact\\SubmitContactEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -8498,7 +8498,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\Contact\\ValidateContactEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -8577,7 +8577,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\Content\\ContentEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -8596,7 +8596,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\CustomFields\\CustomFieldsEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -8645,7 +8645,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\Extension\\AbstractExtensionEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -8664,7 +8664,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\Extension\\AbstractJoomlaUpdateEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -8683,7 +8683,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\Finder\\AbstractFinderEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -8742,7 +8742,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\Installer\\BeforePackageDownloadEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -8761,7 +8761,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\Installer\\InstallerEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -8780,7 +8780,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\Mail\\MailTemplateEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -8799,7 +8799,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\Menu\\AfterGetMenuTypeOptionsEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -8818,7 +8818,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\Menu\\BeforeRenderMenuItemsViewEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -8837,7 +8837,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\Menu\\PreprocessMenuItemsEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -8866,7 +8866,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\Model\\AfterCleanCacheEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -8915,7 +8915,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\Model\\FormEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -8934,7 +8934,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\Model\\ModelEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -8953,7 +8953,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\Module\\ModuleEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -9222,7 +9222,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\Plugin\\System\\Stats\\GetStatsDataEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -9351,7 +9351,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\Privacy\\PrivacyEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -9391,7 +9391,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\QuickIcon\\GetIconEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -9710,7 +9710,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Event\\ReshapeArgumentsAware in class Joomla\\CMS\\Event\\User\\UserEvent\:
-				4\.3 will be removed in 7\.0
+				4\.3 will be removed in 8\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -11785,7 +11785,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setDispatcher\(\) of class Joomla\\CMS\\Plugin\\CMSPlugin\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -11851,7 +11851,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method registerListeners\(\) of interface Joomla\\CMS\\Extension\\PluginInterface\:
-				5\.4\.0 will be removed in 7\.0
+				5\.4\.0 will be removed in 8\.0
 				             Plugin should implement SubscriberInterface\.
 				             These plugins will be added to dispatcher in PluginHelper\:\:import\(\)\.$#
 			'''
@@ -12832,7 +12832,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\Content\\Finder\\Extension\\Finder\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -12842,7 +12842,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\Content\\Finder\\Extension\\Finder\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -12868,7 +12868,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\Editors\\CodeMirror\\Extension\\Codemirror\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -12878,7 +12878,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\Editors\\CodeMirror\\Extension\\Codemirror\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -12888,7 +12888,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\Editors\\None\\Extension\\None\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -12898,7 +12898,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\Editors\\None\\Extension\\None\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -12908,7 +12908,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\Editors\\TinyMCE\\Extension\\TinyMCE\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -12918,7 +12918,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\Editors\\TinyMCE\\Extension\\TinyMCE\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -13056,7 +13056,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\System\\Cache\\Extension\\Cache\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -13066,7 +13066,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\System\\Cache\\Extension\\Cache\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -13124,7 +13124,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\System\\Jooa11y\\Extension\\Jooa11y\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -13134,7 +13134,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\System\\Jooa11y\\Extension\\Jooa11y\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -13179,7 +13179,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\System\\Schemaorg\\Extension\\Schemaorg\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -13189,7 +13189,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\System\\Schemaorg\\Extension\\Schemaorg\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -13199,7 +13199,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\System\\Shortcut\\Extension\\Shortcut\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
@@ -13209,7 +13209,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\System\\Shortcut\\Extension\\Shortcut\:
-				5\.2 will be removed in 7\.0
+				5\.2 will be removed in 8\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
 			identifier: method.deprecated
