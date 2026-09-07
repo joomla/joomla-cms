@@ -1841,7 +1841,7 @@ class TemplateModel extends FormModel
             $app             = Factory::getApplication();
             $basePath        = $this->getBasePath();
             $archiveFilePath = Path::check($basePath . base64_decode($file), $basePath);
-            $extractPath     = dirname($archiveFilePath);
+            $extractPath     = \dirname($archiveFilePath);
 
             if (file_exists($archiveFilePath)) {
                 $zip = new \ZipArchive();
