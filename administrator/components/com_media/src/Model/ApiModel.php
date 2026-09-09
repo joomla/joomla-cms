@@ -189,7 +189,7 @@ class ApiModel extends BaseDatabaseModel
         $result = $app->triggerEvent('onContentBeforeSave', ['com_media.folder', $object, true, $object]);
 
         if (\in_array(false, $result, true)) {
-            throw new \Exception($object->getError());
+            throw new \Exception($object->error ?? 'Error');
         }
 
         $object->name = $this->getAdapter($object->adapter)->createFolder($object->name, $object->path);
@@ -249,7 +249,7 @@ class ApiModel extends BaseDatabaseModel
         $result = $app->triggerEvent('onContentBeforeSave', ['com_media.file', $object, true, $object]);
 
         if (\in_array(false, $result, true)) {
-            throw new \Exception($object->getError());
+            throw new \Exception($object->error ?? 'Error');
         }
 
         $object->name = $this->getAdapter($object->adapter)->createFile($object->name, $object->path, $object->data);
@@ -297,7 +297,7 @@ class ApiModel extends BaseDatabaseModel
         $result = $app->triggerEvent('onContentBeforeSave', ['com_media.file', $object, false, $object]);
 
         if (\in_array(false, $result, true)) {
-            throw new \Exception($object->getError());
+            throw new \Exception($object->error ?? 'Error');
         }
 
         $this->getAdapter($object->adapter)->updateFile($object->name, $object->path, $object->data);
@@ -341,7 +341,7 @@ class ApiModel extends BaseDatabaseModel
         $result = $app->triggerEvent('onContentBeforeDelete', ['com_media.' . $type, $object]);
 
         if (\in_array(false, $result, true)) {
-            throw new \Exception($object->getError());
+            throw new \Exception($object->error ?? 'Error');
         }
 
         $this->getAdapter($object->adapter)->delete($object->path);
