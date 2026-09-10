@@ -98,7 +98,7 @@ if (empty($output) && empty($groups)) {
     </ul>
 <?php endif; ?>
 
-<?php // Render grouped fields as separate lists ?>
+<?php // Render grouped fields as separate lists with custom css class ?>
 <?php foreach ($groups as $group) : ?>
     <ul class="fields-container<?php echo $group['class'] ? ' ' . htmlspecialchars($group['class'], ENT_QUOTES, 'UTF-8') : ''; ?>">
         <?php echo implode("\n", $group['fields']); ?>
