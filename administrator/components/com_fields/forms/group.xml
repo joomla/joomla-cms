@@ -150,6 +150,24 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+			<field
+				name="group_fields"
+				type="radio"
+				label="JFIELD_GROUP_FIELDS_LABEL"
+				description="JFIELD_GROUP_FIELDS_DESCRIPTION"
+				layout="joomla.form.field.radio.switcher"
+				default="0"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field
+				name="class"
+				type="textarea"
+				label="COM_FIELDS_GROUP_CLASS_LABEL"
+				showon="group_fields:1"
+				validate="CssIdentifier"
+			/>
 		</fieldset>
 	</fields>
 </form>
