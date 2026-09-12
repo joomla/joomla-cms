@@ -44,7 +44,9 @@ if (empty($fields)) {
     return;
 }
 
+// Prepare the output arrays for grouped and ungrouped field HTML
 $output = [];
+$groups = [];
 
 foreach ($fields as $field) {
     // If the value is empty do nothing
@@ -61,13 +63,44 @@ foreach ($fields as $field) {
         continue;
     }
 
-    $output[] = '<li class="field-entry ' . $class . '">' . $content . '</li>';
+    $entry = '<li class="field-entry ' . $class . '">' . $content . '</li>';
+
+    // Make a Group array for fields that belong to a group
+    if (!empty($field->group_params)) {
+        $groupParams = json_decode($field->group_params, true);
+
+        if (!empty($groupParams['group_fields'])) {
+            $groupId = $field->group_id ?? 0;
+
+            if (!isset($groups[$groupId])) {
+                $groups[$groupId] = [
+                    'class'  => $groupParams['class'] ?? '',
+                    'fields' => [],
+                ];
+            }
+
+            $groups[$groupId]['fields'][] = $entry;
+
+            continue;
+        }
+    }
+
+    $output[] = $entry;
 }
 
-if (empty($output)) {
+if (empty($output) && empty($groups)) {
     return;
 }
 ?>
-<ul class="fields-container">
-    <?php echo implode("\n", $output); ?>
-</ul>
+<?php if (!empty($output)) : ?>
+    <ul class="fields-container">
+        <?php echo implode("\n", $output); ?>
+    </ul>
+<?php endif; ?>
+
+<?php // Render grouped fields as separate lists with custom css class ?>
+<?php foreach ($groups as $group) : ?>
+    <ul class="fields-container<?php echo $group['class'] ? ' ' . htmlspecialchars($group['class'], ENT_QUOTES, 'UTF-8') : ''; ?>">
+        <?php echo implode("\n", $group['fields']); ?>
+    </ul>
+<?php endforeach; ?>
