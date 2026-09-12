@@ -239,10 +239,10 @@ class ComponentlayoutField extends FormField
                                         if (isset($layout[0])) {
                                             $attributes = $layout[0];
 
-                                            if (isset($attributes['option']) && (string)$attributes['option'] !== '') {
-                                                $text = Text::_((string)$attributes['option']);
-                                            } elseif (isset($attributes['title']) && (string)$attributes['title'] !== '') {
-                                                $text = Text::_((string)$attributes['title']);
+                                            if (isset($attributes['option']) && (string) $attributes['option'] !== '') {
+                                                $text = Text::_((string) $attributes['option']);
+                                            } elseif (isset($attributes['title']) && (string) $attributes['title'] !== '') {
+                                                $text = Text::_((string) $attributes['title']);
                                             }
                                         }
                                     }
