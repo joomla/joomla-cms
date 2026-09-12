@@ -68,7 +68,7 @@
     "joomla/language": "~3.0",
     "joomla/oauth1": "~3.0",
     "joomla/oauth2": "~3.0",
-    "joomla/registry": "~3.0",
+    "joomla/registry": "^3.0.3",
     "joomla/router": "~3.0",
     "joomla/session": "^3.0.3",
     "joomla/string": "^3.0.4",

@@ -16,6 +16,18 @@ describe('Test in backend that the Smart Search', () => {
     cy.contains('Test article').should('exist');
   });
 
+  it('can index content', () => {
+    // Create a new article
+    cy.visit('/administrator/index.php?option=com_content&task=article.add');
+    cy.get('#jform_title').clear().type('Test article');
+    cy.clickToolbarButton('Save & Close');
+    // Visit the smart search page
+    cy.visit('/administrator/index.php?option=com_finder&view=index');
+    // Carefully check on next versions cause in 6 the button has changes
+    cy.get('#toolbar-index > button').click();
+    cy.contains('Test article').should('exist');
+  });
+
   it('can purge the index', () => {
     // Visit the smart search page
     cy.visit('/administrator/index.php?option=com_finder&view=index');

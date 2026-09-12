@@ -27,7 +27,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Category;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Versioning\VersionableModelTrait;
-use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
@@ -226,10 +225,14 @@ class CategoryModel extends AdminModel
         $assoc = $this->getAssoc();
 
         if ($assoc) {
+            $result->associations = [];
+
             if ($result->id != null) {
-                $result->associations = ArrayHelper::toInteger(CategoriesHelper::getAssociations($result->id, $result->extension));
-            } else {
-                $result->associations = [];
+                $associations = Associations::getAssociations($result->extension, '#__categories', 'com_categories.item', $result->id, 'id', 'alias', '');
+
+                foreach ($associations as $tag => $association) {
+                    $result->associations[$tag] = (int) $association->id;
+                }
             }
         }
 
