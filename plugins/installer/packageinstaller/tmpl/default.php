@@ -95,11 +95,11 @@ $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
         <div class="controls">
             <input class="form-control-file" id="install_package" name="install_package" type="file">
             <input id="max_upload_size" name="max_upload_size" type="hidden" value="<?php echo $maxSizeBytes; ?>" />
-            <small class="form-text"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></small>
+            <small id="install-package-upload-limit" class="form-text" ><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></small>
         </div>
     </div>
     <div class="form-actions">
-        <button class="btn btn-primary" type="button" id="installbutton_package">
+        <button class="btn btn-primary" type="button" id="installbutton_package" aria-describedby="install-package-upload-limit">
             <?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_AND_INSTALL'); ?>
         </button>
     </div>
