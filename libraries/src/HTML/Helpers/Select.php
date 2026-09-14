@@ -146,7 +146,7 @@ abstract class Select
                     'webcomponent.select-colour',
                     'system/fields/select-colour.min.js',
                     ['dependencies' => ['core']],
-                    ['type' => 'module']
+                    ['type'         => 'module']
                 );
         }
 
