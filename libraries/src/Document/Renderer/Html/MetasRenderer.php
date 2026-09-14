@@ -191,6 +191,19 @@ class MetasRenderer extends DocumentRenderer
             $buffer .= '>' . $lnEnd;
         }
 
+        // Generate hreflang link declarations
+        foreach ($this->_doc->_hreflangs as $link => $linkAtrr) {
+            $buffer .= $tab . '<link href="' . $link . '" ' . $linkAtrr['relType'] . '="' . $linkAtrr['relation'] . '"';
+
+            if (\is_array($linkAtrr['attribs'])) {
+                if ($temp = ArrayHelper::toString($linkAtrr['attribs'])) {
+                    $buffer .= ' ' . $temp;
+                }
+            }
+
+            $buffer .= '>' . $lnEnd;
+        }
+
         return ltrim($buffer, $tab);
     }
 }
