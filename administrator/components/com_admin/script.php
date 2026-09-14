@@ -1063,9 +1063,6 @@ class JoomlaInstallerScript
             '/libraries/vendor/symfony/validator/Test/ConstraintValidatorTestCase.php',
             '/libraries/vendor/symfony/var-dumper/Test/VarDumperTestTrait.php',
             // From 6.1.0-alpha3 to 6.1.0-beta1
-            '/media/vendor/tinymce/langs/cy.js',
-            '/media/vendor/tinymce/langs/cy.min.js',
-            '/media/vendor/tinymce/langs/cy.min.js.gz',
             '/media/vendor/tinymce/langs/dv.js',
             '/media/vendor/tinymce/langs/dv.min.js',
             '/media/vendor/tinymce/langs/dv.min.js.gz',
