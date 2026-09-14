@@ -1284,6 +1284,9 @@ class JoomlaInstallerScript
             '/media/vendor/tinymce/langs/bs.min.js.gz',
             // From 6.2.0-beta1 to 6.2.0-beta2
             '/administrator/components/com_content/src/Service/PreviewTokenService.php',
+            // From 6.2.0-beta2 to 6.2.0-beta3
+            '/media/vendor/tinymce/langs/cy.min.js',
+            '/media/vendor/tinymce/langs/cy.min.js.gz',
         ];
 
         $folders = [
