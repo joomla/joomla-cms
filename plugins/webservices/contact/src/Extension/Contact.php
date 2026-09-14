@@ -58,7 +58,7 @@ final class Contact extends CMSPlugin implements SubscriberInterface
             ['POST'],
             'v1/contacts/form/:id',
             'contact.submitForm',
-            ['id'        => '(\d+)'],
+            ['id' => '(\d+)'],
             ['component' => 'com_contact']
         );
 
