@@ -441,9 +441,9 @@ class TracksModel extends ListModel
                 . str_replace('"', '""', Text::_('JDATE')) . '"' . "\n";
 
             foreach ($this->getItems() as $item) {
-                $this->content .= '"' . str_replace('"', '""', $item->banner_name) . '","'
-                    . str_replace('"', '""', $item->client_name) . '","'
-                    . str_replace('"', '""', $item->category_title) . '","'
+                $this->content .= '"' . str_replace('"', '""', $this->escapeCsvFormula($item->banner_name)) . '","'
+                    . str_replace('"', '""', $this->escapeCsvFormula($item->client_name ?? '')) . '","'
+                    . str_replace('"', '""', $this->escapeCsvFormula($item->category_title)) . '","'
                     . str_replace('"', '""', ($item->track_type == 1 ? Text::_('COM_BANNERS_IMPRESSION') : Text::_('COM_BANNERS_CLICK'))) . '","'
                     . str_replace('"', '""', $item->count) . '","'
                     . str_replace('"', '""', $item->track_date) . '"' . "\n";
@@ -495,5 +495,27 @@ class TracksModel extends ListModel
         }
 
         return $this->content;
+    }
+
+    /**
+     * Escapes potential characters that start a formula in a CSV value to prevent injection attacks
+     *
+     * @param   string  $value  csv field value
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function escapeCsvFormula(string $value): string
+    {
+        if ($value === '') {
+            return $value;
+        }
+
+        if (\in_array($value[0], ['=', '+', '-', '@'], true)) {
+            return ' ' . $value;
+        }
+
+        return $value;
     }
 }
