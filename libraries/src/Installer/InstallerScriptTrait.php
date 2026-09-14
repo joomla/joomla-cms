@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Installer;
 
-use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -204,7 +203,7 @@ trait InstallerScriptTrait
         $oldManifest = $this->getOldManifest($adapter);
 
         if ($oldManifest !== null && $oldManifest->version && version_compare($oldManifest->version, $adapter->getManifest()->version, '>')) {
-            Log::add(Text::_('JLIB_INSTALLER_ERROR_DOWNGRADE'), Log::WARNING, 'jerror');
+            Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNGRADE', $oldManifest->version, $adapter->getManifest()->version), Log::WARNING, 'jerror');
 
             return false;
         }
@@ -223,11 +222,7 @@ trait InstallerScriptTrait
      */
     protected function getOldManifest(InstallerAdapter $adapter): ?\SimpleXMLElement
     {
-        $client = ApplicationHelper::getClientInfo('administrator', true);
-
-        $pathname = 'extension_' . $client->name;
-
-        $manifestPath = $adapter->getParent()->getPath($pathname) . '/' . $adapter->getParent()->getPath('manifest');
+        $manifestPath = $adapter->getParent()->getPath('extension_root') . '/' .  \basename($adapter->getParent()->getPath('manifest'));
 
         return is_file($manifestPath) ? $adapter->getParent()->isManifest($manifestPath) : null;
     }
