@@ -1005,6 +1005,21 @@ class FieldModel extends AdminModel
      */
     public function validate($form, $data, $group = null)
     {
+        // Check if the values are unique. This should only apply for list, checkboxes and radio custom field types
+        if (\in_array($data['type'], ['list', 'checkboxes', 'radio'])
+            && !empty($data['fieldparams']['options'])
+            && \is_array($data['fieldparams']['options'])) {
+            $tmpValues = [];
+            foreach ($data['fieldparams']['options'] as $option) {
+                $tmpValues[] = $option['value'];
+            }
+
+            if (\count($tmpValues) !== \count(array_unique($tmpValues))) {
+                Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_FIELD_INVALID_DUPLICATE_VALUES'), 'error');
+
+                return false;
+            }
+        }
         if (!$this->getCurrentUser()->authorise('core.admin', 'com_fields')) {
             if (isset($data['rules'])) {
                 unset($data['rules']);

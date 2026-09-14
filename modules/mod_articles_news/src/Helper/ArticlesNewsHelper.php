@@ -160,7 +160,7 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
                     $item->imageSrc = htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8');
                     $item->imageAlt = htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8');
 
-                    if ($images->image_intro_caption) {
+                    if ($images->image_fulltext_caption) {
                         $item->imageCaption = htmlspecialchars($images->image_fulltext_caption, ENT_COMPAT, 'UTF-8');
                     }
                 }
