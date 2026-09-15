@@ -191,6 +191,10 @@ class NewsfeedModel extends ItemModel
 
                 $this->_item[$pk] = $data;
             } catch (\Exception $e) {
+                if ($this->shouldUseExceptions()) {
+                    throw $e;
+                }
+
                 $this->setError($e);
                 $this->_item[$pk] = false;
             }
