@@ -116,7 +116,11 @@ class ContentHistory extends Table implements CurrentUserInterface
      */
     public function getSha1($jsonData, ContentType $typeTable)
     {
-        $object = \is_object($jsonData) ? $jsonData : json_decode($jsonData);
+        $object = \is_string($jsonData) ? json_decode($jsonData) : json_decode(json_encode($jsonData));
+
+        if (!\is_object($object)) {
+            return '';
+        }
 
         if (isset($typeTable->content_history_options) && \is_object(json_decode($typeTable->content_history_options))) {
             $options             = json_decode($typeTable->content_history_options);
@@ -135,7 +139,7 @@ class ContentHistory extends Table implements CurrentUserInterface
             if (\is_object($value)) {
                 // Go one level down for JSON column values
                 foreach ($value as $subName => $subValue) {
-                    $object->$subName = \is_int($subValue) || \is_bool($subValue) || $subValue === null ? (string) $subValue : $subValue;
+                    $value->$subName = \is_int($subValue) || \is_bool($subValue) || $subValue === null ? (string) $subValue : $subValue;
                 }
             } else {
                 $object->$name = \is_int($value) || \is_bool($value) || $value === null ? (string) $value : $value;
