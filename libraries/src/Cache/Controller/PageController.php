@@ -97,7 +97,16 @@ class PageController extends CacheController
                 $this->cache->unlock($id, $group);
             }
 
-            $data = unserialize(trim($data));
+            $trimmed = trim($data);
+
+            // Try secure deserialization first
+            $data = @unserialize($trimmed, ['allowed_classes' => false]);
+
+            // Fallback for backward compatibility: if secure unserialize failed and the serialized data is not boolean false
+            if ($data === false && $trimmed !== 'b:0;') {
+                // Legacy fallback to preserve existing cache entries that store objects
+                $data = unserialize($trimmed);
+            }
             $data = Cache::getWorkarounds($data);
 
             $this->_setEtag($id);
