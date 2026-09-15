@@ -247,6 +247,10 @@ class TracksModel extends ListModel
             try {
                 $db->execute();
             } catch (\RuntimeException $e) {
+                if ($this->shouldUseExceptions()) {
+                    throw $e;
+                }
+
                 $this->setError($e->getMessage());
 
                 return false;
@@ -354,6 +358,10 @@ class TracksModel extends ListModel
             try {
                 $name = $db->loadResult();
             } catch (\RuntimeException $e) {
+                if ($this->shouldUseExceptions()) {
+                    throw $e;
+                }
+
                 $this->setError($e->getMessage());
 
                 return false;
@@ -388,6 +396,10 @@ class TracksModel extends ListModel
             try {
                 $name = $db->loadResult();
             } catch (\RuntimeException $e) {
+                if ($this->shouldUseExceptions()) {
+                    throw $e;
+                }
+
                 $this->setError($e->getMessage());
 
                 return false;
@@ -467,6 +479,10 @@ class TracksModel extends ListModel
                 if (!empty($delete)) {
                     if (!File::delete($delete)) {
                         // File::delete throws an error
+                        if ($this->shouldUseExceptions()) {
+                            throw new \RuntimeException(Text::_('COM_BANNERS_ERR_ZIP_DELETE_FAILURE'));
+                        }
+
                         $this->setError(Text::_('COM_BANNERS_ERR_ZIP_DELETE_FAILURE'));
 
                         return false;
@@ -476,12 +492,20 @@ class TracksModel extends ListModel
                 $archive = new Archive();
 
                 if (!$packager = $archive->getAdapter('zip')) {
+                    if ($this->shouldUseExceptions()) {
+                        throw new \RuntimeException(Text::_('COM_BANNERS_ERR_ZIP_ADAPTER_FAILURE'));
+                    }
+
                     $this->setError(Text::_('COM_BANNERS_ERR_ZIP_ADAPTER_FAILURE'));
 
                     return false;
                 }
 
                 if (!$packager->create($ziproot, $files)) {
+                    if ($this->shouldUseExceptions()) {
+                        throw new \RuntimeException(Text::_('COM_BANNERS_ERR_ZIP_CREATE_FAILURE'));
+                    }
+
                     $this->setError(Text::_('COM_BANNERS_ERR_ZIP_CREATE_FAILURE'));
 
                     return false;
