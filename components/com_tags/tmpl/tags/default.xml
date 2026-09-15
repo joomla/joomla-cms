@@ -166,6 +166,7 @@
 				name="maximum"
 				type="number"
 				label="COM_TAGS_LIST_MAX_LABEL"
+				description="COM_TAGS_LIST_MAX_DESC"
 				default="200"
 				filter="integer"
 			/>
