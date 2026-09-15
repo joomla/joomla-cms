@@ -353,6 +353,7 @@ class Indexer
         $entry->indexdate          = Factory::getDate()->toSql();
         $entry->state              = (int) $item->state;
         $entry->access             = (int) $item->access;
+        $entry->cat_access         = (int) ($item->cat_access ?? 1);
         $entry->language           = $item->language;
         $entry->type_id            = (int) $item->type_id;
         $entry->object             = '';
