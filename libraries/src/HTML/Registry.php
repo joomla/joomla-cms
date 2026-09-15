@@ -43,6 +43,7 @@ final class Registry
         'form'            => Helpers\Form::class,
         'formbehavior'    => Helpers\FormBehavior::class,
         'grid'            => Helpers\Grid::class,
+        'html'            => Helpers\HTML::class,
         'icons'           => Helpers\Icons::class,
         'jgrid'           => Helpers\JGrid::class,
         'jquery'          => Helpers\Jquery::class,
