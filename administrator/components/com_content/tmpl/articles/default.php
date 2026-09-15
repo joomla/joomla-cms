@@ -220,13 +220,17 @@ $assoc = Associations::isEnabled();
                                 </td>
                                 <?php if ($workflow_enabled) : ?>
                                 <td class="article-stage text-center">
-                                    <?php
-                                    echo (new TransitionButton($options))
-                                    ->render(0, $i);
-                                    ?>
-                                    <div class="small">
-                                        <?php echo Text::_($item->stage_title); ?>
-                                    </div>
+                                    <?php if ($item->stage_id) : ?>
+                                        <?php
+                                        echo (new TransitionButton($options))
+                                        ->render(0, $i);
+                                        ?>
+                                        <div class="small">
+                                            <?php echo Text::_($item->stage_title); ?>
+                                        </div>
+                                    <?php else : ?>
+                                        [ <?php echo Text::_('JNONE'); ?> ]
+                                    <?php endif; ?>
                                 </td>
                                 <?php endif; ?>
                                 <td class="text-center d-none d-md-table-cell">
