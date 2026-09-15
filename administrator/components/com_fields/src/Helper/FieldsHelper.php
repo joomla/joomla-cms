@@ -246,7 +246,10 @@ class FieldsHelper
                     $value = $eventAfter->getValue();
 
                     // Assign the value
-                    $field->value = $value;
+                    $field->value = &$value;
+
+                    // Assign the render value
+                    $field->content = &$value;
                 }
 
                 $new[$key] = $field;
