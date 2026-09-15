@@ -636,6 +636,13 @@ class FieldModel extends AdminModel
             return false;
         }
 
+        if (!is_numeric($itemId)) {
+            @trigger_error(
+                'Using non-numeric IDs for content items for custom fields is deprecated. Convert your extension to only use numeric IDs.',
+                E_USER_DEPRECATED
+            );
+        }
+
         $needsDelete = false;
         $needsInsert = false;
         $needsUpdate = false;
