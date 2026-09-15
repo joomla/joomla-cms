@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Redirect\Administrator\Model;
 
+use Joomla\CMS\Access\Exception\NotAllowedException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -136,6 +137,11 @@ class LinkModel extends AdminModel
         // Access checks.
         if (!$user->authorise('core.edit', 'com_redirect')) {
             $pks = [];
+
+            if ($this->shouldUseExceptions()) {
+                throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+            }
+
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 
             return false;
@@ -156,6 +162,10 @@ class LinkModel extends AdminModel
             try {
                 $db->execute();
             } catch (\RuntimeException $e) {
+                if ($this->shouldUseExceptions()) {
+                    throw $e;
+                }
+
                 $this->setError($e->getMessage());
 
                 return false;
@@ -188,6 +198,11 @@ class LinkModel extends AdminModel
         // Access checks.
         if (!$user->authorise('core.edit', 'com_redirect')) {
             $pks = [];
+
+            if ($this->shouldUseExceptions()) {
+                throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+            }
+
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 
             return false;
@@ -215,6 +230,10 @@ class LinkModel extends AdminModel
             try {
                 $db->execute();
             } catch (\RuntimeException $e) {
+                if ($this->shouldUseExceptions()) {
+                    throw $e;
+                }
+
                 $this->setError($e->getMessage());
 
                 return false;
