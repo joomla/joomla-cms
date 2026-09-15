@@ -33,6 +33,7 @@
         fromname: this.querySelector('[name="jform[fromname]"]').value,
         mailer: this.querySelector('[name="jform[mailer]"]').value,
         mailonline: document.getElementById('jform_mailonline1').checked ? 1 : 0,
+        mailsender: this.querySelector('[name="jform[mailsender]"]').value,
       };
 
       const smtppass = this.querySelector('[name="jform[smtppass]"]');
