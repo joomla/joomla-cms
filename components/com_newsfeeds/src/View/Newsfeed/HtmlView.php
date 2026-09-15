@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Feed\FeedFactory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 use Joomla\Component\Newsfeeds\Site\Model\NewsfeedModel;
@@ -104,14 +103,9 @@ class HtmlView extends BaseHtmlView
 
         /** @var NewsfeedModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
         $state = $model->getState();
         $item  = $model->getItem();
-
-        // Check for errors.
-        // @TODO: Maybe this could go into ComponentHelper::raiseErrors($this->get('Errors'))
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         // Add router helpers.
         $item->slug        = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;

@@ -14,7 +14,6 @@ use Joomla\CMS\Event\Finder\ResultEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -141,6 +140,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
 
         /** @var SearchModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         // Get view data.
         $this->state = $model->getState();
@@ -182,11 +182,6 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
             }
 
             $this->pagination->setAdditionalUrlParam($parameter, $value);
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Configure the pathway.

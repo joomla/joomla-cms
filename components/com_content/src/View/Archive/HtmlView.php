@@ -122,15 +122,12 @@ class HtmlView extends BaseHtmlView
     {
         /** @var ArchiveModel $model */
         $model      = $this->getModel();
+        $model->setUseExceptions(true);
         $app        = Factory::getApplication();
         $user       = $this->getCurrentUser();
         $state      = $model->getState();
         $items      = $model->getItems();
         $pagination = $model->getPagination();
-
-        if ($errors = $model->getErrors()) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         // Flag indicates to not add limitstart=0 to URL
         $pagination->hideEmptyLimitstart = true;
