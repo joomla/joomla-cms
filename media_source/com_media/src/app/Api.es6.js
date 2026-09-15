@@ -182,41 +182,47 @@ class Api {
   }
 
   /**
-     * Upload a file
-     * @param name
-     * @param parent
-     * @param content base64 encoded string
-     * @param override boolean whether or not we should override existing files
-     * @return {Promise.<T>}
-     */
-  upload(name, parent, content, override) {
-    // Wrap the ajax call into a real promise
-    return new Promise((resolve, reject) => {
-      const url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`);
-      const data = {
-        [this.csrfToken]: '1',
-        name,
-        content,
-      };
+   * Upload a file,
+   * In opposite to other API calls the Upload call uses Content-type: application/x-www-form-urlencoded
+   *
+   * @param {string}   name             File name
+   * @param {string}   parent           Parent folder path
+   * @param {File}     content          File instance
+   * @param {boolean}  override         whether we should override existing files or not
+   * @param {Function} progressCallback Progress callback
+   * @return {Promise.<T>}
+   */
+  upload(name, parent, content, override, progressCallback) {
+    const url = `${this.baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`;
+    const data = new FormData();
+    data.append('name', name);
+    data.append('content', content);
 
-      // Append override
-      if (override === true) {
-        data.override = true;
-      }
+    // Append override
+    if (override === true) {
+      data.append('override', 1);
+    }
 
-      Joomla.request({
-        url: url.toString(),
-        method: 'POST',
-        data: JSON.stringify(data),
-        headers: { 'Content-Type': 'application/json' },
-        onSuccess: (response) => {
-          notifications.success('COM_MEDIA_UPLOAD_SUCCESS');
-          resolve(normalizeItem(JSON.parse(response).data));
-        },
-        onError: (xhr) => {
-          reject(xhr);
-        },
-      });
+    return Joomla.request({
+      url,
+      method: 'POST',
+      data,
+      promise: true,
+      onBefore: (xhr) => {
+        if (progressCallback) {
+          xhr.upload.addEventListener('progress', (event) => {
+            let progress = 100;
+            if (event.lengthComputable) {
+              progress = Math.round((event.loaded / event.total) * 100);
+            }
+            progressCallback(progress);
+          });
+        }
+      },
+    }).then((xhr) => {
+      const response = xhr.responseText;
+      notifications.success('COM_MEDIA_UPLOAD_SUCCESS');
+      return normalizeItem(JSON.parse(response).data);
     }).catch(handleError);
   }
 

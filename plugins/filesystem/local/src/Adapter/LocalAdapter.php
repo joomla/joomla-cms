@@ -21,6 +21,7 @@ use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
+use Joomla\Component\Media\Administrator\File\TmpFileUpload;
 use Joomla\Filesystem\Exception\FilesystemException;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
@@ -258,6 +259,11 @@ class LocalAdapter implements AdapterInterface
 
         $this->checkContent($localPath, $data);
 
+        // Create a stream reference to the file, because we cannot use File::upload() for now.
+        if ($data instanceof TmpFileUpload) {
+            $data = fopen($data->getUri(), 'r');
+        }
+
         try {
             File::write($localPath, $data);
         } catch (FilesystemException) {
@@ -298,6 +304,11 @@ class LocalAdapter implements AdapterInterface
         }
 
         $this->checkContent($localPath, $data);
+
+        // Create a stream reference to the file, because we cannot use File::upload() for now.
+        if ($data instanceof TmpFileUpload) {
+            $data = fopen($data->getUri(), 'r');
+        }
 
         try {
             File::write($localPath, $data);
@@ -845,28 +856,43 @@ class LocalAdapter implements AdapterInterface
     /**
      * Performs various check if it is allowed to save the content with the given name.
      *
-     * @param   string  $localPath     The local path
-     * @param   string  $mediaContent  The media content
+     * @param   string                 $localPath     The local path
+     * @param   string|TmpFileUpload   $mediaContent  The media content as TmpFileUpload or string
      *
      * @return  void
      *
      * @since   4.0.0
      * @throws  \Exception
      */
-    private function checkContent(string $localPath, string $mediaContent)
+    private function checkContent(string $localPath, string|TmpFileUpload $mediaContent)
     {
         $name = $this->getFileName($localPath);
 
         // The helper
         $helper = new MediaHelper();
+        // Reconstruct the file array, expected by MediaHelper::canUpload()
+        $file   = [
+            'name'     => $name,
+            'size'     => 0,
+            'tmp_name' => '',
+        ];
+        $tmpFile = '';
 
-        // @todo find a better way to check the input, by not writing the file to the disk
-        $tmpFile = Path::clean(\dirname($localPath) . '/' . uniqid() . '.' . strtolower(File::getExt($name)));
+        if ($mediaContent instanceof TmpFileUpload) {
+            $file['size']     = $mediaContent->getSize();
+            $file['tmp_name'] = $mediaContent->getUri();
+        } else {
+            // @todo the $mediaContent data should always be TmpFileUpload
+            $tmpFile = Path::clean(\dirname($localPath) . '/' . uniqid() . '.' . strtolower(File::getExt($name)));
 
-        try {
-            File::write($tmpFile, $mediaContent);
-        } catch (FilesystemException $exception) {
-            throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 500);
+            try {
+                File::write($tmpFile, $mediaContent);
+            } catch (FilesystemException $exception) {
+                throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 500, $exception);
+            }
+
+            $file['size']     = \strlen($mediaContent);
+            $file['tmp_name'] = $tmpFile;
         }
 
         /*
@@ -878,9 +904,11 @@ class LocalAdapter implements AdapterInterface
 
         $can = $helper->canUpload(['name' => $safeName, 'size' => \strlen($mediaContent), 'tmp_name' => $tmpFile], 'com_media');
 
-        try {
-            File::delete($tmpFile);
-        } catch (FilesystemException) {
+        if ($tmpFile) {
+            try {
+                File::delete($tmpFile);
+            } catch (FilesystemException) {
+            }
         }
 
         if (!$can) {
