@@ -95,7 +95,11 @@ class Uri extends \Joomla\Uri\Uri
                      *
                      * IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
                      */
-                    $theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
+                    $slash = '';
+                    if (substr($_SERVER['SCRIPT_NAME'], 0, 1) !== '/' && substr($_SERVER['HTTP_HOST'], -1) !== '/') {
+                        $slash = '/';
+                    }
+                    $theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $slash . $_SERVER['SCRIPT_NAME'];
 
                     // If the query string exists append it to the URI string
                     if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) {
