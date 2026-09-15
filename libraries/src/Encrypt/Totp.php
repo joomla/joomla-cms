@@ -118,7 +118,7 @@ class Totp
         $time = $this->getPeriod();
 
         for ($i = -1; $i <= 1; $i++) {
-            if ($this->getCode($secret, ($time + $i) * $this->_timeStep) == $code) {
+            if (hash_equals($this->getCode($secret, ($time + $i) * $this->_timeStep), (string) $code)) {
                 return true;
             }
         }

@@ -871,6 +871,7 @@ CREATE TABLE IF NOT EXISTS `#__updates` (
   `infourl` text NOT NULL,
   `changelogurl` text,
   `extra_query` varchar(1000) DEFAULT '',
+  `security` tinyint DEFAULT NULL,
   PRIMARY KEY (`update_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Available Updates';
 
