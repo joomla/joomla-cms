@@ -13,6 +13,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\User;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\CMS\User\User;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for \Joomla\CMS\MVC\Model\BaseDatabaseModelUser\CurrentUserTrait
@@ -24,12 +25,11 @@ use Joomla\Tests\Unit\UnitTestCase;
 class CurrentUserTraitTest extends UnitTestCase
 {
     /**
-     * @testdox  The current user can be set with setCurrentUser()
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('The current user can be set with setCurrentUser()')]
     public function testGetCurrentUser()
     {
         $user = new User();
@@ -45,6 +45,6 @@ class CurrentUserTraitTest extends UnitTestCase
 
         $trait->setCurrentUser($user);
 
-        $this->assertEquals($user, $trait->getUser());
+        $this->assertSame($user, $trait->getUser());
     }
 }
