@@ -1,6 +1,6 @@
 describe('Test that contenthistory for contact API endpoint', () => {
-  beforeEach(() => {
-    cy.task('queryDB', 'DELETE FROM #__contact_details');
+  afterEach(() => {
+    cy.task('queryDB', "DELETE FROM #__contact_details WHERE name = 'automated test contact'");
     cy.task('queryDB', 'DELETE FROM #__history');
   });
 
