@@ -175,13 +175,40 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
                 $query->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('a.created_by'));
             }
 
-            $query->where(
-                [
-                    $db->quoteName('a.catid') . ' = :catid',
-                    $db->quoteName('a.state') . ' = :state',
-                ]
-            )
-                ->bind(':catid', $row->catid, ParameterType::INTEGER)
+            $menu              = $app->getMenu();
+            $active            = $menu->getActive();
+            $menuItemParams    = $active ? $active->getParams() : $params;
+            $showSubcategories = $menuItemParams->get('show_subcategory_content', 0);
+            $menuCatId         = (int) $row->catid; // fallback
+
+            /*
+             * For Category Blog menu items, the root category is stored in the link
+             * as `id=X`, not in params as `catid`
+             */
+            if ($active) {
+                parse_str(parse_url($active->link, PHP_URL_QUERY), $linkVars);
+                $menuCatId = isset($linkVars['id']) ? (int) $linkVars['id'] : $menuCatId;
+            }
+
+            if ($showSubcategories && $menuCatId) {
+                $subQuery = $db->createQuery()
+                    ->select($db->quoteName('sub.id'))
+                    ->from($db->quoteName('#__categories', 'sub'))
+                    ->join(
+                        'INNER',
+                        $db->quoteName('#__categories', 'this'),
+                        $db->quoteName('sub.lft') . ' >= ' . $db->quoteName('this.lft')
+                            . ' AND ' . $db->quoteName('sub.rgt') . ' <= ' . $db->quoteName('this.rgt')
+                    )
+                    ->where($db->quoteName('this.id') . ' = ' . $menuCatId);
+
+                $query->where($db->quoteName('a.catid') . ' IN (' . $subQuery . ')');
+            } else {
+                $query->where($db->quoteName('a.catid') . ' = :catid')
+                    ->bind(':catid', $row->catid, ParameterType::INTEGER);
+            }
+
+            $query->where($db->quoteName('a.state') . ' = :state')
                 ->bind(':state', $row->state, ParameterType::INTEGER);
 
             if (!$canPublish) {
