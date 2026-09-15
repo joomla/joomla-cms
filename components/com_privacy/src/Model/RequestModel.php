@@ -22,6 +22,7 @@ use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
@@ -60,6 +61,10 @@ class RequestModel extends AdminModel implements MailerFactoryAwareInterface, La
 
         // Creating requests requires the site's email sending be enabled
         if (!$app->get('mailonline', 1)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'));
+            }
+
             $this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'));
 
             return false;
@@ -86,6 +91,10 @@ class RequestModel extends AdminModel implements MailerFactoryAwareInterface, La
         if ($return === false) {
             // Get the validation messages from the form.
             foreach ($form->getErrors() as $formError) {
+                if ($this->shouldUseExceptions()) {
+                    throw $formError instanceof \Throwable ? $formError : new \RuntimeException((string) $formError);
+                }
+
                 $this->setError($formError->getMessage());
             }
 
@@ -109,12 +118,20 @@ class RequestModel extends AdminModel implements MailerFactoryAwareInterface, La
             $result = (int) $db->setQuery($query)->loadResult();
         } catch (ExecutionFailureException $exception) {
             // Can't check for existing requests, so don't create a new one
+            if ($this->shouldUseExceptions()) {
+                throw $exception;
+            }
+
             $this->setError(Text::_('COM_PRIVACY_ERROR_CHECKING_FOR_EXISTING_REQUESTS'));
 
             return false;
         }
 
         if ($result > 0) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_PRIVACY_ERROR_PENDING_REQUEST_OPEN'));
+            }
+
             $this->setError(Text::_('COM_PRIVACY_ERROR_PENDING_REQUEST_OPEN'));
 
             return false;
@@ -177,6 +194,10 @@ class RequestModel extends AdminModel implements MailerFactoryAwareInterface, La
                     break;
 
                 default:
+                    if ($this->shouldUseExceptions()) {
+                        throw new ValidationException(Text::_('COM_PRIVACY_ERROR_UNKNOWN_REQUEST_TYPE'));
+                    }
+
                     $this->setError(Text::_('COM_PRIVACY_ERROR_UNKNOWN_REQUEST_TYPE'));
 
                     return false;
@@ -191,6 +212,12 @@ class RequestModel extends AdminModel implements MailerFactoryAwareInterface, La
             $table = $this->getTable();
 
             if (!$table->load($this->getState($this->getName() . '.id'))) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -210,6 +237,10 @@ class RequestModel extends AdminModel implements MailerFactoryAwareInterface, La
             // The email sent and the record is saved, everything is good to go from here
             return true;
         } catch (MailDisabledException | phpmailerException $exception) {
+            if ($this->shouldUseExceptions()) {
+                throw $exception;
+            }
+
             $this->setError($exception->getMessage());
 
             return false;

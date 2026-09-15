@@ -11,6 +11,7 @@
 namespace Joomla\Component\Messages\Administrator\Model;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Access\Exception\NotAllowedException;
 use Joomla\CMS\Access\Rule;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -24,9 +25,11 @@ use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Mail\MailerFactoryAwareInterface;
 use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFoundException;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Asset;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
@@ -115,6 +118,12 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface, Mail
                     return false;
                 }
             } else {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -139,6 +148,10 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface, Mail
             if ($this->item = parent::getItem($pk)) {
                 // Invalid message_id returns 0
                 if ($this->item->user_id_to === '0') {
+                    if ($this->shouldUseExceptions()) {
+                        throw new NotAllowedException(Text::_('JERROR_ALERTNOAUTHOR'));
+                    }
+
                     $this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
 
                     return false;
@@ -159,12 +172,20 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface, Mail
                         try {
                             $message = $db->setQuery($query)->loadObject();
                         } catch (\RuntimeException $e) {
+                            if ($this->shouldUseExceptions()) {
+                                throw $e;
+                            }
+
                             $this->setError($e->getMessage());
 
                             return false;
                         }
 
                         if (!$message || $message->user_id_to != $this->getCurrentUser()->id) {
+                            if ($this->shouldUseExceptions()) {
+                                throw new NotAllowedException(Text::_('JERROR_ALERTNOAUTHOR'));
+                            }
+
                             $this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
 
                             return false;
@@ -179,6 +200,10 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface, Mail
                         }
                     }
                 } elseif ($this->item->user_id_to != $this->getCurrentUser()->id) {
+                    if ($this->shouldUseExceptions()) {
+                        throw new NotAllowedException(Text::_('JERROR_ALERTNOAUTHOR'));
+                    }
+
                     $this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
 
                     return false;
@@ -294,6 +319,12 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface, Mail
 
         // Bind the data.
         if (!$table->bind($data)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -310,6 +341,12 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface, Mail
 
         // Check the data.
         if (!$table->check()) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -320,6 +357,10 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface, Mail
 
         // Check if recipient can access com_messages.
         if (!$toUser->authorise('core.login.admin') || !$toUser->authorise('core.manage', 'com_messages')) {
+            if ($this->shouldUseExceptions()) {
+                throw new NotAllowedException(Text::_('COM_MESSAGES_ERROR_RECIPIENT_NOT_AUTHORISED'));
+            }
+
             $this->setError(Text::_('COM_MESSAGES_ERROR_RECIPIENT_NOT_AUTHORISED'));
 
             return false;
@@ -332,12 +373,22 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface, Mail
         $config = $model->getItem();
 
         if (empty($config)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $model->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($model->getError());
 
             return false;
         }
 
         if ($config->get('lock', false)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_MESSAGES_ERR_SEND_FAILED'));
+            }
+
             $this->setError(Text::_('COM_MESSAGES_ERR_SEND_FAILED'));
 
             return false;
@@ -345,6 +396,12 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface, Mail
 
         // Store the data.
         if (!$table->store()) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -441,6 +498,10 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface, Mail
             $rawGroups = $rules['core.admin']->getData();
 
             if (empty($rawGroups)) {
+                if ($this->shouldUseExceptions()) {
+                    throw new ResourceNotFoundException(Text::_('COM_MESSAGES_ERROR_MISSING_ROOT_ASSET_GROUPS'));
+                }
+
                 $this->setError(Text::_('COM_MESSAGES_ERROR_MISSING_ROOT_ASSET_GROUPS'));
 
                 return false;
@@ -455,6 +516,10 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface, Mail
             }
 
             if (empty($groups)) {
+                if ($this->shouldUseExceptions()) {
+                    throw new ResourceNotFoundException(Text::_('COM_MESSAGES_ERROR_NO_GROUPS_SET_AS_SUPER_USER'));
+                }
+
                 $this->setError(Text::_('COM_MESSAGES_ERROR_NO_GROUPS_SET_AS_SUPER_USER'));
 
                 return false;
@@ -475,6 +540,10 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface, Mail
             $userIDs = $db->setQuery($query)->loadColumn(0);
 
             if (empty($userIDs)) {
+                if ($this->shouldUseExceptions()) {
+                    throw new ResourceNotFoundException(Text::_('COM_MESSAGES_ERROR_NO_USERS_SET_AS_SUPER_USER'));
+                }
+
                 $this->setError(Text::_('COM_MESSAGES_ERROR_NO_USERS_SET_AS_SUPER_USER'));
 
                 return false;
@@ -499,6 +568,10 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface, Mail
 
             return true;
         } catch (\Exception $exception) {
+            if ($this->shouldUseExceptions()) {
+                throw $exception;
+            }
+
             $this->setError($exception->getMessage());
 
             return false;
