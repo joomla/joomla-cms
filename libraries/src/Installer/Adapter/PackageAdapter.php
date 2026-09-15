@@ -11,7 +11,6 @@ namespace Joomla\CMS\Installer\Adapter;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Installer\InstallerHelper;
@@ -358,9 +357,12 @@ class PackageAdapter extends InstallerAdapter
         if (!$element) {
             // Ensure the element is a string
             $element = (string) $this->getManifest()->packagename;
+        }
 
-            // Filter the name for illegal characters
-            $element = 'pkg_' . InputFilter::getInstance()->clean($element, 'cmd');
+        $element = parent::getElement($element);
+
+        if (strpos($element, 'pkg_') !== 0) {
+            $element = 'pkg_' . $element;
         }
 
         return $element;
