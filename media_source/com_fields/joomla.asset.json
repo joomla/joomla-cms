@@ -28,6 +28,17 @@
       }
     },
     {
+      "name": "com_fields.admin-field-select-search",
+      "type": "script",
+      "uri": "com_fields/admin-field-select-search.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
       "name": "com_fields.admin-field-typehaschanged",
       "type": "script",
       "uri": "com_fields/admin-field-typehaschanged.min.js",
@@ -36,7 +47,9 @@
       ],
       "attributes": {
         "type": "module"
-      }
+      },
+      "deprecated": true,
+      "deprecatedMsg": "Will be removed without replacement. The field type is selected before the form is displayed and can't be changed anymore."
     },
     {
       "name": "com_fields.admin-fields-batch",
