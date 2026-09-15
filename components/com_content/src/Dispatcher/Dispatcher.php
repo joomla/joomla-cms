@@ -51,6 +51,8 @@ class Dispatcher extends ComponentDispatcher
 
                 return;
             }
+
+            $this->app->getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
         }
 
         parent::dispatch();
