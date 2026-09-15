@@ -402,6 +402,18 @@ class Router
     }
 
     /**
+     * Clear the router cache
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function clearCache(): void
+    {
+        $this->cache = [];
+    }
+
+    /**
      * Process the parsed router variables based on custom defined rules
      *
      * @param   \Joomla\CMS\Uri\Uri  &$uri   The URI to parse
