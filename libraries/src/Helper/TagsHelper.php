@@ -682,7 +682,7 @@ class TagsHelper extends CMSHelper
         );
 
         // Use HAVING if matching all tags and we are matching more than one tag.
-        if ($ntagsr > 1 && $anyOrAll != 1 && $includeChildren != 1) {
+        if ($ntagsr > 1 && $anyOrAll != 1) {
             // The number of results should equal the number of tags requested.
             $query->having('COUNT(' . $db->quoteName('m.tag_id') . ') = :ntagsr')
                 ->bind(':ntagsr', $ntagsr, ParameterType::INTEGER);
