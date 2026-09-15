@@ -13,6 +13,8 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Exception\DuplicateEntryException;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\Tag\TaggableTableTrait;
 use Joomla\CMS\User\CurrentUserInterface;
@@ -161,6 +163,10 @@ class Category extends Nested implements TaggableTableInterface, CurrentUserInte
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -168,6 +174,10 @@ class Category extends Nested implements TaggableTableInterface, CurrentUserInte
 
         // Check for a title.
         if (trim($this->title) == '') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));
+            }
+
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));
 
             return false;
@@ -267,6 +277,14 @@ class Category extends Nested implements TaggableTableInterface, CurrentUserInte
             && ($table->id != $this->id || $this->id == 0)
         ) {
             // Is the existing category trashed?
+            if ($this->shouldUseExceptions()) {
+                $message = $table->published === -2
+                    ? Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS_TRASHED')
+                    : Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS');
+
+                throw new DuplicateEntryException($message, 'alias');
+            }
+
             $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
 
             if ($table->published === -2) {

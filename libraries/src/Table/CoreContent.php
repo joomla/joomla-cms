@@ -13,6 +13,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseInterface;
@@ -81,12 +82,20 @@ class CoreContent extends Table implements CurrentUserInterface
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
         }
 
         if (trim($this->core_title) === '') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
+            }
+
             $this->setError(Text::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
 
             return false;

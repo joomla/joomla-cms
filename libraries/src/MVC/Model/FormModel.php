@@ -17,6 +17,8 @@ use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Form\FormRule;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\Exception\CheckinCheckoutException;
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFoundException;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 
@@ -88,6 +90,12 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
             $table = $this->getTable();
 
             if (!$table->load($pk)) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -102,6 +110,10 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 
             // Check if this is the user having previously checked out the row.
             if ($table->$checkedOutField > 0 && $table->$checkedOutField != $user->id && !$user->authorise('core.manage', 'com_checkin')) {
+                if ($this->shouldUseExceptions()) {
+                    throw new CheckinCheckoutException(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
+                }
+
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 
                 return false;
@@ -109,6 +121,12 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 
             // Attempt to check the row in.
             if (!$table->checkIn($pk)) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -135,11 +153,21 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
             $table = $this->getTable();
 
             if (!$table->load($pk)) {
-                if ($table->getError() === false) {
+                $tableError = $table->getError(null, false);
+
+                if ($this->shouldUseExceptions()) {
+                    if ($tableError === false) {
+                        throw new ResourceNotFoundException(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'));
+                    }
+
+                    throw $tableError instanceof \Throwable ? $tableError : new \RuntimeException((string) $tableError);
+                }
+
+                if ($tableError === false) {
                     // There was no error returned, but false indicates that the row did not exist in the db, so probably previously deleted.
                     $this->setError(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'));
                 } else {
-                    $this->setError($table->getError());
+                    $this->setError($tableError instanceof \Throwable ? $tableError->getMessage() : $tableError);
                 }
 
                 return false;
@@ -161,6 +189,10 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 
             // Check if this is the user having previously checked out the row.
             if ($table->$checkedOutField > 0 && $table->$checkedOutField != $user->id) {
+                if ($this->shouldUseExceptions()) {
+                    throw new CheckinCheckoutException(Text::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
+                }
+
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
 
                 return false;
@@ -168,6 +200,12 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 
             // Attempt to check the row out.
             if (!$table->checkOut($user->id, $pk)) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -220,6 +258,10 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 
         // Check for an error.
         if ($return instanceof \Exception) {
+            if ($this->shouldUseExceptions()) {
+                throw $return;
+            }
+
             $this->setError($return->getMessage());
 
             return false;
@@ -229,6 +271,10 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
         if ($return === false) {
             // Get the validation messages from the form.
             foreach ($form->getErrors() as $message) {
+                if ($this->shouldUseExceptions()) {
+                    throw $message instanceof \Throwable ? $message : new \RuntimeException((string) $message);
+                }
+
                 $this->setError($message);
             }
 
