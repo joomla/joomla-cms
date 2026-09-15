@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Document\Renderer\Html;
 
 use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\WebAsset\WebAssetItemCrossDependenciesInterface;
 use Joomla\CMS\WebAsset\WebAssetItemInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -161,6 +162,10 @@ class ScriptsRenderer extends DocumentRenderer
 
                 if ($asset->getDependencies()) {
                     $attribs['data-asset-dependencies'] = implode(',', $asset->getDependencies());
+                }
+
+                if ($asset instanceof WebAssetItemCrossDependenciesInterface && $asset->getCrossDependencies()) {
+                    $attribs['data-asset-cross-dependencies'] = str_replace('"', '', json_encode($asset->getCrossDependencies()));
                 }
 
                 if ($asset->getOption('deprecated')) {
