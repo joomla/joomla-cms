@@ -861,8 +861,8 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                     $xdefault_language = ($xdefault_language === 'default') ? $this->default_lang : $xdefault_language;
 
                     if (isset($languages[$xdefault_language])) {
-                        // Use a custom tag because addHeadLink is limited to one URI per tag
-                        $doc->addCustomTag('<link href="' . $server . $languages[$xdefault_language]->link . '" rel="alternate" hreflang="x-default">');
+                        // Use a head-only custom tag because addHeadLink() is limited to one URI per tag
+                        $doc->addHeadTag('<link href="' . $server . $languages[$xdefault_language]->link . '" rel="alternate" hreflang="x-default">');
                     }
                 }
             }
