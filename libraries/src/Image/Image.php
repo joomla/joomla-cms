@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Image;
 
+use Joomla\CMS\Factory;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -99,6 +101,14 @@ class Image
     protected $generateBestQuality = true;
 
     /**
+     * The service registry for Image Filters
+     *
+     * @var    ImageFilterRegistry
+     * @since  __DEPLOY_VERSION__
+     */
+    protected static $serviceRegistry;
+
+    /**
      * Class constructor.
      *
      * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
@@ -133,6 +143,22 @@ class Image
             // If the source input is not empty, assume it is a path and populate the image handle.
             $this->loadFile($source);
         }
+    }
+
+    /**
+     * Retrieves the service registry.
+     *
+     * @return  ImageFilterRegistry
+     *
+     * @since   4.0.0
+     */
+    public static function getServiceRegistry(): ImageFilterRegistry
+    {
+        if (!static::$serviceRegistry) {
+            static::$serviceRegistry = Factory::getContainer()->get(ImageFilterRegistry::class);
+        }
+
+        return static::$serviceRegistry;
     }
 
     /**
@@ -979,14 +1005,24 @@ class Image
         $type = strtolower(preg_replace('#[^A-Z0-9_]#i', '', $type));
 
         // Verify that the filter type exists.
-        $className = 'JImageFilter' . ucfirst($type);
+        $serviceRegistry = static::getServiceRegistry();
 
-        if (!class_exists($className)) {
-            $className = __NAMESPACE__ . '\\Filter\\' . ucfirst($type);
+        if ($serviceRegistry->hasService($type)) {
+            $className = static::getServiceRegistry()->getService($type);
+        } else {
+            $className = 'JImageFilter' . ucfirst($type);
 
             if (!class_exists($className)) {
                 throw new \RuntimeException('The ' . ucfirst($type) . ' image filter is not available.');
             }
+
+            trigger_error(
+                sprintf(
+                    '%s() - loading Image Filter classes by class name is deprecated. Use the service registry',
+                    __METHOD__
+                ),
+                E_USER_DEPRECATED
+            );
         }
 
         // Instantiate the filter object.
