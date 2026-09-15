@@ -16,6 +16,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Table\Exception\WorkflowStateException;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -269,6 +270,10 @@ class WorkflowModel extends AdminModel
 
         if ($table->load($pk)) {
             if ($table->published !== 1) {
+                if ($this->shouldUseExceptions()) {
+                    throw new WorkflowStateException(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
+                }
+
                 $this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
 
                 return false;
