@@ -113,6 +113,9 @@ Cypress.Commands.add('db_createArticle', (articleData) => {
     metadata: '',
   };
 
+  const tags = articleData.tags ?? [];
+  delete articleData.tags;
+
   const article = { ...defaultArticleOptions, ...articleData };
 
   return getDefaultCategoryId('com_content')
@@ -128,6 +131,9 @@ Cypress.Commands.add('db_createArticle', (articleData) => {
       if (article.featured === 1) {
         await cy.task('queryDB', `INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('${article.id}', '1')`);
       }
+      tags.forEach(async (tag) => {
+        await cy.task('queryDB', `INSERT INTO #__contentitem_tag_map (type_alias, core_content_id, content_item_id, tag_id, tag_date, type_id) VALUES ('com_content.article', '0', '${article.id}', '${tag}', '2026-08-29 11:00:00', '1')`);
+      });
       await cy.task('queryDB', `INSERT INTO #__workflow_associations (item_id, stage_id, extension) VALUES (${article.id}, 1, 'com_content.article')`);
 
       return article;
@@ -504,6 +510,11 @@ Cypress.Commands.add('db_createMenuItem', (menuItemData) => {
     defaultMenuItemOptions.rgt = myrgt[0].rgt + 1;
 
     const menuItem = { ...defaultMenuItemOptions, ...menuItemData };
+    ['params'].forEach((key) => {
+      if (typeof menuItem[key] === 'object') {
+        menuItem[key] = JSON.stringify(menuItem[key]);
+      }
+    });
     // Extract the component from the link
     const component = (new URLSearchParams(menuItem.link.replace('index.php', ''))).get('option');
     return cy.task('queryDB', `SELECT extension_id FROM #__extensions WHERE name = '${component}'`).then((id) => {
