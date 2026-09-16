@@ -24,7 +24,7 @@
 
     sendTestMail() {
       const emailData = {
-        smtpauth: document.getElementById('jform_smtpauth1').checked ? 1 : 0,
+        smtpauth: this.querySelector('[name="jform[smtpauth]"]').value,
         smtpuser: this.querySelector('[name="jform[smtpuser]"]').value,
         smtphost: this.querySelector('[name="jform[smtphost]"]').value,
         smtpsecure: this.querySelector('[name="jform[smtpsecure]"]').value,
