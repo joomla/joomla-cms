@@ -72,7 +72,7 @@ class FilterContrastTest extends UnitTestCase
 
         $filter->execute([IMG_FILTER_CONTRAST => -10]);
 
-        $this->assertEquals(
+        $this->assertSame(
             82,
             imagecolorat($imageHandle, 25, 25) >> 16 & 0xFF
         );
