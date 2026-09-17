@@ -45,15 +45,6 @@
 	/>
 
 	<field
-		name="description_translation"
-		type="editor"
-		label="JGLOBAL_DESCRIPTION"
-		filter="\Joomla\CMS\Component\ComponentHelper::filterText"
-		buttons="false"
-		readonly="true"
-	/>
-
-	<field
 		name="published"
 		type="list"
 		label="JSTATUS"
