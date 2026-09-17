@@ -108,6 +108,17 @@ abstract class Category
                 }
             }
 
+            // Filter on excluded categories
+            if (isset($config['filter.exclude'])) {
+                if (is_numeric($config['filter.exclude'])) {
+                    $query->where($db->quoteName('a.id') . ' != :exclude')
+                        ->bind(':exclude', $config['filter.exclude'], ParameterType::INTEGER);
+                } elseif (\is_array($config['filter.exclude'])) {
+                    $config['filter.exclude'] = ArrayHelper::toInteger($config['filter.exclude']);
+                    $query->whereNotIn($db->quoteName('a.id'), $config['filter.exclude']);
+                }
+            }
+
             $query->order($db->quoteName('a.lft'));
 
             $db->setQuery($query);
