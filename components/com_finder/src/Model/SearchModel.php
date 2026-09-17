@@ -94,6 +94,15 @@ class SearchModel extends ListModel
     protected $requiredTerms = [];
 
     /**
+     * The total number of indexed links, used as the document count when
+     * calculating the inverse document frequency of a term.
+     *
+     * @var    integer
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $totalIndexedLinks;
+
+    /**
      * Method to get the results of the query.
      *
      * @return  array  An array of Result objects.
@@ -247,8 +256,20 @@ class SearchModel extends ListModel
          * scores that are contained in the ordering field.
          */
         if ($ordering === 'm.weight') {
-            // Get the base query and add the ordering information.
-            $query->select('SUM(' . $db->escape($ordering) . ') AS ordering');
+            /*
+             * The link counter counts every indexed link regardless of its
+             * publication state, so the document count we divide by has to
+             * be the unfiltered total as well.
+             *
+             * LN() is the natural logarithm on both MySQL and PostgreSQL,
+             * unlike LOG(), which is base 10 on PostgreSQL. The "* 1.0" is
+             * load bearing: both operands are integers, and PostgreSQL would
+             * otherwise perform integer division and truncate the ratio.
+             */
+            $idf = 'LN(1 + (' . (int) $this->getTotalIndexedLinks() . ' * 1.0 / GREATEST(COALESCE('
+                . $db->quoteName('ti.links') . ', 1), 1)))';
+
+            $query->select('SUM(' . $db->quoteName('m.weight') . ' * ' . $idf . ') AS ordering');
         } else {
             /**
              * If we are not ordering by relevance, we just have to add
@@ -300,6 +321,18 @@ class SearchModel extends ListModel
         $query->join('INNER', $db->quoteName('#__finder_links_terms') . ' AS m ON m.link_id = l.link_id')
             ->where('m.term_id IN (' . implode(',', $included) . ')');
 
+        /*
+         * Join the terms table to supply the inverse document frequency used by
+         * the relevance ordering. This has to be added after the mapping join
+         * above, because its ON clause references that alias.
+         */
+        if ($ordering === 'm.weight') {
+            $query->leftJoin(
+                $db->quoteName('#__finder_terms', 'ti'),
+                $db->quoteName('ti.term_id') . ' = ' . $db->quoteName('m.term_id')
+            );
+        }
+
         // Check if there are any excluded terms to deal with.
         if (\count($this->excludedTerms)) {
             $query2 = $db->createQuery();
@@ -324,6 +357,35 @@ class SearchModel extends ListModel
         }
 
         return $query;
+    }
+
+    /**
+     * Method to get the total number of indexed links, which is the document
+     * count used when calculating the inverse document frequency of a term.
+     *
+     * This deliberately counts every row in the links table, published or not,
+     * because #__finder_terms.links is maintained the same way. Both sides of
+     * the ratio have to be counted over the same set of documents.
+     *
+     * @return  integer  The number of indexed links.
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception on database error.
+     */
+    protected function getTotalIndexedLinks()
+    {
+        if ($this->totalIndexedLinks === null) {
+            $db    = $this->getDatabase();
+            $query = $db->createQuery()
+                ->select('COUNT(*)')
+                ->from($db->quoteName('#__finder_links'));
+
+            $db->setQuery($query);
+
+            $this->totalIndexedLinks = (int) $db->loadResult();
+        }
+
+        return $this->totalIndexedLinks;
     }
 
     /**
