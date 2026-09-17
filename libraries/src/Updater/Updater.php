@@ -407,7 +407,7 @@ class Updater extends Adapter
      *
      * @return  int|null
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.9
      */
     private function findHighestSeverity(string $installedVersion, UpdateTable $update, array $securityUpdates): ?int
     {

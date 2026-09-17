@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0ce9b6e09cb8eec72ad9ec837cf94336",
+    "content-hash": "310aa3c0565542a5ba554785192c6d98",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -2727,16 +2727,16 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v1.24.0",
+            "version": "v1.24.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "2cb48f26130919f92f30650bdcc30e6f4ebe45ac"
+                "reference": "4524c98a826776c9a32d6ce06932563cb10f3995"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/2cb48f26130919f92f30650bdcc30e6f4ebe45ac",
-                "reference": "2cb48f26130919f92f30650bdcc30e6f4ebe45ac",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/4524c98a826776c9a32d6ce06932563cb10f3995",
+                "reference": "4524c98a826776c9a32d6ce06932563cb10f3995",
                 "shasum": ""
             },
             "require": {
@@ -2807,9 +2807,9 @@
             ],
             "support": {
                 "issues": "https://github.com/paragonie/sodium_compat/issues",
-                "source": "https://github.com/paragonie/sodium_compat/tree/v1.24.0"
+                "source": "https://github.com/paragonie/sodium_compat/tree/v1.24.2"
             },
-            "time": "2025-12-30T16:16:35+00:00"
+            "time": "2026-08-18T23:44:07+00:00"
         },
         {
             "name": "php-debugbar/php-debugbar",
@@ -9505,16 +9505,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.13.4",
+            "version": "3.13.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "ad545ea9c1b7d270ce0fc9cbfb884161cd706119"
+                "reference": "4c378e1a528ea066890fc2397cbdd2f94eb2fc91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/ad545ea9c1b7d270ce0fc9cbfb884161cd706119",
-                "reference": "ad545ea9c1b7d270ce0fc9cbfb884161cd706119",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/4c378e1a528ea066890fc2397cbdd2f94eb2fc91",
+                "reference": "4c378e1a528ea066890fc2397cbdd2f94eb2fc91",
                 "shasum": ""
             },
             "require": {
@@ -9531,11 +9531,6 @@
                 "bin/phpcs"
             ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.x-dev"
-                }
-            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
@@ -9585,7 +9580,7 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2025-09-05T05:47:09+00:00"
+            "time": "2026-08-06T00:17:32+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
