@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\Model;
 
+use Joomla\CMS\Access\Exception\NotAllowedException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -228,6 +229,10 @@ trait WorkflowBehaviorTrait
         $workflow = Factory::getApplication()->bootComponent('com_workflow');
 
         if (!$user->authorise('core.admin', $this->option)) {
+            if ($this->shouldUseExceptions()) {
+                throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EXECUTE_TRANSITION'));
+            }
+
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EXECUTE_TRANSITION'));
         }
 
