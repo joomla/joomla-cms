@@ -251,6 +251,11 @@ label {
   color: var(--template-text-light);
 }
 
+.loginsupport a {
+  display: inline-block;
+  line-height: 24px;
+}
+
 .view-login {
   #wrapper.d-flex {
     @include media-breakpoint-down(md) {
