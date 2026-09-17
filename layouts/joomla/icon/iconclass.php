@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 // Convert icomoon to fa
 $icon       = $displayData['icon'];
@@ -66,7 +66,7 @@ if ($html !== false) {
         $iconAttribs['title'] = $title;
     }
 
-    $icon = '<span ' . ArrayHelper::toString($iconAttribs) . '></span>';
+    $icon = '<span ' . HTMLHelper::_('html.attributes', $iconAttribs) . '></span>';
 }
 
 echo $icon;

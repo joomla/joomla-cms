@@ -12,7 +12,6 @@ namespace Joomla\CMS\HTML\Helpers;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -126,7 +125,7 @@ abstract class Select
 
         if (isset($options['list.attr'])) {
             if (\is_array($options['list.attr'])) {
-                $attribs = ArrayHelper::toString($options['list.attr']);
+                $attribs = HTMLHelper::_('html.attributes', $options['list.attr']);
             } else {
                 $attribs = $options['list.attr'];
             }
@@ -206,7 +205,7 @@ abstract class Select
 
         if (isset($options['list.attr'])) {
             if (\is_array($options['list.attr'])) {
-                $attribs = ArrayHelper::toString($options['list.attr']);
+                $attribs = HTMLHelper::_('html.attributes', $options['list.attr']);
             } else {
                 $attribs = $options['list.attr'];
             }
@@ -291,7 +290,7 @@ abstract class Select
                 $html .= static::options($subList, $options);
             } else {
                 if (\is_array($groupAttribs)) {
-                    $groupAttribs = ArrayHelper::toString($groupAttribs);
+                    $groupAttribs = HTMLHelper::_('html.attributes', $groupAttribs);
                 }
 
                 $html .= $groupIndent
@@ -615,7 +614,7 @@ abstract class Select
                 }
 
                 if (\is_array($attr)) {
-                    $attr = ArrayHelper::toString($attr);
+                    $attr = HTMLHelper::_('html.attributes', $attr);
                 } else {
                     $attr = trim($attr);
                 }
@@ -684,7 +683,7 @@ abstract class Select
                 unset($attribs['class']);
             }
 
-            $attribs = ArrayHelper::toString($attribs);
+            $attribs = HTMLHelper::_('html.attributes', $attribs);
         }
 
         $id_text = $idtag ?: $name;
