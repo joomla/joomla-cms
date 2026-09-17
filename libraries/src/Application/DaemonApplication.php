@@ -670,7 +670,7 @@ abstract class DaemonApplication extends CliApplication
             }
 
             // Attach the signal handler for the signal.
-            if (!$this->pcntlSignal(\constant($signal), ['DaemonApplication', 'signal'])) {
+            if (!$this->pcntlSignal(\constant($signal), [DaemonApplication::class, 'signal'])) {
                 Log::add(\sprintf('Unable to reroute signal handler: %s', $signal), Log::EMERGENCY);
 
                 return false;
