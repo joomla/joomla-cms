@@ -2689,6 +2689,17 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getError$#
+			'''
+			identifier: method.deprecated
+			count: 2
+			path: administrator/components/com_languages/src/Controller/InstalledController.php
+
+		-
+			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Language\\Language\:
 				4\.3 will be removed in 7\.0
 				             Use the language factory instead
@@ -2731,6 +2742,17 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_languages/src/Controller/OverrideController.php
+
+		-
+			message: '''
+				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getError$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_languages/src/Controller/OverridesController.php
 
 		-
 			message: '''
@@ -5927,6 +5949,308 @@ parameters:
 
 		-
 			message: '''
+				#^Access to deprecated property \$document of class Joomla\\CMS\\MVC\\View\\JsonApiView\:
+				4\.4\.0 will be made private in 7\.0
+				            Use \$this\-\>getDocument\(\) instead$#
+			'''
+			identifier: property.deprecated
+			count: 1
+			path: api/components/com_config/src/Controller/ApplicationController.php
+
+		-
+			message: '''
+				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getErrors$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: api/components/com_config/src/Controller/ApplicationController.php
+
+		-
+			message: '''
+				#^Access to deprecated property \$document of class Joomla\\CMS\\MVC\\View\\JsonApiView\:
+				4\.4\.0 will be made private in 7\.0
+				            Use \$this\-\>getDocument\(\) instead$#
+			'''
+			identifier: property.deprecated
+			count: 1
+			path: api/components/com_config/src/Controller/ComponentController.php
+
+		-
+			message: '''
+				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getErrors$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: api/components/com_config/src/Controller/ComponentController.php
+
+		-
+			message: '''
+				#^Call to deprecated method set\(\) of class Joomla\\CMS\\MVC\\View\\AbstractView\:
+				4\.3\.0 will be removed in 7\.0
+				            Create a proper setter function for the property$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: api/components/com_config/src/Controller/ComponentController.php
+
+		-
+			message: '#^Access to an undefined property Joomla\\Component\\Config\\Api\\View\\Component\\JsonapiView\:\:\$component_name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: api/components/com_config/src/View/Component/JsonapiView.php
+
+		-
+			message: '''
+				#^Call to deprecated method get\(\) of class Joomla\\CMS\\MVC\\View\\AbstractView\:
+				5\.3\.0 will be removed in 7\.0\.
+				             Retrieve the model with \$model \= \$this\-\>getModel\(\); and call the methods
+				             to the model directly, e\.g\. \$model\-\>getItems\(\) instead of \$this\-\>get\('Items'\)\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: api/components/com_config/src/View/Component/JsonapiView.php
+
+		-
+			message: '''
+				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getError$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: api/components/com_contact/src/Controller/ContactController.php
+
+		-
+			message: '''
+				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getErrors$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: api/components/com_contact/src/Controller/ContactController.php
+
+		-
+			message: '''
+				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
+				4\.3 will be removed in 7\.0
+				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: api/components/com_contact/src/View/Contacts/JsonapiView.php
+
+		-
+			message: '''
+				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
+				4\.3 will be removed in 7\.0
+				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: api/components/com_content/src/View/Articles/JsonapiView.php
+
+		-
+			message: '''
+				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
+				4\.3 will be removed in 7\.0
+				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: api/components/com_content/src/View/Articles/JsonapiView.php
+
+		-
+			message: '''
+				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getErrors$#
+			'''
+			identifier: method.deprecated
+			count: 2
+			path: api/components/com_joomlaupdate/src/View/Updates/JsonapiView.php
+
+		-
+			message: '''
+				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getError$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: api/components/com_languages/src/Controller/OverridesController.php
+
+		-
+			message: '''
+				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getErrors$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: api/components/com_languages/src/Controller/OverridesController.php
+
+		-
+			message: '''
+				#^Access to deprecated property \$document of class Joomla\\CMS\\MVC\\View\\JsonApiView\:
+				4\.4\.0 will be made private in 7\.0
+				            Use \$this\-\>getDocument\(\) instead$#
+			'''
+			identifier: property.deprecated
+			count: 1
+			path: api/components/com_languages/src/Controller/StringsController.php
+
+		-
+			message: '''
+				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getErrors$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: api/components/com_languages/src/View/Strings/JsonapiView.php
+
+		-
+			message: '''
+				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
+				4\.3 will be removed in 7\.0
+				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: api/components/com_media/src/Controller/AdaptersController.php
+
+		-
+			message: '''
+				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
+				4\.3 will be removed in 7\.0
+				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: api/components/com_media/src/Controller/MediaController.php
+
+		-
+			message: '''
+				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
+				4\.3 will be removed in 7\.0
+				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: api/components/com_media/src/Model/AdapterModel.php
+
+		-
+			message: '''
+				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
+				4\.3 will be removed in 7\.0
+				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: api/components/com_media/src/Model/AdaptersModel.php
+
+		-
+			message: '''
+				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
+				4\.3 will be removed in 7\.0
+				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: api/components/com_media/src/Model/MediaModel.php
+
+		-
+			message: '''
+				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
+				4\.3 will be removed in 7\.0
+				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: api/components/com_media/src/Model/MediumModel.php
+
+		-
+			message: '''
+				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
+				4\.3 will be removed in 7\.0
+				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: api/components/com_media/src/View/Adapters/JsonapiView.php
+
+		-
+			message: '''
+				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
+				4\.3 will be removed in 7\.0
+				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: api/components/com_media/src/View/Media/JsonapiView.php
+
+		-
+			message: '''
+				#^Access to deprecated property \$document of class Joomla\\CMS\\MVC\\View\\JsonApiView\:
+				4\.4\.0 will be made private in 7\.0
+				            Use \$this\-\>getDocument\(\) instead$#
+			'''
+			identifier: property.deprecated
+			count: 1
+			path: api/components/com_menus/src/Controller/ItemsController.php
+
+		-
+			message: '''
+				#^Access to deprecated property \$document of class Joomla\\CMS\\MVC\\View\\JsonApiView\:
+				4\.4\.0 will be made private in 7\.0
+				            Use \$this\-\>getDocument\(\) instead$#
+			'''
+			identifier: property.deprecated
+			count: 1
+			path: api/components/com_modules/src/Controller/ModulesController.php
+
+		-
+			message: '''
+				#^Access to deprecated property \$document of class Joomla\\CMS\\MVC\\View\\JsonApiView\:
+				4\.4\.0 will be made private in 7\.0
+				            Use \$this\-\>getDocument\(\) instead$#
+			'''
+			identifier: property.deprecated
+			count: 1
+			path: api/components/com_privacy/src/Controller/RequestsController.php
+
+		-
+			message: '''
+				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getErrors$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: api/components/com_privacy/src/View/Consents/JsonapiView.php
+
+		-
+			message: '#^Instantiated class JConfig not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: api/includes/framework.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
@@ -7266,6 +7590,12 @@ parameters:
 			path: components/com_users/src/View/Reset/HtmlView.php
 
 		-
+			message: '#^Instantiated class JConfig not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: includes/framework.php
+
+		-
 			message: '''
 				#^Access to deprecated static property \$config of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
@@ -7563,6 +7893,172 @@ parameters:
 			identifier: method.protected
 			count: 1
 			path: installation/tmpl/setup/default.php
+
+		-
+			message: '''
+				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 7\.0
+				             Use the document service in the DI container or get from the application object
+				             Example\:
+				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: layouts/joomla/button/action-button.php
+
+		-
+			message: '''
+				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
+				4\.3 will be removed in 7\.0
+				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 4
+			path: layouts/joomla/content/category_default.php
+
+		-
+			message: '''
+				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 7\.0
+				             Use the language service in the DI container or get from the application object
+				             Example\:
+				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: layouts/joomla/content/readmore.php
+
+		-
+			message: '''
+				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 7\.0
+				             Load the user service from the dependency injection container or get from the application object
+				             Example\:
+				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: layouts/joomla/content/tags.php
+
+		-
+			message: '''
+				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 7\.0
+				             Use the document service in the DI container or get from the application object
+				             Example\:
+				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: layouts/joomla/form/field/color/simple.php
+
+		-
+			message: '''
+				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 7\.0
+				             Use the document service in the DI container or get from the application object
+				             Example\:
+				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: layouts/joomla/form/field/moduleorder.php
+
+		-
+			message: '''
+				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 7\.0
+				             Use the document service in the DI container or get from the application object
+				             Example\:
+				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 2
+			path: layouts/joomla/form/field/rules.php
+
+		-
+			message: '''
+				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 7\.0
+				             Use the document service in the DI container or get from the application object
+				             Example\:
+				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: layouts/joomla/form/field/tag.php
+
+		-
+			message: '''
+				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 7\.0
+				             Use the document service in the DI container or get from the application object
+				             Example\:
+				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: layouts/joomla/searchtools/grid/sort.php
+
+		-
+			message: '''
+				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 7\.0
+				             Use the document service in the DI container or get from the application object
+				             Example\:
+				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: layouts/joomla/system/message.php
+
+		-
+			message: '''
+				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 7\.0
+				             Use the document service in the DI container or get from the application object
+				             Example\:
+				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: layouts/joomla/tinymce/textarea.php
+
+		-
+			message: '''
+				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 7\.0
+				             Use the language service in the DI container or get from the application object
+				             Example\:
+				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: layouts/joomla/toolbar/basic.php
+
+		-
+			message: '''
+				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 7\.0
+				             Use the language service in the DI container or get from the application object
+				             Example\:
+				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: layouts/joomla/toolbar/dropdown.php
+
+		-
+			message: '#^Call to method escape\(\) on an unknown class FileLayout\.$#'
+			identifier: class.notFound
+			count: 5
+			path: layouts/plugins/editors/tinymce/field/tinymcebuilder.php
+
+		-
+			message: '#^Call to method sublayout\(\) on an unknown class FileLayout\.$#'
+			identifier: class.notFound
+			count: 2
+			path: layouts/plugins/editors/tinymce/field/tinymcebuilder.php
 
 		-
 			message: '''
@@ -8774,11 +9270,11 @@ parameters:
 			path: libraries/src/Event/Finder/AbstractFinderEvent.php
 
 		-
-			message: '''
-				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\Installer\\AddInstallationTabEvent\:
-				4\.3 will be removed in 7\.0
-				             You should use nullable values or exceptions instead of returning boolean false results\.$#
-			'''
+			message: """
+				#^Access to deprecated property \\$resultIsFalseable of class Joomla\\\\CMS\\\\Event\\\\Installer\\\\AddInstallationTabEvent\\:
+				4\\.3 will be removed in 7\\.0\r
+				             You should use nullable values or exceptions instead of returning boolean false results\\.$#
+			"""
 			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/Installer/AddInstallationTabEvent.php
@@ -13037,6 +13533,48 @@ parameters:
 
 		-
 			message: '''
+				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
+				4\.3 will be removed in 7\.0
+				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: modules/mod_articles/src/Helper/ArticlesHelper.php
+
+		-
+			message: '''
+				#^Call to deprecated method triggerEvent\(\) of class Joomla\\CMS\\Application\\WebApplication\:
+				4\.0 will be removed in 7\.0
+				             Use the Dispatcher method instead
+				             Example\: Factory\:\:getApplication\(\)\-\>getDispatcher\(\)\-\>dispatch\(\$eventName, \$event\);$#
+			'''
+			identifier: method.deprecated
+			count: 4
+			path: modules/mod_articles_news/src/Helper/ArticlesNewsHelper.php
+
+		-
+			message: '''
+				#^Call to deprecated method register\(\) of class JLoader\:
+				4\.3 will be removed in 7\.0
+				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
+				             register an autoloader for your files\.$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: modules/mod_languages/src/Helper/LanguagesHelper.php
+
+		-
+			message: '''
+				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
+				4\.3 will be removed in 7\.0
+				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: modules/mod_stats/src/Helper/StatsHelper.php
+
+		-
+			message: '''
 				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Installer\\Installer\:
 				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
@@ -13132,6 +13670,12 @@ parameters:
 			path: plugins/content/pagebreak/tmpl/navigation.php
 
 		-
+			message: '#^Call to protected method getApplication\(\) of class Joomla\\CMS\\Plugin\\CMSPlugin\.$#'
+			identifier: method.protected
+			count: 1
+			path: plugins/content/pagebreak/tmpl/navigation.php
+
+		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Plugin\\CMSPlugin\:
 				5\.2 will be removed in 7\.0
@@ -13140,6 +13684,18 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: plugins/content/pagenavigation/tmpl/default.php
+
+		-
+			message: '#^Call to protected method getLanguage\(\) of class Joomla\\CMS\\Plugin\\CMSPlugin\.$#'
+			identifier: method.protected
+			count: 1
+			path: plugins/content/pagenavigation/tmpl/default.php
+
+		-
+			message: '#^Call to protected method getApplication\(\) of class Joomla\\CMS\\Plugin\\CMSPlugin\.$#'
+			identifier: method.protected
+			count: 1
+			path: plugins/content/vote/tmpl/rating.php
 
 		-
 			message: '''
@@ -13314,6 +13870,24 @@ parameters:
 			path: plugins/finder/categories/src/Extension/Categories.php
 
 		-
+			message: '#^Call to protected method getApplication\(\) of class Joomla\\CMS\\Plugin\\CMSPlugin\.$#'
+			identifier: method.protected
+			count: 3
+			path: plugins/installer/folderinstaller/tmpl/default.php
+
+		-
+			message: '#^Call to protected method getApplication\(\) of class Joomla\\CMS\\Plugin\\CMSPlugin\.$#'
+			identifier: method.protected
+			count: 2
+			path: plugins/installer/packageinstaller/tmpl/default.php
+
+		-
+			message: '#^Call to protected method getApplication\(\) of class Joomla\\CMS\\Plugin\\CMSPlugin\.$#'
+			identifier: method.protected
+			count: 1
+			path: plugins/installer/urlinstaller/tmpl/default.php
+
+		-
 			message: '''
 				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Updater\\Update\:
 				4\.3\.0 will be removed in 7\.0
@@ -13340,6 +13914,18 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: plugins/multifactorauth/email/src/Extension/Email.php
+
+		-
+			message: '#^Path in require_once\(\) "D\:\\apachefriends\\xampp\\htdocs\\j42/administrator/components/com_installer/Helper/InstallerHelper\.php" is not a file or it does not exist\.$#'
+			identifier: requireOnce.fileNotFound
+			count: 1
+			path: plugins/quickicon/downloadkey/src/Extension/Downloadkey.php
+
+		-
+			message: '#^Path in require_once\(\) "D\:\\apachefriends\\xampp\\htdocs\\j42\\administrator/components/com_installer/Helper/InstallerHelper\.php" is not a file or it does not exist\.$#'
+			identifier: requireOnce.fileNotFound
+			count: 1
+			path: plugins/quickicon/downloadkey/src/Extension/Downloadkey.php
 
 		-
 			message: '''
@@ -13706,3 +14292,15 @@ parameters:
 			identifier: property.notFound
 			count: 2
 			path: plugins/workflow/publishing/src/Extension/Publishing.php
+
+		-
+			message: '#^Access to protected property Joomla\\CMS\\Document\\ErrorDocument\:\:\$_error\.$#'
+			identifier: property.protected
+			count: 3
+			path: templates/cassiopeia/error.php
+
+		-
+			message: '#^Access to protected property Joomla\\CMS\\Document\\ErrorDocument\:\:\$_error\.$#'
+			identifier: property.protected
+			count: 5
+			path: templates/system/error.php
