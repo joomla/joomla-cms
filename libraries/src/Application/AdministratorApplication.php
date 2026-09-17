@@ -83,7 +83,9 @@ class AdministratorApplication extends CMSApplication
         parent::__construct($input, $config, $client, $container);
 
         // Set the root in the URI based on the application name
-        Uri::root(null, rtrim(\dirname(Uri::base(true)), '/\\'));
+        $parts = explode('/', Uri::base(true));
+        array_pop($parts);
+        Uri::root(null, implode('/', $parts));
     }
 
     /**
