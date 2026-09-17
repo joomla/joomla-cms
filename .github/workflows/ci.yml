@@ -4,6 +4,11 @@ on:
   push:
   pull_request:
 
+# This workflow only builds and tests the checkout, so restrict the token to
+# read-only access instead of the repository's default GITHUB_TOKEN scopes.
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
