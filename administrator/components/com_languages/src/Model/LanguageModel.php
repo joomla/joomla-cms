@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\Table\Language;
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
@@ -119,6 +120,12 @@ class LanguageModel extends AdminModel
 
         // Check for a table object error.
         if ($return === false && $table->getError()) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -205,6 +212,10 @@ class LanguageModel extends AdminModel
 
         // Prevent saving an incorrect language tag
         if (!preg_match('#\b([a-z]{2,3})[-]([A-Z]{2})\b#', $data['lang_code'])) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_LANGUAGES_ERROR_LANG_TAG'));
+            }
+
             $this->setError(Text::_('COM_LANGUAGES_ERROR_LANG_TAG'));
 
             return false;
@@ -215,6 +226,10 @@ class LanguageModel extends AdminModel
 
         // Prevent saving an empty url language code
         if ($data['sef'] === '') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_LANGUAGES_ERROR_SEF'));
+            }
+
             $this->setError(Text::_('COM_LANGUAGES_ERROR_SEF'));
 
             return false;
@@ -222,6 +237,12 @@ class LanguageModel extends AdminModel
 
         // Bind the data.
         if (!$table->bind($data)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -229,6 +250,12 @@ class LanguageModel extends AdminModel
 
         // Check the data.
         if (!$table->check()) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -247,6 +274,12 @@ class LanguageModel extends AdminModel
 
         // Check the event responses.
         if (\in_array(false, $result, true)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -254,6 +287,12 @@ class LanguageModel extends AdminModel
 
         // Store the data.
         if (!$table->store()) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
