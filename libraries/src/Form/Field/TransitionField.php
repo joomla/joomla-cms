@@ -172,7 +172,7 @@ class TransitionField extends GroupedlistField
         $groups = parent::getGroups();
 
         if (\count($items)) {
-            $groups[Text::_('COM_CONTENT_RUN_TRANSITION')] = $items;
+            $groups[Text::_('JWORKFLOW_RUN_TRANSITION')] = $items;
         }
 
         if (\count($groups)) {
