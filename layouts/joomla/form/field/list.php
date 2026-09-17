@@ -43,6 +43,7 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
+ * @var   boolean  $emptyValueWhenUnselected  Submit an empty value when nothing is selected for <select multiple>
  */
 
 $html = [];
@@ -81,6 +82,12 @@ if ($readonly) {
     }
 } else // Create a regular list passing the arguments in an array.
 {
+    if ($multiple && !empty($emptyValueWhenUnselected)) {
+        // Submit an empty value when nothing is selected,
+        // because browser does not submit anything when <select multiple> is empty.
+        $html[] = '<input type="hidden" name="' . preg_replace('#\[\]$#', '', $name) . '" value="">';
+    }
+
     $listoptions = [];
     $listoptions['option.key'] = 'value';
     $listoptions['option.text'] = 'text';
