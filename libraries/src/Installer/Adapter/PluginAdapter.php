@@ -69,6 +69,11 @@ class PluginAdapter extends InstallerAdapter
             $this->currentExtensionId = $this->extension->find(
                 ['type' => $this->type, 'element' => $this->element, 'folder' => $this->group]
             );
+
+            // If it does exist, load it
+            if ($this->currentExtensionId) {
+                $this->extension->load(['type' => $this->type, 'element' => $this->element, 'folder' => $this->group]);
+            }
         } catch (\RuntimeException $e) {
             // Install failed, roll back changes
             throw new \RuntimeException(
