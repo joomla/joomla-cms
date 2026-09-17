@@ -164,6 +164,10 @@ class SearchesModel extends ListModel
         try {
             $db->truncateTable('#__finder_logging');
         } catch (\RuntimeException $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
