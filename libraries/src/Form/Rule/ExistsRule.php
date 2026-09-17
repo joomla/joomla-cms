@@ -67,6 +67,17 @@ class ExistsRule extends FormRule implements DatabaseAwareInterface
 
         $db = $this->getDatabase();
 
+        $columns = $db->getTableColumns($existsTable);
+        $type    = strtolower($columns[$existsColumn] ?? '');
+
+        if (str_contains($type, 'int')) {
+            $maxDigits = str_contains($type, 'big') ? 18 : (str_contains($type, 'small') || str_contains($type, 'tiny') ? 4 : 9);
+        
+            if (!preg_match('/^-?\d{1,' . $maxDigits . '}\z/', $value)) {
+                return false;
+            }
+        }
+
         // Set and query the database.
         $exists = $db->setQuery(
             $db->getQuery(true)
