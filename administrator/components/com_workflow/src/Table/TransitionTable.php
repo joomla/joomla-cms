@@ -64,7 +64,7 @@ class TransitionTable extends Table
      * @return  boolean  True on success
      *
      * @see     Table::check()
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.9
      */
     public function check(): bool
     {

@@ -504,7 +504,7 @@ class TracksModel extends ListModel
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.9
      */
     private function escapeCsvFormula(string $value): string
     {
