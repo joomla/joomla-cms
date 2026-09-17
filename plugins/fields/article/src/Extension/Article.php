@@ -189,11 +189,9 @@ final class Article extends FieldsPlugin implements SubscriberInterface
             }
         }
 
-        $fieldNode->setAttribute('validate', 'ArticleId');
-        $fieldNode->setAttribute('select', 'true');
-        $fieldNode->setAttribute('new', $canCreate ? 'true' : 'false');
-        $fieldNode->setAttribute('edit', $canEdit ? 'true' : 'false');
-        $fieldNode->setAttribute('clear', 'true');
+        $fieldNode->setAttribute('validate', 'exists');
+        $fieldNode->setAttribute('exists_table', '#__content');
+        $fieldNode->setAttribute('exists_column', 'id');
         $fieldNode->setAttribute('addfieldprefix', 'Joomla\\Component\\Content\\Administrator\\Field');
         $fieldNode->setAttribute('addruleprefix', 'Joomla\\CMS\\Form\\Rule');
 
@@ -212,10 +210,6 @@ final class Article extends FieldsPlugin implements SubscriberInterface
 
     /**
      * Returns the custom fields types.
-     *
-     * This deliberately overrides the inner hook instead of the getFieldTypes() event method:
-     * FieldsPlugin::isTypeSupported() calls onCustomFieldsGetTypes() directly, so overriding here
-     * makes the com_content check a single choke point for both the event and the internal lookup.
      *
      * @return  string[][]
      *
