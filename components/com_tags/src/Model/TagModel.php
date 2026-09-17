@@ -249,7 +249,14 @@ class TagModel extends ListModel
 
         $this->setState('list.direction', $listOrder);
 
-        $this->setState('tag.state', 1);
+        // Allow users with edit or edit.state permissions to see unpublished items.
+        $user = $this->getCurrentUser();
+
+        if ((!$user->authorise('core.edit.state', 'com_tags')) && (!$user->authorise('core.edit', 'com_tags'))) {
+            $this->setState('tag.state', 1);
+        } else {
+            $this->setState('tag.state', '0,1');
+        }
 
         // Optional filter text
         $filterSearch = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_search', 'filter-search', '', 'string');
