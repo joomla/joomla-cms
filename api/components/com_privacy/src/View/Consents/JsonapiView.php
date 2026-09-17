@@ -11,7 +11,6 @@
 namespace Joomla\Component\Privacy\Api\View\Consents;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\Serializer\JoomlaSerializer;
@@ -78,6 +77,7 @@ class JsonapiView extends BaseApiView
     {
         /** @var \Joomla\CMS\MVC\Model\ListModel $model */
         $model       = $this->getModel();
+        $model->setUseExceptions(true);
         $displayItem = null;
         $id          = $model->getState()->get($this->getName() . '.id');
 
@@ -96,11 +96,6 @@ class JsonapiView extends BaseApiView
 
         if ($displayItem === null) {
             throw new RouteNotFoundException('Item does not exist');
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         if ($this->type === null) {
