@@ -179,10 +179,10 @@ if ($this->type == 'font') {
                                 <?php foreach ($this->archive as $file) : ?>
                                     <li>
                                         <?php if (substr($file, -1) === DIRECTORY_SEPARATOR) : ?>
-                                            <span class="icon-folder icon-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
+                                            <span class="icon-folder icon-fw" aria-hidden="true"></span>&nbsp;<?php echo $this->escape($file); ?>
                                         <?php endif; ?>
                                         <?php if (substr($file, -1) != DIRECTORY_SEPARATOR) : ?>
-                                            <span class="icon-file icon-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
+                                            <span class="icon-file icon-fw" aria-hidden="true"></span>&nbsp;<?php echo $this->escape($file); ?>
                                         <?php endif; ?>
                                     </li>
                                 <?php endforeach; ?>
