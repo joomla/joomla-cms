@@ -93,9 +93,6 @@ $attributes = [
     !empty($inputmode) ? $inputmode : '',
     !empty($counterlabel) ? $counterlabel : '',
     !empty($pattern) ? 'pattern="' . $pattern . '"' : '',
-
-    // @TODO add a proper string here!!!
-    !empty($validationtext) ? 'data-validation-text="' . $this->escape(Text::_($validationtext)) . '"' : '',
 ];
 
 $addonBeforeHtml = '<span class="input-group-text">' . Text::_($addonBefore) . '</span>';
