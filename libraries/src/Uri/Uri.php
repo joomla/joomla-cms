@@ -172,6 +172,10 @@ class Uri extends \Joomla\Uri\Uri
             }
         }
 
+        if (!empty(static::$base['path'])) {
+            static::$base['path'] = '/' . ltrim(static::$base['path'], '/');
+        }
+
         return $pathonly === false ? static::$base['prefix'] . static::$base['path'] . '/' : static::$base['path'];
     }
 
