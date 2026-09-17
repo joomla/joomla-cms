@@ -97,6 +97,19 @@
 			</field>
 
 			<field
+    			name="show_contact_form_title"
+    			type="list"
+   				label="COM_CONTACT_FIELD_SHOW_CONTACT_TITLE_LABEL"
+    			useglobal="true"
+    			showon="show_info:1"
+    			class="form-select-color-state"
+    			validate="options"
+				>
+    			<option value="0">JHIDE</option>
+    			<option value="1">JSHOW</option>
+			</field>
+
+			<field
 				name="show_position"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_LABEL"
@@ -417,6 +430,18 @@
 			</field>
 
 			<field
+				name="show_email_form_title"
+				type="list"
+				label="COM_CONTACT_FIELD_SHOW_EMAIL_FORM_TITLE_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
 				name="show_email_copy"
 				type="list"
 				label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
@@ -460,5 +485,6 @@
 				useglobal="true"
 			/>
 		</fieldset>
+
 	</fields>
 </metadata>
