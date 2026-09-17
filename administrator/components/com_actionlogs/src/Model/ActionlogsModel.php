@@ -342,6 +342,10 @@ class ActionlogsModel extends ListModel
         try {
             $db->execute();
         } catch (\RuntimeException $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;

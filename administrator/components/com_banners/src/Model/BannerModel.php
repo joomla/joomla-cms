@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Banners\Administrator\Model;
 
+use Joomla\CMS\Access\Exception\NotAllowedException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -116,6 +117,10 @@ class BannerModel extends AdminModel implements VersionableModelInterface
 
         foreach ($pks as $pk) {
             if (!$user->authorise('core.edit', $contexts[$pk])) {
+                if ($this->shouldUseExceptions()) {
+                    throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+                }
+
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
                 return false;
@@ -126,6 +131,12 @@ class BannerModel extends AdminModel implements VersionableModelInterface
             $table->cid = (int) $value;
 
             if (!$table->store()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -300,6 +311,12 @@ class BannerModel extends AdminModel implements VersionableModelInterface
 
         // Attempt to change the state of the records.
         if (!$table->stick($pks, $value, $this->getCurrentUser()->id)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -428,6 +445,12 @@ class BannerModel extends AdminModel implements VersionableModelInterface
 
             // Create new category.
             if (!$categoryModel->save($category)) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $categoryModel->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($categoryModel->getError());
 
                 return false;
