@@ -73,6 +73,7 @@ class BannersModel extends ListModel
         $keywords   = $this->getState('filter.keywords');
         $randomise  = ($ordering === 'random');
         $nowDate    = Factory::getDate()->toSql();
+        $groups     = $this->getCurrentUser()->getAuthorisedViewLevels();
 
         $query->select(
             [
@@ -91,7 +92,10 @@ class BannersModel extends ListModel
         )
             ->from($db->quoteName('#__banners', 'a'))
             ->join('LEFT', $db->quoteName('#__banner_clients', 'cl'), $db->quoteName('cl.id') . ' = ' . $db->quoteName('a.cid'))
+            ->join('INNER', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
             ->where($db->quoteName('a.state') . ' = 1')
+            ->where($db->quoteName('c.published') . ' = 1')
+            ->whereIn($db->quoteName('c.access'), $groups, ParameterType::INTEGER)
             ->extendWhere(
                 'AND',
                 [
