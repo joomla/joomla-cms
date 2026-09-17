@@ -69,6 +69,8 @@ class ContactsModel extends ListModel
         }
 
         parent::__construct($config, $factory);
+
+        $this->localeOrderColumns = ['a.name', 'a.alias', 'category_title', 'linked_user', 'ul.name'];
     }
 
     /**
@@ -389,10 +391,13 @@ class ContactsModel extends ListModel
         $orderDirn = $this->state->get('list.direction', 'asc');
 
         if ($orderCol == 'a.ordering' || $orderCol == 'category_title') {
-            $orderCol = $db->quoteName('c.title') . ' ' . $orderDirn . ', ' . $db->quoteName('a.ordering');
+            $query->order(
+                $this->buildLocaleOrderByExpression('c.title', $orderDirn, ['c.title'])
+                . ', ' . $db->quoteName('a.ordering') . ' ' . $db->escape($orderDirn)
+            );
+        } else {
+            $query->order($this->getOrderByWithLocale($orderCol, $orderDirn));
         }
-
-        $query->order($db->escape($orderCol . ' ' . $orderDirn));
 
         return $query;
     }

@@ -53,6 +53,8 @@ class FeaturedModel extends ListModel
         }
 
         parent::__construct($config, $factory);
+
+        $this->localeOrderColumns = ['a.name', 'a.con_position', 'a.suburb', 'a.state', 'a.country'];
     }
 
     /**
@@ -142,7 +144,10 @@ class FeaturedModel extends ListModel
         }
 
         // Add the list ordering clause.
-        $query->order($db->escape($this->getState('list.ordering', 'a.ordering')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+        $query->order($this->getOrderByWithLocale(
+            $this->getState('list.ordering', 'a.ordering'),
+            $this->getState('list.direction', 'ASC')
+        ));
 
         return $query;
     }
