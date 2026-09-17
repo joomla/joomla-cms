@@ -1057,8 +1057,7 @@ CREATE TABLE IF NOT EXISTS "#__user_keys" (
   "series" varchar(255) NOT NULL,
   "time" varchar(200) NOT NULL,
   "uastring" varchar(255) NOT NULL,
-  PRIMARY KEY ("id"),
-	CONSTRAINT "#__user_keys_series" UNIQUE ("series")
+  PRIMARY KEY ("id")
 );
 CREATE INDEX "#__user_keys_idx_user_id" ON "#__user_keys" ("user_id");
 
