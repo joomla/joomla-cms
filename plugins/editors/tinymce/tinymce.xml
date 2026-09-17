@@ -38,7 +38,7 @@
 					name="sets_amount"
 					type="number"
 					label="PLG_TINY_FIELD_NUMBER_OF_SETS_LABEL"
-					filter="int"
+					filter="integer"
 					validate="number"
 					min="3"
 					default="3"
