@@ -86,6 +86,19 @@ class Showon {
               }
             });
           }
+          if (this.fields[showonData[0].field] && !this.fields[showonData[0].field].origin.length) {
+           field.dispatchEvent(new CustomEvent('joomla:showon-hide', {
+              detail: {reason: 'missingParent'},
+              bubbles: true,
+            }));
+            console.warn(
+              '[Joomla Showon] Invalid showon configuration:',
+              'Source field not found:',
+              showonData[0].field,
+              '→ Dependent field hidden:',
+              field
+            );
+          }
         }
       });
 
