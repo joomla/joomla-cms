@@ -8,7 +8,6 @@
 			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
-			size="40"
 			maxlength="100"
 			required="true"
 		/>
@@ -20,7 +19,6 @@
 				label="JSTATUS"
 				default="1"
 				class="form-select-color-state"
-				size="1"
 				validate="options"
 				optionsFilter="-2,0,1"
 			/>
@@ -97,7 +95,6 @@
 				name="created"
 				type="calendar"
 				label="JGLOBAL_CREATED"
-				size="22"
 				translateformat="true"
 				showtime="true"
 				filter="user_utc"
