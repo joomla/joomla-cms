@@ -251,14 +251,8 @@ class TagField extends ListField
         // Merge any additional options in the XML definition.
         $options = array_merge(parent::getOptions(), $options);
 
-        // Prepare nested data
-        if ($this->isNested()) {
-            $this->prepareOptionsNested($options);
-        } else {
-            $options = TagsHelper::convertPathsToNames($options);
-        }
-
-        return $options;
+        // Label the tags with their full path so tags with the same title remain distinguishable
+        return TagsHelper::convertPathsToNames($options);
     }
 
     /**
@@ -269,6 +263,9 @@ class TagField extends ListField
      * @return  object[]  The field option objects.
      *
      * @since   3.1
+     *
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     *              Tag options are labelled with their full path, indentation is no longer used
      */
     protected function prepareOptionsNested(&$options)
     {
