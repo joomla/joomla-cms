@@ -291,6 +291,7 @@ class ExtensionHelper
         ['plugin', 'custom', 'schemaorg', 0],
         ['plugin', 'event', 'schemaorg', 0],
         ['plugin', 'jobposting', 'schemaorg', 0],
+        ['plugin', 'localbusiness', 'schemaorg', 0],
         ['plugin', 'organization', 'schemaorg', 0],
         ['plugin', 'person', 'schemaorg', 0],
         ['plugin', 'recipe', 'schemaorg', 0],
