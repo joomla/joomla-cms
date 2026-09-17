@@ -13,6 +13,7 @@ namespace Joomla\Component\Fields\Administrator\Model;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
@@ -459,7 +460,17 @@ class FieldsModel extends ListModel
         $query->bind(':context', $context);
 
         $db->setQuery($query);
+        $groups = $db->loadObjectList();
 
-        return $db->loadObjectList();
+        if (\is_array($groups)) {
+            foreach ($groups as &$group) {
+                if (isset($group->text) && \is_string($group->text)) {
+                    $translated  = Text::_($group->text);
+                    $group->text = $translated ?: $group->text;
+                }
+            }
+            unset($group);
+        }
+        return $groups;
     }
 }
