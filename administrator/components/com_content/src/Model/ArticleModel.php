@@ -1100,7 +1100,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
      */
     private function canCreateCategory()
     {
-        return $this->getCurrentUser()->authorise('core.create', 'com_content');
+        return $this->getCurrentUser()->authorise('core.create', 'com_categories');
     }
 
     /**
