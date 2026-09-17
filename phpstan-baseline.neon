@@ -11171,7 +11171,7 @@ parameters:
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
 			'''
 			identifier: method.deprecatedInterface
-			count: 1
+			count: 2
 			path: libraries/src/Installer/InstallerHelper.php
 
 		-
