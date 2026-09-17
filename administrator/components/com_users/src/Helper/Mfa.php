@@ -320,6 +320,40 @@ abstract class Mfa
     }
 
     /**
+     * Could the user still owe a Multi-factor Authentication step after their password login?
+     *
+     * This is a conservative check used to decide whether issuing a persistent credential
+     * (e.g. a Remember Me cookie) must be deferred until the login is fully complete. It
+     * returns true when the user either has MFA records or belongs to a user group which
+     * enforces MFA setup. The final decision on whether the captive MFA page or the
+     * mandatory setup page is actually shown lies with the MultiFactorAuthenticationHandler.
+     *
+     * @param   User  $user  The user to check
+     *
+     * @return  boolean
+     * @throws  \Exception
+     *
+     * @since   5.4.9
+     */
+    public static function userMayNeedMfaGate(User $user): bool
+    {
+        if ($user->guest) {
+            return false;
+        }
+
+        // The user has MFA records, so the captive MFA page may apply.
+        if (\count(self::getUserMfaRecords((int) $user->id))) {
+            return true;
+        }
+
+        // The user is in a group which enforces MFA, so the mandatory setup page may apply.
+        $forceMFAUserGroups = ComponentHelper::getParams('com_users')->get('forceMFAUserGroups', []);
+        $forceMFAUserGroups = \is_array($forceMFAUserGroups) ? $forceMFAUserGroups : [];
+
+        return \count(array_intersect($forceMFAUserGroups, $user->getAuthorisedGroups())) >= 1;
+    }
+
+    /**
      * Are the conditions for showing the MFA configuration interface met?
      *
      * @param   User|null  $user  The user to be configured
