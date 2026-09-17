@@ -150,13 +150,13 @@ class CheckboxesField extends ListField
         $data = parent::getLayoutData();
 
         // True if the field has 'value' set. In other words, it has been stored, don't use the default values.
-        $hasValue = (isset($this->value) && !empty($this->value));
+        $hasValue = $this->value !== null && $this->value !== '' && $this->value !== [];
 
         // If a value has been stored, use it. Otherwise, use the defaults.
         $checkedOptions = $hasValue ? $this->value : $this->checkedOptions;
 
         $extraData = [
-            'checkedOptions' => \is_array($checkedOptions) ? $checkedOptions : explode(',', (string) $checkedOptions),
+            'checkedOptions' => \is_array($checkedOptions) ? array_map('strval', $checkedOptions) : explode(',', (string) $checkedOptions),
             'hasValue'       => $hasValue,
             'options'        => $this->getOptions(),
         ];
