@@ -17,7 +17,7 @@ use Joomla\CMS\Form\Field\CheckboxesField;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       5.4.0
+ * @since       __DEPLOY_VERSION__
  */
 class CheckboxesFieldTest extends \PHPUnit\Framework\TestCase
 {
@@ -26,7 +26,7 @@ class CheckboxesFieldTest extends \PHPUnit\Framework\TestCase
      *
      * @return  void
      *
-     * @since   5.4.0
+     * @since   __DEPLOY_VERSION__
      */
     public function testIsConstructable()
     {
@@ -38,7 +38,7 @@ class CheckboxesFieldTest extends \PHPUnit\Framework\TestCase
      *
      * @return  void
      *
-     * @since   5.4.0
+     * @since   __DEPLOY_VERSION__
      */
     public function testGetWithDefaultValues()
     {
@@ -54,7 +54,7 @@ class CheckboxesFieldTest extends \PHPUnit\Framework\TestCase
      *
      * @return  void
      *
-     * @since   5.4.0
+     * @since   __DEPLOY_VERSION__
      */
     public function testSetAndGetCheckedOptions()
     {
@@ -69,7 +69,7 @@ class CheckboxesFieldTest extends \PHPUnit\Framework\TestCase
      *
      * @return  void
      *
-     * @since   5.4.0
+     * @since   __DEPLOY_VERSION__
      */
     public function testSetupWithCheckedAttribute()
     {
@@ -81,11 +81,12 @@ class CheckboxesFieldTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a zero string value ('0') is recognized as hasValue and used in layout data.
+     * Tests that a zero string value ('0') is recognized as hasValue and used in layout data,
+     * ensuring option '0' is checked and default option '1' is not checked.
      *
      * @return  void
      *
-     * @since   5.4.0
+     * @since   __DEPLOY_VERSION__
      */
     public function testGetLayoutDataWithZeroStringValue()
     {
@@ -102,6 +103,8 @@ class CheckboxesFieldTest extends \PHPUnit\Framework\TestCase
 
         $this->assertTrue($layoutData['hasValue']);
         $this->assertSame(['0'], $layoutData['checkedOptions']);
+        $this->assertContains('0', $layoutData['checkedOptions']);
+        $this->assertNotContains('1', $layoutData['checkedOptions']);
     }
 
     /**
@@ -109,7 +112,7 @@ class CheckboxesFieldTest extends \PHPUnit\Framework\TestCase
      *
      * @return  void
      *
-     * @since   5.4.0
+     * @since   __DEPLOY_VERSION__
      */
     public function testGetLayoutDataWithZeroIntValue()
     {
@@ -126,14 +129,42 @@ class CheckboxesFieldTest extends \PHPUnit\Framework\TestCase
 
         $this->assertTrue($layoutData['hasValue']);
         $this->assertSame(['0'], $layoutData['checkedOptions']);
+        $this->assertContains('0', $layoutData['checkedOptions']);
+        $this->assertNotContains('1', $layoutData['checkedOptions']);
     }
 
     /**
-     * Tests that an array containing integer/string values is properly converted to string options.
+     * Tests that an array containing zero value (['0']) preserves option '0' and ignores defaults.
      *
      * @return  void
      *
-     * @since   5.4.0
+     * @since   __DEPLOY_VERSION__
+     */
+    public function testGetLayoutDataWithZeroArrayValue()
+    {
+        $field   = new CheckboxesField();
+        $element = new \SimpleXMLElement(
+            '<field name="testfield" checked="1">' .
+            '<option value="0">Zero</option>' .
+            '<option value="1">One</option>' .
+            '</field>'
+        );
+        $field->setup($element, ['0'], null);
+
+        $layoutData = $this->callGetLayoutData($field);
+
+        $this->assertTrue($layoutData['hasValue']);
+        $this->assertSame(['0'], $layoutData['checkedOptions']);
+        $this->assertContains('0', $layoutData['checkedOptions']);
+        $this->assertNotContains('1', $layoutData['checkedOptions']);
+    }
+
+    /**
+     * Tests that an array containing multiple integer/string values is properly converted to string options.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
      */
     public function testGetLayoutDataWithArrayValues()
     {
@@ -158,7 +189,7 @@ class CheckboxesFieldTest extends \PHPUnit\Framework\TestCase
      *
      * @return  void
      *
-     * @since   5.4.0
+     * @since   __DEPLOY_VERSION__
      */
     public function testGetLayoutDataWithEmptyValueFallsBackToDefault()
     {
@@ -176,6 +207,9 @@ class CheckboxesFieldTest extends \PHPUnit\Framework\TestCase
 
         $this->assertFalse($layoutData['hasValue']);
         $this->assertSame(['1', '2'], $layoutData['checkedOptions']);
+        $this->assertNotContains('0', $layoutData['checkedOptions']);
+        $this->assertContains('1', $layoutData['checkedOptions']);
+        $this->assertContains('2', $layoutData['checkedOptions']);
     }
 
     /**
@@ -185,12 +219,11 @@ class CheckboxesFieldTest extends \PHPUnit\Framework\TestCase
      *
      * @return  array
      *
-     * @since   5.4.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function callGetLayoutData(CheckboxesField $field): array
     {
         $reflection = new \ReflectionMethod(CheckboxesField::class, 'getLayoutData');
-        $reflection->setAccessible(true);
 
         return $reflection->invoke($field);
     }
