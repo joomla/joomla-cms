@@ -18,6 +18,8 @@ use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Filesystem\Folder;
 use Joomla\Plugin\Task\SiteStatus\Extension\SiteStatus;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\RequiresOperatingSystemFamily;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for SiteStatus plugin
@@ -25,10 +27,9 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  SiteStatus
  *
- * @testdox     The SiteStatus plugin
- *
  * @since       4.2.0
  */
+#[TestDox('The SiteStatus plugin')]
 class SiteStatusPluginTest extends UnitTestCase
 {
     /**
@@ -74,12 +75,11 @@ class SiteStatusPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can set the config from online to offline
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can set the config from online to offline')]
     public function testSetOnlineWhenOffline()
     {
         $language = $this->createStub(Language::class);
@@ -97,17 +97,16 @@ class SiteStatusPluginTest extends UnitTestCase
         $event = new ExecuteTaskEvent('test', ['subject' => $task]);
         $plugin->alterSiteStatus($event);
 
-        $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+        $this->assertSame(Status::OK, $event->getResultSnapshot()['status']);
         $this->assertStringContainsString('$offline = false;', file_get_contents($this->tmpFolder . '/config.php'));
     }
 
     /**
-     * @testdox  can keep the config online
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can keep the config online')]
     public function testSetOnlineWhenOnline()
     {
         $language = $this->createStub(Language::class);
@@ -125,17 +124,16 @@ class SiteStatusPluginTest extends UnitTestCase
         $event = new ExecuteTaskEvent('test', ['subject' => $task]);
         $plugin->alterSiteStatus($event);
 
-        $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+        $this->assertSame(Status::OK, $event->getResultSnapshot()['status']);
         $this->assertStringContainsString('$offline = false;', file_get_contents($this->tmpFolder . '/config.php'));
     }
 
     /**
-     * @testdox  can set the config from offline to online
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can set the config from offline to online')]
     public function testSetOfflineWhenOnline()
     {
         $language = $this->createStub(Language::class);
@@ -153,17 +151,16 @@ class SiteStatusPluginTest extends UnitTestCase
         $event = new ExecuteTaskEvent('test', ['subject' => $task]);
         $plugin->alterSiteStatus($event);
 
-        $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+        $this->assertSame(Status::OK, $event->getResultSnapshot()['status']);
         $this->assertStringContainsString('$offline = true;', file_get_contents($this->tmpFolder . '/config.php'));
     }
 
     /**
-     * @testdox  can keep the config offline
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can keep the config offline')]
     public function testSetOfflineWhenOffline()
     {
         $language = $this->createStub(Language::class);
@@ -181,17 +178,16 @@ class SiteStatusPluginTest extends UnitTestCase
         $event = new ExecuteTaskEvent('test', ['subject' => $task]);
         $plugin->alterSiteStatus($event);
 
-        $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+        $this->assertSame(Status::OK, $event->getResultSnapshot()['status']);
         $this->assertStringContainsString('$offline = true;', file_get_contents($this->tmpFolder . '/config.php'));
     }
 
     /**
-     * @testdox  can toggle the config from online to offline
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can toggle the config from online to offline')]
     public function testToggleOffline()
     {
         $language = $this->createStub(Language::class);
@@ -209,17 +205,16 @@ class SiteStatusPluginTest extends UnitTestCase
         $event = new ExecuteTaskEvent('test', ['subject' => $task]);
         $plugin->alterSiteStatus($event);
 
-        $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+        $this->assertSame(Status::OK, $event->getResultSnapshot()['status']);
         $this->assertStringContainsString('$offline = true;', file_get_contents($this->tmpFolder . '/config.php'));
     }
 
     /**
-     * @testdox  can toggle the config from offline to online
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can toggle the config from offline to online')]
     public function testToggleOnline()
     {
         $language = $this->createStub(Language::class);
@@ -237,17 +232,17 @@ class SiteStatusPluginTest extends UnitTestCase
         $event = new ExecuteTaskEvent('test', ['subject' => $task]);
         $plugin->alterSiteStatus($event);
 
-        $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+        $this->assertSame(Status::OK, $event->getResultSnapshot()['status']);
         $this->assertStringContainsString('$offline = false;', file_get_contents($this->tmpFolder . '/config.php'));
     }
 
     /**
-     * @testdox  can't set the config file'
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[RequiresOperatingSystemFamily('Linux')]
+    #[TestDox("can't set the config file'")]
     public function testInvalidConfigFile()
     {
         $language = $this->createStub(Language::class);
@@ -265,7 +260,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $event = new ExecuteTaskEvent('test', ['subject' => $task]);
         $plugin->alterSiteStatus($event);
 
-        $this->assertEquals(Status::KNOCKOUT, $event->getResultSnapshot()['status']);
+        $this->assertSame(Status::KNOCKOUT, $event->getResultSnapshot()['status']);
         $this->assertFileDoesNotExist('/proc/invalid/config.php');
     }
 }

@@ -330,17 +330,6 @@
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 			<option value="-1">JHIDE</option>
 		</field>
-
-		<field
-			name="preview_token_expiration"
-			type="number"
-			label="COM_CONTENT_FIELD_PREVIEW_TOKEN_EXPIRATION_LABEL"
-			description="COM_CONTENT_FIELD_PREVIEW_TOKEN_EXPIRATION_DESC"
-			default="15"
-			min="1"
-			step="5"
-			filter="integer"
-		/>
 	</fieldset>
 	<fieldset
 		name="editinglayout"

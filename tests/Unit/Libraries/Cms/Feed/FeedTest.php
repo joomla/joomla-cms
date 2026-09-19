@@ -68,7 +68,7 @@ class FeedTest extends UnitTestCase
      */
     public function testMagicGetterWithDefaultProperty()
     {
-        $this->assertEquals('', $this->feed->uri);
+        $this->assertSame('', $this->feed->uri);
     }
 
 
@@ -81,7 +81,7 @@ class FeedTest extends UnitTestCase
      */
     public function testMagicGetterWithUnknownProperty()
     {
-        $this->assertEquals(null, $this->feed->unknown);
+        $this->assertSame(null, $this->feed->unknown);
     }
 
     /**
@@ -96,7 +96,7 @@ class FeedTest extends UnitTestCase
         $value                 = 'test';
         $this->feed->testValue = $value;
 
-        $this->assertEquals($value, $this->feed->testValue);
+        $this->assertSame($value, $this->feed->testValue);
     }
 
     /**
@@ -146,8 +146,8 @@ class FeedTest extends UnitTestCase
 
         $author = $this->feed->author;
         $this->assertInstanceOf(FeedPerson::class, $author);
-        $this->assertEquals($name, $author->name);
-        $this->assertEquals($email, $author->email);
+        $this->assertSame($name, $author->name);
+        $this->assertSame($email, $author->email);
     }
 
     /**
@@ -167,8 +167,8 @@ class FeedTest extends UnitTestCase
 
         $author = $this->feed->author;
         $this->assertInstanceOf(FeedPerson::class, $author);
-        $this->assertEquals($name, $author->name);
-        $this->assertEquals($email, $author->email);
+        $this->assertSame($name, $author->name);
+        $this->assertSame($email, $author->email);
     }
 
     /**
@@ -222,7 +222,7 @@ class FeedTest extends UnitTestCase
         $value                 = 'test';
         $this->feed->testValue = $value;
 
-        $this->assertEquals($value, $this->feed->testValue);
+        $this->assertSame($value, $this->feed->testValue);
     }
 
     /**
@@ -241,7 +241,7 @@ class FeedTest extends UnitTestCase
         $categories = $this->feed->categories;
         $this->assertCount(1, $categories);
         $this->assertArrayHasKey($name, $categories);
-        $this->assertEquals($uri, $categories[$name]);
+        $this->assertSame($uri, $categories[$name]);
     }
 
     /**
@@ -268,7 +268,7 @@ class FeedTest extends UnitTestCase
 
         foreach ($categories as $category) {
             $this->assertArrayHasKey($category['name'], $feedCategories);
-            $this->assertEquals($category['uri'], $feedCategories[$category['name']]);
+            $this->assertSame($category['uri'], $feedCategories[$category['name']]);
         }
     }
 
@@ -288,8 +288,8 @@ class FeedTest extends UnitTestCase
 
         $contributors = $this->feed->contributors;
         $this->assertCount(1, $contributors);
-        $this->assertEquals($name, $contributors[0]->name);
-        $this->assertEquals($email, $contributors[0]->email);
+        $this->assertSame($name, $contributors[0]->name);
+        $this->assertSame($email, $contributors[0]->email);
     }
 
     /**
@@ -309,8 +309,8 @@ class FeedTest extends UnitTestCase
 
         $contributors = $this->feed->contributors;
         $this->assertCount(1, $contributors);
-        $this->assertEquals($name, $contributors[0]->name);
-        $this->assertEquals($email, $contributors[0]->email);
+        $this->assertSame($name, $contributors[0]->name);
+        $this->assertSame($email, $contributors[0]->email);
     }
 
     /**
@@ -336,8 +336,8 @@ class FeedTest extends UnitTestCase
         $this->assertCount(3, $feedContributors);
 
         foreach ($contributors as $index => $contributor) {
-            $this->assertEquals($contributor['name'], $feedContributors[$index]->name);
-            $this->assertEquals($contributor['email'], $feedContributors[$index]->email);
+            $this->assertSame($contributor['name'], $feedContributors[$index]->name);
+            $this->assertSame($contributor['email'], $feedContributors[$index]->email);
         }
     }
 
@@ -350,12 +350,12 @@ class FeedTest extends UnitTestCase
      */
     public function testAddNewEntry()
     {
-        $feedEntry = $this->createMock(FeedEntry::class);
+        $feedEntry = $this->createStub(FeedEntry::class);
 
         $this->feed->addEntry($feedEntry);
 
-        $this->assertEquals(1, $this->feed->count());
-        $this->assertEquals($feedEntry, $this->feed[0]);
+        $this->assertCount(1, $this->feed);
+        $this->assertSame($feedEntry, $this->feed[0]);
     }
 
     /**
@@ -367,13 +367,13 @@ class FeedTest extends UnitTestCase
      */
     public function testAddExistingEntry()
     {
-        $feedEntry = $this->createMock(FeedEntry::class);
+        $feedEntry = $this->createStub(FeedEntry::class);
 
         $this->feed->addEntry($feedEntry);
         $this->feed->addEntry($feedEntry);
 
-        $this->assertEquals(1, $this->feed->count());
-        $this->assertEquals($feedEntry, $this->feed[0]);
+        $this->assertCount(1, $this->feed);
+        $this->assertSame($feedEntry, $this->feed[0]);
     }
 
     /**
@@ -385,16 +385,16 @@ class FeedTest extends UnitTestCase
      */
     public function testAddMultipleEntries()
     {
-        $feedEntry1       = $this->createMock(FeedEntry::class);
-        $feedEntry2       = $this->createMock(FeedEntry::class);
+        $feedEntry1       = $this->createStub(FeedEntry::class);
+        $feedEntry2       = $this->createStub(FeedEntry::class);
         $feedEntry2->name = 'name2';
 
         $this->feed->addEntry($feedEntry1);
         $this->feed->addEntry($feedEntry2);
 
-        $this->assertEquals(2, $this->feed->count());
-        $this->assertEquals($feedEntry1, $this->feed[0]);
-        $this->assertEquals($feedEntry2, $this->feed[1]);
+        $this->assertCount(2, $this->feed);
+        $this->assertSame($feedEntry1, $this->feed[0]);
+        $this->assertSame($feedEntry2, $this->feed[1]);
     }
 
     /**
@@ -406,7 +406,7 @@ class FeedTest extends UnitTestCase
      */
     public function testOffsetExists()
     {
-        $feedEntry = $this->createMock(FeedEntry::class);
+        $feedEntry = $this->createStub(FeedEntry::class);
 
         $this->feed->addEntry($feedEntry);
 
@@ -422,11 +422,11 @@ class FeedTest extends UnitTestCase
      */
     public function testOffsetGet()
     {
-        $feedEntry = $this->createMock(FeedEntry::class);
+        $feedEntry = $this->createStub(FeedEntry::class);
 
         $this->feed->addEntry($feedEntry);
 
-        $this->assertEquals($feedEntry, $this->feed->offsetGet(0));
+        $this->assertSame($feedEntry, $this->feed->offsetGet(0));
     }
 
     /**
@@ -451,12 +451,12 @@ class FeedTest extends UnitTestCase
      */
     public function testOffsetSet()
     {
-        $feedEntry = $this->createMock(FeedEntry::class);
+        $feedEntry = $this->createStub(FeedEntry::class);
 
         $this->feed->offsetSet(1, $feedEntry);
 
-        $this->assertEquals(1, $this->feed->count());
-        $this->assertEquals($feedEntry, $this->feed->offsetGet(1));
+        $this->assertCount(1, $this->feed);
+        $this->assertSame($feedEntry, $this->feed->offsetGet(1));
     }
 
     /**
@@ -468,12 +468,12 @@ class FeedTest extends UnitTestCase
      */
     public function testOffsetUnset()
     {
-        $feedEntry = $this->createMock(FeedEntry::class);
+        $feedEntry = $this->createStub(FeedEntry::class);
 
         $this->feed->offsetSet(10, $feedEntry);
         $this->feed->offsetUnset(10);
 
-        $this->assertEquals(0, $this->feed->count());
+        $this->assertCount(0, $this->feed);
     }
 
     /**
@@ -525,11 +525,11 @@ class FeedTest extends UnitTestCase
      */
     public function testRemoveEntry()
     {
-        $feedEntry = $this->createMock(FeedEntry::class);
+        $feedEntry = $this->createStub(FeedEntry::class);
 
         $this->feed->addEntry($feedEntry);
         $this->feed->removeEntry($feedEntry);
 
-        $this->assertEquals(0, $this->feed->count());
+        $this->assertCount(0, $this->feed);
     }
 }

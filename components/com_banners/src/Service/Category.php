@@ -32,8 +32,9 @@ class Category extends Categories
      */
     public function __construct($options = [])
     {
-        $options['table']     = '#__banners';
-        $options['extension'] = 'com_banners';
+        $options['table']       = '#__banners';
+        $options['extension']   = 'com_banners';
+        $options['check_dates'] = true;
 
         parent::__construct($options);
     }

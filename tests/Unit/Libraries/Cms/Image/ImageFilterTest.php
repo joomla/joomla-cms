@@ -63,7 +63,7 @@ class ImageFilterTest extends UnitTestCase
 
         $filter = new FilterBrightness($imageHandle);
 
-        $this->assertEquals(
+        $this->assertSame(
             $imageHandle,
             TestHelper::getValue($filter, 'handle')
         );

@@ -9,7 +9,7 @@ The Joomla! 6.2 branch is under heavy development and not all links in this docu
 	* Joomla! 6.2 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_6.2_version_history
 	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/6.2-dev
 	* Release Managers responsible for Joomla! 6.2
-		* Charvi Mehra @charvimehradu
+		* Viviana Menzel @drmenzelit
 		* Martin Kopp @MacJoom
 
 2- What is Joomla?
@@ -44,7 +44,7 @@ The Joomla! 6.2 branch is under heavy development and not all links in this docu
 
 8- Ready to install Joomla?
 	* Check the minimum requirements here: https://downloads.joomla.org/technical-requirements
-	* How do you install Joomla - https://docs.joomla.org/Special:MyLanguage/J5.x:Installing_Joomla
+	* How do you install Joomla - https://guide.joomla.org/user-manual/getting-started/getting-started-installing-joomla
 	* You could start your Joomla! experience building your site on a local test server.
 	When ready it can be moved to an online hosting account of your choice.
 	See the tutorial: https://docs.joomla.org/Special:MyLanguage/Installing_Joomla_locally

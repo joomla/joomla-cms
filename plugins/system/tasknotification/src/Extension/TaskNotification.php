@@ -337,7 +337,8 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
                     $template,
                     $app->getLanguage()->getTag(),
                     $this->getMailerFactory()->createMailer(),
-                    $this->getLanguageFactory()
+                    $this->getLanguageFactory(),
+                    $this->getDatabase()
                 );
                 $mailer->addTemplateData($data);
                 $mailer->addRecipient($user->email);

@@ -44,13 +44,12 @@ class WritableContainerLoaderTest extends UnitTestCase
     }
 
     /**
-     *
      * @return  void
      * @since   4.0.0
      */
     public function testTheLoaderCanBeWrittenTo()
     {
-        $command = $this->createMock(AbstractCommand::class);
+        $command = $this->createStub(AbstractCommand::class);
 
         $commandName = 'test:command';
         $serviceId   = 'test.loader';
@@ -67,13 +66,12 @@ class WritableContainerLoaderTest extends UnitTestCase
     }
 
     /**
-     *
      * @return  void
      * @since   4.0.0
      */
     public function testTheLoaderRetrievesACommand()
     {
-        $command = $this->createMock(AbstractCommand::class);
+        $command = $this->createStub(AbstractCommand::class);
 
         $commandName = 'test:command';
         $serviceId   = 'test.loader';
@@ -95,7 +93,6 @@ class WritableContainerLoaderTest extends UnitTestCase
     }
 
     /**
-     *
      * @return  void
      * @since   4.0.0
      */
@@ -118,7 +115,6 @@ class WritableContainerLoaderTest extends UnitTestCase
     }
 
     /**
-     *
      * @return  void
      * @since   4.0.0
      */

@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Form\Rule;
 
 use Joomla\CMS\Form\Rule\FilePathRule;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for FilePathRule.
@@ -29,7 +30,7 @@ class FilePathRuleTest extends UnitTestCase
      *
      * @since   3.9.26
      */
-    public function dataTest(): array
+    public static function dataTest(): array
     {
         $xml = new \SimpleXMLElement('<field
 			name="file_path"
@@ -79,10 +80,10 @@ class FilePathRuleTest extends UnitTestCase
      * @return  void
      *
      * @since   3.9.26
-     * @dataProvider dataTest
      */
+    #[DataProvider('dataTest')]
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
     {
-        $this->assertEquals($expected, (new FilePathRule())->test($element, $value));
+        $this->assertSame($expected, (new FilePathRule())->test($element, $value));
     }
 }
