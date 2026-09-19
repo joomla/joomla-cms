@@ -41,6 +41,41 @@
 					addonAfter="px"
 					filter="integer"
 				/>
+				<field
+					name="batch_folders"
+					type="subform"
+					label="PLG_MEDIA-ACTION_RESIZE_BATCH_FOLDERS_LABEL"
+					description="PLG_MEDIA-ACTION_RESIZE_BATCH_FOLDERS_DESC"
+					layout="joomla.form.field.subform.repeatable-table"
+					multiple="true"
+					>
+					<form>
+						<field
+							name="folder"
+							type="media"
+							label="PLG_MEDIA-ACTION_RESIZE_BATCH_FOLDER_LABEL"
+							types="directories"
+							preview="false"
+							required="true"
+						/>
+						<field
+							name="width"
+							type="text"
+							label="PLG_MEDIA-ACTION_RESIZE_BATCH_MAX_WIDTH_LABEL"
+							addonAfter="px"
+							filter="integer"
+							required="true"
+						/>
+						<field
+							name="height"
+							type="text"
+							label="PLG_MEDIA-ACTION_RESIZE_BATCH_MAX_HEIGHT_LABEL"
+							addonAfter="px"
+							filter="integer"
+							required="true"
+						/>
+					</form>
+				</field>
 			</fieldset>
 		</fields>
 	</config>
