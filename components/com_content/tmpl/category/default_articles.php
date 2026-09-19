@@ -189,7 +189,6 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                             <?php $display = (int) $this->params->get('flags', 1); ?>
                             <?php foreach ($associations as $association) : ?>
                                 <?php if ($display === 1 && $association['language']->image) : ?>
-                                <?php if ($this->params->get('flags', 1) && $association['language']->image) : ?>
                                     <?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, ['title' => $association['language']->title_native], true); ?>
                                     <a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
                                 <?php elseif ($display === 2) : ?>
