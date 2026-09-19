@@ -22,14 +22,22 @@ use Joomla\CMS\Router\Route;
 <dd class="association">
     <span class="icon-globe icon-fw" aria-hidden="true"></span>
     <?php echo Text::_('JASSOCIATIONS'); ?>
+    <?php $display = (int) $displayData['item']->params->get('flags', 1); ?>
     <?php foreach ($associations as $association) : ?>
-        <?php if ($displayData['item']->params->get('flags', 1) && $association['language']->image) : ?>
+        <?php if ($display === 1 && $association['language']->image) : ?>
             <?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, ['title' => $association['language']->title_native], true); ?>
             <a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
         <?php else : ?>
             <?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>
-            <a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->lang_code; ?>
-                <span class="visually-hidden"><?php echo $association['language']->title_native; ?></span>
+            <?php if ($display === 2) : ?>
+                <?php $label = $association['language']->title_native; ?>
+            <?php elseif ($display === 3) : ?>
+                <?php $label = $association['language']->title; ?>
+            <?php else : ?>
+                <?php $label = $association['language']->lang_code; ?>
+            <?php endif; ?>
+            <a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>">
+                <?php echo $label; ?>
             </a>
         <?php endif; ?>
     <?php endforeach; ?>
