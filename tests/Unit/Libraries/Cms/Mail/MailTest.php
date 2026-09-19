@@ -13,6 +13,8 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Mail;
 use Joomla\CMS\Mail\Mail;
 use Joomla\Tests\Unit\UnitTestCase;
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for JMail.
@@ -22,6 +24,11 @@ use PHPMailer\PHPMailer\PHPMailer;
  * @subpackage  Mail
  * @since       1.7.0
  */
+#[CoversMethod(Mail::class, 'addRecipient')]
+#[CoversMethod(Mail::class, 'addCc')]
+#[CoversMethod(Mail::class, 'addBcc')]
+#[CoversMethod(Mail::class, 'addReplyTo')]
+#[CoversMethod(Mail::class, 'isHtml')]
 class MailTest extends UnitTestCase
 {
     /**
@@ -66,7 +73,7 @@ class MailTest extends UnitTestCase
      *
      * @since   4.0.0
      */
-    public function seedTestAdd(): array
+    public static function seedTestAdd(): array
     {
         // Recipient, name, $expected
         return [
@@ -98,10 +105,6 @@ class MailTest extends UnitTestCase
     /**
      * Tests the addRecipient method.
      *
-     * @covers        Mail::addRecipient
-     *
-     * @dataProvider  seedTestAdd
-     *
      * @param   string  $recipient  Recipient
      * @param   string  $name       Name
      * @param   string  $expected   Expected
@@ -110,20 +113,17 @@ class MailTest extends UnitTestCase
      * @since         4.0.0
      * @throws \PHPMailer\PHPMailer\Exception
      */
+    #[DataProvider('seedTestAdd')]
     public function testAddRecipient($recipient, $name, $expected)
     {
         $this->mail->addRecipient($recipient, $name);
 
-        $this->assertEquals($expected, $this->mail->getToAddresses());
+        $this->assertSame($expected, $this->mail->getToAddresses());
     }
 
     /**
      * Tests the addCC method.
      *
-     * @covers        Mail::addCc
-     *
-     * @dataProvider  seedTestAdd
-     *
      * @param   string  $recipient  Recipient
      * @param   string  $name       Name
      * @param   string  $expected   Expected
@@ -132,18 +132,17 @@ class MailTest extends UnitTestCase
      * @since         4.0.0
      * @throws \PHPMailer\PHPMailer\Exception
      */
+    #[DataProvider('seedTestAdd')]
     public function testAddCc($recipient, $name, $expected)
     {
         $this->mail->addCc($recipient, $name);
 
-        $this->assertEquals($expected, $this->mail->getCcAddresses());
+        $this->assertSame($expected, $this->mail->getCcAddresses());
     }
 
     /**
      * Tests the addBCC method.
      *
-     * @covers        Mail::addBcc
-     *
      * @param   string  $recipient  Recipient
      * @param   string  $name       Name
      * @param   string  $expected   Expected
@@ -151,13 +150,13 @@ class MailTest extends UnitTestCase
      * @return void
      * @since         4.0.0
      * @throws \PHPMailer\PHPMailer\Exception
-     * @dataProvider  seedTestAdd
      */
+    #[DataProvider('seedTestAdd')]
     public function testAddBcc($recipient, $name, $expected)
     {
         $this->mail->addBcc($recipient, $name);
 
-        $this->assertEquals($expected, $this->mail->getBccAddresses());
+        $this->assertSame($expected, $this->mail->getBccAddresses());
     }
 
     /**
@@ -167,7 +166,7 @@ class MailTest extends UnitTestCase
      *
      * @since   4.0.0
      */
-    public function seedTestAddReplyTo(): array
+    public static function seedTestAddReplyTo(): array
     {
         // Recipient, name, $expected
         return [
@@ -198,10 +197,6 @@ class MailTest extends UnitTestCase
     /**
      * Tests the addReplyTo method.
      *
-     * @covers        JMail::addReplyTo
-     *
-     * @dataProvider  seedTestAddReplyTo
-     *
      * @param   string  $recipient  Recipient
      * @param   string  $name       Name
      * @param   string  $expected   Expected
@@ -210,11 +205,12 @@ class MailTest extends UnitTestCase
      * @since         4.0.0
      * @throws \PHPMailer\PHPMailer\Exception
      */
+    #[DataProvider('seedTestAddReplyTo')]
     public function testAddReplyTo($recipient, $name, $expected)
     {
         $this->mail->addReplyTo($recipient, $name);
 
-        $this->assertEquals($expected, $this->mail->getReplyToAddresses());
+        $this->assertSame($expected, $this->mail->getReplyToAddresses());
     }
 
     /**
@@ -235,14 +231,12 @@ class MailTest extends UnitTestCase
         $mailAttachments = $this->mail->getAttachments();
 
         $this->assertCount(1, $mailAttachments);
-        $this->assertEquals($path, $mailAttachments[0][0]);
-        $this->assertEquals($name, $mailAttachments[0][2]);
+        $this->assertSame($path, $mailAttachments[0][0]);
+        $this->assertSame($name, $mailAttachments[0][2]);
     }
 
     /**
      * Tests the IsHTML method.
-     *
-     * @covers  JMail::IsHTML
      *
      * @return void
      *
@@ -252,13 +246,11 @@ class MailTest extends UnitTestCase
     {
         $this->mail->isHtml(true);
 
-        $this->assertEquals(PHPMailer::CONTENT_TYPE_TEXT_HTML, $this->mail->ContentType);
+        $this->assertSame(PHPMailer::CONTENT_TYPE_TEXT_HTML, $this->mail->ContentType);
     }
 
     /**
      * Tests the IsHTML method.
-     *
-     * @covers  JMail::IsHTML
      *
      * @return void
      *
@@ -268,7 +260,7 @@ class MailTest extends UnitTestCase
     {
         $this->mail->isHtml(false);
 
-        $this->assertEquals(PHPMailer::CONTENT_TYPE_PLAINTEXT, $this->mail->ContentType);
+        $this->assertSame(PHPMailer::CONTENT_TYPE_PLAINTEXT, $this->mail->ContentType);
     }
 
     /**
@@ -278,7 +270,7 @@ class MailTest extends UnitTestCase
      *
      * @since   3.0.0
      */
-    public function dataUseSmtp(): array
+    public static function dataUseSmtp(): array
     {
         return [
             'SMTP without Authentication' => [
@@ -310,20 +302,19 @@ class MailTest extends UnitTestCase
      * @return  void
      *
      * @since   3.0.0
-     *
-     * @dataProvider  dataUseSMTP
      */
+    #[DataProvider('dataUseSMTP')]
     public function testUseSmtp($auth, $host, $user, $pass, $secure, $port, $expected)
     {
         // Build a partial mock object.
         $mailMock = $this->getMockBuilder(Mail::class)
-            ->setMethods(['SetLanguage', 'IsSMTP', 'IsMail'])
+            ->onlyMethods(['SetLanguage', 'IsSMTP', 'IsMail'])
             ->getMock();
 
         $mailMock
             ->expects($this->once())
             ->method($expected['called']);
 
-        $this->assertEquals($expected['return'], $mailMock->useSmtp($auth, $host, $user, $pass, $secure, $port));
+        $this->assertSame($expected['return'], $mailMock->useSmtp($auth, $host, $user, $pass, $secure, $port));
     }
 }

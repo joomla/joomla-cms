@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for \Joomla\CMS\MVC\Model\ItemModel
@@ -21,19 +22,17 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  MVC
  *
- * @testdox     The FormModel
- *
  * @since       4.2.0
  */
+#[TestDox('The FormModel')]
 class ItemModelTest extends UnitTestCase
 {
     /**
-     * @testdox  store id is not empty
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('store id is not empty')]
     public function testGetStoreId()
     {
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends ItemModel {
@@ -51,12 +50,11 @@ class ItemModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  store id is not empty on an empty id
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('store id is not empty on an empty id')]
     public function testGetEmptyStoreId()
     {
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends ItemModel {
@@ -74,12 +72,11 @@ class ItemModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  store id is different with different ids
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('store id is different with different ids')]
     public function testStoreIdWithDifferentIds()
     {
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends ItemModel {
@@ -97,12 +94,11 @@ class ItemModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  store id is the same with same ids
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('store id is the same with same ids')]
     public function testStoreIdWithSameIds()
     {
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends ItemModel {

@@ -174,6 +174,13 @@ abstract class FieldsPlugin extends CMSPlugin
                 $data['label'] = $key;
             }
 
+            // The description of the type, with a fallback to the plugin description
+            if ($app->getLanguage()->hasKey('PLG_FIELDS_' . $key . '_DESCRIPTION')) {
+                $data['description'] = Text::_('PLG_FIELDS_' . $key . '_DESCRIPTION');
+            } elseif ($app->getLanguage()->hasKey('PLG_FIELDS_' . strtoupper($this->_name) . '_XML_DESCRIPTION')) {
+                $data['description'] = Text::_('PLG_FIELDS_' . strtoupper($this->_name) . '_XML_DESCRIPTION');
+            }
+
             $path = $root . '/fields';
 
             // Add the path when it exists

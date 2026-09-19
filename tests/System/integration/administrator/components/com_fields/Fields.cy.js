@@ -19,6 +19,9 @@ describe('Test in backend that the custom fields list', () => {
   it('can open the field form', () => {
     cy.clickToolbarButton('New');
 
+    cy.contains('Select a Field Type');
+    cy.get('a.comFieldsSelectCard[href$="type=text"]').click();
+
     cy.contains('New Field');
   });
 

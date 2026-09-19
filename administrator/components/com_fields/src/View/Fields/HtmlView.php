@@ -148,7 +148,8 @@ class HtmlView extends BaseHtmlView
         ToolbarHelper::title($title, 'puzzle-piece fields ' . substr($component, 4) . ($section ? "-$section" : '') . '-fields');
 
         if ($canDo->get('core.create')) {
-            $toolbar->addNew('field.add');
+            $toolbar->standardButton('new', 'JTOOLBAR_NEW')
+                ->onclick("location.href='index.php?option=com_fields&amp;view=select&amp;context=" . $this->escape($this->state->get('filter.context')) . "'");
         }
 
         if ($canDo->get('core.edit.state') || $this->getCurrentUser()->authorise('core.admin')) {
