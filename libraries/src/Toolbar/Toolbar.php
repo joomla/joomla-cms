@@ -309,7 +309,7 @@ class Toolbar
      */
     public function insertButtonAfter(ToolbarButton $referenceButton, ToolbarButton $button): ToolbarButton
     {
-        $this->insertButtons(1, $referenceButton, $button);
+        $this->insertButtonsAfter($referenceButton, $button);
 
         return $button;
     }
