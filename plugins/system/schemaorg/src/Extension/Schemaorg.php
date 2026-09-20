@@ -380,14 +380,16 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
 
         $baseSchema['@graph'][] = $webSiteSchema;
 
-        // Add WebPage
-        $webPageId = $domain . '#/schema/WebPage/base';
+        // Add WebPage. Unlike the Organization and WebSite nodes above, a WebPage is one node per page,
+        // so its @id is derived from the page URL rather than being a site-wide constant.
+        $webPageUrl = Uri::getInstance()->toString();
+        $webPageId  = $webPageUrl . '#webpage';
 
         $webPageSchema = [];
 
         $webPageSchema['@type']       = 'WebPage';
         $webPageSchema['@id']         = $webPageId;
-        $webPageSchema['url']         = htmlspecialchars(Uri::getInstance()->toString());
+        $webPageSchema['url']         = htmlspecialchars($webPageUrl);
         $webPageSchema['name']        = $app->getDocument()->getTitle();
         $webPageSchema['description'] = $app->getDocument()->getDescription();
         $webPageSchema['isPartOf']    = ['@id' => $webSiteId];

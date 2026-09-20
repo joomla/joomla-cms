@@ -67,11 +67,12 @@ use Joomla\CMS\WebAsset\WebAssetManager;
     </ol>
     <?php
 
-    // Structured data as JSON
+    // Structured data as JSON. The @id is derived from the current page URL because every page has its own
+    // breadcrumb trail; the module id is the same on every page the module is published on.
     $data = [
         '@context'        => 'https://schema.org',
         '@type'           => 'BreadcrumbList',
-        '@id'             => Uri::root() . '#/schema/BreadcrumbList/' . (int) $module->id,
+        '@id'             => Uri::getInstance()->toString() . '#breadcrumb',
         'itemListElement' => []
     ];
 
