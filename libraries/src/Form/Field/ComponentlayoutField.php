@@ -212,24 +212,52 @@ class ComponentlayoutField extends FormField
                             foreach ($files as $file) {
                                 // Add an option to the template group
                                 $value = basename($file, '.php');
-                                $text  = $value;
-                                $path  = str_replace('.php', '.xml', $file);
 
-                                if (is_file($path) && $xml = simplexml_load_file($path)) {
-                                    $layout = $xml->xpath('//layout[1]');
+                                // If template has a language item for the layout, use it.
+                                $text = $lang
+                                    ->hasKey(
+                                        $key = strtoupper(
+                                            'TPL_'
+                                            . $template->name
+                                            . '_'
+                                            . $extension
+                                            . '_'
+                                            . $view
+                                            . '_LAYOUT_'
+                                            . $value
+                                        )
+                                    )
+                                    ? Text::_($key) : '';
 
-                                    if (isset($layout[0])) {
-                                        $attributes = $layout[0];
+                                // Try to find the layout title in the XML file if no language item was found.
+                                if ($text === '') {
+                                    $path = str_replace('.php', '.xml', $file);
 
-                                        if (isset($attributes['option']) && (string) $attributes['option'] !== '') {
-                                            $text = Text::_((string)$attributes['option']);
-                                        } elseif (isset($attributes['title']) && (string) $attributes['title'] !== '') {
-                                            $text = Text::_((string)$attributes['title']);
+                                    if (is_file($path) && $xml = simplexml_load_file($path)) {
+                                        $layout = $xml->xpath('//layout[1]');
+
+                                        if (isset($layout[0])) {
+                                            $attributes = $layout[0];
+
+                                            if (isset($attributes['option']) && (string) $attributes['option'] !== '') {
+                                                $text = Text::_((string) $attributes['option']);
+                                            } elseif (isset($attributes['title']) && (string) $attributes['title'] !== '') {
+                                                $text = Text::_((string) $attributes['title']);
+                                            }
                                         }
                                     }
                                 }
 
-                                $groups[$template->name]['items'][] = HTMLHelper::_('select.option', $template->element . ':' . $view . ':' . $value, $text);
+                                // Finally, if no title was found, use the layout name.
+                                if ($text === '') {
+                                    $text = $value;
+                                }
+
+                                $groups[$template->name]['items'][] = HTMLHelper::_(
+                                    'select.option',
+                                    $template->element . ':' . $value,
+                                    $text
+                                );
                             }
                         }
                     }

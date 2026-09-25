@@ -68,9 +68,10 @@ $wa->registerAndUseStyle('tinymce.skin', 'media/vendor/tinymce/skins/ui/oxide/sk
     ->useStyle('webcomponent.joomla-tab')
     ->useScript('webcomponent.joomla-tab');
 
-// Add TinyMCE language file to translate the buttons
+// Add TinyMCE language file to translate the buttons.
+// It has to run after the builder script, which replaces the global tinymce object with its own stub.
 if ($languageFile) {
-    $wa->registerAndUseScript('tinymce.language', $languageFile, [], ['defer' => true], []);
+    $wa->registerAndUseScript('tinymce.language', $languageFile, [], ['defer' => true], ['plg_editors_tinymce.builder']);
 }
 
 // Add the builder options
