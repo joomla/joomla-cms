@@ -23,8 +23,13 @@ describe('Test in backend that the Smart Search', () => {
     cy.clickToolbarButton('Save & Close');
     // Visit the smart search page
     cy.visit('/administrator/index.php?option=com_finder&view=index');
-    // Carefully check on next versions cause in 6 the button has changes
-    cy.get('#toolbar-index > button').click();
+    cy.get('#toolbar-indexing-group, #toolbar-index').then(($toolbar) => {
+      if ($toolbar.is('#toolbar-indexing-group')) {
+        // JDEBUG enabled: Index is inside the dropdown
+        cy.get('#toolbar-indexing-group > button').click();
+      }
+    });
+    cy.get('button.button-index').should('be.visible').click();
     cy.contains('Test article').should('exist');
   });
 
