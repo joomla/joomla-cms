@@ -35,6 +35,51 @@ Joomla.toggleInlineHelp = (toggleClass) => {
   });
 };
 
+/**
+ * The localStorage key remembering the inline help state of one page.
+ *
+ * @param {String} toggleClass The class name of the DIVs the toggler controls
+ *
+ * @return {String}
+ */
+const inlineHelpStorageKey = (toggleClass) => `joomla.inlinehelp.${toggleClass}.${window.location.pathname}${window.location.search}`;
+
+/**
+ * Whether the inline help was left visible on this page.
+ *
+ * @param {String} key The storage key
+ *
+ * @return {Boolean}
+ */
+const inlineHelpStored = (key) => {
+  try {
+    return window.localStorage.getItem(key) === '1';
+  } catch (error) {
+    return false;
+  }
+};
+
+/**
+ * Remembers the inline help state of this page. Only the visible state is stored, as hidden is the default.
+ *
+ * @param {String}  key     The storage key
+ * @param {Boolean} visible Whether the inline help is visible
+ */
+const inlineHelpStore = (key, visible) => {
+  try {
+    if (visible) {
+      window.localStorage.setItem(key, '1');
+    } else {
+      window.localStorage.removeItem(key);
+    }
+  } catch (error) {
+    // Storage unavailable (private mode, blocked site data): keep the default behaviour.
+  }
+};
+
+// The classes whose remembered state was already restored, so that two togglers do not cancel each other out.
+const inlineHelpRestored = new Set();
+
 // Initialisation. Clicking on anything with the button-inlinehelp class will toggle the inline help.
 document.querySelectorAll('.button-inlinehelp').forEach((elToggler) => {
   // The class of the DIVs to toggle visibility on is defined by the data-class attribute of the click target.
@@ -47,9 +92,24 @@ document.querySelectorAll('.button-inlinehelp').forEach((elToggler) => {
     return;
   }
 
+  // The state is remembered only when the form asks for it with storage="local".
+  const storageKey = elToggler.dataset.storage === 'local' ? inlineHelpStorageKey(toggleClass) : null;
+
+  if (storageKey && !inlineHelpRestored.has(toggleClass)) {
+    inlineHelpRestored.add(toggleClass);
+
+    if (inlineHelpStored(storageKey)) {
+      Joomla.toggleInlineHelp(toggleClass);
+    }
+  }
+
   // Add the click handler.
   elToggler.addEventListener('click', (event) => {
     event.preventDefault();
     Joomla.toggleInlineHelp(toggleClass);
+
+    if (storageKey) {
+      inlineHelpStore(storageKey, !collection[0].classList.contains('d-none'));
+    }
   });
 });

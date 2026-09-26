@@ -334,8 +334,12 @@ class FormView extends HtmlView
 
             if ($formConfig && (string) $formConfig['button'] === 'show') {
                 $targetClass = (string) $formConfig['targetclass'] ?: 'hide-aware-inline-help';
+                $storage     = (string) $formConfig['storage'];
+                $button      = $toolbar->inlinehelp($targetClass);
 
-                $toolbar->inlinehelp($targetClass);
+                if ($storage !== '') {
+                    $button->storage($storage);
+                }
             }
         }
 
