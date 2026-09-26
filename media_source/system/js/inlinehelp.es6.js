@@ -80,6 +80,21 @@ const inlineHelpStore = (key, visible) => {
 // The classes whose remembered state was already restored, so that two togglers do not cancel each other out.
 const inlineHelpRestored = new Set();
 
+/**
+ * Shows the inline help state on every toggler of a class: `inlinehelp-active` and `aria-pressed` follow the visibility.
+ *
+ * @param {String}  toggleClass The class name of the DIVs the togglers control
+ * @param {Boolean} visible     Whether the inline help is visible
+ */
+const inlineHelpPressed = (toggleClass, visible) => {
+  document.querySelectorAll('.button-inlinehelp').forEach((elToggler) => {
+    if ((elToggler.dataset.class ?? 'hide-aware-inline-help') === toggleClass) {
+      elToggler.classList.toggle('inlinehelp-active', visible);
+      elToggler.setAttribute('aria-pressed', visible ? 'true' : 'false');
+    }
+  });
+};
+
 // Initialisation. Clicking on anything with the button-inlinehelp class will toggle the inline help.
 document.querySelectorAll('.button-inlinehelp').forEach((elToggler) => {
   // The class of the DIVs to toggle visibility on is defined by the data-class attribute of the click target.
@@ -101,6 +116,8 @@ document.querySelectorAll('.button-inlinehelp').forEach((elToggler) => {
     if (inlineHelpStored(storageKey)) {
       Joomla.toggleInlineHelp(toggleClass);
     }
+
+    inlineHelpPressed(toggleClass, !collection[0].classList.contains('d-none'));
   }
 
   // Add the click handler.
@@ -109,7 +126,10 @@ document.querySelectorAll('.button-inlinehelp').forEach((elToggler) => {
     Joomla.toggleInlineHelp(toggleClass);
 
     if (storageKey) {
-      inlineHelpStore(storageKey, !collection[0].classList.contains('d-none'));
+      const visible = !collection[0].classList.contains('d-none');
+
+      inlineHelpStore(storageKey, visible);
+      inlineHelpPressed(toggleClass, visible);
     }
   });
 });
