@@ -1,0 +1,19 @@
+// Codemirror
+
+joomla-editor-codemirror.fullscreen {
+  top: 133px;
+
+  .cm-editor {
+    height: calc(90vh - 133px) !important;
+  }
+
+  @include media-breakpoint-down(sm) {
+    top: 54px;
+    z-index: 890;
+
+    .cm-editor {
+      height: 100vh !important;
+    }
+  }
+}
+

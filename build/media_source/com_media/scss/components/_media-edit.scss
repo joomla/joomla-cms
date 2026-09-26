@@ -1,0 +1,74 @@
+.media-form {
+  joomla-tab > joomla-tab-element {
+    padding: 0;
+
+    &[active] {
+      display: grid;
+    }
+  }
+
+  joomla-tab-element {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+
+    > fieldset {
+      padding: 2rem;
+      &.options-form {
+        border: none;
+      }
+
+      legend {
+        float: left;
+        padding: 0;
+      }
+    }
+  }
+
+  .cropper-modal,
+  .cropper-bg {
+    background: none;
+  }
+
+  .control-group {
+    .control-label {
+      width: 100%;
+    }
+  }
+
+  .input-group-addon {
+    font-size: .9rem;
+  }
+
+  .spacer hr {
+    width: 100%;
+  }
+
+  .form-select {
+    min-width: 100%;
+  }
+}
+
+.media-manager-edit {
+  grid-column-start: 2;
+  grid-column-end: 5;
+  background-color: #fff;
+  background-image: linear-gradient(45deg,hsl(var(--hue), 20%, 97%) 25%,transparent 0,transparent 75%,#fafafa 0,hsl(var(--hue),20%,97%)),linear-gradient(45deg,#fafafa 25%,transparent 0,transparent 75%,hsl(var(--hue), 20%, 97%) 0,hsl(var(--hue), 20%, 97%));
+  background-position: 0 0,10px 10px;
+  background-size: 20px 20px;
+  border-left: 1px solid $border-color;
+
+  > div > img {
+    padding: 0;
+  }
+
+  &,
+  > *:not(.hidden) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.tab-pane {
+  background-color: #fafafa;
+  border-left: 1px solid #f0f0f0;
+}

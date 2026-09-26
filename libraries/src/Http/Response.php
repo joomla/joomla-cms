@@ -1,37 +1,28 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Http;
 
-defined('JPATH_PLATFORM') or die;
+use Joomla\Http\Response as FrameworkResponse;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTTP response data object class.
  *
- * @since  1.7.3
+ * @since       1.7.3
+ *
+ * @deprecated  4.0 will be removed in 6.0
+ *              Use Joomla\Http\Response instead
  */
-class Response
+class Response extends FrameworkResponse
 {
-	/**
-	 * @var    integer  The server response code.
-	 * @since  1.7.3
-	 */
-	public $code;
-
-	/**
-	 * @var    array  Response headers.
-	 * @since  1.7.3
-	 */
-	public $headers = array();
-
-	/**
-	 * @var    string  Server response body.
-	 * @since  1.7.3
-	 */
-	public $body;
 }

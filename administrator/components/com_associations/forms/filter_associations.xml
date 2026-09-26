@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form addfieldprefix="Joomla\Component\Associations\Administrator\Field">
+	<field
+		name="itemtype"
+		type="itemtype"
+		label="COM_ASSOCIATIONS_FILTER_SELECT_ITEM"
+		filtermode="selector"
+		class="js-select-reset-on-change"
+		>
+		<option value="">COM_ASSOCIATIONS_FILTER_SELECT_ITEM_TYPE</option>
+	</field>
+
+	<field
+		name="language"
+		type="contentlanguage"
+		label="COM_ASSOCIATIONS_FILTER_SELECT_LANGUAGE"
+		filtermode="selector"
+		class="js-select-submit-on-change"
+		>
+		<option value="">JOPTION_SELECT_LANGUAGE</option>
+	</field>
+
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			inputmode="search"
+			label="COM_ASSOCIATIONS_FILTER_SEARCH_LABEL"
+			description="COM_ASSOCIATIONS_FILTER_SEARCH_DESC"
+			hint="JSEARCH_FILTER"
+		/>
+
+		<field
+			name="state"
+			type="status"
+			label="JSTATUS"
+			class="js-select-submit-on-change"
+			>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+
+		<field
+			name="category_id"
+			type="category"
+			label="JCATEGORY"
+			published="0,1,2"
+			extension="dynamic"
+			class="js-select-submit-on-change"
+			>
+			<option value="">JOPTION_SELECT_CATEGORY</option>
+		</field>
+
+		<field
+			name="menutype"
+			type="menu"
+			label="COM_ASSOCIATIONS_HEADING_MENUTYPE"
+			clientid="0"
+			class="js-select-submit-on-change"
+			>
+			<option value="">COM_ASSOCIATIONS_SELECT_MENU</option>
+		</field>
+
+		<field
+			name="access"
+			type="accesslevel"
+			label="JGRID_HEADING_ACCESS"
+			class="js-select-submit-on-change"
+			>
+			<option value="">JOPTION_SELECT_ACCESS</option>
+		</field>
+
+		<field
+			name="level"
+			type="integer"
+			label="JGLOBAL_MAXLEVEL_LABEL"
+			first="1"
+			last="10"
+			step="1"
+			class="js-select-submit-on-change"
+			>
+			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
+		</field>
+	</fields>
+
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			default="id ASC"
+			class="js-select-submit-on-change"
+			validate="options"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="state ASC">JSTATUS_ASC</option>
+			<option value="state DESC">JSTATUS_DESC</option>
+			<option value="title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="access_level ASC">JGRID_HEADING_ACCESS_ASC</option>
+			<option value="access_level DESC">JGRID_HEADING_ACCESS_DESC</option>
+			<option value="id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
+			default="25"
+			class="js-select-submit-on-change"
+		/>
+	</fields>
+</form>

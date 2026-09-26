@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form addfieldprefix="Joomla\Component\Users\Administrator\Field">
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			inputmode="search"
+			label="COM_USERS_SEARCH_ASSETS"
+			description="COM_USERS_SEARCH_IN_ASSETS"
+			hint="JSEARCH_FILTER"
+		/>
+		<field
+			name="component"
+			type="Components"
+			label="COM_USERS_OPTION_LABEL_COMPONENT"
+			class="js-select-submit-on-change"
+			>
+			<option value="">COM_USERS_OPTION_SELECT_COMPONENT</option>
+		</field>
+		<field
+			name="level_start"
+			type="Levels"
+			label="COM_USERS_OPTION_LABEL_LEVEL_START"
+			class="js-select-submit-on-change"
+			>
+			<option value="">COM_USERS_OPTION_SELECT_LEVEL_START</option>
+		</field>
+		<field
+			name="level_end"
+			type="Levels"
+			label="COM_USERS_OPTION_LABEL_LEVEL_END"
+			class="js-select-submit-on-change"
+			>
+			<option value="">COM_USERS_OPTION_SELECT_LEVEL_END</option>
+		</field>
+	</fields>
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			class="js-select-submit-on-change"
+			default="a.lft ASC"
+			validate="options"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="a.title ASC">COM_USERS_HEADING_ASSET_TITLE_ASC</option>
+			<option value="a.title DESC">COM_USERS_HEADING_ASSET_TITLE_DESC</option>
+			<option value="a.name ASC">COM_USERS_HEADING_ASSET_NAME_ASC</option>
+			<option value="a.name DESC">COM_USERS_HEADING_ASSET_NAME_DESC</option>
+			<option value="a.lft ASC">COM_USERS_HEADING_LFT_ASC</option>
+			<option value="a.lft DESC">COM_USERS_HEADING_LFT_DESC</option>
+			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
+			default="25"
+			class="js-select-submit-on-change"
+		/>
+	</fields>
+</form>

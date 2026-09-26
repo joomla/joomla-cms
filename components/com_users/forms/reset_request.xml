@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset name="default" label="COM_USERS_RESET_REQUEST_LABEL">
+		<field
+			name="email"
+			type="email"
+			label="COM_USERS_FIELD_PASSWORD_RESET_LABEL"
+			required="true"
+			size="30"
+			validate="email"
+			autocomplete="email"
+		/>
+
+		<field
+			name="captcha"
+			type="captcha"
+			label="COM_USERS_CAPTCHA_LABEL"
+			validate="captcha"
+		/>
+	</fieldset>
+</form>

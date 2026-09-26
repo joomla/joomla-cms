@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<layout title="COM_CONTACT_FORM_VIEW_DEFAULT_TITLE">
+		<help
+			key="Menu_Item:_Create_Contact"
+		/>
+		<message>
+			<![CDATA[COM_CONTACT_FORM_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+	<fields name="params">
+
+	</fields>
+</metadata>

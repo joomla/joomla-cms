@@ -1,45 +1,44 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<extension type="plugin" version="3.7.0" group="fields" method="upgrade">
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="fields" method="upgrade">
 	<name>plg_fields_media</name>
 	<author>Joomla! Project</author>
-	<creationDate>March 2016</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<creationDate>2016-03</creationDate>
+	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.7.0</version>
 	<description>PLG_FIELDS_MEDIA_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Fields\Media</namespace>
 	<files>
-		<filename plugin="media">media.php</filename>
 		<folder>params</folder>
+		<folder plugin="media">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_fields_media.ini</language>
-		<language tag="en-GB">en-GB.plg_fields_media.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_media.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_media.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
 				<field
 					name="directory"
-					type="folderlist"
+					type="media"
 					label="PLG_FIELDS_MEDIA_PARAMS_DIRECTORY_LABEL"
-					description="PLG_FIELDS_MEDIA_PARAMS_DIRECTORY_DESC"
-					directory="images"
-					hide_none="true"
-					recursive="true"
+					preview="false"
+					types="directories"
 				/>
 
 				<field
 					name="preview"
 					type="list"
 					label="PLG_FIELDS_MEDIA_PARAMS_PREVIEW_LABEL"
-					description="PLG_FIELDS_MEDIA_PARAMS_PREVIEW_DESC"
-					class="btn-group"
-					default="tooltip"
+					class="list"
+					default="true"
+					validate="options"
 					>
-					<option value="tooltip">PLG_FIELDS_MEDIA_PARAMS_PREVIEW_TOOLTIP</option>
 					<option value="true">PLG_FIELDS_MEDIA_PARAMS_PREVIEW_INLINE</option>
 					<option value="false">JNO</option>
 				</field>
@@ -48,8 +47,7 @@
 					name="image_class"
 					type="textarea"
 					label="PLG_FIELDS_MEDIA_PARAMS_IMAGE_CLASS_LABEL"
-					description="PLG_FIELDS_MEDIA_PARAMS_IMAGE_CLASS_DESC"
-					size="40"
+					validate="CssIdentifier"
 				/>
 			</fieldset>
 		</fields>

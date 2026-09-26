@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset>
+		<!-- Text separator type menu item does not have a navigation -->
+		<field
+			name="link"
+			type="hidden"
+		/>
+
+		<field
+			name="browserNav"
+			type="hidden"
+			default="0"
+		/>
+
+		<fields name="params">
+			<field
+				name="text_separator"
+				type="radio"
+				label="COM_MENUS_ITEM_FIELD_TEXT_SEPARATOR_LABEL"
+				layout="joomla.form.field.radio.switcher"
+				default="0"
+				filter="integer"
+				>
+				<option value="0">COM_MENUS_ITEM_FIELD_TEXT_SEPARATOR_AS_LABEL</option>
+				<option value="1">COM_MENUS_ITEM_FIELD_TEXT_SEPARATOR_AS_SEPARATOR</option>
+			</field>
+		</fields>
+	</fieldset>
+
+	<help key="Menu_Item:_Separator" />
+</form>

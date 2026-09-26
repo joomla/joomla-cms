@@ -1,0 +1,15 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "plg_behaviour_compat",
+  "version": "5.0.0",
+  "description": "Joomla CMS Removed Assets b/c entries, the entries are only placeholders without functionality.",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "com_scheduler.admin-view-select-task-css",
+      "type": "style",
+      "deprecated": true,
+      "uri": ""
+    }
+  ]
+}

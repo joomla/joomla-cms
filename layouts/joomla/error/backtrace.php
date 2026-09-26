@@ -1,68 +1,68 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 /** @var $displayData array */
 $backtraceList = $displayData['backtrace'];
 
-if (!$backtraceList)
-{
-	return;
+if (!$backtraceList) {
+    return;
 }
 
-$class = isset($displayData['class']) ? $displayData['class'] : 'table table-striped table-bordered';
+$class = $displayData['class'] ?? 'table table-striped table-bordered';
 ?>
-<table cellpadding="0" cellspacing="0" class="Table <?php echo $class ?>">
-	<tr>
-		<td colspan="3" class="TD">
-			<strong>Call stack</strong>
-		</td>
-	</tr>
+<h2 id="caption">Call Stack</h2>
+<table class="<?php echo $class ?>" aria-describedby="caption">
+    <thead>
+        <tr>
+            <th scope="col">
+                <strong>#</strong>
+            </th>
+            <th scope="col">
+                <strong>Function</strong>
+            </th>
+            <th scope="col">
+                <strong>Location</strong>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($backtraceList as $k => $backtrace) : ?>
+            <tr>
+                <td>
+                    <?php echo $k + 1; ?>
+                </td>
 
-	<tr>
-		<td class="TD">
-			<strong>#</strong>
-		</td>
-		<td class="TD">
-			<strong>Function</strong>
-		</td>
-		<td class="TD">
-			<strong>Location</strong>
-		</td>
-	</tr>
+                <?php if (isset($backtrace['class'])) : ?>
+                <td>
+                    <?php echo $backtrace['class'] . $backtrace['type'] . $backtrace['function'] . '()'; ?>
+                </td>
+                <?php else : ?>
+                <td>
+                    <?php echo $backtrace['function'] . '()'; ?>
+                </td>
+                <?php endif; ?>
 
-	<?php foreach ($backtraceList as $k => $backtrace): ?>
-	<tr>
-		<td class="TD">
-			<?php echo $k + 1; ?>
-		</td>
-
-		<?php if (isset($backtrace['class'])): ?>
-		<td class="TD">
-			<?php echo $backtrace['class'] . $backtrace['type'] . $backtrace['function'] . '()'; ?>
-		</td>
-		<?php else: ?>
-		<td class="TD">
-			<?php echo $backtrace['function'] . '()'; ?>
-		</td>
-		<?php endif; ?>
-
-		<?php if (isset($backtrace['file'])): ?>
-		<td class="TD">
-			<?php echo JHtml::_('debug.xdebuglink', $backtrace['file'], $backtrace['line']); ?>
-		</td>
-		<?php else: ?>
-		<td class="TD">
-			&#160;
-		</td>
-		<?php endif; ?>
-	</tr>
-	<?php endforeach; ?>
+                <?php if (isset($backtrace['file'])) : ?>
+                <td>
+                    <?php echo HTMLHelper::_('debug.xdebuglink', $backtrace['file'], $backtrace['line']); ?>
+                </td>
+                <?php else : ?>
+                <td>
+                    &#160;
+                </td>
+                <?php endif; ?>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
 </table>

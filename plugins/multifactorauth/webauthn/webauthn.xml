@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="multifactorauth" method="upgrade">
+	<name>plg_multifactorauth_webauthn</name>
+	<author>Joomla! Project</author>
+	<creationDate>2022-05</creationDate>
+	<copyright>(C) 2022 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.2.0</version>
+	<description>PLG_MULTIFACTORAUTH_WEBAUTHN_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Multifactorauth\Webauthn</namespace>
+	<files>
+		<folder plugin="webauthn">services</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_multifactorauth_webauthn.ini</language>
+		<language tag="en-GB">language/en-GB/plg_multifactorauth_webauthn.sys.ini</language>
+	</languages>
+</extension>

@@ -1,0 +1,96 @@
+// Defaults
+$gutter-width:                      15px;
+$highlight-color:                   #2a69b8;
+$border-color:                      var(--template-bg-dark-7);
+$border-radius:                     .25rem;
+$box-shadow-color:                  var(--template-bg-dark-50);
+$container-bg:                      var(--com-media-manager-content-bg, #fff);
+
+// Layout
+$col-main-panel-width:              83.3333%;
+$col-side-panel-width:              16.6667%;
+$col-gutter-width:                  $gutter-width;
+$col-box-shadow:                    0 2px 10px -8px $box-shadow-color;
+
+// Sidebar
+$sidebar-drive-bg:                  var(--com-media-manager-content-bg, #fff);
+$sidebar-tree-line-color:           $border-color;
+$sidebar-tree-icon-color:           var(--template-bg-dark-60);
+$sidebar-tree-line-height:          26px;
+$sidebar-tree-folder-icon:          "\f07b";
+$sidebar-tree-item-hover-bg:        var(--com-media-manager-tree-item-hover-bg, #e1e1e1);
+$sidebar-active-icon-color:         $highlight-color;
+$sidebar-disk-name-color:           var(--com-media-manager-disk-name-color, var(--template-bg-dark));
+
+// Toolbar
+$toolbar-height:                     46px;
+$toolbar-bg:                         var(--com-media-manager-content-bg, #fff);
+$toolbar-icon-width:                 50px;
+$toolbar-icon-color:                 var(--com-media-manager-toolbar-icon-color, var(--template-bg-dark-60));
+$toolbar-icon-bg-hover:              #f0f0f0;
+$toolbar-loader-color:               linear-gradient(to right, #59afff 0, #59daff 100%);
+$toolbar-loader-height:              2px;
+$toolbar-icon-active-bg-color:       var(--template-bg-dark-60);
+$toolbar-icon-active-bg-color-hover: var(--template-bg-dark-80);
+
+// Breadcrumbs
+$breadcrumbs-bg:                    var(--com-media-manager-overlay-bg, var(--template-bg-dark-3));
+$breadcrumbs-current-bg:            var(--com-media-manager-content-bg, #fff);
+$breadcrumbs-color:                 var(--com-media-manager-content-color, var(--link-color));
+
+// Media Browser
+$browser-background-color:          var(--com-media-manager-overlay-bg, var(--template-bg-dark-3));
+
+// Media Browser Grid
+$grid-gutter-width:                 $col-gutter-width;
+$grid-outside-padding:              $col-gutter-width;
+$grid-item-hover-color:             rgba(#000, .5);
+$grid-item-border-radius:           $border-radius;
+$grid-item-icon-size:               1.3rem;
+$grid-item-icon-color:              #fff;
+$grid-item-icon-bg-color:           rgba(0,0,0,.8);
+$grid-item-icon-color-hover:        rgba(0,0,0,.8);
+$grid-item-icon-bg-color-hover:     var(--template-bg-dark-10);
+$grid-item-icon-warning-icon-bg:    #d9534f;
+$grid-item-no-preview-bg:           #f5f5f5;
+$grid-item-width-sm:                13%;
+$grid-item-width-md:                18%;
+$grid-item-width-lg:                26%;
+$grid-item-width-xl:                40%;
+
+// Media Browser Table
+$table-item-height:                 30px;
+$table-item-icon-size:              1.2rem;
+$table-item-icon-color:             #656565;
+$table-item-icon-bg:                rgba(0, 0, 0, .015);
+$table-item-icon-color-selected:    #fff;
+$table-item-icon-bg-selected:       #006898;
+$table-item-bg-hover:               rgba(0, 0, 0, .03);
+
+// Media Info bar
+$info-bg:                           var(--com-media-manager-overlay-bg, var(--template-bg-dark-3));
+$info-title-bg:                     var(--com-media-manager-overlay-header-bg, var(--template-bg-dark-5));
+$info-dt-width:                     33.33333%;
+$info-dt-color:                     var(--com-media-manager-infobar-dt-color, rgba(0, 0, 0, .54));
+$info-dd-width:                     66.66667%;
+$info-close-color:                  var(--template-bg-dark-60);
+$info-close-color-hover:            var(--template-bg-dark-40);
+
+// Table Icon Mapping
+$icon-type-default:                 "\f016";
+$icon-type-folder:                  "\f07b";
+$icon-type-images:                  "\f1c5";
+$icon-type-video:                   "\f1c8";
+$icon-type-audio:                   "\f1c7";
+$icon-type-docs:                    "\f15b";
+$icon-type-code:                    "\f1c9";
+
+// Drag n Drop Upload
+$dnd-bg:                            rgba(245, 245, 245, .8);
+$dnd-icon-color:                    #1c3d5c;
+$dnd-border:                        3px dashed #999;
+
+// Modal
+$modal-backdrop-color:              rgba(0, 0, 0, .7);
+$modal-box-shadow:                  0 0 10px rgba(0, 0, 0, .5);
+$modal-preview-text-color:          #fff;

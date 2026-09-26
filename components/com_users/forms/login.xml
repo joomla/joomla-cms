@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset name="credentials" label="COM_USERS_LOGIN_DEFAULT_LABEL">
+		<field
+			name="username"
+			type="text"
+			label="COM_USERS_LOGIN_USERNAME_LABEL"
+			class="validate-username"
+			filter="username"
+			size="25"
+			required="true"
+			validate="username"
+			autofocus="true"
+			autocomplete="username"
+		/>
+
+		<field
+			name="password"
+			type="password"
+			label="JGLOBAL_PASSWORD"
+			required="true"
+			filter="raw"
+			size="25"
+			autocomplete="current-password"
+		/>
+	</fieldset>
+
+	<fieldset>
+		<field
+			name="return"
+			type="hidden"
+		/>
+	</fieldset>
+</form>

@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="schema">
+		<fieldset
+			name="schema"
+			label="PLG_SYSTEM_SCHEMA_FIELD_SCHEMA_LABEL"
+		>
+			<field
+				name="JobPosting"
+				type="subform"
+				showon="schemaType:JobPosting"
+			>
+				<form>
+
+					<field
+						name="@type"
+						type="hidden"
+						default="JobPosting"
+					/>
+
+					<field
+						name="noteJobPost"
+						type="note"
+						description="PLG_SCHEMAORG_JOBPOSTING_DESCRIPTION_LABEL"
+						class="alert alert-info w-100"
+					/>
+
+					<field
+						name="title"
+						type="text"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_TITLE_LABEL"
+						filter="string"
+					/>
+
+					<field
+						name="description"
+						type="text"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_DESCRIPTION_LABEL"
+						filter="string"
+					/>
+
+					<field
+						name="identifier"
+						type="subform"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_IDENTIFIER_LABEL"
+					>
+						<form>
+
+							<field
+								name="@type"
+								type="hidden"
+								default="PropertyValue"
+							/>
+
+							<field
+								name="name"
+								type="text"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_NAME_LABEL"
+								filter="string"
+							/>
+
+							<field
+								name="value"
+								type="text"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_VALUE_LABEL"
+								filter="string"
+							/>
+						</form>
+					</field>
+					<field
+						name="datePosted"
+						type="calendar"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_DATEPOSTED_LABEL"
+						class="input-small"
+						filter="user_utc"
+						showtime="false"
+						todaybutton="true"
+						translateformat="true"
+					/>
+
+					<field
+						name="validThrough"
+						type="calendar"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_VALIDTHROUGH_LABEL"
+						class="input-small"
+						filter="user_utc"
+						showtime="false"
+						todaybutton="true"
+						translateformat="true"
+					/>
+
+					<field
+						name="jobLocationType"
+						type="list"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBLOCATIONTYPE_LABEL"
+						default="0"
+						>
+						<option value=""></option>
+						<option value="Telecommute">PLG_SCHEMAORG_JOBPOSTING_FIELD_TELECOMMUTE_LABEL</option>
+						<option value="Onsite">PLG_SCHEMAORG_JOBPOSTING_FIELD_ONSITE_LABEL</option>
+						<option value="Hybrid">PLG_SCHEMAORG_JOBPOSTING_FIELD_HYBRID_LABEL</option>
+					</field>
+
+					<field
+						name="applicantLocationRequirements"
+						type="subform"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_APPLICANT_LOCATION_REQUIREMENT_LABEL"
+						showon="jobLocationType:Telecommute"
+					>
+						<form>
+
+							<field
+								name="@type"
+								type="hidden"
+								default="Country"
+							/>
+
+							<field
+								name="name"
+								type="text"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_APPLICANT_LOCATION_REQUIREMENT_COUNTRY_LABEL"
+								filter="string"
+							/>
+
+						</form>
+
+					</field>
+
+					<field
+						name="employmentType"
+						type="text"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_EMPLOYMENTTYPE_LABEL"
+						filter="string"
+					/>
+
+					<field
+						name="jobStartDate"
+						type="subform"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBSTARTDATE_LABEL"
+					>
+						<form>
+
+							<field
+								name="@type"
+								type="list"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBSTARTDATE_TYPE_LABEL"
+								default="text"
+								>
+								<option value="text">PLG_SCHEMAORG_JOBPOSTING_FIELD_TEXT_LABEL</option>
+								<option value="Date">PLG_SCHEMAORG_JOBPOSTING_FIELD_DATE_LABEL</option>
+							</field>
+
+							<field
+								name="value"
+								type="calendar"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBSTARTDATE_DATE_LABEL"
+								class="input-small"
+								filter="user_utc"
+								showtime="false"
+								todaybutton="true"
+								translateformat="true"
+								showon="@type:Date"
+							/>
+
+							<field
+								name="text"
+								type="text"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBSTARTDATE_TEXT_LABEL"
+								filter="string"
+								hint="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBSTARTDATE_TEXT_HINT"
+								showon="@type:text"
+							/>
+						</form>
+					</field>
+					<field
+						name="hiringOrganization"
+						type="subform"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_HIRINGORGANIZATION_LABEL"
+					>
+						<form>
+
+							<field
+								name="@type"
+								type="list"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_HIRINGORGANIZATION_TYPE_LABEL"
+								default="organization"
+								>
+								<option value="person">PLG_SCHEMAORG_JOBPOSTING_FIELD_PERSON_LABEL</option>
+								<option value="organization">PLG_SCHEMAORG_JOBPOSTING_FIELD_ORGANIZATION_LABEL</option>
+							</field>
+
+							<field
+								name="name"
+								type="text"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_HIRINGORGANIZATION_NAME_LABEL"
+								filter="string"
+							/>
+
+							<field
+								name="url"
+								type="url"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_URL_LABEL"
+								filter="url"
+								validate="url"
+							/>
+
+							<field
+								name="logo"
+								type="subform"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_IMAGE_LABEL"
+								showon="@type:organization"
+							>
+								<form>
+
+									<field
+										name="@type"
+										type="hidden"
+										default="ImageObject"
+									/>
+
+									<field
+										name="url"
+										type="media"
+										schemes="http,https,ftp,ftps,data,file"
+										validate="url"
+										relative="true"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_URL_LABEL"
+									/>
+
+								</form>
+							</field>
+							<field
+								name="email"
+								type="email"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_EMAIL_LABEL"
+								validate="email"
+							/>
+
+							<field
+								name="address"
+								type="subform"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESS_LABEL"
+							>
+								<form>
+
+									<field
+										name="@type"
+										type="hidden"
+										default="PostalAddress"
+									/>
+
+									<field
+										name="addressLocality"
+										type="text"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_LOCALITY_LABEL"
+									/>
+
+									<field
+										name="postalCode"
+										type="text"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_POSTAL_CODE_LABEL"
+									/>
+
+									<field
+										name="streetAddress"
+										type="text"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_STREET_ADDRESS_LABEL"
+									/>
+
+								</form>
+							</field>
+						</form>
+					</field>
+
+					<field
+						name="jobLocation"
+						type="subform"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBLOCATION_LABEL"
+					>
+						<form>
+
+							<field
+								name="@type"
+								type="hidden"
+								default="Place"
+							/>
+
+							<field
+								name="address"
+								type="subform"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESS_LABEL"
+							>
+								<form>
+
+									<field
+										name="@type"
+										type="hidden"
+										default="PostalAddress"
+									/>
+
+									<field
+										name="streetAddress"
+										type="text"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_STREET_ADDRESS_LABEL"
+										filter="string"
+									/>
+
+									<field
+										name="addressLocality"
+										type="text"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_LOCALITY_LABEL"
+										filter="string"
+									/>
+
+									<field
+										name="addressRegion"
+										type="text"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESS_REGION_LABEL"
+										filter="string"
+									/>
+
+									<field
+										name="postalCode"
+										type="text"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_POSTAL_CODE_LABEL"
+										filter="string"
+									/>
+
+									<field
+										name="addressCountry"
+										type="text"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESS_COUNTRY_LABEL"
+										filter="string"
+									/>
+								</form>
+							</field>
+						</form>
+					</field>
+
+					<field
+						name="baseSalary"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_BASESALARY_LABEL"
+						type="subform"
+					>
+						<form>
+
+							<field
+								name="@type"
+								type="hidden"
+								default="MonetaryAmount"
+							/>
+
+							<field
+								name="currency"
+								type="text"
+								filter="string"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_CURRENCY_LABEL"
+							/>
+
+							<field
+								name="value"
+								type="subform"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_SALARY_VALUE_LABEL"
+							>
+
+							<form>
+
+									<field
+										name="@type"
+										type="hidden"
+										default="QuantitativeValue"
+									/>
+
+									<field
+										name="maxValue"
+										type="text"
+										filter="string"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_MAXVALUE_LABEL"
+									/>
+
+									<field
+										name="minValue"
+										type="text"
+										filter="string"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_MINVALUE_LABEL"
+									/>
+
+									<field
+										name="value"
+										type="text"
+										filter="string"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_VALUE_LABEL"
+									/>
+
+									<field
+										name="unitText"
+										type="list"
+										default="0"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_UNITTEXT_LABEL"
+										>
+										<option value=""></option>
+										<option value="HOUR">PLG_SCHEMAORG_JOBPOSTING_FIELD_BASESALARY_UNIT_OPTION_HOUR</option>
+										<option value="DAY">PLG_SCHEMAORG_JOBPOSTING_FIELD_BASESALARY_UNIT_OPTION_DAY</option>
+										<option value="WEEK">PLG_SCHEMAORG_JOBPOSTING_FIELD_BASESALARY_UNIT_OPTION_WEEK</option>
+										<option value="MONTH">PLG_SCHEMAORG_JOBPOSTING_FIELD_BASESALARY_UNIT_OPTION_MONTH</option>
+										<option value="YEAR">PLG_SCHEMAORG_JOBPOSTING_FIELD_BASESALARY_UNIT_OPTION_YEAR</option>
+									</field>
+
+							</form>
+
+							</field>
+						</form>
+					</field>
+
+					<field
+						name="genericField"
+						type="subform"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_GENERIC_FIELD_LABEL"
+						multiple="true"
+					>
+						<form>
+							<field
+								name="genericTitle"
+								type="text"
+								filter="string"
+								size="30"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_GENERIC_TITLE_LABEL"
+							/>
+							<field
+								name="genericValue"
+								type="text"
+								filter="string"
+								size="30"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_GENERIC_VALUE_LABEL"
+							/>
+						</form>
+
+					</field>
+
+				</form>
+			</field>
+		</fieldset>
+	</fields>
+</form>

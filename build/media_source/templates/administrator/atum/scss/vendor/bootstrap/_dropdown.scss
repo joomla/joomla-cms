@@ -1,0 +1,88 @@
+// Dropdown
+
+.btn-group .dropdown-menu {
+  min-width: 100%;
+  background: var(--body-bg);
+  box-shadow: $dropdown-box-shadow;
+
+  joomla-toolbar-button {
+    text-align: start;
+    border: 0;
+  }
+}
+
+.dropdown-menu {
+  box-shadow: var(--atum-box-shadow);
+}
+
+.dropdown-item {
+  text-align: start;
+  border-bottom: var(--dropdown-item-border-bottom);
+
+  &:hover,
+  &:focus {
+    --dropdown-link-hover-bg: var(--atum-dropdown-link-hover-bg);
+    --dropdown-link-hover-color: var(--atum-dropdown-link-hover-color);
+
+    .btn-primary + .dropdown-menu & {
+      background-color: var(--template-bg-dark);
+    }
+
+    .btn-secondary + .dropdown-menu & {
+      color: var(--template-text-light);
+      background-color: var(--secondary);
+    }
+
+    .btn-danger + .dropdown-menu & {
+      background-color: var(--danger);
+    }
+
+    .btn-info + .dropdown-menu & {
+      background-color: var(--info);
+    }
+
+    .dropdown-status-group .dropdown-menu &:not(.disabled) {
+      color: var(--template-text-light);
+      background-color: var(--template-bg-dark);
+    }
+
+    .dropdown-save-group .dropdown-menu &:not(.disabled) {
+      color: var(--template-text-light);
+      background-color: var(--success);
+    }
+  }
+
+  + .dropdown-item {
+    border-top: 1px solid rgba(0, 0, 0, .1);
+  }
+
+  .dropdown-status-group .dropdown-menu &:not(.disabled) {
+    color: var(--action);
+  }
+
+  .dropdown-save-group .dropdown-menu &:not(.disabled) {
+    color: var(--success);
+  }
+
+  &.first:not(.last) {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  &.last:not(.first) {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  &:not(.first):not(.last):not(:only-of-type) {
+    border-radius: 0;
+  }
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .dropdown-divider {
+      border-top: map-get($atum-colors-dark, "dropdown-divider-bg");
+    }
+  }
+}

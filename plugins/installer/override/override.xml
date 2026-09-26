@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="installer" method="upgrade">
+	<name>plg_installer_override</name>
+	<author>Joomla! Project</author>
+	<creationDate>2018-06</creationDate>
+	<copyright>(C) 2018 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>PLG_INSTALLER_OVERRIDE_PLUGIN_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Installer\Override</namespace>
+	<files>
+		<folder plugin="override">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_installer_override.ini</language>
+		<language tag="en-GB">language/en-GB/plg_installer_override.sys.ini</language>
+	</languages>
+</extension>

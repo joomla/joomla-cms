@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<layout title="COM_USERS_REMIND_VIEW_DEFAULT_TITLE" option="COM_USERS_REMIND_VIEW_DEFAULT_OPTION">
+		<help
+			key = "Menu_Item:_Username_Reminder_Request"
+		/>
+		<message>
+			<![CDATA[COM_USERS_REMIND_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+</metadata>

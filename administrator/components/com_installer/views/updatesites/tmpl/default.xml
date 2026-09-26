@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<metadata>
-	<layout title="COM_INSTALLER_UPDATESITES_VIEW_DEFAULT_TITLE">
-		<message>
-			<![CDATA[COM_INSTALLER_UPDATESITES_VIEW_DEFAULT_DESC]]>
-		</message>
-	</layout>
-</metadata>

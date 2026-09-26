@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			inputmode="search"
+			label="COM_WORKFLOW_FILTER_SEARCH_LABEL"
+			hint="JSEARCH_FILTER"
+		/>
+		<field
+			name="published"
+			type="status"
+			label="JSTATUS"
+			class="js-select-submit-on-change"
+			optionsFilter="-2,0,1"
+			>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+		<field
+			name="from_stage"
+			type="sql"
+			label="COM_WORKFLOW_FROM_STAGE"
+			class="js-select-submit-on-change"
+			sql_select="id as value, title as from_stage"
+			sql_from="#__workflow_stages"
+			translate="true"
+			>
+			<option value="">COM_WORKFLOW_SELECT_FROM_STAGE</option>
+		</field>
+		<field
+			name="to_stage"
+			type="sql"
+			label="COM_WORKFLOW_TO_STAGE"
+			class="js-select-submit-on-change"
+			sql_select="id as value, title as to_stage"
+			sql_from="#__workflow_stages"
+			translate="true"
+			>
+			<option value="">COM_WORKFLOW_SELECT_TO_STAGE</option>
+		</field>
+	</fields>
+
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			default="t.ordering ASC"
+			class="js-select-submit-on-change"
+			validate="options"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="t.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="t.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="t.published ASC">JSTATUS_ASC</option>
+			<option value="t.published DESC">JSTATUS_DESC</option>
+			<option value="t.title ASC">JGLOBAL_NAME_ASC</option>
+			<option value="t.title DESC">JGLOBAL_NAME_DESC</option>
+			<option value="from_stage ASC">COM_WORKFLOW_FROM_STAGE_FILTER_ASC</option>
+			<option value="from_stage DESC">COM_WORKFLOW_FROM_STAGE_FILTER_DESC</option>
+			<option value="to_stage ASC">COM_WORKFLOW_TO_STAGE_FILTER_ASC</option>
+			<option value="to_stage DESC">COM_WORKFLOW_TO_STAGE_FILTER_DESC</option>
+			<option value="t.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="t.id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
+			default="25"
+			class="js-select-submit-on-change"
+		/>
+	</fields>
+</form>

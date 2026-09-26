@@ -1,211 +1,186 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Document\HtmlDocument;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
 
 extract($displayData);
 
 /**
  * Layout variables
  * -----------------
- * @var   string  $autocomplete   Autocomplete attribute for the field.
- * @var   boolean $autofocus      Is autofocus enabled?
- * @var   string  $class          Classes for the input.
- * @var   string  $description    Description of the field.
- * @var   boolean $disabled       Is this field disabled?
- * @var   string  $group          Group the field belongs to. <fields> section in form XML.
- * @var   boolean $hidden         Is this field hidden in the form?
- * @var   string  $hint           Placeholder for the field.
- * @var   string  $id             DOM id of the field.
- * @var   string  $label          Label of the field.
- * @var   string  $labelclass     Classes to apply to the label.
- * @var   boolean $multiple       Does this field support multiple values?
- * @var   string  $name           Name of the input field.
- * @var   string  $onchange       Onchange attribute for the field.
- * @var   string  $onclick        Onclick attribute for the field.
- * @var   string  $pattern        Pattern (Reg Ex) of value of the form field.
- * @var   boolean $readonly       Is this field read only?
- * @var   boolean $repeat         Allows extensions to duplicate elements.
- * @var   boolean $required       Is this field required?
- * @var   integer $size           Size attribute of the input.
- * @var   boolean $spellcheck     Spellcheck state for the form field.
- * @var   string  $validate       Validation rules to apply.
- * @var   array   $value          Value of the field.
-  *
- * @var   array   $menus           List of the menu items
- * @var   array   $menubarSource   Menu items for builder
- * @var   array   $buttons         List of the buttons
- * @var   array   $buttonsSource   Buttons by group, for the builder
- * @var   array   $toolbarPreset   Toolbar presset (default values)
- * @var   int     $setsAmount      Amount of sets
- * @var   array   $setsNames       List of Sets names
- * @var   JForm[] $setsForms       Form with extra options for an each set
- * @var   string   $languageFile   TinyMCE language file to translate the buttons
- *
- * @var   JLayoutFile  $this       Context
+ * @var   string       $autocomplete   Autocomplete attribute for the field.
+ * @var   boolean      $autofocus      Is autofocus enabled?
+ * @var   string       $class          Classes for the input.
+ * @var   string       $description    Description of the field.
+ * @var   boolean      $disabled       Is this field disabled?
+ * @var   string       $group          Group the field belongs to. <fields> section in form XML.
+ * @var   boolean      $hidden         Is this field hidden in the form?
+ * @var   string       $hint           Placeholder for the field.
+ * @var   string       $id             DOM id of the field.
+ * @var   string       $label          Label of the field.
+ * @var   string       $labelclass     Classes to apply to the label.
+ * @var   boolean      $multiple       Does this field support multiple values?
+ * @var   string       $name           Name of the input field.
+ * @var   string       $onchange       Onchange attribute for the field.
+ * @var   string       $onclick        Onclick attribute for the field.
+ * @var   string       $pattern        Pattern (Reg Ex) of value of the form field.
+ * @var   boolean      $readonly       Is this field read only?
+ * @var   boolean      $repeat         Allows extensions to duplicate elements.
+ * @var   boolean      $required       Is this field required?
+ * @var   integer      $size           Size attribute of the input.
+ * @var   boolean      $spellcheck     Spellcheck state for the form field.
+ * @var   string       $validate       Validation rules to apply.
+ * @var   array        $value          Value of the field.
+ * @var   array        $menus          List of the menu items
+ * @var   array        $menubarSource  Menu items for builder
+ * @var   array        $buttons        List of the buttons
+ * @var   array        $buttonsSource  Buttons by group, for the builder
+ * @var   array        $toolbarPreset  Toolbar preset (default values)
+ * @var   int          $setsAmount     Amount of sets
+ * @var   array        $setsNames      List of Sets names
+ * @var   Form[]       $setsForms      Form with extra options for an each set
+ * @var   string       $languageFile   TinyMCE language file to translate the buttons
+ * @var   FileLayout   $this           Context
  */
 
-JHtml::_('behavior.core');
-JHtml::_('stylesheet', 'media/editors/tinymce/skins/lightgray/skin.min.css', array('version' => 'auto', 'relative' => false));
-JHtml::_('jquery.ui', array('core', 'sortable'));
-JHtml::_('script', 'editors/tinymce/tinymce-builder.js', array('version' => 'auto', 'relative' => true));
+/** @var HtmlDocument $doc */
+$doc = Factory::getApplication()->getDocument();
+$wa  = $doc->getWebAssetManager();
 
-if ($languageFile)
-{
-	JHtml::_('script', $languageFile, array('version' => 'auto', 'relative' => false));
+$wa->getRegistry()->addExtensionRegistryFile('plg_editors_tinymce');
+$wa->registerAndUseStyle('tinymce.skin', 'media/vendor/tinymce/skins/ui/oxide/skin.min.css')
+    ->registerAndUseStyle('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.css', [], [], ['tinymce.skin', 'dragula'])
+    ->registerScript('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.js', [], ['type' => 'module'], ['dragula', 'plg_editors_tinymce'])
+    ->useScript('plg_editors_tinymce.builder')
+    ->useStyle('webcomponent.joomla-tab')
+    ->useScript('webcomponent.joomla-tab');
+
+// Add TinyMCE language file to translate the buttons.
+// It has to run after the builder script, which replaces the global tinymce object with its own stub.
+if ($languageFile) {
+    $wa->registerAndUseScript('tinymce.language', $languageFile, [], ['defer' => true], ['plg_editors_tinymce.builder']);
 }
 
-
-$doc = JFactory::getDocument();
-$doc->addScriptOptions('plg_editors_tinymce_builder', array(
-		'menus'         => $menus,
-		'buttons'       => $buttons,
-		'toolbarPreset' => $toolbarPreset,
-		'formControl'   => $name . '[toolbars]',
-	)
+// Add the builder options
+$doc->addScriptOptions(
+    'plg_editors_tinymce_builder',
+    [
+        'menus'         => $menus,
+        'buttons'       => $buttons,
+        'toolbarPreset' => $toolbarPreset,
+        'formControl'   => $name . '[toolbars]',
+    ]
 );
-$doc->addStyleDeclaration('
-    #joomla-tinymce-builder{
-		margin-left: -180px;
-	}
-	.mce-menubar,
-	.mce-panel {
-		min-height: 18px;
-		border-bottom: 1px solid rgba(217,217,217,0.52);
-		white-space: normal;
-	}
-	.mce-tinymce {
-		margin-bottom: 20px;
-	}
-	.mce-panel .drop-area-highlight{
-		background-color: #d0d0d0;
-	}
-	.mce-panel .mce-btn.ui-state-highlight{
-		height: 28px;
-		width: 40px;
-		background-color: #409740;
-		border: 1px solid #f0f0f0;
-	}
-	.timymce-builder-toolbar .mce-btn.ui-state-highlight{
-		height: 22px;
-		width: 28px;
-	}
-');
 
 ?>
 <div id="joomla-tinymce-builder">
+    <h3><?php echo Text::_('PLG_TINY_SET_TARGET_PANEL_TITLE'); ?></h3>
+    <p><?php echo Text::_('PLG_TINY_SET_TARGET_PANEL_DESCRIPTION'); ?></p>
+    <p><?php echo Text::_('PLG_TINY_SET_SOURCE_PANEL_DESCRIPTION'); ?></p>
+    <div class="tox tox-tinymce">
+        <div class="tox-editor-container">
+            <div class="tox-menubar tinymce-builder-menu source" data-group="menu"
+                data-value="<?php echo $this->escape(json_encode($menubarSource)); ?>">
+            </div>
+            <div class="tox-toolbar tinymce-builder-toolbar source" data-group="toolbar"
+                data-value="<?php echo $this->escape(json_encode($buttonsSource)); ?>">
+            </div>
+        </div>
+    </div>
+    <hr>
+    <joomla-tab orientation="vertical" id="joomla-tinymce-builder-sets" recall breakpoint="974">
+        <?php foreach ($setsNames as $num => $title) : ?>
+            <?php $isActive = $num === $setsAmount - 1; ?>
+            <joomla-tab-element class="tab-pane" id="set-<?php echo $num; ?>" <?php echo $isActive; ?> name="<?php echo $title; ?>">
+                <?php // Render tab content for each set ?>
+                    <?php
+                        $presetButtonClasses = [
+                            'simple'   => 'btn-success',
+                            'medium'   => 'btn-info',
+                            'advanced' => 'btn-warning',
+                        ];
+                        // Check whether the values exists, and if empty then use from preset
+                        if (
+                            empty($value['toolbars'][$num]['menu'])
+                            && empty($value['toolbars'][$num]['toolbar1'])
+                            && empty($value['toolbars'][$num]['toolbar2'])
+                        ) {
+                            // Take the preset for default value
+                            switch ($num) {
+                                case 0:
+                                    $preset = $toolbarPreset['advanced'];
+                                    break;
+                                case 1:
+                                    $preset = $toolbarPreset['medium'];
+                                    break;
+                                default:
+                                    $preset = $toolbarPreset['simple'];
+                            }
 
-	<p><?php echo JText::_('PLG_TINY_SET_SOURCE_PANEL_DESCRIPTION'); ?></p>
+                            $value['toolbars'][$num] = $preset;
+                        }
 
-	<div class="mce-tinymce mce-container mce-panel">
-		<div class="mce-container-body mce-stack-layout">
+                        // Take existing values
+                        $valMenu = empty($value['toolbars'][$num]['menu'])     ? [] : $value['toolbars'][$num]['menu'];
+                        $valBar1 = empty($value['toolbars'][$num]['toolbar1']) ? [] : $value['toolbars'][$num]['toolbar1'];
+                        $valBar2 = empty($value['toolbars'][$num]['toolbar2']) ? [] : $value['toolbars'][$num]['toolbar2'];
 
-			<div class="mce-container mce-menubar mce-toolbar mce-stack-layout-item">
-				<div class="mce-container-body mce-flow-layout timymce-builder-menu source" data-group="menu"
-					data-value="<?php echo $this->escape(json_encode($menubarSource)); ?>">
-				</div>
-			</div>
+                        ?>
+                    <?php echo $this->sublayout('setaccess', ['form' => $setsForms[$num]]); ?>
+                    <div class="btn-toolbar float-end mt-3">
+                        <div class="btn-group btn-group-sm">
 
-			<div class="mce-toolbar-grp mce-container mce-panel mce-stack-layout-item">
-				<div class="mce-container-body mce-flow-layout timymce-builder-toolbar source" data-group="toolbar"
-					data-value="<?php echo $this->escape(json_encode($buttonsSource)); ?>">
-				</div>
-			</div>
-		</div>
-	</div>
+                        <?php foreach (array_keys($toolbarPreset) as $presetName) :
+                            $btnClass = empty($presetButtonClasses[$presetName]) ? 'btn-primary' : $presetButtonClasses[$presetName];
+                            ?>
+                            <button type="button" class="btn <?php echo $btnClass; ?> button-action"
+                                data-action="setPreset" data-preset="<?php echo $presetName; ?>" data-set="<?php echo $num; ?>">
+                                <?php echo Text::_('PLG_TINY_SET_PRESET_BUTTON_' . $presetName); ?>
+                            </button>
+                        <?php endforeach; ?>
 
-	<hr />
-	<p><?php echo JText::_('PLG_TINY_SET_TARGET_PANEL_DESCRIPTION'); ?></p>
+                            <button type="button" class="btn btn-danger button-action"
+                                data-action="clearPane" data-set="<?php echo $num; ?>">
+                                <?php echo Text::_('JCLEAR'); ?>
+                            </button>
+                        </div>
+                    </div>
 
-	<!-- Render tabs for each set -->
-	<ul class="nav nav-tabs" id="set-tabs">
-		<?php foreach ( $setsNames as $num => $title ) : ?>
-		<li class="<?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>">
-			<a href="#set-<?php echo $num; ?>"><?php echo $title; ?></a>
-		</li>
-		<?php endforeach; ?>
-	</ul>
+                    <div class="clearfix mb-1"></div>
 
-	<!-- Render tab content for each set -->
-	<div class="tab-content">
-		<?php
-		$presetButtonClases = array(
-			'simple'   => 'btn-success',
-			'medium'   => 'btn-info',
-			'advanced' => 'btn-warning',
-		);
-		foreach ( $setsNames as $num => $title ) :
+                    <div class="tox tox-tinymce mb-3">
+                        <div class="tox-editor-container">
+                            <div class="tox-menubar tinymce-builder-menu target"
+                                data-group="menu" data-set="<?php echo $num; ?>"
+                                data-value="<?php echo $this->escape(json_encode($valMenu)); ?>">
+                            </div>
+                            <div class="tox-toolbar tinymce-builder-toolbar target"
+                                data-group="toolbar1" data-set="<?php echo $num; ?>"
+                                data-value="<?php echo $this->escape(json_encode($valBar1)); ?>">
+                            </div>
+                            <div class="tox-toolbar tinymce-builder-toolbar target"
+                                data-group="toolbar2" data-set="<?php echo $num; ?>"
+                                data-value="<?php echo $this->escape(json_encode($valBar2)); ?>">
+                            </div>
+                        </div>
+                    </div>
 
-			// Check whether the values exists, and if empty then use from preset
-			if (empty($value['toolbars'][$num]['menu'])
-				&& empty($value['toolbars'][$num]['toolbar1'])
-				&& empty($value['toolbars'][$num]['toolbar2']))
-			{
-				// Take the preset for default value
-				switch ($num) {
-					case 0:
-						$preset = $toolbarPreset['advanced'];
-						break;
-					case 1:
-						$preset = $toolbarPreset['medium'];
-						break;
-					default:
-						$preset = $toolbarPreset['simple'];
-				}
-
-				$value['toolbars'][$num] = $preset;
-			}
-
-			// Take existing values
-			$valMenu = empty($value['toolbars'][$num]['menu'])     ? array() : $value['toolbars'][$num]['menu'];
-			$valBar1 = empty($value['toolbars'][$num]['toolbar1']) ? array() : $value['toolbars'][$num]['toolbar1'];
-			$valBar2 = empty($value['toolbars'][$num]['toolbar2']) ? array() : $value['toolbars'][$num]['toolbar2'];
-		?>
-			<div class="tab-pane <?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>" id="set-<?php echo $num; ?>">
-				<div class="btn-toolbar clearfix">
-					<div class="btn-group pull-right">
-
-					<?php foreach(array_keys($toolbarPreset) as $presetName) :
-						$btnClass = empty($presetButtonClases[$presetName]) ? 'btn-primary' : $presetButtonClases[$presetName];
-						?>
-						<button type="button" class="btn btn-mini <?php echo $btnClass; ?> button-action"
-						    data-action="setPreset" data-preset="<?php echo $presetName; ?>" data-set="<?php echo $num; ?>">
-							<?php echo JText::_('PLG_TINY_SET_PRESET_BUTTON_' . $presetName); ?>
-						</button>
-					<?php endforeach; ?>
-
-						<button type="button" class="btn btn-mini btn-danger button-action"
-						     data-action="clearPane" data-set="<?php echo $num; ?>">
-							<?php echo JText::_('JCLEAR'); ?></button>
-					</div>
-				</div>
-
-				<div class="mce-tinymce mce-container mce-panel">
-					<div class="mce-container-body mce-stack-layout">
-						<div class="mce-container mce-menubar mce-toolbar timymce-builder-menu target"
-							data-group="menu" data-set="<?php echo $num; ?>"
-							data-value="<?php echo $this->escape(json_encode($valMenu)); ?>">
-						</div>
-						<div class="mce-toolbar-grp mce-container mce-panel timymce-builder-toolbar target"
-						    data-group="toolbar1" data-set="<?php echo $num; ?>"
-						    data-value="<?php echo $this->escape(json_encode($valBar1)); ?>">
-						</div>
-						<div class="mce-toolbar-grp mce-container mce-panel timymce-builder-toolbar target"
-						    data-group="toolbar2" data-set="<?php echo $num; ?>"
-						    data-value="<?php echo $this->escape(json_encode($valBar2)); ?>">
-						</div>
-					</div>
-				</div>
-
-				<!-- Render the form for extra options -->
-				<?php echo $this->sublayout('setoptions', array('form' => $setsForms[$num])); ?>
-			</div>
-		<?php endforeach; ?>
-	</div>
+                    <?php // Render the form for extra options ?>
+                    <?php echo $this->sublayout('setoptions', ['form' => $setsForms[$num]]); ?>
+            </joomla-tab-element>
+        <?php endforeach; ?>
+    </joomla-tab>
 </div>

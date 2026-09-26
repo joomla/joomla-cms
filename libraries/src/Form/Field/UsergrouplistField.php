@@ -1,107 +1,99 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Helper\UserGroupsHelper;
 
-FormHelper::loadFieldClass('list');
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Field to load a dropdown list of available user groups
  *
  * @since  3.2
  */
-class UsergrouplistField extends \JFormFieldList
+class UsergrouplistField extends ListField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var		string
-	 * @since   3.2
-	 */
-	protected $type = 'UserGroupList';
+    /**
+     * The form field type.
+     *
+     * @var     string
+     * @since   3.2
+     */
+    protected $type = 'UserGroupList';
 
-	/**
-	 * Cached array of the category items.
-	 *
-	 * @var    array
-	 * @since  3.2
-	 */
-	protected static $options = array();
+    /**
+     * Cached array of the user groups.
+     *
+     * @var    array[]
+     * @since  3.2
+     */
+    protected static $options = [];
 
-	/**
-	 * Method to attach a JForm object to the field.
-	 *
-	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed              $value    The form field value to validate.
-	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
-	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                       full field name would end up being "bar[foo]".
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   1.7.0
-	 */
-	public function setup(\SimpleXMLElement $element, $value, $group = null)
-	{
-		if (is_string($value) && strpos($value, ',') !== false)
-		{
-			$value = explode(',', $value);
-		}
+    /**
+     * Method to attach a Form object to the field.
+     *
+     * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+     * @param   mixed              $value    The form field value to validate.
+     * @param   string             $group    The field name group control value. This acts as an array container for the field.
+     *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+     *                                       full field name would end up being "bar[foo]".
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   1.7.0
+     */
+    public function setup(\SimpleXMLElement $element, $value, $group = null)
+    {
+        if (\is_string($value) && str_contains($value, ',')) {
+            $value = explode(',', $value);
+        }
 
-		return parent::setup($element, $value, $group);
-	}
+        return parent::setup($element, $value, $group);
+    }
 
-	/**
-	 * Method to get the options to populate list
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   3.2
-	 */
-	protected function getOptions()
-	{
-		// Hash for caching
-		$hash = md5($this->element);
+    /**
+     * Method to get the options to populate list
+     *
+     * @return  object[]  The field option objects.
+     *
+     * @since   3.2
+     */
+    protected function getOptions()
+    {
+        $options        = parent::getOptions();
+        $checkSuperUser = (int) $this->getAttribute('checksuperusergroup', 0);
 
-		if (!isset(static::$options[$hash]))
-		{
-			static::$options[$hash] = parent::getOptions();
+        // Cache user groups base on checksuperusergroup attribute value
+        if (!isset(static::$options[$checkSuperUser])) {
+            $groups       = UserGroupsHelper::getInstance()->getAll();
+            $cacheOptions = [];
 
-			$groups         = UserGroupsHelper::getInstance()->getAll();
-			$checkSuperUser = (int) $this->getAttribute('checksuperusergroup', 0);
-			$isSuperUser    = Factory::getUser()->authorise('core.admin');
-			$options        = array();
+            foreach ($groups as $group) {
+                // Don't list super user groups.
+                if ($checkSuperUser && Access::checkGroup($group->id, 'core.admin')) {
+                    continue;
+                }
 
-			foreach ($groups as $group)
-			{
-				// Don't show super user groups to non super users.
-				if ($checkSuperUser && !$isSuperUser && Access::checkGroup($group->id, 'core.admin'))
-				{
-					continue;
-				}
+                $cacheOptions[] = (object) [
+                    'text'  => str_repeat('- ', $group->level) . $group->title,
+                    'value' => $group->id,
+                    'level' => $group->level,
+                ];
+            }
 
-				$options[] = (object) array(
-					'text'  => str_repeat('- ', $group->level) . $group->title,
-					'value' => $group->id,
-					'level' => $group->level
-				);
-			}
+            static::$options[$checkSuperUser] = $cacheOptions;
+        }
 
-			static::$options[$hash] = array_merge(static::$options[$hash], $options);
-		}
-
-		return static::$options[$hash];
-	}
+        return array_merge($options, static::$options[$checkSuperUser]);
+    }
 }

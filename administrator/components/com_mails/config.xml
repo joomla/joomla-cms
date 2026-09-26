@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<help key="Mail_Templates:_Options"/>
+	<inlinehelp button="show"/>
+	<fieldset
+		name="mails_options"
+		label="COM_MAILS_CONFIG_MAIL_OPTIONS"
+		addfieldprefix="Joomla\Component\Mails\Administrator\Field">
+
+		<field
+			name="mail_style"
+			type="list"
+			label="COM_MAILS_FIELD_MAIL_STYLE_LABEL"
+			default="plaintext"
+			validate="options"
+			>
+			<option value="plaintext">COM_MAILS_FIELD_OPTION_PLAINTEXT</option>
+			<option value="html">COM_MAILS_FIELD_OPTION_HTML</option>
+			<option value="both">COM_MAILS_FIELD_OPTION_BOTH</option>
+		</field>
+
+		<field
+			name="alternative_mailconfig"
+			type="radio"
+			label="COM_MAILS_CONFIG_FIELD_ALTERNATIVE_MAILCONFIG_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="copy_mails"
+			type="radio"
+			label="COM_MAILS_CONFIG_FIELD_COPY_MAILS_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
+		</field>
+
+		<field
+			name="attachment_folder"
+			type="text"
+			label="COM_MAILS_CONFIG_FIELD_ATTACHMENT_FOLDER_LABEL"
+			description="COM_MAILS_CONFIG_FIELD_ATTACHMENT_FOLDER_DESC"
+			validate="folderPathExists"
+			exclude="administrator|api|cache|cli|components|includes|language|layouts|libraries|modules|plugins|templates|tmp"
+		/>
+
+		<field
+			name="disable_htmllayout"
+			type="radio"
+			label="COM_CONFIG_FIELD_MAILTEMPLATE_LAYOUT_OFF_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			showon="mail_style:html[OR]mail_style:both"
+			>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
+		</field>
+
+		<field
+			name="mail_htmllayout"
+			type="mailtemplateLayout"
+			label="COM_CONFIG_FIELD_MAILTEMPLATE_LAYOUT_LABEL"
+			class="form-select"
+			showon="mail_style:html[OR]mail_style:both[AND]disable_htmllayout:1"
+		/>
+
+		<field
+			name="mail_logofile"
+			type="media"
+			label="COM_CONFIG_FIELD_MAILTEMPLATE_LOGOFILE_LABEL"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
+			default=""
+			showon="mail_style:html[OR]mail_style:both[AND]disable_htmllayout:1"
+		/>
+
+	</fieldset>
+
+	<fieldset
+		name="permissions"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		>
+
+		<field
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			filter="rules"
+			validate="rules"
+			component="com_mails"
+			section="component"
+		/>
+	</fieldset>
+</config>

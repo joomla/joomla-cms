@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="api-authentication" method="upgrade">
+	<name>plg_api-authentication_token</name>
+	<author>Joomla! Project</author>
+	<creationDate>2019-11</creationDate>
+	<copyright>(C) 2020 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>PLG_API-AUTHENTICATION_TOKEN_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\ApiAuthentication\Token</namespace>
+	<files>
+		<folder plugin="token">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_api-authentication_token.ini</language>
+		<language tag="en-GB">language/en-GB/plg_api-authentication_token.sys.ini</language>
+	</languages>
+</extension>

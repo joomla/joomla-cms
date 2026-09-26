@@ -1,60 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="tests/unit/bootstrap.php" colors="false">
-	<!-- These constants help setup environment configurations for running optional tests.
-	<php>
-		<const name="JTEST_DATABASE_MYSQL_DSN" value="host=localhost;dbname=joomla_ut;user=utuser;pass=ut1234" />
-		<const name="JTEST_DATABASE_MYSQLI_DSN" value="host=localhost;dbname=joomla_ut;user=utuser;pass=ut1234" />
-		<const name="JTEST_DATABASE_PDO_MYSQL_DSN" value="host=localhost;dbname=joomla_ut;user=utuser;pass=ut1234" />
-		<const name="JTEST_DATABASE_POSTGRESQL_DSN" value="host=localhost;port=5432;dbname=joomla_ut;user=utuser;pass=ut1234" />
-		<const name="JTEST_DATABASE_SQLSRV_DSN" value="host=localhost;dbname=joomla_ut;user=utuser;pass=ut1234" />
-		<const name="JTEST_HTTP_STUB" value="http://localhost/joomla-cms/tests/unit/stubs/jhttp_stub.php" />
-		<const name="JOOMLA_TEST_LOGGING" value="yes" />
-		<const name="JTEST_CACHE_REDIS_DSN" value="host=localhost;port=6379;db=;auth=" />
-		<const name="JTEST_CACHE_MEMCACHE_DSN" value="host=localhost;port=11211" />
-		<const name="JTEST_CACHE_MEMCACHED_DSN" value="host=localhost;port=11211" />
-	</php>
-	-->
-
+<phpunit bootstrap="tests/Unit/bootstrap.php" colors="false">
 	<testsuites>
-		<testsuite name="libraries-cms">
-			<directory>tests/unit/suites/libraries/cms</directory>
+		<testsuite name="Unit">
+			<directory suffix="Test.php">./tests/Unit</directory>
 		</testsuite>
-		<testsuite name="libraries-platform">
-			<directory>tests/unit/suites/libraries/joomla</directory>
-		</testsuite>
-		<testsuite name="libraries-legacy">
-			<directory>tests/unit/suites/libraries/legacy</directory>
-		</testsuite>
-		<testsuite name="database">
-			<directory>tests/unit/suites/database</directory>
-		</testsuite>
-		<testsuite name="administrator">
-			<directory>tests/unit/suites/administrator</directory>
-		</testsuite>
-		<testsuite name="FinderIndexer">
-			<directory>tests/unit/suites/finderIndexer</directory>
-		</testsuite>
-		<testsuite name="plugins">
-			<directory>tests/unit/suites/plugins</directory>
+		<testsuite name="Integration">
+			<directory suffix="Test.php">./tests/Integration</directory>
 		</testsuite>
 	</testsuites>
+	<php>
+		<const name="JTEST_DB_ENGINE" value="mysqli" />
+		<const name="JTEST_DB_HOST" value="mysql" />
+		<const name="JTEST_DB_NAME" value="test_joomla" />
+		<const name="JTEST_DB_USER" value="joomla_ut" />
+		<const name="JTEST_DB_PASSWORD" value="joomla_ut" />
 
-	<logging>
-		<log type="coverage-html" target="build/coverage" title="Joomla-CMS" charset="UTF-8" yui="true" highlight="true"
-			lowUpperBound="35" highLowerBound="70" />
-		<log type="coverage-clover" target="build/logs/clover.xml" />
-		<log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false" />
-	</logging>
-	<filter>
-		<whitelist addUncoveredFilesFromWhitelist="true">
-			<directory suffix=".php">libraries/cms</directory>
-			<directory suffix=".php">libraries/joomla</directory>
-			<directory suffix=".php">libraries/legacy</directory>
-			<directory suffix=".php">libraries/src</directory>
-			<directory suffix=".php">administrator/components/com_finder/helpers/indexer</directory>
-			<directory suffix=".php">plugins</directory>
-			<file>administrator/includes/helper.php</file>
-			<file>libraries/loader.php</file>
-		</whitelist>
-	</filter>
+		<!--ldap settings are preconfigured to work with bitnami/openldap docker image-->
+		<const name="JTEST_LDAP_HOST" value="openldap" /> <!-- to disable ldap tests: set to an empty value -->
+		<const name="JTEST_LDAP_PORT" value="1389" />
+		<const name="JTEST_LDAP_PORT_SSL" value="1636" />
+		<!--CACERTFILE path is relative to JPATH_ROOT-->
+		<const name="JTEST_LDAP_CACERTFILE" value="./tests/certs/CA.crt" />
+		<const name="JTEST_LDAP_USEV3" value="1" />
+		<const name="JTEST_LDAP_NOREFERRALS" value="1" />
+		<const name="JTEST_LDAP_BASE" value="dc=example,dc=org" />
+		<const name="JTEST_LDAP_SEARCH" value="uid=[search]" />
+		<const name="JTEST_LDAP_DIRECT_USERDN" value="cn=[username],ou=users,dc=example,dc=org" />
+		<const name="JTEST_LDAP_FULLNAME" value="cn" />
+		<const name="JTEST_LDAP_EMAIL" value="mail" />
+		<const name="JTEST_LDAP_UID" value="uid" />
+		<const name="JTEST_LDAP_SEARCH_DN" value="cn=customuser,ou=users,dc=example,dc=org" />
+		<const name="JTEST_LDAP_SEARCH_PASSWORD" value="custompassword" />
+		<const name="JTEST_LDAP_TESTUSER" value="customuser" />
+		<const name="JTEST_LDAP_TESTPASSWORD" value="custompassword" />
+	</php>
 </phpunit>

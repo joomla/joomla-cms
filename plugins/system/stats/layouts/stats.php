@@ -1,27 +1,47 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
 /**
  * Layout variables
  * -----------------
- * @var  array  $statsData  Array containing the data that will be sent to the stats server
+ * @var   array  $statsData  Array containing the data that will be sent to the stats server
  */
 
-$versionFields = array('php_version', 'db_version', 'cms_version');
+$versionFields = ['php_version', 'db_version', 'cms_version'];
 ?>
-<dl class="dl-horizontal js-pstats-data-details"  style="display:none;">
-	<?php foreach ($statsData as $key => $value) : ?>
-		<dt><?php echo JText::_('PLG_SYSTEM_STATS_LABEL_' . strtoupper($key)); ?></dt>
-		<dd><?php echo in_array($key, $versionFields) ? (preg_match('/\d+(?:\.\d+)+/', $value, $matches) ? $matches[0] : $value) : $value; ?></dd>
-	<?php endforeach; ?>
-</dl>
+<table class="table mb-3">
+    <caption class="visually-hidden">
+        <?php echo Text::_('PLG_SYSTEM_STATS_STATISTICS'); ?>
+    </caption>
+    <thead>
+        <tr>
+            <th scope="col" class="w-15">
+                <?php echo Text::_('PLG_SYSTEM_STATS_SETTING'); ?>
+            </th>
+            <th scope="col">
+                <?php echo Text::_('PLG_SYSTEM_STATS_VALUE'); ?>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($statsData as $key => $value) : ?>
+        <tr>
+            <th scope="row"><?php echo Text::_('PLG_SYSTEM_STATS_LABEL_' . strtoupper($key)); ?></th>
+            <td><?php echo in_array($key, $versionFields) ? (preg_match('/\d+(?:\.\d+)+/', $value, $matches) ? $matches[0] : $value) : $value; ?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>

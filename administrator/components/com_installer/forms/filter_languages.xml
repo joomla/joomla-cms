@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			inputmode="search"
+			label="COM_INSTALLER_LANGUAGES_FILTER_SEARCH_LABEL"
+			description="COM_INSTALLER_LANGUAGES_FILTER_SEARCH_DESC"
+			hint="JSEARCH_FILTER"
+		/>
+	</fields>
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			class="js-select-submit-on-change"
+			default="name ASC"
+			validate="options"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="name ASC">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="name DESC">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="element ASC">COM_INSTALLER_HEADING_LANGUAGE_TAG_ASC</option>
+			<option value="element DESC">COM_INSTALLER_HEADING_LANGUAGE_TAG_DESC</option>
+		</field>
+
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
+			default="25"
+			class="js-select-submit-on-change"
+		/>
+	</fields>
+</form>

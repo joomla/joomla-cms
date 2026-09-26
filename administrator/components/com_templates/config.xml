@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <config>
+	<help key="Template:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="templates"
 		label="COM_TEMPLATES_SUBMENU_TEMPLATES"
@@ -9,69 +11,80 @@
 			name="template_positions_display"
 			type="radio"
 			label="COM_TEMPLATES_CONFIG_POSITIONS_LABEL"
-			description="COM_TEMPLATES_CONFIG_POSITIONS_DESC"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
-			<option value="1">JENABLED</option>
 			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
 		</field>
 
 		<field
-			name="upload_limit" 
+			name="upload_limit"
 			type="number"
 			label="COM_TEMPLATES_CONFIG_UPLOAD_LABEL"
-			description="COM_TEMPLATES_CONFIG_UPLOAD_DESC"
 			default="10"
 			extension="com_templates"
 		/>
 
 		<field
-			name="warning" 
-			type="note"
-			label="COM_TEMPLATES_CONFIG_SUPPORTED_LABEL"
-			description="COM_TEMPLATES_CONFIG_SUPPORTED_DESC"
+			name="spacer"
+			type="spacer"
+			hr="true"
 		/>
 
 		<field
-			name="image_formats" 
+			name="image_formats"
 			type="text"
 			label="COM_TEMPLATES_CONFIG_IMAGE_LABEL"
-			description="COM_TEMPLATES_CONFIG_IMAGE_DESC"
-			default="gif,bmp,jpg,jpeg"
+			default="gif,bmp,jpg,jpeg,png,webp"
 			extension="com_templates"
 		/>
 
 		<field
-			name="source_formats" 
+			name="source_formats"
 			type="text"
 			label="COM_TEMPLATES_CONFIG_SOURCE_LABEL"
-			description="COM_TEMPLATES_CONFIG_SOURCE_DESC"
-			default="txt,less,ini,xml,js,php,css,sass,scss"
+			default="txt,less,ini,xml,js,php,css,sass,scss,json"
 			extension="com_templates"
 		/>
 
 		<field
-			name="font_formats" 
+			name="font_formats"
 			type="text"
 			label="COM_TEMPLATES_CONFIG_FONT_LABEL"
-			description="COM_TEMPLATES_CONFIG_FONT_DESC"
-			default="woff,ttf,otf"
+			default="woff,woff2,ttf,otf"
 			extension="com_templates"
 		/>
 
 		<field
-			name="compressed_formats" 
+			name="compressed_formats"
 			type="hidden"
 			default="zip"
 			extension="com_templates"
 		/>
+
+		<field
+			name="spacer2"
+			type="spacer"
+			hr="true"
+		/>
+
+		<field
+			name="difference"
+			type="radio"
+			label="COM_TEMPLATES_DIFF_OPTIONS"
+			layout="joomla.form.field.radio.switcher"
+			default="SideBySide"
+			>
+			<option value="Inline">COM_TEMPLATES_DIFF_OPTIONS_INLINE</option>
+			<option value="SideBySide">COM_TEMPLATES_DIFF_OPTIONS_SIDE</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
 		>
 		<field
 			name="rules"

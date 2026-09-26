@@ -1,13 +1,14 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 extract($displayData);
 
@@ -44,37 +45,38 @@ extract($displayData);
  * @var   string   $accept          File types that are accepted.
  * @var   string   $animated        Is it animated.
  * @var   string   $active          Is it active.
- * @var   string   $min             The minimum value.
  * @var   string   $max             The maximum value.
- * @var   string   $step            The step value.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
 
 // Initialize some field attributes.
-$class = 'progress ' . $class;
-$class .= $animated ? ' progress-striped' : '';
+$class = 'progress-bar ' . $class;
+$class .= $animated ? ' progress-bar-striped progress-bar-animated' : '';
 $class .= $active ? ' active' : '';
 $class = 'class="' . $class . '"';
 
 $value = (float) $value;
-$value = $value < $min ? $min : $value;
-$value = $value > $max ? $max : $value;
+$value = max($value, $min);
+$value = min($value, $max);
 
 $data = '';
-$data .= 'data-max="' . $max . '"';
-$data .= ' data-min="' . $min . '"';
-$data .= ' data-step="' . $step . '"';
-$data .= ' data-value="' . $value . '"';
+$data .= 'aria-valuemax="' . $max . '"';
+$data .= ' aria-valuemin="' . $min . '"';
+$data .= ' aria-valuenow="' . $value . '"';
 
-$attributes = array(
-	$class,
-	!empty($width) ? ' style="width:' . $width . ';"' : '',
-	$data
-);
+$attributes = [
+    $class,
+    !empty($width) ? 'style="width:' . $width . ';"' : '',
+    $data,
+    $dataAttribute,
+];
 
 $value = ((float) ($value - $min) * 100) / ($max - $min);
 ?>
-<div <?php echo implode(' ', $attributes); ?> >
-	<div class="bar" style="width: <?php
-	echo (string) $value; ?>%;<?php
-	echo !empty($color) ? ' background-color:' . $color . ';' : ''; ?>"></div>
+<div class="progress">
+    <div
+        role="progressbar"
+        <?php echo implode(' ', $attributes); ?>
+        style="width:<?php echo (string) $value; ?>%;<?php echo !empty($color) ? ' background-color:' . $color . ';' : ''; ?>"></div>
 </div>

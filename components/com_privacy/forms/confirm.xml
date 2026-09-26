@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset name="default" label="COM_PRIVACY_CONFIRM_REQUEST_FIELDSET_LABEL">
+		<field
+			name="confirm_token"
+			type="text"
+			label="COM_PRIVACY_FIELD_CONFIRM_CONFIRM_TOKEN_LABEL"
+			description="COM_PRIVACY_FIELD_CONFIRM_CONFIRM_TOKEN_DESC"
+			filter="alnum"
+			required="true"
+			size="32"
+		/>
+	</fieldset>
+</form>

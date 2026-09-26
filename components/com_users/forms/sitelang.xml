@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="params">
+		<fieldset name="params" label="COM_USERS_SETTINGS_FIELDSET_LABEL">
+			<field
+				name="language"
+				type="language"
+				label="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_LABEL"
+				client="site"
+				filter="cmd"
+				default="active"
+			/>
+		</fieldset>
+	</fields>
+</form>

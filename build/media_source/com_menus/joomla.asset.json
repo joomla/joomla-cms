@@ -1,0 +1,95 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "com_menus",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "com_menus.admin-item-edit",
+      "type": "script",
+      "uri": "com_menus/admin-item-edit.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_menus.admin-item-edit-container",
+      "type": "style",
+      "uri": "com_menus/admin-item-edit_container.min.css"
+    },
+    {
+      "name": "com_menus.admin-item-edit-container",
+      "type": "script",
+      "uri": "com_menus/admin-item-edit_container.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_menus.admin-item-edit-modules",
+      "type": "script",
+      "uri": "com_menus/admin-item-edit_modules.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_menus.admin-item-modal",
+      "type": "script",
+      "uri": "com_menus/admin-item-modal.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "deprecated": true,
+      "deprecatedMsg": "Replaced with [modal-content-select-field] asset. To be removed in Joomla 6."
+    },
+    {
+      "name": "com_menus.admin-items-modal",
+      "type": "script",
+      "uri": "com_menus/admin-items-modal.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "deprecated": true,
+      "deprecatedMsg": "Replaced with [modal-content-select-field] asset. To be removed in Joomla 6."
+    },
+    {
+      "name": "com_menus.admin-menus",
+      "type": "script",
+      "uri": "com_menus/admin-menus-default.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_menus.batch-body",
+      "type": "script",
+      "uri": "com_menus/default-batch-body.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+// Buttons
+
+.btn:focus,
+.btn.focus,
+.btn:active:focus,
+.btn.focus:active,
+.btn.active:focus,
+.btn.active.focus {
+  text-decoration: none;
+}
+
+.btn.group-move {
+  cursor: move;
+}
+
+.btn-secondary {
+  --btn-color: var(--gray-800);
+  --btn-bg: var(--white);
+  --btn-border-color: var(--gray-400);
+  --btn-hover-color: var(--gray-800);
+  --btn-hover-bg: var(--gray-100);
+}
+
+.article-info .association,
+.cat-list-association {
+  .btn-secondary {
+    --btn-font-weight: 700;
+    --btn-color: var(--white);
+    --btn-bg: var(--gray-600);
+    --btn-border-color: var(--gray-400);
+    --btn-hover-color: var(--white);
+    --btn-hover-bg: var(--gray-800);
+  }
+
+  .btn-sm {
+    --btn-padding-y: 0;
+    --btn-padding-x: .25rem;
+    --btn-font-size: .8rem;
+    --btn-border-radius: var(--border-radius-sm);
+  }
+}

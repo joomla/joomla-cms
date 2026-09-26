@@ -1,335 +1,284 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Http\Transport;
 
-defined('JPATH_PLATFORM') or die;
-
+use Joomla\CMS\Factory;
 use Joomla\CMS\Http\Response;
 use Joomla\CMS\Http\TransportInterface;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Registry\Registry;
+use Joomla\Http\AbstractTransport;
+use Joomla\Http\Exception\InvalidResponseCodeException;
+use Joomla\Uri\UriInterface;
+use Laminas\Diactoros\Stream as StreamResponse;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTTP transport class for using sockets directly.
  *
  * @since  1.7.3
  */
-class SocketTransport implements TransportInterface
+class SocketTransport extends AbstractTransport implements TransportInterface
 {
-	/**
-	 * @var    array  Reusable socket connections.
-	 * @since  1.7.3
-	 */
-	protected $connections;
+    /**
+     * @var    array  Reusable socket connections.
+     * @since  1.7.3
+     */
+    protected $connections;
 
-	/**
-	 * @var    Registry  The client options.
-	 * @since  1.7.3
-	 */
-	protected $options;
+    /**
+     * Send a request to the server and return a Response object with the response.
+     *
+     * @param   string        $method     The HTTP method for sending the request.
+     * @param   UriInterface  $uri        The URI to the resource to request.
+     * @param   mixed         $data       Either an associative array or a string to be sent with the request.
+     * @param   array         $headers    An array of request headers to send with the request.
+     * @param   integer       $timeout    Read timeout in seconds.
+     * @param   string        $userAgent  The optional user agent string to send with the request.
+     *
+     * @return  Response
+     *
+     * @since   1.7.3
+     * @throws  \RuntimeException
+     */
+    public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
+    {
+        $connection = $this->connect($uri, $timeout);
 
-	/**
-	 * Constructor.
-	 *
-	 * @param   Registry  $options  Client options object.
-	 *
-	 * @since   1.7.3
-	 * @throws  \RuntimeException
-	 */
-	public function __construct(Registry $options)
-	{
-		if (!self::isSupported())
-		{
-			throw new \RuntimeException('Cannot use a socket transport when fsockopen() is not available.');
-		}
+        // Make sure the connection is alive and valid.
+        if (\is_resource($connection)) {
+            // Make sure the connection has not timed out.
+            $meta = stream_get_meta_data($connection);
 
-		$this->options = $options;
-	}
+            if ($meta['timed_out']) {
+                throw new \RuntimeException('Server connection timed out.');
+            }
+        } else {
+            throw new \RuntimeException('Not connected to server.');
+        }
 
-	/**
-	 * Send a request to the server and return a HttpResponse object with the response.
-	 *
-	 * @param   string   $method     The HTTP method for sending the request.
-	 * @param   Uri      $uri        The URI to the resource to request.
-	 * @param   mixed    $data       Either an associative array or a string to be sent with the request.
-	 * @param   array    $headers    An array of request headers to send with the request.
-	 * @param   integer  $timeout    Read timeout in seconds.
-	 * @param   string   $userAgent  The optional user agent string to send with the request.
-	 *
-	 * @return  Response
-	 *
-	 * @since   1.7.3
-	 * @throws  \RuntimeException
-	 */
-	public function request($method, Uri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
-	{
-		$connection = $this->connect($uri, $timeout);
+        // Get the request path from the URI object.
+        $path = $uri->toString(['path', 'query']);
 
-		// Make sure the connection is alive and valid.
-		if (is_resource($connection))
-		{
-			// Make sure the connection has not timed out.
-			$meta = stream_get_meta_data($connection);
+        // If we have data to send make sure our request is setup for it.
+        if (!empty($data)) {
+            // If the data is not a scalar value encode it to be sent with the request.
+            if (!\is_scalar($data)) {
+                $data = http_build_query($data);
+            }
 
-			if ($meta['timed_out'])
-			{
-				throw new \RuntimeException('Server connection timed out.');
-			}
-		}
-		else
-		{
-			throw new \RuntimeException('Not connected to server.');
-		}
+            if (!isset($headers['Content-Type'])) {
+                $headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
+            }
 
-		// Get the request path from the URI object.
-		$path = $uri->toString(array('path', 'query'));
+            // Add the relevant headers.
+            $headers['Content-Length'] = \strlen($data);
+        }
 
-		// If we have data to send make sure our request is setup for it.
-		if (!empty($data))
-		{
-			// If the data is not a scalar value encode it to be sent with the request.
-			if (!is_scalar($data))
-			{
-				$data = http_build_query($data);
-			}
+        // Build the request payload.
+        $request   = [];
+        $request[] = strtoupper($method) . ' ' . ((empty($path)) ? '/' : $path) . ' HTTP/1.0';
+        $request[] = 'Host: ' . $uri->getHost();
 
-			if (!isset($headers['Content-Type']))
-			{
-				$headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
-			}
+        // If an explicit user agent is given use it.
+        if (isset($userAgent)) {
+            $headers['User-Agent'] = $userAgent;
+        }
 
-			// Add the relevant headers.
-			$headers['Content-Length'] = strlen($data);
-		}
+        // If there are custom headers to send add them to the request payload.
+        if (\is_array($headers)) {
+            foreach ($headers as $k => $v) {
+                if (\is_array($v)) {
+                    foreach ($v as $value) {
+                        $request[] = "$k: $value";
+                    }
+                } else {
+                    $request[] = "$k: $v";
+                }
+            }
+        }
 
-		// Build the request payload.
-		$request = array();
-		$request[] = strtoupper($method) . ' ' . ((empty($path)) ? '/' : $path) . ' HTTP/1.0';
-		$request[] = 'Host: ' . $uri->getHost();
+        // Set any custom transport options
+        foreach ($this->getOption('transport.socket', []) as $value) {
+            $request[] = $value;
+        }
 
-		// If an explicit user agent is given use it.
-		if (isset($userAgent))
-		{
-			$headers['User-Agent'] = $userAgent;
-		}
+        // If we have data to send add it to the request payload.
+        if (!empty($data)) {
+            $request[] = null;
+            $request[] = $data;
+        }
 
-		// If there are custom headers to send add them to the request payload.
-		if (is_array($headers))
-		{
-			foreach ($headers as $k => $v)
-			{
-				$request[] = $k . ': ' . $v;
-			}
-		}
+        // Authentication, if needed
+        if ($this->getOption('userauth') && $this->getOption('passwordauth')) {
+            $request[] = 'Authorization: Basic ' . base64_encode($this->getOption('userauth') . ':' . $this->getOption('passwordauth'));
+        }
 
-		// Set any custom transport options
-		foreach ($this->options->get('transport.socket', array()) as $value)
-		{
-			$request[] = $value;
-		}
+        // Send the request to the server.
+        fwrite($connection, implode("\r\n", $request) . "\r\n\r\n");
 
-		// If we have data to send add it to the request payload.
-		if (!empty($data))
-		{
-			$request[] = null;
-			$request[] = $data;
-		}
+        // Get the response data from the server.
+        $content = '';
 
-		// Authentification, if needed
-		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
-		{
-			$request[] = 'Authorization: Basic ' . base64_encode($this->options->get('userauth') . ':' . $this->options->get('passwordauth'));
-		}
+        while (!feof($connection)) {
+            $content .= fgets($connection, 4096);
+        }
 
-		// Send the request to the server.
-		fwrite($connection, implode("\r\n", $request) . "\r\n\r\n");
+        $content = $this->getResponse($content);
 
-		// Get the response data from the server.
-		$content = '';
+        // Follow Http redirects
+        if ($content->getStatusCode() >= 301 && $content->getStatusCode() < 400 && isset($content->getHeaders()['Location'][0])) {
+            return $this->request($method, new Uri($content->getHeaders()['Location'][0]), $data, $headers, $timeout, $userAgent);
+        }
 
-		while (!feof($connection))
-		{
-			$content .= fgets($connection, 4096);
-		}
+        return $content;
+    }
 
-		$content = $this->getResponse($content);
+    /**
+     * Method to get a response object from a server response.
+     *
+     * @param   string  $content  The complete server response, including headers.
+     *
+     * @return  Response
+     *
+     * @since   1.7.3
+     * @throws  InvalidResponseCodeException
+     */
+    protected function getResponse($content)
+    {
+        if (empty($content)) {
+            throw new \UnexpectedValueException('No content in response.');
+        }
 
-		// Follow Http redirects
-		if ($content->code >= 301 && $content->code < 400 && isset($content->headers['Location']))
-		{
-			return $this->request($method, new Uri($content->headers['Location']), $data, $headers, $timeout, $userAgent);
-		}
+        // Split the response into headers and body.
+        $response = explode("\r\n\r\n", $content, 2);
 
-		return $content;
-	}
+        // Get the response headers as an array.
+        $headers = explode("\r\n", $response[0]);
 
-	/**
-	 * Method to get a response object from a server response.
-	 *
-	 * @param   string  $content  The complete server response, including headers.
-	 *
-	 * @return  Response
-	 *
-	 * @since   1.7.3
-	 * @throws  \UnexpectedValueException
-	 */
-	protected function getResponse($content)
-	{
-		// Create the response object.
-		$return = new Response;
+        // Set the body for the response.
+        $body = empty($response[1]) ? '' : $response[1];
 
-		if (empty($content))
-		{
-			throw new \UnexpectedValueException('No content in response.');
-		}
+        // Get the response code from the first offset of the response headers.
+        preg_match('/[0-9]{3}/', array_shift($headers), $matches);
+        $code = $matches[0];
 
-		// Split the response into headers and body.
-		$response = explode("\r\n\r\n", $content, 2);
+        if (!is_numeric($code)) {
+            // No valid response code was detected.
+            throw new InvalidResponseCodeException('No HTTP response code found.');
+        }
 
-		// Get the response headers as an array.
-		$headers = explode("\r\n", $response[0]);
+        $statusCode      = (int) $code;
+        $verifiedHeaders = $this->processHeaders($headers);
 
-		// Set the body for the response.
-		$return->body = empty($response[1]) ? '' : $response[1];
+        $streamInterface = new StreamResponse('php://memory', 'rw');
+        $streamInterface->write($body);
 
-		// Get the response code from the first offset of the response headers.
-		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
-		$code = $matches[0];
+        return new Response($streamInterface, $statusCode, $verifiedHeaders);
+    }
 
-		if (is_numeric($code))
-		{
-			$return->code = (int) $code;
-		}
+    /**
+     * Method to connect to a server and get the resource.
+     *
+     * @param   UriInterface  $uri      The URI to connect with.
+     * @param   integer       $timeout  Read timeout in seconds.
+     *
+     * @return  resource  Socket connection resource.
+     *
+     * @since   1.7.3
+     * @throws  \RuntimeException
+     */
+    protected function connect(UriInterface $uri, $timeout = null)
+    {
+        $errno = null;
+        $err   = null;
 
-		// No valid response code was detected.
-		else
-		{
-			throw new \UnexpectedValueException('No HTTP response code found.');
-		}
+        // Get the host from the uri.
+        $host = ($uri->isSsl()) ? 'ssl://' . $uri->getHost() : $uri->getHost();
 
-		// Add the response headers to the response object.
-		foreach ($headers as $header)
-		{
-			$pos = strpos($header, ':');
-			$return->headers[trim(substr($header, 0, $pos))] = trim(substr($header, ($pos + 1)));
-		}
+        // If the port is not explicitly set in the URI detect it.
+        if (!$uri->getPort()) {
+            $port = ($uri->getScheme() === 'https') ? 443 : 80;
+        } else {
+            // Use the set port.
+            $port = $uri->getPort();
+        }
 
-		return $return;
-	}
+        // Build the connection key for resource memory caching.
+        $key = md5($host . $port);
 
-	/**
-	 * Method to connect to a server and get the resource.
-	 *
-	 * @param   Uri      $uri      The URI to connect with.
-	 * @param   integer  $timeout  Read timeout in seconds.
-	 *
-	 * @return  resource  Socket connection resource.
-	 *
-	 * @since   1.7.3
-	 * @throws  \RuntimeException
-	 */
-	protected function connect(Uri $uri, $timeout = null)
-	{
-		$errno = null;
-		$err = null;
+        // If the connection already exists, use it.
+        if (!empty($this->connections[$key]) && \is_resource($this->connections[$key])) {
+            // Connection reached EOF, cannot be used anymore
+            $meta = stream_get_meta_data($this->connections[$key]);
 
-		// Get the host from the uri.
-		$host = ($uri->isSsl()) ? 'ssl://' . $uri->getHost() : $uri->getHost();
+            if ($meta['eof']) {
+                if (!fclose($this->connections[$key])) {
+                    throw new \RuntimeException('Cannot close connection');
+                }
+            } elseif (!$meta['timed_out']) {
+                // Make sure the connection has not timed out.
+                return $this->connections[$key];
+            }
+        }
 
-		// If the port is not explicitly set in the URI detect it.
-		if (!$uri->getPort())
-		{
-			$port = ($uri->getScheme() == 'https') ? 443 : 80;
-		}
+        if (!is_numeric($timeout)) {
+            $timeout = \ini_get('default_socket_timeout');
+        }
 
-		// Use the set port.
-		else
-		{
-			$port = $uri->getPort();
-		}
+        // Capture PHP errors
+        // PHP sends a warning if the uri does not exist; we silence it and throw an exception instead.
+        set_error_handler(static function ($errno, $err) {
+            throw new \Exception($err);
+        }, \E_WARNING);
 
-		// Build the connection key for resource memory caching.
-		$key = md5($host . $port);
+        try {
+            // Attempt to connect to the server
+            $connection = fsockopen($host, $port, $errno, $err, $timeout);
 
-		// If the connection already exists, use it.
-		if (!empty($this->connections[$key]) && is_resource($this->connections[$key]))
-		{
-			// Connection reached EOF, cannot be used anymore
-			$meta = stream_get_meta_data($this->connections[$key]);
+            if (!$connection) {
+                // Error but nothing from php? Create our own
+                if (!$err) {
+                    $err = \sprintf('Could not connect to host: %s:%s', $host, $port);
+                }
 
-			if ($meta['eof'])
-			{
-				if (!fclose($this->connections[$key]))
-				{
-					throw new \RuntimeException('Cannot close connection');
-				}
-			}
+                throw new \Exception($err);
+            }
+        } catch (\Exception $e) {
+            throw new \RuntimeException($e->getMessage());
+        } finally {
+            restore_error_handler();
+        }
 
-			// Make sure the connection has not timed out.
-			elseif (!$meta['timed_out'])
-			{
-				return $this->connections[$key];
-			}
-		}
+        // Since the connection was successful let's store it in case we need to use it later.
+        $this->connections[$key] = $connection;
 
-		if (!is_numeric($timeout))
-		{
-			$timeout = ini_get('default_socket_timeout');
-		}
+        // If an explicit timeout is set, set it.
+        if (isset($timeout)) {
+            stream_set_timeout($this->connections[$key], (int) $timeout);
+        }
 
-		// Capture PHP errors
-		$php_errormsg = '';
-		$track_errors = ini_get('track_errors');
-		ini_set('track_errors', true);
+        return $this->connections[$key];
+    }
 
-		// PHP sends a warning if the uri does not exists; we silence it and throw an exception instead.
-		// Attempt to connect to the server
-		$connection = @fsockopen($host, $port, $errno, $err, $timeout);
-
-		if (!$connection)
-		{
-			if (!$php_errormsg)
-			{
-				// Error but nothing from php? Create our own
-				$php_errormsg = sprintf('Could not connect to resource: %s', $uri, $err, $errno);
-			}
-
-			// Restore error tracking to give control to the exception handler
-			ini_set('track_errors', $track_errors);
-
-			throw new \RuntimeException($php_errormsg);
-		}
-
-		// Restore error tracking to what it was before.
-		ini_set('track_errors', $track_errors);
-
-		// Since the connection was successful let's store it in case we need to use it later.
-		$this->connections[$key] = $connection;
-
-		// If an explicit timeout is set, set it.
-		if (isset($timeout))
-		{
-			stream_set_timeout($this->connections[$key], (int) $timeout);
-		}
-
-		return $this->connections[$key];
-	}
-
-	/**
-	 * Method to check if http transport socket available for use
-	 *
-	 * @return  boolean   True if available else false
-	 *
-	 * @since   3.0.0
-	 */
-	public static function isSupported()
-	{
-		return function_exists('fsockopen') && is_callable('fsockopen') && !\JFactory::getConfig()->get('proxy_enable');
-	}
+    /**
+     * Method to check if http transport socket available for use
+     *
+     * @return  boolean   True if available else false
+     *
+     * @since   3.0.0
+     */
+    public static function isSupported()
+    {
+        return \function_exists('fsockopen') && \is_callable('fsockopen') && !Factory::getApplication()->get('proxy_enable');
+    }
 }

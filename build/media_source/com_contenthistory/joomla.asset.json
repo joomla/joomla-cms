@@ -1,0 +1,44 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "com_contenthistory",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "com_contenthistory.admin-compare-compare",
+      "type": "script",
+      "uri": "com_contenthistory/admin-compare-compare.min.js",
+      "dependencies": [
+        "core",
+        "diff"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_contenthistory.admin-history-modal",
+      "type": "script",
+      "uri": "com_contenthistory/admin-history-modal.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_contenthistory.admin-history-versions",
+      "type": "script",
+      "uri": "",
+      "deprecated": true,
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<layout title="COM_NEWSFEEDS_NEWSFEED_VIEW_DEFAULT_TITLE" option="COM_NEWSFEEDS_NEWSFEED_VIEW_DEFAULT_OPTION">
+		<help
+			key = "Menu_Item:_Single_News_Feed"
+		/>
+		<message>
+			<![CDATA[COM_NEWSFEEDS_NEWSFEED_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+
+	<!-- Add fields to the request variables for the layout. -->
+	<fields name="request">
+		<fieldset name="request"
+			addfieldprefix="Joomla\Component\Newsfeeds\Administrator\Field"
+		>
+
+			<field
+				name="id"
+				type="modal_newsfeed"
+				label="COM_NEWSFEEDS_FIELD_SELECT_FEED_LABEL"
+				required="true"
+				select="true"
+				new="true"
+				edit="true"
+				clear="true"
+			/>
+		</fieldset>
+	</fields>
+
+	<!-- Add fields to the parameters object for the layout. -->
+	<fields name="params">
+
+		<!-- Basic options. -->
+		<fieldset name="basic" label="COM_NEWSFEEDS_FIELDSET_MORE_OPTIONS_LABEL">
+			<field
+				name="show_feed_image"
+				type="list"
+				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_feed_description"
+				type="list"
+				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_item_description"
+				type="list"
+				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_tags"
+				type="list"
+				label="COM_NEWSFEEDS_FIELD_SHOW_TAGS_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="feed_character_count"
+				type="number"
+				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
+				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
+				filter="integer"
+				useglobal="true"
+			/>
+
+			<field
+				name="feed_display_order"
+				type="list"
+				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
+				useglobal="true"
+				validate="options"
+				>
+				<option value="des">JGLOBAL_MOST_RECENT_FIRST</option>
+				<option value="asc">JGLOBAL_OLDEST_FIRST</option>
+			</field>
+
+		</fieldset>
+	</fields>
+</metadata>

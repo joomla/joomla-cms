@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset>
+		<field
+			name="lock"
+			type="radio"
+			label="COM_MESSAGES_FIELD_LOCK_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="mail_on_new"
+			type="radio"
+			label="COM_MESSAGES_FIELD_MAIL_ON_NEW_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="auto_purge"
+			type="number"
+			label="COM_MESSAGES_FIELD_AUTO_PURGE_LABEL"
+			filter="integer"
+			default="7"
+		/>
+	</fieldset>
+</form>

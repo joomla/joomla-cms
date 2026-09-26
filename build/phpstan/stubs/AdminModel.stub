@@ -1,0 +1,13 @@
+<?php
+
+namespace Joomla\CMS\MVC\Model;
+
+class AdminModel
+{
+	/**
+	 * @param   mixed  $pk
+	 *
+	 * @return \stdClass|false
+     */
+    public function getItem($pk);
+}

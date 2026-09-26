@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form addfieldprefix="Joomla\Component\Privacy\Administrator\Field">
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			inputmode="search"
+			label="COM_PRIVACY_FILTER_SEARCH_LABEL"
+			description="COM_PRIVACY_SEARCH_IN_EMAIL"
+			hint="JSEARCH_FILTER"
+		/>
+
+		<field
+			name="status"
+			type="requeststatus"
+			label="JSTATUS"
+			class="js-select-submit-on-change"
+			>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+
+		<field
+			name="request_type"
+			type="requesttype"
+			label="COM_PRIVACY_HEADING_REQUEST_TYPE"
+			class="js-select-submit-on-change"
+			>
+			<option value="">COM_PRIVACY_SELECT_REQUEST_TYPE</option>
+		</field>
+	</fields>
+
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			class="js-select-submit-on-change"
+			default="a.id DESC"
+			validate="options"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="a.email ASC">COM_PRIVACY_HEADING_EMAIL_ASC</option>
+			<option value="a.email DESC">COM_PRIVACY_HEADING_EMAIL_DESC</option>
+			<option value="a.request_type ASC">COM_PRIVACY_HEADING_REQUEST_TYPE_ASC</option>
+			<option value="a.request_type DESC">COM_PRIVACY_HEADING_REQUEST_TYPE_DESC</option>
+			<option value="a.requested_at ASC">COM_PRIVACY_HEADING_REQUESTED_AT_ASC</option>
+			<option value="a.requested_at DESC">COM_PRIVACY_HEADING_REQUESTED_AT_DESC</option>
+			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
+			default="25"
+			class="input-mini js-select-submit-on-change"
+		/>
+	</fields>
+</form>

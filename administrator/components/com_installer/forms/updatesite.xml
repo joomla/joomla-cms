@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset name="updateSite">
+		<field
+			name="update_site_id"
+			type="hidden"
+		/>
+		<field
+			name="name"
+			type="text"
+			label="COM_INSTALLER_FIELD_NAME_LABEL"
+			disabled="true"
+		/>
+		<field
+			name="type"
+			type="text"
+			label="COM_INSTALLER_FIELD_TYPE_LABEL"
+			disabled="true"
+		/>
+		<field
+			name="location"
+			type="text"
+			label="COM_INSTALLER_FIELD_TYPE_LOCATION"
+			disabled="true"
+		/>
+		<field
+			name="extra_query"
+			type="text"
+			label="COM_INSTALLER_FIELD_EXTRA_QUERY_LABEL"
+			description="COM_INSTALLER_FIELD_EXTRA_QUERY_DESC"
+			default=""
+		/>
+		<field
+			name="downloadIdPrefix"
+			type="hidden"
+		/>
+		<field
+			name="downloadIdSuffix"
+			type="hidden"
+		/>
+	</fieldset>
+</form>

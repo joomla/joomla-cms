@@ -1,16 +1,19 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer;
 
-defined('JPATH_PLATFORM') or die;
+use Joomla\CMS\Language\Text;
 
-\JLoader::import('joomla.filesystem.file');
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Package Manifest File
@@ -19,122 +22,126 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class Manifest
 {
-	/**
-	 * Path to the manifest file
-	 *
-	 * @var    string
-	 * @since  3.1
-	 */
-	public $manifest_file = '';
+    /**
+     * The error messages
+     *
+     * @var    array
+     * @since  4.3.0
+     */
+    public $_errors;
 
-	/**
-	 * Name of the extension
-	 *
-	 * @var    string
-	 * @since  3.1
-	 */
-	public $name = '';
+    /**
+     * Path to the manifest file
+     *
+     * @var    string
+     * @since  3.1
+     */
+    public $manifest_file = '';
 
-	/**
-	 * Version of the extension
-	 *
-	 * @var    string
-	 * @since  3.1
-	 */
-	public $version = '';
+    /**
+     * Name of the extension
+     *
+     * @var    string
+     * @since  3.1
+     */
+    public $name = '';
 
-	/**
-	 * Description of the extension
-	 *
-	 * @var    string
-	 * @since  3.1
-	 */
-	public $description = '';
+    /**
+     * Version of the extension
+     *
+     * @var    string
+     * @since  3.1
+     */
+    public $version = '';
 
-	/**
-	 * Packager of the extension
-	 *
-	 * @var    string
-	 * @since  3.1
-	 */
-	public $packager = '';
+    /**
+     * Description of the extension
+     *
+     * @var    string
+     * @since  3.1
+     */
+    public $description = '';
 
-	/**
-	 * Packager's URL of the extension
-	 *
-	 * @var    string
-	 * @since  3.1
-	 */
-	public $packagerurl = '';
+    /**
+     * Packager of the extension
+     *
+     * @var    string
+     * @since  3.1
+     */
+    public $packager = '';
 
-	/**
-	 * Update site for the extension
-	 *
-	 * @var    string
-	 * @since  3.1
-	 */
-	public $update = '';
+    /**
+     * Packager's URL of the extension
+     *
+     * @var    string
+     * @since  3.1
+     */
+    public $packagerurl = '';
 
-	/**
-	 * List of files in the extension
-	 *
-	 * @var    array
-	 * @since  3.1
-	 */
-	public $filelist = array();
+    /**
+     * Update site for the extension
+     *
+     * @var    string
+     * @since  3.1
+     */
+    public $update = '';
 
-	/**
-	 * Constructor
-	 *
-	 * @param   string  $xmlpath  Path to XML manifest file.
-	 *
-	 * @since   3.1
-	 */
-	public function __construct($xmlpath = '')
-	{
-		if ($xmlpath !== '')
-		{
-			$this->loadManifestFromXml($xmlpath);
-		}
-	}
+    /**
+     * List of files in the extension
+     *
+     * @var    array
+     * @since  3.1
+     */
+    public $filelist = [];
 
-	/**
-	 * Load a manifest from a file
-	 *
-	 * @param   string  $xmlfile  Path to file to load
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.1
-	 */
-	public function loadManifestFromXml($xmlfile)
-	{
-		$this->manifest_file = basename($xmlfile, '.xml');
+    /**
+     * Constructor
+     *
+     * @param   string  $xmlpath  Path to XML manifest file.
+     *
+     * @since   3.1
+     */
+    public function __construct($xmlpath = '')
+    {
+        if ($xmlpath !== '') {
+            $this->loadManifestFromXml($xmlpath);
+        }
+    }
 
-		$xml = simplexml_load_file($xmlfile);
+    /**
+     * Load a manifest from a file
+     *
+     * @param   string  $xmlfile  Path to file to load
+     *
+     * @return  boolean
+     *
+     * @since   3.1
+     */
+    public function loadManifestFromXml($xmlfile)
+    {
+        $this->manifest_file = basename($xmlfile, '.xml');
 
-		if (!$xml)
-		{
-			$this->_errors[] = \JText::sprintf('JLIB_INSTALLER_ERROR_LOAD_XML', $xmlfile);
+        $xml = simplexml_load_file($xmlfile);
 
-			return false;
-		}
-		else
-		{
-			$this->loadManifestFromData($xml);
+        if (!$xml) {
+            $this->_errors[] = Text::sprintf('JLIB_INSTALLER_ERROR_LOAD_XML', $xmlfile);
 
-			return true;
-		}
-	}
+            return false;
+        }
 
-	/**
-	 * Apply manifest data from a \SimpleXMLElement to the object.
-	 *
-	 * @param   \SimpleXMLElement  $xml  Data to load
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	abstract protected function loadManifestFromData(\SimpleXmlElement $xml);
+        $this->loadManifestFromData($xml);
+
+        return true;
+    }
+
+    /**
+     * Apply manifest data from a \SimpleXMLElement to the object.
+     *
+     * @param   \SimpleXMLElement  $xml  Data to load
+     *
+     * @return  void
+     *
+     * @since   3.1
+     */
+    abstract protected function loadManifestFromData(\SimpleXMLElement $xml);
 }

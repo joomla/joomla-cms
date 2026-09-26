@@ -1,0 +1,266 @@
+// Global
+
+html {
+  height: 100%;
+
+  &.a11y_font {
+    font-size: 18px;
+  }
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 0;
+  margin: 0;
+  text-align: start;
+
+  &.admin, &#subhead-container {
+    background-color: $admin-background;
+  }
+
+  &.monochrome {
+    filter: grayscale(1);
+    &::after {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      content: "";
+      background: var(--template-bg-dark-5);
+    }
+  }
+
+  &.a11y_contrast {
+    filter: contrast(115%);
+  }
+
+  &.monochrome.a11y_contrast {
+    filter: grayscale(1) contrast(115%);
+  }
+
+  &.a11y_highlight {
+    a,
+    .header-item-content {
+      padding: 3px;
+      text-decoration: underline !important;
+      border: #f00 dotted 1px;
+    }
+
+    .joomlaversion {
+      padding: 0;
+      text-decoration: none !important;
+      border: none;
+    }
+
+    a.page-link {
+      padding: $pagination-padding-y $pagination-padding-x;
+    }
+
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: $font-weight-bold;
+}
+
+h1 {
+  font-weight: $font-weight-normal;
+}
+
+small,
+.small {
+  font-size: $font-size-sm;
+}
+
+legend {
+  font-size: 1.2rem;
+  font-weight: $font-weight-bold;
+}
+
+// focus-visible polyfill rule
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+// Default focus highlighting
+a,
+button,
+input,
+textarea {
+
+  &.focus-visible {
+    outline: auto 2px var(--focus);
+  }
+}
+
+// Break up text in cells to prevent overflow
+.break-word {
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+label,
+caption {
+  @include font-size($form-label-font-size);
+  text-align: start;
+}
+
+.logo {
+
+  img path {
+    fill: var(--template-text-dark);
+  }
+}
+
+.container-main,
+.system-debug {
+  padding-bottom: 50px;
+}
+
+body .container-main {
+  order: 1;
+  position: relative;
+  padding-right: 0;
+  padding-left: 0;
+  background: var(--main-bg);
+}
+
+.content {
+  padding: 1rem;
+
+  @include media-breakpoint-up(md) {
+    padding: 0 2rem;
+
+    .subhead + & {
+      padding-top: 0;
+    }
+  }
+}
+
+body:not(.contentpane) .main-card {
+  background: $main-card-bg;
+  border-radius: $border-radius;
+  box-shadow: var(--atum-box-shadow);
+}
+
+.row-selected {
+  background-color: var(--toolbar-bg);
+}
+
+// Multiple buttons wrapping
+.input-group input {
+  min-width: 220px;
+}
+
+// Multilingual associations specific
+.item-associations {
+  padding: 0;
+}
+
+.item-associations li {
+  display: inline-block;
+  margin-bottom: 3px;
+  list-style: none;
+}
+
+// Quickicon specific
+.message-alert {
+  text-align: end !important;
+}
+
+// external links with icons
+a[target="_blank"]::before {
+  padding-inline-end: 3px;
+  font-family: "Font Awesome 6 Free";
+  font-size: 14px;
+  font-weight: 900;
+  content: "\f35d";
+}
+
+#wrapper {
+  &.d-flex {
+    @include media-breakpoint-down(sm) {
+      display: block !important;
+    }
+  }
+}
+
+.text-muted {
+  color: $text-muted-color;
+  opacity: .7;
+}
+
+.card-columns {
+  display: grid;
+  grid-gap: 0 15px;
+  grid-template-columns: 1fr;
+
+  @include media-breakpoint-up(md) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.cpanel-help,
+.cpanel-system {
+
+  .card-columns {
+    @include media-breakpoint-up(md) {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+}
+
+.tiny {
+  @include font-size($form-label-font-size);
+  line-height: 1.4rem;
+}
+
+// details
+
+details {
+  padding: .5rem 1rem;
+  margin: 0 0 2rem;
+  background: $details-bg;
+  border: $details-border;
+  border-radius: $border-radius;
+
+  summary {
+    color: var(--template-link-color);
+
+    ~ * {
+      margin-top: 1rem;
+    }
+  }
+}
+
+// meter element
+meter {
+  width: 100%;
+}
+
+// Bootstrap 4 b/c
+.sr-only {
+  @extend .visually-hidden;
+}
+
+// tab *+* border
+@include media-breakpoint-up(md) {
+  joomla-tab[orientation=horizontal]:not([view=accordion]) {
+    section > .row {
+      --gutter-x: 4rem;
+
+      > * + * {
+        border-inline-start: 1px solid var(--template-bg-dark-10);
+      }
+    }
+  }
+}

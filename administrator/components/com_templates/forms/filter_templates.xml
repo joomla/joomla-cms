@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<field
+		name="client_id"
+		type="list"
+		label="JSITEADMIN"
+		filtermode="selector"
+		class="js-select-reset-on-change"
+		validate="options"
+		>
+		<option value="0">JSITE</option>
+		<option value="1">JADMINISTRATOR</option>
+	</field>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			inputmode="search"
+			label="JSEARCH_FILTER"
+			description="COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC"
+			hint="JSEARCH_FILTER"
+			noresults="COM_TEMPLATES_MSG_MANAGE_NO_TEMPLATES"
+		/>
+	</fields>
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			class="js-select-submit-on-change"
+			default="a.element ASC"
+			validate="options"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="a.element ASC">COM_TEMPLATES_HEADING_TEMPLATE_ASC</option>
+			<option value="a.element DESC">COM_TEMPLATES_HEADING_TEMPLATE_DESC</option>
+		</field>
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
+			default="25"
+			class="js-select-submit-on-change"
+		/>
+	</fields>
+</form>

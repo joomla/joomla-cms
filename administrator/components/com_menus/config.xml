@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <config>
+	<help key="Menus:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="page-options"
 		label="COM_MENUS_PAGE_OPTIONS_LABEL"
@@ -9,28 +11,25 @@
 			name="page_title"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_PAGE_TITLE_LABEL"
-			description="COM_MENUS_ITEM_FIELD_PAGE_TITLE_DESC"
 			default=""
 		/>
 
 		<field
 			name="show_page_heading"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
-			description="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_DESC"
-			class="btn-group btn-group-yesno"
 			default="0"
 			filter="integer"
 			>
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="page_heading"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_PAGE_HEADING_LABEL"
-			description="COM_MENUS_ITEM_FIELD_PAGE_HEADING_DESC"
 			default=""
 			showon="show_page_heading:1"
 		/>
@@ -39,8 +38,7 @@
 			name="pageclass_sfx"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_PAGE_CLASS_LABEL"
-			description="COM_MENUS_ITEM_FIELD_PAGE_CLASS_DESC"
-			default=""
+			validate="CssIdentifier"
 		/>
 
 	</fieldset>

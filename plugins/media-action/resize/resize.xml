@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="media-action" method="upgrade">
+	<name>plg_media-action_resize</name>
+	<author>Joomla! Project</author>
+	<creationDate>2017-01</creationDate>
+	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>PLG_MEDIA-ACTION_RESIZE_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\MediaAction\Resize</namespace>
+	<files>
+		<folder>form</folder>
+		<folder plugin="resize">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_media-action_resize.ini</language>
+		<language tag="en-GB">language/en-GB/plg_media-action_resize.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset
+				name="batch"
+				label="PLG_MEDIA-ACTION_RESIZE_BATCH_LABEL"
+				description="PLG_MEDIA-ACTION_RESIZE_BATCH_DESC"
+				>
+
+				<field
+					name="batch_width"
+					type="text"
+					label="PLG_MEDIA-ACTION_RESIZE_BATCH_MAX_WIDTH_LABEL"
+					addonAfter="px"
+					filter="integer"
+				/>
+				<field
+					name="batch_height"
+					type="text"
+					label="PLG_MEDIA-ACTION_RESIZE_BATCH_MAX_HEIGHT_LABEL"
+					addonAfter="px"
+					filter="integer"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

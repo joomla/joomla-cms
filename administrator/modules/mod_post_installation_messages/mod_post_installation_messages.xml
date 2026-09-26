@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="module" client="administrator" method="upgrade">
+	<name>mod_post_installation_messages</name>
+	<author>Joomla! Project</author>
+	<creationDate>2019-07</creationDate>
+	<copyright>(C) 2019 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>MOD_POST_INSTALLATION_MESSAGES_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\PostInstallationMessages</namespace>
+	<files>
+		<folder module="mod_post_installation_messages">services</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/mod_post_installation_messages.ini</language>
+		<language tag="en-GB">language/en-GB/mod_post_installation_messages.sys.ini</language>
+	</languages>
+	<help key="Admin_Modules:_Post_Installation_Messages" />
+	<config>
+		<fields name="params">
+			<fieldset name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					class="form-select"
+				/>
+
+				<field
+					name="moduleclass_sfx"
+					type="textarea"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					rows="3"
+					validate="CssIdentifier"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

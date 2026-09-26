@@ -1,0 +1,13 @@
+#finder-progress-container {
+  width: 350px;
+  margin: 0 auto;
+}
+
+h1.finder-error {
+  color: #f00;
+}
+
+p.finder-error {
+  font-weight: bold;
+  color: #f00;
+}

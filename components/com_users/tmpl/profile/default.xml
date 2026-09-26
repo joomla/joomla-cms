@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<layout title="COM_USERS_PROFILE_VIEW_DEFAULT_TITLE" option="COM_USERS_PROFILE_VIEW_DEFAULT_OPTION">
+		<help
+			key = "Menu_Item:_User_Profile"
+		/>
+		<message>
+			<![CDATA[COM_USERS_PROFILE_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+</metadata>

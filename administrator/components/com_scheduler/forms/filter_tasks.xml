@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form addfieldprefix="Joomla\Component\Scheduler\Administrator\Field">
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			label="COM_SCHEDULER_FILTER_SEARCH_LABEL"
+			description="COM_SCHEDULER_FILTER_SEARCH_DESC"
+			inputmode="search"
+			hint="JSEARCH_FILTER"
+		/>
+		<field
+			name="state"
+			type="taskState"
+			label="JSTATUS"
+			class="js-select-submit-on-change"
+			validate="options"
+			>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+		<field
+			name="type"
+			type="taskType"
+			label="COM_SCHEDULER_HEADING_TASK_TYPE"
+			class="js-select-submit-on-change"
+			>
+			<option value="">COM_SCHEDULER_SELECT_TYPE</option>
+		</field>
+		<field
+			name="orphaned"
+			type="list"
+			label="COM_SCHEDULER_FIELD_LABEL_SHOW_ORPHANED"
+			default="-1"
+			class="js-select-submit-on-change"
+			>
+			<option value="-1">COM_SCHEDULER_OPTION_ORPHANED_HIDE</option>
+			<option value="0">COM_SCHEDULER_OPTION_ORPHANED_SHOW</option>
+			<option value="1">COM_SCHEDULER_OPTION_ORPHANED_ONLY</option>
+		</field>
+	</fields>
+
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			class="js-select-submit-on-change"
+			default="a.next_execution ASC"
+			validate="options"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="a.state ASC">JSTATUS_ASC</option>
+			<option value="a.state DESC">JSTATUS_DESC</option>
+			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="j.type_title ASC">COM_SCHEDULER_TASK_TYPE_ASC</option>
+			<option value="j.type_title DESC">COM_SCHEDULER_TASK_TYPE_DESC</option>
+			<option value="a.last_execution ASC">COM_SCHEDULER_LAST_RUN_ASC</option>
+			<option value="a.last_execution DESC">COM_SCHEDULER_LAST_RUN_DESC</option>
+			<option value="a.next_execution ASC">COM_SCHEDULER_NEXT_RUN_ASC</option>
+			<option value="a.next_execution DESC">COM_SCHEDULER_NEXT_RUN_DESC</option>
+			<option value="a.priority ASC">COM_SCHEDULER_TASK_PRIORITY_ASC</option>
+			<option value="a.priority DESC">COM_SCHEDULER_TASK_PRIORITY_DESC</option>
+			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
+			default="25"
+			class="js-select-submit-on-change"
+		/>
+	</fields>
+</form>

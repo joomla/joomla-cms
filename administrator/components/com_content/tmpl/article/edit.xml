@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<layout title="COM_CONTENT_ARTICLE_VIEW_EDIT_TITLE">
+		<message>
+			<![CDATA[COM_CONTENT_ARTICLE_VIEW_EDIT_DESC]]>
+		</message>
+	</layout>
+	<fieldset name="request">
+		<fields name="request">
+			<field
+				name="id"
+				type="hidden"
+				default="0"
+			/>
+		</fields>
+	</fieldset>
+</metadata>

@@ -1,83 +1,96 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Toolbar\Button;
 
-defined('JPATH_PLATFORM') or die;
-
-use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\ToolbarButton;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Renders a link button
+ *
+ * @method self    url(string $value)
+ * @method self    target(string $value)
+ * @method string  getUrl()
+ * @method string  getTarget()
  *
  * @since  3.0
  */
 class LinkButton extends ToolbarButton
 {
-	/**
-	 * Button type
-	 * @var    string
-	 */
-	protected $_name = 'Link';
+    /**
+     * Property layout.
+     *
+     * @var  string
+     *
+     * @since  4.0.0
+     */
+    protected $layout = 'joomla.toolbar.link';
 
-	/**
-	 * Fetch the HTML for the button
-	 *
-	 * @param   string  $type  Unused string.
-	 * @param   string  $name  Name to be used as apart of the id
-	 * @param   string  $text  Button text
-	 * @param   string  $url   The link url
-	 *
-	 * @return  string  HTML string for the button
-	 *
-	 * @since   3.0
-	 */
-	public function fetchButton($type = 'Link', $name = 'back', $text = '', $url = null)
-	{
-		// Store all data to the options array for use with JLayout
-		$options = array();
-		$options['text'] = \JText::_($text);
-		$options['class'] = $this->fetchIconClass($name);
-		$options['doTask'] = $this->_getCommand($url);
+    /**
+     * Prepare options for this button.
+     *
+     * @param   array  $options  The options about this button.
+     *
+     * @return  void
+     *
+     * @since  4.0.0
+     */
+    protected function prepareOptions(array &$options)
+    {
+        parent::prepareOptions($options);
 
-		// Instantiate a new JLayoutFile instance and render the layout
-		$layout = new FileLayout('joomla.toolbar.link');
+        unset($options['attributes']['type']);
+    }
 
-		return $layout->render($options);
-	}
+    /**
+     * Fetch the HTML for the button
+     *
+     * @param   string  $type  Unused string.
+     * @param   string  $name  Name to be used as apart of the id
+     * @param   string  $text  Button text
+     * @param   string  $url   The link url
+     *
+     * @return  string  HTML string for the button
+     *
+     * @since   3.0
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use render() instead.
+     */
+    public function fetchButton($type = 'Link', $name = 'back', $text = '', $url = null)
+    {
+        $this->name($name)
+            ->text($text)
+            ->url($url);
 
-	/**
-	 * Get the button CSS Id
-	 *
-	 * @param   string  $type  The button type.
-	 * @param   string  $name  The name of the button.
-	 *
-	 * @return  string  Button CSS Id
-	 *
-	 * @since   3.0
-	 */
-	public function fetchId($type = 'Link', $name = '')
-	{
-		return $this->_parent->getName() . '-' . $name;
-	}
+        return $this->renderButton($this->options);
+    }
 
-	/**
-	 * Get the JavaScript command for the button
-	 *
-	 * @param   object  $url  Button definition
-	 *
-	 * @return  string  JavaScript command string
-	 *
-	 * @since   3.0
-	 */
-	protected function _getCommand($url)
-	{
-		return $url;
-	}
+    /**
+     * Method to configure available option accessors.
+     *
+     * @return  array
+     *
+     * @since  4.0.0
+     */
+    protected static function getAccessors(): array
+    {
+        return array_merge(
+            parent::getAccessors(),
+            [
+                'url',
+                'target',
+            ]
+        );
+    }
 }

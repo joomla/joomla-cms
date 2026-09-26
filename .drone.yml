@@ -1,77 +1,142 @@
 ---
 kind: pipeline
-name: default
-
-clone:
-  depth: 42
+name: package
 
 steps:
-  - name: phpcs
-    image: joomlaprojects/docker-phpcs
-    commands:
-      - echo $(date)
-      - /root/.composer/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
-      - echo $(date)
-
-  - name: restore-cache
-    image: drillster/drone-volume-cache
-    settings:
-      restore: true
-      mount:
-        - ./tests/javascript/node_modules
-      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
+  - name: packager
+    image: joomlaprojects/docker-images:packager
     volumes:
-      - name: cache
-        path: /cache
-
-  - name: javascript
-    image: joomlaprojects/docker-systemtests:latest
-    commands:
-      - echo $(date)
-      - export DISPLAY=:0
-      - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
-      - sleep 3
-      - fluxbox  > /dev/null 2>&1 &
-      - cd tests/javascript
-      - npm install
-      - cd ../..
-      - tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
-      - echo $(date)
-
-  - name: rebuild-cache
-    image: drillster/drone-volume-cache
-    settings:
-       rebuild: true
-       mount:
-        - ./tests/javascript/node_modules
-       cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
-    volumes:
-      - name: cache
-        path: /cache
-
-  - name: analysis3x
-    image: rips/rips-cli:1.2.1
-    when:
-      branch: staging
-    commands:
-      - export RIPS_BASE_URI='https://api.rips.joomla.org'
-      - if [ $DRONE_REPO_NAMESPACE != 'joomla' ]; then echo "The analysis check only run on the main repos"; exit 0; fi
-      - rips-cli rips:scan:start -a 1 -t 1 -p $(pwd) -t 1 -R -k -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+      - name: composer-cache
+        path: /tmp/composer-cache
+      - name: npm-cache
+        path: /tmp/npm-cache
+      - name: fido-cache
+        path: /drone/src/build/fido/
     environment:
-      RIPS_USERNAME:
-        from_secret: RIPS_USERNAME
-      RIPS_PASSWORD:
-        from_secret: RIPS_PASSWORD
+      HTTP_ROOT: "https://artifacts.joomla.org/drone"
+      DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
+      DRONE_COMMIT: DRONE_COMMIT
+    commands:
+      - /bin/drone_prepare_package.sh
+
+  - name: upload
+    image: joomlaprojects/docker-images:packager
+    environment:
+      package_key:
+        from_secret: package_key
+      package_user:
+        from_secret: package_user
+      package_host:
+        from_secret: package_host
+      package_root:
+        from_secret: package_root
+      GITHUB_TOKEN:
+        from_secret: github_token
+    commands:
+      - mkdir -p ~/.ssh
+      - eval $(ssh-agent -s)
+      - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+      - echo "$package_key" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - ssh-add
+      - rclone config create package sftp host $package_host user $package_user port 22
+      - rclone copy ./upload/ package:$package_root/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/downloads/$DRONE_BUILD_NUMBER
+      - /bin/add_github_status.sh "Download" "Prebuilt packages are available for download." "https://artifacts.joomla.org/drone/${DRONE_REPO}/${DRONE_BRANCH}/${DRONE_PULL_REQUEST}/downloads/${DRONE_BUILD_NUMBER}"
 
 volumes:
-- name: cache
-  host:
-    path: /tmp/cache
+  - name: composer-cache
+    host:
+      path: /tmp/composer-cache
+  - name: fido-cache
+    host:
+      path: /tmp/fido-cache
+  - name: npm-cache
+    host:
+      path: /tmp/npm-cache
 
-branches:
-  exclude: [ l10n_* ]
+trigger:
+  repo:
+    - joomla/joomla-cms
+
+---
+kind: pipeline
+name: nightly_build
+
+steps:
+  - name: prepare
+    image: joomlaprojects/docker-images:packager
+    volumes:
+      - name: composer-cache
+        path: /tmp/composer-cache
+      - name: npm-cache
+        path: /tmp/npm-cache
+      - name: fido-cache
+        path: /drone/src/build/fido/
+    commands:
+      - composer --version
+      - mkdir -p transfer
+      - date +%s > transfer/${DRONE_BRANCH%%-dev}-time.txt
+      - git rev-parse origin/${DRONE_BRANCH} > transfer/${DRONE_BRANCH%%-dev}.txt
+      - php build/build.php --remote=origin/${DRONE_BRANCH} --exclude-gzip --disable-patch-packages
+      - mv build/tmp/packages/* transfer/
+      - php build/build.php --remote=origin/${DRONE_BRANCH} --exclude-zip --exclude-gzip --exclude-bzip2 --debug-build
+      - mv build/tmp/packages/* transfer/
+
+  - name: upload
+    image: joomlaprojects/docker-images:packager
+    environment:
+      nightly_key:
+        from_secret: nightly_key
+      nightly_user:
+        from_secret: nightly_user
+      nightly_host:
+        from_secret: nightly_host
+      MATTERMOST_NIGHTLY_HOOK:
+        from_secret: mattermost_nightly_hook
+    commands:
+      - mkdir -p ~/.ssh
+      - eval $(ssh-agent -s)
+      - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+      - echo "$nightly_key" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - ssh-add
+      - rclone config create nightly sftp host $nightly_host user $nightly_user port 22
+      - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_${DRONE_BRANCH%%-dev}.*"
+      - rclone delete nightly:/home/devj/public_html/cache/com_content/
+      - rclone copy ./transfer/ nightly:/home/devj/public_html/nightlies/
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla '"${DRONE_BRANCH%%-dev}"'](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
+
+  - name: buildfailure
+    image: joomlaprojects/docker-images:packager
+    environment:
+      MATTERMOST_NIGHTLY_HOOK:
+        from_secret: mattermost_nightly_hook
+    commands:
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla '"${DRONE_BRANCH%%-dev}"'](https://developer.joomla.org/nightly-builds.html) FAILED to build."}' $MATTERMOST_NIGHTLY_HOOK
+    when:
+      status:
+        - failure
+
+volumes:
+  - name: composer-cache
+    host:
+      path: /tmp/composer-cache
+  - name: fido-cache
+    host:
+      path: /tmp/fido-cache
+  - name: npm-cache
+    host:
+      path: /tmp/npm-cache
+
+trigger:
+  event:
+    - cron
+    - custom
+  repo:
+    - joomla/joomla-cms
+
 ---
 kind: signature
-hmac: e3e6739c960a689e78ec07c0ea193818796cdcf3c3dab9781f7f07b7e3e6b674
+hmac: b35a8a70b20200d91799b8251df1cae7313c8ca78bd2ccc889c29fb10940d5c8
 
 ...

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="options">
+		<fieldset name="notification" label="COM_WORKFLOW_NOTIFICATION_FIELDSET_LABEL">
+			<field
+				name="notification_send_mail"
+				type="radio"
+				label="PLG_WORKFLOW_NOTIFICATION_SENDMAIL_LABEL"
+				layout="joomla.form.field.radio.switcher"
+				default="1"
+				filter="boolean"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field
+				name="notification_text"
+				type="textarea"
+				label="PLG_WORKFLOW_NOTIFICATION_ADDTEXT_LABEL"
+				description="PLG_WORKFLOW_NOTIFICATION_ADDTEXT_DESC"
+				rows="3"
+				filter="safehtml"
+				showon="notification_send_mail:1"
+			/>
+			<field
+				name="notification_groups"
+				type="usergrouplist"
+				label="PLG_WORKFLOW_NOTIFICATION_USERGROUP_LABEL"
+				description="PLG_WORKFLOW_NOTIFICATION_USERGROUP_DESC"
+				multiple="true"
+				layout="joomla.form.field.list-fancy-select"
+				default="0"
+				showon="notification_send_mail:1"
+			/>
+			<field
+				name="notification_receivers"
+				type="sql"
+				label="PLG_WORKFLOW_NOTIFICATION_RECEIVERS_LABEL"
+				desc="PLG_WORKFLOW_NOTIFICATION_RECEIVERS_DESC"
+				query="SELECT id, name FROM #__users WHERE block=0 ORDER BY name ASC"
+				key_field="id"
+				value_field="name"
+				multiple="true"
+				layout="joomla.form.field.list-fancy-select"
+				showon="notification_send_mail:1"
+			/>
+		</fieldset>
+	</fields>
+</form>

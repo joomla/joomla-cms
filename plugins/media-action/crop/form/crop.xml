@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset name="crop" label="PLG_MEDIA-ACTION_CROP_LABEL">
+		<field
+			name="crop_quality"
+			type="number"
+			label="PLG_MEDIA-ACTION_CROP_QUALITY"
+			addonBefore="PLG_MEDIA-ACTION_CROP_QUALITY"
+			min="1"
+			max="100"
+			step="1"
+			default="80"
+			filter="integer"
+		/>
+
+		<field
+			type="spacer"
+			hr="true"
+		/>
+
+		<field
+			name="crop_x"
+			type="text"
+			label="PLG_MEDIA-ACTION_CROP_PARAM_X"
+			hiddenLabel="true"
+			addonBefore="PLG_MEDIA-ACTION_CROP_PARAM_X"
+			addonAfter="px"
+			pattern="\d*\.?\d*"
+		/>
+
+		<field
+			name="crop_y"
+			type="text"
+			label="PLG_MEDIA-ACTION_CROP_PARAM_Y"
+			hiddenLabel="true"
+			addonBefore="PLG_MEDIA-ACTION_CROP_PARAM_Y"
+			addonAfter="px"
+			pattern="\d*\.?\d*"
+		/>
+
+		<field
+			name="crop_width"
+			type="text"
+			label="PLG_MEDIA-ACTION_CROP_PARAM_WIDTH"
+			hiddenLabel="true"
+			addonBefore="PLG_MEDIA-ACTION_CROP_PARAM_WIDTH"
+			addonAfter="px"
+			pattern="\d*\.?\d*"
+		/>
+
+		<field
+			name="crop_height"
+			type="text"
+			label="PLG_MEDIA-ACTION_CROP_PARAM_HEIGHT"
+			hiddenLabel="true"
+			addonBefore="PLG_MEDIA-ACTION_CROP_PARAM_HEIGHT"
+			addonAfter="px"
+			pattern="\d*\.?\d*"
+		/>
+
+		<field
+			name="aspectRatio"
+			type="groupedlist"
+			label="PLG_MEDIA-ACTION_CROP_PARAM_ASPECT"
+			hiddenLabel="true"
+			class="crop-aspect-ratio-options"
+			default="1.111"
+			>
+			<option class="crop-aspect-ratio-option" value="1.111">PLG_MEDIA-ACTION_CROP_PARAM_DEFAULT_RATIO</option>
+			<option class="crop-aspect-ratio-option" value="">PLG_MEDIA-ACTION_CROP_PARAM_NO_RATIO</option>
+			<option class="crop-aspect-ratio-option" value="1">1:1</option>
+			<group label="PLG_MEDIA-ACTION_CROP_PARAM_LANDSCAPE">
+				<option class="crop-aspect-ratio-option" value="1.25">5:4</option>
+				<option class="crop-aspect-ratio-option" value="1.3333333333333333">4:3</option>
+				<option class="crop-aspect-ratio-option" value="1.5">3:2</option>
+				<option class="crop-aspect-ratio-option" value="1.7777777777777777">16:9</option>
+			</group>
+			<group label="PLG_MEDIA-ACTION_CROP_PARAM_PORTRAIT">
+				<option class="crop-aspect-ratio-option" value="0.8">4:5</option>
+				<option class="crop-aspect-ratio-option" value="0.75">3:4</option>
+				<option class="crop-aspect-ratio-option" value="0.6666666666666667">2:3</option>
+				<option class="crop-aspect-ratio-option" value="0.5625">9:16</option>
+			</group>
+		</field>
+	</fieldset>
+</form>

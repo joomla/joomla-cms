@@ -1,0 +1,185 @@
+<?php
+
+/**
+ * @package     Joomla.API
+ * @subpackage  com_fields
+ *
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+namespace Joomla\Component\Fields\Api\Controller;
+
+use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\String\Inflector;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
+/**
+ * The fields controller
+ *
+ * @since  4.0.0
+ */
+class FieldsController extends ApiController
+{
+    /**
+     * The content type of the item.
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $contentType = 'fields';
+
+    /**
+     * The default view for the display method.
+     *
+     * @var    string
+     * @since  3.0
+     */
+    protected $default_view = 'fields';
+
+    /**
+     * Basic display of an item view
+     *
+     * @param   integer  $id  The primary key to display. Leave empty if you want to retrieve data from the request
+     *
+     * @return  static  A \JControllerLegacy object to support chaining.
+     *
+     * @since   4.0.0
+     */
+    public function displayItem($id = null)
+    {
+        $this->modelState->set('filter.context', $this->getContextFromInput());
+
+        return parent::displayItem($id);
+    }
+
+    /**
+     * Basic display of a list view
+     *
+     * @return  static  A \JControllerLegacy object to support chaining.
+     *
+     * @since   4.0.0
+     */
+    public function displayList()
+    {
+        $this->modelState->set('filter.context', $this->getContextFromInput());
+
+        return parent::displayList();
+    }
+
+    /**
+     * Get extension from input
+     *
+     * @return string
+     *
+     * @since 4.0.0
+     */
+    private function getContextFromInput()
+    {
+        return $this->input->exists('context') ?
+            $this->input->get('context') : $this->input->post->get('context');
+    }
+
+    /**
+     * Method to check if you can add a new record.
+     *
+     * We don't allow adding from API
+     *
+     * @param   array  $data  An array of input data.
+     *
+     * @return  boolean
+     *
+     * @since   5.4.7
+     */
+    protected function allowAdd($data = [])
+    {
+        $user     = $this->app->getIdentity();
+        [$option] = explode('.', $this->getContextFromInput());
+
+        // Require generic management permissions for the component
+        if (!$user->authorise('core.manage', $option)) {
+            return false;
+        }
+
+        return $user->authorise('core.create', $option);
+    }
+
+    /**
+     * Method to check if you can edit an existing record.
+     *
+     * We don't allow editing from API (yet?)
+     *
+     * @param array $data An array of input data.
+     * @param string $key The name of the key for the primary key; default is id.
+     *
+     * @return  boolean
+     *
+     * @since   5.4.7
+     */
+    protected function allowEdit($data = [], $key = 'id')
+    {
+        $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
+        $user     = $this->app->getIdentity();
+        [$option] = explode('.', $this->getContextFromInput());
+
+        // Require generic management permissions for the component
+        if (!$user->authorise('core.manage', $option)) {
+            return false;
+        }
+
+        // Zero record (id:0), return component edit permission by calling parent controller method
+        if (!$recordId) {
+            return $user->authorise('core.edit', $option);
+        }
+
+        // Get existing record;
+        $record = $this->getModel(Inflector::singularize($this->contentType))->getItem($recordId);
+
+        if (empty($record)) {
+            return false;
+        }
+
+        [$recordOption] = explode('.', $record->context);
+
+        // Validate request context and field context match
+        if ($recordOption !== $option) {
+            return false;
+        }
+
+        // Check edit on the record asset (explicit or inherited)
+        if ($user->authorise('core.edit', $option . '.field.' . $recordId)) {
+            return true;
+        }
+
+        // Check edit own on the record asset (explicit or inherited)
+        if ($user->authorise('core.edit.own', $option . '.field.' . $recordId)) {
+            // Grant if current user is owner of the record
+            return $user->id == $record->created_user_id;
+        }
+
+        return false;
+    }
+
+    /**
+     * Method to check if it's allowed to delete a record
+     *
+     * @return  boolean
+     *
+     * @since   5.4.8
+     */
+    protected function allowDelete(): bool
+    {
+        [$option] = explode('.', $this->getContextFromInput());
+        $user     = $this->app->getIdentity();
+
+        // Require generic management permissions for the component
+        if (!$user->authorise('core.manage', $option)) {
+            return false;
+        }
+
+        return $user->authorise('core.delete', $option);
+    }
+}

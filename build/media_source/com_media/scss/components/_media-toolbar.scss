@@ -1,0 +1,82 @@
+.media-toolbar {
+  position: sticky;
+  top: 67px;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  background-color: $toolbar-bg;
+  border-bottom: 1px solid $border-color;
+  border-inline-start: 1px solid $border-color;
+  border-radius: 0 $border-radius 0 0;
+  box-shadow: 0 -1px 0 0  $border-color;
+  input {
+    padding: .3rem .75rem;
+  }
+  &-icon {
+    display: inline-block;
+    width: $toolbar-icon-width;
+    font-size: 1.3rem;
+    line-height: $toolbar-height;
+    color: $toolbar-icon-color;
+    text-align: center;
+    background-color: transparent;
+    border: 0;
+    border-inline-start: 1px solid $border-color;
+    &.active {
+      color: #fff;
+      background-color: $toolbar-icon-active-bg-color;
+      &:hover {
+        background-color: $toolbar-icon-active-bg-color-hover;
+      }
+    }
+    &:hover {
+      background-color: $toolbar-icon-bg-hover;
+      box-shadow: none;
+    }
+  }
+  &-select-all {
+    width: 1.1rem;
+    margin: 1rem;
+  }
+}
+
+.media-view-icons {
+  display: flex;
+  .disabled {
+    span {
+      opacity: .3;
+    }
+    &:hover, span:hover {
+      cursor: default;
+    }
+  }
+}
+
+.media-view-search-input {
+  display: flex;
+  align-items: center;
+  padding: 0 5px;
+}
+
+.media-loader {
+  position: absolute;
+  right: 100%;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  height: $toolbar-loader-height;
+  background-image: $toolbar-loader-color;
+  animation: 10s ease 0s normal none 1 running mediaLoader;
+  animation-fill-mode: forwards;
+}
+
+@keyframes mediaLoader {
+  from {
+    right: 100%;
+  }
+
+  to {
+    right: 0;
+  }
+}

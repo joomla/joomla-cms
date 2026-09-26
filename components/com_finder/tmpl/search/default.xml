@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<layout title="COM_FINDER_MENU_SEARCH_VIEW_DEFAULT_TITLE">
+		<help
+			key = "Menu_Item:_Search"
+		/>
+		<message>
+			<![CDATA[COM_FINDER_MENU_SEARCH_VIEW_DEFAULT_TEXT]]>
+		</message>
+	</layout>
+
+	<fields name="request" addfieldprefix="Joomla\Component\Finder\Administrator\Field" >
+		<fieldset name="request">
+			<field
+				name="q"
+				type="text"
+				label="COM_FINDER_PREFILL_SEARCH_LABEL"
+			/>
+			<field
+				name="f"
+				type="searchfilter"
+				label="COM_FINDER_SELECT_FILTER_LABEL"
+				default=""
+			/>
+		</fieldset>
+	</fields>
+	<fields name="params">
+		<fieldset name="basic">
+			<field
+				name="show_date_filters"
+				type="list"
+				label="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_LABEL"
+				default=""
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+			</field>
+			<field
+				name="show_advanced"
+				type="list"
+				label="COM_FINDER_CONFIG_SHOW_ADVANCED_LABEL"
+				default=""
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+			</field>
+			<field
+				name="expand_advanced"
+				type="list"
+				label="COM_FINDER_CONFIG_EXPAND_ADVANCED_LABEL"
+				default=""
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field type="spacer" />
+			<field
+				name="show_taxonomy"
+				type="list"
+				label="COM_FINDER_CONFIG_SHOW_TAXONOMY_LABEL"
+				default=""
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+			</field>
+			<field
+				name="show_description"
+				type="list"
+				label="COM_FINDER_CONFIG_SHOW_DESCRIPTION_LABEL"
+				default=""
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+			</field>
+			<field
+				name="description_length"
+				type="number"
+				label="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_LABEL"
+				filter="integer"
+				default=""
+				useglobal="true"
+			/>
+			<field
+				name="show_image"
+				type="list"
+				label="COM_FINDER_CONFIG_SHOW_IMAGE_LABEL"
+				default=""
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+			</field>
+			<field
+				name="image_class"
+				type="text"
+				label="COM_FINDER_CONFIG_IMAGE_CLASS_LABEL"
+				default=""
+				useglobal="true"
+				validate="CssIdentifier"
+				showon="show_image!:0"
+			/>
+			<field
+				name="link_image"
+				type="list"
+				label="COM_FINDER_CONFIG_LINKED_IMAGE_LABEL"
+				default=""
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				showon="show_image!:0"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field
+				name="show_date"
+				type="list"
+				label="COM_FINDER_CONFIG_SHOW_DATE_LABEL"
+				default=""
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+			</field>
+			<field
+				name="show_url"
+				type="list"
+				label="COM_FINDER_CONFIG_SHOW_URL_LABEL"
+				default=""
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+			</field>
+			<field type="spacer" />
+		</fieldset>
+		<fieldset name="advanced">
+			<field
+				name="show_pagination_limit"
+				type="list"
+				label="JGLOBAL_DISPLAY_SELECT_LABEL"
+				validate="options"
+				class="form-select-color-state"
+				>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			<field
+				name="show_pagination"
+				type="list"
+				label="JGLOBAL_PAGINATION_LABEL"
+				validate="options"
+				class="form-select-color-state"
+				>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+				<option value="2">JGLOBAL_AUTO</option>
+			</field>
+			<field
+				name="show_pagination_results"
+				type="list"
+				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
+				validate="options"
+				class="form-select-color-state"
+				>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			<field
+				name="list_limit"
+				type="list"
+				label="JGLOBAL_LIST_LIMIT"
+				default="20"
+				validate="options"
+				>
+				<option value="5">J5</option>
+				<option value="10">J10</option>
+				<option value="15">J15</option>
+				<option value="20">J20</option>
+				<option value="25">J25</option>
+				<option value="30">J30</option>
+				<option value="50">J50</option>
+				<option value="100">J100</option>
+				<option value="0">JALL</option>
+			</field>
+			<field
+				name="allow_empty_query"
+				type="list"
+				label="COM_FINDER_ALLOW_EMPTY_QUERY_LABEL"
+				description="COM_FINDER_ALLOW_EMPTY_QUERY_DESC"
+				default=""
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="show_suggested_query"
+				type="list"
+				label="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_LABEL"
+				default=""
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="show_explained_query"
+				type="list"
+				label="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_LABEL"
+				default=""
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="sort_order"
+				type="list"
+				label="COM_FINDER_CONFIG_SORT_ORDER_LABEL"
+				default=""
+				useglobal="true"
+				validate="options"
+				>
+				<option value="relevance">COM_FINDER_CONFIG_SORT_OPTION_RELEVANCE</option>
+				<option value="title">COM_FINDER_CONFIG_SORT_OPTION_TITLE</option>
+				<option value="date">COM_FINDER_CONFIG_SORT_OPTION_START_DATE</option>
+				<option value="price">COM_FINDER_CONFIG_SORT_OPTION_LIST_PRICE</option>
+				<option value="sale_price">COM_FINDER_CONFIG_SORT_OPTION_SALES_PRICE</option>
+			</field>
+			<field
+				name="show_sort_order"
+				type="radio"
+				label="COM_FINDER_CONFIG_SHOW_SORT_ORDER_LABEL"
+				layout="joomla.form.field.radio.switcher"
+				default="0"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			<field
+				name="shown_sort_order"
+				type="list"
+				label="COM_FINDER_CONFIG_SORT_ORDER_FIELDS_LABEL"
+				layout="joomla.form.field.list-fancy-select"
+				multiple="true"
+				validate="options"
+				showon="show_sort_order:1"
+				>
+				<option value="relevance">COM_FINDER_CONFIG_SORT_OPTION_RELEVANCE</option>
+				<option value="title">COM_FINDER_CONFIG_SORT_OPTION_TITLE</option>
+				<option value="date">COM_FINDER_CONFIG_SORT_OPTION_START_DATE</option>
+				<option value="price">COM_FINDER_CONFIG_SORT_OPTION_LIST_PRICE</option>
+				<option value="sale_price">COM_FINDER_CONFIG_SORT_OPTION_SALES_PRICE</option>
+			</field>
+			<field
+				name="sort_direction"
+				type="list"
+				label="COM_FINDER_CONFIG_SORT_DIRECTION_LABEL"
+				default=""
+				useglobal="true"
+				validate="options"
+				>
+				<option value="desc">COM_FINDER_CONFIG_SORT_OPTION_DESCENDING</option>
+				<option value="asc">COM_FINDER_CONFIG_SORT_OPTION_ASCENDING</option>
+			</field>
+		</fieldset>
+		<fieldset name="integration">
+			<field
+				name="show_feed_link"
+				type="list"
+				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
+				validate="options"
+				class="form-select-color-state"
+				>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+		</fieldset>
+	</fields>
+</metadata>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset>
+		<!-- Heading type menu item does not have a navigation -->
+		<field
+			name="link"
+			type="hidden"
+		/>
+
+		<field
+			name="browserNav"
+			type="hidden"
+			default="0"
+		/>
+	</fieldset>
+
+	<fields name="params">
+		<fieldset name="menu-options"
+			label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
+		>
+			<field
+				name="menu-anchor_title"
+				type="text"
+				label="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_LABEL"
+			/>
+
+			<field
+				name="menu_icon"
+				type="text"
+				label="COM_MENUS_ITEM_FIELD_ICON_TITLE_LABEL"
+				description="COM_MENUS_ITEM_FIELD_ICON_TITLE_DESC"
+				validate="CssIdentifier"
+			/>
+
+			<field
+				name="menu_image"
+				type="media"
+				schemes="http,https,ftp,ftps,data,file"
+				validate="url"
+				relative="true"
+				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
+			/>
+
+			<field
+				name="menu_image_css"
+				type="text"
+				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_LABEL"
+				validate="CssIdentifier"
+			/>
+
+			<field
+				name="menu_text"
+				type="radio"
+				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
+				layout="joomla.form.field.radio.switcher"
+				default="1"
+				filter="integer"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="menu_show"
+				type="radio"
+				label="COM_MENUS_ITEM_FIELD_MENU_SHOW_LABEL"
+				layout="joomla.form.field.radio.switcher"
+				default="1"
+				filter="integer"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="dashboard"
+				type="text"
+				label="COM_MENUS_ITEM_FIELD_DASHBOARD_LABEL"
+				description="COM_MENUS_ITEM_FIELD_DASHBOARD_DESC"
+				filter="cmd"
+			/>
+		</fieldset>
+	</fields>
+	<help key="Menu_Item:_Heading"/>
+</form>

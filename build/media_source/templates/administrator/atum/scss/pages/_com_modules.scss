@@ -1,0 +1,64 @@
+.new-modules {
+  // We use the same colors for the new module section as we do for the quickicons.
+  --text-color: $new-modules-color;
+  --bg-color: $new-modules-bg;
+  --bg-color-hvr: $new-modules-bg-hvr;
+  --icon-color: $new-modules-icon-color;
+  --icon-color-hvr: $new-modules-icon-color-hvr;
+
+  .card-columns {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
+.new-module {
+  display: flex;
+  overflow: hidden;
+  color: $new-module-color;
+  background-color: $new-module-bg;
+  border: $new-module-border;
+  border-radius: $border-radius;
+
+  * {
+    transition: all .25s ease;
+  }
+
+  &-details {
+    flex: 1 0;
+    padding: 1rem;
+  }
+
+  &-title {
+    margin-bottom: .25rem;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  &-caption {
+    display: flex;
+    margin: 0;
+    font-size: .875rem;
+  }
+
+  &-link {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 2.5rem;
+    font-size: 1.2rem;
+    background: $new-module-link-bg;
+
+    span {
+      margin-bottom: 10px;
+      color: $new-module-link-span;
+    }
+
+    .new-module:hover & {
+      background: $new-module-link-hvr;
+
+      span {
+        color: $new-module-link-span-hvr;
+      }
+    }
+  }
+}

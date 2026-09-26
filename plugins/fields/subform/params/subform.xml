@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<field
+		name="default_value"
+		type="hidden"
+		default=""
+	/>
+	<fields name="fieldparams">
+		<fieldset name="fieldparams">
+
+			<field
+				name="repeat"
+				type="radio"
+				label="PLG_FIELDS_SUBFORM_PARAMS_REPEAT_LABEL"
+				layout="joomla.form.field.radio.switcher"
+				default="1"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field
+				name="max_rows"
+				type="number"
+				label="PLG_FIELDS_SUBFORM_PARAMS_MAX_ROWS_LABEL"
+				default=""
+				filter="integer"
+				showon="repeat:1"
+			/>
+			<field
+				name="options"
+				type="subform"
+				label="PLG_FIELDS_SUBFORM_PARAMS_OPTIONS_LABEL"
+				icon="list"
+				layout="joomla.form.field.subform.repeatable-table"
+				min="1"
+				multiple="true"
+				>
+				<form hidden="true" name="options_modal" repeat="true">
+
+					<field
+						context=""
+						name="customfield"
+						type="subfields"
+						label="PLG_FIELDS_SUBFORM_PARAMS_CUSTOMFIELD_LABEL"
+						default=""
+						required="true"
+					/>
+
+					<field
+						name="render_values"
+						type="radio"
+						label="PLG_FIELDS_SUBFORM_PARAMS_RENDER_VALUES_LABEL"
+						layout="joomla.form.field.radio.switcher"
+						default="1"
+						>
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+					</field>
+				</form>
+			</field>
+		</fieldset>
+
+	</fields>
+	<fields name="params">
+		<fieldset name="basic">
+			<fieldset name="formoptions">
+				<field
+					name="form_layout"
+					type="list"
+					label="JLIB_FORM_FIELD_PARAM_LAYOUT_LABEL"
+					default=""
+					class="form-select"
+					showon="repeat:1"
+					>
+					<option value="">JDEFAULT</option>
+					<option value="joomla.form.field.subform.repeatable-table">PLG_FIELDS_SUBFORM_PARAMS_EDIT_LAYOUT_OPTION_REPEATABLE_TABLE_LABEL</option>
+					<option value="joomla.form.field.subform.repeatable">PLG_FIELDS_SUBFORM_PARAMS_EDIT_LAYOUT_OPTION_REPEATABLE_FORM_LABEL</option>
+				</field>
+			</fieldset>
+		</fieldset>
+	</fields>
+</form>

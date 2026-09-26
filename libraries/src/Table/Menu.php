@@ -1,18 +1,28 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
+use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Menu table
@@ -21,276 +31,267 @@ use Joomla\Registry\Registry;
  */
 class Menu extends Nested
 {
-	/**
-	 * Constructor
-	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
-	 *
-	 * @since   1.5
-	 */
-	public function __construct(\JDatabaseDriver $db)
-	{
-		parent::__construct('#__menu', 'id', $db);
+    /**
+     * Indicates that columns fully support the NULL value in the database
+     *
+     * @var    boolean
+     * @since  4.0.0
+     */
+    protected $_supportNullValue = true;
 
-		// Set the default access level.
-		$this->access = (int) \JFactory::getConfig()->get('access');
-	}
+    /**
+     * Constructor
+     *
+     * @param   DatabaseInterface     $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
+     *
+     * @since   1.5
+     */
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
+    {
+        parent::__construct('#__menu', 'id', $db, $dispatcher);
 
-	/**
-	 * Overloaded bind function
-	 *
-	 * @param   array  $array   Named array
-	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
-	 *
-	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
-	 *
-	 * @see     Table::bind()
-	 * @since   1.5
-	 */
-	public function bind($array, $ignore = '')
-	{
-		// Verify that the default home menu is not unset
-		if ($this->home == '1' && $this->language === '*' && $array['home'] == '0')
-		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT_DEFAULT'));
+        // Set the default access level.
+        $this->access = (int) Factory::getApplication()->get('access');
+    }
 
-			return false;
-		}
+    /**
+     * Overloaded bind function
+     *
+     * @param   array  $array   Named array
+     * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
+     *
+     * @return  mixed  Null if operation was satisfactory, otherwise returns an error
+     *
+     * @see     Table::bind()
+     * @since   1.5
+     */
+    public function bind($array, $ignore = '')
+    {
+        // Verify that the default home menu is not unset
+        if ($this->home == '1' && $this->language === '*' && $array['home'] == '0') {
+            $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT_DEFAULT'));
 
-		// Verify that the default home menu set to "all" languages" is not unset
-		if ($this->home == '1' && $this->language === '*' && $array['language'] !== '*')
-		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT'));
+            return false;
+        }
 
-			return false;
-		}
+        // Verify that the default home menu set to "all" languages" is not unset
+        if ($this->home == '1' && $this->language === '*' && $array['language'] !== '*') {
+            $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT'));
 
-		// Verify that the default home menu is not unpublished
-		if ($this->home == '1' && $this->language === '*' && $array['published'] != '1')
-		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
+            return false;
+        }
 
-			return false;
-		}
+        // Verify that the default home menu is not unpublished
+        if ($this->home == '1' && $this->language === '*' && $array['published'] != '1') {
+            $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
 
-		if (isset($array['params']) && is_array($array['params']))
-		{
-			$registry = new Registry($array['params']);
-			$array['params'] = (string) $registry;
-		}
+            return false;
+        }
 
-		return parent::bind($array, $ignore);
-	}
+        if (isset($array['params']) && \is_array($array['params'])) {
+            $registry        = new Registry($array['params']);
+            $array['params'] = (string) $registry;
+        }
 
-	/**
-	 * Overloaded check function
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @see     Table::check()
-	 * @since   1.5
-	 */
-	public function check()
-	{
-		// Check for a title.
-		if (trim($this->title) === '')
-		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MENUITEM'));
+        return parent::bind($array, $ignore);
+    }
 
-			return false;
-		}
+    /**
+     * Overloaded check function
+     *
+     * @return  boolean  True on success
+     *
+     * @see     Table::check()
+     * @since   1.5
+     */
+    public function check()
+    {
+        try {
+            parent::check();
+        } catch (\Exception $e) {
+            $this->setError($e->getMessage());
 
-		// Check for a path.
-		if (trim($this->path) === '')
-		{
-			$this->path = $this->alias;
-		}
+            return false;
+        }
 
-		// Check for params.
-		if (trim($this->params) === '')
-		{
-			$this->params = '{}';
-		}
+        // Check for a title.
+        if ($this->title === null || trim($this->title) === '') {
+            $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MENUITEM'));
 
-		// Check for img.
-		if (trim($this->img) === '')
-		{
-			$this->img = ' ';
-		}
+            return false;
+        }
 
-		// Cast the home property to an int for checking.
-		$this->home = (int) $this->home;
+        // Check for a path.
+        if ($this->path === null || trim($this->path) === '') {
+            $this->path = $this->alias;
+        }
 
-		// Verify that the home item is a component.
-		if ($this->home && $this->type !== 'component')
-		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_COMPONENT'));
+        // Check for params.
+        if ($this->params === null || trim($this->params) === '') {
+            $this->params = '{}';
+        }
 
-			return false;
-		}
+        // Check for img.
+        if ($this->img === null || trim($this->img) === '') {
+            $this->img = ' ';
+        }
 
-		return true;
-	}
+        // Cast the home property to an int for checking.
+        $this->home = (int) $this->home;
 
-	/**
-	 * Overloaded store function
-	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
-	 *
-	 * @return  mixed  False on failure, positive integer on success.
-	 *
-	 * @see     Table::store()
-	 * @since   1.6
-	 */
-	public function store($updateNulls = false)
-	{
-		$db = $this->getDbo();
+        // Verify that the home item is a component.
+        if ($this->home && $this->type !== 'component') {
+            $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_COMPONENT'));
 
-		// Verify that the alias is unique
-		$table = Table::getInstance('Menu', 'JTable', array('dbo' => $db));
+            return false;
+        }
 
-		$originalAlias = trim($this->alias);
-		$this->alias   = !$originalAlias ? $this->title : $originalAlias;
-		$this->alias   = ApplicationHelper::stringURLSafe(trim($this->alias), $this->language);
+        // Set publish_up, publish_down to null if not set
+        if (!$this->publish_up) {
+            $this->publish_up = null;
+        }
 
-		if ($this->parent_id == 1 && $this->client_id == 0)
-		{
-			// Verify that a first level menu item alias is not 'component'.
-			if ($this->alias == 'component')
-			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
+        if (!$this->publish_down) {
+            $this->publish_down = null;
+        }
 
-				return false;
-			}
+        return true;
+    }
 
-			// Verify that a first level menu item alias is not the name of a folder.
-			jimport('joomla.filesystem.folder');
+    /**
+     * Overloaded store function
+     *
+     * @param   boolean  $updateNulls  True to update fields even if they are null.
+     *
+     * @return  mixed  False on failure, positive integer on success.
+     *
+     * @see     Table::store()
+     * @since   1.6
+     */
+    public function store($updateNulls = true)
+    {
+        $db = $this->getDatabase();
 
-			if (in_array($this->alias, \JFolder::folders(JPATH_ROOT)))
-			{
-				$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
+        // Verify that the alias is unique
+        $table = new self($db, $this->getDispatcher());
 
-				return false;
-			}
-		}
+        $originalAlias = trim($this->alias);
+        $this->alias   = !$originalAlias ? $this->title : $originalAlias;
+        $this->alias   = ApplicationHelper::stringURLSafe(trim($this->alias), $this->language);
 
-		// If alias still empty (for instance, new menu item with chinese characters with no unicode alias setting).
-		if (empty($this->alias))
-		{
-			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
-		}
-		else
-		{
-			$itemSearch = array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'client_id' => (int) $this->client_id);
-			$error      = false;
+        if ($this->parent_id == 1 && $this->client_id == 0) {
+            // Verify that a first level menu item alias is not 'component'.
+            if ($this->alias === 'component') {
+                $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
 
-			// Check if the alias already exists. For multilingual site.
-			if (Multilanguage::isEnabled() && (int) $this->client_id == 0)
-			{
-				// If there is a menu item at the same level with the same alias (in the All or the same language).
-				if (($table->load(array_replace($itemSearch, array('language' => '*'))) && ($table->id != $this->id || $this->id == 0))
-					|| ($table->load(array_replace($itemSearch, array('language' => $this->language))) && ($table->id != $this->id || $this->id == 0))
-					|| ($this->language === '*' && $this->id == 0 && $table->load($itemSearch)))
-				{
-					$error = true;
-				}
-				// When editing an item with All language check if there are more menu items with the same alias in any language.
-				elseif ($this->language === '*' && $this->id != 0)
-				{
-					$query = $db->getQuery(true)
-						->select('id')
-						->from($db->quoteName('#__menu'))
-						->where($db->quoteName('parent_id') . ' = 1')
-						->where($db->quoteName('client_id') . ' = 0')
-						->where($db->quoteName('id') . ' != ' . (int) $this->id)
-						->where($db->quoteName('alias') . ' = ' . $db->quote($this->alias));
+                return false;
+            }
 
-					$otherMenuItemId = (int) $db->setQuery($query)->loadResult();
+            // Verify that a first level menu item alias is not the name of a folder.
+            if (\in_array($this->alias, Folder::folders(JPATH_ROOT))) {
+                $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
 
-					if ($otherMenuItemId)
-					{
-						$table->load(array('id' => $otherMenuItemId));
-						$error = true;
-					}
-				}
-			}
-			// Check if the alias already exists. For monolingual site.
-			else
-			{
-				// If there is a menu item at the same level with the same alias (in any language).
-				if ($table->load($itemSearch) && ($table->id != $this->id || $this->id == 0))
-				{
-					$error = true;
-				}
-			}
+                return false;
+            }
+        }
 
-			// The alias already exists. Enqueue an error message.
-			if ($error)
-			{
-				$menuTypeTable = Table::getInstance('MenuType', 'JTable', array('dbo' => $db));
-				$menuTypeTable->load(array('menutype' => $table->menutype));
-				$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title));
+        // If alias still empty (for instance, new menu item with chinese characters with no unicode alias setting).
+        if (empty($this->alias)) {
+            $this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
+        } else {
+            $itemSearch = ['alias' => $this->alias, 'parent_id' => $this->parent_id, 'client_id' => (int) $this->client_id];
+            $error      = false;
 
-				return false;
-			}
-		}
+            // Check if the alias already exists. For multilingual site.
+            if (Multilanguage::isEnabled() && (int) $this->client_id == 0) {
+                // If there is a menu item at the same level with the same alias (in the All or the same language).
+                if (
+                    ($table->load(array_replace($itemSearch, ['language' => '*'])) && ($table->id != $this->id || $this->id == 0))
+                    || ($table->load(array_replace($itemSearch, ['language' => $this->language])) && ($table->id != $this->id || $this->id == 0))
+                    || ($this->language === '*' && $this->id == 0 && $table->load($itemSearch))
+                ) {
+                    $error = true;
+                } elseif ($this->language === '*' && $this->id != 0) {
+                    // When editing an item with All language check if there are more menu items with the same alias in any language.
+                    $id    = (int) $this->id;
+                    $query = $db->getQuery(true)
+                        ->select('id')
+                        ->from($db->quoteName('#__menu'))
+                        ->where($db->quoteName('parent_id') . ' = 1')
+                        ->where($db->quoteName('client_id') . ' = 0')
+                        ->where($db->quoteName('id') . ' != :id')
+                        ->where($db->quoteName('alias') . ' = :alias')
+                        ->bind(':id', $id, ParameterType::INTEGER)
+                        ->bind(':alias', $this->alias);
 
-		if ($this->home == '1')
-		{
-			// Verify that the home page for this menu is unique.
-			if ($table->load(
-					array(
-					'menutype' => $this->menutype,
-					'client_id' => (int) $this->client_id,
-					'home' => '1',
-					)
-				)
-				&& ($table->language != $this->language))
-			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_UNIQUE_IN_MENU'));
+                    $otherMenuItemId = (int) $db->setQuery($query)->loadResult();
 
-				return false;
-			}
+                    if ($otherMenuItemId) {
+                        $table->load(['id' => $otherMenuItemId]);
+                        $error = true;
+                    }
+                }
+            } else {
+                // Check if the alias already exists. For monolingual site.
+                // If there is a menu item at the same level with the same alias (in any language).
+                if ($table->load($itemSearch) && ($table->id != $this->id || $this->id == 0)) {
+                    $error = true;
+                }
+            }
 
-			// Verify that the home page for this language is unique per client id
-			if ($table->load(array('home' => '1', 'language' => $this->language, 'client_id' => (int) $this->client_id)))
-			{
-				if ($table->checked_out && $table->checked_out != $this->checked_out)
-				{
-					$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENU_DEFAULT_CHECKIN_USER_MISMATCH'));
+            // The alias already exists. Enqueue an error message.
+            if ($error) {
+                $menuTypeTable = new MenuType($db, $this->getDispatcher());
+                $menuTypeTable->load(['menutype' => $table->menutype]);
+                $url = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $table->id);
 
-					return false;
-				}
+                // Is the existing menu item trashed?
+                $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title, $url));
 
-				$table->home = 0;
-				$table->checked_out = 0;
-				$table->checked_out_time = $db->getNullDate();
-				$table->store();
-			}
-		}
+                if ($table->published === -2) {
+                    $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_TRASHED', $this->alias, $table->title, $menuTypeTable->title, $url));
+                }
 
-		if (!parent::store($updateNulls))
-		{
-			return false;
-		}
+                return false;
+            }
+        }
 
-		// Get the new path in case the node was moved
-		$pathNodes = $this->getPath();
-		$segments = array();
+        if ($this->home == '1') {
+            // Verify that the home page for this language is unique per client id
+            if ($table->load(['home' => '1', 'language' => $this->language, 'client_id' => (int) $this->client_id])) {
+                if ($table->checked_out && $table->checked_out != $this->checked_out) {
+                    $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_DEFAULT_CHECKIN_USER_MISMATCH'));
 
-		foreach ($pathNodes as $node)
-		{
-			// Don't include root in path
-			if ($node->alias !== 'root')
-			{
-				$segments[] = $node->alias;
-			}
-		}
+                    return false;
+                }
 
-		$newPath = trim(implode('/', $segments), ' /\\');
+                $table->home             = 0;
+                $table->checked_out      = null;
+                $table->checked_out_time = null;
+                $table->store();
+            }
+        }
 
-		// Use new path for partial rebuild of table
-		// Rebuild will return positive integer on success, false on failure
-		return $this->rebuild($this->{$this->_tbl_key}, $this->lft, $this->level, $newPath) > 0;
-	}
+        if (!parent::store($updateNulls)) {
+            return false;
+        }
+
+        // Get the new path in case the node was moved
+        $pathNodes = $this->getPath();
+        $segments  = [];
+
+        foreach ($pathNodes as $node) {
+            // Don't include root in path
+            if ($node->alias !== 'root') {
+                $segments[] = $node->alias;
+            }
+        }
+
+        $newPath = trim(implode('/', $segments), ' /\\');
+
+        // Use new path for partial rebuild of table
+        // Rebuild will return positive integer on success, false on failure
+        return $this->rebuild($this->{$this->_tbl_key}, $this->lft, $this->level, $newPath) > 0;
+    }
 }

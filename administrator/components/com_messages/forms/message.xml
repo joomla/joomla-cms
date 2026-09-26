@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form addfieldprefix="Joomla\Component\Messages\Administrator\Field">
+	<fieldset>
+		<field
+			name="user_id_to"
+			type="UserMessages"
+			label="COM_MESSAGES_FIELD_USER_ID_TO_LABEL"
+			default="0"
+			required="true"
+		/>
+
+		<field
+			name="subject"
+			type="text"
+			label="COM_MESSAGES_FIELD_SUBJECT_LABEL"
+			required="true"
+		/>
+
+		<field
+			name="message"
+			type="editor"
+			label="COM_MESSAGES_FIELD_MESSAGE_LABEL"
+			required="true"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
+			buttons="false"
+		/>
+	</fieldset>
+</form>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fields name="fieldparams">
 		<fieldset name="fieldparams">
@@ -6,8 +6,8 @@
 				name="multiple"
 				type="list"
 				label="PLG_FIELDS_USERGROUPLIST_PARAMS_MULTIPLE_LABEL"
-				description="PLG_FIELDS_USERGROUPLIST_PARAMS_MULTIPLE_DESC"
 				filter="integer"
+				validate="options"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="1">JYES</option>

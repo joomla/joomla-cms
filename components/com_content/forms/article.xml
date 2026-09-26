@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset addfieldprefix="Joomla\Component\Categories\Administrator\Field">
+		<field
+			name="id"
+			type="hidden"
+			label="COM_CONTENT_ID_LABEL"
+			size="10"
+			default="0"
+			readonly="true"
+		/>
+
+		<field
+			name="contenthistory"
+			type="contenthistory"
+			label="JTOOLBAR_VERSIONS"
+			data-typeAlias="com_content.article"
+		/>
+
+		<field
+			name="asset_id"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="title"
+			type="text"
+			label="JGLOBAL_TITLE"
+			size="30"
+			required="true"
+		/>
+
+		<field
+			name="alias"
+			type="text"
+			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
+			size="45"
+		/>
+
+		<field
+			name="articletext"
+			type="editor"
+			label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL"
+			hiddenLabel="true"
+			buttons="true"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
+			asset_id="com_content"
+		/>
+
+		<field
+			name="state"
+			type="list"
+			label="JSTATUS"
+			class="form-select-color-state"
+			size="1"
+			default="1"
+			validate="options"
+			>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="2">JARCHIVED</option>
+			<option value="-2">JTRASHED</option>
+		</field>
+
+		<field
+			name="featured"
+			type="list"
+			label="JGLOBAL_FIELD_FEATURED_LABEL"
+			default="0"
+			validate="options"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="featured_up"
+			type="calendar"
+			label="COM_CONTENT_FIELD_FEATURED_UP_LABEL"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+			showon="featured:1"
+		/>
+
+		<field
+			name="featured_down"
+			type="calendar"
+			label="COM_CONTENT_FIELD_FEATURED_DOWN_LABEL"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+			showon="featured:1"
+		/>
+
+		<field
+			name="catid"
+			type="categoryedit"
+			label="JCATEGORY"
+			extension="com_content"
+			required="true"
+		/>
+
+		<field
+			name="created"
+			type="calendar"
+			translateformat="true"
+			filter="unset"
+		/>
+
+		<field
+			name="created_by"
+			type="text"
+			filter="unset"
+		/>
+
+		<field
+			name="created_by_alias"
+			type="text"
+			label="JGLOBAL_FIELD_CREATED_BY_ALIAS_LABEL"
+			size="20"
+		/>
+
+		<field
+			name="note"
+			type="text"
+			label="COM_CONTENT_FIELD_NOTE_LABEL"
+			size="40"
+			maxlength="255"
+		/>
+
+		<field
+			name="version_note"
+			type="text"
+			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			maxlength="255"
+			size="45"
+		/>
+
+		<field
+			name="publish_up"
+			type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="publish_down"
+			type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JFIELD_LANGUAGE_LABEL"
+			>
+			<option value="*">JALL</option>
+		</field>
+
+		<field
+			name="tags"
+			type="tag"
+			label="JTAG"
+			multiple="true"
+			size="45"
+		/>
+
+		<field
+			name="metakey"
+			type="textarea"
+			label="JFIELD_META_KEYWORDS_LABEL"
+			rows="5"
+			cols="50"
+		/>
+
+		<field
+			name="metadesc"
+			type="textarea"
+			label="JFIELD_META_DESCRIPTION_LABEL"
+			rows="3"
+			cols="30"
+			maxlength="300"
+			charcounter="true"
+		/>
+
+		<field
+			name="access"
+			type="accesslevel"
+			label="JFIELD_ACCESS_LABEL"
+			filter="UINT"
+			validate="options"
+		/>
+
+		<field
+			name="captcha"
+			type="captcha"
+			label="COM_CONTENT_CAPTCHA_LABEL"
+			validate="captcha"
+			namespace="article"
+		/>
+	</fieldset>
+		<fields name="images">
+		<fieldset name="image-intro">
+			<field
+				name="image_intro"
+				type="media"
+				schemes="http,https,ftp,ftps,data,file"
+				validate="url"
+				relative="true"
+				label="COM_CONTENT_FIELD_INTRO_LABEL"
+			/>
+
+			<field
+				name="image_intro_alt"
+				type="text"
+				label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
+				size="20"
+			/>
+
+			<field
+				name="image_intro_alt_empty"
+				type="checkbox"
+				label="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_LABEL"
+				description="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_DESC"
+			/>
+
+			<field
+				name="image_intro_caption"
+				type="text"
+				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
+				size="20"
+			/>
+
+			<field
+				name="float_intro"
+				type="text"
+				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
+				size="20"
+				useglobal="true"
+				validate="CssIdentifier"
+			/>
+		</fieldset>
+		<fieldset name="image-full">
+			<field
+				name="image_fulltext"
+				type="media"
+				schemes="http,https,ftp,ftps,data,file"
+				validate="url"
+				relative="true"
+				label="COM_CONTENT_FIELD_FULL_LABEL"
+			/>
+
+			<field
+				name="image_fulltext_alt"
+				type="text"
+				label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
+				size="20"
+			/>
+
+			<field
+				name="image_fulltext_alt_empty"
+				type="checkbox"
+				label="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_LABEL"
+				description="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_DESC"
+			/>
+
+			<field
+				name="image_fulltext_caption"
+				type="text"
+				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
+				size="20"
+			/>
+
+			<field
+				name="float_fulltext"
+				type="text"
+				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
+				size="20"
+				useglobal="true"
+				validate="CssIdentifier"
+			/>
+		</fieldset>
+	</fields>
+	<fields name="urls">
+		<field
+			name="urla"
+			type="url"
+			label="COM_CONTENT_FIELD_URLA_LABEL"
+			validate="url"
+			filter="url"
+			relative="true"
+		/>
+
+		<field
+			name="urlatext"
+			type="text"
+			label="COM_CONTENT_FIELD_URLA_LINK_TEXT_LABEL"
+			size="20"
+		/>
+
+		<field
+			name="targeta"
+			type="hidden"
+		/>
+
+		<field
+			name="urlb"
+			type="url"
+			label="COM_CONTENT_FIELD_URLB_LABEL"
+			validate="url"
+			filter="url"
+			relative="true"
+		/>
+
+		<field
+			name="urlbtext"
+			type="text"
+			label="COM_CONTENT_FIELD_URLB_LINK_TEXT_LABEL"
+			size="20"
+		/>
+
+		<field
+			name="targetb"
+			type="hidden"
+		/>
+
+		<field
+			name="urlc"
+			type="url"
+			label="COM_CONTENT_FIELD_URLC_LABEL"
+			validate="url"
+			filter="url"
+			relative="true"
+		/>
+
+		<field
+			name="urlctext"
+			type="text"
+			label="COM_CONTENT_FIELD_URLC_LINK_TEXT_LABEL"
+			size="20"
+		/>
+
+		<field
+			name="targetc"
+			type="hidden"
+		/>
+	</fields>
+	<fields name="metadata">
+		<fieldset
+			name="jmetadata"
+			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+
+				<field
+					name="robots"
+					type="hidden"
+					label="JFIELD_METADATA_ROBOTS_LABEL"
+					filter="unset"
+					>
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="index, follow"></option>
+					<option value="noindex, follow"></option>
+					<option value="index, nofollow"></option>
+					<option value="noindex, nofollow"></option>
+				</field>
+
+				<field
+					name="author"
+					type="hidden"
+					label="JAUTHOR"
+					filter="unset"
+					size="20"
+				/>
+
+				<field
+					name="rights"
+					type="hidden"
+					label="JFIELD_META_RIGHTS_LABEL"
+					filter="unset"
+				/>
+
+		</fieldset>
+	</fields>
+</form>

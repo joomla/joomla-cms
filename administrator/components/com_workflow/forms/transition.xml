@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset name="transition" addfieldprefix="Joomla\Component\Workflow\Administrator\Field">
+		<field
+			name="id"
+			type="hidden"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			default="0"
+			class="readonly"
+			readonly="true"
+		/>
+		<field
+			name="title"
+			type="text"
+			label="COM_WORKFLOW_FIELD_NAME_LABEL"
+			required="true"
+		/>
+		<field
+			name="from_stage_id"
+			type="sql"
+			label="COM_WORKFLOW_FROM_STAGE"
+			required="true"
+			sql_select="id as value, title as from_stage_id"
+			sql_from="#__workflow_stages"
+			sql_order="ordering"
+			translate="true"
+			>
+			<option value="-1">JALL</option>
+		</field>
+		<field
+			name="to_stage_id"
+			type="sql"
+			label="COM_WORKFLOW_TO_STAGE"
+			required="true"
+			sql_select="id as value, title as to_stage_id"
+			sql_from="#__workflow_stages"
+			sql_order="ordering"
+			translate="true"
+		/>
+		<field
+			name="description"
+			type="textarea"
+			label="COM_WORKFLOW_TRANSITION_NOTE"
+			rows="3"
+			cols="60"
+		/>
+	</fieldset>
+
+	<fieldset name="params" label="COM_WORKFLOW_PARAMS_LABEL">
+		<field
+			name="published"
+			type="list"
+			label="COM_WORKFLOW_PUBLISHED_LABEL"
+			required="true"
+			class="form-select-color-state"
+			default="1"
+			validate="options"
+			>
+			<option value="1">JENABLED</option>
+			<option value="0">JDISABLED</option>
+			<option value="-2">JTRASHED</option>
+		</field>
+	</fieldset>
+
+	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL">
+		<field
+			name="asset_id"
+			type="hidden"
+			filter="unset"
+		/>
+		<field
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			validate="rules"
+			filter="rules"
+			section="transition"
+		/>
+	</fieldset>
+</form>

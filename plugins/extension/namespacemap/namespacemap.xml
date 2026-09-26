@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="extension" method="upgrade">
+	<name>plg_extension_namespacemap</name>
+	<author>Joomla! Project</author>
+	<creationDate>2017-05</creationDate>
+	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>PLG_EXTENSION_NAMESPACEMAP_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Extension\NamespaceMap</namespace>
+	<files>
+		<folder plugin="namespacemap">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_extension_namespacemap.ini</language>
+		<language tag="en-GB">language/en-GB/plg_extension_namespacemap.sys.ini</language>
+	</languages>
+</extension>

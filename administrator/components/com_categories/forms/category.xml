@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form addfieldprefix="Joomla\Component\Categories\Administrator\Field">
+
+	<field
+		name="id"
+		type="text"
+		label="JGLOBAL_FIELD_ID_LABEL"
+		default="0"
+		class="readonly"
+		readonly="true"
+	/>
+
+	<field
+		name="hits"
+		type="text"
+		label="JGLOBAL_HITS"
+		default="0"
+		class="readonly"
+		readonly="true"
+		filter="unset"
+	/>
+
+	<field
+		name="asset_id"
+		type="hidden"
+		filter="unset"
+	/>
+
+	<field
+		name="parent_id"
+		type="categoryedit"
+		label="COM_CATEGORIES_FIELD_PARENT_LABEL"
+	/>
+
+	<field
+		name="lft"
+		type="hidden"
+		filter="unset"
+	/>
+
+	<field
+		name="rgt"
+		type="hidden"
+		filter="unset"
+	/>
+
+	<field
+		name="level"
+		type="hidden"
+		filter="unset"
+	/>
+
+	<field
+		name="path"
+		type="text"
+		label="COM_CATEGORIES_PATH_LABEL"
+		class="readonly"
+		readonly="true"
+	/>
+
+	<field
+		name="extension"
+		type="hidden"
+	/>
+
+	<field
+		name="title"
+		type="text"
+		label="JGLOBAL_TITLE"
+		required="true"
+	/>
+
+	<field
+		name="alias"
+		type="text"
+		label="JFIELD_ALIAS_LABEL"
+		description="JFIELD_ALIAS_DESC"
+		hint="JFIELD_ALIAS_PLACEHOLDER"
+	/>
+
+	<field
+		name="version_note"
+		type="text"
+		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+		maxlength="255"
+	/>
+
+	<field
+		name="note"
+		type="text"
+		label="COM_CATEGORIES_FIELD_NOTE_LABEL"
+		maxlength="255"
+	/>
+
+	<field
+		name="description"
+		type="editor"
+		label="JGLOBAL_DESCRIPTION"
+		filter="\Joomla\CMS\Component\ComponentHelper::filterText"
+		buttons="true"
+		hide="readmore,pagebreak"
+	/>
+
+	<field
+		name="published"
+		type="list"
+		label="JSTATUS"
+		default="1"
+		class="form-select-color-state"
+		validate="options"
+		>
+		<option value="1">JPUBLISHED</option>
+		<option value="0">JUNPUBLISHED</option>
+		<option value="2">JARCHIVED</option>
+		<option value="-2">JTRASHED</option>
+	</field>
+
+	<field
+		name="checked_out"
+		type="hidden"
+		filter="unset"
+	/>
+
+	<field
+		name="checked_out_time"
+		type="hidden"
+		filter="unset"
+	/>
+
+	<field
+		name="access"
+		type="accesslevel"
+		label="JFIELD_ACCESS_LABEL"
+		filter="UINT"
+		validate="options"
+	/>
+
+	<field
+		name="metadesc"
+		type="textarea"
+		label="JFIELD_META_DESCRIPTION_LABEL"
+		rows="3"
+		cols="30"
+		maxlength="300"
+		charcounter="true"
+	/>
+
+	<field
+		name="metakey"
+		type="textarea"
+		label="JFIELD_META_KEYWORDS_LABEL"
+		rows="3"
+		cols="40"
+	/>
+
+	<field
+		name="created_user_id"
+		type="user"
+		label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+		validate="UserId"
+	/>
+
+	<field
+		name="created_time"
+		type="calendar"
+		label="JGLOBAL_CREATED_DATE"
+		translateformat="true"
+		showtime="true"
+		filter="user_utc"
+	/>
+
+	<field
+		name="modified_user_id"
+		type="user"
+		label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+		class="readonly"
+		readonly="true"
+		filter="unset"
+		validate="UserId"
+	/>
+
+	<field
+		name="modified_time"
+		type="calendar"
+		label="JGLOBAL_FIELD_MODIFIED_LABEL"
+		class="readonly"
+		translateformat="true"
+		showtime="true"
+		readonly="true"
+		filter="user_utc"
+	/>
+
+	<field
+		name="language"
+		type="contentlanguage"
+		label="JFIELD_LANGUAGE_LABEL"
+		>
+		<option value="*">JALL</option>
+	</field>
+
+	<field
+		name="tags"
+		type="tag"
+		label="JTAG"
+		multiple="true"
+	/>
+
+	<field
+		name="rules"
+		type="rules"
+		label="JFIELD_RULES_LABEL"
+		translate_label="false"
+		filter="rules"
+		validate="rules"
+		component="com_content"
+		section="category"
+	/>
+
+	<fields name="params">
+
+		<fieldset name="options">
+
+			<fieldset name="basic" label="COM_CATEGORIES_FIELD_BASIC_LABEL">
+
+				<field
+					name="category_layout"
+					type="componentlayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					class="form-select"
+					view="category"
+					useglobal="true"
+				/>
+
+				<field
+					name="image"
+					type="media"
+					schemes="http,https,ftp,ftps,data,file"
+					validate="url"
+					relative="true"
+					label="COM_CATEGORIES_FIELD_IMAGE_LABEL"
+				/>
+
+				<field
+					name="image_alt"
+					type="text"
+					label="COM_CATEGORIES_FIELD_IMAGE_ALT_LABEL"
+				/>
+
+				<field
+					name="image_alt_empty"
+					type="checkbox"
+					label="COM_CATEGORIES_FIELD_IMAGE_ALT_EMPTY_LABEL"
+					description="COM_CATEGORIES_FIELD_IMAGE_ALT_EMPTY_DESC"
+				/>
+			</fieldset>
+		</fieldset>
+	</fields>
+
+	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+
+		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+
+			<field
+				name="author"
+				type="text"
+				label="JAUTHOR"
+			/>
+
+			<field
+				name="robots"
+				type="list"
+				label="JFIELD_METADATA_ROBOTS_LABEL"
+				validate="options"
+				>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="index, follow"></option>
+				<option value="noindex, follow"></option>
+				<option value="index, nofollow"></option>
+				<option value="noindex, nofollow"></option>
+			</field>
+		</fieldset>
+	</fields>
+</form>

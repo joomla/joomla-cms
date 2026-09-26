@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fields name="fieldparams">
 		<fieldset name="fieldparams">
@@ -6,7 +6,6 @@
 				name="options"
 				type="subform"
 				label="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_LABEL"
-				description="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_DESC"
 				layout="joomla.form.field.subform.repeatable-table"
 				icon="list"
 				multiple="true"
@@ -16,14 +15,13 @@
 						name="name"
 						type="text"
 						label="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_NAME_LABEL"
-						size="30"
+						required="true"
 					/>
 
 					<field
 						name="value"
 						type="text"
 						label="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_VALUE_LABEL"
-						size="30"
 					/>
 				</form>
 			</field>

@@ -1,221 +1,282 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Menu;
 
-defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
+use Joomla\CMS\Cache\Controller\CallbackController;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\Exception\ExecutionFailureException;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Menu class
  *
  * @since  1.5
  */
-class SiteMenu extends AbstractMenu
+class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterface
 {
-	/**
-	 * Application object
-	 *
-	 * @var    CMSApplication
-	 * @since  3.5
-	 */
-	protected $app;
+    use CacheControllerFactoryAwareTrait;
 
-	/**
-	 * Database driver
-	 *
-	 * @var    \JDatabaseDriver
-	 * @since  3.5
-	 */
-	protected $db;
+    /**
+     * Application object
+     *
+     * @var    CMSApplication
+     * @since  3.5
+     */
+    protected $app;
 
-	/**
-	 * Language object
-	 *
-	 * @var    Language
-	 * @since  3.5
-	 */
-	protected $language;
+    /**
+     * Database driver
+     *
+     * @var    DatabaseDriver
+     * @since  3.5
+     */
+    protected $db;
 
-	/**
-	 * Class constructor
-	 *
-	 * @param   array  $options  An array of configuration options.
-	 *
-	 * @since   1.5
-	 */
-	public function __construct($options = array())
-	{
-		// Extract the internal dependencies before calling the parent constructor since it calls $this->load()
-		$this->app      = isset($options['app']) && $options['app'] instanceof CMSApplication ? $options['app'] : \JFactory::getApplication();
-		$this->db       = isset($options['db']) && $options['db'] instanceof \JDatabaseDriver ? $options['db'] : \JFactory::getDbo();
-		$this->language = isset($options['language']) && $options['language'] instanceof Language ? $options['language'] : \JFactory::getLanguage();
+    /**
+     * Language object
+     *
+     * @var    Language
+     * @since  3.5
+     */
+    protected $language;
 
-		parent::__construct($options);
-	}
+    /**
+     * Class constructor
+     *
+     * @param   array  $options  An array of configuration options.
+     *
+     * @since   1.5
+     */
+    public function __construct($options = [])
+    {
+        // Extract the internal dependencies before calling the parent constructor since it calls $this->load()
+        $this->app      = isset($options['app']) && $options['app'] instanceof CMSApplication ? $options['app'] : Factory::getApplication();
+        $this->language = isset($options['language']) && $options['language'] instanceof Language ? $options['language'] : Factory::getLanguage();
 
-	/**
-	 * Loads the entire menu table into memory.
-	 *
-	 * @return  boolean  True on success, false on failure
-	 *
-	 * @since   1.5
-	 */
-	public function load()
-	{
-		// For PHP 5.3 compat we can't use $this in the lambda function below
-		$db = $this->db;
+        if (!isset($options['db']) || !($options['db'] instanceof DatabaseDriver)) {
+            @trigger_error('Database will be mandatory in 5.0.', E_USER_DEPRECATED);
+            $options['db'] = Factory::getContainer()->get(DatabaseDriver::class);
+        }
 
-		$loader = function () use ($db)
-		{
-			$query = $db->getQuery(true)
-				->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
-				->select($db->quoteName('m.browserNav') . ', m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
-				->select('e.element as component')
-				->from('#__menu AS m')
-				->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
-				->where('m.published = 1')
-				->where('m.parent_id > 0')
-				->where('m.client_id = 0')
-				->order('m.lft');
+        $this->db = $options['db'];
 
-			// Set the query
-			$db->setQuery($query);
+        parent::__construct($options);
+    }
 
-			return $db->loadObjectList('id', 'Joomla\\CMS\\Menu\\MenuItem');
-		};
+    /**
+     * Loads the entire menu table into memory.
+     *
+     * @return  boolean  True on success, false on failure
+     *
+     * @since   1.5
+     */
+    public function load()
+    {
+        $loader = function () {
+            $currentDate = Factory::getDate()->toSql();
 
-		try
-		{
-			/** @var \JCacheControllerCallback $cache */
-			$cache = \JFactory::getCache('com_menus', 'callback');
+            $query = $this->db->getQuery(true)
+                ->select(
+                    $this->db->quoteName(
+                        [
+                            'm.id',
+                            'm.menutype',
+                            'm.title',
+                            'm.alias',
+                            'm.note',
+                            'm.link',
+                            'm.type',
+                            'm.level',
+                            'm.language',
+                            'm.browserNav',
+                            'm.access',
+                            'm.params',
+                            'm.home',
+                            'm.img',
+                            'm.template_style_id',
+                            'm.component_id',
+                            'm.parent_id',
+                        ]
+                    )
+                )
+                ->select(
+                    $this->db->quoteName(
+                        [
+                            'm.path',
+                            'e.element',
+                        ],
+                        [
+                            'route',
+                            'component',
+                        ]
+                    )
+                )
+                ->from($this->db->quoteName('#__menu', 'm'))
+                ->join(
+                    'LEFT',
+                    $this->db->quoteName('#__extensions', 'e'),
+                    $this->db->quoteName('m.component_id') . ' = ' . $this->db->quoteName('e.extension_id')
+                )
+                ->where(
+                    [
+                        $this->db->quoteName('m.published') . ' = 1',
+                        $this->db->quoteName('m.parent_id') . ' > 0',
+                        $this->db->quoteName('m.client_id') . ' = 0',
+                    ]
+                )
+                ->extendWhere(
+                    'AND',
+                    [
+                        $this->db->quoteName('m.publish_up') . ' IS NULL',
+                        $this->db->quoteName('m.publish_up') . ' <= :currentDate1',
+                    ],
+                    'OR'
+                )
+                ->bind(':currentDate1', $currentDate)
+                ->extendWhere(
+                    'AND',
+                    [
+                        $this->db->quoteName('m.publish_down') . ' IS NULL',
+                        $this->db->quoteName('m.publish_down') . ' >= :currentDate2',
+                    ],
+                    'OR'
+                )
+                ->bind(':currentDate2', $currentDate)
+                ->order($this->db->quoteName('m.lft'));
 
-			$this->_items = $cache->get($loader, array(), md5(get_class($this)), false);
-		}
-		catch (\JCacheException $e)
-		{
-			try
-			{
-				$this->_items = $loader();
-			}
-			catch (\JDatabaseExceptionExecuting $databaseException)
-			{
-				\JError::raiseWarning(500, \JText::sprintf('JERROR_LOADING_MENUS', $databaseException->getMessage()));
+            $items    = [];
+            $iterator = $this->db->setQuery($query)->getIterator();
 
-				return false;
-			}
-		}
-		catch (\JDatabaseExceptionExecuting $e)
-		{
-			\JError::raiseWarning(500, \JText::sprintf('JERROR_LOADING_MENUS', $e->getMessage()));
+            foreach ($iterator as $item) {
+                $items[$item->id] = new MenuItem((array) $item);
+            }
 
-			return false;
-		}
+            return $items;
+        };
 
-		foreach ($this->_items as &$item)
-		{
-			// Get parent information.
-			$parent_tree = array();
+        try {
+            /** @var CallbackController $cache */
+            $cache = $this->getCacheControllerFactory()->createCacheController('callback', ['defaultgroup' => 'com_menus']);
 
-			if (isset($this->_items[$item->parent_id]))
-			{
-				$parent_tree  = $this->_items[$item->parent_id]->tree;
-			}
+            $this->items = $cache->get($loader, [], md5(\get_class($this)), false);
+        } catch (CacheExceptionInterface) {
+            try {
+                $this->items = $loader();
+            } catch (ExecutionFailureException $databaseException) {
+                $this->app->enqueueMessage(Text::sprintf('JERROR_LOADING_MENUS', $databaseException->getMessage()), 'warning');
 
-			// Create tree.
-			$parent_tree[] = $item->id;
-			$item->tree = $parent_tree;
+                return false;
+            }
+        } catch (ExecutionFailureException $e) {
+            $this->app->enqueueMessage(Text::sprintf('JERROR_LOADING_MENUS', $e->getMessage()), 'warning');
 
-			// Create the query array.
-			$url = str_replace('index.php?', '', $item->link);
-			$url = str_replace('&amp;', '&', $url);
+            return false;
+        }
 
-			parse_str($url, $item->query);
-		}
+        foreach ($this->items as &$item) {
+            // Get parent information.
+            $parent_tree = [];
 
-		return true;
-	}
+            if (isset($this->items[$item->parent_id])) {
+                $item->setParent($this->items[$item->parent_id]);
+                $parent_tree  = $this->items[$item->parent_id]->tree;
+            }
 
-	/**
-	 * Gets menu items by attribute
-	 *
-	 * @param   string   $attributes  The field name
-	 * @param   string   $values      The value of the field
-	 * @param   boolean  $firstonly   If true, only returns the first item found
-	 *
-	 * @return  MenuItem|MenuItem[]  An array of menu item objects or a single object if the $firstonly parameter is true
-	 *
-	 * @since   1.6
-	 */
-	public function getItems($attributes, $values, $firstonly = false)
-	{
-		$attributes = (array) $attributes;
-		$values     = (array) $values;
+            // Create tree.
+            $parent_tree[] = $item->id;
+            $item->tree    = $parent_tree;
 
-		if ($this->app->isClient('site'))
-		{
-			// Filter by language if not set
-			if (($key = array_search('language', $attributes)) === false)
-			{
-				if (Multilanguage::isEnabled())
-				{
-					$attributes[] = 'language';
-					$values[]     = array(\JFactory::getLanguage()->getTag(), '*');
-				}
-			}
-			elseif ($values[$key] === null)
-			{
-				unset($attributes[$key], $values[$key]);
-			}
+            // Create the query array.
+            $url = str_replace('index.php?', '', $item->link);
+            $url = str_replace('&amp;', '&', $url);
 
-			// Filter by access level if not set
-			if (($key = array_search('access', $attributes)) === false)
-			{
-				$attributes[] = 'access';
-				$values[] = $this->user->getAuthorisedViewLevels();
-			}
-			elseif ($values[$key] === null)
-			{
-				unset($attributes[$key], $values[$key]);
-			}
-		}
+            parse_str($url, $item->query);
+        }
 
-		// Reset arrays or we get a notice if some values were unset
-		$attributes = array_values($attributes);
-		$values = array_values($values);
+        return true;
+    }
 
-		return parent::getItems($attributes, $values, $firstonly);
-	}
+    /**
+     * Gets menu items by attribute
+     *
+     * @param   string   $attributes  The field name
+     * @param   string   $values      The value of the field
+     * @param   boolean  $firstonly   If true, only returns the first item found
+     *
+     * @return  MenuItem|MenuItem[]  An array of menu item objects or a single object if the $firstonly parameter is true
+     *
+     * @since   1.6
+     */
+    public function getItems($attributes, $values, $firstonly = false)
+    {
+        $attributes = (array) $attributes;
+        $values     = (array) $values;
 
-	/**
-	 * Get menu item by id
-	 *
-	 * @param   string  $language  The language code.
-	 *
-	 * @return  MenuItem|null  The item object or null when not found for given language
-	 *
-	 * @since   1.6
-	 */
-	public function getDefault($language = '*')
-	{
-		if (array_key_exists($language, $this->_default) && $this->app->isClient('site') && $this->app->getLanguageFilter())
-		{
-			return $this->_items[$this->_default[$language]];
-		}
+        if ($this->app->isClient('site')) {
+            // Filter by language if not set
+            if (($key = array_search('language', $attributes)) === false) {
+                if (Multilanguage::isEnabled()) {
+                    $attributes[] = 'language';
+                    $values[]     = [Factory::getLanguage()->getTag(), '*'];
+                }
+            } elseif ($values[$key] === null) {
+                unset($attributes[$key], $values[$key]);
+            }
 
-		if (array_key_exists('*', $this->_default))
-		{
-			return $this->_items[$this->_default['*']];
-		}
+            // Filter by access level if not set
+            if (($key = array_search('access', $attributes)) === false) {
+                $attributes[] = 'access';
+                $values[]     = $this->user->getAuthorisedViewLevels();
+            } elseif ($values[$key] === null) {
+                unset($attributes[$key], $values[$key]);
+            }
+        }
 
-		return;
-	}
+        // Reset arrays or we get a notice if some values were unset
+        $attributes = array_values($attributes);
+        $values     = array_values($values);
+
+        return parent::getItems($attributes, $values, $firstonly);
+    }
+
+    /**
+     * Get menu item by id
+     *
+     * @param   string  $language  The language code.
+     *
+     * @return  MenuItem|null  The item object or null when not found for given language
+     *
+     * @since   1.6
+     */
+    public function getDefault($language = '*')
+    {
+        // Get menu items first to ensure defaults have been populated
+        $items = $this->getMenu();
+
+        if (\array_key_exists($language, $this->default) && $this->app->isClient('site') && $this->app->getLanguageFilter()) {
+            return $items[$this->default[$language]];
+        }
+
+        if (\array_key_exists('*', $this->default)) {
+            return $items[$this->default['*']];
+        }
+    }
 }

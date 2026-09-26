@@ -1,42 +1,41 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
-
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('predefinedlist');
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Field to load a list of available users statuses
  *
  * @since  3.2
  */
-class UserstateField extends \JFormFieldPredefinedList
+class UserstateField extends PredefinedlistField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var		string
-	 * @since   3.2
-	 */
-	protected $type = 'UserState';
+    /**
+     * The form field type.
+     *
+     * @var     string
+     * @since   3.2
+     */
+    protected $type = 'UserState';
 
-	/**
-	 * Available statuses
-	 *
-	 * @var  array
-	 * @since  3.2
-	 */
-	protected $predefinedOptions = array(
-		'0'  => 'JENABLED',
-		'1'  => 'JDISABLED',
-	);
+    /**
+     * Available statuses
+     *
+     * @var  string[]
+     * @since  3.2
+     */
+    protected $predefinedOptions = [
+        '0' => 'JENABLED',
+        '1' => 'JDISABLED',
+    ];
 }

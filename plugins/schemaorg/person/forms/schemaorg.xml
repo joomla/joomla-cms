@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="schema">
+		<fieldset
+			name="schema"
+			label="PLG_SYSTEM_SCHEMA_FIELD_SCHEMA_LABEL"
+		>
+			<field
+				name="Person"
+				type="subform"
+				showon="schemaType:Person"
+			>
+				<form>
+
+					<field
+						name="@type"
+						type="hidden"
+						default="Person"
+					/>
+
+					<field
+						name="noteBook"
+						type="note"
+						description="PLG_SCHEMAORG_PERSON_DESCRIPTION_LABEL"
+						class="alert alert-info w-100"
+					/>
+
+					<field
+						name="name"
+						type="text"
+						filter="string"
+						label="PLG_SCHEMAORG_PERSON_FIELD_NAME_LABEL"
+					/>
+
+					<field
+						name="url"
+						type="url"
+						filter="url"
+						validate="url"
+						label="PLG_SCHEMAORG_PERSON_FIELD_URL_LABEL"
+					/>
+
+					<field
+						name="email"
+						type="email"
+						validate="email"
+						label="PLG_SCHEMAORG_PERSON_FIELD_EMAIL_LABEL"
+					/>
+
+					<field
+						name="address"
+						type="subform"
+						label="PLG_SCHEMAORG_PERSON_FIELD_ADDRESS_LABEL"
+					>
+						<form>
+
+							<field
+								name="@type"
+								type="hidden"
+								default="PostalAddress"
+							/>
+
+							<field
+								name="addressLocality"
+								type="text"
+								label="PLG_SCHEMAORG_PERSON_FIELD_LOCALITY_LABEL"
+							/>
+
+							<field
+								name="postalCode"
+								type="text"
+								label="PLG_SCHEMAORG_PERSON_FIELD_POSTAL_CODE_LABEL"
+							/>
+
+							<field
+								name="streetAddress"
+								type="text"
+								label="PLG_SCHEMAORG_PERSON_FIELD_STREET_ADDRESS_LABEL"
+							/>
+
+						</form>
+					</field>
+
+					<field
+						name="genericField"
+						type="subform"
+						label="PLG_SCHEMAORG_PERSON_FIELD_GENERIC_FIELD_LABEL"
+						multiple="true"
+					>
+						<form>
+							<field
+								name="genericTitle"
+								type="text"
+								filter="string"
+								size="30"
+								label="PLG_SCHEMAORG_PERSON_FIELD_GENERIC_TITLE_LABEL"
+							/>
+							<field
+								name="genericValue"
+								type="text"
+								filter="string"
+								size="30"
+								label="PLG_SCHEMAORG_PERSON_FIELD_GENERIC_VALUE_LABEL"
+							/>
+						</form>
+
+					</field>
+
+				</form>
+			</field>
+		</fieldset>
+	</fields>
+</form>

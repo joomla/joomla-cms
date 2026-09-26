@@ -1,23 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="administrator" method="upgrade">
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="module" client="administrator" method="upgrade">
 	<name>mod_logged</name>
 	<author>Joomla! Project</author>
-	<creationDate>January 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<creationDate>2005-01</creationDate>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_LOGGED_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\Logged</namespace>
 	<files>
-		<filename module="mod_logged">mod_logged.php</filename>
+		<folder module="mod_logged">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_logged.ini</language>
-		<language tag="en-GB">en-GB.mod_logged.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_logged.ini</language>
+		<language tag="en-GB">language/en-GB/mod_logged.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_LOGGED" />
+	<help key="Admin_Modules:_Logged-in_Users" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -25,18 +27,19 @@
 					name="count"
 					type="number"
 					label="MOD_LOGGED_FIELD_COUNT_LABEL"
-					description="MOD_LOGGED_FIELD_COUNT_DESC"
 					default="5"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 
 				<field
 					name="name"
 					type="list"
 					label="MOD_LOGGED_NAME"
-					description="MOD_LOGGED_FIELD_NAME_DESC"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">MOD_LOGGED_NAME</option>
 					<option value="0">JGLOBAL_USERNAME</option>
@@ -47,28 +50,28 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field
 					name="automatic_title"
 					type="radio"
 					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
-					description="COM_MODULES_FIELD_AUTOMATIC_TITLE_DESC"
-					class="btn-group btn-group-yesno"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 		</fields>

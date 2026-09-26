@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset>
+		<field
+			name="id"
+			type="hidden"
+			default="0"
+			readonly="true"
+		/>
+
+		<field
+			name="title"
+			type="text"
+			label="COM_USERS_LEVEL_FIELD_TITLE_LABEL"
+			required="true"
+		/>
+
+		<field
+			name="ordering"
+			type="text"
+			label="JFIELD_ORDERING_LABEL"
+			description="JFIELD_ORDERING_DESC"
+			default="0"
+		/>
+
+		<field
+			name="rules"
+			type="hidden"
+			filter="intarray"
+		/>
+	</fieldset>
+</form>

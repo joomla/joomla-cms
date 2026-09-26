@@ -1,0 +1,103 @@
+<?php
+
+/**
+ * @package     Joomla.Administrator
+ * @subpackage  com_actionlogs
+ *
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+namespace Joomla\Component\Actionlogs\Administrator\Plugin;
+
+use Joomla\CMS\Plugin\CMSPlugin;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
+/**
+ * Abstract Action Log Plugin
+ *
+ * @since  3.9.0
+ */
+abstract class ActionLogPlugin extends CMSPlugin
+{
+    /**
+     * Application object.
+     *
+     * @var    \Joomla\CMS\Application\CMSApplication
+     * @since  3.9.0
+     *
+     * @deprecated  5.1.0 will be removed in 7.0 use $this->getApplication() instead
+     */
+    protected $app;
+
+    /**
+     * Database object.
+     *
+     * @var    \Joomla\Database\DatabaseDriver
+     * @since  3.9.0
+     *
+     * @deprecated  5.1.0 will be removed in 7.0 use $this->getDatabase() instead
+     */
+    protected $db;
+
+    /**
+     * Load plugin language file automatically so that it can be used inside component
+     *
+     * @var    boolean
+     * @since  3.9.0
+     */
+    protected $autoloadLanguage = true;
+
+    /**
+     * Proxy for ActionlogsModelUserlog addLog method
+     *
+     * This method adds a record to #__action_logs contains (message_language_key, message, date, context, user)
+     *
+     * @param   array   $messages            The contents of the messages to be logged
+     * @param   string  $messageLanguageKey  The language key of the message
+     * @param   string  $context             The context of the content passed to the plugin
+     * @param   int     $userId              ID of user perform the action, usually ID of current logged in user
+     *
+     * @return  void
+     *
+     * @since   3.9.0
+     */
+    protected function addLog($messages, $messageLanguageKey, $context, $userId = null)
+    {
+        $app  = $this->getApplication() ?: $this->app;
+        $user = $app->getIdentity();
+
+        foreach ($messages as $index => $message) {
+            if (!\array_key_exists('userid', $message) && $user) {
+                $message['userid'] = $user->id;
+            }
+
+            if (!\array_key_exists('username', $message) && $user) {
+                $message['username'] = $user->username;
+            }
+
+            if (!\array_key_exists('accountlink', $message) && $user) {
+                $message['accountlink'] = 'index.php?option=com_users&task=user.edit&id=' . $user->id;
+            }
+
+            if (\array_key_exists('type', $message)) {
+                $message['type'] = strtoupper($message['type']);
+            }
+
+            if (\array_key_exists('app', $message)) {
+                $message['app'] = strtoupper($message['app']);
+            }
+
+            $messages[$index] = $message;
+        }
+
+        /** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel $model */
+        $model = $app->bootComponent('com_actionlogs')
+            ->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
+
+        $model->addLog($messages, strtoupper($messageLanguageKey), $context, $userId);
+    }
+}

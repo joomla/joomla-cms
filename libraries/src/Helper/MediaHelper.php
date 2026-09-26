@@ -1,16 +1,26 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Helper;
 
-defined('JPATH_PLATFORM') or die;
-
+use enshrined\svgSanitize\Sanitizer;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Filesystem\File;
+use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Media helper class
@@ -19,394 +29,502 @@ use Joomla\CMS\Component\ComponentHelper;
  */
 class MediaHelper
 {
-	/**
-	 * Checks if the file is an image
-	 *
-	 * @param   string  $fileName  The filename
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.2
-	 */
-	public function isImage($fileName)
-	{
-		static $imageTypes = 'xcf|odg|gif|jpg|png|bmp';
+    /**
+     * A special list of blocked executable extensions, skipping executables that are
+     * typically executable in the webserver context as those are fetched from
+     * Joomla\CMS\Filter\InputFilter
+     *
+     * @var    string[]
+     * @since  4.0.0
+     */
+    public const EXECUTABLES = [
+        'js', 'exe', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta',
+        'ins', 'isp', 'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb',
+        'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm', 'msi',
+    ];
 
-		return preg_match("/\.(?:$imageTypes)$/i", $fileName);
-	}
+    /**
+     * Checks if the file is an image
+     *
+     * @param   string  $fileName  The filename
+     *
+     * @return  boolean
+     *
+     * @since   3.2
+     */
+    public static function isImage($fileName)
+    {
+        static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp|webp|avif';
 
-	/**
-	 * Gets the file extension for purposed of using an icon
-	 *
-	 * @param   string  $fileName  The filename
-	 *
-	 * @return  string  File extension to determine icon
-	 *
-	 * @since   3.2
-	 */
-	public static function getTypeIcon($fileName)
-	{
-		return strtolower(substr($fileName, strrpos($fileName, '.') + 1));
-	}
+        return (bool) preg_match("/\.(?:$imageTypes)$/i", $fileName);
+    }
 
-	/**
-	 * Get the Mime type
-	 *
-	 * @param   string   $file     The link to the file to be checked
-	 * @param   boolean  $isImage  True if the passed file is an image else false
-	 *
-	 * @return  mixed    the mime type detected false on error
-	 *
-	 * @since   3.7.2
-	 */
-	private function getMimeType($file, $isImage = false)
-	{
-		// If we can't detect anything mime is false
-		$mime = false;
+    /**
+     * Gets the file extension for purposed of using an icon
+     *
+     * @param   string  $fileName  The filename
+     *
+     * @return  string  File extension to determine icon
+     *
+     * @since   3.2
+     */
+    public static function getTypeIcon($fileName)
+    {
+        return strtolower(substr($fileName, strrpos($fileName, '.') + 1));
+    }
 
-		try
-		{
-			if ($isImage && function_exists('exif_imagetype'))
-			{
-				$mime = image_type_to_mime_type(exif_imagetype($file));
-			}
-			elseif ($isImage && function_exists('getimagesize'))
-			{
-				$imagesize = getimagesize($file);
-				$mime      = isset($imagesize['mime']) ? $imagesize['mime'] : false;
-			}
-			elseif (function_exists('mime_content_type'))
-			{
-				// We have mime magic.
-				$mime = mime_content_type($file);
-			}
-			elseif (function_exists('finfo_open'))
-			{
-				// We have fileinfo
-				$finfo = finfo_open(FILEINFO_MIME_TYPE);
-				$mime  = finfo_file($finfo, $file);
-				finfo_close($finfo);
-			}
-		}
-		catch (\Exception $e)
-		{
-			// If we have any kind of error here => false;
-			return false;
-		}
+    /**
+     * Get the Mime type
+     *
+     * @param   string   $file     The link to the file to be checked
+     * @param   boolean  $isImage  True if the passed file is an image else false
+     *
+     * @return  mixed    the mime type detected false on error
+     *
+     * @since   3.7.2
+     */
+    public static function getMimeType($file, $isImage = false)
+    {
+        // If we can't detect anything mime is false
+        $mime = false;
 
-		// If we can't detect the mime try it again
-		if ($mime === 'application/octet-stream' && $isImage === true)
-		{
-			$mime = $this->getMimeType($file, false);
-		}
+        try {
+            if ($isImage && \function_exists('exif_imagetype') && filesize($file) > 12) {
+                $mime = image_type_to_mime_type(exif_imagetype($file));
+            } elseif ($isImage && \function_exists('getimagesize') && filesize($file) > 12) {
+                $imagesize = getimagesize($file);
+                $mime      = $imagesize['mime'] ?? false;
+            } elseif (\function_exists('mime_content_type')) {
+                // We have mime magic.
+                $mime = mime_content_type($file);
+            } elseif (\function_exists('finfo_open')) {
+                // We have fileinfo
+                $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                $mime  = finfo_file($finfo, $file);
+                finfo_close($finfo);
+            }
+        } catch (\Exception) {
+            // If we have any kind of error here => false;
+            return false;
+        }
 
-		// We have a mime here
-		return $mime;
-	}
+        // If we can't detect the mime try it again
+        if ($mime === 'application/octet-stream' && $isImage === true) {
+            $mime = static::getMimeType($file, false);
+        }
 
-	/**
-	 * Checks the Mime type
-	 *
-	 * @param   string  $mime       The mime to be checked
-	 * @param   string  $component  The optional name for the component storing the parameters
-	 *
-	 * @return  boolean  true if mime type checking is disabled or it passes the checks else false
-	 *
-	 * @since   3.7
-	 */
-	private function checkMimeType($mime, $component = 'com_media')
-	{
-		$params = ComponentHelper::getParams($component);
+        if (
+            ($mime === 'application/octet-stream' || $mime === 'image/svg' || $mime === 'image/svg+xml')
+            && !$isImage && strtolower(pathinfo($file, PATHINFO_EXTENSION)) === 'svg' && self::isValidSvg($file, false)
+        ) {
+            return 'image/svg+xml';
+        }
 
-		if ($params->get('check_mime', 1))
-		{
-			// Get the mime type configuration
-			$allowedMime = array_map('trim', explode(',', $params->get('upload_mime')));
+        // We have a mime here
+        return $mime;
+    }
 
-			// Mime should be available and in the whitelist
-			return !empty($mime) && in_array($mime, $allowedMime);
-		}
+    /**
+     * Checks the Mime type
+     *
+     * @param   string  $mime       The mime to be checked
+     * @param   string  $component  The optional name for the component storing the parameters
+     *
+     * @return  boolean  true if mime type checking is disabled or it passes the checks else false
+     *
+     * @since   3.7
+     */
+    private function checkMimeType($mime, $component = 'com_media'): bool
+    {
+        $params = ComponentHelper::getParams($component);
 
-		// We don't check mime at all or it passes the checks
-		return true;
-	}
+        if ($params->get('check_mime', 1)) {
+            $allowedMime = $params->get(
+                'upload_mime',
+                'image/jpeg,image/gif,image/png,image/bmp,image/webp,image/avif,application/msword,' .
+                    'application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip'
+            );
 
-	/**
-	 * Checks if the file can be uploaded
-	 *
-	 * @param   array   $file       File information
-	 * @param   string  $component  The option name for the component storing the parameters
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.2
-	 */
-	public function canUpload($file, $component = 'com_media')
-	{
-		$app    = \JFactory::getApplication();
-		$params = ComponentHelper::getParams($component);
+            // Get the mime type configuration
+            $allowedMime = array_map('trim', explode(',', str_replace('\\', '', $allowedMime)));
 
-		if (empty($file['name']))
-		{
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 'error');
+            // Mime should be available and in the allowed list
+            return !empty($mime) && \in_array($mime, $allowedMime);
+        }
 
-			return false;
-		}
+        // We don't check mime at all or it passes the checks
+        return true;
+    }
 
-		jimport('joomla.filesystem.file');
+    /**
+     * Checks the file extension
+     *
+     * @param   string  $extension  The extension to be checked
+     * @param   string  $component  The optional name for the component storing the parameters
+     *
+     * @return  boolean  true if it passes the checks else false
+     *
+     * @since   4.0.0
+     */
+    public static function checkFileExtension($extension, $component = 'com_media', $allowedExecutables = []): bool
+    {
+        $params = ComponentHelper::getParams($component);
 
-		if (str_replace(' ', '', $file['name']) !== $file['name'] || $file['name'] !== \JFile::makeSafe($file['name']))
-		{
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILENAME'), 'error');
+        // Media file names should never have executable extensions buried in them.
+        $executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
 
-			return false;
-		}
+        // Remove allowed executables from array
+        if (\count($allowedExecutables)) {
+            $executables = array_diff($executables, $allowedExecutables);
+        }
 
-		$filetypes = explode('.', $file['name']);
+        if (\in_array($extension, $executables, true)) {
+            return false;
+        }
 
-		if (count($filetypes) < 2)
-		{
-			// There seems to be no extension
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
+        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')));
+        $ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
 
-			return false;
-		}
+        if ($extension === '' || (!\in_array($extension, $allowable, true) && !\in_array($extension, $ignored, true))) {
+            return false;
+        }
 
-		array_shift($filetypes);
+        // We don't check mime at all or it passes the checks
+        return true;
+    }
 
-		// Media file names should never have executable extensions buried in them.
-		$executable = array(
-			'php', 'js', 'exe', 'phtml', 'java', 'perl', 'py', 'asp', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
-			'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh',
-		);
+    /**
+     * Checks if the file can be uploaded
+     *
+     * @param   array     $file                File information
+     * @param   string    $component           The option name for the component storing the parameters
+     * @param   string[]  $allowedExecutables  Array of executable file types that shall be allowed
+     *
+     * @return  boolean
+     *
+     * @since   3.2
+     */
+    public function canUpload($file, $component = 'com_media', $allowedExecutables = [])
+    {
+        $app    = Factory::getApplication();
+        $params = ComponentHelper::getParams($component);
 
-		$check = array_intersect($filetypes, $executable);
+        if (empty($file['name'])) {
+            $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 'error');
 
-		if (!empty($check))
-		{
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
+            return false;
+        }
 
-			return false;
-		}
+        if ($file['name'] !== File::makeSafe($file['name'])) {
+            $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILENAME'), 'error');
 
-		$filetype  = array_pop($filetypes);
-		$allowable = array_map('trim', explode(',', $params->get('upload_extensions')));
-		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions')));
+            return false;
+        }
 
-		if ($filetype == '' || $filetype == false || (!in_array($filetype, $allowable) && !in_array($filetype, $ignored)))
-		{
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
+        $filetypes = explode('.', $file['name']);
 
-			return false;
-		}
+        if (\count($filetypes) < 2) {
+            // There seems to be no extension
+            $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
-		$maxSize = (int) ($params->get('upload_maxsize', 0) * 1024 * 1024);
+            return false;
+        }
 
-		if ($maxSize > 0 && (int) $file['size'] > $maxSize)
-		{
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
+        array_shift($filetypes);
 
-			return false;
-		}
+        // Media file names should never have executable extensions buried in them.
+        $executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
 
-		if ($params->get('restrict_uploads', 1))
-		{
-			$images = array_map('trim', explode(',', $params->get('image_extensions')));
+        // Remove allowed executables from array
+        if (\count($allowedExecutables)) {
+            $executables = array_diff($executables, $allowedExecutables);
+        }
 
-			if (in_array($filetype, $images))
-			{
-				// If tmp_name is empty, then the file was bigger than the PHP limit
-				if (!empty($file['tmp_name']))
-				{
-					// Get the mime type this is an image file
-					$mime = $this->getMimeType($file['tmp_name'], true);
+        // Ensure lowercase extension
+        $filetypes = array_map('strtolower', $filetypes);
 
-					// Did we get anything useful?
-					if ($mime != false)
-					{
-						$result = $this->checkMimeType($mime, $component);
+        $check = array_intersect($filetypes, $executables);
 
-						// If the mime type is not allowed we don't upload it and show the mime code error to the user
-						if ($result === false)
-						{
-							$app->enqueueMessage(\JText::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
+        if (!empty($check)) {
+            $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
-							return false;
-						}
-					}
-					// We can't detect the mime type so it looks like an invalid image
-					else
-					{
-						$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNINVALID_IMG'), 'error');
+            return false;
+        }
 
-						return false;
-					}
-				}
-				else
-				{
-					$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
+        $filetype = array_pop($filetypes);
 
-					return false;
-				}
-			}
-			elseif (!in_array($filetype, $ignored))
-			{
-				// Get the mime type this is not an image file
-				$mime = $this->getMimeType($file['tmp_name'], false);
+        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
+        $ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
 
-				// Did we get anything useful?
-				if ($mime != false)
-				{
-					$result = $this->checkMimeType($mime, $component);
+        if ($filetype === '' || !$filetype || (!\in_array($filetype, $allowable) && !\in_array($filetype, $ignored))) {
+            $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
-					// If the mime type is not allowed we don't upload it and show the mime code error to the user
-					if ($result === false)
-					{
-						$app->enqueueMessage(\JText::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
+            return false;
+        }
 
-						return false;
-					}
-				}
-				// We can't detect the mime type so it looks like an invalid file
-				else
-				{
-					$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
+        $maxSize = (int) ($params->get('upload_maxsize', 0) * 1024 * 1024);
 
-					return false;
-				}
+        if ($maxSize > 0 && (int) $file['size'] > $maxSize) {
+            $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
 
-				if (!\JFactory::getUser()->authorise('core.manage', $component))
-				{
-					$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNNOTADMIN'), 'error');
+            return false;
+        }
 
-					return false;
-				}
-			}
-		}
+        if ($params->get('restrict_uploads', 1)) {
+            $allowedExtensions = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
 
-		$xss_check = file_get_contents($file['tmp_name'], false, null, -1, 256);
+            if (\in_array($filetype, $allowedExtensions)) {
+                // If tmp_name is empty, then the file was bigger than the PHP limit
+                if (!empty($file['tmp_name'])) {
+                    // Get the mime type this is an image file
+                    $mime = static::getMimeType($file['tmp_name'], static::isImage($file['tmp_name']));
 
-		$html_tags = array(
-			'abbr', 'acronym', 'address', 'applet', 'area', 'audioscope', 'base', 'basefont', 'bdo', 'bgsound', 'big', 'blackface', 'blink',
-			'blockquote', 'body', 'bq', 'br', 'button', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'comment', 'custom', 'dd', 'del',
-			'dfn', 'dir', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset', 'fn', 'font', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-			'head', 'hr', 'html', 'iframe', 'ilayer', 'img', 'input', 'ins', 'isindex', 'keygen', 'kbd', 'label', 'layer', 'legend', 'li', 'limittext',
-			'link', 'listing', 'map', 'marquee', 'menu', 'meta', 'multicol', 'nobr', 'noembed', 'noframes', 'noscript', 'nosmartquotes', 'object',
-			'ol', 'optgroup', 'option', 'param', 'plaintext', 'pre', 'rt', 'ruby', 's', 'samp', 'script', 'select', 'server', 'shadow', 'sidebar',
-			'small', 'spacer', 'span', 'strike', 'strong', 'style', 'sub', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'title',
-			'tr', 'tt', 'ul', 'var', 'wbr', 'xml', 'xmp', '!DOCTYPE', '!--',
-		);
+                    // Did we get anything useful?
+                    if ($mime !== false) {
+                        $result = $this->checkMimeType($mime, $component);
 
-		foreach ($html_tags as $tag)
-		{
-			// A tag is '<tagname ', so we need to add < and a space or '<tagname>'
-			if (stripos($xss_check, '<' . $tag . ' ') !== false || stripos($xss_check, '<' . $tag . '>') !== false)
-			{
-				$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
+                        // If the mime type is not allowed we don't upload it and show the mime code error to the user
+                        if ($result === false) {
+                            $app->enqueueMessage(Text::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
 
-				return false;
-			}
-		}
+                            return false;
+                        }
+                    } else {
+                        // We can't detect the mime type so it looks like an invalid image
+                        $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNINVALID_IMG'), 'error');
 
-		return true;
-	}
+                        return false;
+                    }
+                } else {
+                    $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
 
-	/**
-	 * Calculate the size of a resized image
-	 *
-	 * @param   integer  $width   Image width
-	 * @param   integer  $height  Image height
-	 * @param   integer  $target  Target size
-	 *
-	 * @return  array  The new width and height
-	 *
-	 * @since   3.2
-	 */
-	public static function imageResize($width, $height, $target)
-	{
-		/*
-		 * Takes the larger size of the width and height and applies the
-		 * formula accordingly. This is so this script will work
-		 * dynamically with any size image
-		 */
-		if ($width > $height)
-		{
-			$percentage = ($target / $width);
-		}
-		else
-		{
-			$percentage = ($target / $height);
-		}
+                    return false;
+                }
+            } elseif (!\in_array($filetype, $ignored)) {
+                // Get the mime type this is not an image file
+                $mime = static::getMimeType($file['tmp_name'], false);
 
-		// Gets the new value and applies the percentage, then rounds the value
-		$width  = round($width * $percentage);
-		$height = round($height * $percentage);
+                // Did we get anything useful?
+                if ($mime !== false) {
+                    $result = $this->checkMimeType($mime, $component);
 
-		return array($width, $height);
-	}
+                    // If the mime type is not allowed we don't upload it and show the mime code error to the user
+                    if ($result === false) {
+                        $app->enqueueMessage(Text::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
 
-	/**
-	 * Counts the files and directories in a directory that are not php or html files.
-	 *
-	 * @param   string  $dir  Directory name
-	 *
-	 * @return  array  The number of media files and directories in the given directory
-	 *
-	 * @since   3.2
-	 */
-	public function countFiles($dir)
-	{
-		$total_file = 0;
-		$total_dir  = 0;
+                        return false;
+                    }
+                } else {
+                    // We can't detect the mime type so it looks like an invalid file
+                    $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
 
-		if (is_dir($dir))
-		{
-			$d = dir($dir);
+                    return false;
+                }
 
-			while (($entry = $d->read()) !== false)
-			{
-				if ($entry[0] !== '.' && strpos($entry, '.html') === false && strpos($entry, '.php') === false && is_file($dir . DIRECTORY_SEPARATOR . $entry))
-				{
-					$total_file++;
-				}
+                if (!Factory::getUser()->authorise('core.manage', $component)) {
+                    $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNNOTADMIN'), 'error');
 
-				if ($entry[0] !== '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry))
-				{
-					$total_dir++;
-				}
-			}
+                    return false;
+                }
+            }
+        }
 
-			$d->close();
-		}
+        if ($filetype === 'svg') {
+            return self::isValidSvg($file['tmp_name'], true);
+        }
 
-		return array($total_file, $total_dir);
-	}
+        return true;
+    }
 
-	/**
-	 * Small helper function that properly converts any
-	 * configuration options to their byte representation.
-	 *
-	 * @param   string|integer  $val  The value to be converted to bytes.
-	 *
-	 * @return integer The calculated bytes value from the input.
-	 *
-	 * @since 3.3
-	 */
-	public function toBytes($val)
-	{
-		switch ($val[strlen($val) - 1])
-		{
-			case 'M':
-			case 'm':
-				return (int) $val * 1048576;
-			case 'K':
-			case 'k':
-				return (int) $val * 1024;
-			case 'G':
-			case 'g':
-				return (int) $val * 1073741824;
-			default:
-				return $val;
-		}
-	}
+    /**
+     * Calculate the size of a resized image
+     *
+     * @param   integer  $width   Image width
+     * @param   integer  $height  Image height
+     * @param   integer  $target  Target size
+     *
+     * @return  array  The new width and height
+     *
+     * @since   3.2
+     */
+    public static function imageResize($width, $height, $target)
+    {
+        /*
+         * Takes the larger size of the width and height and applies the
+         * formula accordingly. This is so this script will work
+         * dynamically with any size image
+         */
+        if ($width > $height) {
+            $percentage = ($target / $width);
+        } else {
+            $percentage = ($target / $height);
+        }
+
+        // Gets the new value and applies the percentage, then rounds the value
+        $width  = round($width * $percentage);
+        $height = round($height * $percentage);
+
+        return [$width, $height];
+    }
+
+    /**
+     * Counts the files and directories in a directory that are not php or html files.
+     *
+     * @param   string  $dir  Directory name
+     *
+     * @return  array  The number of media files and directories in the given directory
+     *
+     * @since   3.2
+     */
+    public function countFiles($dir)
+    {
+        $total_file = 0;
+        $total_dir  = 0;
+
+        if (is_dir($dir)) {
+            $d = dir($dir);
+
+            while (($entry = $d->read()) !== false) {
+                if ($entry[0] !== '.' && !str_contains($entry, '.html') && !str_contains($entry, '.php') && is_file($dir . DIRECTORY_SEPARATOR . $entry)) {
+                    $total_file++;
+                }
+
+                if ($entry[0] !== '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry)) {
+                    $total_dir++;
+                }
+            }
+
+            $d->close();
+        }
+
+        return [$total_file, $total_dir];
+    }
+
+    /**
+     * Small helper function that properly converts any
+     * configuration options to their byte representation.
+     *
+     * @param   string|integer  $val  The value to be converted to bytes.
+     *
+     * @return integer The calculated bytes value from the input.
+     *
+     * @since 3.3
+     */
+    public function toBytes($val)
+    {
+        switch ($val[\strlen($val) - 1]) {
+            case 'M':
+            case 'm':
+                return (int) $val * 1048576;
+            case 'K':
+            case 'k':
+                return (int) $val * 1024;
+            case 'G':
+            case 'g':
+                return (int) $val * 1073741824;
+            default:
+                return $val;
+        }
+    }
+
+    /**
+     * Method to check if the given directory is a directory configured in FileSystem - Local plugin
+     *
+     * @param   string  $directory
+     *
+     * @return  boolean
+     *
+     * @since   4.0.0
+     */
+    public static function isValidLocalDirectory($directory)
+    {
+        $plugin = PluginHelper::getPlugin('filesystem', 'local');
+
+        if ($plugin) {
+            $params = new Registry($plugin->params);
+
+            $directories = $params->get('directories', '[{"directory": "images"}]');
+
+            // Do a check if default settings are not saved by user
+            // If not initialize them manually
+            if (\is_string($directories)) {
+                $directories = json_decode($directories);
+            }
+
+            foreach ($directories as $directoryEntity) {
+                if ($directoryEntity->directory === $directory) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Helper method get clean data for value stores in a Media form field by removing adapter information
+     * from the value if available (in this case, the value will have this format:
+     * images/headers/blue-flower.jpg#joomlaImage://local-images/headers/blue-flower.jpg?width=700&height=180)
+     *
+     * @param   string  $value
+     *
+     * @return  string
+     *
+     * @since   4.0.0
+     */
+    public static function getCleanMediaFieldValue($value)
+    {
+        if ($pos = strpos($value, '#')) {
+            return substr($value, 0, $pos);
+        }
+
+        return $value;
+    }
+
+    /**
+     * Check if a file is a valid SVG
+     *
+     * @param  string  $file
+     * @param  bool    $shouldLogErrors
+     *
+     * @return  boolean
+     *
+     * @since   4.3.0
+     */
+    private static function isValidSvg($file, $shouldLogErrors = true): bool
+    {
+        $sanitizer = new Sanitizer();
+
+        $isValid = $sanitizer->sanitize(file_get_contents($file));
+
+        $svgErrors = $sanitizer->getXmlIssues();
+
+        /**
+         * We allow comments and temp fix for bugs in svg-sanitizer
+         * https://github.com/darylldoyle/svg-sanitizer/issues/64
+         * https://github.com/darylldoyle/svg-sanitizer/issues/63
+         * https://github.com/darylldoyle/svg-sanitizer/pull/65
+         * https://github.com/darylldoyle/svg-sanitizer/issues/82
+         */
+        foreach ($svgErrors as $i => $error) {
+            if (
+                ($error['message'] === 'Suspicious node \'#comment\'')
+                || ($error['message'] === 'Suspicious attribute \'space\'')
+                || ($error['message'] === 'Suspicious attribute \'enable-background\'')
+                || ($error['message'] === 'Suspicious node \'svg\'')
+            ) {
+                unset($svgErrors[$i]);
+            }
+        }
+
+        if ($isValid === false || \count($svgErrors)) {
+            if ($shouldLogErrors) {
+                Factory::getApplication()->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
+            }
+
+            return false;
+        }
+
+        return true;
+    }
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			inputmode="search"
+			label="COM_WORKFLOW_FILTER_SEARCH_LABEL"
+			hint="JSEARCH_FILTER"
+		/>
+		<field
+			name="published"
+			type="status"
+			label="JSTATUS"
+			class="js-select-submit-on-change"
+			optionsFilter="-2,0,1"
+			>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+	</fields>
+
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			default="s.ordering ASC"
+			class="js-select-submit-on-change"
+			validate="options"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="s.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="s.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="s.published ASC">JSTATUS_ASC</option>
+			<option value="s.published DESC">JSTATUS_DESC</option>
+			<option value="s.title ASC">JGLOBAL_NAME_ASC</option>
+			<option value="s.title DESC">JGLOBAL_NAME_DESC</option>
+			<option value="s.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="s.id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
+			default="25"
+			class="js-select-submit-on-change"
+		/>
+	</fields>
+</form>

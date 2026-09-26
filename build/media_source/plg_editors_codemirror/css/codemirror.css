@@ -1,0 +1,34 @@
+/**
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+joomla-editor-codemirror {
+  display: block;
+}
+.cm-editor {
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+}
+.cm-editor .cm-scroller {
+  min-height: 100px;
+  overflow: auto;
+}
+
+/* Full screen mode */
+joomla-editor-codemirror.fullscreen {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1038;
+}
+joomla-editor-codemirror.fullscreen .cm-editor {
+  width: auto !important;
+  height: 90vh !important;
+  background-color: var(--body-bg);
+}
+
+
+

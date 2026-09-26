@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <config>
+	<help key="Messages:_Options"/>
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
 		>
 
 		<field
@@ -13,7 +13,7 @@
 			filter="rules"
 			validate="rules"
 			component="com_messages"
-			section="component" 
+			section="component"
 		/>
 	</fieldset>
 </config>

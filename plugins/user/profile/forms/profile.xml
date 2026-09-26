@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="profile">
+		<fieldset
+			name="profile"
+			label="PLG_USER_PROFILE_SLIDER_LABEL"
+		>
+			<field
+				name="address1"
+				type="text"
+				label="PLG_USER_PROFILE_FIELD_ADDRESS1_LABEL"
+				filter="string"
+				size="30"
+			/>
+
+			<field
+				name="address2"
+				type="text"
+				label="PLG_USER_PROFILE_FIELD_ADDRESS2_LABEL"
+				filter="string"
+				size="30"
+			/>
+
+			<field
+				name="city"
+				type="text"
+				label="PLG_USER_PROFILE_FIELD_CITY_LABEL"
+				filter="string"
+				size="30"
+			/>
+
+			<field
+				name="region"
+				type="text"
+				label="PLG_USER_PROFILE_FIELD_REGION_LABEL"
+				filter="string"
+				size="30"
+			/>
+
+			<field
+				name="country"
+				type="text"
+				label="PLG_USER_PROFILE_FIELD_COUNTRY_LABEL"
+				filter="string"
+				size="30"
+			/>
+
+			<field
+				name="postal_code"
+				type="text"
+				label="PLG_USER_PROFILE_FIELD_POSTAL_CODE_LABEL"
+				filter="string"
+				size="30"
+			/>
+
+			<field
+				name="phone"
+				type="tel"
+				label="PLG_USER_PROFILE_FIELD_PHONE_LABEL"
+				filter="string"
+				size="30"
+			/>
+
+			<field
+				name="website"
+				type="url"
+				label="PLG_USER_PROFILE_FIELD_WEB_SITE_LABEL"
+				filter="url"
+				size="30"
+				validate="url"
+			/>
+
+			<field
+				name="favoritebook"
+				type="text"
+				label="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_LABEL"
+				filter="string"
+				size="30"
+			/>
+
+			<field
+				name="aboutme"
+				type="textarea"
+				label="PLG_USER_PROFILE_FIELD_ABOUT_ME_LABEL"
+				cols="30"
+				rows="5"
+				filter="safehtml"
+			/>
+
+			<field
+				name="dob"
+				type="calendar"
+				label="PLG_USER_PROFILE_FIELD_DOB_LABEL"
+				description="PLG_USER_PROFILE_FIELD_DOB_DESCRIPTION"
+				hint="PLG_USER_PROFILE_FIELD_DOB_HINT"
+				translateformat="true"
+				showtime="false"
+				filter="server_utc"
+			/>
+
+			<field
+				name="tos"
+				type="tos"
+				label="PLG_USER_PROFILE_FIELD_TOS_LABEL"
+				default="0"
+				filter="integer"
+				>
+				<option value="1">PLG_USER_PROFILE_OPTION_AGREE</option>
+				<option value="0">PLG_USER_PROFILE_OPTION_DO_NOT_AGREE</option>
+			</field>
+		</fieldset>
+	</fields>
+</form>

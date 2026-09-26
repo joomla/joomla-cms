@@ -1,48 +1,39 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_multilangstatus
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-// Include jQuery
-JHtml::_('jquery.framework');
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
-// Use javascript to remove the modal added below from the current div and add it to the end of html body tag.
-JFactory::getDocument()->addScriptDeclaration("
-	jQuery(document).ready(function($) {
-		var multilangueModal = $('#multiLangModal').clone();
-		$('#multiLangModal').remove();
-		$('body').append(multilangueModal);
-	});
-");
+$hideLinks = $app->getInput()->getBool('hidemainmenu');
+
+if (!$multilanguageEnabled || $hideLinks) {
+    return;
+}
+
+$app->getDocument()->getWebAssetManager()->useScript('joomla.dialog-autocreate');
+
+$popupOptions = [
+    'popupType'  => 'iframe',
+    'src'        => Route::_('index.php?option=com_languages&view=multilangstatus&tmpl=component', false),
+    'textHeader' => Text::_('MOD_MULTILANGSTATUS'),
+];
+
 ?>
-
-<div class="btn-group multilanguage">
-	<a data-toggle="modal"
-		href="#multiLangModal"
-		title="<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>"
-		role="button">
-		<span class="icon-comment" aria-hidden="true"></span><?php echo JText::_('MOD_MULTILANGSTATUS'); ?>
-	</a>
-	<span class="btn-group separator"></span>
-</div>
-
-<?php echo JHtml::_(
-	'bootstrap.renderModal',
-	'multiLangModal',
-	array(
-		'title'       => JText::_('MOD_MULTILANGSTATUS'),
-		'url'         => JRoute::_('index.php?option=com_languages&view=multilangstatus&tmpl=component'),
-		'height'      => '400px',
-		'width'       => '800px',
-		'bodyHeight'  => '70',
-		'modalWidth'  => '80',
-		'footer'      => '<button type="button" class="btn" data-dismiss="modal">'
-				. JText::_('JTOOLBAR_CLOSE') . '</button>',
-	)
-);
+<button type="button" class="header-item-content multilanguage" title="<?php echo htmlspecialchars(Text::_('MOD_MULTILANGSTATUS')); ?>"
+        data-joomla-dialog="<?php echo htmlspecialchars(json_encode($popupOptions, JSON_UNESCAPED_SLASHES)) ?>">
+    <div class="header-item-icon">
+        <span class="icon-language" aria-hidden="true"></span>
+    </div>
+    <div class="header-item-text">
+        <?php echo Text::_('MOD_MULTILANGSTATUS'); ?>
+    </div>
+</button>

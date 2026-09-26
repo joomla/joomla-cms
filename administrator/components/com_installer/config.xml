@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <config>
+	<help key="Installer:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="preferences"
 		label="COM_INSTALLER_PREFERENCES_LABEL"
@@ -7,22 +9,9 @@
 		>
 
 		<field
-			name="show_jed_info"
-			type="radio"
-			label="COM_INSTALLER_SHOW_JED_INFORMATION_LABEL"
-			description="COM_INSTALLER_SHOW_JED_INFORMATION_DESC"
-			class="btn-group btn-group-yesno"
-			default="1"
-			>
-			<option value="1">COM_INSTALLER_SHOW_JED_INFORMATION_SHOW_MESSAGE</option>
-			<option value="0">COM_INSTALLER_SHOW_JED_INFORMATION_HIDE_MESSAGE</option>
-		</field>
-
-		<field
 			name="cachetimeout"
 			type="integer"
 			label="COM_INSTALLER_CACHETIMEOUT_LABEL"
-			description="COM_INSTALLER_CACHETIMEOUT_DESC"
 			first="0"
 			last="24"
 			step="1"
@@ -35,6 +24,7 @@
 			label="COM_INSTALLER_MINIMUM_STABILITY_LABEL"
 			description="COM_INSTALLER_MINIMUM_STABILITY_DESC"
 			default="4"
+			validate="options"
 			>
 			<option value="0">COM_INSTALLER_MINIMUM_STABILITY_DEV</option>
 			<option value="1">COM_INSTALLER_MINIMUM_STABILITY_ALPHA</option>
@@ -48,7 +38,6 @@
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
 		>
 
 		<field

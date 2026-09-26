@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="params">
+		<!--  Basic user account settings. -->
+		<fieldset name="params" label="COM_USERS_SETTINGS_FIELDSET_LABEL">
+			<field
+				name="editor"
+				type="plugins"
+				label="COM_USERS_USER_FIELD_EDITOR_LABEL"
+				folder="editors"
+				useaccess="true"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+			</field>
+
+			<field
+				name="timezone"
+				type="timezone"
+				label="COM_USERS_USER_FIELD_TIMEZONE_LABEL"
+				layout="joomla.form.field.groupedlist-fancy-select"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+			</field>
+
+			<field
+				name="language"
+				type="language"
+				label="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_LABEL"
+				client="site"
+				filter="cmd"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+			</field>
+
+			<field
+				name="colorScheme"
+				type="list"
+				label="COM_USERS_USER_COLORSCHEME_LABEL"
+				default=""
+				validate="options"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+				<option value="os">COM_USERS_USER_COLORSCHEME_OPTION_FOLLOW_OS</option>
+				<option value="light">COM_USERS_USER_COLORSCHEME_OPTION_LIGHT</option>
+				<option value="dark">COM_USERS_USER_COLORSCHEME_OPTION_DARK</option>
+			</field>
+
+		</fieldset>
+	</fields>
+</form>

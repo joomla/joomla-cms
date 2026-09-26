@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="webservices" method="upgrade">
+	<name>plg_webservices_content</name>
+	<author>Joomla! Project</author>
+	<creationDate>2019-09</creationDate>
+	<copyright>(C) 2019 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>PLG_WEBSERVICES_CONTENT_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\WebServices\Content</namespace>
+	<files>
+		<folder plugin="content">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_webservices_content.ini</language>
+		<language tag="en-GB">language/en-GB/plg_webservices_content.sys.ini</language>
+	</languages>
+</extension>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			inputmode="search"
+			label="COM_FINDER_SEARCH_FILTER_SEARCH_LABEL"
+			description="COM_FINDER_SEARCH_FILTER_SEARCH_DESC"
+			hint="JSEARCH_FILTER"
+		/>
+
+		<field
+			name="state"
+			type="status"
+			label="JSTATUS"
+			optionsFilter="0,1"
+			class="js-select-submit-on-change"
+			>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+	</fields>
+
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			class="js-select-submit-on-change"
+			default="a.title ASC"
+			validate="options"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="a.state ASC">JSTATUS_ASC</option>
+			<option value="a.state DESC">JSTATUS_DESC</option>
+			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="a.created_by_alias ASC">COM_FINDER_HEADING_CREATED_BY_ASC</option>
+			<option value="a.created_by_alias DESC">COM_FINDER_HEADING_CREATED_BY_DESC</option>
+			<option value="a.created ASC">COM_FINDER_HEADING_CREATED_ON_ASC</option>
+			<option value="a.created DESC">COM_FINDER_HEADING_CREATED_ON_DESC</option>
+			<option value="a.map_count ASC">COM_FINDER_HEADING_MAP_COUNT_ASC</option>
+			<option value="a.map_count DESC">COM_FINDER_HEADING_MAP_COUNT_DESC</option>
+			<option value="a.filter_id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="a.filter_id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
+			default="25"
+			class="js-select-submit-on-change"
+		/>
+	</fields>
+</form>

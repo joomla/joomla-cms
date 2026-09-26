@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset name="rotate" label="PLG_MEDIA-ACTION_ROTATE_LABEL">
+		<field
+			name="rotate_quality"
+			type="number"
+			label="PLG_MEDIA-ACTION_ROTATE_QUALITY"
+			addonBefore="PLG_MEDIA-ACTION_ROTATE_QUALITY"
+			min="1"
+			max="100"
+			step="1"
+			default="80"
+			filter="integer"
+		/>
+
+		<field
+			type="spacer"
+			hr="true"
+		/>
+
+		<field
+			name="rotate_a"
+			type="number"
+			label="PLG_MEDIA-ACTION_ROTATE_PARAM_ANGLE"
+			min="0"
+			max="360"
+			step="1"
+			default="0"
+			filter="integer"
+		/>
+
+		<field
+			name="rotate_distinct"
+			type="radio"
+			label="PLG_MEDIA-ACTION_ROTATE_PARAM_BUTTONS"
+			class="btn-group"
+			default=""
+			>
+			<option value="0">0</option>
+			<option value="90">90</option>
+			<option value="180">180</option>
+			<option value="270">270</option>
+		</field>
+
+	</fieldset>
+</form>

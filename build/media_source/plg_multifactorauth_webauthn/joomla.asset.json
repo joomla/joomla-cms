@@ -1,0 +1,20 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "plg_multifactorauth_webauthn",
+  "version": "4.0.0",
+  "description": "WebAuthn integration for Joomla Multi-factor Authentication",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "plg_multifactorauth_webauthn.webauthn",
+      "type": "script",
+      "uri": "plg_multifactorauth_webauthn/webauthn.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    }
+  ]
+}

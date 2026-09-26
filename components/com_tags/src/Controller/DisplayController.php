@@ -1,0 +1,71 @@
+<?php
+
+/**
+ * @package     Joomla.Site
+ * @subpackage  com_tags
+ *
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+namespace Joomla\Component\Tags\Site\Controller;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\MVC\Controller\BaseController;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
+/**
+ * Tags Component Controller
+ *
+ * @since  3.1
+ */
+class DisplayController extends BaseController
+{
+    /**
+     * Method to display a view.
+     *
+     * @param   boolean        $cachable   If true, the view output will be cached
+     * @param   mixed|boolean  $urlparams  An array of safe URL parameters and their variable types.
+     *                         @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
+     *
+     * @return  static  This object to support chaining.
+     *
+     * @since   3.1
+     */
+    public function display($cachable = false, $urlparams = false)
+    {
+        $user = $this->app->getIdentity();
+
+        // Set the default view name and format from the Request.
+        $vName = $this->input->get('view', 'tags');
+        $this->input->set('view', $vName);
+
+        if ($user->id || ($this->input->getMethod() === 'POST' && $vName === 'tags')) {
+            $cachable = false;
+        }
+
+        $safeurlparams = [
+            'id'               => 'ARRAY',
+            'type'             => 'ARRAY',
+            'limit'            => 'UINT',
+            'limitstart'       => 'UINT',
+            'filter_order'     => 'CMD',
+            'filter_order_Dir' => 'CMD',
+            'lang'             => 'CMD',
+        ];
+
+        if (
+            $vName === 'tag'
+            && \in_array($this->input->getMethod(), ['GET', 'POST'])
+            && ComponentHelper::getParams('com_tags')->get('record_hits', 1) == 1
+            && $model = $this->getModel($vName)
+        ) {
+            $model->hit();
+        }
+
+        return parent::display($cachable, $safeurlparams);
+    }
+}

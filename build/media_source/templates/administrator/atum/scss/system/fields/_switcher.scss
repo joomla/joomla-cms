@@ -1,0 +1,11 @@
+.switcher .toggle-inside {
+  background: $switcher-toggle-inside-bg; // #fff;
+}
+
+.switcher .toggle-outside {
+  background: $switcher-toggle-outside-off-bg; // #d3d3d3;
+}
+
+.switcher input ~ input:checked ~ .toggle-outside {
+  background: $switcher-toggle-outside-on-bg; // #2f7d32;
+}

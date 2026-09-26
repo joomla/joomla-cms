@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="schema">
+		<fieldset
+			name="schema"
+			label="PLG_SYSTEM_SCHEMA_FIELD_SCHEMA_LABEL"
+		>
+			<field
+				name="BlogPosting"
+				type="subform"
+				showon="schemaType:BlogPosting"
+			>
+				<form>
+
+					<field
+						name="@type"
+						type="hidden"
+						default="BlogPosting"
+					/>
+
+					<field
+						name="noteBlogPost"
+						type="note"
+						description="PLG_SCHEMAORG_BLOGPOSTING_DESCRIPTION_LABEL"
+						class="alert alert-info w-100"
+					/>
+
+					<field
+						name="image"
+						type="media"
+						schemes="http,https,ftp,ftps,data,file"
+						validate="url"
+						relative="true"
+						label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_IMAGE_LABEL"
+					/>
+
+					<field
+						name="headline"
+						type="text"
+						label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_HEADLINE_LABEL"
+						filter="string"
+						size="30"
+					/>
+
+					<field
+						name="description"
+						type="text"
+						label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_DESCRIPTION_LABEL"
+						filter="string"
+					/>
+
+					<field
+						name="author"
+						type="subform"
+						label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_AUTHOR_LABEL"
+						>
+						<form>
+
+							<field
+								name="@type"
+								type="list"
+								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_TYPE_LABEL"
+								default="person"
+								>
+								<option value="person">PLG_SCHEMAORG_BLOGPOSTING_FIELD_PERSON_LABEL</option>
+								<option value="organization">PLG_SCHEMAORG_BLOGPOSTING_FIELD_ORGANIZATION_LABEL</option>
+							</field>
+
+							<field
+								name="name"
+								type="text"
+								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_NAME_LABEL"
+								filter="string"
+							/>
+
+							<field
+								name="url"
+								type="url"
+								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_URL_LABEL"
+								filter="url"
+								validate="url"
+							/>
+
+							<field
+								name="logo"
+								type="subform"
+								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_LOGO_LABEL"
+								showon="@type:organization"
+							>
+								<form>
+
+									<field
+										name="@type"
+										type="hidden"
+										default="ImageObject"
+									/>
+
+									<field
+										name="url"
+										type="media"
+										schemes="http,https,ftp,ftps,data,file"
+										validate="url"
+										relative="true"
+										label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_URL_LABEL"
+									/>
+
+								</form>
+							</field>
+
+							<field
+								name="email"
+								type="email"
+								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_EMAIL_LABEL"
+								validate="email"
+							/>
+
+							<field
+								name="address"
+								type="subform"
+								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_ADDRESS_LABEL"
+							>
+								<form>
+
+									<field
+										name="@type"
+										type="hidden"
+										default="PostalAddress"
+									/>
+
+									<field
+										name="addressLocality"
+										type="text"
+										label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_LOCALITY_LABEL"
+									/>
+
+									<field
+										name="postalCode"
+										type="text"
+										label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_POSTAL_CODE_LABEL"
+									/>
+
+									<field
+										name="streetAddress"
+										type="text"
+										label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_STREET_ADDRESS_LABEL"
+									/>
+
+								</form>
+							</field>
+
+						</form>
+					</field>
+
+					<field
+						name="datePublished"
+						type="calendar"
+						label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_DATE_PUBLISHED_LABEL"
+						class="input-small"
+						filter="user_utc"
+						showtime="false"
+						todaybutton="true"
+						translateformat="true"
+					/>
+
+					<field
+						name="dateModified"
+						type="calendar"
+						label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_DATE_MODIFIED_LABEL"
+						class="input-small"
+						filter="user_utc"
+						showtime="false"
+						todaybutton="true"
+						translateformat="true"
+					/>
+
+					<field
+						name="genericField"
+						type="subform"
+						label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_GENERIC_FIELD_LABEL"
+						multiple="true"
+					>
+						<form>
+							<field
+								name="genericTitle"
+								type="text"
+								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_GENERIC_TITLE_LABEL"
+								filter="string"
+								size="30"
+							/>
+							<field
+								name="genericValue"
+								type="text"
+								filter="string"
+								size="30"
+								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_GENERIC_VALUE_LABEL"
+							/>
+						</form>
+
+					</field>
+
+				</form>
+			</field>
+		</fieldset>
+	</fields>
+</form>

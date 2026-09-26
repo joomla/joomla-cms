@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<layout title="COM_USERS_GROUP_VIEW_EDIT_TITLE">
+		<message>
+			<![CDATA[COM_USERS_GROUP_VIEW_EDIT_DESC]]>
+		</message>
+	</layout>
+</metadata>

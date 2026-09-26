@@ -1,0 +1,32 @@
+table.phpdebugbar-widgets-info {
+  width: 75%;
+  margin-top: 5px;
+  margin-left: 5px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  line-height: 1.3em;
+}
+
+table.phpdebugbar-widgets-info td {
+  padding-right: 10px;
+  border-bottom: 1px solid #c0c0c0;
+}
+
+table.phpdebugbar-widgets-info dt {
+  float: left;
+  width: 30%;
+  padding: .25em;
+  clear: left;
+  text-align: left;
+}
+
+table.phpdebugbar-widgets-info dd {
+  float: left;
+  width: 60%;
+  padding: .25em 0;
+}
+
+table.phpdebugbar-widgets-info dl:after {
+  display: table;
+  clear: both;
+  content: "";
+}

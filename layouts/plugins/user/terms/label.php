@@ -1,15 +1,15 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  User.terms
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -22,7 +22,6 @@ extract($displayData);
  * @var   string   $autocomplete           Autocomplete attribute for the field.
  * @var   boolean  $autofocus              Is autofocus enabled?
  * @var   string   $class                  Classes for the input.
- * @var   string   $description            Description of the field.
  * @var   boolean  $disabled               Is this field disabled?
  * @var   string   $group                  Group the field belongs to. <fields> section in form XML.
  * @var   boolean  $hidden                 Is this field hidden in the form?
@@ -45,10 +44,9 @@ extract($displayData);
  * @var   array    $options                Options available for this field.
  * @var   array    $termsnote              The terms note that needs to be displayed
  * @var   array    $translateLabel         Should the label be translated?
- * @var   array    $translateDescription   Should the description be translated?
  * @var   array    $translateHint          Should the hint be translated?
  * @var   array    $termsArticle           The Article ID holding the Terms Article
- * $var   object   $article                The Article object
+ * @var   object   $article                The Article object
  */
 
 // Get the label text from the XML element, defaulting to the element name.
@@ -58,46 +56,38 @@ $text = $translateLabel ? Text::_($text) : $text;
 // Set required to true as this field is not displayed at all if not required.
 $required = true;
 
-JHtml::_('behavior.modal');
-
 // Build the class for the label.
-$class = !empty($description) ? 'hasPopover' : '';
-$class = $class . ' required';
+$class = 'required';
 $class = !empty($labelclass) ? $class . ' ' . $labelclass : $class;
 
-// Add the opening label tag and main attributes.
-$label = '<label id="' . $id . '-lbl" for="' . $id . '" class="' . $class . '"';
+if ($article) {
+    $attribs = [
+        'data-bs-toggle' => 'modal',
+        'data-bs-target' => '#tosModal',
+        'class' => 'required',
+    ];
 
-// If a description is specified, use it to build a tooltip.
-if (!empty($description))
-{
-	$label .= ' title="' . htmlspecialchars(trim($text, ':'), ENT_COMPAT, 'UTF-8') . '"';
-	$label .= ' data-content="' . htmlspecialchars(
-		$translateDescription ? Text::_($description) : $description,
-		ENT_COMPAT,
-		'UTF-8'
-	) . '"';
+    $link = HTMLHelper::_('link', Route::_($article->link . '&tmpl=component'), $text, $attribs);
+
+    echo HTMLHelper::_(
+        'bootstrap.renderModal',
+        'tosModal',
+        [
+            'url'    => Route::_($article->link . '&tmpl=component'),
+            'title'  => $text,
+            'height' => '100%',
+            'width'  => '100%',
+            'bodyHeight'  => 70,
+            'modalWidth'  => 80,
+            'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
+                . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
+        ]
+    );
+} else {
+    $link = '<span class="' . $class . '">' . $text . '</span>';
 }
 
-if (Factory::getLanguage()->isRtl())
-{
-	$label .= ' data-placement="left"';
-}
-
-$attribs          = array();
-$attribs['class'] = 'modal';
-$attribs['rel']   = '{handler: \'iframe\', size: {x:800, y:500}}';
-
-if ($article)
-{
-	$link = HTMLHelper::_('link', Route::_($article->link . '&tmpl=component'), $text, $attribs);
-}
-else
-{
-	$link = $text;
-}
-
-// Add the label text and closing tag.
-$label .= '>' . $link . '<span class="star">&#160;*</span></label>';
+// Add the label text and star.
+$label = $link . '<span class="star" aria-hidden="true">&#160;*</span>';
 
 echo $label;

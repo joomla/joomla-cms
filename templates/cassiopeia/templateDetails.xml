@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="template" client="site">
+	<name>cassiopeia</name>
+	<version>1.0</version>
+	<creationDate>2017-02</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
+	<description>TPL_CASSIOPEIA_XML_DESCRIPTION</description>
+	<inheritable>1</inheritable>
+	<files>
+		<filename>component.php</filename>
+		<filename>error.php</filename>
+		<filename>index.php</filename>
+		<filename>joomla.asset.json</filename>
+		<filename>offline.php</filename>
+		<filename>templateDetails.xml</filename>
+		<folder>html</folder>
+	</files>
+	<media destination="templates/site/cassiopeia" folder="media">
+		<folder>js</folder>
+		<folder>css</folder>
+		<folder>scss</folder>
+		<folder>images</folder>
+	</media>
+	<positions>
+		<position>topbar</position>
+		<position>below-top</position>
+		<position>menu</position>
+		<position>search</position>
+		<position>banner</position>
+		<position>top-a</position>
+		<position>top-b</position>
+		<position>main-top</position>
+		<position>main-bottom</position>
+		<position>breadcrumbs</position>
+		<position>sidebar-left</position>
+		<position>sidebar-right</position>
+		<position>bottom-a</position>
+		<position>bottom-b</position>
+		<position>footer</position>
+		<position>debug</position>
+		<!-- used directly in the error.php and included here so the position will appear in the list of available positions -->
+		<position>error-403</position>
+		<position>error-404</position>
+	</positions>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/tpl_cassiopeia.ini</language>
+		<language tag="en-GB">en-GB/tpl_cassiopeia.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="advanced">
+				<field
+					name="brand"
+					type="radio"
+					label="TPL_CASSIOPEIA_BRAND_LABEL"
+					default="1"
+					layout="joomla.form.field.radio.switcher"
+					filter="options"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="logoFile"
+					type="media"
+					schemes="http,https,ftp,ftps,data,file"
+					validate="url"
+					relative="true"
+					default=""
+					label="TPL_CASSIOPEIA_LOGO_LABEL"
+					showon="brand:1"
+				/>
+
+				<field
+					name="siteTitle"
+					type="text"
+					default=""
+					label="TPL_CASSIOPEIA_TITLE"
+					filter="string"
+					showon="brand:1"
+				/>
+
+				<field
+					name="siteDescription"
+					type="text"
+					default=""
+					label="TPL_CASSIOPEIA_TAGLINE_LABEL"
+					description="TPL_CASSIOPEIA_TAGLINE_DESC"
+					filter="string"
+					showon="brand:1"
+				/>
+
+				<field
+					name="useFontScheme"
+					type="groupedlist"
+					label="TPL_CASSIOPEIA_FONT_LABEL"
+					default="0"
+					>
+					<option value="0">JNONE</option>
+					<group label="TPL_CASSIOPEIA_FONT_SYSTEM">
+						<option value="system">TPL_CASSIOPEIA_FONT_SYSTEM_SELECT</option>
+					</group>
+					<group label="TPL_CASSIOPEIA_FONT_GROUP_LOCAL">
+						<option value="media/templates/site/cassiopeia/css/global/fonts-local_roboto.css">Roboto (local)</option>
+					</group>
+					<group label="TPL_CASSIOPEIA_FONT_GROUP_WEB">
+						<option value="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100;300;400;700&amp;display=swap">Fira Sans (web)</option>
+						<option value="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;300;400;700&amp;family=Roboto:wght@100;300;400;700&amp;display=swap">Roboto + Noto Sans (web)</option>
+					</group>
+				</field>
+
+				<field
+					name="systemFontBody"
+					type="list"
+					label="TPL_CASSIOPEIA_FONT_SYSTEM_BODY"
+					default=""
+					validate="options"
+					showon="useFontScheme:system"
+					>
+					<option value="">JSELECT</option>
+					<option value="Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_TRANSITIONAL</option>
+					<option value="'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_OLDSTYLE</option>
+					<option value="Seravek, 'Gill Sans Nova', Ubuntu, Calibri, 'DejaVu Sans', source-sans-pro, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_HUMANIST</option>
+					<option value="Avenir, 'Avenir Next LT Pro', Montserrat, Corbel, 'URW Gothic', source-sans-pro, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_GEOMETRIC</option>
+					<option value="Optima, Candara, 'Noto Sans', source-sans-pro, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_CLASSICAL</option>
+					<option value="Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_GROTESQUE</option>
+					<option value="'Nimbus Mono PS', 'Courier New', 'Cutive Mono', monospace">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_MONOSPACE</option>
+					<option value="ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_CODE</option>
+					<option value="Bahnschrift, 'DIN Alternate', 'Franklin Gothic Medium', 'Nimbus Sans Narrow', sans-serif-condensed, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_INDUSTRIAL</option>
+					<option value="ui-rounded, 'Hiragino Maru Gothic ProN', Quicksand, Comfortaa, Manjari, 'Arial Rounded MT Bold', Calibri, source-sans-pro, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_ROUNDED</option>
+					<option value="Rockwell, 'Rockwell Nova', 'Roboto Slab', 'DejaVu Serif', 'Sitka Small', serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_SLAB</option>
+					<option value="Superclarendon, 'Bookman Old Style', 'URW Bookman', 'URW Bookman L', 'Georgia Pro', Georgia, serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_ANTIQUE</option>
+					<option value="Didot, 'Bodoni MT', 'Noto Serif Display', 'URW Palladio L', P052, Sylfaen, serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_DIDONE</option>
+					<option value="'Segoe Print', 'Bradley Hand', Chilanka, TSCu_Comic, casual, cursive">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_HANDWRITTEN</option>
+				</field>
+
+				<field
+					name="systemFontHeading"
+					type="list"
+					label="TPL_CASSIOPEIA_FONT_SYSTEM_HEADING"
+					default=""
+					validate="options"
+					showon="useFontScheme:system"
+					>
+					<option value="">JSELECT</option>
+					<option value="Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_TRANSITIONAL</option>
+					<option value="'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_OLDSTYLE</option>
+					<option value="Seravek, 'Gill Sans Nova', Ubuntu, Calibri, 'DejaVu Sans', source-sans-pro, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_HUMANIST</option>
+					<option value="Avenir, 'Avenir Next LT Pro', Montserrat, Corbel, 'URW Gothic', source-sans-pro, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_GEOMETRIC</option>
+					<option value="Optima, Candara, 'Noto Sans', source-sans-pro, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_CLASSICAL</option>
+					<option value="Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_GROTESQUE</option>
+					<option value="'Nimbus Mono PS', 'Courier New', 'Cutive Mono', monospace">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_MONOSPACE</option>
+					<option value="ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_CODE</option>
+					<option value="Bahnschrift, 'DIN Alternate', 'Franklin Gothic Medium', 'Nimbus Sans Narrow', sans-serif-condensed, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_INDUSTRIAL</option>
+					<option value="ui-rounded, 'Hiragino Maru Gothic ProN', Quicksand, Comfortaa, Manjari, 'Arial Rounded MT Bold', Calibri, source-sans-pro, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_ROUNDED</option>
+					<option value="Rockwell, 'Rockwell Nova', 'Roboto Slab', 'DejaVu Serif', 'Sitka Small', serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_SLAB</option>
+					<option value="Superclarendon, 'Bookman Old Style', 'URW Bookman', 'URW Bookman L', 'Georgia Pro', Georgia, serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_ANTIQUE</option>
+					<option value="Didot, 'Bodoni MT', 'Noto Serif Display', 'URW Palladio L', P052, Sylfaen, serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_DIDONE</option>
+					<option value="'Segoe Print', 'Bradley Hand', Chilanka, TSCu_Comic, casual, cursive">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_HANDWRITTEN</option>
+				</field>
+
+				<field
+					name="noteFontScheme"
+					type="note"
+					description="TPL_CASSIOPEIA_FONT_NOTE_TEXT"
+					class="alert alert-warning"
+				/>
+
+				<field
+					name="colorName"
+					type="filelist"
+					label="TPL_CASSIOPEIA_COLOR_NAME_LABEL"
+					default="colors_standard"
+					fileFilter="^custom.+[^min]\.css$"
+					exclude="^colors.+"
+					stripext="true"
+					hide_none="true"
+					hide_default="true"
+					directory="media/templates/site/cassiopeia/css/global/"
+					validate="options"
+					>
+					<option value="colors_standard">TPL_CASSIOPEIA_COLOR_NAME_STANDARD</option>
+					<option value="colors_alternative">TPL_CASSIOPEIA_COLOR_NAME_ALTERNATIVE</option>
+				</field>
+
+				<field
+					name="fluidContainer"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					label="TPL_CASSIOPEIA_FLUID_LABEL"
+					>
+					<option value="0">TPL_CASSIOPEIA_STATIC</option>
+					<option value="1">TPL_CASSIOPEIA_FLUID</option>
+				</field>
+
+				<field
+					name="stickyHeader"
+					type="radio"
+					label="TPL_CASSIOPEIA_STICKY_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="backTop"
+					type="radio"
+					label="TPL_CASSIOPEIA_BACKTOTOP_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

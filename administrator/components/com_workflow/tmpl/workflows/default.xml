@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<layout title="COM_WORKFLOW_WORKFLOWS_VIEW_DEFAULT_TITLE">
+		<message>
+			<![CDATA[COM_WORKFLOW_WORKFLOWS_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+	<fieldset name="request">
+		<fields name="request">
+			<field
+				name="extension"
+				type="ComponentsWorkflow"
+				label="COM_WORKFLOW_CHOOSE_CONTEXT_LABEL"
+				required="true"
+				addfieldprefix="Joomla\Component\Workflow\Administrator\Field"
+				>
+				<option value="">COM_MENUS_OPTION_SELECT_CONTEXT</option>
+			</field>
+		</fields>
+	</fieldset>
+</metadata>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			inputmode="search"
+			label="COM_CACHE_FILTER_SEARCH_LABEL"
+			description="COM_CACHE_FILTER_SEARCH_DESC"
+			hint="JSEARCH_FILTER"
+			noresults="JGLOBAL_NO_MATCHING_RESULTS"
+		/>
+	</fields>
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			class="js-select-submit-on-change"
+			default="group ASC"
+			validate="options"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="group ASC">COM_CACHE_HEADING_GROUP_ASC</option>
+			<option value="group DESC">COM_CACHE_HEADING_GROUP_DESC</option>
+			<option value="count ASC">COM_CACHE_HEADING_COUNT_ASC</option>
+			<option value="count DESC">COM_CACHE_HEADING_COUNT_DESC</option>
+			<option value="size ASC">COM_CACHE_HEADING_SIZE_ASC</option>
+			<option value="size DESC">COM_CACHE_HEADING_SIZE_DESC</option>
+		</field>
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
+			default="25"
+			class="js-select-submit-on-change"
+		/>
+	</fields>
+</form>

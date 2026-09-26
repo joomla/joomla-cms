@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+
+	<fieldset name="details">
+
+		<field
+			name="compressed"
+			type="radio"
+			layout="joomla.form.field.radio.switcher"
+			label="COM_BANNERS_FIELD_COMPRESSED_LABEL"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="basename"
+			type="text"
+			label="COM_BANNERS_FIELD_BASENAME_LABEL"
+			description="COM_BANNERS_FIELD_BASENAME_DESC"
+		/>
+	</fieldset>
+</form>

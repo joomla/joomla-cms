@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="workflow" method="upgrade">
+	<name>plg_workflow_notification</name>
+	<author>Joomla! Project</author>
+	<creationDate>2020-05</creationDate>
+	<copyright>(C) 2020 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>PLG_WORKFLOW_NOTIFICATION_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Workflow\Notification</namespace>
+	<files>
+		<folder>forms</folder>
+		<folder plugin="notification">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_workflow_notification.ini</language>
+		<language tag="en-GB">language/en-GB/plg_workflow_notification.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="allowedlist"
+					type="WorkflowComponentSections"
+					label="JWORKFLOW_EXTENSION_ALLOWED_LABEL"
+					description="JWORKFLOW_EXTENSION_ALLOWED_DESCRIPTION"
+					multiple="multiple"
+					layout="joomla.form.field.list-fancy-select"
+				/>
+				<field
+					name="forbiddenlist"
+					type="WorkflowComponentSections"
+					label="JWORKFLOW_EXTENSION_FORBIDDEN_LABEL"
+					description="JWORKFLOW_EXTENSION_FORBIDDEN_DESCRIPTION"
+					multiple="multiple"
+					layout="joomla.form.field.list-fancy-select"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+
+</extension>

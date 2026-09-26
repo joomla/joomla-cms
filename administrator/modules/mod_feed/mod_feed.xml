@@ -1,24 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="administrator" method="upgrade">
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="module" client="administrator" method="upgrade">
 	<name>mod_feed</name>
 	<author>Joomla! Project</author>
-	<creationDate>July 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<creationDate>2005-07</creationDate>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_FEED_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\Feed</namespace>
 	<files>
-		<filename module="mod_feed">mod_feed.php</filename>
-		<filename>helper.php</filename>
+		<folder module="mod_feed">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_feed.ini</language>
-		<language tag="en-GB">en-GB.mod_feed.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_feed.ini</language>
+		<language tag="en-GB">language/en-GB/mod_feed.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_FEED" />
+	<help key="Admin_Modules:_Feed_Display" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -26,9 +27,7 @@
 					name="rssurl"
 					type="url"
 					label="MOD_FEED_FIELD_RSSURL_LABEL"
-					description="MOD_FEED_FIELD_RSSURL_DESC"
 					filter="url"
-					size="50"
 					required="true"
 					validate="url"
 				/>
@@ -37,34 +36,19 @@
 					name="rssrtl"
 					type="radio"
 					label="MOD_FEED_FIELD_RTL_LABEL"
-					description="MOD_FEED_FIELD_RTL_DESC"
-					class="btn-group btn-group-yesno"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
-				</field>
-
-				<field
-					name="rsstitle"
-					type="radio"
-					label="MOD_FEED_FIELD_RSSTITLE_LABEL"
-					description="MOD_FEED_FIELD_RSSTITLE_DESC"
-					class="btn-group btn-group-yesno"
-					default="1"
-					filter="integer"
-					>
 					<option value="1">JYES</option>
-					<option value="0">JNO</option>
 				</field>
 
 				<field
 					name="rssdate"
 					type="radio"
 					label="MOD_FEED_FIELD_DATE_LABEL"
-					description="MOD_FEED_FIELD_DATE_DESC"
-					class="btn-group btn-group-yesno"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					>
 					<option value="1">JYES</option>
@@ -75,56 +59,53 @@
 					name="rssdesc"
 					type="radio"
 					label="MOD_FEED_FIELD_DESCRIPTION_LABEL"
-					description="MOD_FEED_FIELD_DESCRIPTION_DESC"
-					class="btn-group btn-group-yesno"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="rssimage"
 					type="radio"
 					label="MOD_FEED_FIELD_IMAGE_LABEL"
-					description="MOD_FEED_FIELD_IMAGE_DESC"
-					class="btn-group btn-group-yesno"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="rssitems"
 					type="number"
 					label="MOD_FEED_FIELD_ITEMS_LABEL"
-					description="MOD_FEED_FIELD_ITEMS_DESC"
 					default="3"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 
 				<field
 					name="rssitemdesc"
 					type="radio"
 					label="MOD_FEED_FIELD_ITEMDESCRIPTION_LABEL"
-					description="MOD_FEED_FIELD_ITEMDESCRIPTION_DESC"
-					class="btn-group btn-group-yesno"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="rssitemdate"
 					type="radio"
 					label="MOD_FEED_FIELD_ITEMDATE_LABEL"
-					description="MOD_FEED_FIELD_ITEMDATE_DESC"
-					class="btn-group btn-group-yesno"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="integer"
 					>
@@ -132,39 +113,30 @@
 					<option value="0">JNO</option>
 				</field>
 
-				<field
-					name="word_count"
-					type="number"
-					label="MOD_FEED_FIELD_WORDCOUNT_LABEL"
-					description="MOD_FEED_FIELD_WORDCOUNT_DESC"
-					size="6"
-					default="0"
-					filter="integer"
-				/>
 			</fieldset>
 			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					class="form-select"
 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field
 					name="cache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -174,9 +146,10 @@
 					name="cache_time"
 					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 			</fieldset>
 		</fields>

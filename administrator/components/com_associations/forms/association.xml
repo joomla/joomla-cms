@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form addfieldprefix="Joomla\Component\Associations\Administrator\Field">
+	<fieldset>
+		<field
+			name="itemlanguage"
+			type="itemlanguage"
+			label="COM_ASSOCIATIONS_SELECT_TARGET_LANGUAGE_LABEL"
+			>
+			<option value="">COM_ASSOCIATIONS_SELECT_TARGET_LANGUAGE</option>
+		</field>
+
+		<field
+			name="modalassociation"
+			type="modal_association"
+		/>
+	</fieldset>
+
+	<fields name="params">
+	</fields>
+</form>

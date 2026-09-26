@@ -1,15 +1,18 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This file contains post-installation message handling for the checking minimum PHP version support
  */
 
-defined('_JEXEC') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Alerts the user we are collecting anonymous data as of Joomla 3.5.0.
@@ -20,5 +23,5 @@ defined('_JEXEC') or die;
  */
 function admin_postinstall_statscollection_condition()
 {
-	return true;
+    return true;
 }

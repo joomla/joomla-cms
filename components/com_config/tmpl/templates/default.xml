@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<layout title="COM_CONFIG_TEMPLATES_VIEW_DEFAULT_TITLE" option="COM_CONFIG_TEMPLATES_VIEW_DEFAULT_OPTION">
+		<help
+			key = "Menu_Item:_Display_Template_Options"
+		/>
+		<message>
+			<![CDATA[COM_CONFIG_TEMPLATES_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+	<fields name="request">
+		<fieldset name="request" >
+			<field
+				name="controller"
+				type="hidden"
+				default=""
+			/>
+		</fieldset>
+	</fields>
+</metadata>

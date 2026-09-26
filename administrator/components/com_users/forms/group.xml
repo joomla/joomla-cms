@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form addfieldprefix="Joomla\Component\Users\Administrator\Field">
+	<fieldset name="group_details">
+		<field
+			name="id"
+			type="hidden"
+			default="0"
+			readonly="true"
+		/>
+
+		<field
+			name="title"
+			type="text"
+			label="COM_USERS_GROUP_FIELD_TITLE_LABEL"
+			required="true"
+		/>
+
+		<field
+			name="parent_id"
+			type="groupparent"
+			label="COM_USERS_GROUP_FIELD_PARENT_LABEL"
+			validate="options"
+			>
+			<option value="0" disabled="disabled">COM_USERS_GROUP_FIELD_PARENT_SELECT</option>
+		</field>
+
+		<field
+			name="actions"
+			type="hidden"
+			multiple="true"
+		/>
+
+		<field
+			name="lft"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="rgt"
+			type="hidden"
+			filter="unset"
+		/>
+	</fieldset>
+</form>

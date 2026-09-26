@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fields name="fieldparams">
 		<fieldset name="fieldparams">
@@ -6,8 +6,8 @@
 				name="buttons"
 				type="list"
 				label="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_LABEL"
-				description="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_DESC"
 				filter="integer"
+				validate="options"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="1">JYES</option>
@@ -18,40 +18,35 @@
 				name="hide"
 				type="plugins"
 				label="PLG_FIELDS_EDITOR_PARAMS_BUTTONS_HIDE_LABEL"
-				description="JGLOBAL_SELECT_SOME_OPTIONS"
 				folder="editors-xtd"
 				multiple="true"
+				layout="joomla.form.field.list-fancy-select"
 			/>
 
 			<field
 				name="width"
 				type="text"
 				label="PLG_FIELDS_EDITOR_PARAMS_WIDTH_LABEL"
-				description="PLG_FIELDS_EDITOR_PARAMS_WIDTH_DESC"
-				size="5"
 			/>
 
 			<field
 				name="height"
 				type="text"
 				label="PLG_FIELDS_EDITOR_PARAMS_HEIGHT_LABEL"
-				description="PLG_FIELDS_EDITOR_PARAMS_HEIGHT_DESC"
-				size="5"
 			/>
 
 			<field
 				name="filter"
 				type="list"
 				label="PLG_FIELDS_TEXT_PARAMS_FILTER_LABEL"
-				description="PLG_FIELDS_TEXT_PARAMS_FILTER_DESC"
-				class="btn-group"
+				class="list"
 				validate="options"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="0">JNO</option>
 				<option value="raw">JLIB_FILTER_PARAMS_RAW</option>
 				<option value="safehtml">JLIB_FILTER_PARAMS_SAFEHTML</option>
-				<option value="JComponentHelper::filterText">JLIB_FILTER_PARAMS_TEXT</option>
+				<option value="\Joomla\CMS\Component\ComponentHelper::filterText">JLIB_FILTER_PARAMS_TEXT</option>
 			</field>
 		</fieldset>
 	</fields>

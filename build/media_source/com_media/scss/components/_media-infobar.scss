@@ -1,0 +1,83 @@
+$jicon-css-prefix: icon;
+$fa-css-prefix:    fa;
+
+.media-infobar {
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  bottom: 0;
+  float: none;
+  width: 25%;
+  background-color: $info-bg;
+  .media-infobar-inner {
+    position: sticky;
+    top: 120px;
+    padding: $gutter-width;
+  }
+  h2 {
+    padding-block-start: 8px;
+    padding-block-end: 8px;
+    padding-inline-start: ($gutter-width - 5px);
+    padding-inline-end: ($gutter-width + 20px);
+    margin: (-$gutter-width) (-$gutter-width) $gutter-width;
+    font-weight: normal;
+    word-wrap: break-word;
+    background-color: $info-title-bg;
+    border-bottom: 1px solid #eee;
+  }
+  dl {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -($col-gutter-width * .5);
+    margin-left: -($col-gutter-width * .5);
+  }
+  dt, dd {
+    position: relative;
+    direction: ltr;
+    width: 100%;
+    min-height: 1px;
+    padding-right: $col-gutter-width * .5;
+    padding-left: $col-gutter-width * .5;
+    [dir=rtl] & {
+      text-align: end;
+    }
+  }
+  dt {
+    font-weight: normal;
+    color: $info-dt-color;
+  }
+}
+
+.infobar-close {
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  z-index: 2;
+  padding: 5px $gutter-width;
+  font-size: 2.6rem;
+  line-height: 2rem;
+  color: $info-close-color;
+  text-indent: 0;
+  text-shadow: none;
+  &:hover {
+    color: $info-close-color-hover;
+    cursor: pointer;
+  }
+}
+
+[class^="#{$jicon-css-prefix}-"],
+[class*=" #{$jicon-css-prefix}-"],
+[class^="#{$fa-css-prefix}-"],
+[class*=" #{$fa-css-prefix}-"] {
+  &.placeholder-icon {
+    display: block;
+    width: 4rem;
+    height: 4rem;
+    margin: 20px auto 15px;
+    font-size: 2rem;
+    line-height: calc(4rem - 4px);
+    color: #ccc;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+  }
+}

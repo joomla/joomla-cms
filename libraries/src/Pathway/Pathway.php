@@ -1,16 +1,20 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Pathway;
 
-defined('JPATH_PLATFORM') or die;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
-use Joomla\CMS\Application\ApplicationHelper;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Class to maintain a pathway.
@@ -21,223 +25,173 @@ use Joomla\CMS\Application\ApplicationHelper;
  */
 class Pathway
 {
-	/**
-	 * @var    array  Array to hold the pathway item objects
-	 * @since  1.5
-	 * @deprecated  4.0  Will convert to $pathway
-	 */
-	protected $_pathway = array();
+    /**
+     * Array to hold the pathway item objects
+     *
+     * @var    array
+     * @since  4.0.0
+     */
+    protected $pathway = [];
 
-	/**
-	 * @var    integer  Integer number of items in the pathway
-	 * @since  1.5
-	 * @deprecated  4.0  Will convert to $count
-	 */
-	protected $_count = 0;
+    /**
+     * Integer number of items in the pathway
+     *
+     * @var    integer
+     * @since  4.0.0
+     */
+    protected $count = 0;
 
-	/**
-	 * JPathway instances container.
-	 *
-	 * @var    Pathway[]
-	 * @since  1.7
-	 */
-	protected static $instances = array();
+    /**
+     * Pathway instances container.
+     *
+     * @var    Pathway[]
+     * @since  1.7
+     */
+    protected static $instances = [];
 
-	/**
-	 * Class constructor
-	 *
-	 * @param   array  $options  The class options.
-	 *
-	 * @since   1.5
-	 */
-	public function __construct($options = array())
-	{
-	}
+    /**
+     * Returns a Pathway object
+     *
+     * @param   string  $client  The name of the client
+     *
+     * @return  Pathway  A Pathway object.
+     *
+     * @since       1.5
+     * @throws      \RuntimeException
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Get the instance from the application
+     *              Example:
+     *              $app->getPathway()
+     */
+    public static function getInstance($client)
+    {
+        if (empty(self::$instances[$client])) {
+            // Create a Pathway object
+            $name = ucfirst($client) . 'Pathway';
 
-	/**
-	 * Returns a Pathway object
-	 *
-	 * @param   string  $client   The name of the client
-	 * @param   array   $options  An associative array of options
-	 *
-	 * @return  Pathway  A Pathway object.
-	 *
-	 * @since   1.5
-	 * @throws  \RuntimeException
-	 */
-	public static function getInstance($client, $options = array())
-	{
-		if (empty(self::$instances[$client]))
-		{
-			// Create a Pathway object
-			$classname = 'JPathway' . ucfirst($client);
+            if (!Factory::getContainer()->has($name)) {
+                throw new \RuntimeException(Text::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $client), 500);
+            }
 
-			if (!class_exists($classname))
-			{
-				// @deprecated 4.0 Everything in this block is deprecated but the warning is only logged after the file_exists
-				// Load the pathway object
-				$info = ApplicationHelper::getClientInfo($client, true);
+            self::$instances[$client] = Factory::getContainer()->get($name);
+        }
 
-				if (is_object($info))
-				{
-					$path = $info->path . '/includes/pathway.php';
+        return self::$instances[$client];
+    }
 
-					\JLoader::register($classname, $path);
+    /**
+     * Return the Pathway items array
+     *
+     * @return  array  Array of pathway items
+     *
+     * @since   1.5
+     */
+    public function getPathway()
+    {
+        // Use array_values to reset the array keys numerically
+        return array_values($this->pathway);
+    }
 
-					if (class_exists($classname))
-					{
-						\JLog::add('Non-autoloadable Pathway subclasses are deprecated, support will be removed in 4.0.', \JLog::WARNING, 'deprecated');
-					}
-				}
-			}
+    /**
+     * Set the Pathway items array.
+     *
+     * @param   array  $pathway  An array of pathway objects.
+     *
+     * @return  array  The previous pathway data.
+     *
+     * @since   1.5
+     */
+    public function setPathway($pathway)
+    {
+        $oldPathway = $this->pathway;
 
-			if (class_exists($classname))
-			{
-				self::$instances[$client] = new $classname($options);
-			}
-			else
-			{
-				throw new \RuntimeException(\JText::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $client), 500);
-			}
-		}
+        // Set the new pathway.
+        $this->pathway = array_values((array) $pathway);
 
-		return self::$instances[$client];
-	}
+        return array_values($oldPathway);
+    }
 
-	/**
-	 * Return the Pathway items array
-	 *
-	 * @return  array  Array of pathway items
-	 *
-	 * @since   1.5
-	 */
-	public function getPathway()
-	{
-		$pw = $this->_pathway;
+    /**
+     * Create and return an array of the pathway names.
+     *
+     * @return  array  Array of names of pathway items
+     *
+     * @since   1.5
+     */
+    public function getPathwayNames()
+    {
+        $names = [];
 
-		// Use array_values to reset the array keys numerically
-		return array_values($pw);
-	}
+        // Build the names array using just the names of each pathway item
+        foreach ($this->pathway as $item) {
+            $names[] = $item->name;
+        }
 
-	/**
-	 * Set the Pathway items array.
-	 *
-	 * @param   array  $pathway  An array of pathway objects.
-	 *
-	 * @return  array  The previous pathway data.
-	 *
-	 * @since   1.5
-	 */
-	public function setPathway($pathway)
-	{
-		$oldPathway = $this->_pathway;
+        // Use array_values to reset the array keys numerically
+        return array_values($names);
+    }
 
-		// Set the new pathway.
-		$this->_pathway = array_values((array) $pathway);
+    /**
+     * Create and add an item to the pathway.
+     *
+     * @param   string  $name  The name of the item.
+     * @param   string  $link  The link to the item.
+     *
+     * @return  boolean  True on success
+     *
+     * @since   1.5
+     */
+    public function addItem($name, $link = '')
+    {
+        $ret = false;
 
-		return array_values($oldPathway);
-	}
+        if ($this->pathway[] = $this->makeItem($name, $link)) {
+            $ret = true;
+            $this->count++;
+        }
 
-	/**
-	 * Create and return an array of the pathway names.
-	 *
-	 * @return  array  Array of names of pathway items
-	 *
-	 * @since   1.5
-	 */
-	public function getPathwayNames()
-	{
-		$names = array();
+        return $ret;
+    }
 
-		// Build the names array using just the names of each pathway item
-		foreach ($this->_pathway as $item)
-		{
-			$names[] = $item->name;
-		}
+    /**
+     * Set item name.
+     *
+     * @param   integer  $id    The id of the item on which to set the name.
+     * @param   string   $name  The name to set.
+     *
+     * @return  boolean  True on success
+     *
+     * @since   1.5
+     */
+    public function setItemName($id, $name)
+    {
+        $ret = false;
 
-		// Use array_values to reset the array keys numerically
-		return array_values($names);
-	}
+        if (isset($this->pathway[$id])) {
+            $this->pathway[$id]->name = $name;
+            $ret                      = true;
+        }
 
-	/**
-	 * Create and add an item to the pathway.
-	 *
-	 * @param   string  $name  The name of the item.
-	 * @param   string  $link  The link to the item.
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   1.5
-	 */
-	public function addItem($name, $link = '')
-	{
-		$ret = false;
+        return $ret;
+    }
 
-		if ($this->_pathway[] = $this->makeItem($name, $link))
-		{
-			$ret = true;
-			$this->_count++;
-		}
+    /**
+     * Create and return a new pathway object.
+     *
+     * @param   string  $name  Name of the item
+     * @param   string  $link  Link to the item
+     *
+     * @return  \stdClass  Pathway item object
+     *
+     * @since   3.1
+     */
+    protected function makeItem($name, $link)
+    {
+        $item       = new \stdClass();
+        $item->name = html_entity_decode($name, ENT_COMPAT, 'UTF-8');
+        $item->link = $link;
 
-		return $ret;
-	}
-
-	/**
-	 * Set item name.
-	 *
-	 * @param   integer  $id    The id of the item on which to set the name.
-	 * @param   string   $name  The name to set.
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   1.5
-	 */
-	public function setItemName($id, $name)
-	{
-		$ret = false;
-
-		if (isset($this->_pathway[$id]))
-		{
-			$this->_pathway[$id]->name = $name;
-			$ret = true;
-		}
-
-		return $ret;
-	}
-
-	/**
-	 * Create and return a new pathway object.
-	 *
-	 * @param   string  $name  Name of the item
-	 * @param   string  $link  Link to the item
-	 *
-	 * @return  Pathway  Pathway item object
-	 *
-	 * @since   1.5
-	 * @deprecated  4.0  Use makeItem() instead
-	 * @codeCoverageIgnore
-	 */
-	protected function _makeItem($name, $link)
-	{
-		return $this->makeItem($name, $link);
-	}
-
-	/**
-	 * Create and return a new pathway object.
-	 *
-	 * @param   string  $name  Name of the item
-	 * @param   string  $link  Link to the item
-	 *
-	 * @return  Pathway  Pathway item object
-	 *
-	 * @since   3.1
-	 */
-	protected function makeItem($name, $link)
-	{
-		$item = new \stdClass;
-		$item->name = html_entity_decode($name, ENT_COMPAT, 'UTF-8');
-		$item->link = $link;
-
-		return $item;
-	}
+        return $item;
+    }
 }

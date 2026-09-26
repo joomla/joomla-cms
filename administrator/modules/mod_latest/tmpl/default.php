@@ -1,51 +1,70 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_latest
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.tooltip');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
+$moduleId = str_replace(' ', '', $module->title) . $module->id;
+
 ?>
-<div class="row-striped">
-	<?php if (count($list)) : ?>
-		<?php foreach ($list as $i => $item) : ?>
-			<div class="row-fluid">
-				<div class="span8 truncate">
-					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', false, 'cb', $item->publish_up, $item->publish_down); ?>
-					<?php if ($item->checked_out) : ?>
-						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
-					<?php endif; ?>
-
-					<strong class="row-title" title="<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>">
-						<?php if ($item->link) : ?>
-							<a href="<?php echo $item->link; ?>">
-								<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?></a>
-						<?php else : ?>
-							<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
-						<?php endif; ?>
-					</strong>
-
-					<small class="hasTooltip" title="<?php echo JHtml::_('tooltipText', 'MOD_LATEST_CREATED_BY'); ?>">
-						<?php echo $item->author_name; ?>
-					</small>
-				</div>
-				<div class="span4">
-					<div class="small pull-right hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JGLOBAL_FIELD_CREATED_LABEL'); ?>">
-						<span class="icon-calendar" aria-hidden="true"></span> <?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC5')); ?>
-					</div>
-				</div>
-			</div>
-		<?php endforeach; ?>
-	<?php else : ?>
-		<div class="row-fluid">
-			<div class="span12">
-				<div class="alert"><?php echo JText::_('MOD_LATEST_NO_MATCHING_RESULTS');?></div>
-			</div>
-		</div>
-	<?php endif; ?>
-</div>
+<table class="table" id="<?php echo $moduleId; ?>">
+    <caption class="visually-hidden"><?php echo $module->title; ?></caption>
+    <thead>
+        <tr>
+            <th scope="col"><?php echo Text::_('JGLOBAL_TITLE'); ?></th>
+            <?php if ($workflow_enabled) : ?>
+                <th scope="col" class="w-20"><?php echo Text::_('JSTAGE'); ?></th>
+            <?php endif; ?>
+            <th scope="col" class="w-20"><?php echo Text::_('JAUTHOR'); ?></th>
+            <th scope="col" class="w-20">
+                <?php echo ($params->get('ordering', 'c_dsc') == 'm_dsc') ? Text::_('MOD_LATEST_HEADING_DATE_MODIFIED') : Text::_('MOD_LATEST_HEADING_DATE_CREATED'); ?>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (count($list)) : ?>
+            <?php foreach ($list as $i => $item) : ?>
+        <tr>
+            <th scope="row">
+                <?php if ($item->checked_out) : ?>
+                    <?php echo HTMLHelper::_('jgrid.checkedout', $moduleId . $i, $item->editor, $item->checked_out_time, $module->id); ?>
+                <?php endif; ?>
+                <?php if ($item->link) : ?>
+                    <a href="<?php echo $item->link; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>">
+                        <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
+                    </a>
+                <?php else : ?>
+                    <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
+                <?php endif; ?>
+            </th>
+                <?php if ($workflow_enabled) : ?>
+                <td>
+                    <?php echo Text::_($item->stage_title); ?>
+                </td>
+                <?php endif; ?>
+            <td>
+                <?php echo $item->author_name; ?>
+            </td>
+            <td>
+                <?php echo ($params->get('ordering', 'c_dsc') == 'm_dsc') ? HTMLHelper::_('date', $item->modified, Text::_('DATE_FORMAT_LC4')) : HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')); ?>
+            </td>
+        </tr>
+            <?php endforeach; ?>
+        <?php else : ?>
+        <tr>
+            <td colspan="3">
+                <?php echo Text::_('MOD_LATEST_NO_MATCHING_RESULTS'); ?>
+            </td>
+        </tr>
+        <?php endif; ?>
+    </tbody>
+</table>

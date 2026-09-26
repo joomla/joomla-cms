@@ -1,68 +1,73 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
-$app       = JFactory::getApplication();
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+
+$app       = Factory::getApplication();
 $form      = $displayData->getForm();
-$input     = $app->input;
+$input     = $app->getInput();
 $component = $input->getCmd('option', 'com_content');
 
-if ($component === 'com_categories')
-{
-	$extension = $input->getCmd('extension', 'com_content');
-	$parts     = explode('.', $extension);
-	$component = $parts[0];
+if ($component === 'com_categories') {
+    $extension = $input->getCmd('extension', 'com_content');
+    $parts     = explode('.', $extension);
+    $component = $parts[0];
 }
 
-$saveHistory = JComponentHelper::getParams($component)->get('save_history', 0);
+$saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
 
-$fields = $displayData->get('fields') ?: array(
-	array('parent', 'parent_id'),
-	array('published', 'state', 'enabled'),
-	array('category', 'catid'),
-	'featured',
-	'sticky',
-	'access',
-	'id',
-	'language',
-	'tags',
-	'note',
-	'version_note',
-);
+$fields = $displayData->get('fields') ?: [
+    'transition',
+    ['parent', 'parent_id'],
+    ['published', 'state', 'enabled'],
+    ['category', 'catid'],
+    'featured',
+    'sticky',
+    'access',
+    'language',
+    'tags',
+    'note',
+    'version_note',
+];
 
-$hiddenFields   = $displayData->get('hidden_fields') ?: array();
-$hiddenFields[] = 'id';
+$hiddenFields = $displayData->get('hidden_fields') ?: [];
 
-if (!$saveHistory)
-{
-	$hiddenFields[] = 'version_note';
+if (!$saveHistory) {
+    $hiddenFields[] = 'version_note';
 }
 
-$html   = array();
+if (!Multilanguage::isEnabled()) {
+    $hiddenFields[] = 'language';
+    $form->setFieldAttribute('language', 'default', '*');
+}
+
+$html   = [];
 $html[] = '<fieldset class="form-vertical">';
+$html[] = '<legend class="visually-hidden">' . Text::_('JGLOBAL_FIELDSET_GLOBAL') . '</legend>';
 
-foreach ($fields as $field)
-{
-	foreach ((array) $field as $f)
-	{
-		if ($form->getField($f))
-		{
-			if (in_array($f, $hiddenFields))
-			{
-				$form->setFieldAttribute($f, 'type', 'hidden');
-			}
+foreach ($fields as $field) {
+    foreach ((array) $field as $f) {
+        if ($form->getField($f)) {
+            if (in_array($f, $hiddenFields)) {
+                $form->setFieldAttribute($f, 'type', 'hidden');
+            }
 
-			$html[] = $form->renderField($f);
-			break;
-		}
-	}
+            $html[] = $form->renderField($f);
+            break;
+        }
+    }
 }
 
 $html[] = '</fieldset>';

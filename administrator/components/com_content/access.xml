@@ -1,40 +1,61 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <access component="com_content">
 	<section name="component">
-		<action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC" />
-		<action name="core.options" title="JACTION_OPTIONS" description="JACTION_OPTIONS_COMPONENT_DESC" />
-		<action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC" />
-		<action name="core.create" title="JACTION_CREATE" description="JACTION_CREATE_COMPONENT_DESC" />
-		<action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />
-		<action name="core.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC" />
-		<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />
-		<action name="core.edit.own" title="JACTION_EDITOWN" description="JACTION_EDITOWN_COMPONENT_DESC" />
-		<action name="core.edit.value" title="JACTION_EDITVALUE" description="JACTION_EDITVALUE_COMPONENT_DESC" />
+		<action name="core.admin" title="JACTION_ADMIN" />
+		<action name="core.options" title="JACTION_OPTIONS" />
+		<action name="core.manage" title="JACTION_MANAGE" />
+		<action name="core.create" title="JACTION_CREATE" />
+		<action name="core.delete" title="JACTION_DELETE" />
+		<action name="core.edit" title="JACTION_EDIT" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" />
+		<action name="core.edit.own" title="JACTION_EDITOWN" />
+		<action name="core.edit.value" title="JACTION_EDITVALUE" />
+		<action name="core.manage.workflow" title="JACTION_MANAGEWORKFLOW" />
+		<action name="core.execute.transition" title="JACTION_EXECUTETRANSITION" />
 	</section>
 	<section name="category">
-		<action name="core.create" title="JACTION_CREATE" description="COM_CATEGORIES_ACCESS_CREATE_DESC" />
-		<action name="core.delete" title="JACTION_DELETE" description="COM_CATEGORIES_ACCESS_DELETE_DESC" />
-		<action name="core.edit" title="JACTION_EDIT" description="COM_CATEGORIES_ACCESS_EDIT_DESC" />
-		<action name="core.edit.state" title="JACTION_EDITSTATE" description="COM_CATEGORIES_ACCESS_EDITSTATE_DESC" />
-		<action name="core.edit.own" title="JACTION_EDITOWN" description="COM_CATEGORIES_ACCESS_EDITOWN_DESC" />
+		<action name="core.create" title="JACTION_CREATE" />
+		<action name="core.delete" title="JACTION_DELETE" />
+		<action name="core.edit" title="JACTION_EDIT" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" />
+		<action name="core.edit.own" title="JACTION_EDITOWN" />
 	</section>
 	<section name="article">
-		<action name="core.delete" title="JACTION_DELETE" description="COM_CONTENT_ACCESS_DELETE_DESC" />
-		<action name="core.edit" title="JACTION_EDIT" description="COM_CONTENT_ACCESS_EDIT_DESC" />
-		<action name="core.edit.state" title="JACTION_EDITSTATE" description="COM_CONTENT_ACCESS_EDITSTATE_DESC" />
+		<action name="core.delete" title="JACTION_DELETE" />
+		<action name="core.edit" title="JACTION_EDIT" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" />
 	</section>
 	<section name="fieldgroup">
-		<action name="core.create" title="JACTION_CREATE" description="COM_FIELDS_GROUP_PERMISSION_CREATE_DESC" />
-		<action name="core.delete" title="JACTION_DELETE" description="COM_FIELDS_GROUP_PERMISSION_DELETE_DESC" />
-		<action name="core.edit" title="JACTION_EDIT" description="COM_FIELDS_GROUP_PERMISSION_EDIT_DESC" />
-		<action name="core.edit.state" title="JACTION_EDITSTATE" description="COM_FIELDS_GROUP_PERMISSION_EDITSTATE_DESC" />
-		<action name="core.edit.own" title="JACTION_EDITOWN" description="COM_FIELDS_GROUP_PERMISSION_EDITOWN_DESC" />
-		<action name="core.edit.value" title="JACTION_EDITVALUE" description="COM_FIELDS_GROUP_PERMISSION_EDITVALUE_DESC" />
+		<action name="core.create" title="JACTION_CREATE" />
+		<action name="core.delete" title="JACTION_DELETE" />
+		<action name="core.edit" title="JACTION_EDIT" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" />
+		<action name="core.edit.own" title="JACTION_EDITOWN" />
+		<action name="core.edit.value" title="JACTION_EDITVALUE" />
 	</section>
 	<section name="field">
-		<action name="core.delete" title="JACTION_DELETE" description="COM_FIELDS_FIELD_PERMISSION_DELETE_DESC" />
-		<action name="core.edit" title="JACTION_EDIT" description="COM_FIELDS_FIELD_PERMISSION_EDIT_DESC" />
-		<action name="core.edit.state" title="JACTION_EDITSTATE" description="COM_FIELDS_FIELD_PERMISSION_EDITSTATE_DESC" />
-		<action name="core.edit.value" title="JACTION_EDITVALUE" description="COM_FIELDS_FIELD_PERMISSION_EDITVALUE_DESC" />
+		<action name="core.delete" title="JACTION_DELETE" />
+		<action name="core.edit" title="JACTION_EDIT" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" />
+		<action name="core.edit.value" title="JACTION_EDITVALUE" />
+	</section>
+	<section name="workflow">
+		<action name="core.create" title="JACTION_CREATE" />
+		<action name="core.delete" title="JACTION_DELETE" />
+		<action name="core.edit" title="JACTION_EDIT" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" />
+		<action name="core.edit.own" title="JACTION_EDITOWN" />
+		<action name="core.execute.transition" title="JACTION_EXECUTETRANSITION" />
+	</section>
+	<section name="transition">
+		<action name="core.delete" title="JACTION_DELETE" />
+		<action name="core.edit" title="JACTION_EDIT" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" />
+		<action name="core.execute.transition" title="JACTION_EXECUTETRANSITION" />
+	</section>
+	<section name="stage">
+		<action name="core.delete" title="JACTION_DELETE" />
+		<action name="core.edit" title="JACTION_EDIT" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" />
 	</section>
 </access>

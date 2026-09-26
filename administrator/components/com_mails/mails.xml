@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="component" method="upgrade">
+	<name>com_mails</name>
+	<author>Joomla! Project</author>
+	<creationDate>2019-01</creationDate>
+	<copyright>(C) 2019 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>COM_MAILS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Component\Mails</namespace>
+	<administration>
+		<files folder="admin">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>mails.xml</filename>
+			<folder>forms</folder>
+			<folder>services</folder>
+			<folder>src</folder>
+			<folder>tmpl</folder>
+		</files>
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB/com_mails.ini</language>
+			<language tag="en-GB">language/en-GB/com_mails.sys.ini</language>
+		</languages>
+	</administration>
+</extension>

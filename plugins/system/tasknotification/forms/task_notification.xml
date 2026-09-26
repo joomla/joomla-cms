@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="params">
+		<fields name="notifications">
+			<fieldset name="notifications">
+				<field
+					name="success_mail"
+					type="radio"
+					label="PLG_SYSTEM_TASK_NOTIFICATION_LABEL_SUCCESS_MAIL_TOGGLE"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="notification_success_groups"
+					type="usergrouplist"
+					label="PLG_SYSTEM_TASK_NOTIFICATION_SUCCESS_USERGROUP_LABEL"
+					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
+					checksuperusergroup="0"
+					showon="success_mail:1"
+				>
+				</field>
+				<field
+					name="failure_mail"
+					type="radio"
+					label="PLG_SYSTEM_TASK_NOTIFICATION_LABEL_FAILURE_MAIL_TOGGLE"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="notification_failure_groups"
+					type="usergrouplist"
+					label="PLG_SYSTEM_TASK_NOTIFICATION_FAILURE_USERGROUP_LABEL"
+					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
+					checksuperusergroup="0"
+					showon="failure_mail:1"
+				>
+				</field>
+				<field
+					name="fatal_failure_mail"
+					type="radio"
+					label="PLG_SYSTEM_TASK_NOTIFICATION_LABEL_FATAL_FAILURE_MAIL_TOGGLE"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="notification_fatal_groups"
+					type="usergrouplist"
+					label="PLG_SYSTEM_TASK_NOTIFICATION_FATAL_USERGROUP_LABEL"
+					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
+					checksuperusergroup="0"
+					showon="fatal_failure_mail:1"
+				>
+				</field>
+				<field
+					name="orphan_mail"
+					type="radio"
+					label="PLG_SYSTEM_TASK_NOTIFICATION_LABEL_ORPHANED_TASK_MAIL_TOGGLE"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="notification_orphan_groups"
+					type="usergrouplist"
+					label="PLG_SYSTEM_TASK_NOTIFICATION_ORPHAN_USERGROUP_LABEL"
+					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
+					checksuperusergroup="0"
+					showon="orphan_mail:1"
+				>
+				</field>
+			</fieldset>
+		</fields>
+	</fields>
+</form>

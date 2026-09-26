@@ -1,17 +1,22 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Cache\Storage;
 
-defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Cache\CacheStorage;
+use Joomla\CMS\Cache\Exception\CacheConnectingException;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Redis cache storage handler for PECL
@@ -20,357 +25,300 @@ use Joomla\CMS\Log\Log;
  */
 class RedisStorage extends CacheStorage
 {
-	/**
-	 * Redis connection object
-	 *
-	 * @var    \Redis
-	 * @since  3.4
-	 */
-	protected static $_redis = null;
+    /**
+     * Redis connection object
+     *
+     * @var    \Redis
+     * @since  3.4
+     */
+    protected static $_redis = null;
 
-	/**
-	 * Persistent session flag
-	 *
-	 * @var    boolean
-	 * @since  3.4
-	 */
-	protected $_persistent = false;
+    /**
+     * Persistent session flag
+     *
+     * @var    boolean
+     * @since  3.4
+     */
+    protected $_persistent = false;
 
-	/**
-	 * Constructor
-	 *
-	 * @param   array  $options  Optional parameters.
-	 *
-	 * @since   3.4
-	 */
-	public function __construct($options = array())
-	{
-		parent::__construct($options);
+    /**
+     * Constructor
+     *
+     * @param   array  $options  Optional parameters.
+     *
+     * @since   3.4
+     */
+    public function __construct($options = [])
+    {
+        parent::__construct($options);
 
-		if (static::$_redis === null)
-		{
-			$this->getConnection();
-		}
-	}
+        if (static::$_redis === null) {
+            $this->getConnection();
+        }
+    }
 
-	/**
-	 * Create the Redis connection
-	 *
-	 * @return  \Redis|boolean  Redis connection object on success, boolean on failure
-	 *
-	 * @since   3.4
-	 * @note    As of 4.0 this method will throw a JCacheExceptionConnecting object on connection failure
-	 */
-	protected function getConnection()
-	{
-		if (static::isSupported() == false)
-		{
-			return false;
-		}
+    /**
+     * Create the Redis connection
+     *
+     * @return  \Redis|boolean  Redis connection object on success, boolean on failure
+     *
+     * @since   3.4
+     * @note    As of 4.0 this method will throw a JCacheExceptionConnecting object on connection failure
+     */
+    protected function getConnection()
+    {
+        if (!static::isSupported()) {
+            return false;
+        }
 
-		$config = \JFactory::getConfig();
+        $app = Factory::getApplication();
 
-		$this->_persistent = $config->get('redis_persist', true);
+        $this->_persistent = $app->get('redis_persist', true);
 
-		$server = array(
-			'host' => $config->get('redis_server_host', 'localhost'),
-			'port' => $config->get('redis_server_port', 6379),
-			'auth' => $config->get('redis_server_auth', null),
-			'db'   => (int) $config->get('redis_server_db', null),
-		);
+        $server = [
+            'host' => $app->get('redis_server_host', 'localhost'),
+            'port' => $app->get('redis_server_port', 6379),
+            'auth' => $app->get('redis_server_auth', null),
+            'db'   => (int) $app->get('redis_server_db', null),
+        ];
 
-		// If you are trying to connect to a socket file, ignore the supplied port
-		if ($server['host'][0] === '/')
-		{
-			$server['port'] = 0;
-		}
+        // If you are trying to connect to a socket file, ignore the supplied port
+        if ($server['host'][0] === '/') {
+            $server['port'] = 0;
+        }
 
-		static::$_redis = new \Redis;
+        static::$_redis = new \Redis();
 
-		try
-		{
-			if ($this->_persistent)
-			{
-				$connection = static::$_redis->pconnect($server['host'], $server['port']);
-			}
-			else
-			{
-				$connection = static::$_redis->connect($server['host'], $server['port']);
-			}
-		}
-		catch (\RedisException $e)
-		{
-			Log::add($e->getMessage(), Log::DEBUG);
-		}
+        try {
+            if ($this->_persistent) {
+                $connection = static::$_redis->pconnect($server['host'], $server['port']);
+            } else {
+                $connection = static::$_redis->connect($server['host'], $server['port']);
+            }
+        } catch (\RedisException $e) {
+            $connection = false;
+            Log::add($e->getMessage(), Log::DEBUG);
+        }
 
-		if ($connection == false)
-		{
-			static::$_redis = null;
+        if (!$connection) {
+            static::$_redis = null;
 
-			// Because the application instance may not be available on cli script, use it only if needed
-			if (\JFactory::getApplication()->isClient('administrator'))
-			{
-				\JError::raiseWarning(500, 'Redis connection failed');
-			}
+            throw new CacheConnectingException('Redis connection failed', 500);
+        }
 
-			return false;
-		}
+        try {
+            $auth = $server['auth'] ? static::$_redis->auth($server['auth']) : true;
+        } catch (\RedisException $e) {
+            $auth = false;
+            Log::add($e->getMessage(), Log::DEBUG);
+        }
 
-		try
-		{
-			$auth = $server['auth'] ? static::$_redis->auth($server['auth']) : true;
-		}
-		catch (\RedisException $e)
-		{
-			$auth = false;
-			Log::add($e->getMessage(), Log::DEBUG);
-		}
+        if ($auth === false) {
+            static::$_redis = null;
 
-		if ($auth === false)
-		{
-			static::$_redis = null;
+            throw new CacheConnectingException('Redis authentication failed', 500);
+        }
 
-			// Because the application instance may not be available on cli script, use it only if needed
-			if (\JFactory::getApplication()->isClient('administrator'))
-			{
-				\JError::raiseWarning(500, 'Redis authentication failed');
-			}
+        $select = static::$_redis->select($server['db']);
 
-			return false;
-		}
+        if (!$select) {
+            static::$_redis = null;
 
-		$select = static::$_redis->select($server['db']);
+            throw new CacheConnectingException('Redis failed to select database', 500);
+        }
 
-		if ($select == false)
-		{
-			static::$_redis = null;
+        try {
+            static::$_redis->ping();
+        } catch (\RedisException) {
+            static::$_redis = null;
 
-			// Because the application instance may not be available on cli script, use it only if needed
-			if (\JFactory::getApplication()->isClient('administrator'))
-			{
-				\JError::raiseWarning(500, 'Redis failed to select database');
-			}
+            throw new CacheConnectingException('Redis ping failed', 500);
+        }
 
-			return false;
-		}
+        return static::$_redis;
+    }
 
-		try
-		{
-			static::$_redis->ping();
-		}
-		catch (\RedisException $e)
-		{
-			static::$_redis = null;
+    /**
+     * Check if the cache contains data stored by ID and group
+     *
+     * @param   string  $id     The cache data ID
+     * @param   string  $group  The cache data group
+     *
+     * @return  boolean
+     *
+     * @since   3.7.0
+     */
+    public function contains($id, $group)
+    {
+        if (!static::isConnected()) {
+            return false;
+        }
 
-			// Because the application instance may not be available on cli script, use it only if needed
-			if (\JFactory::getApplication()->isClient('administrator'))
-			{
-				\JError::raiseWarning(500, 'Redis ping failed');
-			}
+        // Redis exists returns integer values lets convert that to boolean see: https://redis.io/commands/exists
+        return (bool) static::$_redis->exists($this->_getCacheId($id, $group));
+    }
 
-			return false;
-		}
+    /**
+     * Get cached data by ID and group
+     *
+     * @param   string   $id         The cache data ID
+     * @param   string   $group      The cache data group
+     * @param   boolean  $checkTime  True to verify cache time expiration threshold
+     *
+     * @return  mixed  Boolean false on failure or a cached data object
+     *
+     * @since   3.4
+     */
+    public function get($id, $group, $checkTime = true)
+    {
+        if (!static::isConnected()) {
+            return false;
+        }
 
-		return static::$_redis;
-	}
+        return static::$_redis->get($this->_getCacheId($id, $group));
+    }
 
-	/**
-	 * Check if the cache contains data stored by ID and group
-	 *
-	 * @param   string  $id     The cache data ID
-	 * @param   string  $group  The cache data group
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.7.0
-	 */
-	public function contains($id, $group)
-	{
-		if (static::isConnected() == false)
-		{
-			return false;
-		}
+    /**
+     * Get all cached data
+     *
+     * @return  mixed  Boolean false on failure or a cached data object
+     *
+     * @since   3.4
+     */
+    public function getAll()
+    {
+        if (!static::isConnected()) {
+            return false;
+        }
 
-		// Redis exists returns integer values lets convert that to boolean see: https://redis.io/commands/exists
-		return (bool) static::$_redis->exists($this->_getCacheId($id, $group));
-	}
+        $allKeys = static::$_redis->keys('*');
+        $data    = [];
+        $secret  = $this->_hash;
 
-	/**
-	 * Get cached data by ID and group
-	 *
-	 * @param   string   $id         The cache data ID
-	 * @param   string   $group      The cache data group
-	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
-	 *
-	 * @return  mixed  Boolean false on failure or a cached data object
-	 *
-	 * @since   3.4
-	 */
-	public function get($id, $group, $checkTime = true)
-	{
-		if (static::isConnected() == false)
-		{
-			return false;
-		}
+        if (!empty($allKeys)) {
+            foreach ($allKeys as $key) {
+                $namearr = explode('-', $key);
 
-		return static::$_redis->get($this->_getCacheId($id, $group));
-	}
+                if ($namearr !== false && $namearr[0] == $secret && $namearr[1] === 'cache') {
+                    $group = $namearr[2];
 
-	/**
-	 * Get all cached data
-	 *
-	 * @return  mixed  Boolean false on failure or a cached data object
-	 *
-	 * @since   3.4
-	 */
-	public function getAll()
-	{
-		if (static::isConnected() == false)
-		{
-			return false;
-		}
+                    if (!isset($data[$group])) {
+                        $item = new CacheStorageHelper($group);
+                    } else {
+                        $item = $data[$group];
+                    }
 
-		$allKeys = static::$_redis->keys('*');
-		$data    = array();
-		$secret  = $this->_hash;
+                    $item->updateSize(\strlen($key) * 8);
+                    $data[$group] = $item;
+                }
+            }
+        }
 
-		if (!empty($allKeys))
-		{
-			foreach ($allKeys as $key)
-			{
-				$namearr = explode('-', $key);
+        return $data;
+    }
 
-				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
-				{
-					$group = $namearr[2];
+    /**
+     * Store the data to cache by ID and group
+     *
+     * @param   string  $id     The cache data ID
+     * @param   string  $group  The cache data group
+     * @param   string  $data   The data to store in cache
+     *
+     * @return  boolean
+     *
+     * @since   3.4
+     */
+    public function store($id, $group, $data)
+    {
+        if (!static::isConnected()) {
+            return false;
+        }
 
-					if (!isset($data[$group]))
-					{
-						$item = new CacheStorageHelper($group);
-					}
-					else
-					{
-						$item = $data[$group];
-					}
+        static::$_redis->setex($this->_getCacheId($id, $group), $this->_lifetime, $data);
 
-					$item->updateSize(strlen($key)*8);
-					$data[$group] = $item;
-				}
-			}
-		}
+        return true;
+    }
 
-		return $data;
-	}
+    /**
+     * Remove a cached data entry by ID and group
+     *
+     * @param   string  $id     The cache data ID
+     * @param   string  $group  The cache data group
+     *
+     * @return  boolean
+     *
+     * @since   3.4
+     */
+    public function remove($id, $group)
+    {
+        if (!static::isConnected()) {
+            return false;
+        }
 
-	/**
-	 * Store the data to cache by ID and group
-	 *
-	 * @param   string  $id     The cache data ID
-	 * @param   string  $group  The cache data group
-	 * @param   string  $data   The data to store in cache
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.4
-	 */
-	public function store($id, $group, $data)
-	{
-		if (static::isConnected() == false)
-		{
-			return false;
-		}
+        return (bool) static::$_redis->del($this->_getCacheId($id, $group));
+    }
 
-		static::$_redis->setex($this->_getCacheId($id, $group), $this->_lifetime, $data);
+    /**
+     * Clean cache for a group given a mode.
+     *
+     * group mode    : cleans all cache in the group
+     * notgroup mode : cleans all cache not in the group
+     *
+     * @param   string  $group  The cache data group
+     * @param   string  $mode   The mode for cleaning cache [group|notgroup]
+     *
+     * @return  boolean
+     *
+     * @since   3.4
+     */
+    public function clean($group, $mode = null)
+    {
+        if (!static::isConnected()) {
+            return false;
+        }
 
-		return true;
-	}
+        $allKeys = static::$_redis->keys('*');
 
-	/**
-	 * Remove a cached data entry by ID and group
-	 *
-	 * @param   string  $id     The cache data ID
-	 * @param   string  $group  The cache data group
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.4
-	 */
-	public function remove($id, $group)
-	{
-		if (static::isConnected() == false)
-		{
-			return false;
-		}
+        if ($allKeys === false) {
+            $allKeys = [];
+        }
 
-		return (bool) static::$_redis->delete($this->_getCacheId($id, $group));
-	}
+        $secret = $this->_hash;
 
-	/**
-	 * Clean cache for a group given a mode.
-	 *
-	 * group mode    : cleans all cache in the group
-	 * notgroup mode : cleans all cache not in the group
-	 *
-	 * @param   string  $group  The cache data group
-	 * @param   string  $mode   The mode for cleaning cache [group|notgroup]
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.4
-	 */
-	public function clean($group, $mode = null)
-	{
-		if (static::isConnected() == false)
-		{
-			return false;
-		}
+        foreach ($allKeys as $key) {
+            if (str_starts_with($key, $secret . '-cache-' . $group . '-') && $mode === 'group') {
+                static::$_redis->del($key);
+            }
 
-		$allKeys = static::$_redis->keys('*');
+            if (!str_starts_with($key, $secret . '-cache-' . $group . '-') && $mode !== 'group') {
+                static::$_redis->del($key);
+            }
+        }
 
-		if ($allKeys === false)
-		{
-			$allKeys = array();
-		}
+        return true;
+    }
 
-		$secret = $this->_hash;
+    /**
+     * Test to see if the storage handler is available.
+     *
+     * @return  boolean
+     *
+     * @since   3.4
+     */
+    public static function isSupported()
+    {
+        return class_exists('\\Redis');
+    }
 
-		foreach ($allKeys as $key)
-		{
-			if (strpos($key, $secret . '-cache-' . $group . '-') === 0 && $mode == 'group')
-			{
-				static::$_redis->delete($key);
-			}
-
-			if (strpos($key, $secret . '-cache-' . $group . '-') !== 0 && $mode != 'group')
-			{
-				static::$_redis->delete($key);
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Test to see if the storage handler is available.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.4
-	 */
-	public static function isSupported()
-	{
-		return class_exists('\\Redis');
-	}
-
-	/**
-	 * Test to see if the Redis connection is available.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.4
-	 */
-	public static function isConnected()
-	{
-		return static::$_redis instanceof \Redis;
-	}
+    /**
+     * Test to see if the Redis connection is available.
+     *
+     * @return  boolean
+     *
+     * @since   3.4
+     */
+    public static function isConnected()
+    {
+        return static::$_redis instanceof \Redis;
+    }
 }

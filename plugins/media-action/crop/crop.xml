@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="media-action" method="upgrade">
+	<name>plg_media-action_crop</name>
+	<author>Joomla! Project</author>
+	<creationDate>2017-01</creationDate>
+	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>PLG_MEDIA-ACTION_CROP_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\MediaAction\Crop</namespace>
+	<files>
+		<folder>form</folder>
+		<folder plugin="crop">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_media-action_crop.ini</language>
+		<language tag="en-GB">language/en-GB/plg_media-action_crop.sys.ini</language>
+	</languages>
+</extension>

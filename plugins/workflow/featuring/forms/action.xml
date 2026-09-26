@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="options">
+		<fieldset name="actions" label="COM_WORKFLOW_TRANSITION_ACTIONS_LABEL">
+			<field
+				name="featuring"
+				type="list"
+				label="PLG_WORKFLOW_FEATURING_TRANSITION_ACTIONS_FEATURING_LABEL"
+				description="PLG_WORKFLOW_FEATURING_TRANSITION_ACTIONS_FEATURING_DESC"
+				default=""
+				>
+				<option value="">JOPTION_DO_NOT_USE</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+		</fieldset>
+	</fields>
+</form>

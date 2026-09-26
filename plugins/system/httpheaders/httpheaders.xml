@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="system" method="upgrade">
+	<name>plg_system_httpheaders</name>
+	<author>Joomla! Project</author>
+	<creationDate>2017-10</creationDate>
+	<copyright>(C) 2018 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>PLG_SYSTEM_HTTPHEADERS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\Httpheaders</namespace>
+	<files>
+		<folder>postinstall</folder>
+		<folder plugin="httpheaders">services</folder>
+		<folder>src</folder>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="xframeoptions"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_XFRAMEOPTIONS"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					validate="options"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="referrerpolicy"
+					type="list"
+					label="PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY"
+					default="strict-origin-when-cross-origin"
+					validate="options"
+					>
+					<option value="disabled">JDISABLED</option>
+					<option value="no-referrer">no-referrer</option>
+					<option value="no-referrer-when-downgrade">no-referrer-when-downgrade</option>
+					<option value="origin">origin</option>
+					<option value="origin-when-cross-origin">origin-when-cross-origin</option>
+					<option value="same-origin">same-origin</option>
+					<option value="strict-origin">strict-origin</option>
+					<option value="strict-origin-when-cross-origin">strict-origin-when-cross-origin</option>
+					<option value="unsafe-url">unsafe-url</option>
+				</field>
+				<field
+					name="coop"
+					type="list"
+					label="PLG_SYSTEM_HTTPHEADERS_COOP"
+					default="same-origin"
+					validate="options"
+					>
+					<option value="disabled">JDISABLED</option>
+					<option value="same-origin">same-origin</option>
+					<option value="same-origin-allow-popups">same-origin-allow-popups</option>
+					<option value="unsafe-none">unsafe-none</option>
+				</field>
+				<field
+					name="additional_httpheader"
+					type="subform"
+					label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER"
+					multiple="true"
+					>
+					<form>
+						<field
+							name="key"
+							type="list"
+							label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_KEY"
+							validate="options"
+							class="col-md-4"
+							>
+							<option value="content-security-policy">Content-Security-Policy</option>
+							<option value="content-security-policy-report-only">Content-Security-Policy-Report-Only</option>
+							<option value="cross-origin-opener-policy">Cross-Origin-Opener-Policy</option>
+							<option value="expect-ct">Expect-CT</option>
+							<option value="feature-policy">Feature-Policy</option>
+							<option value="nel">NEL</option>
+							<option value="permissions-policy">Permissions-Policy</option>
+							<option value="referrer-policy">Referrer-Policy</option>
+							<option value="report-to">Report-To</option>
+							<option value="strict-transport-security">Strict-Transport-Security</option>
+							<option value="x-frame-options">X-Frame-Options</option>
+						</field>
+						<field
+							name="value"
+							type="text"
+							label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_VALUE"
+							class="col-md-10"
+						/>
+						<field
+							name="client"
+							type="radio"
+							label="PLG_SYSTEM_HTTPHEADERS_HEADER_CLIENT"
+							default="site"
+							validate="options"
+							class="col-md-12"
+							>
+							<option value="site">JSITE</option>
+							<option value="administrator">JADMINISTRATOR</option>
+							<option value="both">PLG_SYSTEM_HTTPHEADERS_HEADER_CLIENT_BOTH</option>
+						</field>
+					</form>
+				</field>
+			</fieldset>
+			<fieldset name="hsts" label="Strict-Transport-Security (HSTS)">
+				<field
+					name="hsts"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_HSTS"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					validate="options"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="hsts_maxage"
+					type="number"
+					label="PLG_SYSTEM_HTTPHEADERS_HSTS_MAXAGE"
+					description="PLG_SYSTEM_HTTPHEADERS_HSTS_MAXAGE_DESC"
+					default="31536000"
+					filter="integer"
+					validate="number"
+					min="300"
+					showon="hsts:1"
+				/>
+				<field
+					name="hsts_subdomains"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_HSTS_SUBDOMAINS"
+					description="PLG_SYSTEM_HTTPHEADERS_HSTS_SUBDOMAINS_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					validate="options"
+					showon="hsts:1"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="hsts_preload"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_HSTS_PRELOAD"
+					description="PLG_SYSTEM_HTTPHEADERS_HSTS_PRELOAD_NOTE_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					validate="options"
+					showon="hsts:1"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+			</fieldset>
+			<fieldset name="csp" label="Content-Security-Policy (CSP)">
+				<field
+					name="contentsecuritypolicy"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="contentsecuritypolicy_client"
+					type="list"
+					label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_CLIENT"
+					default="site"
+					validate="options"
+					showon="contentsecuritypolicy:1"
+					>
+					<option value="site">JSITE</option>
+					<option value="administrator">JADMINISTRATOR</option>
+					<option value="both">PLG_SYSTEM_HTTPHEADERS_HEADER_CLIENT_BOTH</option>
+				</field>
+				<field
+					name="contentsecuritypolicy_report_only"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_REPORT_ONLY"
+					description="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_REPORT_ONLY_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					showon="contentsecuritypolicy:1"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="nonce_enabled"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_NONCE_ENABLED"
+					description="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_NONCE_ENABLED_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					showon="contentsecuritypolicy:1"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="script_hashes_enabled"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_SCRIPT_HASHES_ENABLED"
+					description="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_SCRIPT_HASHES_ENABLED_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					showon="contentsecuritypolicy:1"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="strict_dynamic_enabled"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_STRICT_DYNAMIC_ENABLED"
+					description="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_STRICT_DYNAMIC_ENABLED_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					showon="contentsecuritypolicy:1"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="style_hashes_enabled"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_STYLE_HASHES_ENABLED"
+					description="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_STYLE_HASHES_ENABLED_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					showon="contentsecuritypolicy:1"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="frame_ancestors_self_enabled"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_FRAME_ANCESTORS_SELF_ENABLED"
+					description="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_FRAME_ANCESTORS_SELF_ENABLED_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					showon="contentsecuritypolicy:1"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="contentsecuritypolicy_values"
+					type="subform"
+					label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_VALUES"
+					multiple="true"
+					showon="contentsecuritypolicy:1"
+					>
+					<form>
+						<field
+							name="directive"
+							type="list"
+							label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_VALUES_DIRECTIVE"
+							class="col-md-4"
+							validate="options"
+							layout="joomla.form.field.list-fancy-select"
+							>
+							<option value="base-uri">base-uri</option>
+							<option value="block-all-mixed-content">block-all-mixed-content</option>
+							<option value="child-src">child-src</option>
+							<option value="connect-src">connect-src</option>
+							<option value="default-src">default-src</option>
+							<option value="font-src">font-src</option>
+							<option value="form-action">form-action</option>
+							<option value="frame-ancestors">frame-ancestors</option>
+							<option value="frame-src">frame-src</option>
+							<option value="img-src">img-src</option>
+							<option value="manifest-src">manifest-src</option>
+							<option value="media-src">media-src</option>
+							<option value="navigate-to">navigate-to</option>
+							<option value="object-src">object-src</option>
+							<option value="plugin-types">plugin-types</option>
+							<option value="prefetch-src">prefetch-src</option>
+							<option value="report-to">report-to</option>
+							<option value="report-uri">report-uri</option>
+							<option value="require-sri-for">require-sri-for</option>
+							<option value="sandbox">sandbox</option>
+							<option value="script-src">script-src</option>
+							<option value="script-src-attr">script-src-attr</option>
+							<option value="script-src-elem">script-src-elem</option>
+							<option value="style-src">style-src</option>
+							<option value="style-src-attr">style-src-attr</option>
+							<option value="style-src-elem">style-src-elem</option>
+							<option value="upgrade-insecure-requests">upgrade-insecure-requests</option>
+							<option value="worker-src">worker-src</option>
+						</field>
+						<field
+							name="value"
+							type="text"
+							label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_VALUES_VALUE"
+							class="col-md-10"
+							showon="directive!:block-all-mixed-content[AND]directive!:upgrade-insecure-requests"
+						/>
+						<field
+							name="client"
+							type="radio"
+							label="PLG_SYSTEM_HTTPHEADERS_HEADER_CLIENT"
+							default="site"
+							class="col-md-12"
+							>
+							<option value="site">JSITE</option>
+							<option value="administrator">JADMINISTRATOR</option>
+							<option value="both">PLG_SYSTEM_HTTPHEADERS_HEADER_CLIENT_BOTH</option>
+						</field>
+					</form>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_system_httpheaders.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_httpheaders.sys.ini</language>
+	</languages>
+</extension>

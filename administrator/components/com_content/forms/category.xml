@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<help key="Articles:_Edit_Category" />
+	<listhelp key="Articles:_Categories" />
+	<fields name="params" addfieldprefix="Joomla\Component\Content\Administrator\Field">
+		<fieldset name="workflow" label="COM_CONTENT_WORKFLOW">
+			<field
+				name="workflow_id"
+				type="sql"
+				label="COM_CONTENT_WORKFLOWS"
+				class="form-select"
+				sql_select="id, title"
+				sql_from="#__workflows"
+				sql_where="published = 1 AND extension = 'com_content.article'"
+				sql_order="ordering"
+				key_field="id"
+				value_field="title"
+				required="true"
+				default="use_default"
+				translate="true"
+			/>
+		</fieldset>
+	</fields>
+
+</form>

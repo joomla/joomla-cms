@@ -1,0 +1,33 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base",
+    ":preserveSemverRanges",
+    ":disableMajorUpdates"
+  ],
+  "versioning": "semver",
+  "dependencyDashboard": true,
+  "lockFileMaintenance": { "enabled": true },
+  "composerIgnorePlatformReqs": ["ext-*", "lib-*"],
+  "rangeStrategy": "update-lockfile",
+  "baseBranches": ["4.4-dev", "5.0-dev", "5.1-dev", "5.2-dev", "6.0-dev"],
+  "packageRules": [
+    {
+      "enabled": false,
+      "matchBaseBranches": "5.2-dev",
+      "matchPackagePatterns": ["*"]
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true
+  },
+  "constraints": {
+    "composer": "> 2.3",
+    "npm": "> 8.0"
+  },
+  "postUpgradeTasks": {
+    "commands": ["npm ci", "node build/build.js --copy-assets"],
+    "fileFilters": ["**/*.*"],
+    "executionMode": "branch"
+  }
+}

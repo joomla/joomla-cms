@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="schema">
+		<fieldset
+			name="schema"
+			label="PLG_SYSTEM_SCHEMA_FIELD_SCHEMA_LABEL"
+		>
+			<field
+				name="Custom"
+				type="subform"
+				showon="schemaType:Custom"
+			>
+				<form>
+
+					<field
+						name="@type"
+						type="hidden"
+						default="Custom"
+					/>
+
+					<field
+						name="noteCustom"
+						type="note"
+						description="PLG_SCHEMAORG_CUSTOM_DESCRIPTION_LABEL"
+						class="alert alert-info w-100"
+					/>
+
+					<field
+						name="json"
+						type="textarea"
+						label="PLG_SCHEMAORG_CUSTOM_JSON_FIELD_LABEL"
+						rows="8"
+					/>
+
+				</form>
+			</field>
+		</fieldset>
+	</fields>
+</form>

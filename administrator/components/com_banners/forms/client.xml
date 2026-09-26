@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form addfieldprefix="Joomla\Component\Banners\Administrator\Field">
+	<fieldset name="details">
+		<field
+			name="id"
+			type="number"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			default="0"
+			readonly="true"
+			class="readonly"
+		/>
+
+		<field
+			name="name"
+			type="text"
+			label="COM_BANNERS_FIELD_NAME_LABEL"
+			required="true"
+		/>
+
+		<field
+			name="contact"
+			type="text"
+			label="COM_BANNERS_FIELD_CONTACT_LABEL"
+			required="true"
+		/>
+
+		<field
+			name="email"
+			type="email"
+			label="COM_BANNERS_FIELD_EMAIL_LABEL"
+			validate="email"
+		/>
+
+		<field
+			name="state"
+			type="list"
+			label="JSTATUS"
+			class="form-select-color-state"
+			default="1"
+			validate="options"
+			>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="2">JARCHIVED</option>
+			<option value="-2">JTRASHED</option>
+		</field>
+
+		<field
+			name="version_note"
+			type="text"
+			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			maxlength="255"
+		/>
+
+		<field
+			name="purchase_type"
+			type="list"
+			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL"
+			default="0"
+			validate="options"
+			>
+			<option value="-1">JGLOBAL_USE_GLOBAL</option>
+			<option value="1">COM_BANNERS_FIELD_VALUE_UNLIMITED</option>
+			<option value="2">COM_BANNERS_FIELD_VALUE_YEARLY</option>
+			<option value="3">COM_BANNERS_FIELD_VALUE_MONTHLY</option>
+			<option value="4">COM_BANNERS_FIELD_VALUE_WEEKLY</option>
+			<option value="5">COM_BANNERS_FIELD_VALUE_DAILY</option>
+		</field>
+
+		<field
+			name="track_impressions"
+			type="list"
+			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
+			default="0"
+			validate="options"
+			>
+			<option value="-1">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="track_clicks"
+			type="list"
+			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
+			default="0"
+			validate="options"
+			>
+			<option value="-1">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+	</fieldset>
+
+	<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+		<field
+			name="metakey"
+			type="textarea"
+			label="JFIELD_META_KEYWORDS_LABEL"
+			rows="3"
+			cols="30"
+		/>
+
+		<field
+			name="own_prefix"
+			type="radio"
+			layout="joomla.form.field.radio.switcher"
+			label="COM_BANNERS_FIELD_CLIENTOWNPREFIX_LABEL"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="metakey_prefix"
+			type="text"
+			label="COM_BANNERS_FIELD_CLIENT_METAKEYWORDPREFIX_LABEL"
+			description="COM_BANNERS_FIELD_CLIENT_METAKEYWORDPREFIX_DESC"
+		/>
+	</fieldset>
+
+	<fieldset name="extra" label="COM_BANNERS_EXTRA">
+		<field
+			name="extrainfo"
+			type="textarea"
+			label="COM_BANNERS_FIELD_EXTRAINFO_LABEL"
+			rows="5"
+			cols="80"
+		/>
+	</fieldset>
+</form>

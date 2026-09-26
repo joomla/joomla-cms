@@ -1,0 +1,124 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "atum",
+  "version": "4.0.0",
+  "description": "This file contains details of the assets used by Atum, the default Joomla 4 administrator template.",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "template.atum.ltr",
+      "description": "The css file to be used when the site is left to right (LTR).",
+      "type": "style",
+      "uri": "template.min.css",
+      "dependencies": [
+        "fontawesome"
+      ]
+    },
+    {
+      "name": "template.atum.rtl",
+      "description": "The css file to be used when the site is right to left (RTL).",
+      "type": "style",
+      "uri": "template-rtl.min.css",
+      "dependencies": [
+        "fontawesome"
+      ]
+    },
+    {
+      "name": "template.active.language",
+      "description": "An asset to allow language specific css, eg 'language/[lang-CODE]/[lang-CODE].css', to use it as a dependency to the active template",
+      "type": "style",
+      "uri": "",
+      "class": "LangActiveAssetItem",
+      "client": "administrator",
+      "dependencies": [
+        "template.active"
+      ]
+    },
+    {
+      "name": "template.user",
+      "description": "A file where a user can add their own css.",
+      "type": "style",
+      "uri": "user.css",
+      "weight": 500,
+      "dependencies": [
+        "template.active",
+        "template.active.language"
+      ]
+    },
+    {
+      "name": "template.atum",
+      "description": "The file containing the javascript for this template.",
+      "type": "script",
+      "uri": "media/templates/administrator/atum/js/template.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "template.active",
+      "description": "A dummy asset to allow extensions to use it as a dependency to the active template",
+      "type": "script",
+      "uri": "",
+      "dependencies": [
+        "template.atum"
+      ]
+    },
+    {
+      "name": "template.atum.base",
+      "type": "preset",
+      "dependencies": [
+        "core#script",
+        "template.atum#script"
+      ]
+    },
+    {
+      "name": "template.atum.ltr",
+      "type": "preset",
+      "dependencies": [
+        "template.atum.base",
+        "template.atum.ltr#style"
+      ]
+    },
+    {
+      "name": "template.atum.rtl",
+      "type": "preset",
+      "dependencies": [
+        "template.atum.base",
+        "template.atum.rtl#style"
+      ]
+    },
+    {
+      "name": "searchtools",
+      "type": "style",
+      "uri": "system/searchtools/searchtools.min.css"
+    },
+    {
+      "name": "awesomplete",
+      "type": "style",
+      "uri": "vendor/awesomplete/awesomplete.min.css"
+    },
+    {
+      "name": "choicesjs",
+      "type": "style",
+      "uri": "vendor/choicesjs/choices.min.css"
+    },
+    {
+      "name": "webcomponent.joomla-alert",
+      "type": "style",
+      "uri": "vendor/joomla-custom-elements/joomla-alert.min.css"
+    },
+    {
+      "name": "webcomponent.joomla-tab",
+      "type": "style",
+      "uri": "vendor/joomla-custom-elements/joomla-tab.min.css"
+    },
+    {
+      "name": "minicolors",
+      "type": "style",
+      "uri": "vendor/minicolors/jquery.minicolors.css"
+    }
+  ]
+}

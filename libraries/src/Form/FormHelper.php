@@ -1,19 +1,21 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form;
 
-defined('JPATH_PLATFORM') or die;
-
+use Joomla\Filesystem\Path;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
 
-\JLoader::import('joomla.filesystem.path');
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Form's helper class.
@@ -24,494 +26,522 @@ use Joomla\String\StringHelper;
  */
 class FormHelper
 {
-	/**
-	 * Array with paths where entities(field, rule, form) can be found.
-	 *
-	 * Array's structure:
-	 *
-	 * paths:
-	 * {ENTITY_NAME}:
-	 * - /path/1
-	 * - /path/2
-	 *
-	 * @var    array
-	 * @since  1.7.0
-	 */
-	protected static $paths;
+    /**
+     * Array with paths where entities(field, rule, form) can be found.
+     *
+     * Array's structure:
+     *
+     * paths:
+     * {ENTITY_NAME}:
+     * - /path/1
+     * - /path/2
+     *
+     * @var    array[]
+     * @since  1.7.0
+     */
+    protected static $paths;
 
-	/**
-	 * The class namespaces.
-	 *
-	 * @var   string
-	 * @since 3.8.0
-	 */
-	protected static $prefixes = array('field' => array(), 'form' => array(), 'rule' => array());
+    /**
+     * The class namespaces.
+     *
+     * @var   array[]
+     * @since 3.8.0
+     */
+    protected static $prefixes = ['field' => [], 'form' => [], 'rule' => [], 'filter' => []];
 
-	/**
-	 * Static array of Form's entity objects for re-use.
-	 * Prototypes for all fields and rules are here.
-	 *
-	 * Array's structure:
-	 * entities:
-	 * {ENTITY_NAME}:
-	 * {KEY}: {OBJECT}
-	 *
-	 * @var    array
-	 * @since  1.7.0
-	 */
-	protected static $entities = array('field' => array(), 'form' => array(), 'rule' => array());
+    /**
+     * Static array of Form's entity objects for re-use.
+     * Prototypes for all fields and rules are here.
+     *
+     * Array's structure:
+     * entities:
+     * {ENTITY_NAME}:
+     * {KEY}: {OBJECT}
+     *
+     * @var    array[]
+     * @since  1.7.0
+     */
+    protected static $entities = ['field' => [], 'form' => [], 'rule' => [], 'filter' => []];
 
-	/**
-	 * Method to load a form field object given a type.
-	 *
-	 * @param   string   $type  The field type.
-	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
-	 *
-	 * @return  FormField|boolean  FormField object on success, false otherwise.
-	 *
-	 * @since   1.7.0
-	 */
-	public static function loadFieldType($type, $new = true)
-	{
-		return self::loadType('field', $type, $new);
-	}
+    /**
+     * Method to load a form field object given a type.
+     *
+     * @param   string   $type  The field type.
+     * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
+     *
+     * @return  FormField|boolean  FormField object on success, false otherwise.
+     *
+     * @since   1.7.0
+     */
+    public static function loadFieldType($type, $new = true)
+    {
+        return self::loadType('field', $type, $new);
+    }
 
-	/**
-	 * Method to load a form rule object given a type.
-	 *
-	 * @param   string   $type  The rule type.
-	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
-	 *
-	 * @return  FormRule|boolean  FormRule object on success, false otherwise.
-	 *
-	 * @since   1.7.0
-	 */
-	public static function loadRuleType($type, $new = true)
-	{
-		return self::loadType('rule', $type, $new);
-	}
+    /**
+     * Method to load a form rule object given a type.
+     *
+     * @param   string   $type  The rule type.
+     * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
+     *
+     * @return  FormRule|boolean  FormRule object on success, false otherwise.
+     *
+     * @since   1.7.0
+     */
+    public static function loadRuleType($type, $new = true)
+    {
+        return self::loadType('rule', $type, $new);
+    }
 
-	/**
-	 * Method to load a form entity object given a type.
-	 * Each type is loaded only once and then used as a prototype for other objects of same type.
-	 * Please, use this method only with those entities which support types (forms don't support them).
-	 *
-	 * @param   string   $entity  The entity.
-	 * @param   string   $type    The entity type.
-	 * @param   boolean  $new     Flag to toggle whether we should get a new instance of the object.
-	 *
-	 * @return  mixed  Entity object on success, false otherwise.
-	 *
-	 * @since   1.7.0
-	 */
-	protected static function loadType($entity, $type, $new = true)
-	{
-		// Reference to an array with current entity's type instances
-		$types = &self::$entities[$entity];
+    /**
+     * Method to load a form filter object given a type.
+     *
+     * @param   string   $type  The rule type.
+     * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
+     *
+     * @return  FormFilterInterface|boolean  FormRule object on success, false otherwise.
+     *
+     * @since   4.0.0
+     */
+    public static function loadFilterType($type, $new = true)
+    {
+        return self::loadType('filter', $type, $new);
+    }
 
-		$key = md5($type);
+    /**
+     * Method to load a form entity object given a type.
+     * Each type is loaded only once and then used as a prototype for other objects of same type.
+     * Please, use this method only with those entities which support types (forms don't support them).
+     *
+     * @param   string   $entity  The entity.
+     * @param   string   $type    The entity type.
+     * @param   boolean  $new     Flag to toggle whether we should get a new instance of the object.
+     *
+     * @return  mixed  Entity object on success, false otherwise.
+     *
+     * @since   1.7.0
+     */
+    protected static function loadType($entity, $type, $new = true)
+    {
+        // Reference to an array with current entity's type instances
+        $types = &self::$entities[$entity];
 
-		// Return an entity object if it already exists and we don't need a new one.
-		if (isset($types[$key]) && $new === false)
-		{
-			return $types[$key];
-		}
+        $key = md5($type);
 
-		$class = self::loadClass($entity, $type);
+        // Return an entity object if it already exists and we don't need a new one.
+        if (isset($types[$key]) && $new === false) {
+            return $types[$key];
+        }
 
-		if ($class === false)
-		{
-			return false;
-		}
+        $class = self::loadClass($entity, $type);
 
-		// Instantiate a new type object.
-		$types[$key] = new $class;
+        if ($class === false) {
+            return false;
+        }
 
-		return $types[$key];
-	}
+        // Instantiate a new type object.
+        $types[$key] = new $class();
 
-	/**
-	 * Attempt to import the JFormField class file if it isn't already imported.
-	 * You can use this method outside of JForm for loading a field for inheritance or composition.
-	 *
-	 * @param   string  $type  Type of a field whose class should be loaded.
-	 *
-	 * @return  string|boolean  Class name on success or false otherwise.
-	 *
-	 * @since   1.7.0
-	 */
-	public static function loadFieldClass($type)
-	{
-		return self::loadClass('field', $type);
-	}
+        return $types[$key];
+    }
 
-	/**
-	 * Attempt to import the JFormRule class file if it isn't already imported.
-	 * You can use this method outside of JForm for loading a rule for inheritance or composition.
-	 *
-	 * @param   string  $type  Type of a rule whose class should be loaded.
-	 *
-	 * @return  string|boolean  Class name on success or false otherwise.
-	 *
-	 * @since   1.7.0
-	 */
-	public static function loadRuleClass($type)
-	{
-		return self::loadClass('rule', $type);
-	}
+    /**
+     * Attempt to import the FormField class file if it isn't already imported.
+     * You can use this method outside of Form for loading a field for inheritance or composition.
+     *
+     * @param   string  $type  Type of a field whose class should be loaded.
+     *
+     * @return  string|boolean  Class name on success or false otherwise.
+     *
+     * @since   1.7.0
+     */
+    public static function loadFieldClass($type)
+    {
+        return self::loadClass('field', $type);
+    }
 
-	/**
-	 * Load a class for one of the form's entities of a particular type.
-	 * Currently, it makes sense to use this method for the "field" and "rule" entities
-	 * (but you can support more entities in your subclass).
-	 *
-	 * @param   string  $entity  One of the form entities (field or rule).
-	 * @param   string  $type    Type of an entity.
-	 *
-	 * @return  string|boolean  Class name on success or false otherwise.
-	 *
-	 * @since   1.7.0
-	 */
-	protected static function loadClass($entity, $type)
-	{
-		// Check if there is a class in the registered namespaces
-		foreach (self::addPrefix($entity) as $prefix)
-		{
-			// Treat underscores as namespace
-			$name = Normalise::toSpaceSeparated($type);
-			$name = str_ireplace(' ', '\\', ucwords($name));
+    /**
+     * Attempt to import the FormRule class file if it isn't already imported.
+     * You can use this method outside of Form for loading a rule for inheritance or composition.
+     *
+     * @param   string  $type  Type of a rule whose class should be loaded.
+     *
+     * @return  string|boolean  Class name on success or false otherwise.
+     *
+     * @since   1.7.0
+     */
+    public static function loadRuleClass($type)
+    {
+        return self::loadClass('rule', $type);
+    }
 
-			// Compile the classname
-			$class = rtrim($prefix, '\\') . '\\' . ucfirst($name) . ucfirst($entity);
+    /**
+     * Attempt to import the FormFilter class file if it isn't already imported.
+     * You can use this method outside of Form for loading a filter for inheritance or composition.
+     *
+     * @param   string  $type  Type of a filter whose class should be loaded.
+     *
+     * @return  string|boolean  Class name on success or false otherwise.
+     *
+     * @since   4.0.0
+     */
+    public static function loadFilterClass($type)
+    {
+        return self::loadClass('filter', $type);
+    }
 
-			// Check if the class exists
-			if (class_exists($class))
-			{
-				return $class;
-			}
-		}
+    /**
+     * Load a class for one of the form's entities of a particular type.
+     * Currently, it makes sense to use this method for the "field" and "rule" entities
+     * (but you can support more entities in your subclass).
+     *
+     * @param   string  $entity  One of the form entities (field or rule).
+     * @param   string  $type    Type of an entity.
+     *
+     * @return  string|boolean  Class name on success or false otherwise.
+     *
+     * @since   1.7.0
+     */
+    protected static function loadClass($entity, $type)
+    {
+        // Check if there is a class in the registered namespaces
+        foreach (self::addPrefix($entity) as $prefix) {
+            // Treat underscores as namespace
+            $name = Normalise::toSpaceSeparated($type);
+            $name = str_ireplace(' ', '\\', ucwords($name));
 
-		$prefix = 'J';
+            $subPrefix = '';
 
-		if (strpos($type, '.'))
-		{
-			list($prefix, $type) = explode('.', $type);
-		}
+            if (strpos($name, '.')) {
+                [$subPrefix, $name] = explode('.', $name);
+                $subPrefix          = ucfirst($subPrefix) . '\\';
+            }
 
-		$class = StringHelper::ucfirst($prefix, '_') . 'Form' . StringHelper::ucfirst($entity, '_') . StringHelper::ucfirst($type, '_');
+            // Compile the classname
+            $class = rtrim($prefix, '\\') . '\\' . $subPrefix . ucfirst($name) . ucfirst($entity);
 
-		if (class_exists($class))
-		{
-			return $class;
-		}
+            // Check if the class exists
+            if (class_exists($class)) {
+                return $class;
+            }
+        }
 
-		// Get the field search path array.
-		$paths = self::addPath($entity);
+        $prefix = 'J';
 
-		// If the type is complex, add the base type to the paths.
-		if ($pos = strpos($type, '_'))
-		{
-			// Add the complex type prefix to the paths.
-			for ($i = 0, $n = count($paths); $i < $n; $i++)
-			{
-				// Derive the new path.
-				$path = $paths[$i] . '/' . strtolower(substr($type, 0, $pos));
+        if (strpos($type, '.')) {
+            [$prefix, $type] = explode('.', $type);
+        }
 
-				// If the path does not exist, add it.
-				if (!in_array($path, $paths))
-				{
-					$paths[] = $path;
-				}
-			}
+        $class = StringHelper::ucfirst($prefix, '_') . 'Form' . StringHelper::ucfirst($entity, '_') . StringHelper::ucfirst($type, '_');
 
-			// Break off the end of the complex type.
-			$type = substr($type, $pos + 1);
-		}
+        if (class_exists($class)) {
+            return $class;
+        }
 
-		// Try to find the class file.
-		$type = strtolower($type) . '.php';
+        // Get the field search path array.
+        $paths = self::addPath($entity);
 
-		foreach ($paths as $path)
-		{
-			$file = \JPath::find($path, $type);
+        // If the type is complex, add the base type to the paths.
+        if ($pos = strpos($type, '_')) {
+            // Add the complex type prefix to the paths.
+            foreach ($paths as $value) {
+                // Derive the new path.
+                $path = $value . '/' . strtolower(substr($type, 0, $pos));
 
-			if (!$file)
-			{
-				continue;
-			}
+                // If the path does not exist, add it.
+                if (!\in_array($path, $paths)) {
+                    $paths[] = $path;
+                }
+            }
 
-			require_once $file;
+            // Break off the end of the complex type.
+            $type = substr($type, $pos + 1);
+        }
 
-			if (class_exists($class))
-			{
-				break;
-			}
-		}
+        // Try to find the class file.
+        $type = strtolower($type) . '.php';
 
-		// Check for all if the class exists.
-		return class_exists($class) ? $class : false;
-	}
+        foreach ($paths as $path) {
+            $file = Path::find($path, $type);
 
-	/**
-	 * Method to add a path to the list of field include paths.
-	 *
-	 * @param   mixed  $new  A path or array of paths to add.
-	 *
-	 * @return  array  The list of paths that have been added.
-	 *
-	 * @since   1.7.0
-	 */
-	public static function addFieldPath($new = null)
-	{
-		return self::addPath('field', $new);
-	}
+            if (!$file) {
+                continue;
+            }
 
-	/**
-	 * Method to add a path to the list of form include paths.
-	 *
-	 * @param   mixed  $new  A path or array of paths to add.
-	 *
-	 * @return  array  The list of paths that have been added.
-	 *
-	 * @since   1.7.0
-	 */
-	public static function addFormPath($new = null)
-	{
-		return self::addPath('form', $new);
-	}
+            require_once $file;
 
-	/**
-	 * Method to add a path to the list of rule include paths.
-	 *
-	 * @param   mixed  $new  A path or array of paths to add.
-	 *
-	 * @return  array  The list of paths that have been added.
-	 *
-	 * @since   1.7.0
-	 */
-	public static function addRulePath($new = null)
-	{
-		return self::addPath('rule', $new);
-	}
+            if (class_exists($class)) {
+                break;
+            }
+        }
 
-	/**
-	 * Method to add a path to the list of include paths for one of the form's entities.
-	 * Currently supported entities: field, rule and form. You are free to support your own in a subclass.
-	 *
-	 * @param   string  $entity  Form's entity name for which paths will be added.
-	 * @param   mixed   $new     A path or array of paths to add.
-	 *
-	 * @return  array  The list of paths that have been added.
-	 *
-	 * @since   1.7.0
-	 */
-	protected static function addPath($entity, $new = null)
-	{
-		// Reference to an array with paths for current entity
-		$paths = &self::$paths[$entity];
+        // Check for all if the class exists.
+        return class_exists($class) ? $class : false;
+    }
 
-		// Add the default entity's search path if not set.
-		if (empty($paths))
-		{
-			// While we support limited number of entities (form, field and rule)
-			// we can do this simple pluralisation:
-			$entity_plural = $entity . 's';
+    /**
+     * Method to add a path to the list of field include paths.
+     *
+     * @param   string|string[]  $new  A path or array of paths to add.
+     *
+     * @return  string[]  The list of paths that have been added.
+     *
+     * @since   1.7.0
+     */
+    public static function addFieldPath($new = null)
+    {
+        return self::addPath('field', $new);
+    }
 
-			/*
-			 * But when someday we would want to support more entities, then we should consider adding
-			 * an inflector class to "libraries/joomla/utilities" and use it here (or somebody can use a real inflector in his subclass).
-			 * See also: pluralization snippet by Paul Osman in JControllerForm's constructor.
-			 */
-			$paths[] = __DIR__ . '/' . $entity_plural;
-		}
+    /**
+     * Method to add a path to the list of form include paths.
+     *
+     * @param   string|string[]  $new  A path or array of paths to add.
+     *
+     * @return  string[]  The list of paths that have been added.
+     *
+     * @since   1.7.0
+     */
+    public static function addFormPath($new = null)
+    {
+        return self::addPath('form', $new);
+    }
 
-		// Force the new path(s) to an array.
-		settype($new, 'array');
+    /**
+     * Method to add a path to the list of rule include paths.
+     *
+     * @param   string|string[]  $new  A path or array of paths to add.
+     *
+     * @return  string[]  The list of paths that have been added.
+     *
+     * @since   1.7.0
+     */
+    public static function addRulePath($new = null)
+    {
+        return self::addPath('rule', $new);
+    }
 
-		// Add the new paths to the stack if not already there.
-		foreach ($new as $path)
-		{
-			if (!in_array($path, $paths))
-			{
-				array_unshift($paths, trim($path));
-			}
+    /**
+     * Method to add a path to the list of filter include paths.
+     *
+     * @param   string|string[]  $new  A path or array of paths to add.
+     *
+     * @return  string[]  The list of paths that have been added.
+     *
+     * @since   4.0.0
+     */
+    public static function addFilterPath($new = null)
+    {
+        return self::addPath('filter', $new);
+    }
 
-			if (!is_dir($path))
-			{
-				array_unshift($paths, trim($path));
-			}
-		}
+    /**
+     * Method to add a path to the list of include paths for one of the form's entities.
+     * Currently supported entities: field, rule and form. You are free to support your own in a subclass.
+     *
+     * @param   string            $entity  Form's entity name for which paths will be added.
+     * @param   string|string[]   $new     A path or array of paths to add.
+     *
+     * @return  string[]  The list of paths that have been added.
+     *
+     * @since   1.7.0
+     */
+    protected static function addPath($entity, $new = null)
+    {
+        if (!isset(self::$paths[$entity])) {
+            self::$paths[$entity] = [];
+        }
 
-		return $paths;
-	}
+        // Reference to an array with paths for current entity
+        $paths = &self::$paths[$entity];
 
-	/**
-	 * Method to add a namespace prefix to the list of field lookups.
-	 *
-	 * @param   mixed  $new  A namespaces or array of namespaces to add.
-	 *
-	 * @return  array  The list of namespaces that have been added.
-	 *
-	 * @since   3.8.0
-	 */
-	public static function addFieldPrefix($new = null)
-	{
-		return self::addPrefix('field', $new);
-	}
+        // Force the new path(s) to an array.
+        settype($new, 'array');
 
-	/**
-	 * Method to add a namespace to the list of form lookups.
-	 *
-	 * @param   mixed  $new  A namespace or array of namespaces to add.
-	 *
-	 * @return  array  The list of namespaces that have been added.
-	 *
-	 * @since   3.8.0
-	 */
-	public static function addFormPrefix($new = null)
-	{
-		return self::addPrefix('form', $new);
-	}
+        // Add the new paths to the stack if not already there.
+        foreach ($new as $path) {
+            $path = trim($path);
 
-	/**
-	 * Method to add a namespace to the list of rule lookups.
-	 *
-	 * @param   mixed  $new  A namespace or array of namespaces to add.
-	 *
-	 * @return  array  The list of namespaces that have been added.
-	 *
-	 * @since   3.8.0
-	 */
-	public static function addRulePrefix($new = null)
-	{
-		return self::addPrefix('rule', $new);
-	}
+            if (!\in_array($path, $paths)) {
+                array_unshift($paths, $path);
+            }
+        }
 
-	/**
-	 * Method to add a namespace to the list of namespaces for one of the form's entities.
-	 * Currently supported entities: field, rule and form. You are free to support your own in a subclass.
-	 *
-	 * @param   string  $entity  Form's entity name for which paths will be added.
-	 * @param   mixed   $new     A namespace or array of namespaces to add.
-	 *
-	 * @return  array  The list of namespaces that have been added.
-	 *
-	 * @since   3.8.0
-	 */
-	protected static function addPrefix($entity, $new = null)
-	{
-		// Reference to an array with namespaces for current entity
-		$prefixes = &self::$prefixes[$entity];
+        return $paths;
+    }
 
-		// Add the default entity's search namespace if not set.
-		if (empty($prefixes))
-		{
-			$prefixes[] = __NAMESPACE__ . '\\' . ucfirst($entity);
-		}
+    /**
+     * Method to add a namespace prefix to the list of field lookups.
+     *
+     * @param   string|string[]  $new  A namespaces or array of namespaces to add.
+     *
+     * @return  string[]  The list of namespaces that have been added.
+     *
+     * @since   3.8.0
+     */
+    public static function addFieldPrefix($new = null)
+    {
+        return self::addPrefix('field', $new);
+    }
 
-		// Force the new namespace(s) to an array.
-		settype($new, 'array');
+    /**
+     * Method to add a namespace to the list of form lookups.
+     *
+     * @param   string|string[]  $new  A namespace or array of namespaces to add.
+     *
+     * @return  string[]  The list of namespaces that have been added.
+     *
+     * @since   3.8.0
+     */
+    public static function addFormPrefix($new = null)
+    {
+        return self::addPrefix('form', $new);
+    }
 
-		// Add the new paths to the stack if not already there.
-		foreach ($new as $prefix)
-		{
-			$prefix = trim($prefix);
+    /**
+     * Method to add a namespace to the list of rule lookups.
+     *
+     * @param   string|string[]  $new  A namespace or array of namespaces to add.
+     *
+     * @return  string[]  The list of namespaces that have been added.
+     *
+     * @since   3.8.0
+     */
+    public static function addRulePrefix($new = null)
+    {
+        return self::addPrefix('rule', $new);
+    }
 
-			if (in_array($prefix, $prefixes))
-			{
-				continue;
-			}
+    /**
+     * Method to add a namespace to the list of filter lookups.
+     *
+     * @param   string|string[]  $new  A namespace or array of namespaces to add.
+     *
+     * @return  string[]  The list of namespaces that have been added.
+     *
+     * @since   4.0.0
+     */
+    public static function addFilterPrefix($new = null)
+    {
+        return self::addPrefix('filter', $new);
+    }
 
-			array_unshift($prefixes, $prefix);
-		}
+    /**
+     * Method to add a namespace to the list of namespaces for one of the form's entities.
+     * Currently supported entities: field, rule and form. You are free to support your own in a subclass.
+     *
+     * @param   string           $entity  Form's entity name for which paths will be added.
+     * @param   string|string[]  $new     A namespace or array of namespaces to add.
+     *
+     * @return  string[]  The list of namespaces that have been added.
+     *
+     * @since   3.8.0
+     */
+    protected static function addPrefix($entity, $new = null)
+    {
+        // Reference to an array with namespaces for current entity
+        $prefixes = &self::$prefixes[$entity];
 
-		return $prefixes;
-	}
+        // Add the default entity's search namespace if not set.
+        if (empty($prefixes)) {
+            $prefixes[] = __NAMESPACE__ . '\\' . ucfirst($entity);
+        }
 
-	/**
-	 * Parse the show on conditions
-	 *
-	 * @param   string  $showOn       Show on conditions.
-	 * @param   string  $formControl  Form name.
-	 * @param   string  $group        The dot-separated form group path.
-	 *
-	 * @return  array   Array with show on conditions.
-	 *
-	 * @since   3.7.0
-	 */
-	public static function parseShowOnConditions($showOn, $formControl = null, $group = null)
-	{
-		// Process the showon data.
-		if (!$showOn)
-		{
-			return array();
-		}
+        // Force the new namespace(s) to an array.
+        settype($new, 'array');
 
-		$formPath = $formControl ?: '';
+        // Add the new paths to the stack if not already there.
+        foreach ($new as $prefix) {
+            $prefix = trim($prefix);
 
-		if ($group)
-		{
-			$groups = explode('.', $group);
+            if (\in_array($prefix, $prefixes)) {
+                continue;
+            }
 
-			// An empty formControl leads to invalid shown property
-			// Use the 1st part of the group instead to avoid.
-			if (empty($formPath) && isset($groups[0]))
-			{
-				$formPath = $groups[0];
-				array_shift($groups);
-			}
+            array_unshift($prefixes, $prefix);
+        }
 
-			foreach ($groups as $group)
-			{
-				$formPath .= '[' . $group . ']';
-			}
-		}
+        return $prefixes;
+    }
 
-		$showOnData  = array();
-		$showOnParts = preg_split('#(\[AND\]|\[OR\])#', $showOn, -1, PREG_SPLIT_DELIM_CAPTURE);
-		$op          = '';
+    /**
+     * Parse the show on conditions
+     *
+     * @param   string  $showOn       Show on conditions.
+     * @param   string  $formControl  Form name.
+     * @param   string  $group        The dot-separated form group path.
+     *
+     * @return  array[]   Array with show on conditions.
+     *
+     * @since   3.7.0
+     */
+    public static function parseShowOnConditions($showOn, $formControl = null, $group = null)
+    {
+        // Process the showon data.
+        if (!$showOn) {
+            return [];
+        }
 
-		foreach ($showOnParts as $showOnPart)
-		{
-			if (($showOnPart === '[AND]') || $showOnPart === '[OR]')
-			{
-				$op = trim($showOnPart, '[]');
-				continue;
-			}
+        $formPath = $formControl ?: '';
 
-			$compareEqual     = strpos($showOnPart, '!:') === false;
-			$showOnPartBlocks = explode(($compareEqual ? ':' : '!:'), $showOnPart, 2);
+        if ($group) {
+            $groups = explode('.', $group);
 
-			if (strpos($showOnPartBlocks[0], '.') !== false)
-			{
-				if ($formControl)
-				{
-					$field = $formControl . ('[' . str_replace('.', '][', $showOnPartBlocks[0]) . ']');
-				}
-				else
-				{
-					$groupParts = explode('.', $showOnPartBlocks[0]);
-					$field      = array_shift($groupParts) . '[' . join('][', $groupParts) . ']';
-				}
-			}
-			else
-			{
-				$field = $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0];
-			}
+            // An empty formControl leads to invalid shown property
+            // Use the 1st part of the group instead to avoid.
+            if (empty($formPath) && isset($groups[0])) {
+                $formPath = $groups[0];
+                array_shift($groups);
+            }
 
-			$showOnData[] = array(
-				'field'  => $field,
-				'values' => explode(',', $showOnPartBlocks[1]),
-				'sign'   => $compareEqual === true ? '=' : '!=',
-				'op'     => $op,
-			);
+            foreach ($groups as $group) {
+                $formPath .= '[' . $group . ']';
+            }
+        }
 
-			if ($op !== '')
-			{
-				$op = '';
-			}
-		}
+        $showOnData  = [];
+        $showOnParts = preg_split('#(\[AND\]|\[OR\])#', $showOn, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $op          = '';
 
-		return $showOnData;
-	}
+        foreach ($showOnParts as $showOnPart) {
+            if (($showOnPart === '[AND]') || $showOnPart === '[OR]') {
+                $op = trim($showOnPart, '[]');
+                continue;
+            }
+
+            $compareEqual     = !str_contains($showOnPart, '!:');
+            $showOnPartBlocks = explode(($compareEqual ? ':' : '!:'), $showOnPart, 2);
+
+            $dotPos = strpos($showOnPartBlocks[0], '.');
+
+            if ($dotPos === false) {
+                $field = $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0];
+            } else {
+                if ($dotPos === 0) {
+                    $fieldName = substr($showOnPartBlocks[0], 1);
+                    $field     = $formControl ? $formControl . '[' . $fieldName . ']' : $fieldName;
+                } else {
+                    if ($formControl) {
+                        $field = $formControl . ('[' . str_replace('.', '][', $showOnPartBlocks[0]) . ']');
+                    } else {
+                        $groupParts = explode('.', $showOnPartBlocks[0]);
+                        $field      = array_shift($groupParts) . '[' . implode('][', $groupParts) . ']';
+                    }
+                }
+            }
+
+            $showOnData[] = [
+                'field'  => $field,
+                'values' => explode(',', $showOnPartBlocks[1]),
+                'sign'   => $compareEqual === true ? '=' : '!=',
+                'op'     => $op,
+            ];
+
+            if ($op !== '') {
+                $op = '';
+            }
+        }
+
+        return $showOnData;
+    }
 }

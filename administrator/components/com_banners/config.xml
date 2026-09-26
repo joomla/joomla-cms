@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <config>
+	<help key="Banners:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="component"
 		label="COM_BANNERS_FIELDSET_CONFIG_CLIENT_OPTIONS_LABEL"
@@ -10,9 +12,8 @@
 			name="purchase_type"
 			type="list"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL"
-			description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
-			id="purchase_type"
 			default="1"
+			validate="options"
 			>
 			<option value="1">COM_BANNERS_FIELD_VALUE_UNLIMITED</option>
 			<option value="2">COM_BANNERS_FIELD_VALUE_YEARLY</option>
@@ -24,37 +25,34 @@
 		<field
 			name="track_impressions"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
-			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC"
-			class="btn-group btn-group-yesno"
 			default="0"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="track_robots_impressions"
 			type="radio"
 			label="COM_BANNERS_FIELD_TRACKROBOTSIMPRESSION_LABEL"
-			description="COM_BANNERS_FIELD_TRACKROBOTSIMPRESSION_DESC"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="track_clicks"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
-			description="COM_BANNERS_FIELD_TRACKCLICK_DESC"
-			class="btn-group btn-group-yesno"
 			default="0"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -76,20 +74,18 @@
 		<field
 			name="save_history"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
-			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
-			class="btn-group btn-group-yesno"
 			default="0"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="history_limit"
 			type="number"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
-			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			filter="integer"
 			default="10"
 			showon="save_history:1"
@@ -100,7 +96,6 @@
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
 		>
 
 		<field

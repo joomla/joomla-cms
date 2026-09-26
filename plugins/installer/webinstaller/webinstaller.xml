@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="installer" method="upgrade">
+	<name>plg_installer_webinstaller</name>
+	<author>Joomla! Project</author>
+	<creationDate>2017-04</creationDate>
+	<copyright>(C) 2018 Open Source Matters, Inc.</copyright>
+	<license>https://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>PLG_INSTALLER_WEBINSTALLER_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Installer\Web</namespace>
+	<files>
+		<folder plugin="webinstaller">services</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_installer_webinstaller.ini</language>
+		<language tag="en-GB">language/en-GB/plg_installer_webinstaller.sys.ini</language>
+	</languages>
+</extension>

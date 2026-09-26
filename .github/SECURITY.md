@@ -11,7 +11,7 @@ This document outlines security procedures and policies for the `Joomla! Project
 
 The `Joomla` team and community take all security bugs in `Joomla` seriously. The Joomla! Security Strike Team (JSST) oversees the project's security issues and follows some specific procedures when dealing with these issues.
 
-If you find a possible vulnerability, please report it to the JSST using the [online form](https://developer.joomla.org/security/contact-the-team.html) or via email at security@joomla.org 
+If you find a possible vulnerability, please report it to the JSST using the [online form](https://developer.joomla.org/security/contact-the-team.html) or via email at security@joomla.org
 
 We maintain a list of [GPG keys and addresses](https://developer.joomla.org/security/gpg-keys.html) for the security@joomla.org address and members of the JSST to allow signed and encrypted communications.
 

@@ -1,0 +1,311 @@
+<?xml version="1.0"?>
+<menu
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="urn:joomla.org"
+	xsi:schemaLocation="urn:joomla.org menu.xsd"
+	>
+	<menuitem
+		title="MOD_MENU_SYSTEM_PARENT_SETUP"
+		type="heading"
+		icon="cog"
+		permission="core.admin"
+		>
+		<menuitem
+			title="MOD_MENU_CONFIGURATION"
+			type="component"
+			element="com_config"
+			link="index.php?option=com_config"
+		/>
+	</menuitem>
+
+	<menuitem
+		title="MOD_MENU_MAINTAIN"
+		type="heading"
+		icon="tools"
+		>
+		<menuitem
+			title="MOD_MENU_CLEAR_CACHE"
+			type="component"
+			element="com_cache"
+			link="index.php?option=com_cache"
+			permission="core.manage;com_cache"
+		/>
+
+		<menuitem
+			title="MOD_MENU_SYSTEM_INFORMATION_DATABASE"
+			type="component"
+			element="com_installer"
+			link="index.php?option=com_installer&amp;view=database"
+			permission="core.manage;com_installer"
+			ajax-badge="index.php?option=com_installer&amp;task=database.getMenuBadgeData&amp;format=json"
+		/>
+
+		<menuitem
+			title="MOD_MENU_GLOBAL_CHECKIN"
+			type="component"
+			element="com_checkin"
+			link="index.php?option=com_checkin"
+			permission="core.manage;com_checkin"
+			ajax-badge="index.php?option=com_checkin&amp;task=getMenuBadgeData&amp;format=json"
+		/>
+	</menuitem>
+
+	<menuitem
+		title="MOD_MENU_INFORMATION"
+		type="heading"
+		icon="info-circle"
+		>
+		<menuitem
+			title="MOD_MENU_INFORMATION_WARNINGS"
+			type="component"
+			element="com_installer"
+			link="index.php?option=com_installer&amp;view=warnings"
+			permission="core.manage;com_installer"
+			ajax-badge="index.php?option=com_installer&amp;task=getMenuBadgeData&amp;format=json"
+		/>
+
+		<menuitem
+			title="MOD_MENU_INFORMATION_POST_INSTALL_MESSAGES"
+			type="component"
+			element="com_postinstall"
+			link="index.php?option=com_postinstall"
+			permission="core.manage;com_postinstall"
+			ajax-badge="index.php?option=com_postinstall&amp;task=getMenuBadgeData&amp;format=json"
+		/>
+
+		<menuitem
+			title="MOD_MENU_SYSTEM_INFORMATION_SYSINFO"
+			type="component"
+			element="com_admin"
+			link="index.php?option=com_admin&amp;view=sysinfo"
+			permission="core.admin"
+		/>
+	</menuitem>
+
+	<menuitem
+		title="MOD_MENU_INSTALL"
+		type="heading"
+		icon="upload"
+		permission="core.manage;com_installer"
+		>
+		<menuitem
+			title="MOD_MENU_INSTALL_EXTENSIONS"
+			type="component"
+			element="com_installer"
+			link="index.php?option=com_installer&amp;view=install"
+		/>
+
+		<menuitem
+			title="MOD_MENU_INSTALL_DISCOVER"
+			type="component"
+			element="com_installer"
+			link="index.php?option=com_installer&amp;view=discover"
+			ajax-badge="index.php?option=com_installer&amp;task=discover.getMenuBadgeData&amp;format=json"
+		/>
+
+		<menuitem
+			title="MOD_MENU_INSTALL_LANGUAGES"
+			type="component"
+			element="com_installer"
+			link="index.php?option=com_installer&amp;view=languages"
+		/>
+	</menuitem>
+
+	<menuitem
+		title="MOD_MENU_MANAGE"
+		type="heading"
+		icon="tasks"
+		>
+		<menuitem
+			title="MOD_MENU_MANAGE_EXTENSIONS"
+			type="component"
+			element="com_installer"
+			link="index.php?option=com_installer&amp;view=manage"
+			permission="core.manage;com_installer"
+		/>
+
+		<menuitem
+			title="MOD_MENU_MANAGE_LANGUAGES"
+			type="component"
+			element="com_languages"
+			link="index.php?option=com_languages&amp;view=installed"
+			permission="core.manage;com_languages"
+		/>
+
+		<menuitem
+			title="MOD_MENU_MANAGE_LANGUAGES_CONTENT"
+			type="component"
+			element="com_languages"
+			link="index.php?option=com_languages&amp;view=languages"
+			permission="core.manage;com_languages"
+		/>
+
+		<menuitem
+			title="MOD_MENU_MANAGE_LANGUAGES_OVERRIDES"
+			type="component"
+			element="com_languages"
+			link="index.php?option=com_languages&amp;view=overrides"
+			permission="core.manage;com_languages"
+		/>
+
+		<menuitem
+			title="MOD_MENU_MANAGE_PLUGINS"
+			type="component"
+			element="com_plugins"
+			link="index.php?option=com_plugins"
+			permission="core.manage;com_plugins"
+		/>
+
+		<menuitem
+			title="MOD_MENU_MANAGE_REDIRECTS"
+			type="component"
+			element="com_redirect"
+			link="index.php?option=com_redirect"
+			permission="core.manage;com_redirect"
+		/>
+
+		<menuitem
+			title="MOD_MENU_MANAGE_GUIDEDTOURS"
+			type="component"
+			element="com_guidedtours"
+			link="index.php?option=com_guidedtours&amp;view=tours"
+			permission="core.manage;com_guidedtours"
+		/>
+
+		<menuitem
+			title="MOD_MENU_MANAGE_SCHEDULED_TASKS"
+			type="component"
+			element="com_scheduler"
+			link="index.php?option=com_scheduler&amp;view=tasks"
+			permission="core.manage;com_scheduler"
+		/>
+
+		<menuitem
+			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_SITE"
+			type="component"
+			element="com_modules"
+			link="index.php?option=com_modules&amp;view=modules&amp;client_id=0"
+			permission="core.manage;com_modules"
+		/>
+
+		<menuitem
+			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_ADMINISTRATOR"
+			type="component"
+			element="com_modules"
+			link="index.php?option=com_modules&amp;view=modules&amp;client_id=1"
+			permission="core.manage;com_modules"
+		/>
+	</menuitem>
+
+	<menuitem
+		title="MOD_MENU_UPDATE"
+		type="heading"
+		icon="sync"
+		>
+		<menuitem
+			title="MOD_MENU_UPDATE_JOOMLA"
+			type="component"
+			element="com_joomlaupdate"
+			link="index.php?option=com_joomlaupdate"
+			permission="core.manage;com_joomlaupdate"
+			ajax-badge="index.php?option=com_joomlaupdate&amp;task=getMenuBadgeData&amp;format=json"
+		/>
+
+		<menuitem
+			title="MOD_MENU_UPDATE_EXTENSIONS"
+			type="component"
+			element="com_installer"
+			link="index.php?option=com_installer&amp;view=update"
+			permission="core.manage;com_installer"
+			ajax-badge="index.php?option=com_installer&amp;task=update.getMenuBadgeData&amp;format=json"
+		/>
+
+		<menuitem
+			title="MOD_MENU_UPDATE_SOURCES"
+			type="component"
+			element="com_installer"
+			link="index.php?option=com_installer&amp;view=updatesites"
+			permission="core.manage;com_installer"
+		/>
+	</menuitem>
+
+	<menuitem
+		title="MOD_MENU_TEMPLATES"
+		type="heading"
+		icon="paint-brush"
+		permission="core.manage;com_templates"
+		>
+		<menuitem
+			title="MOD_MENU_TEMPLATE_SITE_TEMPLATES"
+			type="component"
+			element="com_templates"
+			link="index.php?option=com_templates&amp;view=templates&amp;client_id=0"
+		/>
+
+		<menuitem
+			title="MOD_MENU_TEMPLATE_SITE_STYLES"
+			type="component"
+			element="com_templates"
+			link="index.php?option=com_templates&amp;view=styles&amp;client_id=0"
+		/>
+
+		<menuitem
+			title="MOD_MENU_TEMPLATE_ADMIN_TEMPLATES"
+			type="component"
+			element="com_templates"
+			link="index.php?option=com_templates&amp;view=templates&amp;client_id=1"
+		/>
+
+		<menuitem
+			title="MOD_MENU_TEMPLATE_ADMIN_STYLES"
+			type="component"
+			element="com_templates"
+			link="index.php?option=com_templates&amp;view=styles&amp;client_id=1"
+		/>
+
+		<menuitem
+				title="MOD_MENU_CONFIGURATION_MAILS"
+				type="component"
+				element="com_mails"
+				link="index.php?option=com_mails&amp;view=templates"
+		/>
+	</menuitem>
+
+	<menuitem
+		title="MOD_MENU_ACCESS"
+		type="heading"
+		icon="key"
+		>
+		<menuitem
+			title="MOD_MENU_ACCESS_GROUPS"
+			type="component"
+			element="com_users"
+			link="index.php?option=com_users&amp;view=groups"
+			permission="core.manage;com_users"
+		/>
+
+		<menuitem
+			title="MOD_MENU_ACCESS_LEVELS"
+			type="component"
+			element="com_users"
+			link="index.php?option=com_users&amp;view=levels"
+			permission="core.manage;com_users"
+		/>
+
+		<menuitem
+			title="MOD_MENU_ACCESS_SETTINGS"
+			type="component"
+			element="com_config"
+			link="index.php?option=com_config#page-permissions"
+			permission="core.manage"
+		/>
+
+		<menuitem
+			title="MOD_MENU_ACCESS_TEXT_FILTERS"
+			type="component"
+			element="com_config"
+			link="index.php?option=com_config#page-filters"
+			permission="core.manage"
+		/>
+	</menuitem>
+</menu>

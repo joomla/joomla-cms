@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			inputmode="search"
+			label="COM_USERS_SEARCH_USER_NOTES"
+			description="COM_USERS_SEARCH_IN_NOTE_TITLE"
+			hint="JSEARCH_FILTER"
+		/>
+		<field
+			name="published"
+			type="status"
+			label="JSTATUS"
+			class="js-select-submit-on-change"
+			>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+		<field
+			name="category_id"
+			type="category"
+			label="JCATEGORY"
+			extension="com_users"
+			class="js-select-submit-on-change"
+			>
+			<option value="">JOPTION_SELECT_CATEGORY</option>
+		</field>
+		<field
+			name="level"
+			type="integer"
+			label="JGLOBAL_MAXLEVEL_LABEL"
+			first="1"
+			last="10"
+			step="1"
+			languages="*"
+			class="js-select-submit-on-change"
+			>
+			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
+		</field>
+	</fields>
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			class="js-select-submit-on-change"
+			default="a.review_time DESC"
+			validate="options"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="a.state ASC">JSTATUS_ASC</option>
+			<option value="a.state DESC">JSTATUS_DESC</option>
+			<option value="a.subject ASC">COM_USERS_HEADING_SUBJECT_ASC</option>
+			<option value="a.subject DESC">COM_USERS_HEADING_SUBJECT_DESC</option>
+			<option value="c.title ASC">COM_USERS_HEADING_CATEGORY_ASC</option>
+			<option value="c.title DESC">COM_USERS_HEADING_CATEGORY_DESC</option>
+			<option value="u.name ASC">COM_USERS_HEADING_USER_ASC</option>
+			<option value="u.name DESC">COM_USERS_HEADING_USER_DESC</option>
+			<option value="a.review_time ASC">COM_USERS_HEADING_REVIEW_ASC</option>
+			<option value="a.review_time DESC">COM_USERS_HEADING_REVIEW_DESC</option>
+			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
+			default="25"
+			class="js-select-submit-on-change"
+		/>
+	</fields>
+</form>

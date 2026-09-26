@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset>
+		<field
+			name="id"
+			type="number"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			default="0"
+			class="readonly"
+			size="10"
+			readonly="true"
+		/>
+
+		<field
+			name="name"
+			type="text"
+			label="COM_CONTACT_FIELD_NAME_LABEL"
+			size="40"
+			required="true"
+		/>
+
+		<field
+			name="alias"
+			type="text"
+			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
+			size="45"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
+		/>
+
+		<field
+			name="misc"
+			type="editor"
+			label="COM_CONTACT_FIELD_INFORMATION_MISC_LABEL"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
+			buttons="true"
+			hide="readmore,pagebreak"
+		/>
+
+		<field
+			name="created_by"
+			type="user"
+			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
+		/>
+
+		<field
+			name="created"
+			type="calendar"
+			label="COM_CONTACT_FIELD_CREATED_LABEL"
+			size="22"
+			translateformat="true"
+			showtime="true"
+			filter="user_utc"
+		/>
+
+		<field
+			name="modified"
+			type="calendar"
+			label="JGLOBAL_FIELD_MODIFIED_LABEL"
+			class="readonly"
+			size="22"
+			readonly="true"
+			translateformat="true"
+			showtime="true"
+			filter="user_utc"
+		/>
+
+		<field
+			name="modified_by"
+			type="user"
+			label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+			class="readonly"
+			readonly="true"
+			filter="unset"
+			validate="UserId"
+		/>
+
+		<field
+			name="checked_out"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="checked_out_time"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="ordering"
+			type="ordering"
+			label="JFIELD_ORDERING_LABEL"
+			content_type="com_contact.contact"
+		/>
+
+		<field
+			name="contenthistory"
+			type="contenthistory"
+			label="JTOOLBAR_VERSIONS"
+			data-typeAlias="com_contact.contact"
+		/>
+
+	</fieldset>
+
+	<fieldset
+		name="details"
+		label="COM_CONTACT_CONTACT_DETAILS"
+	>
+		<field
+			name="image"
+			type="media"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
+			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
+			hide_none="1"
+		/>
+
+		<field
+			name="con_position"
+			type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_POSITION_LABEL"
+			size="30"
+		/>
+
+		<field
+			name="email_to"
+			type="email"
+			label="JGLOBAL_EMAIL"
+			size="30"
+		/>
+
+		<field
+			name="address"
+			type="textarea"
+			label="COM_CONTACT_FIELD_INFORMATION_ADDRESS_LABEL"
+			rows="3"
+			cols="30"
+		/>
+
+		<field
+			name="suburb"
+			type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_SUBURB_LABEL"
+			size="30"
+		/>
+
+		<field
+			name="state"
+			type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_STATE_LABEL"
+			size="30"
+		/>
+
+		<field
+			name="postcode"
+			type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_POSTCODE_LABEL"
+			size="30"
+		/>
+
+		<field
+			name="country"
+			type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_COUNTRY_LABEL"
+			size="30"
+		/>
+
+		<field
+			name="telephone"
+			type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_TELEPHONE_LABEL"
+			size="30"
+		/>
+
+		<field
+			name="mobile"
+			type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_MOBILE_LABEL"
+			size="30"
+		/>
+
+		<field
+			name="fax"
+			type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_FAX_LABEL"
+			size="30"
+		/>
+
+		<field
+			name="webpage"
+			type="url"
+			label="COM_CONTACT_FIELD_INFORMATION_WEBPAGE_LABEL"
+			size="30"
+			filter="url"
+		/>
+
+		<field
+			name="sortname1"
+			type="text"
+			label="COM_CONTACT_FIELD_SORTNAME1_LABEL"
+			size="30"
+		/>
+
+		<field
+			name="sortname2"
+			type="text"
+			label="COM_CONTACT_FIELD_SORTNAME2_LABEL"
+			size="30"
+		/>
+
+		<field
+			name="sortname3"
+			type="text"
+			label="COM_CONTACT_FIELD_SORTNAME3_LABEL"
+			size="30"
+		/>
+	</fieldset>
+
+	<fieldset
+		name="publishing"
+		label="COM_CONTACT_FIELDSET_PUBLISHING"
+	>
+		<field
+			name="catid"
+			type="categoryedit"
+			label="JCATEGORY"
+			extension="com_contact"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
+			required="true"
+			default=""
+		/>
+
+		<field
+			name="tags"
+			type="tag"
+			label="JTAG"
+			multiple="true"
+		/>
+
+		<field
+			name="version_note"
+			type="text"
+			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			labelclass="control-label"
+			class=""
+			size="45"
+			maxlength="255"
+		/>
+
+		<field
+			name="created_by_alias"
+			type="text"
+			label="COM_CONTACT_FIELD_CREATED_BY_ALIAS_LABEL"
+			size="20"
+		/>
+
+		<field
+			name="published"
+			type="list"
+			label="JSTATUS"
+			default="1"
+			class="form-select-color-state"
+			size="1"
+			validate="options"
+			>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="2">JARCHIVED</option>
+			<option value="-2">JTRASHED</option>
+
+		</field>
+
+		<field
+			name="featured"
+			type="list"
+			label="JFEATURED"
+			default="0"
+			validate="options"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="publish_up"
+			type="calendar"
+			label="COM_CONTACT_FIELD_PUBLISH_UP_LABEL"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="publish_down"
+			type="calendar"
+			label="COM_CONTACT_FIELD_PUBLISH_DOWN_LABEL"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="access"
+			type="accesslevel"
+			label="JFIELD_ACCESS_LABEL"
+			filter="UINT"
+			validate="options"
+		/>
+	</fieldset>
+
+	<fieldset
+		name="language"
+		label="JFIELD_LANGUAGE_LABEL"
+	>
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JFIELD_LANGUAGE_LABEL"
+			>
+			<option value="*">JALL</option>
+		</field>
+	</fieldset>
+
+	<fieldset
+		name="metadata"
+		label="COM_CONTACT_FIELDSET_METADATA"
+	>
+		<field
+			name="metadesc"
+			type="textarea"
+			label="JFIELD_META_DESCRIPTION_LABEL"
+			rows="3"
+			cols="30"
+			maxlength="300"
+			charcounter="true"
+		/>
+
+		<field
+			name="metakey"
+			type="textarea"
+			label="JFIELD_META_KEYWORDS_LABEL"
+			rows="3"
+			cols="30"
+		/>
+	</fieldset>
+</form>

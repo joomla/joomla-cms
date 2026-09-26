@@ -1,135 +1,261 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Toolbar\Button;
 
-defined('JPATH_PLATFORM') or die;
-
-use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Toolbar\ToolbarButton;
+use Joomla\CMS\Uri\Uri;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Renders a modal window button
+ *
+ * @method self    url(string $value)
+ * @method self    icon(string $value)
+ * @method self    iframeWidth(int $value)
+ * @method self    iframeHeight(int $value)
+ * @method self    bodyHeight(int $value)
+ * @method self    modalWidth(string $value)
+ * @method self    modalHeight(string $value)
+ * @method self    onclose(string $value)
+ * @method self    title(string $value)
+ * @method self    footer(string $value)
+ * @method self    selector(string $value)
+ * @method self    listCheck(bool $value)
+ * @method self    popupType(string $value)
+ * @method self    textHeader(string $value)
+ * @method string  getUrl()
+ * @method int     getIframeWidth()
+ * @method int     getIframeHeight()
+ * @method int     getBodyHeight()
+ * @method string  getModalWidth()
+ * @method string  getModalHeight()
+ * @method string  getOnclose()
+ * @method string  getTitle()
+ * @method string  getFooter()
+ * @method string  getSelector()
+ * @method bool    getListCheck()
+ * @method string  getPopupType()
+ * @method string  getTextHeader()
  *
  * @since  3.0
  */
 class PopupButton extends ToolbarButton
 {
-	/**
-	 * Button type
-	 *
-	 * @var    string
-	 */
-	protected $_name = 'Popup';
+    /**
+     * Property layout.
+     *
+     * @var  string
+     *
+     * @since  4.0.0
+     */
+    protected $layout = 'joomla.toolbar.popup';
 
-	/**
-	 * Fetch the HTML for the button
-	 *
-	 * @param   string   $type     Unused string, formerly button type.
-	 * @param   string   $name     Modal name, used to generate element ID
-	 * @param   string   $text     The link text
-	 * @param   string   $url      URL for popup
-	 * @param   integer  $width    Width of popup
-	 * @param   integer  $height   Height of popup
-	 * @param   integer  $top      Top attribute.  [@deprecated  Unused, will be removed in 4.0]
-	 * @param   integer  $left     Left attribute. [@deprecated  Unused, will be removed in 4.0]
-	 * @param   string   $onClose  JavaScript for the onClose event.
-	 * @param   string   $title    The title text
-	 * @param   string   $footer   The footer html
-	 *
-	 * @return  string  HTML string for the button
-	 *
-	 * @since   3.0
-	 */
-	public function fetchButton($type = 'Modal', $name = '', $text = '', $url = '', $width = 640, $height = 480, $top = 0, $left = 0,
-		$onClose = '', $title = '', $footer = null)
-	{
-		// If no $title is set, use the $text element
-		if ($title === '')
-		{
-			$title = $text;
-		}
+    /**
+     * Prepare options for this button.
+     *
+     * @param   array  $options  The options about this button.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    protected function prepareOptions(array &$options)
+    {
+        $options['icon'] ??= 'icon-square';
 
-		// Store all data to the options array for use with JLayout
-		$options = array();
-		$options['name'] = $name;
-		$options['text'] = \JText::_($text);
-		$options['title'] = \JText::_($title);
-		$options['class'] = $this->fetchIconClass($name);
-		$options['doTask'] = $this->_getCommand($url);
+        parent::prepareOptions($options);
 
-		// Instantiate a new JLayoutFile instance and render the layout
-		$layout = new FileLayout('joomla.toolbar.popup');
+        $options['doTask'] = $this->_getCommand($this->getUrl());
 
-		$html = array();
-		$html[] = $layout->render($options);
+        $options['selector'] ??= 'modal-' . $this->getName();
+    }
 
-		// Place modal div and scripts in a new div
-		$html[] = '<div class="btn-group" style="width: 0; margin: 0">';
+    /**
+     * Fetch the HTML for the button
+     *
+     * @param   string   $type          Unused string, formerly button type.
+     * @param   string   $name          Modal name, used to generate element ID
+     * @param   string   $text          The link text
+     * @param   string   $url           URL for popup
+     * @param   integer  $iframeWidth   Width of popup
+     * @param   integer  $iframeHeight  Height of popup
+     * @param   integer  $bodyHeight    Optional height of the modal body in viewport units (vh)
+     * @param   integer  $modalWidth    Optional width of the modal in viewport units (vh)
+     * @param   string   $onClose       JavaScript for the onClose event.
+     * @param   string   $title         The title text
+     * @param   string   $footer        The footer html
+     *
+     * @return  string  HTML string for the button
+     *
+     * @since   3.0
+     */
+    public function fetchButton(
+        $type = 'Modal',
+        $name = '',
+        $text = '',
+        $url = '',
+        $iframeWidth = 640,
+        $iframeHeight = 480,
+        $bodyHeight = null,
+        $modalWidth = null,
+        $onClose = '',
+        $title = '',
+        $footer = null
+    ) {
+        $this->name($name)
+            ->text($text)
+            ->task($this->_getCommand($url))
+            ->url($url)
+            ->icon('icon-' . $name)
+            ->iframeWidth($iframeWidth)
+            ->iframeHeight($iframeHeight)
+            ->bodyHeight($bodyHeight)
+            ->modalWidth($modalWidth)
+            ->onclose($onClose)
+            ->title($title)
+            ->footer($footer);
 
-		// Build the options array for the modal
-		$params = array();
-		$params['title']  = $options['title'];
-		$params['url']    = $options['doTask'];
-		$params['height'] = $height;
-		$params['width']  = $width;
+        return $this->renderButton($this->options);
+    }
 
-		if (isset($footer))
-		{
-			$params['footer'] = $footer;
-		}
+    /**
+     * Render button HTML.
+     *
+     * @param   array  $options  The button options.
+     *
+     * @return  string  The button HTML.
+     *
+     * @since   4.0.0
+     */
+    protected function renderButton(array &$options): string
+    {
+        $html = [];
 
-		$html[] = \JHtml::_('bootstrap.renderModal', 'modal-' . $name, $params);
+        $html[] = parent::renderButton($options);
 
-		// If an $onClose event is passed, add it to the modal JS object
-		if ($onClose !== '')
-		{
-			$html[] = '<script>'
-				. 'jQuery(\'#modal-' . $name . '\').on(\'hide\', function () {' . $onClose . ';});'
-				. '</script>';
-		}
+        if ($this->getPopupType()) {
+            return $html[0];
+        }
 
-		$html[] = '</div>';
+        @trigger_error(
+            'Use of BS Modal is deprecated in Joomla\CMS\Toolbar\Button\PopupButton, and will be removed in 6.0',
+            E_USER_DEPRECATED
+        );
 
-		return implode("\n", $html);
-	}
+        if ((string) $this->getUrl() !== '') {
+            // Build the options array for the modal
+            $params               = [];
+            $params['title']      = $options['title'] ?? $options['text'];
+            $params['url']        = $this->getUrl();
+            $params['height']     = $options['iframeHeight'] ?? 480;
+            $params['width']      = $options['iframeWidth'] ?? 640;
+            $params['bodyHeight'] = $options['bodyHeight'] ?? null;
+            $params['modalWidth'] = $options['modalWidth'] ?? null;
 
-	/**
-	 * Get the button id
-	 *
-	 * @param   string  $type  Button type
-	 * @param   string  $name  Button name
-	 *
-	 * @return  string	Button CSS Id
-	 *
-	 * @since   3.0
-	 */
-	public function fetchId($type, $name)
-	{
-		return $this->_parent->getName() . '-popup-' . $name;
-	}
+            // Place modal div and scripts in a new div
+            $html[] = '<div class="btn-group" style="width: 0; margin: 0; padding: 0;">';
 
-	/**
-	 * Get the JavaScript command for the button
-	 *
-	 * @param   string  $url  URL for popup
-	 *
-	 * @return  string  JavaScript command string
-	 *
-	 * @since   3.0
-	 */
-	private function _getCommand($url)
-	{
-		if (strpos($url, 'http') !== 0)
-		{
-			$url = \JUri::base() . $url;
-		}
+            $selector = $options['selector'];
 
-		return $url;
-	}
+            $footer = $this->getFooter();
+
+            if ($footer !== null) {
+                $params['footer'] = $footer;
+            }
+
+            $html[] = HTMLHelper::_('bootstrap.renderModal', $selector, $params);
+
+            $html[] = '</div>';
+
+            // We have to move the modal, otherwise we get problems with the backdrop
+            // @todo: There should be a better workaround than this
+            Factory::getDocument()->addScriptDeclaration(
+                <<<JS
+document.addEventListener('DOMContentLoaded', function() {
+  var modal =document.getElementById('{$options['selector']}');
+  document.body.appendChild(modal);
+  if (Joomla && Joomla.Bootstrap && Joomla.Bootstrap.Methods && Joomla.Bootstrap.Methods.Modal) {
+    Joomla.Bootstrap.Methods.Initialise.Modal(modal);
+  }
+});
+JS
+            );
+        }
+
+        // If an $onClose event is passed, add it to the modal JS object
+        if ((string) $this->getOnclose() !== '') {
+            Factory::getDocument()->addScriptDeclaration(
+                <<<JS
+document.addEventListener('DOMContentLoaded', function() {
+	document.querySelector('#{$options['selector']}').addEventListener('hide.bs.modal', function() {
+	    {$options['onclose']}
+	});
+});
+JS
+            );
+        }
+
+        return implode("\n", $html);
+    }
+
+    /**
+     * Get the JavaScript command for the button
+     *
+     * @param   string  $url  URL for popup
+     *
+     * @return  string  JavaScript command string
+     *
+     * @since   3.0
+     */
+    private function _getCommand($url)
+    {
+        $url ??= '';
+
+        if (!str_starts_with($url, 'http')) {
+            $url = Uri::base() . $url;
+        }
+
+        return $url;
+    }
+
+    /**
+     * Method to configure available option accessors.
+     *
+     * @return  array
+     *
+     * @since   4.0.0
+     */
+    protected static function getAccessors(): array
+    {
+        return array_merge(
+            parent::getAccessors(),
+            [
+                'url',
+                'iframeWidth',
+                'iframeHeight',
+                'bodyHeight',
+                'modalWidth',
+                'modalHeight',
+                'onclose',
+                'title',
+                'footer',
+                'selector',
+                'listCheck',
+                'popupType',
+                'textHeader',
+            ]
+        );
+    }
 }

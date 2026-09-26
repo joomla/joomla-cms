@@ -1,91 +1,95 @@
-Joomla! CMS™ [![Analytics](https://ga-beacon.appspot.com/UA-544070-3/joomla-cms/readme)](https://github.com/igrigorik/ga-beacon) [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
+Joomla! CMS™
 ====================
 
 Build Status
----------------------
-| Travis-CI  | Drone-CI | AppVeyor |
-| ------------- | ------------- | ------------- |
-| [![Build Status](https://travis-ci.org/joomla/joomla-cms.svg?branch=staging)](https://travis-ci.org/joomla/joomla-cms)  | [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg)](https://ci.joomla.org/joomla/joomla-cms)  | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/staging?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms)  |
+------------
 
-What is this?
+| Actions                                                                                                                                         | PHP                                                                           | Node                                                                                 | npm                                                                              |
+|-------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
+| [![Build Status](https://github.com/joomla/joomla-cms/actions/workflows/ci.yml/badge.svg?branch=5.4-dev)](https://github.com/joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V8.1.0-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V20.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v10.1.0-green)](https://nodejs.org/en/) |
+
+Overview
 ---------------------
-* This is a Joomla! 3.x installation/upgrade package.
+* This is the source of Joomla! 5.x.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 3.9 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_3.9_version_history).
-* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/staging).
+* Joomla! 5.4 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_5.4_version_history).
+* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/5.4-dev).
 
 What is Joomla?
 ---------------------
 * [Joomla!](https://www.joomla.org/about-joomla.html) is a **Content Management System** (CMS) which enables you to build websites and powerful online applications.
-* It is a simple and powerful web server application which requires a server with PHP and either MySQL, PostgreSQL or SQL Server to run. You can find [full technical requirements here](https://downloads.joomla.org/technical-requirements).
+* It is a simple and powerful web server application which requires a server with PHP and either MySQL, MariaDB or PostgreSQL to run. You can find [full technical requirements here](https://downloads.joomla.org/technical-requirements).
 * Joomla! is **free and Open Source software** distributed under the GNU General Public License version 2 or later.
 
-Is Joomla! for you?
+Looking for an installable package?
 ---------------------
-* Joomla! is [the right solution for most content web projects](https://docs.joomla.org/Special:MyLanguage/Portal:Learn_More).
-* View Joomla's [core features here](https://www.joomla.org/core-features.html).
-* Try it out for yourself on our [free hosting service](https://launch.joomla.org).
+Joomla is not installable out of the box from this repository, please use:
+- For the latest stable package: https://downloads.joomla.org
+- For a nightly package: https://developer.joomla.org/nightly-builds.html
 
-How to find a Joomla! translation?
+How to get a working installation from the source
 ---------------------
-* Repository of [accredited language packs](https://community.joomla.org/translations.html).
-* You can also [add languages](https://docs.joomla.org/Special:MyLanguage/J3.x:Setup_a_Multilingual_Site/Installing_New_Language) directly to your website via your Joomla! administration panel.
-* Learn how to [setup a Multilingual Joomla! Site](https://docs.joomla.org/Special:MyLanguage/J3.x:Setup_a_Multilingual_Site)
+For detailed instructions please visit https://docs.joomla.org/Special:MyLanguage/J5.x:Setting_Up_Your_Local_Environment
 
-Learn Joomla!
----------------------
-* Read ['Getting Started with Joomla!'](https://docs.joomla.org/Special:MyLanguage/J3.x:Getting_Started_with_Joomla!) to learn the basics.
-* Before installing, read the ['Beginners' Guide'](https://docs.joomla.org/Special:MyLanguage/Portal:Beginners).
+You will need:
+- PHP - basically the same as you need for running a Joomla Site, but you need the cli (command line interface) Version (see https://docs.joomla.org/Special:MyLanguage/Configuring_a_LAMPP_server_for_PHP_development)
+- Composer - for managing Joomla's PHP Dependencies. For help installing composer please read the documentation at https://getcomposer.org/doc/00-intro.md
+- Node.js - for compiling Joomla's Javascript and SASS files. For help installing Node.js please follow the instructions available on https://nodejs.org/en/
+- Git - for version management. Download from here https://git-scm.com/downloads (MacOS users can also use Brew and Linux users can use the built-in package manager, eg apt, yum, etc).
 
-What are the benefits of Joomla?
----------------------
-* The functionality of a Joomla! website can be extended by installing extensions that you can create (or download) to suit your needs.
-* There are many ready-made extensions that you can download and install.
-* Check out the [Joomla! Extensions Directory (JED)](https://extensions.joomla.org).
+**Steps to setup the local environment:**
+- Clone the repository:
+```bash
+git clone https://github.com/joomla/joomla-cms.git
+```
+- Go to the joomla-cms folder:
+```bash
+cd joomla-cms
+```
+- Go to the 5.4-dev branch:
+```bash
+git checkout 5.4-dev
+```
+- Install all the needed composer packages:
+```bash
+composer install
+```
+- Install all the needed npm packages:
+```bash
+npm ci
+```
 
-Is it easy to change the layout display?
----------------------
-* The layout is controlled by templates that you can edit.
-* There are a lot of ready-made professional templates that you can download.
-* Template management information is [available here](https://docs.joomla.org/Special:MyLanguage/Portal:Template_Management).
-
-Ready to install Joomla?
----------------------
-* Check the [minimum requirements](https://downloads.joomla.org/technical-requirements). 
-* How do you [install Joomla](https://docs.joomla.org/Special:MyLanguage/J3.x:Installing_Joomla)?
-* You could start your Joomla! experience by [building your site on a local test server](https://docs.joomla.org/Special:MyLanguage/Installing_Joomla_locally).
-When ready, it can be moved to an online hosting account of your choice.
-
-Updates are free!
----------------------
-* Always use the [latest version](https://downloads.joomla.org/latest).
-
-Where can you get support and help?
----------------------
-* [The Joomla! Documentation](https://docs.joomla.org/Special:MyLanguage/Main_Page).
-* [Frequently Asked Questions](https://docs.joomla.org/Special:MyLanguage/Category:FAQ) (FAQ).
-* Find the [information you need](https://docs.joomla.org/Special:MyLanguage/Start_here).
-* Find [help and other users](https://www.joomla.org/about-joomla/create-and-share.html).
-* Post questions at [our forums](https://forum.joomla.org).
-* [Joomla Resources Directory](https://resources.joomla.org) (JRD).
-
-Do you already have a Joomla! site that isn't built with Joomla! 3.x?
----------------------
-* What's [new in Joomla! 3.x](https://www.joomla.org/3)?
-* What are the [main differences between 2.5 and 3.x](https://docs.joomla.org/Special:MyLanguage/What_are_the_major_differences_between_Joomla!_2.5_and_3.x%3F)?
-* How to [migrate from 2.5.x to 3.x](https://docs.joomla.org/Special:MyLanguage/Joomla_2.5_to_3.x_Step_by_Step_Migration).
-* How to [migrate from 1.5.x to 3.x](https://docs.joomla.org/Special:MyLanguage/Joomla_1.5_to_3.x_Step_by_Step_Migration).
+**Things to be aware of when pulling:**
+Joomla creates a cache of the namespaces of its extensions in `JOOMLA_ROOT/administrator/cache/autoload_psr4.php`. If
+extensions are created, deleted or removed in git then this file needs to be recreated. You can simply delete the file
+and it will be regenerated on the next call to Joomla.
 
 Do you want to improve Joomla?
 --------------------
 * Where to [request a feature](https://issues.joomla.org)?
 * How do you [report a bug](https://docs.joomla.org/Special:MyLanguage/Filing_bugs_and_issues) on the [Issue Tracker](https://issues.joomla.org)?
+* How to [submit code](https://manual.joomla.org/docs/get-started/git/) to the Joomla CMS using a Pull Request?
 * Get Involved: Joomla! is community developed software. [Join the community](https://volunteers.joomla.org).
-* Documentation for [Developers](https://docs.joomla.org/Special:MyLanguage/Portal:Developers).
+* Documentation for [Developers](https://manual.joomla.org/).
 * Documentation for [Web designers](https://docs.joomla.org/Special:MyLanguage/Web_designers).
+* Provide a translation for Joomla: [Joomla Crowdin Project](https://joomla.crowdin.com/cms)
+
+Which branch should my Pull Request target?
+--------------------
+Using a simple classification keeps the project **stable**, **transparent**, and **easy** for everyone to contribute.
+
+| Type of change | What it means | Target branch |
+|---|---|---|
+| **Bug / Patch release** | The change fixes an actual error. The software crashes, produces the wrong result, or behaves contrary to its specification. It can be resolved without large‑scale refactoring or new functionality. | **[5.4-dev](https://github.com/joomla/joomla-cms/tree/5.4-dev)** (6.1-dev) **\*** |
+| **Feature / Minor release** | Anything that isn’t a strict bug – new behavior, refactoring, performance improvements, enhancements, UI tweaks, etc. These changes are bundled together for the next minor version. | **[6.2-dev](https://github.com/joomla/joomla-cms/tree/6.2-dev)** |
+
+**\*** All bugs that already exist in version 5.4.x should be fixed in `5.4-dev`. Only bugs that are introduced for the first time in version 6.x should target the [`6.1-dev`](https://github.com/joomla/joomla-cms/tree/6.1-dev) branch.
+
+A member of the maintainer or bug squad team confirms the classification and sets the appropriate labels when a PR is opened. If a PR is opened in the wrong branch, a maintainer will simply ask you to retarget it to the proper branch.
+
 
 Copyright
 ---------------------
-* Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
+* (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
 * Distributed under the GNU General Public License version 2 or later
 * See [License details](https://docs.joomla.org/Special:MyLanguage/Joomla_Licenses)

@@ -1,0 +1,119 @@
+// Table
+
+.table {
+
+  > :not(caption) > * > * {
+    color: var(--body-color);
+  }
+
+  thead {
+    th {
+      font-size: $label-font-size;
+    }
+
+    th,
+    td {
+      white-space: nowrap;
+
+      .sysinfo & {
+        white-space: normal;
+      }
+    }
+
+    a {
+      font-weight: $table-link-font-weight;
+      color: rgb(var(--link-color-rgb, $table-link-color));
+      &:hover {
+        color: rgb(var(--link-color-rgb-hvr));
+      }
+
+      &#sorted {
+        font-weight: $table-link-font-weight-sorted; /* $medium-weight */
+
+        // This is the same as the bootstrap line because when it's sorted we want to undo the style
+        color: var(--table-color-state, var(--table-color-type,var(--table-color)));
+      }
+    }
+
+    .actions,
+    .actions-th1 {
+      @include media-breakpoint-down(md) {
+        width: 28%;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      &:hover,
+      &:focus,
+      &:active {
+        background-color: $table-hover-bg;
+      }
+
+      &:last-of-type {
+        th,
+        td {
+          border-bottom: 0;
+        }
+      }
+    }
+
+    .itemnumber a.btn,
+    .itemnumber span.btn {
+      padding: .1rem .5rem;
+      text-decoration: none;
+    }
+
+    th {
+      font-weight: $medium-weight;
+    }
+
+    a:not(.badge):not(.btn):not(.dropdown-item) {
+      font-weight: $table-link-font-weight;
+      color: rgb(var(--link-color-rgb, $table-link-color));
+      text-decoration: underline;
+      &:hover {
+        color: rgb(var(--link-color-rgb-hvr));
+      }
+    }
+
+    .badge.bg-info {
+      background-color: $badge-bg-info !important;
+    }
+  }
+
+  th,
+  td {
+    label {
+      margin-bottom: 0;
+    }
+
+    .inactive [class^="#{$jicon-css-prefix}-"],
+    .inactive [class*=" #{$jicon-css-prefix}-"],
+    .inactive [class^="#{$fa-css-prefix}-"],
+    .inactive [class*=" #{$fa-css-prefix}-"] {
+      color: $gray-400;
+    }
+  }
+
+  .j-main-container > & {
+    box-shadow: var(--atum-box-shadow);
+  }
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .j-main-container .table {
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .1);
+      box-shadow: 1px 1px 2px rgba(0, 0, 0, .3);
+
+      tr {
+        &:hover {
+          background: rgba(0, 0, 0, .1);
+        }
+      }
+    }
+  }
+}

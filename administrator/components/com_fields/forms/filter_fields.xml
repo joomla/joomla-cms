@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form addfieldprefix="Joomla\Component\Fields\Administrator\Field">
+	<fieldset name="group">
+		<field
+			name="context"
+			type="fieldcontexts"
+			filtermode="selector"
+			class="js-select-submit-on-change"
+		/>
+	</fieldset>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			inputmode="search"
+			label="COM_FIELDS_FIELDS_FILTER_SEARCH_LABEL"
+			description="COM_FIELDS_FIELDS_FILTER_SEARCH_DESC"
+			hint="JSEARCH_FILTER"
+		/>
+
+		<field
+			name="state"
+			type="status"
+			label="JSTATUS"
+			class="js-select-submit-on-change"
+			>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+
+		<field
+			name="group_id"
+			type="fieldgroups"
+			label="COM_FIELDS_FIELD_GROUP_LABEL"
+			state="0,1,2"
+			class="js-select-submit-on-change"
+			>
+			<option value="">COM_FIELDS_VIEW_FIELDS_SELECT_GROUP</option>
+		</field>
+
+		<field
+			name="assigned_cat_ids"
+			type="category"
+			label="JCATEGORY"
+			class="js-select-submit-on-change"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
+			>
+			<option value="">COM_FIELDS_VIEW_FIELDS_SELECT_CATEGORY</option>
+		</field>
+
+		<field
+			name="access"
+			type="accesslevel"
+			label="JGRID_HEADING_ACCESS"
+			class="js-select-submit-on-change"
+			>
+			<option value="">JOPTION_SELECT_ACCESS</option>
+		</field>
+
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JGRID_HEADING_LANGUAGE"
+			class="js-select-submit-on-change"
+			>
+			<option value="">JOPTION_SELECT_LANGUAGE</option>
+		</field>
+
+		<field
+			name="only_use_in_subform"
+			type="list"
+			label="COM_FIELDS_FIELDS_FILTER_ONLY_USE_IN_SUBFORM_LABEL"
+			class="js-select-submit-on-change"
+			default=""
+			validate="options"
+			>
+			<option value="">COM_FIELDS_ONLY_USE_IN_SUBFORM</option>
+			<option value="0">COM_FIELDS_ONLY_USE_IN_SUBFORM_ANY</option>
+			<option value="1">COM_FIELDS_ONLY_USE_IN_SUBFORM_SUBFORM</option>
+		</field>
+	</fields>
+
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			statuses="*,0,1,2,-2"
+			class="js-select-submit-on-change"
+			default="a.ordering ASC"
+			validate="options"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="a.state ASC">JSTATUS_ASC</option>
+			<option value="a.state DESC">JSTATUS_DESC</option>
+			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="a.type ASC">COM_FIELDS_VIEW_FIELDS_SORT_TYPE_ASC</option>
+			<option value="a.type DESC">COM_FIELDS_VIEW_FIELDS_SORT_TYPE_DESC</option>
+			<option value="g.title ASC">COM_FIELDS_VIEW_FIELDS_SORT_GROUP_ASC</option>
+			<option value="g.title DESC">COM_FIELDS_VIEW_FIELDS_SORT_GROUP_DESC</option>
+			<option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>
+			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
+			<option value="a.language ASC" requires="multilanguage">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="a.language DESC" requires="multilanguage">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
+			default="25"
+			class="js-select-submit-on-change"
+		/>
+	</fields>
+</form>

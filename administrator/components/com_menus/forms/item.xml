@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form addfieldprefix="Joomla\Component\Menus\Administrator\Field">
+	<fieldset>
+		<field
+			name="id"
+			type="hidden"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			class="readonly"
+			default="0"
+			filter="int"
+			readonly="true"
+		/>
+
+		<field
+			name="title"
+			type="text"
+			label="COM_MENUS_ITEM_FIELD_TITLE_LABEL"
+			required="true"
+		/>
+
+		<field
+			name="alias"
+			type="alias"
+			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
+		/>
+
+		<field
+			name="note"
+			type="text"
+			label="JFIELD_NOTE_LABEL"
+			maxlength="255"
+		/>
+
+		<field
+			name="link"
+			type="link"
+			label="COM_MENUS_ITEM_FIELD_LINK_LABEL"
+			readonly="true"
+		/>
+
+		<field
+			name="menutype"
+			type="menu"
+			label="COM_MENUS_ITEM_FIELD_ASSIGNED_LABEL"
+			required="true"
+			clientid="0"
+			>
+			<option value="">COM_MENUS_SELECT_MENU</option>
+		</field>
+
+		<field
+			name="type"
+			type="menutype"
+			label="COM_MENUS_ITEM_FIELD_TYPE_LABEL"
+			required="true"
+		/>
+
+		<field
+			name="published"
+			type="list"
+			label="JSTATUS"
+			class="form-select-color-state"
+			default="1"
+			filter="integer"
+			validate="options"
+			>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="-2">JTRASHED</option>
+		</field>
+
+		<field
+			name="publish_up"
+			type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
+			translateformat="true"
+			showtime="true"
+			filter="user_utc"
+			showon="home:0"
+		/>
+
+		<field
+			name="publish_down"
+			type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
+			translateformat="true"
+			showtime="true"
+			filter="user_utc"
+			showon="home:0"
+		/>
+
+		<field
+			name="parent_id"
+			type="MenuParent"
+			label="COM_MENUS_ITEM_FIELD_PARENT_LABEL"
+			layout="joomla.form.field.list-fancy-select"
+			default="1"
+			filter="int"
+			clientid="0"
+			>
+			<option value="1">JGLOBAL_ROOT_PARENT</option>
+		</field>
+
+		<field
+			name="menuordering"
+			type="MenuOrdering"
+			label="COM_MENUS_ITEM_FIELD_ORDERING_LABEL"
+			filter="int"
+		/>
+
+		<field
+			name="component_id"
+			type="hidden"
+			filter="int"
+		/>
+
+		<field
+			name="browserNav"
+			type="list"
+			label="COM_MENUS_ITEM_FIELD_BROWSERNAV_LABEL"
+			default="0"
+			filter="int"
+			validate="options"
+			>
+			<option value="0">COM_MENUS_FIELD_VALUE_PARENT</option>
+			<option value="1">COM_MENUS_FIELD_VALUE_NEW_WITH_NAV</option>
+			<option value="2">COM_MENUS_FIELD_VALUE_NEW_WITHOUT_NAV</option>
+		</field>
+
+		<field
+			name="access"
+			type="accesslevel"
+			label="JFIELD_ACCESS_LABEL"
+			filter="UINT"
+			validate="options"
+		/>
+
+		<field
+			name="template_style_id"
+			type="templatestyle"
+			label="COM_MENUS_ITEM_FIELD_TEMPLATE_LABEL"
+			client="site"
+			filter="int"
+			showon="type!:alias[OR]params.alias_redirect:0"
+			>
+			<option value="0">JOPTION_USE_DEFAULT</option>
+		</field>
+
+		<field
+			name="home"
+			type="radio"
+			label="COM_MENUS_ITEM_FIELD_HOME_LABEL"
+			default="0"
+			layout="joomla.form.field.radio.switcher"
+			filter="integer"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JFIELD_LANGUAGE_LABEL"
+			>
+			<option value="*">JALL</option>
+		</field>
+
+		<field
+			name="path"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="level"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="checked_out"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="checked_out_time"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="lft"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="rgt"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="toggle_modules_assigned"
+			type="radio"
+			label="COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED_LABEL"
+			default="1"
+			layout="joomla.form.field.radio.switcher"
+			filter="integer"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="toggle_modules_published"
+			type="radio"
+			label="COM_MENUS_ITEM_FIELD_HIDE_UNPUBLISHED_LABEL"
+			default="1"
+			layout="joomla.form.field.radio.switcher"
+			filter="integer"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+	</fieldset>
+
+	<fields name="params">
+	</fields>
+</form>
