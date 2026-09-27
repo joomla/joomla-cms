@@ -296,6 +296,9 @@ class HtmlView extends BaseHtmlView
                 // Add a Rename file Button
                 ToolbarHelper::modal('renameModal', 'icon-sync', 'COM_TEMPLATES_BUTTON_RENAME_FILE');
 
+                // Add a Copy file Button
+                ToolbarHelper::modal('copyFileModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_FILE');
+
                 // Add a Delete file Button
                 ToolbarHelper::modal('deleteModal', 'icon-trash', 'COM_TEMPLATES_BUTTON_DELETE_FILE', 'btn-danger');
             }

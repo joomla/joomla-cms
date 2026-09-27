@@ -10,6 +10,7 @@
     const innerLists = document.querySelectorAll('.folder ul, .component-folder ul, .plugin-folder ul, .layout-folder ul');
     const openLists = document.querySelectorAll('.show > ul');
     const fileModalFolders = document.querySelectorAll('#fileModal .folder-url');
+    const copyFileModalFolders = document.querySelectorAll('#copyFileModal .folder-url');
     const folderModalFolders = document.querySelectorAll('#folderModal .folder-url');
     // Hide all the folders when the page loads
     innerLists.forEach((innerList) => {
@@ -57,6 +58,28 @@
         });
 
         document.querySelectorAll('#fileModal input[name="isMedia"]').forEach((el) => {
+          el.value = ismedia;
+        });
+      });
+    });
+
+    // Copy file modal tree selector
+    copyFileModalFolders.forEach((copyFileModalFolder) => {
+      copyFileModalFolder.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        copyFileModalFolders.forEach((copyFileModalFldr) => {
+          copyFileModalFldr.classList.remove('selected');
+        });
+
+        event.currentTarget.classList.add('selected');
+        const ismedia = event.currentTarget.dataset.base === 'media' ? 1 : 0;
+
+        document.querySelectorAll('#copyFileModal input.address').forEach((element) => {
+          element.value = event.currentTarget.getAttribute('data-id');
+        });
+
+        document.querySelectorAll('#copyFileModal input[name="isMedia"]').forEach((el) => {
           el.value = ismedia;
         });
       });
