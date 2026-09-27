@@ -15,7 +15,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 use Joomla\Utilities\ArrayHelper;
 
@@ -80,7 +79,7 @@ if ($saveOrder && !empty($this->items)) {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody<?php echo $saveOrder ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
+                        <tbody<?php echo $saveOrder && isset($dndAttributes) ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                         <?php $count = count($this->items); ?>
                         <?php foreach ($this->items as $i => $item) :
                             $ordering  = ($listOrder == 'a.ordering');

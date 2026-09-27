@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
 
 /** @var \Joomla\Component\Contact\Administrator\View\Contacts\HtmlView $this */
@@ -100,7 +99,7 @@ if ($saveOrder && !empty($this->items)) {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody<?php echo $saveOrder ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
+                        <tbody<?php echo $saveOrder && isset($dndAttributes) ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                         <?php
                         $n = count($this->items);
                         foreach ($this->items as $i => $item) :

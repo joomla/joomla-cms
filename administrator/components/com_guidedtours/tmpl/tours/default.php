@@ -17,7 +17,6 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
 
 /** @var  \Joomla\Component\Guidedtours\Administrator\View\Tours\HtmlView  $this */
@@ -153,7 +152,7 @@ if ($saveOrder && !empty($this->items)) {
                 </thead>
 
                 <!-- Table body begins -->
-                <tbody<?php echo $saveOrder ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
+                <tbody<?php echo $saveOrder && isset($dndAttributes) ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                 <?php foreach ($this->items as $i => $item) :
                     $canEditOwn = $canEditOwnTour && $item->created_by == $userId;
                     $canCheckin = $hasCheckinPermission || $item->checked_out == $userId || is_null($item->checked_out);

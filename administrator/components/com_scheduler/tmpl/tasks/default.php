@@ -17,7 +17,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Utilities\ArrayHelper;
@@ -166,7 +165,7 @@ if ($this->hasDueTasks === true) {
                 </thead>
 
                 <!-- Table body begins -->
-                <tbody<?php echo $saveOrder ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
+                <tbody<?php echo $saveOrder && isset($dndAttributes) ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                 <?php foreach ($this->items as $i => $item) :
                     $canCreate  = $user->authorise('core.create', 'com_scheduler');
                     $canEdit    = $user->authorise('core.edit', 'com_scheduler');

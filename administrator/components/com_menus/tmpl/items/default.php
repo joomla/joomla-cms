@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Utilities\ArrayHelper;
 
 /** @var \Joomla\Component\Menus\Administrator\View\Items\HtmlView $this */
 
@@ -36,22 +37,15 @@ $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
 $menuType  = (string) $app->getUserState('com_menus.items.menutype', '');
 
 if ($saveOrder && $menuType && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_menus&task=items.reorderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-    Text::script('JGLOBAL_DRAGANDDROP_STARTED');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGOVER');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_NO_ELEMENT');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_CANCELED');
+     $saveOrderingUrl = 'index.php?option=com_menus&task=items.reorderAjax&format=json';
+     $dndAttributes   = [
+          'class'                  => 'js-draggable',
+          'data-dnd-item-selector' => 'tr',
+          'data-dnd-url'           => $saveOrderingUrl,
+          'data-dnd-direction'     => strtolower($listDirn),
+      ];
 
-    $this->getDocument()->addScriptOptions(
-        'dnd-options',
-        [
-            'containerSelector' => '#menuitemList tbody',
-            'sortDirection'     => $listDirn,
-            'saveOrderingUrl'   => $saveOrderingUrl,
-        ]
-    );
-    $wa->useScript('joomla.dnd');
+      $wa->useScript('joomla.dnd');
 }
 
 $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') == 0;
@@ -115,9 +109,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                             </th>
                         </tr>
                         </thead>
-                        <tbody <?php if ($saveOrder && $menuType) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
-                               endif; ?>>
+                          <tbody<?php echo $saveOrder && isset($dndAttributes) ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                         <?php
                         foreach ($this->items as $i => $item) :
                             $orderkey = array_search($item->id, $this->ordering[$item->parent_id]);

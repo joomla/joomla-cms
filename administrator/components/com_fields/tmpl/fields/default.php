@@ -17,7 +17,6 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Utilities\ArrayHelper;
 
@@ -117,7 +116,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody<?php echo $saveOrder ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
+                        <tbody<?php echo $saveOrder && isset($dndAttributes) ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                             <?php foreach ($this->items as $i => $item) : ?>
                                 <?php $ordering   = ($listOrder == 'a.ordering'); ?>
                                 <?php $canEdit    = $user->authorise('core.edit', $component . '.field.' . $item->id); ?>

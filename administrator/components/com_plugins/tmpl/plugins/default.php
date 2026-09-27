@@ -14,7 +14,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
 
 /** @var \Joomla\Component\Plugins\Administrator\View\Plugins\HtmlView $this */
@@ -84,7 +83,7 @@ if ($saveOrder) {
                         </th>
                     </tr>
                 </thead>
-                <tbody<?php echo $saveOrder ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
+                <tbody<?php echo $saveOrder && isset($dndAttributes) ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                 <?php foreach ($this->items as $i => $item) :
                     $ordering   = ($listOrder == 'ordering');
                     $canEdit    = $user->authorise('core.edit', 'com_plugins');

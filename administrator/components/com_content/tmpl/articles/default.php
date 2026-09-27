@@ -162,7 +162,7 @@ $assoc = Associations::isEnabled();
                                 </th>
                             </tr>
                         </thead>
-                        <tbody<?php echo $saveOrder ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
+                        <tbody<?php echo $saveOrder && isset($dndAttributes) ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                         <?php foreach ($this->items as $i => $item) :
                             $item->max_ordering = 0;
                             $ordering             = ($listOrder == 'fp.ordering');
