@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Filesystem\File;
 
 /** @var \Joomla\Component\Templates\Administrator\View\Template\HtmlView $this */
 
@@ -47,13 +48,17 @@ $input = Factory::getApplication()->getInput();
                 </div>
             </div>
             <div class="col-md-8">
-                <div class="form-group">
+                <div class="control-group">
+                <div class="control-label">
                     <label for="copy_file_name">
                         <?php echo Text::_('COM_TEMPLATES_FILE_NEW_NAME_LABEL'); ?>
                     </label>
-                    <input class="form-control" type="text" id="copy_file_name" name="new_name" required>
-                    <input type="hidden" class="address" name="address">
-                    <input type="hidden" name="isMedia" value="0">
+                </div>
+                <div class="controls">
+                    <div class="input-group">
+                        <input class="form-control" type="text" id="copy_file_name" name="new_name" required>
+                        <span class="input-group-text">.<?php echo File::getExt($this->fileName); ?></span>
+                    </div>
                 </div>
             </div>
         </div>
