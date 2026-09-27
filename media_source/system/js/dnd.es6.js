@@ -22,37 +22,68 @@ class DND {
       plugins: (defaults) => [
         ...defaults,
         Accessibility.configure({
+          screenReaderInstructions: {
+            draggable: Joomla.Text._('JGLOBAL_DRAGANDDROP_INSTRUCTIONS'),
+          },
           announcements: {
             dragstart: ({ operation: { source } }) => {
               if (!source) return;
+
+              const { label, position, total } = this.getDragInfo(source);
+
               return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGEND_STARTED')
-                .replace('{{source}}', source.id);
+                .replace('{{source}}', label)
+                .replace('{{position}}', position)
+                .replace('{{total}}', total);
             },
             dragover: ({ operation: { source, target } }) => {
               if (!source) return;
+
+              // dnd-kit fires a second dragover when the element is positioned
+              // over itself; skip it to avoid a duplicate announcement.
+              if (target && target.id === source.id) {
+                return undefined;
+              }
+
               if (!target) {
                 return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGOVER_NO_ELEMENT')
-                  .replace('{{source}}', source.id);
+                  .replace('{{source}}', this.getLabel(source.element));
               }
+
+              const { label, position, total } = this.getDragInfo(target);
+
               return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGOVER_ELEMENT')
-                .replace('{{source}}', source.id)
-                .replace('{{target}}', target.id);
+                .replace('{{source}}', this.getLabel(source.element))
+                .replace('{{target}}', label)
+                .replace('{{position}}', position)
+                .replace('{{total}}', total);
             },
             dragend: ({ operation: { source, target }, canceled }) => {
               if (!source) return;
 
-              if (!target) {
-                return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED_NO_ELEMENT')
-                  .replace('{{source}}', source.id);
-              }
+              // A cancelled drag usually has no target, so check it first so the
+              // cancellation is announced instead of "dropped".
               if (canceled) {
+                const { label, position, total } = this.getDragInfo(source);
+
                 return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGEND_CANCELED')
-                  .replace('{{source}}', source.id);
+                  .replace('{{source}}', label)
+                  .replace('{{position}}', position)
+                  .replace('{{total}}', total);
               }
 
+              if (!target) {
+                return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED_NO_ELEMENT')
+                  .replace('{{source}}', this.getLabel(source.element));
+              }
+
+              const { label, position, total } = this.getDragInfo(target);
+
               return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED')
-                .replace('{{source}}', source.id)
-                .replace('{{target}}', target?.id ?? Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGEND_NO_ELEMENT'));
+                .replace('{{source}}', this.getLabel(source.element))
+                .replace('{{target}}', label)
+                .replace('{{position}}', position)
+                .replace('{{total}}', total);
             },
           },
         }),
@@ -69,6 +100,15 @@ class DND {
       new Sortable({ id: element.id ? element.id : `row-${index}`, index, element, handle }, this.manager);
 
       element.dataset.dndDraggableId = element.id ? element.id : `row-${index}`;
+
+      // Give the drag handle a meaningful accessible name and role description so
+      // screen readers announce e.g. "Reorder Article title, sortable item" instead
+      // of "draggable, button". dnd-kit keeps these attributes because they exist.
+      handle.setAttribute(
+        'aria-label',
+        Joomla.Text._('JGLOBAL_DRAGANDDROP_HANDLE_LABEL').replace('{{title}}', this.getLabel(element)),
+      );
+      handle.setAttribute('aria-roledescription', Joomla.Text._('JGLOBAL_DRAGANDDROP_ROLEDESCRIPTION'));
     });
 
     this.manager.monitor.addEventListener('dragstart', this.onDragStart);
@@ -84,6 +124,50 @@ class DND {
     this.manager.monitor.removeEventListener('dragstart', this.onDragStart);
     this.manager.monitor.removeEventListener('dragend', this.onDragEnd);
     this.manager.destroy();
+  }
+
+  /**
+    * Reads an accessible label for a row from its title cell, falling back to the
+    * dnd-kit internal id so screen reader announcements use the item title instead
+    * of an identifier such as "row-0".
+    *
+    * @param {HTMLElement} element The dragged or targeted row element
+    *
+    * @returns {String} A human readable label
+    */
+  getLabel(element) {
+    const cell
+      = element?.querySelector('th[scope="row"] a')
+        || element?.querySelector('th[scope="row"]')
+        || element?.querySelector('td a');
+
+    const label = cell ? cell.textContent.replace(/\s+/g, ' ').trim() : '';
+
+    return label || element?.dataset.dndDraggableId || '';
+  }
+
+  /**
+     * Resolves the position (1-indexed) and total count of a sortable within its
+     * group so announcements can tell the user where the item is positioned.
+     *
+     * @param {Object} sortable A dnd-kit sortable item
+     *
+     * @returns {Object} The label, position and total of the item
+     */
+  getDragInfo(sortable) {
+    const element = sortable?.element;
+
+    const groupId = element?.dataset.draggableGroup;
+    const selector = groupId ? `${this.itemSelector}[data-draggable-group="${groupId}"]` : this.itemSelector;
+
+    const items = [...this.container.querySelectorAll(selector)].filter(
+      (node) => !node.hasAttribute('data-dnd-placeholder'),
+    );
+
+    const position = items.indexOf(element) + 1;
+    const total = items.length;
+
+    return { label: this.getLabel(element), position, total };
   }
 
   /**

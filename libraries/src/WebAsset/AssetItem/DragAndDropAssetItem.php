@@ -44,5 +44,9 @@ class DragAndDropAssetItem extends WebAssetItem implements WebAssetAttachBehavio
         Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_NO_ELEMENT');
         Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED_NO_ELEMENT');
         Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED');
+        Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_CANCELED');
+        Text::script('JGLOBAL_DRAGANDDROP_INSTRUCTIONS');
+        Text::script('JGLOBAL_DRAGANDDROP_HANDLE_LABEL');
+        Text::script('JGLOBAL_DRAGANDDROP_ROLEDESCRIPTION');
     }
 }
