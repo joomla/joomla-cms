@@ -34,9 +34,9 @@ const entriesComponentsAdmin = await readdir(path.join(process.cwd(), 'administr
 const entriesComponentsSite = await readdir(path.join(process.cwd(), 'components'), { withFileTypes: true });
 
 for (const entry of [
-  ...entriesComponentsAdmin.filter(entry => entry.isDirectory() && !entry.name.startsWith('.')),
-   ...entriesComponentsSite.filter(entry => entry.isDirectory() && !entry.name.startsWith('.'))
-  ]) {
+  ...entriesComponentsAdmin.filter((entry) => entry.isDirectory() && !entry.name.startsWith('.')),
+  ...entriesComponentsSite.filter((entry) => entry.isDirectory() && !entry.name.startsWith('.')),
+]) {
   const componentName = entry.name;
   const componentFolder = `${componentName}`;
   if (!builders.includes(componentFolder) && existsSync(path.join(process.cwd(), 'media_source', componentFolder))) {
@@ -49,9 +49,9 @@ const entriesModulesAdmin = await readdir(path.join(process.cwd(), 'administrato
 const entriesModulesSite = await readdir(path.join(process.cwd(), 'modules'), { withFileTypes: true });
 
 for (const entry of [
-  ...entriesModulesAdmin.filter(entry => entry.isDirectory() && !entry.name.startsWith('.')),
-  ...entriesModulesSite.filter(entry => entry.isDirectory() && !entry.name.startsWith('.'))
-  ]) {
+  ...entriesModulesAdmin.filter((entry) => entry.isDirectory() && !entry.name.startsWith('.')),
+  ...entriesModulesSite.filter((entry) => entry.isDirectory() && !entry.name.startsWith('.')),
+]) {
   const moduleName = entry.name;
   const moduleFolder = `${moduleName}`;
   if (!builders.includes(moduleFolder) && existsSync(path.join(process.cwd(), 'media_source', moduleFolder))) {
@@ -63,7 +63,7 @@ for (const entry of [
 const entriesPlugins = await readdir(path.join(process.cwd(), 'plugins'), { withFileTypes: true });
 
 const directoriesPlugins = entriesPlugins
-    .filter(entry => entry.isDirectory() && !entry.name.startsWith('.'));
+  .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'));
 
 for (const entry of directoriesPlugins) {
   if (!entry.isDirectory() || entry.name.startsWith('.')) continue;
@@ -83,7 +83,7 @@ for (const entry of directoriesPlugins) {
 // Resolve the administrator template builders
 const entriesTemplatesAdmin = await readdir(path.join(process.cwd(), 'administrator', 'templates'), { withFileTypes: true });
 const directoriesTemplatesAdmin = entriesTemplatesAdmin
-    .filter(entry => entry.isDirectory() && !entry.name.startsWith('.'));
+  .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'));
 
 for (const entry of directoriesTemplatesAdmin) {
   if (!entry.isDirectory() || entry.name.startsWith('.')) continue;
@@ -100,7 +100,7 @@ for (const entry of directoriesTemplatesAdmin) {
 // Resolve the site template builders
 const entriesTemplatesSite = await readdir(path.join(process.cwd(), 'templates'), { withFileTypes: true });
 const directoriesTemplatesSite = entriesTemplatesSite
-    .filter(entry => entry.isDirectory() && !entry.name.startsWith('.'));
+  .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'));
 
 for (const entry of directoriesTemplatesSite) {
   if (!entry.isDirectory() || entry.name.startsWith('.')) continue;

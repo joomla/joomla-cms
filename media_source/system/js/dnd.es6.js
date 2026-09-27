@@ -23,22 +23,22 @@ class DND {
         ...defaults,
         Accessibility.configure({
           announcements: {
-            dragstart: ({operation: {source}}) => {
+            dragstart: ({ operation: { source } }) => {
               if (!source) return;
               return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGEND_STARTED')
                 .replace('{{source}}', source.id);
             },
-            dragover: ({operation: {source, target}}) => {
+            dragover: ({ operation: { source, target } }) => {
               if (!source) return;
               if (!target) {
                 return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGOVER_NO_ELEMENT')
                   .replace('{{source}}', source.id);
               }
               return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGOVER_ELEMENT')
-                  .replace('{{source}}', source.id)
-                  .replace('{{target}}', target.id);
+                .replace('{{source}}', source.id)
+                .replace('{{target}}', target.id);
             },
-            dragend: ({operation: {source, target}, canceled}) => {
+            dragend: ({ operation: { source, target }, canceled }) => {
               if (!source) return;
 
               if (!target) {
@@ -167,8 +167,8 @@ class DND {
       perform: true,
       promise: true,
     })
-    .then((response) => { if (response.status !== 200) throw new Error(`Unexpected response status: ${response.status}`); })
-    .catch((error) => { return false; });
+      .then((response) => { if (response.status !== 200) throw new Error(`Unexpected response status: ${response.status}`); })
+      .catch((error) => { return false; });
 
     return true;
   }
@@ -253,17 +253,17 @@ async function getOrderData(element, itemSelector, container, dragElementIndex, 
  * @returns {void}
  */
 function postDropCallback(element, container) {
-	if (!element.dataset.itemId) return;
+  if (!element.dataset.itemId) return;
 
-	const parentId = element.dataset.itemId;
-	const tagName = element.tagName.toLowerCase();
-	const $children = container.querySelectorAll(
-		`${tagName}[data-parents~="${parentId}"]`,
-	);
+  const parentId = element.dataset.itemId;
+  const tagName = element.tagName.toLowerCase();
+  const $children = container.querySelectorAll(
+    `${tagName}[data-parents~="${parentId}"]`,
+  );
 
-	if ($children.length) {
-		element.after(...$children);
-	}
+  if ($children.length) {
+    element.after(...$children);
+  }
 }
 
 // Main DOM initialization
@@ -280,4 +280,3 @@ for (const draggable of document.querySelectorAll('.js-draggable')) {
 
   new DND(options);
 }
-
