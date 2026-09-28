@@ -24,16 +24,16 @@ use Joomla\CMS\String\PunycodeHelper;
             <?php foreach ($fields as $profile) :
                 if ($profile->value) :
                     echo '<dt>' . $profile->label . '</dt>';
-                    $profile->text = htmlspecialchars($profile->value, ENT_COMPAT, 'UTF-8');
+                    $profileText = htmlspecialchars($profile->value, ENT_COMPAT, 'UTF-8');
 
                     switch ($profile->id) :
                         case 'profile_website':
                             $v_http = substr($profile->value, 0, 4);
 
                             if ($v_http === 'http') :
-                                echo '<dd><a href="' . $profile->text . '">' . $this->escape(PunycodeHelper::urlToUTF8($profile->text)) . '</a></dd>';
+                                echo '<dd><a href="' . $profileText . '">' . $this->escape(PunycodeHelper::urlToUTF8($profile->text)) . '</a></dd>';
                             else :
-                                echo '<dd><a href="http://' . $profile->text . '">' . $this->escape(PunycodeHelper::urlToUTF8($profile->text)) . '</a></dd>';
+                                echo '<dd><a href="http://' . $profileText . '">' . $this->escape(PunycodeHelper::urlToUTF8($profile->text)) . '</a></dd>';
                             endif;
                             break;
 
@@ -42,7 +42,7 @@ use Joomla\CMS\String\PunycodeHelper;
                             break;
 
                         default:
-                            echo '<dd>' . $profile->text . '</dd>';
+                            echo '<dd>' . $profileText . '</dd>';
                             break;
                     endswitch;
                 endif;
