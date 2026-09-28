@@ -166,10 +166,17 @@ foreach ($list as $pr) {
         continue;
     }
 
+    $newTitleEscaped = escapeShellArg($newTitle);
+
     echo 'OLD: ' . trim($pr['title']) ."\n";
     echo 'NEW: ' . $newTitle ."\n";
 
-    $cmd    = $gh . ' pr edit ' . $pr['url'] . ' --title "' . str_replace('"', '\"', $newTitle) . '"';
+    if ($newTitleEscaped !== str_replace('"', '\"', $newTitle)) {
+        echo 'ESCAPED: ' . $newTitle ."\n";
+        die('Unable to escape new title for PR #' . $pr['number']);
+    }
+
+    $cmd    = $gh . ' pr edit ' . $pr['url'] . ' --title "' . $newTitleEscaped . '"';
     $output = [];
     if (!$tryRun) {
         exec($cmd, $output, $result);
