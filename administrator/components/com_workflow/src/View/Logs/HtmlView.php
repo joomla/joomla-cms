@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Workflow\Administrator\View\Logs;
 
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
@@ -36,6 +37,12 @@ class HtmlView extends BaseHtmlView
 
     public function display($tpl = null)
     {
+        // The dropdown that links here is core.admin only, because these rows carry failure
+        // details. Without this the screen is merely hidden, not protected: the URL still works.
+        if (!$this->getCurrentUser()->authorise('core.admin', 'com_workflow')) {
+            throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+        }
+
         /** @var LogsModel $model */
         $model = $this->getModel();
 

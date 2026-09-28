@@ -40,19 +40,19 @@ if ($saveOrder) {
 <form action="<?php echo Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->workflow->extension)); ?>" method="post" name="adminForm" id="adminForm">
     <div class="row">
         <?php if (!empty($this->sidebar)) : ?>
-            <div id="j-sidebar-container" class="col-md-2">
-                <?php echo $this->sidebar; ?>
-            </div>
+        <div id="j-sidebar-container" class="col-md-2">
+            <?php echo $this->sidebar; ?>
+        </div>
         <?php endif; ?>
         <div class="<?php if (!empty($this->sidebar)) {
-                        echo 'col-md-10';
+            echo 'col-md-10';
                     } else {
                         echo 'col-md-12';
                     } ?>">
             <div id="j-main-container" class="j-main-container">
                 <?php
-                // Search tools bar
-                echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
+                    // Search tools bar
+                    echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
                 ?>
                 <?php if (empty($this->transitions)) : ?>
                     <div class="alert alert-info">
@@ -98,7 +98,7 @@ if ($saveOrder) {
                                 $canEdit    = $user->authorise('core.edit', $this->extension . '.transition.' . $item->id);
                                 $canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $user->id || is_null($item->checked_out);
                                 $canChange  = $user->authorise('core.edit.state', $this->extension . '.transition.' . $item->id) && $canCheckin;
-                            ?>
+                                ?>
                                 <tr class="row<?php echo $i % 2; ?>">
                                     <td class="text-center d-none d-md-table-cell">
                                         <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', Text::_($item->title)); ?>
@@ -126,15 +126,10 @@ if ($saveOrder) {
                                         <?php if ($item->checked_out) : ?>
                                             <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'transitions.', $canCheckin); ?>
                                         <?php endif; ?>
-
                                         <?php if ($canEdit) : ?>
                                             <a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(Text::_($item->title)); ?>">
                                                 <?php echo $this->escape(Text::_($item->title)); ?>
                                             </a>
-                                            <?php if ($item->automated) : ?>
-                                                <span class="icon-clock icon-fw" aria-hidden="true" title="<?php echo $this->escape(Text::_('COM_WORKFLOW_GRAPH_TRANSITION_AUTOMATED')); ?>"></span>
-                                                <span class="visually-hidden"><?php echo Text::_('COM_WORKFLOW_GRAPH_TRANSITION_AUTOMATED'); ?></span>
-                                            <?php endif; ?>
                                             <div class="small"><?php echo $this->escape(Text::_($item->description)); ?></div>
                                         <?php else : ?>
                                             <?php echo $this->escape(Text::_($item->title)); ?>
@@ -158,8 +153,7 @@ if ($saveOrder) {
                             <?php endforeach ?>
                         </tbody>
                     </table>
-                    <?php // load the pagination.
-                    ?>
+                    <?php // load the pagination. ?>
                     <?php echo $this->pagination->getListFooter(); ?>
                 <?php endif; ?>
 

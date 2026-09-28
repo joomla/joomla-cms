@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Workflow\Administrator\View\Upcoming;
 
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
@@ -78,6 +79,12 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        // The dropdown that links here is core.admin only, because this lists every queued item
+        // across the site. Without this the screen is merely hidden, not protected.
+        if (!$this->getCurrentUser()->authorise('core.admin', 'com_workflow')) {
+            throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+        }
+
         /** @var UpcomingModel $model */
         $model = $this->getModel();
 
