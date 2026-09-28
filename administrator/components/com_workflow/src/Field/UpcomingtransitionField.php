@@ -123,7 +123,7 @@ class UpcomingtransitionField extends FormField
             default => $upcoming->firesAt === null
                 ? '<span class="badge bg-secondary">' . Text::_('COM_WORKFLOW_UPCOMING_STATUS_NOT_SCHEDULED') . '</span>'
                 : '<div>' . RelativeTime::until($upcoming->firesAt) . '</div>'
-                . '<div class="small text-muted">' . HTMLHelper::_('date', $upcoming->firesAt->format('Y-m-d H:i:s'), Text::_('DATE_FORMAT_LC2')) . '</div>'
+                . '<div class="small">' . HTMLHelper::_('date', $upcoming->firesAt->format('Y-m-d H:i:s'), Text::_('DATE_FORMAT_LC2')) . '</div>'
                 . ($upcoming->hasCondition
                     ? '<span class="badge bg-info">' . Text::_('COM_WORKFLOW_UPCOMING_SUBJECT_CONDITION') . '</span>'
                     : ''),
@@ -137,7 +137,7 @@ class UpcomingtransitionField extends FormField
                 . '</div>';
 
             if ($upcoming->failedAt !== null) {
-                $fires .= '<div class="small text-muted">'
+                $fires .= '<div class="small">'
                     . Text::sprintf(
                         'COM_WORKFLOW_UPCOMING_LAST_FAILED',
                         HTMLHelper::_('date', $upcoming->failedAt->format('Y-m-d H:i:s'), Text::_('DATE_FORMAT_LC2'))
@@ -166,14 +166,14 @@ class UpcomingtransitionField extends FormField
         $arrow = Factory::getApplication()->getLanguage()->isRtl() ? 'arrow-left' : 'arrow-right';
         return '<div class="card mb-3">'
             . '<div class="card-body">'
-            . '<h4 class="h6 text-uppercase text-muted mb-2">' . Text::_('COM_WORKFLOW_UPCOMING_ARTICLE_LABEL') . '</h4>'
+            . '<h4 class="h6 text-uppercase mb-2">' . Text::_('COM_WORKFLOW_UPCOMING_ARTICLE_LABEL') . '</h4>'
             . '<div class="mb-2">'
             . '<span class="badge bg-secondary">' . htmlspecialchars(Text::_($upcoming->fromStage), ENT_QUOTES, 'UTF-8') . '</span> '
             . '<span class="icon-' . $arrow . '" aria-hidden="true"></span> '
             . '<span class="badge bg-secondary">' . htmlspecialchars(Text::_($upcoming->toStage), ENT_QUOTES, 'UTF-8') . '</span>'
             . '</div>'
             . '<div class="mb-1">' . $fires . '</div>'
-            . '<div class="small text-muted">' . $trigger . '</div>'
+            . '<div class="small">' . $trigger . '</div>'
             . '</div></div>';
     }
 }

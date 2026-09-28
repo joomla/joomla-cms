@@ -58,7 +58,7 @@ endif;
                         <?php echo $this->escape($itemLabel); ?>
                     <?php endif; ?>
                     <?php if ($itemTitle !== '') : ?>
-                        <div class="small text-muted"><?php echo Text::sprintf('COM_WORKFLOW_LOGS_ITEM_ID_INLINE', (int) $entry->item_id); ?></div>
+                        <div class="small"><?php echo Text::sprintf('COM_WORKFLOW_LOGS_ITEM_ID_INLINE', (int) $entry->item_id); ?></div>
                     <?php endif; ?>
                 </th>
                 <td>

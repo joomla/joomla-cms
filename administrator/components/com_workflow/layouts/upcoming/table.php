@@ -101,7 +101,7 @@ $unitKeys = [
                         <span class="badge bg-secondary"><?php echo Text::_('COM_WORKFLOW_UPCOMING_STATUS_NOT_SCHEDULED'); ?></span>
                     <?php else : ?>
                         <div><?php echo RelativeTime::until($transition->firesAt); ?></div>
-                        <div class="small text-muted"><?php echo HTMLHelper::_('date', $transition->firesAt->format('Y-m-d H:i:s'), Text::_('DATE_FORMAT_LC2')); ?></div>
+                        <div class="small"><?php echo HTMLHelper::_('date', $transition->firesAt->format('Y-m-d H:i:s'), Text::_('DATE_FORMAT_LC2')); ?></div>
                         <?php if ($transition->hasCondition) : ?>
                             <span class="badge bg-info"><?php echo Text::_('COM_WORKFLOW_UPCOMING_SUBJECT_CONDITION'); ?></span>
                         <?php endif; ?>
@@ -115,7 +115,7 @@ $unitKeys = [
                             <?php echo htmlspecialchars($transition->failureReason, ENT_QUOTES, 'UTF-8'); ?>
                         </div>
                         <?php if ($transition->failedAt !== null) : ?>
-                            <div class="small text-muted">
+                            <div class="small">
                                 <?php echo Text::sprintf(
                                     'COM_WORKFLOW_UPCOMING_LAST_FAILED',
                                     HTMLHelper::_('date', $transition->failedAt->format('Y-m-d H:i:s'), Text::_('DATE_FORMAT_LC2'))
