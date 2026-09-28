@@ -31,14 +31,14 @@ use Joomla\CMS\String\PunycodeHelper;
                             $v_http = substr($profile->value, 0, 4);
 
                             if ($v_http === 'http') :
-                                echo '<dd><a href="' . $profileText . '">' . $this->escape(PunycodeHelper::urlToUTF8($profile->text)) . '</a></dd>';
+                                echo '<dd><a href="' . $profileText . '">' . $this->escape(PunycodeHelper::urlToUTF8($profileText)) . '</a></dd>';
                             else :
-                                echo '<dd><a href="http://' . $profileText . '">' . $this->escape(PunycodeHelper::urlToUTF8($profile->text)) . '</a></dd>';
+                                echo '<dd><a href="http://' . $profileText . '">' . $this->escape(PunycodeHelper::urlToUTF8($profileText)) . '</a></dd>';
                             endif;
                             break;
 
                         case 'profile_dob':
-                            echo '<dd>' . HTMLHelper::_('date', $profile->text, Text::_('DATE_FORMAT_LC4'), false) . '</dd>';
+                            echo '<dd>' . HTMLHelper::_('date', $profileText, Text::_('DATE_FORMAT_LC4'), false) . '</dd>';
                             break;
 
                         default:
