@@ -417,6 +417,20 @@ class TransitionModel extends AdminModel
             $form->setFieldAttribute('run_as_user_id', 'query', (string) $query, 'automation');
         }
 
+        // The Automation fieldset lives in this form rather than in the plugin that implements it,
+        // so it has to be taken out when that plugin is off. Otherwise rules can be written and
+        // saved that nothing will ever execute.
+        if (!PluginHelper::isEnabled('workflow', 'automation')) {
+            $form->removeGroup('automation');
+        } elseif (!PluginHelper::isEnabled('task', 'workflowtransition')) {
+            // Here the rules are still valid, they simply have nothing to run them, so this warns
+            // rather than hiding work the user has already done.
+            Factory::getApplication()->enqueueMessage(
+                Text::_('COM_WORKFLOW_AUTOMATION_WARNING_TASK_PLUGIN_DISABLED'),
+                'warning'
+            );
+        }
+
         // Import the appropriate plugin group.
         PluginHelper::importPlugin('workflow');
 
