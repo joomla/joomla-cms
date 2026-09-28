@@ -167,6 +167,9 @@ class AddUserCommand extends AbstractCommand
                 case "JLIB_DATABASE_ERROR_VALID_MAIL":
                     $this->ioStyle->error("The email address is invalid!");
                     break;
+                case "JLIB_DATABASE_ERROR_VALID_AZ09":
+                    $this->ioStyle->error("The username is invalid!");
+                    break;
             }
 
             return 1;
