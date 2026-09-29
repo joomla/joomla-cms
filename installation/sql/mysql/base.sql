@@ -1032,7 +1032,7 @@ CREATE TABLE IF NOT EXISTS `#__user_keys` (
   `time` varchar(200) NOT NULL,
   `uastring` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `series` (`series`),
+  KEY `series` (`series`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 

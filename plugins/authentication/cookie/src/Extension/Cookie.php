@@ -41,6 +41,45 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
     use UserFactoryAwareTrait;
 
     /**
+     * Create a new series used for authentication of a cookie.
+     *
+     * @return  string | null
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function createNewSeries(): string
+    {
+        $series = '';
+        $db     = $this->getDatabase();
+        do {
+            $series = UserHelper::genRandomPassword(20);
+            $query  = $db->createQuery()
+                ->select($db->quoteName('series'))
+                ->from($db->quoteName('#__user_keys'))
+                ->where($db->quoteName('series') . ' = :series')
+                ->bind(':series', $series);
+
+            try {
+                $results = $db->setQuery($query)->loadResult();
+
+                if ($results === null) {
+                    $unique = true;
+                }
+            } catch (\RuntimeException $e) {
+                $errorCount++;
+
+                // We'll let this query fail up to 5 times before giving up, there's probably a bigger issue at this point
+                if ($errorCount === 5) {
+                    Log::add(Text::sprintf("Error %s in series generation", $e), Log::WARNING, 'security');
+                    return null;
+                }
+            }
+        } while ($unique === false);
+
+        return $series;
+    }
+
+    /**
      * Returns an array of events this subscriber will listen to.
      *
      * @return  array
@@ -151,7 +190,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
 
         // Find the matching record if it exists.
         $query = $db->createQuery()
-            ->select($db->quoteName(['user_id', 'token', 'series', 'time']))
+            ->select($db->quoteName(['id', 'user_id', 'token', 'series', 'time']))
             ->from($db->quoteName('#__user_keys'))
             ->where($db->quoteName('series') . ' = :series')
             ->where($db->quoteName('uastring') . ' = :uastring')
@@ -167,7 +206,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        if (\count($results) !== 1) {
+        if (\count($results) === 0) {
             // Destroy the cookie in the browser.
             $app->getInput()->cookie->set(
                 $cookieName,
@@ -183,17 +222,32 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        // For concurrency correction, we keep multiple token in the DB for each session,
+        // and delete all older ones (same user agent, smaller id) *after* auth with a newer token.
+        $token_id   = -1;
+        $token_time = 0;
+        $user_id    = $results[0]->user_id;
+        for ($id=0; $id < \count($results); $id++) {
+            if (UserHelper::verifyPassword($cookieArray[0], $results[$id]->token)) {
+                $token_id   = $results[$id]->id;
+                $token_time = $results[$id]->time;
+                $user_id    = $results[$id]->user_id;
+                break;
+            }
+        }
+
         // We have a user with one cookie with a valid series and a corresponding record in the database.
-        if (!UserHelper::verifyPassword($cookieArray[0], $results[0]->token)) {
+        if ($token_id === -1) {
             /*
              * This is a real attack!
              * Either the series was guessed correctly or a cookie was stolen and used twice (once by attacker and once by victim).
-             * Delete all tokens for this user!
+             * It may also be that the user tried to login twice with the same cookie, e.g. due to browser reload.
+             * Delete all token for this user id!
              */
-            $query = $db->createQuery()
+            $query = $db->getQuery(true)
                 ->delete($db->quoteName('#__user_keys'))
                 ->where($db->quoteName('user_id') . ' = :userid')
-                ->bind(':userid', $results[0]->user_id);
+                ->bind(':userid', $user_id);
 
             try {
                 $db->setQuery($query)->execute();
@@ -218,10 +272,29 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             );
 
             // Issue warning by email to user and/or admin?
-            Log::add(Text::sprintf('PLG_AUTHENTICATION_COOKIE_ERROR_LOG_LOGIN_FAILED', $results[0]->user_id), Log::WARNING, 'security');
+            Log::add(Text::sprintf('PLG_AUTHENTICATION_COOKIE_ERROR_LOG_LOGIN_FAILED', $user_id), Log::WARNING, 'security');
             $response->status = Authentication::STATUS_FAILURE;
 
             return;
+        }
+
+        // Delete previous auth tokens for this session
+        $db    = $this->getDatabase();
+        $query = $db->createQuery()
+            ->delete($db->quoteName('#__user_keys'))
+            ->where($db->quoteName('user_id') . ' = :userid')
+            ->where($db->quoteName('uastring') . ' = :uastring')
+            ->where($db->quoteName('id') . ' < :token_id')
+            ->where($db->quoteName('series') . ' = :series')
+            ->bind(':userid', $user_id)
+            ->bind(':uastring', $cookieName)
+            ->bind(':token_id', $token_id)
+            ->bind(':series', $series);
+
+        try {
+            $db->setQuery($query)->execute();
+        } catch (\RuntimeException) {
+            // We aren't concerned with errors from this query, carry on
         }
 
         // Make sure there really is a user with this name and get the data for the session.
@@ -230,7 +303,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('username') . ' = :userid')
             ->where($db->quoteName('requireReset') . ' = 0')
-            ->bind(':userid', $results[0]->user_id);
+            ->bind(':userid', $user_id);
 
         try {
             $result = $db->setQuery($query)->loadObject();
@@ -257,8 +330,50 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
 
             // Stop event propagation when status is STATUS_SUCCESS
             $event->stopPropagation();
+
+            $length      = $this->params->get('key_length', 16);
+            // Generate new cookie
+            $token       = UserHelper::genRandomPassword($length);
+            $hashedToken = UserHelper::hashPassword($token);
+            $cookieValue = $token . '.' . $series;
+            $lifetime    = $this->params->get('cookie_lifetime', 60) * 24 * 60 * 60;
+
+            // Overwrite existing cookie with new value
+            $app->getInput()->cookie->set(
+                $cookieName,
+                $cookieValue,
+                [
+                    'expires'  => time() + $lifetime,
+                    'path'     => $app->get('cookie_path', '/'),
+                    'domain'   => $app->get('cookie_domain', ''),
+                    'secure'   => $app->isHttpsForced(),
+                    'httponly' => true,
+                ]
+            );
+
+            // Insert the new value in the DB. For concurrency reason, old cookies are deleted
+            // only after the next successful authentication.
+            $query = $db->createQuery()
+                ->insert($db->quoteName('#__user_keys'))
+                ->set($db->quoteName('user_id') . ' = :userid')
+                ->set($db->quoteName('series') . ' = :series')
+                ->set($db->quoteName('uastring') . ' = :uastring')
+                ->set($db->quoteName('time') . ' = :time')
+                ->set($db->quoteName('token') . ' = :token')
+                ->bind(':userid', $result->username)
+                ->bind(':series', $series)
+                ->bind(':uastring', $cookieName)
+                ->bind(':time', $token_time)
+                ->bind(':token', $hashedToken);
+
+            try {
+                $db->setQuery($query)->execute();
+            } catch (\RuntimeException $e) {
+                Log::add(Text::sprintf("Error %s in series / token update", $e), Log::WARNING, 'security');
+            }
         } else {
             $response->status        = Authentication::STATUS_FAILURE;
+            Log::add(Text::sprintf('Authentication failed due to absence of user id %s.', $results[0]->user_id), Log::WARNING, 'security');
             $response->error_message = $app->getLanguage()->_('JGLOBAL_AUTH_NO_USER');
         }
     }
@@ -278,75 +393,22 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
     {
         $app = $this->getApplication();
 
-        // No remember me for admin
-        if ($app->isClient('administrator')) {
+        // No remember me for admin, and cookie is set only on "remember me" option
+        if ($app->isClient('administrator') || empty($options['remember'])) {
             return;
         }
 
         $db      = $this->getDatabase();
         $options = $event->getOptions();
 
-        if (isset($options['responseType']) && $options['responseType'] === 'Cookie') {
-            // Logged in using a cookie
-            $cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
+        $cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
 
-            // We need the old data to get the existing series
-            $cookieValue = $app->getInput()->cookie->get($cookieName);
+        // Create a unique series which will be used over the lifespan of the cookie
+        $unique     = false;
+        $errorCount = 0;
 
-            // Try with old cookieName (pre 3.6.0) if not found
-            if (!$cookieValue) {
-                $oldCookieName = UserHelper::getShortHashedUserAgent();
-                $cookieValue   = $app->getInput()->cookie->get($oldCookieName);
-
-                // Destroy the old cookie in the browser
-                $app->getInput()->cookie->set(
-                    $oldCookieName,
-                    '',
-                    [
-                        'expires' => 1,
-                        'path'    => $app->get('cookie_path', '/'),
-                        'domain'  => $app->get('cookie_domain', ''),
-                    ]
-                );
-            }
-
-            $cookieArray = explode('.', $cookieValue);
-
-            // Filter series since we're going to use it in the query
-            $filter = new InputFilter();
-            $series = $filter->clean($cookieArray[1], 'ALNUM');
-        } elseif (!empty($options['remember'])) {
-            // Remember checkbox is set
-            $cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
-
-            // Create a unique series which will be used over the lifespan of the cookie
-            $unique     = false;
-            $errorCount = 0;
-
-            do {
-                $series = UserHelper::genRandomPassword(20);
-                $query  = $db->createQuery()
-                    ->select($db->quoteName('series'))
-                    ->from($db->quoteName('#__user_keys'))
-                    ->where($db->quoteName('series') . ' = :series')
-                    ->bind(':series', $series);
-
-                try {
-                    $results = $db->setQuery($query)->loadResult();
-
-                    if ($results === null) {
-                        $unique = true;
-                    }
-                } catch (\RuntimeException) {
-                    $errorCount++;
-
-                    // We'll let this query fail up to 5 times before giving up, there's probably a bigger issue at this point
-                    if ($errorCount === 5) {
-                        return;
-                    }
-                }
-            } while ($unique === false);
-        } else {
+        $series = $this->createNewSeries();
+        if ($series === null) {
             return;
         }
 
@@ -371,37 +433,21 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             ]
         );
 
-        $query = $db->createQuery();
-
-        if (!empty($options['remember'])) {
-            $future = (time() + $lifetime);
-
-            // Create new record
-            $query
-                ->insert($db->quoteName('#__user_keys'))
-                ->set($db->quoteName('user_id') . ' = :userid')
-                ->set($db->quoteName('series') . ' = :series')
-                ->set($db->quoteName('uastring') . ' = :uastring')
-                ->set($db->quoteName('time') . ' = :time')
-                ->bind(':userid', $options['user']->username)
-                ->bind(':series', $series)
-                ->bind(':uastring', $cookieName)
-                ->bind(':time', $future);
-        } else {
-            // Update existing record with new token
-            $query
-                ->update($db->quoteName('#__user_keys'))
-                ->where($db->quoteName('user_id') . ' = :userid')
-                ->where($db->quoteName('series') . ' = :series')
-                ->where($db->quoteName('uastring') . ' = :uastring')
-                ->bind(':userid', $options['user']->username)
-                ->bind(':series', $series)
-                ->bind(':uastring', $cookieName);
-        }
-
+        $future      = time() + $lifetime;
         $hashedToken = UserHelper::hashPassword($token);
 
-        $query->set($db->quoteName('token') . ' = :token')
+        // Create new record
+        $query = $db->createQuery()
+            ->insert($db->quoteName('#__user_keys'))
+            ->set($db->quoteName('user_id') . ' = :userid')
+            ->set($db->quoteName('series') . ' = :series')
+            ->set($db->quoteName('uastring') . ' = :uastring')
+            ->set($db->quoteName('time') . ' = :time')
+            ->set($db->quoteName('token') . ' = :token')
+            ->bind(':userid', $options['user']->username)
+            ->bind(':series', $series)
+            ->bind(':uastring', $cookieName)
+            ->bind(':time', $future)
             ->bind(':token', $hashedToken);
 
         try {
