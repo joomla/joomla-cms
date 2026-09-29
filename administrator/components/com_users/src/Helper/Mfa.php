@@ -320,7 +320,8 @@ abstract class Mfa
     }
 
     /**
-     * Could the user still owe a Multi-factor Authentication step after their password login?
+     * Could the user still need to complete a Multi-factor Authentication step after their
+     * password login?
      *
      * This is a conservative check used to decide whether issuing a persistent credential
      * (e.g. a Remember Me cookie) must be deferred until the login is fully complete. It
