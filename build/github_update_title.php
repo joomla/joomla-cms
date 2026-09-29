@@ -160,7 +160,13 @@ foreach ($list as $pr) {
         $title = substr($title, strpos($title, ']') + 1);
     }
 
-    $newTitle = '[' . $branch . '] ' . trim($title);
+    $title = trim($title);
+
+    if (!str_starts_with($title,  '[')) {
+        $title = ' ' . $title;
+    }
+
+    $newTitle = '[' . $branch . ']' . $title;
 
     if ($newTitle === $pr['title']) {
         continue;
@@ -171,12 +177,7 @@ foreach ($list as $pr) {
     echo 'OLD: ' . trim($pr['title']) ."\n";
     echo 'NEW: ' . $newTitle ."\n";
 
-    if ($newTitleEscaped !== str_replace('"', '\"', $newTitle)) {
-        echo 'ESCAPED: ' . $newTitle ."\n";
-        die('Unable to escape new title for PR #' . $pr['number']);
-    }
-
-    $cmd    = $gh . ' pr edit ' . $pr['url'] . ' --title "' . $newTitleEscaped . '"';
+    $cmd    = $gh . ' pr edit ' . $pr['url'] . ' --title ' . $newTitleEscaped;
     $output = [];
     if (!$tryRun) {
         exec($cmd, $output, $result);
