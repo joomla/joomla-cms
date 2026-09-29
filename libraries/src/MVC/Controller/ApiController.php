@@ -551,7 +551,7 @@ class ApiController extends BaseController
      */
     protected function allowEdit($data = [], $key = 'id')
     {
-        $user = $this->app->getIdentity();
+        $user     = $this->app->getIdentity();
         $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
 
         if (!$user->authorise('core.manage', $this->option)) {
@@ -564,7 +564,7 @@ class ApiController extends BaseController
         }
 
         $inflector = InflectorFactory::create()->build();
-        $asset = $this->option . '.' . $inflector->singularize($this->contentType) . '.' . $recordId;
+        $asset     = $this->option . '.' . $inflector->singularize($this->contentType) . '.' . $recordId;
 
         // Check edit on the record asset (explicit or inherited)
         if ($user->authorise('core.edit', $asset)) {

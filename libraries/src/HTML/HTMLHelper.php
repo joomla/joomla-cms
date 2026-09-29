@@ -347,7 +347,7 @@ abstract class HTMLHelper
             $attribs = ArrayHelper::toString(self::escapeAttributesArray($attribs));
         }
 
-        $url = htmlspecialchars((string) $url, ENT_QUOTES, 'UTF-8', false);
+        $url  = htmlspecialchars((string) $url, ENT_QUOTES, 'UTF-8', false);
         $name = htmlspecialchars((string) $name, ENT_QUOTES, 'UTF-8', false);
 
         return '<iframe src="' . $url . '" ' . $attribs . ' name="' . $name . '">' . $noFrames . '</iframe>';
