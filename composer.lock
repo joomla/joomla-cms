@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2f40a0380ba611ec19b03617da4db2b0",
+    "content-hash": "d0a09c2efaaf167ab120ed9b088760ea",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1677,16 +1677,16 @@
         },
         {
             "name": "joomla/filter",
-            "version": "4.0.2",
+            "version": "dev-4.x-sept26-release",
             "source": {
                 "type": "git",
-                "url": "https://github.com/joomla-framework/filter.git",
-                "reference": "c7bdd35af5bee9dd4bdf2674f483eff44ef28065"
+                "url": "https://github.com/joomla-framework/security-filter.git",
+                "reference": "2dc4fa2bca1ade498d7c2407ac9b72876c6f2577"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/c7bdd35af5bee9dd4bdf2674f483eff44ef28065",
-                "reference": "c7bdd35af5bee9dd4bdf2674f483eff44ef28065",
+                "url": "https://api.github.com/repos/joomla-framework/security-filter/zipball/2dc4fa2bca1ade498d7c2407ac9b72876c6f2577",
+                "reference": "2dc4fa2bca1ade498d7c2407ac9b72876c6f2577",
                 "shasum": ""
             },
             "require": {
@@ -1697,8 +1697,8 @@
                 "joomla/language": "^4.0",
                 "phpstan/phpstan": "^2.1.17",
                 "phpstan/phpstan-deprecation-rules": "^2.0.3",
-                "phpunit/phpunit": "^12.2.7",
-                "squizlabs/php_codesniffer": "^3.7.2"
+                "phpunit/phpunit": "^12.5 || ^13.0",
+                "squizlabs/php_codesniffer": "^4.0"
             },
             "suggest": {
                 "joomla/language": "Required only if you want to use `OutputFilter::stringURLSafe`."
@@ -1709,7 +1709,11 @@
                     "Joomla\\Filter\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Joomla\\Filter\\Tests\\": "Tests/"
+                }
+            },
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -1720,11 +1724,7 @@
                 "framework",
                 "joomla"
             ],
-            "support": {
-                "issues": "https://github.com/joomla-framework/filter/issues",
-                "source": "https://github.com/joomla-framework/filter/tree/4.0.2"
-            },
-            "time": "2026-05-26T16:05:47+00:00"
+            "time": "2026-08-22T16:41:22+00:00"
         },
         {
             "name": "joomla/http",
@@ -9646,9 +9646,17 @@
             "time": "2025-11-17T20:03:58+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "joomla/filter",
+            "version": "dev-4.x-sept26-release",
+            "alias": "4.1.1",
+            "alias_normalized": "4.1.1.0"
+        }
+    ],
     "minimum-stability": "stable",
     "stability-flags": {
+        "joomla/filter": 20,
         "tobscure/json-api": 20
     },
     "prefer-stable": false,

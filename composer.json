@@ -35,6 +35,11 @@
       "type": "vcs",
       "url": "https://github.com/joomla-backports/php-tuf.git",
       "no-api": true
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/joomla-framework/security-filter.git",
+      "no-api":  true
     }
   ],
   "autoload": {
@@ -59,7 +64,7 @@
     "joomla/database": "^4.0",
     "joomla/di": "^4.0",
     "joomla/event": "^4.0",
-    "joomla/filter": "^4.0.2",
+    "joomla/filter": "dev-4.x-sept26-release as 4.1.1",
     "joomla/filesystem": "^4.2.1",
     "joomla/http": "^4.0",
     "joomla/input": "^4.0",
