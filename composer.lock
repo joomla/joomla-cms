@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3294e9e54a3faa1aee29edfad418666b",
+    "content-hash": "ac882cb614894c583b265528f6e9f688",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1697,16 +1697,16 @@
         },
         {
             "name": "joomla/filter",
-            "version": "dev-3.x-sept26-release",
+            "version": "3.0.7",
             "source": {
                 "type": "git",
-                "url": "git@github.com:joomla-framework/security-filter.git",
-                "reference": "071934c3b35457653704ec87e86afb47672845aa"
+                "url": "https://github.com/joomla-framework/filter.git",
+                "reference": "e9d5e8c25462f0bf62394893d8707acc5923c71d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/security-filter/zipball/071934c3b35457653704ec87e86afb47672845aa",
-                "reference": "071934c3b35457653704ec87e86afb47672845aa",
+                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/e9d5e8c25462f0bf62394893d8707acc5923c71d",
+                "reference": "e9d5e8c25462f0bf62394893d8707acc5923c71d",
                 "shasum": ""
             },
             "require": {
@@ -1735,11 +1735,7 @@
                     "Joomla\\Filter\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Joomla\\Filter\\Tests\\": "Tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -1751,20 +1747,10 @@
                 "joomla"
             ],
             "support": {
-                "source": "https://github.com/joomla-framework/security-filter/tree/3.x-sept26-release",
-                "issues": "https://github.com/joomla-framework/security-filter/issues"
+                "issues": "https://github.com/joomla-framework/filter/issues",
+                "source": "https://github.com/joomla-framework/filter/tree/3.0.7"
             },
-            "funding": [
-                {
-                    "type": "github",
-                    "url": "https://github.com/joomla"
-                },
-                {
-                    "type": "custom",
-                    "url": "https://community.joomla.org/sponsorship-campaigns.html"
-                }
-            ],
-            "time": "2026-09-17T16:49:03+00:00"
+            "time": "2026-09-29T16:10:51+00:00"
         },
         {
             "name": "joomla/http",
@@ -10158,12 +10144,6 @@
     ],
     "aliases": [
         {
-            "package": "joomla/filter",
-            "version": "dev-3.x-sept26-release",
-            "alias": "3.0.7",
-            "alias_normalized": "3.0.7.0"
-        },
-        {
             "package": "voku/portable-utf8",
             "version": "dev-joomla-5.3",
             "alias": "6.0.13",
@@ -10172,7 +10152,6 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "joomla/filter": 20,
         "tobscure/json-api": 20,
         "voku/portable-utf8": 20
     },

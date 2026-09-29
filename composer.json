@@ -37,10 +37,6 @@
       "type": "vcs",
       "url": "https://github.com/joomla-backports/portable-utf8.git",
       "no-api": true
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/joomla-framework/security-filter.git"
     }
   ],
   "autoload": {
@@ -65,7 +61,7 @@
     "joomla/database": "^3.4",
     "joomla/di": "^3.1.1",
     "joomla/event": "^3.0.2",
-    "joomla/filter": "dev-3.x-sept26-release as 3.0.7",
+    "joomla/filter": "^3.0.7",
     "joomla/filesystem": "^3.3.1",
     "joomla/http": "^3.1.4",
     "joomla/input": "~3.0",
