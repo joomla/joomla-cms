@@ -55,12 +55,16 @@ abstract class Grid
             $direction = $direction === 'desc' ? 'asc' : 'desc';
         }
 
-        if ($form) {
-            $form = ', document.getElementById(\'' . $form . '\')';
-        }
+        Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('list-view');
 
-        $html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\'' . $form . ');return false;"'
-        . ' class="hasTooltip" title="' . htmlspecialchars(Text::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-bs-placement="top">';
+        $html = '<a href="#"'
+            . ' class="hasTooltip js-grid-item-sort"'
+            . ' data-order="' . htmlspecialchars($order, ENT_COMPAT, 'UTF-8') . '"'
+            . ' data-direction="' . htmlspecialchars($direction, ENT_COMPAT, 'UTF-8') . '"'
+            . ' data-task="' . htmlspecialchars((string) $task, ENT_COMPAT, 'UTF-8') . '"'
+            . ' data-form="' . htmlspecialchars((string) $form, ENT_COMPAT, 'UTF-8') . '"'
+            . ' title="' . htmlspecialchars(Text::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '"'
+            . ' data-bs-placement="top">';
 
         if (isset($title['0']) && $title['0'] === '<') {
             $html .= $title;
