@@ -162,7 +162,7 @@ foreach ($list as $pr) {
 
     $title = trim($title);
 
-    if (!str_starts_with($title,  '[')) {
+    if (!str_starts_with($title, '[')) {
         $title = ' ' . $title;
     }
 
