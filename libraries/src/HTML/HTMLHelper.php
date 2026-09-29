@@ -16,7 +16,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
-use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -321,7 +320,7 @@ abstract class HTMLHelper
     public static function link($url, $text, $attribs = null)
     {
         if (\is_array($attribs)) {
-            $attribs = ArrayHelper::toString($attribs);
+            $attribs = HTMLHelper::_('html.attributes', $attribs);
         }
 
         return '<a href="' . $url . '" ' . $attribs . '>' . $text . '</a>';
@@ -342,7 +341,7 @@ abstract class HTMLHelper
     public static function iframe($url, $name, $attribs = null, $noFrames = '')
     {
         if (\is_array($attribs)) {
-            $attribs = ArrayHelper::toString($attribs);
+            $attribs = HTMLHelper::_('html.attributes', $attribs);
         }
 
         return '<iframe src="' . $url . '" ' . $attribs . ' name="' . $name . '">' . $noFrames . '</iframe>';
