@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
