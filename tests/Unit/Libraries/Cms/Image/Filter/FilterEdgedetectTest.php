@@ -72,7 +72,7 @@ class FilterEdgedetectTest extends UnitTestCase
 
         $filter->execute([]);
 
-        $this->assertEquals(
+        $this->assertSame(
             187,
             imagecolorat($imageHandle, 51, 25) >> 16 & 0xFF
         );

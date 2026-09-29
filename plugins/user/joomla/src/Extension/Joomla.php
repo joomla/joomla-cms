@@ -248,7 +248,8 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             'plg_user_joomla.mail',
             $userLocale,
             $this->getMailerFactory()->createMailer(),
-            $this->getLanguageFactory()
+            $this->getLanguageFactory(),
+            $this->getDatabase()
         );
         $mailer->addTemplateData($data);
         $mailer->addUnsafeTags(['username', 'password', 'name', 'email']);

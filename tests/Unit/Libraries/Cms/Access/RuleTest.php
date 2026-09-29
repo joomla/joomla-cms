@@ -38,7 +38,7 @@ class RuleTest extends UnitTestCase
         // Test constructor with array.
         $rule = new Rule(json_encode($ruleData));
 
-        $this->assertEquals($ruleData, $rule->getData());
+        $this->assertSame($ruleData, $rule->getData());
     }
 
     /**
@@ -59,7 +59,7 @@ class RuleTest extends UnitTestCase
         // Test constructor with array.
         $rule = new Rule($ruleData);
 
-        $this->assertEquals($ruleData, $rule->getData());
+        $this->assertSame($ruleData, $rule->getData());
     }
 
     /**
@@ -76,15 +76,15 @@ class RuleTest extends UnitTestCase
 
         // Add the identity with allow.
         $rule->mergeIdentity(-42, true);
-        $this->assertEquals('{"-42":1}', (string) $rule);
+        $this->assertSame('{"-42":1}', (string) $rule);
 
         // Read the identity, but deny.
         $rule->mergeIdentity(-42, false);
-        $this->assertEquals('{"-42":0}', (string) $rule);
+        $this->assertSame('{"-42":0}', (string) $rule);
 
         // Read the identity with allow (checking deny wins).
         $rule->mergeIdentity(-42, true);
-        $this->assertEquals('{"-42":0}', (string) $rule);
+        $this->assertSame('{"-42":0}', (string) $rule);
     }
 
     /**
@@ -106,13 +106,13 @@ class RuleTest extends UnitTestCase
         $rule = new Rule('');
 
         $rule->mergeIdentities($ruleData);
-        $this->assertEquals(json_encode($ruleData), (string) $rule);
+        $this->assertSame(json_encode($ruleData), (string) $rule);
 
         $rule2 = new Rule($ruleData);
         $rule->mergeIdentities($rule2);
-        $this->assertEquals(json_encode($ruleData), (string) $rule);
+        $this->assertSame(json_encode($ruleData), (string) $rule);
 
-        $this->assertEquals((string) $rule2, (string) $rule);
+        $this->assertSame((string) $rule2, (string) $rule);
 
         // Merge a new set, flipping some bits.
         $ruleData2 = [
@@ -130,7 +130,7 @@ class RuleTest extends UnitTestCase
             4   => 1,
         ];
         $rule->mergeIdentities($ruleData2);
-        $this->assertEquals(json_encode($expectedResult), (string) $rule);
+        $this->assertSame(json_encode($expectedResult), (string) $rule);
     }
 
     /**
@@ -151,13 +151,12 @@ class RuleTest extends UnitTestCase
 
         // This one should be denied.
         $this->assertFalse($rule->allow(-42));
-        $this->assertEquals(null, $rule->allow(null));
+        $this->assertSame(null, $rule->allow(null));
         $this->assertTrue($rule->allow(2));
         $this->assertFalse($rule->allow([-42, 2]));
     }
 
     /**
-     *
      * @return void
      * @since   4.0.0
      */
@@ -170,6 +169,6 @@ class RuleTest extends UnitTestCase
 
         $rule = new Rule($ruleData);
 
-        $this->assertEquals(json_encode($ruleData), (string) $rule);
+        $this->assertSame(json_encode($ruleData), (string) $rule);
     }
 }

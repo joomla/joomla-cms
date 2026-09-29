@@ -14,6 +14,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\Rule\EqualsRule;
 use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for EqualsRule.
@@ -29,7 +30,7 @@ class EqualsRuleTest extends UnitTestCase
      *
      * @since   5.4.3
      */
-    public function dataTest(): array
+    public static function dataTest(): array
     {
         $xml = new \SimpleXMLElement('<field
 			name="unittest"
@@ -42,32 +43,31 @@ class EqualsRuleTest extends UnitTestCase
 			type="text"
 			validate="equals"
 		/>');
-        $form = $this->createMock(Form::class);
 
         return [
-            [true, $xml, 'testvalue', null, new Registry(['testfield' => 'testvalue']), $form],
-            [true, $xml, 'testvalue', '', new Registry(['testfield'     => 'testvalue']), $form],
-            [true, $xml, 'testvaluegroup', 'user', new Registry(['user' => ['testfield' => 'testvaluegroup']]), $form],
-            [true, $xml, '', null, new Registry(), $form],
-            [true, $xml, '1', null, new Registry(['testfield'  => '1']), $form],
-            [true, $xml, '2', null, new Registry(['testfield'  => '02']), $form],
-            [true, $xml, '3', null, new Registry(['testfield'  => 3]), $form],
-            [true, $xml, '04', null, new Registry(['testfield' => '4']), $form],
-            [true, $xml, '5', null, new Registry(['testfield'  => 5]), $form],
-            [true, $xml, 6, null, new Registry(['testfield'    => '6']), $form],
-            [true, $xml, '0', null, new Registry(['testfield'  => false]), $form],
-            [true, $xml, 0, null, new Registry(['testfield'    => false]), $form],
-            [true, $xml, 4, null, new Registry(['testfield'    => true]), $form],
-            [false, $xml, 'testvalue', null, new Registry(), $form],
-            [false, $xml, 'testvalue', null, new Registry(['testfield'  => '']), $form],
-            [false, $xml, 'TESTVALUE', null, new Registry(['testfield'  => 'testvalue']), $form],
-            [false, $xml, 'testvalue2', null, new Registry(['testfield' => 'testvalue']), $form],
-            [false, $xml, '', null, new Registry(['testfield'           => 'testvalue']), $form],
-            [false, $xml, 'testvaluegroup', 'a', new Registry(['user'   => ['testfield' => 'testvaluegroup']]), $form],
-            [false, $xml, 'a', null, new Registry(['testfield'          => 0]), $form],
+            [true, $xml, 'testvalue', null, new Registry(['testfield' => 'testvalue']), Form::class],
+            [true, $xml, 'testvalue', '', new Registry(['testfield'     => 'testvalue']), Form::class],
+            [true, $xml, 'testvaluegroup', 'user', new Registry(['user' => ['testfield' => 'testvaluegroup']]), Form::class],
+            [true, $xml, '', null, new Registry(), Form::class],
+            [true, $xml, '1', null, new Registry(['testfield'  => '1']), Form::class],
+            [true, $xml, '2', null, new Registry(['testfield'  => '02']), Form::class],
+            [true, $xml, '3', null, new Registry(['testfield'  => 3]), Form::class],
+            [true, $xml, '04', null, new Registry(['testfield' => '4']), Form::class],
+            [true, $xml, '5', null, new Registry(['testfield'  => 5]), Form::class],
+            [true, $xml, 6, null, new Registry(['testfield'    => '6']), Form::class],
+            [true, $xml, '0', null, new Registry(['testfield'  => false]), Form::class],
+            [true, $xml, 0, null, new Registry(['testfield'    => false]), Form::class],
+            [true, $xml, 4, null, new Registry(['testfield'    => true]), Form::class],
+            [false, $xml, 'testvalue', null, new Registry(), Form::class],
+            [false, $xml, 'testvalue', null, new Registry(['testfield'  => '']), Form::class],
+            [false, $xml, 'TESTVALUE', null, new Registry(['testfield'  => 'testvalue']), Form::class],
+            [false, $xml, 'testvalue2', null, new Registry(['testfield' => 'testvalue']), Form::class],
+            [false, $xml, '', null, new Registry(['testfield'           => 'testvalue']), Form::class],
+            [false, $xml, 'testvaluegroup', 'a', new Registry(['user'   => ['testfield' => 'testvaluegroup']]), Form::class],
+            [false, $xml, 'a', null, new Registry(['testfield'          => 0]), Form::class],
             [\InvalidArgumentException::class, $xml, '', null, null, null],
             [\InvalidArgumentException::class, $xml, '', null, new Registry(), null],
-            [\InvalidArgumentException::class, $xml, '', null, null, $form],
+            [\InvalidArgumentException::class, $xml, '', null, null, Form::class],
             [\UnexpectedValueException::class, $xml2, '', null, null, null],
         ];
     }
@@ -80,20 +80,24 @@ class EqualsRuleTest extends UnitTestCase
      * @param   string|int         $value     The form field value to validate.
      * @param   ?string            $group     Group name
      * @param   ?Registry          $input     Input registry
-     * @param   ?Form              $form      Form object
+     * @param   ?string            $form      Class name of form object
      *
      * @return  void
      *
      * @since   5.4.3
-     * @dataProvider dataTest
      */
-    public function testRule(bool|string $expected, \SimpleXMLElement $element, string|int $value, ?string $group, ?Registry $input, ?Form $form): void
+    #[DataProvider('dataTest')]
+    public function testRule(bool|string $expected, \SimpleXMLElement $element, string|int $value, ?string $group, ?Registry $input, ?string $form): void
     {
+        if (\is_string($form) && class_exists($form)) {
+            $form = $this->createStub($form);
+        }
+
         if (\is_string($expected) && class_exists($expected)) {
             $this->expectException($expected);
             (new EqualsRule())->test($element, $value, $group, $input, $form);
         }
 
-        $this->assertEquals($expected, (new EqualsRule())->test($element, $value, $group, $input, $form));
+        $this->assertSame($expected, (new EqualsRule())->test($element, $value, $group, $input, $form));
     }
 }

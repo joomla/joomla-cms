@@ -470,7 +470,8 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
             'com_users.password_reset',
             $app->getLanguage()->getTag(),
             $this->getMailerFactory()->createMailer(),
-            $this->getLanguageFactory()
+            $this->getLanguageFactory(),
+            $this->getDatabase()
         );
         $mailer->addTemplateData($data);
         $mailer->addRecipient($user->email, $user->name);
