@@ -98,7 +98,7 @@ class HtmlView extends BaseHtmlView
     {
         // There is no menu item for this so we have to use the title from the component
         $this->setDocumentTitle(
-            Text::_('COM_CONFIG_MODULES_SETTINGS_TITLE') . ": " . $this->item['title']
+            Text::_('COM_CONFIG_MODULES_SETTINGS_TITLE') . ': ' . $this->item['title']
         );
     }
 }
