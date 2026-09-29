@@ -553,6 +553,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
             );
             $mailer->addTemplateData($mailData);
             $mailer->addRecipient($userData['email']);
+            $mailer->addUnsafeTags(['username', 'name']);
 
             try {
                 $return = $mailer->send();
