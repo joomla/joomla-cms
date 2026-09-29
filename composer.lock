@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d0a09c2efaaf167ab120ed9b088760ea",
+    "content-hash": "109b6de424b42873a046459ee1f03294",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1677,16 +1677,16 @@
         },
         {
             "name": "joomla/filter",
-            "version": "dev-4.x-sept26-release",
+            "version": "4.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/joomla-framework/security-filter.git",
-                "reference": "2dc4fa2bca1ade498d7c2407ac9b72876c6f2577"
+                "url": "https://github.com/joomla-framework/filter.git",
+                "reference": "b5c74c37d07790060867d4091673b73d555fda90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/security-filter/zipball/2dc4fa2bca1ade498d7c2407ac9b72876c6f2577",
-                "reference": "2dc4fa2bca1ade498d7c2407ac9b72876c6f2577",
+                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/b5c74c37d07790060867d4091673b73d555fda90",
+                "reference": "b5c74c37d07790060867d4091673b73d555fda90",
                 "shasum": ""
             },
             "require": {
@@ -1709,11 +1709,7 @@
                     "Joomla\\Filter\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Joomla\\Filter\\Tests\\": "Tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -1724,7 +1720,11 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2026-08-22T16:41:22+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/filter/issues",
+                "source": "https://github.com/joomla-framework/filter/tree/4.1.1"
+            },
+            "time": "2026-09-29T16:02:01+00:00"
         },
         {
             "name": "joomla/http",
@@ -9646,17 +9646,9 @@
             "time": "2025-11-17T20:03:58+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "joomla/filter",
-            "version": "dev-4.x-sept26-release",
-            "alias": "4.1.1",
-            "alias_normalized": "4.1.1.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "joomla/filter": 20,
         "tobscure/json-api": 20
     },
     "prefer-stable": false,
