@@ -71,7 +71,7 @@ class SubformField extends FormField
      * Which buttons to show in multiple mode
      * @var boolean[] $buttons
      */
-    protected $buttons = ['add' => true, 'remove' => true, 'move' => true];
+    protected $buttons = ['add' => true, 'copy' => false, 'remove' => true, 'move' => true];
 
     /**
      * Method to get certain otherwise inaccessible properties from the form field object.

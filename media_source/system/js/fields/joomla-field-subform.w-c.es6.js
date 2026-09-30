@@ -176,7 +176,7 @@ class JoomlaFieldSubform extends HTMLElement {
   /**
    * Add new row
    * @param {HTMLElement} after
-   * @param {HTMLElement} source Row to copy the values from
+   * @param {HTMLElement} source
    * @returns {HTMLElement}
    */
   addRow(after, source) {
@@ -196,6 +196,7 @@ class JoomlaFieldSubform extends HTMLElement {
     tmpEl.innerHTML = this.template;
     const row = tmpEl.children[0];
 
+    // Copy the values from the source row
     if (source) {
       this.copyRowValues(source, row);
     }
@@ -243,30 +244,36 @@ class JoomlaFieldSubform extends HTMLElement {
   }
 
   /**
-   * Copy field values from the source row to the new row
+   * Copy the field values to the new row
    * @param {HTMLElement} source
    * @param {HTMLElement} row
    */
   copyRowValues(source, row) {
-    const group = row.getAttribute('data-group');
+    const group = row.getAttribute('data-group'); // group name of the new row
     const sourceGroup = source.getAttribute('data-group');
-    const key = (el) => el.name || el.id;
+    const names = {}; // Collect names to match fields that share a name
 
-    // Nested subforms are skipped, they keep their default rows
-    const fields = [].slice.call(row.querySelectorAll('input, select, textarea')).filter((el) => !el.closest('joomla-field-subform')
-      && el.type !== 'file' && key(el).includes(group));
-
-    fields.forEach((elem) => {
+    [].slice.call(row.querySelectorAll('input, select, textarea')).forEach((elem) => {
       const $el = elem;
+      const key = $el.name || $el.id;
 
-      // Match on the part after the row group, fields without a name (e.g. user field title) by their id
-      const selector = $el.name
-        ? `[name$="${CSS.escape(`[${sourceGroup}]${$el.name.split(`[${group}]`)[1]}`)}"]`
-        : `[id$="${CSS.escape($el.id.split(group)[1])}"]:not([name])`;
+      // Skip the file inputs and the fields of nested subforms
+      if ($el.type === 'file' || $el.closest('joomla-field-subform') || !key.includes(group)) {
+        return;
+      }
 
-      // Fields can share a name, e.g. radios or the title and value of a modal field
-      const index = fields.filter((el) => key(el) === key($el)).indexOf($el);
+      // Find the field in the source row, a field without a name by its id
+      let selector = `[id$="${CSS.escape($el.id.split(group)[1])}"]:not([name])`;
+
+      if ($el.name) {
+        const name = $el.name.split(`[${group}]`)[1];
+        selector = `[name$="${CSS.escape(`[${sourceGroup}]${name}`)}"]`;
+      }
+
+      // Radio, checkboxes and the modal fields have multiple inputs with the same name
+      const index = names[key] || 0;
       const sourceEl = source.querySelectorAll(selector)[index];
+      names[key] = index + 1;
 
       if (!sourceEl) {
         return;
@@ -281,17 +288,19 @@ class JoomlaFieldSubform extends HTMLElement {
           option.defaultSelected = values.includes(option.value);
         });
 
-        // Add selected options the template does not have, e.g. custom values of a fancy select
+        // Add the selected options that are not in the template, eg: custom values
         [].slice.call(sourceEl.selectedOptions).forEach((option) => {
           if (!$el.querySelector(`option[value="${CSS.escape(option.value)}"]`)) {
             $el.append(new Option(option.text, option.value, true, true));
           }
         });
       } else {
+        // The editor content may not be in the textarea yet
         const editor = JoomlaEditor.get(sourceEl.id);
         $el.defaultValue = editor ? editor.getValue() : sourceEl.value;
       }
 
+      // The calendar keeps the date in the data-alt-value attribute
       if (sourceEl.hasAttribute('data-alt-value')) {
         $el.setAttribute('data-alt-value', sourceEl.getAttribute('data-alt-value'));
       }
