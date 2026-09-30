@@ -344,7 +344,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface,
         }
 
         // Check if we can set the Force SSL option
-        if ((int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) $app->get('force_ssl', '0')) {
+        if (!$app->isClient('cli') && (int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) $app->get('force_ssl', '0')) {
             try {
                 // Make an HTTPS request to check if the site is available in HTTPS.
                 $host    = Uri::getInstance()->getHost();
