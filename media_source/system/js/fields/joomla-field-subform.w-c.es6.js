@@ -250,33 +250,42 @@ class JoomlaFieldSubform extends HTMLElement {
   copyRowValues(source, row) {
     const group = row.getAttribute('data-group');
     const sourceGroup = source.getAttribute('data-group');
+    const key = (el) => el.name || el.id;
 
     // Nested subforms are skipped, they keep their default rows
-    [].slice.call(row.querySelectorAll('input, select, textarea')).forEach((elem) => {
+    const fields = [].slice.call(row.querySelectorAll('input, select, textarea')).filter((el) => !el.closest('joomla-field-subform')
+      && el.type !== 'file' && key(el).includes(group));
+
+    fields.forEach((elem) => {
       const $el = elem;
 
-      if ($el.closest('joomla-field-subform') || $el.type === 'file') {
-        return;
-      }
+      // Match on the part after the row group, fields without a name (e.g. user field title) by their id
+      const selector = $el.name
+        ? `[name$="${CSS.escape(`[${sourceGroup}]${$el.name.split(`[${group}]`)[1]}`)}"]`
+        : `[id$="${CSS.escape($el.id.split(group)[1])}"]:not([name])`;
 
-      const name = CSS.escape(`[${sourceGroup}]${$el.name.split(`[${group}]`)[1]}`);
-
-      if ($el.type === 'checkbox' || $el.type === 'radio') {
-        const sourceEl = source.querySelector(`[name$="${name}"][value="${CSS.escape($el.value)}"]`);
-        $el.defaultChecked = !!sourceEl && sourceEl.checked;
-        return;
-      }
-
-      const sourceEl = source.querySelector(`[name$="${name}"]`);
+      // Fields can share a name, e.g. radios or the title and value of a modal field
+      const index = fields.filter((el) => key(el) === key($el)).indexOf($el);
+      const sourceEl = source.querySelectorAll(selector)[index];
 
       if (!sourceEl) {
         return;
       }
 
-      if ($el.nodeName === 'SELECT') {
+      if ($el.type === 'checkbox' || $el.type === 'radio') {
+        $el.defaultChecked = sourceEl.checked;
+      } else if ($el.nodeName === 'SELECT') {
         const values = [].slice.call(sourceEl.selectedOptions).map((option) => option.value);
+
         [].slice.call($el.options).forEach((option) => {
           option.defaultSelected = values.includes(option.value);
+        });
+
+        // Add selected options the template does not have, e.g. custom values of a fancy select
+        [].slice.call(sourceEl.selectedOptions).forEach((option) => {
+          if (!$el.querySelector(`option[value="${CSS.escape(option.value)}"]`)) {
+            $el.append(new Option(option.text, option.value, true, true));
+          }
         });
       } else {
         const editor = JoomlaEditor.get(sourceEl.id);

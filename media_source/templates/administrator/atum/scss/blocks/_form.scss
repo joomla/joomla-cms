@@ -211,11 +211,6 @@ div.subform-repeatable-group {
         inset-block-end: -1px;
         border-radius: $border-radius 0 0;
         transform: translateX(-100%);
-
-        [dir=rtl] & {
-          border-radius: 0 $border-radius 0 0;
-          transform: translateX(100%);
-        }
       }
       &.group-remove {
         inset-block-start: -1px;
