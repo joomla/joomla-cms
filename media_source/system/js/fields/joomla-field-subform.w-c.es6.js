@@ -2,6 +2,7 @@
  * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+import { JoomlaEditor } from 'editor-api';
 
 const KEYCODE = {
   SPACE: 'Space',
@@ -175,9 +176,10 @@ class JoomlaFieldSubform extends HTMLElement {
   /**
    * Add new row
    * @param {HTMLElement} after
+   * @param {HTMLElement} source Row to copy the values from
    * @returns {HTMLElement}
    */
-  addRow(after) {
+  addRow(after, source) {
     // Count how many we already have
     const count = this.getRows().length;
     if (count >= this.maximum) {
@@ -193,6 +195,10 @@ class JoomlaFieldSubform extends HTMLElement {
     }
     tmpEl.innerHTML = this.template;
     const row = tmpEl.children[0];
+
+    if (source) {
+      this.copyRowValues(source, row);
+    }
 
     // Add to container
     if (after) {
@@ -229,66 +235,56 @@ class JoomlaFieldSubform extends HTMLElement {
 
   /**
    * Copy the row
-   * @param {HTMLElement} sourceRow
+   * @param {HTMLElement} row
    * @returns {HTMLElement}
    */
-  copyRow(sourceRow) {
-    if (!sourceRow || sourceRow.closest('joomla-field-subform') !== this) {
-      return null;
-    }
-
-    const row = this.addRow(sourceRow);
-
-    if (!row) {
-      return null;
-    }
-
-    this.copyRowValues(sourceRow, row);
-
-    return row;
+  copyRow(row) {
+    return this.addRow(row, row);
   }
 
   /**
-   * Search for row fields owned by this subform
+   * Copy field values from the source row to the new row
+   * @param {HTMLElement} source
    * @param {HTMLElement} row
-   * @returns {HTMLElement[]}
    */
-  getRowFields(row) {
-    return [].slice.call(row.querySelectorAll('input, textarea, select')).filter((field) => field.closest('joomla-field-subform') === this);
-  }
+  copyRowValues(source, row) {
+    const group = row.getAttribute('data-group');
+    const sourceGroup = source.getAttribute('data-group');
 
-  /**
-   * Copy field values from one row to another
-   * @param {HTMLElement} sourceRow
-   * @param {HTMLElement} targetRow
-   */
-  copyRowValues(sourceRow, targetRow) {
-    const sourceFields = this.getRowFields(sourceRow);
-    const targetFields = this.getRowFields(targetRow);
+    // Nested subforms are skipped, they keep their default rows
+    [].slice.call(row.querySelectorAll('input, select, textarea')).forEach((elem) => {
+      const $el = elem;
 
-    targetFields.forEach((targetField, index) => {
-      const sourceField = sourceFields[index];
-      let copied = false;
-
-      if (!sourceField || targetField.type === 'file') {
+      if ($el.closest('joomla-field-subform') || $el.type === 'file') {
         return;
       }
 
-      if (targetField.type === 'checkbox' || targetField.type === 'radio') {
-        targetField.checked = sourceField.checked;
-        copied = true;
-      } else if (targetField.tagName === 'SELECT') {
-        [].slice.call(targetField.options).forEach((option, optionIndex) => {
-          option.selected = !!sourceField.options?.[optionIndex]?.selected;
-        });
-        copied = true;
-      } else {
-        targetField.value = sourceField.value;
-        copied = true;
+      const name = CSS.escape($el.name.replace(`[${group}][`, `[${sourceGroup}][`));
+
+      if ($el.type === 'checkbox' || $el.type === 'radio') {
+        const sourceEl = source.querySelector(`[name="${name}"][value="${CSS.escape($el.value)}"]`);
+        $el.checked = !!sourceEl && sourceEl.checked;
+        return;
       }
 
-      if (copied) {
-        targetField.dispatchEvent(new Event('change', { bubbles: true }));
+      const sourceEl = source.querySelector(`[name="${name}"]`);
+
+      if (!sourceEl) {
+        return;
+      }
+
+      if ($el.nodeName === 'SELECT') {
+        const values = [].slice.call(sourceEl.selectedOptions).map((option) => option.value);
+        [].slice.call($el.options).forEach((option) => {
+          option.selected = values.includes(option.value);
+        });
+      } else {
+        const editor = JoomlaEditor.get(sourceEl.id);
+        $el.value = editor ? editor.getValue() : sourceEl.value;
+      }
+
+      if (sourceEl.hasAttribute('data-alt-value')) {
+        $el.setAttribute('data-alt-value', sourceEl.getAttribute('data-alt-value'));
       }
     });
   }
