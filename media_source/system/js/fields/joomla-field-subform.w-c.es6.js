@@ -259,15 +259,15 @@ class JoomlaFieldSubform extends HTMLElement {
         return;
       }
 
-      const name = CSS.escape($el.name.replace(`[${group}][`, `[${sourceGroup}][`));
+      const name = CSS.escape(`[${sourceGroup}]${$el.name.split(`[${group}]`)[1]}`);
 
       if ($el.type === 'checkbox' || $el.type === 'radio') {
-        const sourceEl = source.querySelector(`[name="${name}"][value="${CSS.escape($el.value)}"]`);
-        $el.checked = !!sourceEl && sourceEl.checked;
+        const sourceEl = source.querySelector(`[name$="${name}"][value="${CSS.escape($el.value)}"]`);
+        $el.defaultChecked = !!sourceEl && sourceEl.checked;
         return;
       }
 
-      const sourceEl = source.querySelector(`[name="${name}"]`);
+      const sourceEl = source.querySelector(`[name$="${name}"]`);
 
       if (!sourceEl) {
         return;
@@ -276,11 +276,11 @@ class JoomlaFieldSubform extends HTMLElement {
       if ($el.nodeName === 'SELECT') {
         const values = [].slice.call(sourceEl.selectedOptions).map((option) => option.value);
         [].slice.call($el.options).forEach((option) => {
-          option.selected = values.includes(option.value);
+          option.defaultSelected = values.includes(option.value);
         });
       } else {
         const editor = JoomlaEditor.get(sourceEl.id);
-        $el.value = editor ? editor.getValue() : sourceEl.value;
+        $el.defaultValue = editor ? editor.getValue() : sourceEl.value;
       }
 
       if (sourceEl.hasAttribute('data-alt-value')) {
