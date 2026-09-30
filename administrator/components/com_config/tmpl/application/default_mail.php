@@ -26,6 +26,7 @@ Text::script('ERROR');
 Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
+Text::script('SUCCESS');
 
 // Add strings for JavaScript error translations.
 Text::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
@@ -35,7 +36,7 @@ Text::script('JLIB_JS_AJAX_ERROR_PARSE');
 Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 
 // Ajax request data.
-$ajaxUri = Route::_('index.php?option=com_config&task=application.sendtestmail&format=json');
+$ajaxUri = Route::_('index.php?option=com_config&task=mail.sendtestmail&format=json');
 
 $this->name = Text::_('COM_CONFIG_MAIL_SETTINGS');
 $this->description = '';

@@ -10,6 +10,10 @@
 
 namespace Joomla\Component\Content\Site\View\Featured;
 
+use Joomla\CMS\Event\Content\AfterDisplayEvent;
+use Joomla\CMS\Event\Content\AfterTitleEvent;
+use Joomla\CMS\Event\Content\BeforeDisplayEvent;
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -130,7 +134,8 @@ class HtmlView extends BaseHtmlView
         $numLeading = (int) $params->def('num_leading_articles', 1);
         $numIntro   = (int) $params->def('num_intro_articles', 4);
 
-        PluginHelper::importPlugin('content');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
         // Compute the article slugs and prepare introtext (runs content plugins).
         foreach ($items as &$item) {
@@ -148,19 +153,32 @@ class HtmlView extends BaseHtmlView
                 $item->text = $item->introtext;
             }
 
-            Factory::getApplication()->triggerEvent('onContentPrepare', ['com_content.featured', &$item, &$item->params, 0]);
+            $contentEventArguments = [
+                'context' => 'com_content.featured',
+                'subject' => $item,
+                'params'  => $item->params,
+                'page'    => 0,
+            ];
+
+            $dispatcher->dispatch(
+                'onContentPrepare',
+                new ContentPrepareEvent('onContentPrepare', $contentEventArguments)
+            );
 
             // Old plugins: Use processed text as introtext
             $item->introtext = $item->text;
 
-            $results                        = Factory::getApplication()->triggerEvent('onContentAfterTitle', ['com_content.featured', &$item, &$item->params, 0]);
-            $item->event->afterDisplayTitle = trim(implode("\n", $results));
+            $contentEvents = [
+                'afterDisplayTitle'    => new AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
+                'beforeDisplayContent' => new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
+                'afterDisplayContent'  => new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
+            ];
 
-            $results                           = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_content.featured', &$item, &$item->params, 0]);
-            $item->event->beforeDisplayContent = trim(implode("\n", $results));
+            foreach ($contentEvents as $resultKey => $event) {
+                $results = $dispatcher->dispatch($event->getName(), $event)->getArgument('result', []);
 
-            $results                          = Factory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_content.featured', &$item, &$item->params, 0]);
-            $item->event->afterDisplayContent = trim(implode("\n", $results));
+                $item->event->{$resultKey} = trim(implode("\n", $results));
+            }
         }
 
         // Preprocess the breakdown of leading, intro and linked articles.

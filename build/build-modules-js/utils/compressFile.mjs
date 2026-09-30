@@ -30,9 +30,11 @@ export const compressFileAndSave = async (file, enableBrotli = false) => {
     const gzipRun = gzipEncode(content).then((data) => {
       return writeFile(`${file}.gz`, data);
     });
-    const brotliRun = !enableBrotli ? Promise.resolve() : brotliEncode(content).then(() => {
-      return writeFile(`${file}.br`, data);
-    });
+    const brotliRun = !enableBrotli
+      ? Promise.resolve()
+      : brotliEncode(content).then(() => {
+          return writeFile(`${file}.br`, data);
+        });
 
     return Promise.all([gzipRun, brotliRun]);
   });

@@ -22,6 +22,7 @@ Text::script('ERROR');
 Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
+Text::script('SUCCESS');
 
 Text::script('COM_CPANEL_UNPUBLISH_MODULE_SUCCESS');
 Text::script('COM_CPANEL_UNPUBLISH_MODULE_ERROR');

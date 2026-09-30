@@ -33,7 +33,7 @@ To add new resource follow next steps:
 - Add Stylesheets, JavaScript and other needed files for the asset.
 - Add the resource name in to `build/build-modules-js/builders-registry.mjs` into the list of `builders` so CLI know it exists.
 - (Optionally) When need extra processing add custom builder into the root of the newly created folder `media_source/com_example/builder.mjs`.
-- Source files of complex Application (for example Vue based script) place under `src/` like `media_source/com_example/src/` and use custom builder to build the Applictaion.
+- Source files of complex Application (for example Vue based script) place under `src/` like `media_source/com_example/src/` and use custom builder to build the Application.
 
 Done. And do not forget to run build.
 

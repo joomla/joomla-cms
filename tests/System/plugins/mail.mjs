@@ -19,10 +19,10 @@ async function getMails() {
     }
 
     // Sleep for a second
-    await new Promise((r) => { setTimeout(r, 1000); });
+    await new Promise((r) => setTimeout(r, 1000));
   }
 
-  return new Promise((resolve) => { resolve(cachedMails); });
+  return new Promise((resolve) => resolve(cachedMails));
 }
 
 /**

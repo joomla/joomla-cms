@@ -71,7 +71,7 @@ class FilterBrightnessTest extends UnitTestCase
 
         $filter->execute([IMG_FILTER_BRIGHTNESS => 10]);
 
-        $this->assertEquals(
+        $this->assertSame(
             137,
             imagecolorat($imageHandle, 50, 50) >> 16 & 0xFF
         );

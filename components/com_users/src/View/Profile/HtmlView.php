@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Site\View\Profile;
 
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -118,9 +119,15 @@ class HtmlView extends BaseHtmlView
             throw new \Exception(Text::_('JERROR_USERS_PROFILE_NOT_FOUND'), 404);
         }
 
-        PluginHelper::importPlugin('content');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
         $this->data->text = '';
-        Factory::getApplication()->triggerEvent('onContentPrepare', ['com_users.user', &$this->data, &$this->data->params, 0]);
+        $dispatcher->dispatch('onContentPrepare', new ContentPrepareEvent('onContentPrepare', [
+            'context' => 'com_users.user',
+            'subject' => $this->data,
+            'params'  => $this->data->params,
+            'page'    => 0,
+        ]));
         unset($this->data->text);
 
         // Check for layout from menu item.

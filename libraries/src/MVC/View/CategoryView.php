@@ -10,6 +10,10 @@
 namespace Joomla\CMS\MVC\View;
 
 use Joomla\CMS\Categories\CategoryNode;
+use Joomla\CMS\Event\Content\AfterDisplayEvent;
+use Joomla\CMS\Event\Content\AfterTitleEvent;
+use Joomla\CMS\Event\Content\BeforeDisplayEvent;
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
@@ -184,7 +188,8 @@ class CategoryView extends HtmlView
         $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
         if ($this->runPlugins) {
-            PluginHelper::importPlugin('content');
+            $dispatcher = $this->getDispatcher();
+            PluginHelper::importPlugin('content', null, true, $dispatcher);
 
             foreach ($items as $itemElement) {
                 $itemElement        = (object) $itemElement;
@@ -193,25 +198,34 @@ class CategoryView extends HtmlView
                 // For some plugins.
                 !empty($itemElement->description) ? $itemElement->text = $itemElement->description : $itemElement->text = '';
 
-                Factory::getApplication()->triggerEvent('onContentPrepare', [$this->extension . '.category', $itemElement, $itemElement->params, 0]);
-
-                $results = Factory::getApplication()->triggerEvent(
-                    'onContentAfterTitle',
-                    [$this->extension . '.category', $itemElement, $itemElement->core_params ?? $itemElement->params, 0]
+                $dispatcher->dispatch(
+                    'onContentPrepare',
+                    new ContentPrepareEvent('onContentPrepare', [
+                        'context' => $this->extension . '.category',
+                        'subject' => $itemElement,
+                        'params'  => $itemElement->params,
+                        'page'    => 0,
+                    ])
                 );
-                $itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
 
-                $results = Factory::getApplication()->triggerEvent(
-                    'onContentBeforeDisplay',
-                    [$this->extension . '.category', $itemElement, $itemElement->core_params ?? $itemElement->params, 0]
-                );
-                $itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
+                $contentEventArguments = [
+                    'context' => $this->extension . '.category',
+                    'subject' => $itemElement,
+                    'params'  => $itemElement->core_params ?? $itemElement->params,
+                    'page'    => 0,
+                ];
 
-                $results = Factory::getApplication()->triggerEvent(
-                    'onContentAfterDisplay',
-                    [$this->extension . '.category', $itemElement, $itemElement->core_params ?? $itemElement->params, 0]
-                );
-                $itemElement->event->afterDisplayContent = trim(implode("\n", $results));
+                $contentEvents = [
+                    'afterDisplayTitle'    => new AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
+                    'beforeDisplayContent' => new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
+                    'afterDisplayContent'  => new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
+                ];
+
+                foreach ($contentEvents as $resultKey => $event) {
+                    $results = $dispatcher->dispatch($event->getName(), $event)->getArgument('result', []);
+
+                    $itemElement->event->{$resultKey} = trim(implode("\n", $results));
+                }
 
                 if ($itemElement->text) {
                     $itemElement->description = $itemElement->text;

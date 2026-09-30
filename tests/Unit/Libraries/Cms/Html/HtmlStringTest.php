@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Html;
 
 use Joomla\CMS\HTML\Helpers\StringHelper as HtmlString;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Tests for HtmlString.
@@ -29,7 +30,7 @@ class HtmlStringTest extends UnitTestCase
      *
      * @since   3.1
      */
-    public function getTestAbridgeData(): array
+    public static function getTestAbridgeData(): array
     {
         return [
             'No change case' => [
@@ -54,7 +55,7 @@ class HtmlStringTest extends UnitTestCase
      *
      * @since   3.1
      */
-    public function getTestTruncateData(): array
+    public static function getTestTruncateData(): array
     {
         return [
             'No change case' => [
@@ -241,7 +242,7 @@ class HtmlStringTest extends UnitTestCase
      *
      * @since   3.1
      */
-    public function getTestTruncateComplexData(): array
+    public static function getTestTruncateComplexData(): array
     {
         return [
 
@@ -427,11 +428,11 @@ class HtmlStringTest extends UnitTestCase
      * @return  void
      *
      * @since         3.1
-     * @dataProvider  getTestAbridgeData
      */
+    #[DataProvider('getTestAbridgeData')]
     public function testAbridge($text, $length, $intro, $expected)
     {
-        $this->assertEquals($expected, HtmlString::abridge($text, $length, $intro));
+        $this->assertSame($expected, HtmlString::abridge($text, $length, $intro));
     }
 
     /**
@@ -446,11 +447,11 @@ class HtmlStringTest extends UnitTestCase
      * @return  void
      *
      * @since         3.1
-     * @dataProvider  getTestTruncateData
      */
+    #[DataProvider('getTestTruncateData')]
     public function testTruncate($text, $length, $noSplit, $allowedHtml, $expected)
     {
-        $this->assertEquals($expected, HtmlString::truncate($text, $length, $noSplit, $allowedHtml));
+        $this->assertSame($expected, HtmlString::truncate($text, $length, $noSplit, $allowedHtml));
     }
 
     /**
@@ -464,10 +465,10 @@ class HtmlStringTest extends UnitTestCase
      * @return  void
      *
      * @since         3.1
-     * @dataProvider  getTestTruncateComplexData
      */
+    #[DataProvider('getTestTruncateComplexData')]
     public function testTruncateComplex($html, $maxLength, $noSplit, $expected)
     {
-        $this->assertEquals($expected, HtmlString::truncateComplex($html, $maxLength, $noSplit));
+        $this->assertSame($expected, HtmlString::truncateComplex($html, $maxLength, $noSplit));
     }
 }

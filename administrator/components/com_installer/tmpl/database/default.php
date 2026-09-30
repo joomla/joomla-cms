@@ -64,7 +64,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
                                     <th scope="col" class="w-10 d-none d-lg-table-cell text-end">
                                         <?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>
                                     </th>
-                                    <th scope="col" class="w-10 d-none d-lg-table-cell">
+                                    <th scope="col" class="w-10 d-none d-lg-table-cell text-end">
                                         <?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>
                                     </th>
                                     <th scope="col" class="w-10 d-none d-lg-table-cell">
@@ -108,7 +108,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
                                         <td class="d-none d-lg-table-cell text-end">
                                             <?php echo $extension->version_id; ?>
                                         </td>
-                                        <td class="d-none d-lg-table-cell">
+                                        <td class="d-none d-lg-table-cell text-end">
                                             <?php echo '&#x200E;' . $extension->version; ?>
                                         </td>
                                         <td class="d-none d-lg-table-cell">

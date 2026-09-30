@@ -277,11 +277,11 @@ export class AccessibilityFixer {
             if (node.nodeType === Node.ELEMENT_NODE) {
               // Check if the added node is a VueFlow element or contains VueFlow elements
               if (node.matches && (
-                node.matches('.vue-flow *') ||
-                node.matches('svg') ||
-                node.matches('[role="graphics-document"]') ||
-                node.matches('[role="group"]') ||
-                node.querySelector('.vue-flow *, svg, [role="graphics-document"], [role="group"]')
+                node.matches('.vue-flow *')
+                || node.matches('svg')
+                || node.matches('[role="graphics-document"]')
+                || node.matches('[role="group"]')
+                || node.querySelector('.vue-flow *, svg, [role="graphics-document"], [role="group"]')
               )) {
                 shouldProcess = true;
               }

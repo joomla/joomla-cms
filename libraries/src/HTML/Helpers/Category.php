@@ -61,6 +61,7 @@ abstract class Category
                         $db->quoteName('a.title'),
                         $db->quoteName('a.level'),
                         $db->quoteName('a.language'),
+                        $db->quoteName('a.published'),
                     ]
                 )
                 ->from($db->quoteName('#__categories', 'a'))
@@ -118,6 +119,13 @@ abstract class Category
             foreach ($items as &$item) {
                 $repeat      = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
                 $item->title = str_repeat('- ', $repeat) . $item->title;
+
+                // Add status text for unpublished and archived categories
+                if (isset($item->published) && $item->published === 0) {
+                    $item->title .= ' (' . Text::_('JUNPUBLISHED') . ')';
+                } elseif (isset($item->published) && $item->published === 2) {
+                    $item->title .= ' (' . Text::_('JARCHIVED') . ')';
+                }
 
                 if ($item->language !== '*') {
                     $item->title .= ' (' . $item->language . ')';

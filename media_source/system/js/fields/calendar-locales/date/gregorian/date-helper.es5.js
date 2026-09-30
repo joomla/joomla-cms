@@ -240,7 +240,7 @@
 	/************* END **************/
 
 	/** Method to parse a string and return a date. **/
-	Date.parseFieldDate = function(str, fmt, dateType, localStrings) {
+	Date.parseFieldDate = function(str, fmt, dateType, localStrings, strict) {
 		if (dateType != 'gregorian')
 			str = Date.toEnglish(str);
 
@@ -314,6 +314,15 @@
 		if (isNaN(sec)) sec = today.getSeconds();
 		if (y != 0 && m != -1 && d != 0)
 			return new Date(y, m, d, hr, min, sec);
+
+		// In strict mode, bail out here: the string is incomplete or invalid.
+		// We avoid falling back to the heuristic below, which can end up
+		// returning "today" as a fallback, wrongly treated by the caller as
+		// a valid date.
+		if (strict) {
+			return null;
+		}
+
 		y = 0; m = -1; d = 0;
 		for (i = 0; i < a.length; ++i) {
 			if (a[i].search(/[a-zA-Z]+/) != -1) {

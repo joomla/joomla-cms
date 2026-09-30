@@ -11,13 +11,12 @@
 namespace Joomla\Component\Categories\Administrator\Service\HTML;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Database\ParameterType;
-use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -47,8 +46,10 @@ class AdministratorService
         $html = '';
 
         // Get the associations
-        if ($associations = CategoriesHelper::getAssociations($catid, $extension)) {
-            $associations = ArrayHelper::toInteger($associations);
+        if ($associations = Associations::getAssociations($extension, '#__categories', 'com_categories.item', $catid, 'id', 'alias', '')) {
+            foreach ($associations as $tag => $associated) {
+                $associations[$tag] = (int) $associated->id;
+            }
 
             // Get the associated categories
             $db    = Factory::getDbo();

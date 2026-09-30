@@ -6,7 +6,7 @@ import path from 'node:path';
 import fs from 'node:fs';
 import DefaultModuleBuilder from './default-module-builder.mjs';
 
-export class BuilderFactory{
+export class BuilderFactory {
   constructor(basePath = '', targetPath = '', cmdOptions = {}) {
     this.basePath = basePath;
     this.targetPath = targetPath;
@@ -46,7 +46,7 @@ export const createAndRunBuilder = async (program, name, factory, tasksToRun = [
   return factory.createBuilder(name)
     .then((builder) => {
       if (!builder.getBuildTasks) {
-        program.error(`Builder module for "${name}" should provide "getBuildTasks()" method. This is used to determine which task can be run for the builder.`)
+        program.error(`Builder module for "${name}" should provide "getBuildTasks()" method. This is used to determine which task can be run for the builder.`);
       }
       console.log(`Initialize build [${name}]`);
 

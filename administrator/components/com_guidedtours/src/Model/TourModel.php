@@ -11,6 +11,8 @@
 namespace Joomla\Component\Guidedtours\Administrator\Model;
 
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Event\Model\AfterDeleteEvent;
+use Joomla\CMS\Event\Model\BeforeDeleteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -254,7 +256,8 @@ class TourModel extends AdminModel
         $table = $this->getTable();
 
         // Include the plugins for the delete events.
-        PluginHelper::importPlugin($this->events_map['delete']);
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin($this->events_map['delete'], null, true, $dispatcher);
 
         // Iterate the items to delete each one.
         foreach ($pks as $i => $pk) {
@@ -263,7 +266,13 @@ class TourModel extends AdminModel
                     $context = $this->option . '.' . $this->name;
 
                     // Trigger the before delete event.
-                    $result = Factory::getApplication()->triggerEvent($this->event_before_delete, [$context, $table]);
+                    $result = $dispatcher->dispatch(
+                        $this->event_before_delete,
+                        new BeforeDeleteEvent($this->event_before_delete, [
+                            'context' => $context,
+                            'subject' => $table,
+                        ])
+                    )->getArgument('result', []);
 
                     if (\in_array(false, $result, true)) {
                         $this->setError($table->getError());
@@ -288,7 +297,13 @@ class TourModel extends AdminModel
                     $db->execute();
 
                     // Trigger the after event.
-                    Factory::getApplication()->triggerEvent($this->event_after_delete, [$context, $table]);
+                    $dispatcher->dispatch(
+                        $this->event_after_delete,
+                        new AfterDeleteEvent($this->event_after_delete, [
+                            'context' => $context,
+                            'subject' => $table,
+                        ])
+                    );
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);

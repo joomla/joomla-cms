@@ -5,11 +5,11 @@
 import rtlcss from 'rtlcss';
 import path from 'node:path';
 import fsp from 'node:fs/promises';
-import fs from "node:fs";
+import fs from 'node:fs';
 
 import { composeVisitors, transform as transformCss } from 'lightningcss';
 import { urlVersioning2 } from './css-versioning.mjs';
-import { createHash } from "node:crypto";
+import { createHash } from 'node:crypto';
 
 /**
  * Preprocess Css content
@@ -36,7 +36,7 @@ export const preprocessCSS = async (content = '') => {
   const { code: css } = transformCss({
     code: Buffer.from(content),
     minify: false,
-    visitor: composeVisitors([ urlVersioning2(hashStr) ]), // Adds a hash to the url() parts of the static css
+    visitor: composeVisitors([urlVersioning2(hashStr)]), // Adds a hash to the url() parts of the static css
   });
 
   return css.toString();
@@ -48,7 +48,6 @@ export const preprocessCSS = async (content = '') => {
  * @returns { Promise<string> }
  */
 export const minifyCSS = async (content = '') => {
-
   const { code: cssMin } = transformCss({
     code: Buffer.from(content),
     minify: true,
@@ -88,7 +87,7 @@ export const handleAndStoreCSSContent = async (targetPath, content = '') => {
   const saveMin = fsp.writeFile(
     targetPath.replace('.css', '.min.css'),
     `@charset "UTF-8";${cssMin}`,
-    { encoding: 'utf8', mode: 0o644 }
+    { encoding: 'utf8', mode: 0o644 },
   );
 
   return Promise.all([save, saveMin]);
@@ -108,5 +107,3 @@ export const handleCSSFile = async (srcPath, targetPath) => {
     throw new Error(`Processing failed for "${srcPath}".`, { cause: error });
   });
 };
-
-

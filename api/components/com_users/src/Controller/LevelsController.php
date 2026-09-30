@@ -38,4 +38,66 @@ class LevelsController extends ApiController
      * @since  4.0.0
      */
     protected $default_view = 'levels';
+
+    /**
+     * Method to allow extended classes to manipulate the data to be saved for an extension.
+     *
+     * @param   array  $data  An array of input data.
+     *
+     * @return  array
+     *
+     * @since   6.2.0
+     */
+    protected function preprocessSaveData(array $data): array
+    {
+        if ($this->input->getMethod() === 'PATCH') {
+            $data['rules'] = json_decode($data['rules'], true);
+        }
+
+        return $data;
+    }
+
+    /**
+     * Method to check if it's allowed to delete a record
+     *
+     * @return  boolean
+     *
+     * @since   6.1.4
+     */
+    protected function allowDelete(): bool
+    {
+        // Overrides the default behavior to check the core.admin permission.
+        return $this->app->getIdentity()->authorise('core.admin', $this->option);
+    }
+
+    /**
+     * Method to check if you can add a new record.
+     *
+     * @param   array  $data  An array of input data.
+     *
+     * @return  boolean
+     *
+     * @since   6.1.4
+     */
+    protected function allowAdd($data = [])
+    {
+        // Overrides the default behavior to check the core.admin permission.
+        return $this->app->getIdentity()->authorise('core.admin', $this->option);
+    }
+
+    /**
+     * Method to check if you can edit an existing record.
+     *
+     * @param   array   $data  An array of input data.
+     * @param   string  $key   The name of the key for the primary key; default is id.
+     *
+     * @return  boolean
+     *
+     * @since   6.1.4
+     */
+    protected function allowEdit($data = [], $key = 'id')
+    {
+        // Overrides the default behavior to check the core.admin permission.
+        return $this->app->getIdentity()->authorise('core.admin', $this->option);
+    }
 }

@@ -171,6 +171,7 @@ class ComponentController extends ApiController
      *
      * @return  boolean
      *
+     * @since   5.4.6
      * @since   6.1.1
      */
     protected function allowEdit($data = [], $key = 'id')

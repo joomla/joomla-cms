@@ -2515,7 +2515,7 @@ class Installer implements DatabaseAwareInterface
      *
      * @throws  \InvalidArgumentException
      * @since   3.4
-     * @deprecated  6.0.0 will be removed in 7.0
+     * @deprecated  6.0 will be removed in 8.0
      *              Use getAdapter() instead
      */
     public function loadAdapter($adapter, $options = [])

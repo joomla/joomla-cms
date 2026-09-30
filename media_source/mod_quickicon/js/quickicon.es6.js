@@ -22,7 +22,7 @@ document.querySelectorAll('.quickicon').forEach((quickicon) => {
     Joomla.request({
       url: counter.dataset.url,
       method: 'GET',
-      onSuccess: ((resp) => {
+      onSuccess: (resp) => {
         let response;
         try {
           response = JSON.parse(resp);
@@ -53,10 +53,10 @@ document.querySelectorAll('.quickicon').forEach((quickicon) => {
         } else {
           quickicon.classList.add('error');
         }
-      }),
-      onError: (() => {
+      },
+      onError: () => {
         quickicon.classList.add('error');
-      }),
+      },
     });
   }
 });

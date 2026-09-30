@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\Authentication\Cookie\Extension;
 
 use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Authentication\RememberMe;
 use Joomla\CMS\Event\Privacy\CollectCapabilitiesEvent;
 use Joomla\CMS\Event\User\AfterLoginEvent;
 use Joomla\CMS\Event\User\AfterLogoutEvent;
@@ -21,6 +22,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\SubscriberInterface;
 
@@ -106,6 +108,8 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
         if (!$cookieValue) {
             return;
         }
+
+        $this->loadLanguage();
 
         $cookieArray = explode('.', $cookieValue);
 
@@ -314,99 +318,31 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             $filter = new InputFilter();
             $series = $filter->clean($cookieArray[1], 'ALNUM');
         } elseif (!empty($options['remember'])) {
-            // Remember checkbox is set
-            $cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
+            // Remember checkbox is set. Do not mint a persistent credential while MFA is still outstanding.
+            $mfaChecked = (int) $app->getSession()->get('com_users.mfa_checked', 0);
 
-            // Create a unique series which will be used over the lifespan of the cookie
-            $unique     = false;
-            $errorCount = 0;
+            if (!$mfaChecked && MfaHelper::userMayNeedMfaGate($options['user'])) {
+                /**
+                 * The user may still owe an MFA step (captive validation or mandatory setup).
+                 * Defer the cookie creation; it is minted once the login is fully complete,
+                 * either by the captive MFA success handler or by the MFA handler when the
+                 * captive page turns out not to apply.
+                 */
+                $app->getSession()->set('com_users.remember_deferred', 1);
 
-            do {
-                $series = UserHelper::genRandomPassword(20);
-                $query  = $db->createQuery()
-                    ->select($db->quoteName('series'))
-                    ->from($db->quoteName('#__user_keys'))
-                    ->where($db->quoteName('series') . ' = :series')
-                    ->bind(':series', $series);
+                return;
+            }
 
-                try {
-                    $results = $db->setQuery($query)->loadResult();
+            // No MFA obligation or MFA already verified - create the cookie immediately
+            RememberMe::createOrUpdateCookie($options['user'], $app, $db, $this->params);
 
-                    if ($results === null) {
-                        $unique = true;
-                    }
-                } catch (\RuntimeException) {
-                    $errorCount++;
-
-                    // We'll let this query fail up to 5 times before giving up, there's probably a bigger issue at this point
-                    if ($errorCount === 5) {
-                        return;
-                    }
-                }
-            } while ($unique === false);
+            return;
         } else {
             return;
         }
 
-        // Get the parameter values
-        $lifetime = $this->params->get('cookie_lifetime', 60) * 24 * 60 * 60;
-        $length   = $this->params->get('key_length', 16);
-
-        // Generate new cookie
-        $token       = UserHelper::genRandomPassword($length);
-        $cookieValue = $token . '.' . $series;
-
-        // Overwrite existing cookie with new value
-        $app->getInput()->cookie->set(
-            $cookieName,
-            $cookieValue,
-            [
-                'expires'  => time() + $lifetime,
-                'path'     => $app->get('cookie_path', '/'),
-                'domain'   => $app->get('cookie_domain', ''),
-                'secure'   => $app->isHttpsForced(),
-                'httponly' => true,
-            ]
-        );
-
-        $query = $db->createQuery();
-
-        if (!empty($options['remember'])) {
-            $future = (time() + $lifetime);
-
-            // Create new record
-            $query
-                ->insert($db->quoteName('#__user_keys'))
-                ->set($db->quoteName('user_id') . ' = :userid')
-                ->set($db->quoteName('series') . ' = :series')
-                ->set($db->quoteName('uastring') . ' = :uastring')
-                ->set($db->quoteName('time') . ' = :time')
-                ->bind(':userid', $options['user']->username)
-                ->bind(':series', $series)
-                ->bind(':uastring', $cookieName)
-                ->bind(':time', $future);
-        } else {
-            // Update existing record with new token
-            $query
-                ->update($db->quoteName('#__user_keys'))
-                ->where($db->quoteName('user_id') . ' = :userid')
-                ->where($db->quoteName('series') . ' = :series')
-                ->where($db->quoteName('uastring') . ' = :uastring')
-                ->bind(':userid', $options['user']->username)
-                ->bind(':series', $series)
-                ->bind(':uastring', $cookieName);
-        }
-
-        $hashedToken = UserHelper::hashPassword($token);
-
-        $query->set($db->quoteName('token') . ' = :token')
-            ->bind(':token', $hashedToken);
-
-        try {
-            $db->setQuery($query)->execute();
-        } catch (\RuntimeException) {
-            // We aren't concerned with errors from this query, carry on
-        }
+        // Logged in using a cookie - update the existing record with a fresh token
+        RememberMe::createOrUpdateCookie($options['user'], $app, $db, $this->params, $series);
     }
 
     /**

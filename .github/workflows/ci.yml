@@ -12,7 +12,7 @@ jobs:
   composer:
     name: Install PHP dependencies
     runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:php8.4
+    container: joomlaprojects/docker-images:php8.5
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
@@ -36,7 +36,7 @@ jobs:
   npm:
     name: Install JS/CSS dependencies and build assets
     runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:php8.4
+    container: joomlaprojects/docker-images:php8.5
     needs: [composer]
     steps:
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
@@ -69,11 +69,8 @@ jobs:
   code-style-php:
     name: Check PHP code style
     runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:php8.4
+    container: joomlaprojects/docker-images:php8.5
     needs: [composer]
-    strategy:
-      matrix:
-        command: ['php-cs-fixer fix -vvv --dry-run --diff', 'phpcs --extensions=php -p --standard=ruleset.xml .']
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
@@ -85,14 +82,22 @@ jobs:
           path: plugins/system/webauthn/fido.jwt
           key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - name: Check PHP code style
-        env:
-          PHP_CS_FIXER_IGNORE_ENV: true
-        run: ./libraries/vendor/bin/${{ matrix.command }}
+        run: |
+          set -e
+          ./libraries/vendor/bin/php-cs-fixer fix -vvv --diff
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          if [ "$GITHUB_EVENT_NAME" = "push" ] && [ "$GITHUB_REPOSITORY" != "joomla/joomla-cms" ] && ! git diff --quiet; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add --all
+            git commit -m "Fix code style issues [skip ci]"
+            git push origin "HEAD:${{ github.head_ref || github.ref_name }}"
+          fi
 
   code-style-js-css:
     name: Check Javascript & CSS code style
     runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:php8.4
+    container: joomlaprojects/docker-images:php8.5
     needs: [composer, npm]
     strategy:
       matrix:
@@ -118,7 +123,7 @@ jobs:
   phpstan:
     name: Run PHPstan
     runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:php8.4
+    container: joomlaprojects/docker-images:php8.5
     needs: [code-style-php]
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -272,7 +277,7 @@ jobs:
           path: plugins/system/webauthn/fido.jwt
           key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - name: Setup PHP
-        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f # v2
+        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # v2.37.1
         with:
           php-version: ${{ matrix.php_version }}
           extensions: openssl, mbstring, fileinfo, gd, gmp, pgsql, mysql, mysqli, curl, opcache, ldap
@@ -300,14 +305,14 @@ jobs:
         with:
           path: plugins/system/webauthn/fido.jwt
           key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
-      - uses: shogo82148/actions-setup-mysql@9c42ca180d5f1dd4dceb54c23c5eda0384f4d265 # v1.50.0
+      - uses: shogo82148/actions-setup-mysql@c80f44ab210a360ef966c5b9f48a2ae21123b533 # v1.51.0
         with:
           mysql-version: "mariadb-10.4"
           root-password: "joomla_ut"
           user: "joomla_ut"
           password: "joomla_ut"
       - name: Setup PHP
-        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f # v2
+        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # v2.37.1
         with:
           php-version: ${{ matrix.php_version }}
           extensions: openssl, mbstring, fileinfo, gd, gmp, pgsql, mysql, mysqli, curl, opcache, ldap
@@ -325,7 +330,7 @@ jobs:
   tests-system-prepare:
     name: Prepare system tests
     runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:cypress8.4
+    container: joomlaprojects/docker-images:cypress8.5
     needs: [composer, npm]
     env:
       CYPRESS_VERIFY_TIMEOUT: 100000
@@ -464,6 +469,6 @@ jobs:
     - name: Checkout Actions Repository
       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
     - name: Spell Check Repository
-      uses: crate-ci/typos@392b78fe18a52790c53f42456e46124f77346842 # v1.34.0
+      uses: crate-ci/typos@7b04f660f4ee4f048d18fd341887cf28dfbedfe2 # v1.46.3
       with:
         config: .github/workflows/typos.toml

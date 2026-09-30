@@ -43,7 +43,7 @@ $canEditState = $user->authorise('core.edit.state', 'com_tags');
                         name="filter-search"
                         id="filter-search"
                         value="<?php echo $this->escape($this->state->get('list.filter')); ?>"
-                        class="inputbox" onchange="document.adminForm.submit();"
+                        class="inputbox"
                         placeholder="<?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>"
                     >
                     <button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>

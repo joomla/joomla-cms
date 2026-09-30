@@ -117,14 +117,18 @@ Text::script('JHIDEPASSWORD');
         <?php
             $usersConfig = ComponentHelper::getParams('com_users'); ?>
             <ul class="mod-login__options list-unstyled">
+                <?php if ($params->get('showPasswordReset', 1)) : ?>
                 <li>
                     <a href="<?php echo Route::_('index.php?option=com_users&view=reset'); ?>">
                     <?php echo Text::_('MOD_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>
                 </li>
+                <?php endif; ?>
+                <?php if ($params->get('showUsernameReminder', 1)) : ?>
                 <li>
                     <a href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
                     <?php echo Text::_('MOD_LOGIN_FORGOT_YOUR_USERNAME'); ?></a>
                 </li>
+                <?php endif; ?>
                 <?php if ($usersConfig->get('allowUserRegistration')) : ?>
                 <li>
                     <a href="<?php echo Route::_($registerLink); ?>">

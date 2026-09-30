@@ -119,7 +119,9 @@ class HtmlView extends InstallerViewDefault
             $childBar->unpublish('updatesites.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
 
             if ($canDo->get('core.delete')) {
-                $childBar->delete('updatesites.delete')->listCheck(true);
+                $childBar->delete('updatesites.delete')
+                    ->icon('icon-exclamation-triangle')
+                    ->listCheck(true);
             }
 
             $childBar->checkin('updatesites.checkin')->listCheck(true);

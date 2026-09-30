@@ -37,7 +37,6 @@ export default async function watchCommand(program, cmdOptions = {}, builders = 
     buildersToWatch = builders;
   } else if (cmdOptions.name) {
     cmdOptions.name.split(',').map((name) => name.trim()).filter(Boolean).forEach((name) => {
-
       // Check if builder exists
       if (!builders.includes(name)) {
         program.error(`Builder "${name}" does not exists.`);

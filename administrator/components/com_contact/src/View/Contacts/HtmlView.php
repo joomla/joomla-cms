@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\View\ListView;
+use Joomla\CMS\Session\Session;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -94,6 +95,15 @@ class HtmlView extends ListView
 
             $this->filterForm
                 ->addControlField('forcedLanguage', $forcedLanguage);
+
+            /*
+            * When loaded from the frontend, the modal template requires a valid CSRF token on every request.
+            * Pagination links are plain GET anchor tags that bypass form submission,
+            * so the token must be threaded into all pagination URLs via additionalUrlParams.
+            */
+            if (Factory::getApplication()->isClient('site')) {
+                $this->pagination->setAdditionalUrlParam(Session::getFormToken(), '1');
+            }
         }
     }
 }

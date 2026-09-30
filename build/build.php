@@ -86,6 +86,8 @@ function clean_checkout(string $dir)
     run_and_check('find libraries/vendor -name CODE_OF_CONDUCT.md | xargs rm -rf -');
     run_and_check('find libraries/vendor -name CONDUCT.md | xargs rm -rf -');
     run_and_check('find libraries/vendor -name docker-compose.yml | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name Dockerfile | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name compose.yml | xargs rm -rf -');
     run_and_check('find libraries/vendor -name phpunit.xml | xargs rm -rf -');
     run_and_check('find libraries/vendor -name README.md | xargs rm -rf -');
     run_and_check('find libraries/vendor -name readme.md | xargs rm -rf -');
@@ -307,6 +309,10 @@ if ($showHelp) {
     exit;
 }
 
+// Update FIDO Metadata blob
+echo "Check for updates for the fido metadata file.\n";
+run_and_check('php ' . __DIR__ . '/update_fido_cache.php');
+
 // If not given a remote, assume we are looking for the latest local tag
 if (!$remote) {
     chdir($repo);
@@ -332,16 +338,19 @@ mkdir($fullpath);
 echo "Copy the files from the git repository.\n";
 chdir($repo);
 run_and_check($systemGit . ' archive ' . $remote . ' | tar -x -C ' . $fullpath);
-// Install PHP and NPM dependencies and compile required media assets, skip Composer autoloader until post-cleanup
-chdir($fullpath);
-run_and_check('composer install --no-autoloader --ignore-platform-reqs' . $composerOptions);
 
+echo "Copy FIDO Metadata blob to the repository.\n";
 // Try to update the fido.jwt file
-if (!file_exists(rtrim($fullpath, '\\/') . '/plugins/system/webauthn/fido.jwt')) {
-    echo "The file plugins/system/webauthn/fido.jwt was not created. Build failed.\n";
+if (!file_exists(__DIR__ . '/fido/fido.jwt')) {
+    echo "The file " . __DIR__ . "/fido/fido.jwt does not exist. Build failed.\n";
 
     exit(1);
 }
+copy(__DIR__ . '/fido/fido.jwt', $fullpath . '/build/fido/fido.jwt');
+
+// Install PHP and NPM dependencies and compile required media assets, skip Composer autoloader until post-cleanup
+chdir($fullpath);
+run_and_check('composer install --no-autoloader --ignore-platform-reqs' . $composerOptions);
 
 // Install dependencies and build the media assets
 // Create version entries of the urls inside the static css files
