@@ -37,6 +37,7 @@
 						type="url"
 						filter="url"
 						validate="url"
+						schemes="http,https"
 						label="PLG_SCHEMAORG_PERSON_FIELD_URL_LABEL"
 					/>
 

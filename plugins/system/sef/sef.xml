@@ -29,6 +29,7 @@
 					hint="https://www.example.com"
 					filter="url"
 					validate="url"
+					schemes="http,https"
 				/>
 
 				<field
