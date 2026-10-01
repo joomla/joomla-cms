@@ -379,10 +379,12 @@ class InputFilter extends BaseInputFilter
                             }
 
                             /*
-                             * This makes sure that we don't accidentally skip a <?php tag if it's across
-                             * a read boundary, even on multibyte strings
+                             * Keep enough of the tail so that a signature split across a read boundary
+                             * is still detected on the next chunk. The longest signature scanned for is
+                             * '__HALT_COMPILER()' (17 bytes), so retain the last 16 bytes; 10 bytes was
+                             * too few and let a straddling phar stub slip through.
                              */
-                            $data = substr($data, -10);
+                            $data = substr($data, -16);
                         }
 
                         fclose($fp);
