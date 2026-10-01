@@ -43,7 +43,16 @@ use Psr\Log\LoggerInterface;
  *
  * @since  3.10.0
  */
-class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, SiteRouterAwareInterface, UserFactoryAwareInterface, MailerFactoryAwareInterface, LanguageFactoryAwareInterface
+class MVCFactory implements
+    CacheControllerFactoryAwareInterface,
+    DatabaseAwareInterface,
+    DispatcherAwareInterface,
+    FormFactoryAwareInterface,
+    LanguageFactoryAwareInterface,
+    MailerFactoryAwareInterface,
+    MVCFactoryInterface,
+    SiteRouterAwareInterface,
+    UserFactoryAwareInterface
 {
     use FormFactoryAwareTrait;
     use DispatcherAwareTrait;
