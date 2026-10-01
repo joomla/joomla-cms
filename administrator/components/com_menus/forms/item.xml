@@ -14,6 +14,7 @@
 		<field
 			name="title"
 			type="text"
+			filter="raw"
 			label="COM_MENUS_ITEM_FIELD_TITLE_LABEL"
 			required="true"
 		/>
