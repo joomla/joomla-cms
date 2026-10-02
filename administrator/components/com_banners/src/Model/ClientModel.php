@@ -135,4 +135,54 @@ class ClientModel extends AdminModel
     {
         $table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
     }
+
+    /**
+     * Override save to prevent duplicate client names when saving as copy.
+     *
+     * @param   array  $data  The form data.
+     *
+     * @return  boolean  True on success, false on failure.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function save($data)
+    {
+        $table = $this->getTable();
+
+        // If saving as copy or duplicate exists, generate a unique name
+        if (isset($data['name'])) {
+            $table->load(['name' => $data['name']]);
+
+            // Only modify name if it's a duplicate
+            if ($table->id) {
+                $data['name'] = $this->generateUniqueName($data['name']);
+            }
+        }
+
+        return parent::save($data);
+    }
+
+    /**
+     * Generate a unique client name if it already exists.
+     *
+     * @param string $name The original client name
+     *
+     * @return string Unique client name
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function generateUniqueName($name)
+    {
+        $table    = $this->getTable();
+        $baseName = $name;
+        $i        = 2;
+
+        // Keep appending numbers until the name is unique
+        while ($table->load(['name' => $name])) {
+            $name = $baseName . ' (' . $i . ')';
+            $i++;
+        }
+
+        return $name;
+    }
 }
