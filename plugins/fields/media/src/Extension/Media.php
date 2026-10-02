@@ -2,7 +2,7 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Fields.media
+ * @subpackage  Fields.Media
  *
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -61,7 +61,8 @@ final class Media extends FieldsPlugin implements SubscriberInterface
 
         $fieldNode->setAttribute('type', 'accessiblemedia');
 
-        if ($this->getApplication()->getIdentity()->authorise('core.create', 'com_media')) {
+        // if the field is already set to disabled, respect it
+        if ($this->getApplication()->getIdentity()->authorise('core.create', 'com_media') && $fieldNode->getAttribute('disabled') !== 'true') {
             $fieldNode->setAttribute('disabled', 'false');
         }
 
