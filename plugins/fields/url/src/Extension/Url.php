@@ -44,7 +44,19 @@ final class Url extends FieldsPlugin implements SubscriberInterface
             return $fieldNode;
         }
 
-        $fieldNode->setAttribute('validate', 'url');
+        // If "mailto" is configured as the only allowed scheme, the field holds a plain e-mail
+        // address: the mailto: prefix is added automatically by the display layout
+        // (tmpl/url.php), the user never types it. Validate the raw input as an e-mail address
+        // and skip the generic URL filter, which would otherwise force a http(s) scheme onto the
+        // value or resolve it as a path relative to the site root. See GH #37029.
+        $schemes = (array) $field->fieldparams->get('schemes', []);
+
+        if (\count($schemes) === 1 && \in_array('mailto', $schemes, true)) {
+            $fieldNode->setAttribute('validate', 'email');
+            $fieldNode->setAttribute('filter', 'raw');
+        } else {
+            $fieldNode->setAttribute('validate', 'url');
+        }
 
         if (! $fieldNode->getAttribute('relative')) {
             $fieldNode->removeAttribute('relative');
