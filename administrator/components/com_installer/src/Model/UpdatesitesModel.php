@@ -100,6 +100,12 @@ class UpdatesitesModel extends InstallerModel
             $table->enabled = $value;
 
             if (!$table->store()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
                 $result = false;
             }
