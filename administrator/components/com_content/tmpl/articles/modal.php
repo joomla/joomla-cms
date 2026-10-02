@@ -41,6 +41,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $onclick   = $this->escape($function);
 $multilang = Multilanguage::isEnabled();
+$now       = Factory::getDate()->toSql();
 
 if (!empty($editor)) {
     // This view is used also in com_menus. Load the xtd script only if the editor is set!
@@ -111,13 +112,20 @@ if (!empty($editor)) {
                         }
                     }
 
-                    $link     = RouteHelper::getArticleRoute($item->id, $item->catid, $item->language);
-                    $itemHtml = '<a href="' . $this->escape($link) . '"' . ($lang ? ' hreflang="' . $lang . '"' : '') . '>' . $item->title . '</a>';
+                    $link      = RouteHelper::getArticleRoute($item->id, $item->catid, $item->language);
+                    $itemHtml  = '<a href="' . $this->escape($link) . '"' . ($lang ? ' hreflang="' . $lang . '"' : '') . '>' . $item->title . '</a>';
+
+                    // Check if article is expired
+                    $isExpired = $item->state == 1
+                        && !empty($item->publish_down)
+                        && $item->publish_down !== '0000-00-00 00:00:00'
+                        && $item->publish_down < $now;
+                    $iconClass = $isExpired ? 'icon-expired' : $iconStates[$item->state];
                     ?>
                     <tr class="row<?php echo $i % 2; ?>">
                         <td class="text-center">
                             <span class="tbody-icon">
-                                <span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
+                                <span class="<?php echo $iconClass; ?>" aria-hidden="true"></span>
                             </span>
                         </td>
                         <th scope="row">
