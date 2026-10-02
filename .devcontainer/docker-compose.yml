@@ -11,7 +11,7 @@ services:
       - "443:443"
       - "3306:3306"
       - "6080:6080"
-    command: sleep infinity
+    command: apache2-foreground
 
   mysql:
     image: mysql:8.0
