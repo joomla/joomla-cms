@@ -100,6 +100,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
             'filter_order'     => 'CMD',
             'filter_order_Dir' => 'CMD',
             'filter-search'    => 'STRING',
+            'filter_tag'       => 'INT',
             'print'            => 'BOOLEAN',
             'lang'             => 'CMD',
             'Itemid'           => 'INT', ];
