@@ -212,10 +212,15 @@ class MailHelperTest extends UnitTestCase
     {
         return [
             ["testme", "testme"],
-            ["test me", "test me"],
-            ["test;me", "test;me"],
-            ["test,me", "test,me"],
+            ["user@example.com", "user@example.com"],
+            ["test me", false],
+            ["test;me", false],
+            ["test,me", false],
             ["test ;,me", false],
+            ["user@example.com,evil@example.net", false],
+            ["user@example.com;evil@example.net", false],
+            ["user@example.com\r\nBcc: evil@example.net", false],
+            ["user@example.com\nBcc: evil@example.net", false],
         ];
     }
 

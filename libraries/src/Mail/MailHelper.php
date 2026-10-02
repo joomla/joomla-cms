@@ -97,7 +97,7 @@ abstract class MailHelper
      */
     public static function cleanAddress($address)
     {
-        if (preg_match("[\s;,]", $address)) {
+        if (preg_match('/[\s;,]/', $address)) {
             return false;
         }
 
