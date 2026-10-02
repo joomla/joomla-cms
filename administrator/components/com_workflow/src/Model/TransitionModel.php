@@ -13,9 +13,11 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -426,7 +428,10 @@ class TransitionModel extends AdminModel
             // Here the rules are still valid, they simply have nothing to run them, so this warns
             // rather than hiding work the user has already done.
             Factory::getApplication()->enqueueMessage(
-                Text::_('COM_WORKFLOW_AUTOMATION_WARNING_TASK_PLUGIN_DISABLED'),
+                Text::sprintf(
+                    'COM_WORKFLOW_AUTOMATION_WARNING_TASK_PLUGIN_DISABLED',
+                    $this->taskPluginLink()
+                ),
                 'warning'
             );
         }
@@ -435,6 +440,65 @@ class TransitionModel extends AdminModel
         PluginHelper::importPlugin('workflow');
 
         parent::preprocessForm($form, $data, $group);
+    }
+
+    /**
+     * A link that opens the automation task plugin in a dialog, for the warning shown when it is off.
+     *
+     * Falls back to plain text for a user who may not edit plugins, so the sentence still reads.
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function taskPluginLink(): string
+    {
+        $label = Text::_('COM_WORKFLOW_AUTOMATION_TASK_PLUGIN');
+        /** @var \Joomla\CMS\Application\CMSWebApplicationInterface $app */
+        $app = Factory::getApplication();
+
+        if (!$app->getIdentity()->authorise('core.manage', 'com_plugins')) {
+            return $label;
+        }
+
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('extension_id'))
+            ->from($db->quoteName('#__extensions'))
+            ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+            ->where($db->quoteName('folder') . ' = ' . $db->quote('task'))
+            ->where($db->quoteName('element') . ' = ' . $db->quote('workflowtransition'));
+
+        $extensionId = (int) $db->setQuery($query)->loadResult();
+
+        if ($extensionId < 1) {
+            return $label;
+        }
+
+        // The dialog script is loaded by the condition builder too, but the warning can appear
+        // before any builder renders, so it is asked for here as well.
+        $app->getDocument()->getWebAssetManager()->useScript('joomla.dialog-autocreate');
+
+        $popup = [
+            'popupType'  => 'iframe',
+            'textHeader' => $label,
+            'src'        => Route::_(
+                'index.php?option=com_plugins&client_id=0&task=plugin.edit&extension_id=' . $extensionId
+                    . '&tmpl=component&layout=modal',
+                false
+            ),
+        ];
+
+        return HTMLHelper::_('link', '#', $label, [
+            'data-joomla-dialog'    => htmlspecialchars(
+                json_encode($popup, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
+                ENT_QUOTES,
+                'UTF-8'
+            ),
+            'data-checkin-url'      => Route::_('index.php?option=com_plugins&task=plugins.checkin&format=json&cid[]=' . $extensionId, false),
+            'data-close-on-message' => '',
+            'data-reload-on-close'  => '',
+        ]);
     }
 
     /**
