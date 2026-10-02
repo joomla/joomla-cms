@@ -78,7 +78,29 @@ class NomenuRules implements RulesInterface
                 $view         = $views[$vars['view']];
 
                 if (isset($view->key, $segments[0])) {
-                    if (\is_callable([$this->router, 'get' . ucfirst($view->name) . 'Id'])) {
+                    if (!\is_null($view->parseCallback)) {
+                        $input = $this->router->app->getInput();
+                        if ($view->parent_key && $input->get($view->parent_key)) {
+                            $vars[$view->parent->key] = $input->get($view->parent_key);
+                            $vars[$view->parent_key]  = $input->get($view->parent_key);
+                        }
+
+                        if ($view->nestable) {
+                            $vars[$view->key] = 0;
+
+                            while (\count($segments)) {
+                                $segment = array_shift($segments);
+                                $result  = \call_user_func_array($view->parseCallback, [$segment, $vars]);
+
+                                if (!$result) {
+                                    array_unshift($segments, $segment);
+                                    break;
+                                }
+
+                                $vars[$view->key] = preg_replace('/-/', ':', $result, 1);
+                            }
+                        }
+                    } elseif (\is_callable([$this->router, 'get' . ucfirst($view->name) . 'Id'])) {
                         $input = $this->router->app->getInput();
                         if ($view->parent_key && $input->get($view->parent_key)) {
                             $vars[$view->parent->key] = $input->get($view->parent_key);
@@ -146,7 +168,19 @@ class NomenuRules implements RulesInterface
                 $segments[] = $query['view'];
 
                 if ($view->key && isset($query[$view->key])) {
-                    if (\is_callable([$this->router, 'get' . ucfirst($view->name) . 'Segment'])) {
+                    if (!\is_null($view->buildCallback)) {
+                        $result = \call_user_func_array($view->buildCallback, [$query[$view->key], $query]);
+
+                        if ($view->nestable) {
+                            array_pop($result);
+
+                            while (\count($result)) {
+                                $segments[] = str_replace(':', '-', array_pop($result));
+                            }
+                        } else {
+                            $segments[] = str_replace(':', '-', array_pop($result));
+                        }
+                    } elseif (\is_callable([$this->router, 'get' . ucfirst($view->name) . 'Segment'])) {
                         $result = \call_user_func_array([$this->router, 'get' . ucfirst($view->name) . 'Segment'], [$query[$view->key], $query]);
 
                         if ($view->nestable) {
