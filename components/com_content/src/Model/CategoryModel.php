@@ -249,7 +249,8 @@ class CategoryModel extends ListModel
                 ->createModel('Articles', 'Site', ['ignore_request' => true]);
             $model->setState('params', Factory::getApplication()->getParams());
             $model->setState('filter.category_id', $category->id);
-            $model->setState('filter.published', $this->getState('filter.published'));
+            $model->setState('filter.published', 1);
+            $model->setState('filter.publish_date', true);
             $model->setState('filter.access', $this->getState('filter.access'));
             $model->setState('filter.language', $this->getState('filter.language'));
             $model->setState('filter.featured', $this->getState('filter.featured'));
