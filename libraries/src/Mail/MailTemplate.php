@@ -394,11 +394,13 @@ class MailTemplate
 
                 $layout = $config->get('mail_htmllayout', 'mailtemplate');
                 $logo   = (string) $config->get('mail_logofile', '');
+                $styles = $config->extract('styles')->toArray();
 
                 // Check alternative mailconfig
                 if ((int) $config->get('alternative_mailconfig', 0) === 1) {
                     $layout = $params->get('htmllayout', $layout);
                     $logo   = $params->get('disable_logofile', 1) ? $logo : '' ;
+                    $styles = array_merge($styles, $config->extract('styles')->toArray());
                 }
 
                 // Add the logo to the mail as inline attachment
@@ -412,6 +414,8 @@ class MailTemplate
                         $this->addLayoutTemplateData(['logo' => 'site-logo']);
                     }
                 }
+
+                $this->addLayoutTemplateData(['styles' => $styles]);
 
                 // Check if layout is a template override
                 $layoutParts = explode(':', $layout);
