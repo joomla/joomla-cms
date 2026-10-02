@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
@@ -515,13 +516,42 @@ class ApiController extends BaseController
      */
     protected function allowEdit($data = [], $key = 'id')
     {
-        $user = $this->app->getIdentity();
+        $user     = $this->app->getIdentity();
+        $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
 
         if (!$user->authorise('core.manage', $this->option)) {
             return false;
         }
 
-        return $user->authorise('core.edit', $this->option);
+        // No record: fall back to the component permission.
+        if (!$recordId) {
+            return $user->authorise('core.edit', $this->option);
+        }
+
+        $inflector = InflectorFactory::create()->build();
+        $asset     = $this->option . '.' . $inflector->singularize($this->contentType) . '.' . $recordId;
+
+        // Check edit on the record asset (explicit or inherited)
+        if ($user->authorise('core.edit', $asset)) {
+            return true;
+        }
+
+        $table = $this->getModel($inflector->singularize($this->contentType))->getTable();
+
+        // Check edit own on the record asset (explicit or inherited)
+        if ($table->hasField('created_by') && $user->authorise('core.edit.own', $asset)) {
+            // Existing record already has an owner, get it
+            $table->load($recordId);
+
+            if (empty($table->getId())) {
+                return false;
+            }
+
+            // Grant if current user is owner of the record
+            return $user->id == $table->created_by;
+        }
+
+        return false;
     }
 
     /**
