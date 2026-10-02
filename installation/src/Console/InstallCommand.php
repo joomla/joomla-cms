@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Helper\PublicFolderGeneratorHelper;
+use Joomla\CMS\Installation\Model\AutomatedUpdatesModel;
 use Joomla\CMS\Installation\Model\ChecksModel;
 use Joomla\CMS\Installation\Model\CleanupModel;
 use Joomla\CMS\Installation\Model\DatabaseModel;
@@ -167,6 +168,16 @@ class InstallCommand extends AbstractCommand
         $this->ioStyle->write('Writing configuration.php and additional setup ...');
         $configurationModel->setup($cfg);
         $this->ioStyle->writeln('OK');
+
+        if ($input->getOption('no-autoupdate')) {
+            $this->ioStyle->write('Disabling automated updates...');
+
+            /** @var AutomatedUpdatesModel $automatedUpdatesModel */
+            $automatedUpdatesModel = $app->getMVCFactory()->createModel('AutomatedUpdates', 'Installation');
+            $automatedUpdatesModel->disable();
+
+            $this->ioStyle->writeln('OK');
+        }
 
         if (!(new Version())->isInDevelopmentState()) {
             $this->ioStyle->write('Deleting /installation folder...');
@@ -332,6 +343,13 @@ class InstallCommand extends AbstractCommand
                 $default
             );
         }
+
+        $this->addOption(
+            'no-autoupdate',
+            null,
+            InputOption::VALUE_NONE,
+            Text::_('INSTL_NO_AUTOUPDATE_DESC_SHORT')
+        );
 
         $this->setHelp($help);
     }
