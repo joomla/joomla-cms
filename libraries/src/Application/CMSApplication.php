@@ -904,40 +904,72 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $authorisations = $authenticate->authorise($response, $options);
             $denied_states  = Authentication::STATUS_EXPIRED | Authentication::STATUS_DENIED;
 
+            // Validate that $authorisations is an array before iterating
+            if (!\is_array($authorisations)) {
+                // Log the issue for debugging purposes
+                Log::add(
+                    \sprintf(
+                        'Invalid data type for $authorisations in %s on line %d. Expected array, got %s.',
+                        __FILE__,
+                        __LINE__,
+                        \gettype($authorisations)
+                    ),
+                    Log::WARNING,
+                    'api'
+                );
+
+                // Set $authorisations to an empty array to avoid further issues
+                $authorisations = [];
+            }
+
             foreach ($authorisations as $authorisation) {
-                if ((int) $authorisation->status & $denied_states) {
-                    // Trigger onUserAuthorisationFailure Event.
-                    $dispatcher->dispatch('onUserAuthorisationFailure', new AuthorisationFailureEvent('onUserAuthorisationFailure', [
-                        'subject' => (array) $authorisation,
-                        'options' => $options,
-                    ]));
+                // Ensure $authorisation is an object and has the 'status' property
+                if (\is_object($authorisation) && property_exists($authorisation, 'status')) {
+                    if ((int) $authorisation->status & $denied_states) {
+                        // Trigger onUserAuthorisationFailure Event.
+                        $dispatcher->dispatch('onUserAuthorisationFailure', new AuthorisationFailureEvent('onUserAuthorisationFailure', [
+                            'subject' => (array) $authorisation,
+                            'options' => $options,
+                        ]));
 
-                    // If silent is set, just return false.
-                    if (isset($options['silent']) && $options['silent']) {
-                        return false;
+                        // If silent is set, just return false.
+                        if (isset($options['silent']) && $options['silent']) {
+                            return false;
+                        }
+
+                        // Return the error.
+                        switch ($authorisation->status) {
+                            case Authentication::STATUS_EXPIRED:
+                                $this->enqueueMessage(Text::_('JLIB_LOGIN_EXPIRED'), 'error');
+
+                                return false;
+
+                            case Authentication::STATUS_DENIED:
+                                $this->enqueueMessage(Text::_('JLIB_LOGIN_DENIED'), 'error');
+
+                                return false;
+
+                            default:
+                                $this->enqueueMessage(Text::_('JLIB_LOGIN_AUTHORISATION'), 'error');
+
+                                return false;
+                        }
                     }
-
-                    // Return the error.
-                    switch ($authorisation->status) {
-                        case Authentication::STATUS_EXPIRED:
-                            $this->enqueueMessage(Text::_('JLIB_LOGIN_EXPIRED'), 'error');
-
-                            return false;
-
-                        case Authentication::STATUS_DENIED:
-                            $this->enqueueMessage(Text::_('JLIB_LOGIN_DENIED'), 'error');
-
-                            return false;
-
-                        default:
-                            $this->enqueueMessage(Text::_('JLIB_LOGIN_AUTHORISATION'), 'error');
-
-                            return false;
-                    }
+                } else {
+                    // Log a warning if the structure is unexpected
+                    Log::add(
+                        \sprintf(
+                            'Invalid authorisation object or missing status property in %s on line %d.',
+                            __FILE__,
+                            __LINE__
+                        ),
+                        Log::WARNING,
+                        'api'
+                    );
                 }
             }
 
-            // OK, the credentials are authenticated and user is authorised.  Let's fire the onLogin event.
+            // OK, the credentials are authenticated and user is authorised. Let's fire the onLogin event.
             $loginEvent = new LoginEvent('onUserLogin', ['subject' => (array) $response, 'options' => $options]);
             $dispatcher->dispatch('onUserLogin', $loginEvent);
             $results = $loginEvent['result'] ?? [];
