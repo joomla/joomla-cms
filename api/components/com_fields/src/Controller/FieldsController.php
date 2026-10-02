@@ -10,7 +10,7 @@
 
 namespace Joomla\Component\Fields\Api\Controller;
 
-use Joomla\CMS\Access\Exception\NotAllowed;
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\MVC\Controller\ApiController;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -92,13 +92,20 @@ class FieldsController extends ApiController
      *
      * @return  boolean
      *
+     * @since   5.4.7
      * @since   6.1.2
      */
     protected function allowAdd($data = [])
     {
+        $user     = $this->app->getIdentity();
         [$option] = explode('.', $this->getContextFromInput());
 
-        return $this->app->getIdentity()->authorise('core.create', $option);
+        // Require generic management permissions for the component
+        if (!$user->authorise('core.manage', $option)) {
+            return false;
+        }
+
+        return $user->authorise('core.create', $option);
     }
 
     /**
@@ -111,6 +118,7 @@ class FieldsController extends ApiController
      *
      * @return  boolean
      *
+     * @since   5.4.7
      * @since   6.1.2
      */
     protected function allowEdit($data = [], $key = 'id')
@@ -119,9 +127,29 @@ class FieldsController extends ApiController
         $user     = $this->app->getIdentity();
         [$option] = explode('.', $this->getContextFromInput());
 
+        // Require generic management permissions for the component
+        if (!$user->authorise('core.manage', $option)) {
+            return false;
+        }
+
         // Zero record (id:0), return component edit permission by calling parent controller method
         if (!$recordId) {
             return $user->authorise('core.edit', $option);
+        }
+
+        // Get existing record
+        $inflector = InflectorFactory::create()->build();
+        $record    = $this->getModel($inflector->singularize($this->contentType))->getItem($recordId);
+
+        if (empty($record)) {
+            return false;
+        }
+
+        [$recordOption] = explode('.', $record->context);
+
+        // Validate request context and field context match
+        if ($recordOption !== $option) {
+            return false;
         }
 
         // Check edit on the record asset (explicit or inherited)
@@ -131,13 +159,6 @@ class FieldsController extends ApiController
 
         // Check edit own on the record asset (explicit or inherited)
         if ($user->authorise('core.edit.own', $option . '.field.' . $recordId)) {
-            // Existing record already has an owner, get it
-            $record = $this->getModel()->getItem($recordId);
-
-            if (empty($record)) {
-                return false;
-            }
-
             // Grant if current user is owner of the record
             return $user->id == $record->created_user_id;
         }
@@ -146,22 +167,23 @@ class FieldsController extends ApiController
     }
 
     /**
-     * Removes an item.
+     * Method to check if it's allowed to delete a record
      *
-     * @param   integer  $id  The primary key to delete item.
+     * @return  boolean
      *
-     * @return  void
-     *
-     * @since   6.1.2
+     * @since   5.4.8
+     * @since   6.1.3
      */
-    public function delete($id = null)
+    protected function allowDelete(): bool
     {
         [$option] = explode('.', $this->getContextFromInput());
+        $user     = $this->app->getIdentity();
 
-        if (!$this->app->getIdentity()->authorise('core.delete', $option)) {
-            throw new NotAllowed('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED', 403);
+        // Require generic management permissions for the component
+        if (!$user->authorise('core.manage', $option)) {
+            return false;
         }
 
-        parent::delete($id);
+        return $user->authorise('core.delete', $option);
     }
 }

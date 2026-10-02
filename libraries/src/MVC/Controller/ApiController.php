@@ -299,7 +299,9 @@ class ApiController extends BaseController
      */
     public function delete($id = null)
     {
-        if (!$this->app->getIdentity()->authorise('core.delete', $this->option)) {
+        if (
+            !$this->allowDelete()
+        ) {
             throw new NotAllowed('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED', 403);
         }
 
@@ -549,7 +551,42 @@ class ApiController extends BaseController
      */
     protected function allowEdit($data = [], $key = 'id')
     {
-        return $this->app->getIdentity()->authorise('core.edit', $this->option);
+        $user = $this->app->getIdentity();
+        $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
+
+        if (!$user->authorise('core.manage', $this->option)) {
+            return false;
+        }
+
+        // No record: fall back to the component permission.
+        if (!$recordId) {
+            return $user->authorise('core.edit', $this->option);
+        }
+
+        $inflector = InflectorFactory::create()->build();
+        $asset = $this->option . '.' . $inflector->singularize($this->contentType) . '.' . $recordId;
+
+        // Check edit on the record asset (explicit or inherited)
+        if ($user->authorise('core.edit', $asset)) {
+            return true;
+        }
+
+        $table = $this->getModel($inflector->singularize($this->contentType))->getTable();
+
+        // Check edit own on the record asset (explicit or inherited)
+        if ($table->hasField('created_by') && $user->authorise('core.edit.own', $asset)) {
+            // Existing record already has an owner, get it
+            $table->load($recordId);
+
+            if (empty($table->getId())) {
+                return false;
+            }
+
+            // Grant if current user is owner of the record
+            return $user->id == $table->created_by;
+        }
+
+        return false;
     }
 
     /**
@@ -567,7 +604,31 @@ class ApiController extends BaseController
     {
         $user = $this->app->getIdentity();
 
+        if (!$user->authorise('core.manage', $this->option)) {
+            return false;
+        }
+
         return $user->authorise('core.create', $this->option) || \count($user->getAuthorisedCategories($this->option, 'core.create'));
+    }
+
+    /**
+     * Method to check if it's allowed to delete a record
+     *
+     * @return  boolean
+     *
+     * @since   5.4.8
+     * @since   6.1.3
+     */
+    protected function allowDelete(): bool
+    {
+        $user = $this->app->getIdentity();
+
+        // Require generic management permissions for the component
+        if (!$user->authorise('core.manage', $this->option)) {
+            return false;
+        }
+
+        return $user->authorise('core.delete', $this->option);
     }
 
     /**

@@ -46,7 +46,7 @@
     }
 
     li {
-      padding-inline-start: $treeselect-indent;
+      padding-inline-start: ($treeselect-indent + 15px);
     }
   }
 
@@ -67,6 +67,16 @@
     color: var(--template-link-color);
     text-align: center;
     cursor: pointer;
+    // The chevron class lands on the toggle itself, not on a child element,
+    // and the collapsed state is chevron-left under RTL.
+    &.#{$jicon-css-prefix}-chevron-right,
+    &.#{$jicon-css-prefix}-chevron-left {
+      margin-inline-start: -16px;
+    }
+
+    &.#{$jicon-css-prefix}-chevron-down {
+      margin-inline-start: -22px;
+    }
   }
 
   .treeselect-menu {

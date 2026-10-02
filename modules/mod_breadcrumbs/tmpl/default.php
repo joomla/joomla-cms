@@ -118,9 +118,16 @@ use Joomla\CMS\WebAsset\WebAssetManager;
         /** @var WebAssetManager $wa */
         $wa = $app->getDocument()->getWebAssetManager();
         $prettyPrint = JDEBUG ? JSON_PRETTY_PRINT : 0;
+        $bitmask = JSON_UNESCAPED_SLASHES
+            | JSON_HEX_TAG
+            | JSON_HEX_AMP
+            | JSON_HEX_APOS
+            | JSON_HEX_QUOT
+            | JSON_UNESCAPED_UNICODE
+            | $prettyPrint;
         $wa->addInline(
             'script',
-            json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | $prettyPrint),
+            json_encode($data, $bitmask),
             ['name' => 'inline.breadcrumbs-schemaorg'],
             ['type' => 'application/ld+json']
         );
