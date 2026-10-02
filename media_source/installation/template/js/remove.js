@@ -10,6 +10,7 @@ document.title = Joomla.Text._('INSTL_PAGE_TITLE') + ': ' + Joomla.Text._('INSTL
 if (document.getElementById('installAddFeatures')) {
   document.getElementById('installAddFeatures').addEventListener('click', function (e) {
     e.preventDefault();
+    document.title = Joomla.Text._('INSTL_PAGE_TITLE') + ': ' + Joomla.Text._('INSTL_COMPLETE_ADD_EXTRA_LANGUAGE');
     document.getElementById('installLanguages').classList.add('active');
     document.getElementById('automatedUpdates')?.classList?.remove('active');
     document.getElementById('installCongrat').classList.remove('active');
@@ -21,6 +22,7 @@ if (document.getElementById('installAddFeatures')) {
 if (document.getElementById('skipLanguages')) {
   document.getElementById('skipLanguages').addEventListener('click', function (e) {
     e.preventDefault();
+    document.title = Joomla.Text._('INSTL_PAGE_TITLE') + ': ' + Joomla.Text._('INSTL_COMPLETE_TITLE');
     document.getElementById('automatedUpdates')?.classList?.add('active');
     document.getElementById('installCongrat').classList.add('active');
     document.getElementById('installFinal').classList.add('active');
