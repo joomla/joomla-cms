@@ -54,14 +54,14 @@ class MVCFactory implements
     SiteRouterAwareInterface,
     UserFactoryAwareInterface
 {
-    use FormFactoryAwareTrait;
-    use DispatcherAwareTrait;
-    use DatabaseAwareTrait;
-    use SiteRouterAwareTrait;
     use CacheControllerFactoryAwareTrait;
-    use UserFactoryAwareTrait;
-    use MailerFactoryAwareTrait;
+    use DatabaseAwareTrait;
+    use DispatcherAwareTrait;
+    use FormFactoryAwareTrait;
     use LanguageFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
+    use SiteRouterAwareTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * The namespace to create the objects from.
