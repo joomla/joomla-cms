@@ -13,7 +13,6 @@ namespace Joomla\Component\Users\Site\View\Login;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Site\Model\LoginModel;
@@ -87,15 +86,11 @@ class HtmlView extends BaseHtmlView
     {
         /** @var LoginModel $model */
         $model        = $this->getModel();
+        $model->setUseExceptions(true);
         $this->user   = $this->getCurrentUser();
         $this->form   = $model->getForm();
         $this->state  = $model->getState();
         $this->params = $this->state->get('params');
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         // Check for layout override
         $active = Factory::getApplication()->getMenu()->getActive();

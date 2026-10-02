@@ -11,7 +11,6 @@
 namespace Joomla\Component\Languages\Api\View\Strings;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Serializer\JoomlaSerializer;
 use Tobscure\JsonApi\Collection;
@@ -52,6 +51,7 @@ class JsonapiView extends BaseApiView
     {
         /** @var \Joomla\Component\Languages\Administrator\Model\StringsModel $model */
         $model  = $this->getModel();
+        $model->setUseExceptions(true);
         $result = $model->search();
 
         if ($result instanceof \Exception) {
@@ -62,11 +62,6 @@ class JsonapiView extends BaseApiView
 
         foreach ($result['results'] as $item) {
             $items[] = $this->prepareItem($item);
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         if ($this->type === null) {

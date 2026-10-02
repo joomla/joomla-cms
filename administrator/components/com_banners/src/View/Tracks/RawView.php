@@ -12,7 +12,6 @@ namespace Joomla\Component\Banners\Administrator\View\Tracks;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Banners\Administrator\Model\TracksModel;
 
@@ -42,15 +41,12 @@ class RawView extends BaseHtmlView
     {
         /** @var TracksModel $model */
         $model    = $this->getModel();
+        $model->setUseExceptions(true);
+
         $basename = $model->getBaseName();
         $fileType = $model->getFileType();
         $mimeType = $model->getMimeType();
         $content  = $model->getContent();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         $this->getDocument()->setMimeEncoding($mimeType);
 
