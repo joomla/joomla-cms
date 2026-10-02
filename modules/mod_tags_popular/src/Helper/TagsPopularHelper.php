@@ -123,6 +123,14 @@ class TagsPopularHelper implements DatabaseAwareInterface
                 '(' . $db->quoteName('c.core_access') . ' IN (' . implode(',', $query->bindArray($groups)) . ')'
                     . ' OR ' . $db->quoteName('c.core_access') . ' = 0)'
             )
+            ->extendWhere(
+                'AND',
+                [
+                    $db->quoteName('c.core_catid') . ' = 0',
+                    $db->quoteName('cat.access') . ' IN (' . implode(',', $query->bindArray($groups)) . ')',
+                ],
+                'OR'
+            )
             ->where(
                 '(' . $db->quoteName('c.core_publish_up') . ' IS NULL'
                     . ' OR ' . $db->quoteName('c.core_publish_up') . ' = :nullDate2'
