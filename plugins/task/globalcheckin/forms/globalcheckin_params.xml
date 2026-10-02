@@ -11,7 +11,7 @@
 				min="0"
 				step="1"
 				validate="number"
-				filter="int"
+				filter="integer"
 			/>
 		</fieldset>
 	</fields>
