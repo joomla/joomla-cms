@@ -14,6 +14,7 @@ use Joomla\CMS\Event\Content\AfterDisplayEvent;
 use Joomla\CMS\Event\Content\AfterTitleEvent;
 use Joomla\CMS\Event\Content\BeforeDisplayEvent;
 use Joomla\CMS\Event\Content\ContentPrepareEvent;
+use Joomla\CMS\Event\Content\ItemsDisplayEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -101,6 +102,13 @@ class HtmlView extends BaseHtmlView
     protected $params = null;
 
     /**
+     * Prepared dispatcher result for category
+     * @var  \stdClass
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $eventResult;
+
+    /**
      * Execute and display a template script.
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -137,7 +145,7 @@ class HtmlView extends BaseHtmlView
         $dispatcher = $this->getDispatcher();
         PluginHelper::importPlugin('content', null, true, $dispatcher);
 
-        // Compute the article slugs and prepare introtext (runs content plugins).
+        // Compute the article prepare introtext (runs content plugins).
         foreach ($items as &$item) {
             $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
@@ -146,13 +154,14 @@ class HtmlView extends BaseHtmlView
                 $item->parent_id = null;
             }
 
-            $item->event = new \stdClass();
+            $dispatcher->dispatch(
+                'onContentPrepare',
+                new ContentPrepareEvent('onContentPrepare', ['context' => 'com_content.featured', 'subject' => $item, 'params' => $item->params, 'page' => 0])
+            );
+        }
 
-            // Old plugins: Ensure that text property is available
-            if (!isset($item->text)) {
-                $item->text = $item->introtext;
-            }
-
+        // Compute the article texts (runs content plugins).
+        foreach ($items as &$item) {
             $contentEventArguments = [
                 'context' => 'com_content.featured',
                 'subject' => $item,
@@ -160,19 +169,13 @@ class HtmlView extends BaseHtmlView
                 'page'    => 0,
             ];
 
-            $dispatcher->dispatch(
-                'onContentPrepare',
-                new ContentPrepareEvent('onContentPrepare', $contentEventArguments)
-            );
-
-            // Old plugins: Use processed text as introtext
-            $item->introtext = $item->text;
-
             $contentEvents = [
                 'afterDisplayTitle'    => new AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
                 'beforeDisplayContent' => new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
                 'afterDisplayContent'  => new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
             ];
+
+            $item->event = new \stdClass();
 
             foreach ($contentEvents as $resultKey => $event) {
                 $results = $dispatcher->dispatch($event->getName(), $event)->getArgument('result', []);
@@ -204,6 +207,20 @@ class HtmlView extends BaseHtmlView
         for ($i = $numLeading + $numIntro; $i < $max; $i++) {
             $this->link_items[$i] = &$items[$i];
         }
+
+        // Prepare category in dispatcher
+        $this->eventResult     = new \stdClass();
+        $contentEventArguments = [
+            'context' => 'com_content.featured',
+            'subject' => $this,
+            'params'  => $this->params,
+            'page'    => 0,
+        ];
+        $results = $dispatcher->dispatch(
+            'onContentAfterItems',
+            new ItemsDisplayEvent('onContentAfterItems', $contentEventArguments)
+        )->getArgument('result', []);
+        $this->eventResult->afterDisplayItems = trim(implode("\n", $results));
 
         // Escape strings for HTML output
         $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
