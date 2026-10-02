@@ -52,6 +52,21 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
     public $_custom = [];
 
     /**
+     * Array of custom tags that are always rendered inside the document `<head>`,
+     * regardless of where the "scripts" document include is placed in the template.
+     *
+     * Unlike tags added through {@see addCustomTag()}, which are rendered together with the
+     * "scripts" document include and can therefore end up outside of the `<head>` element when
+     * a template places that include elsewhere (e.g. at the end of the body for performance
+     * reasons), tags added through {@see addHeadTag()} are always rendered by the "metas"
+     * document include.
+     *
+     * @var    array
+     * @since  __DEPLOY_VERSION__
+     */
+    public $_customHead = [];
+
+    /**
      * Name of the template
      *
      * @var    string
@@ -169,6 +184,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
         $data['scripts']       = $this->_scripts;
         $data['script']        = $this->_script;
         $data['custom']        = $this->_custom;
+        $data['customHead']    = $this->_customHead;
 
         /**
          * @deprecated  4.0 will be removed in 6.0
@@ -222,6 +238,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             $this->_scripts      = [];
             $this->_script       = [];
             $this->_custom       = [];
+            $this->_customHead   = [];
             $this->scriptOptions = [];
         }
 
@@ -263,6 +280,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             case 'scripts':
             case 'script':
             case 'custom':
+            case 'customHead':
                 $realType          = '_' . $type;
                 $this->{$realType} = [];
                 break;
@@ -298,6 +316,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
         $this->_scripts      = $data['scripts'] ?? $this->_scripts;
         $this->_script       = $data['script'] ?? $this->_script;
         $this->_custom       = $data['custom'] ?? $this->_custom;
+        $this->_customHead   = $data['customHead'] ?? $this->_customHead;
         $this->scriptOptions = (isset($data['scriptOptions']) && !empty($data['scriptOptions'])) ? $data['scriptOptions'] : $this->scriptOptions;
 
         // Restore asset manager state
@@ -390,6 +409,10 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             ? array_unique(array_merge($this->_custom, $data['custom']))
             : $this->_custom;
 
+        $this->_customHead = (isset($data['customHead']) && !empty($data['customHead']) && \is_array($data['customHead']))
+            ? array_unique(array_merge($this->_customHead, $data['customHead']))
+            : $this->_customHead;
+
         if (!empty($data['scriptOptions'])) {
             foreach ($data['scriptOptions'] as $key => $scriptOptions) {
                 $this->addScriptOptions($key, $scriptOptions, true);
@@ -478,6 +501,28 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
     public function addCustomTag($html)
     {
         $this->_custom[] = trim($html);
+
+        return $this;
+    }
+
+    /**
+     * Adds a custom HTML string that is always rendered inside the document `<head>`,
+     * regardless of where the "scripts" document include is placed in the template.
+     *
+     * Use this instead of addCustomTag() for markup that is only valid inside `<head>`
+     * (for example `<link>` or `<meta>` tags), as addCustomTag() is rendered together with
+     * the "scripts" document include and can therefore end up outside of the `<head>`
+     * element when a template places that include elsewhere, e.g. at the end of the body.
+     *
+     * @param   string  $html  The HTML to add to the head
+     *
+     * @return  HtmlDocument instance of $this to allow chaining
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function addHeadTag($html)
+    {
+        $this->_customHead[] = trim($html);
 
         return $this;
     }
