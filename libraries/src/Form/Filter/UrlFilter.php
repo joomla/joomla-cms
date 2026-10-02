@@ -79,7 +79,7 @@ class UrlFilter implements FormFilterInterface
             $host = Uri::getInstance('SERVER')->getHost();
 
             // If it starts with the host string, just prepend the protocol.
-            if (substr($value, 0) === $host) {
+            if ($host && preg_match('#^' . preg_quote($host, '#') . '(?:[/:?\#]|$)#i', $value)) {
                 $value = 'http://' . $value;
             } elseif (!str_starts_with($value, '/')) {
                 // Otherwise if it doesn't start with "/" prepend the prefix of the current site.
