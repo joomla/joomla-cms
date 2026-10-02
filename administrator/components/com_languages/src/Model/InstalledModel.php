@@ -17,6 +17,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\Table\Extension;
 use Joomla\Filesystem\Folder;
 use Joomla\Utilities\ArrayHelper;
@@ -293,6 +294,12 @@ class InstalledModel extends ListModel
 
             // Load.
             if (!$table->load($id)) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -302,6 +309,12 @@ class InstalledModel extends ListModel
 
             // Pre-save checks.
             if (!$table->check()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -309,11 +322,21 @@ class InstalledModel extends ListModel
 
             // Save the changes.
             if (!$table->store()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
             }
         } else {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'));
+            }
+
             $this->setError(Text::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'));
 
             return false;
