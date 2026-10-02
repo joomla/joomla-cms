@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
+use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Database\QueryInterface;
 use Joomla\String\StringHelper;
 
@@ -116,9 +117,9 @@ class SearchModel extends ListModel
         foreach ($items as $row) {
             // Build the result object.
             if (\is_resource($row->object)) {
-                $result = unserialize(stream_get_contents($row->object));
+                $result = unserialize(stream_get_contents($row->object), ['allowed_classes' => [Result::class]]);
             } else {
-                $result = unserialize($row->object);
+                $result = unserialize($row->object, ['allowed_classes' => [Result::class]]);
             }
 
             $result->cleanURL = $result->route;

@@ -68,7 +68,16 @@ class OutputController extends CacheController
         // Check again because we might get it from second attempt
         if ($data !== false) {
             // Trim to fix unserialize errors
-            $data = unserialize(trim($data));
+            $trimmed = trim($data);
+
+            // Try secure deserialization first
+            $data = @unserialize($trimmed, ['allowed_classes' => false]);
+
+            // Fallback for backward compatibility: if secure unserialize failed and the serialized data is not boolean false
+            if ($data === false && $trimmed !== 'b:0;') {
+                // Legacy fallback to preserve existing cache entries that store objects
+                $data = unserialize($trimmed);
+            }
         }
 
         return $data;
