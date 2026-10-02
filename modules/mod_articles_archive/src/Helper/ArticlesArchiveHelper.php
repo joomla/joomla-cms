@@ -6,7 +6,9 @@
  *
  * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
+ *
+ * @deprecated  6.2 will be removed in 8.0 without replacement. Use mod_article.
+*/
 
 namespace Joomla\Module\ArticlesArchive\Site\Helper;
 
@@ -29,6 +31,8 @@ use Joomla\Registry\Registry;
  * Helper for mod_articles_archive
  *
  * @since  1.5
+ *
+ * @deprecated  6.2 will be removed in 8.0 without replacement. Use mod_article.
  */
 class ArticlesArchiveHelper implements DatabaseAwareInterface
 {
