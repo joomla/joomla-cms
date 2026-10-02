@@ -170,6 +170,7 @@ class SearchModel extends ListModel
         $user   = $this->getCurrentUser();
         $groups = $this->getState('user.groups', $user->getAuthorisedViewLevels());
         $query->whereIn($db->quoteName('l.access'), $groups)
+            ->whereIn($db->quoteName('l.cat_access'), $groups)
             ->where('l.state = 1')
             ->where('l.published = 1');
 
