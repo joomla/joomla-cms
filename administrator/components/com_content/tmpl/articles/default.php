@@ -267,11 +267,14 @@ $assoc = Associations::isEnabled();
                                             ? ' - ' . $upcoming->failureReason
                                             : '';
     ?>
-                                        <div class="small mt-1">
-                                            <span class="badge <?php echo $chipClass; ?> hasTooltip" <?php echo $chipTip !== '' ? ' title="' . htmlspecialchars($chipTip, ENT_QUOTES, 'UTF-8') . '"' : ''; ?>>
+                                                                                <div class="small mt-1">
+                                            <span class="badge <?php echo $chipClass; ?>"<?php echo $chipTip !== '' ? ' tabindex="0" aria-describedby="upcoming' . (int) $item->id . '-desc"' : ''; ?>>
                                                 <span class="<?php echo $chipIcon; ?>" aria-hidden="true"></span>
-                                                <?php echo htmlspecialchars(Text::_($upcoming->toStage), ENT_QUOTES, 'UTF-8'); ?>
+                                                <?php echo htmlspecialchars(Text::_($upcoming->transitionTitle), ENT_QUOTES, 'UTF-8'); ?>
                                             </span>
+                                            <?php if ($chipTip !== '') : ?>
+                                                <div role="tooltip" id="upcoming<?php echo (int) $item->id; ?>-desc"><?php echo htmlspecialchars($chipTip, ENT_QUOTES, 'UTF-8'); ?></div>
+                                            <?php endif; ?>
                                         </div>
                                     <?php endif; ?>
                                 </td>

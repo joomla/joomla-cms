@@ -29,6 +29,7 @@ final class UpcomingTransition
      * @param   string          $editUrl         Un-routed admin edit link, or '' when not linkable.
      * @param   string          $fromStage       Title of the stage the item is leaving.
      * @param   string          $toStage         Title of the stage the item moves to.
+     * @param   string          $transitionTitle  Title of the transition that will run.
      * @param   \DateTime|null  $firesAt         When the move is due (UTC), or null if uncomputable.
      * @param   string          $status          scheduled | needs_attention | not_scheduled | rule_error.
      * @param   string          $failureReason   Why the rule could not be read, or '' when it could.
@@ -50,6 +51,7 @@ final class UpcomingTransition
         public readonly string $editUrl,
         public readonly string $fromStage,
         public readonly string $toStage,
+        public readonly string $transitionTitle,
         public readonly ?\DateTime $firesAt,
         public readonly string $status,
         public readonly string $failureReason,

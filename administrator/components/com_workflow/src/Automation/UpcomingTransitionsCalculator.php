@@ -510,6 +510,7 @@ final class UpcomingTransitionsCalculator
                     $db->quoteName('wis.last_failure_at'),
                     $db->quoteName('wis.last_failure_reason'),
                     $db->quoteName('wt.id', 'transition_id'),
+                    $db->quoteName('wt.title', 'transition_title'),
                     // The item's own stage, since a transition from any stage stores -1 as its from stage.
                     $db->quoteName('wis.stage_id', 'from_stage_id'),
                     $db->quoteName('wt.to_stage_id'),
@@ -582,6 +583,7 @@ final class UpcomingTransitionsCalculator
             editUrl: $this->buildEditUrl($row),
             fromStage: (string) ($row->from_stage_title ?? ''),
             toStage: (string) ($row->to_stage_title ?? ''),
+            transitionTitle: (string) ($row->transition_title ?? ''),
             firesAt: $firesAt,
             status: $status,
             failureReason: $failureReason,

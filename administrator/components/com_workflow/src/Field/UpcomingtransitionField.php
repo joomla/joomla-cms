@@ -167,11 +167,14 @@ class UpcomingtransitionField extends FormField
         return '<div class="card mb-3">'
             . '<div class="card-body">'
             . '<h4 class="h6 text-uppercase mb-2">' . Text::_('COM_WORKFLOW_UPCOMING_ARTICLE_LABEL') . '</h4>'
-            . '<div class="mb-2">'
-            . '<span class="badge bg-secondary">' . htmlspecialchars(Text::_($upcoming->fromStage), ENT_QUOTES, 'UTF-8') . '</span> '
-            . '<span class="icon-' . $arrow . '" aria-hidden="true"></span> '
-            . '<span class="badge bg-secondary">' . htmlspecialchars(Text::_($upcoming->toStage), ENT_QUOTES, 'UTF-8') . '</span>'
-            . '</div>'
+            . '<div class="mb-2"><strong>' . htmlspecialchars(Text::_($upcoming->transitionTitle), ENT_QUOTES, 'UTF-8') . '</strong></div>'
+            . ($upcoming->fromStage !== $upcoming->toStage
+                ? '<div class="small mb-2">'
+                . htmlspecialchars(Text::_($upcoming->fromStage), ENT_QUOTES, 'UTF-8') . ' '
+                . '<span class="icon-' . $arrow . '" aria-hidden="true"></span> '
+                . htmlspecialchars(Text::_($upcoming->toStage), ENT_QUOTES, 'UTF-8')
+                . '</div>'
+                : '')
             . '<div class="mb-1">' . $fires . '</div>'
             . '<div class="small">' . $trigger . '</div>'
             . '</div></div>';

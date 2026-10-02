@@ -91,8 +91,8 @@ $user      = $this->getCurrentUser();
                                         $transitionEdit = $user->authorise('core.edit', $parts[0] . '.transition.' . (int) $item->transition_id)
                                             ? Route::_(
                                                 'index.php?option=com_workflow&task=transition.edit&id=' . (int) $item->transition_id
-                                                . '&workflow_id=' . (int) $item->workflow_id
-                                                . '&extension=' . $this->escape((string) $item->extension)
+                                                    . '&workflow_id=' . (int) $item->workflow_id
+                                                    . '&extension=' . $this->escape((string) $item->extension)
                                             )
                                             : '';
                                         ?>
@@ -103,9 +103,11 @@ $user      = $this->getCurrentUser();
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <?php echo $item->from_stage ? $this->escape(Text::_($item->from_stage)) : (int) $item->from_stage_id; ?>
-                                        <span aria-hidden="true">&#8594;</span>
-                                        <?php echo $item->to_stage ? $this->escape(Text::_($item->to_stage)) : (int) $item->to_stage_id; ?>
+                                        <?php if ($item->from_stage_id !== $item->to_stage_id) : ?>
+                                            <?php echo $item->from_stage ? $this->escape(Text::_($item->from_stage)) : (int) $item->from_stage_id; ?>
+                                            <span aria-hidden="true">&#8594;</span>
+                                            <?php echo $item->to_stage ? $this->escape(Text::_($item->to_stage)) : (int) $item->to_stage_id; ?>
+                                        <?php endif; ?>
                                     </td>
                                     <td><?php echo $item->run_as_name ? $this->escape($item->run_as_name) : Text::_('COM_WORKFLOW_LOGS_RUN_AS_SYSTEM'); ?></td>
                                     <td class="text-center">

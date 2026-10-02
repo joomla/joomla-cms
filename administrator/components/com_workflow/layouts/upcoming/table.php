@@ -86,9 +86,14 @@ $unitKeys = [
                     </td>
                 <?php endif; ?>
                 <td>
-                    <span class="badge bg-secondary"><?php echo htmlspecialchars(Text::_($transition->fromStage), ENT_QUOTES, 'UTF-8'); ?></span>
-                    <span class="icon-<?php echo $arrow; ?> icon-fw" aria-hidden="true"></span>
-                    <span class="badge bg-secondary"><?php echo htmlspecialchars(Text::_($transition->toStage), ENT_QUOTES, 'UTF-8'); ?></span>
+                    <?php echo htmlspecialchars(Text::_($transition->transitionTitle), ENT_QUOTES, 'UTF-8'); ?>
+                    <?php if ($transition->fromStage !== $transition->toStage) : ?>
+                        <div class="small">
+                            <?php echo htmlspecialchars(Text::_($transition->fromStage), ENT_QUOTES, 'UTF-8'); ?>
+                            <span class="icon-<?php echo $arrow; ?> icon-fw" aria-hidden="true"></span>
+                            <?php echo htmlspecialchars(Text::_($transition->toStage), ENT_QUOTES, 'UTF-8'); ?>
+                        </div>
+                    <?php endif; ?>
                 </td>
                 <td>
                     <?php if ($transition->status === 'needs_attention') : ?>

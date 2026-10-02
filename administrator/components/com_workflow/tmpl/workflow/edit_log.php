@@ -83,9 +83,11 @@ endif;
                     </a>
                 </td>
                 <td>
-                    <span class="badge bg-secondary"><?php echo $this->escape(Text::_((string) $entry->from_stage)); ?></span>
-                    <span class="icon-<?php echo $arrow; ?> icon-fw" aria-hidden="true"></span>
-                    <span class="badge bg-secondary"><?php echo $this->escape(Text::_((string) $entry->to_stage)); ?></span>
+                    <?php if ($entry->from_stage !== $entry->to_stage) : ?>
+                        <span class="badge bg-secondary"><?php echo $this->escape(Text::_((string) $entry->from_stage)); ?></span>
+                        <span class="icon-<?php echo $arrow; ?> icon-fw" aria-hidden="true"></span>
+                        <span class="badge bg-secondary"><?php echo $this->escape(Text::_((string) $entry->to_stage)); ?></span>
+                    <?php endif; ?>
                 </td>
                 <td><?php echo $this->escape((string) $entry->run_as_name); ?></td>
                 <td class="text-center">
