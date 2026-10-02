@@ -25,7 +25,7 @@
 
 			<field
 				name="catid"
-				type="modal_category"
+				type="modal_categories"
 				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
 				extension="com_content"
 				select="true"
@@ -34,6 +34,19 @@
 				clear="true"
 				showon="enable_category:1"
 			/>
+
+			<field
+				name="limit_category_scope"
+				type="radio"
+				label="COM_CONTENT_CREATE_ARTICLE_LIMIT_SCOPE_LABEL"
+				description="COM_CONTENT_CREATE_ARTICLE_LIMIT_SCOPE_DESC"
+				layout="joomla.form.field.radio.switcher"
+				default="0"
+				showon="enable_category:1"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 
 			<field
 				name="redirect_menuitem"

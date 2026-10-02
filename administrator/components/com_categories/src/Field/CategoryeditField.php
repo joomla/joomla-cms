@@ -29,6 +29,14 @@ use Joomla\Utilities\ArrayHelper;
 class CategoryeditField extends ListField
 {
     /**
+     * Maximum number of scope root categories to prevent performance issues.
+     *
+     * @var    int
+     * @since  6.1.0
+     */
+    const MAX_SCOPE_ROOTS = 50;
+
+    /**
      * To allow creation of new categories.
      *
      * @var    integer
@@ -43,6 +51,15 @@ class CategoryeditField extends ListField
      * @since  3.9.11
      */
     protected $customPrefix;
+
+    /**
+     * Optional scope root category ID(s) to limit visible categories.
+     * Can be a single integer ID or comma-separated string of IDs.
+     *
+     * @var    string|integer
+     * @since  6.1.0
+     */
+    protected $scopeRoot;
 
     /**
      * A flexible category list that respects access controls
@@ -81,6 +98,7 @@ class CategoryeditField extends ListField
         if ($return) {
             $this->allowAdd     = isset($this->element['allowAdd']) ? (bool) $this->element['allowAdd'] : false;
             $this->customPrefix = (string) $this->element['customPrefix'];
+            $this->scopeRoot    = isset($this->element['scope_root']) ? (string) $this->element['scope_root'] : '';
         }
 
         return $return;
@@ -101,6 +119,8 @@ class CategoryeditField extends ListField
             case 'allowAdd':
                 return (bool) $this->$name;
             case 'customPrefix':
+                return $this->$name;
+            case 'scopeRoot':
                 return $this->$name;
         }
 
@@ -127,6 +147,9 @@ class CategoryeditField extends ListField
                 $this->$name = ($value === 'true' || $value === $name || $value === '1');
                 break;
             case 'customPrefix':
+                $this->$name = (string) $value;
+                break;
+            case 'scopeRoot':
                 $this->$name = (string) $value;
                 break;
             default:
@@ -217,6 +240,96 @@ class CategoryeditField extends ListField
         if (!$user->authorise('core.admin')) {
             $groups = $user->getAuthorisedViewLevels();
             $query->whereIn($db->quoteName('a.access'), $groups);
+        }
+
+        // Filter by scope root category/categories if specified (limit to selected categories and descendants)
+        if ($this->scopeRoot && !$isParentCategoryField) {
+            $scopeRootInput = trim((string) $this->scopeRoot);
+
+            // Validate input format - only accept numbers and commas
+            if (!preg_match('/^[\d,\s]+$/', $scopeRootInput)) {
+                Factory::getApplication()->enqueueMessage(
+                    Text::_('COM_CATEGORIES_INVALID_SCOPE_ROOT_FORMAT'),
+                    'warning'
+                );
+                $scopeRootInput = '';
+            }
+
+            if ($scopeRootInput) {
+                // Parse the IDs
+                $scopeRootIds = array_map('intval', explode(',', str_replace(' ', '', $scopeRootInput)));
+
+                // Filter out invalid IDs
+                $scopeRootIds = array_filter($scopeRootIds, function ($id) {
+                    return $id > 0 && $id <= PHP_INT_MAX;
+                });
+
+                // Remove duplicates
+                $scopeRootIds = array_unique($scopeRootIds);
+
+                // Limit to reasonable number to prevent performance issues
+                if (count($scopeRootIds) > self::MAX_SCOPE_ROOTS) {
+                    $scopeRootIds = array_slice($scopeRootIds, 0, self::MAX_SCOPE_ROOTS);
+                    Factory::getApplication()->enqueueMessage(
+                        Text::sprintf('COM_CATEGORIES_SCOPE_ROOT_LIMIT_EXCEEDED', self::MAX_SCOPE_ROOTS),
+                        'warning'
+                    );
+                }
+
+                if (!empty($scopeRootIds)) {
+                    // Get the lft and rgt values for all scope root categories
+                    $scopeQuery = $db->createQuery()
+                        ->select([$db->quoteName('id'), $db->quoteName('lft'), $db->quoteName('rgt')])
+                        ->from($db->quoteName('#__categories'))
+                        ->whereIn($db->quoteName('id'), $scopeRootIds, ParameterType::INTEGER);
+                    $db->setQuery($scopeQuery);
+
+                    try {
+                        $scopeCategories = $db->loadObjectList();
+
+                        if (!empty($scopeCategories)) {
+                            $scopeConditions = [];
+
+                            foreach ($scopeCategories as $i => $scopeCat) {
+                                // Make sure we have valid nested set data
+                                if (!isset($scopeCat->lft, $scopeCat->rgt)
+                                    || !is_numeric($scopeCat->lft)
+                                    || !is_numeric($scopeCat->rgt)
+                                    || $scopeCat->lft < 0
+                                    || $scopeCat->rgt < 0
+                                    || $scopeCat->lft >= $scopeCat->rgt) {
+                                    continue;
+                                }
+
+                                // Build condition for this category and its descendants
+                                $lftParam = ':scopelft' . $i;
+                                $rgtParam = ':scopergt' . $i;
+                                $scopeConditions[] = '(' . $db->quoteName('a.lft') . ' >= ' . $lftParam
+                                    . ' AND ' . $db->quoteName('a.rgt') . ' <= ' . $rgtParam . ')';
+                                $query->bind($lftParam, (int) $scopeCat->lft, ParameterType::INTEGER)
+                                      ->bind($rgtParam, (int) $scopeCat->rgt, ParameterType::INTEGER);
+                            }
+
+                            // Apply the scope filter if we have any valid conditions
+                            if (!empty($scopeConditions)) {
+                                $query->where('(' . implode(' OR ', $scopeConditions) . ')');
+                            }
+                        }
+                    } catch (\RuntimeException $e) {
+                        // Log for debugging but don't expose internal errors to users
+                        \Joomla\CMS\Log\Log::add(
+                            'Error loading scope categories: ' . $e->getMessage(),
+                            \Joomla\CMS\Log\Log::WARNING,
+                            'com_categories'
+                        );
+
+                        Factory::getApplication()->enqueueMessage(
+                            Text::_('COM_CATEGORIES_ERROR_LOADING_SCOPE_FILTER'),
+                            'warning'
+                        );
+                    }
+                }
+            }
         }
 
         $query->order($db->quoteName('a.lft') . ' ASC');
