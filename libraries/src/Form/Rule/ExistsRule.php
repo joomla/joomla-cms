@@ -45,7 +45,12 @@ class ExistsRule extends FormRule implements DatabaseAwareInterface
      */
     public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
-        $value = trim($value);
+        $value    = trim((string) $value);
+        $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
+
+        if ($value === '') {
+            return !$required;
+        }
 
         $existsTable  = (string) $element['exists_table'];
         $existsColumn = (string) $element['exists_column'];
@@ -61,6 +66,17 @@ class ExistsRule extends FormRule implements DatabaseAwareInterface
         }
 
         $db = $this->getDatabase();
+
+        $columns = $db->getTableColumns($existsTable);
+        $type    = strtolower($columns[$existsColumn] ?? '');
+
+        if (str_contains($type, 'int')) {
+            $maxDigits = str_contains($type, 'big') ? 18 : (str_contains($type, 'small') || str_contains($type, 'tiny') ? 4 : 9);
+        
+            if (!preg_match('/^-?\d{1,' . $maxDigits . '}\z/', $value)) {
+                return false;
+            }
+        }
 
         // Set and query the database.
         $exists = $db->setQuery(
