@@ -24,7 +24,7 @@ describe('Test in backend that the content history list', () => {
 
     const currentDate = new Date();
     const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
-    cy.get('joomla-dialog[type="iframe"]').as('dialogContent');
+    cy.get('joomla-dialog[type="iframe"] dialog').as('dialogContent');
     cy.get('@dialogContent').should('be.visible');
     cy.get('@dialogContent').within(() => {
       cy.get('header.joomla-dialog-header').should('contain', 'Versions');
@@ -42,7 +42,7 @@ describe('Test in backend that the content history list', () => {
     cy.clickToolbarButton('Save');
     cy.clickToolbarButton('Versions');
 
-    cy.get('joomla-dialog[type="iframe"]').as('dialogContent');
+    cy.get('joomla-dialog[type="iframe"] dialog').as('dialogContent');
     cy.get('@dialogContent').should('be.visible');
     cy.get('@dialogContent').within(() => {
       cy.get('header.joomla-dialog-header').should('contain', 'Versions');
@@ -65,7 +65,7 @@ describe('Test in backend that the content history list', () => {
     cy.clickToolbarButton('Save');
     cy.clickToolbarButton('Versions');
 
-    cy.get('joomla-dialog[type="iframe"]').as('dialogContent');
+    cy.get('joomla-dialog[type="iframe"] dialog').as('dialogContent');
     cy.get('@dialogContent').should('be.visible');
     cy.get('@dialogContent').within(() => {
       cy.get('header.joomla-dialog-header').should('contain', 'Versions');
@@ -83,7 +83,7 @@ describe('Test in backend that the content history list', () => {
     cy.clickToolbarButton('Save');
     cy.clickToolbarButton('Versions');
 
-    cy.get('joomla-dialog[type="iframe"]').as('dialogContent');
+    cy.get('joomla-dialog[type="iframe"] dialog').as('dialogContent');
     cy.get('@dialogContent').should('be.visible');
     cy.get('@dialogContent').within(() => {
       cy.get('header.joomla-dialog-header').should('contain', 'Versions');
@@ -108,7 +108,7 @@ describe('Test in backend that the content history list', () => {
     cy.clickToolbarButton('Save');
     cy.clickToolbarButton('Versions');
 
-    cy.get('joomla-dialog[type="iframe"]').as('dialogContent');
+    cy.get('joomla-dialog[type="iframe"] dialog').as('dialogContent');
     cy.get('@dialogContent').should('be.visible');
     cy.get('@dialogContent').within(() => {
       cy.get('header.joomla-dialog-header').should('contain', 'Versions');
@@ -133,7 +133,7 @@ describe('Test in backend that the content history list', () => {
     cy.clickToolbarButton('Save');
     cy.clickToolbarButton('Versions');
 
-    cy.get('joomla-dialog[type="iframe"]').as('dialogContent');
+    cy.get('joomla-dialog[type="iframe"] dialog').as('dialogContent');
     cy.get('@dialogContent').should('be.visible');
     cy.get('@dialogContent').within(() => {
       cy.get('header.joomla-dialog-header').should('contain', 'Versions');

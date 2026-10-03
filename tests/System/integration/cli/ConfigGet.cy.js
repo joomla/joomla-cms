@@ -1,6 +1,6 @@
 describe('Test CLI command config:get', () => {
   it('can get all configuration options', () => {
-    cy.exec(`php ${Cypress.expose('cmsPath')}/cli/joomla.php config:get`)
+    cy.task('executeCli', { args: ['config:get'] })
       .then((result) => {
         expect(result.stdout).to.contain('Option');
         expect(result.stdout).to.contain('Value');
@@ -10,7 +10,7 @@ describe('Test CLI command config:get', () => {
   });
 
   it('can get database configuration group', () => {
-    cy.exec(`php ${Cypress.expose('cmsPath')}/cli/joomla.php config:get --group=db`)
+    cy.task('executeCli', { args: ['config:get', '--group=db'] })
       .then((result) => {
         // Check output contains expected database configuration options
         expect(result.stdout).to.contain('Option');
@@ -30,7 +30,7 @@ describe('Test CLI command config:get', () => {
   });
 
   it('can get mail configuration group', () => {
-    cy.exec(`php ${Cypress.expose('cmsPath')}/cli/joomla.php config:get --group=mail`)
+    cy.task('executeCli', { args: ['config:get', '--group=mail'] })
       .then((result) => {
         // Check output contains expected mail configuration options
         expect(result.stdout).to.contain('Option');
@@ -49,7 +49,7 @@ describe('Test CLI command config:get', () => {
   });
 
   it('can get session configuration group', () => {
-    cy.exec(`php ${Cypress.expose('cmsPath')}/cli/joomla.php config:get --group=session`)
+    cy.task('executeCli', { args: ['config:get', '--group=session'] })
       .then((result) => {
         // Check output contains expected session configuration options
         expect(result.stdout).to.contain('Option');
@@ -65,8 +65,9 @@ describe('Test CLI command config:get', () => {
   });
 
   it('get error for non existent configuration group', () => {
-    cy.exec(`php ${Cypress.expose('cmsPath')}/cli/joomla.php config:get --group=test`, { failOnNonZeroExit: false })
+    cy.task('executeCli', { args: ['config:get', '--group=test'], failOnNonZeroExit: false })
       .then((result) => {
+        expect(result.exitCode).to.equal(1);
         expect(result.stdout).to.contain('[ERROR] Group *test* not found');
       });
   });
