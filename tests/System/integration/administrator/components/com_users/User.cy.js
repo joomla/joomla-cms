@@ -16,6 +16,17 @@ describe('Test in backend that the user form', () => {
     cy.contains('test user');
   });
 
+  it('can create a new user from the selected group filter', () => {
+    cy.visit('/administrator/index.php?option=com_users&view=users');
+
+    cy.setFilter('group_id', '- Manager');
+
+    cy.clickToolbarButton('New');
+
+    cy.get('input[name="jform[groups][]"][value="6"]')
+      .should('be.checked');
+  });
+
   it('can edit a user', () => {
     cy.db_createUser().then((id) => {
       cy.visit(`/administrator/index.php?option=com_users&task=user.edit&id=${id}`);
