@@ -44,6 +44,14 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
     public $_links = [];
 
     /**
+     * Array of Header `<link rel="alternate" hreflang=".....">` tags
+     *
+     * @var    array
+     * @since  __DEPLOY_VERSION__
+     */
+    public $_hreflangs = [];
+
+    /**
      * Array of custom tags
      *
      * @var    array
@@ -164,6 +172,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
         $data['link']          = $this->link;
         $data['metaTags']      = $this->_metaTags;
         $data['links']         = $this->_links;
+        $data['hreflangs']     = $this->_hreflangs;
         $data['styleSheets']   = $this->_styleSheets;
         $data['style']         = $this->_style;
         $data['scripts']       = $this->_scripts;
@@ -217,6 +226,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             $this->link          = '';
             $this->_metaTags     = [];
             $this->_links        = [];
+            $this->_hreflangs    = [];
             $this->_styleSheets  = [];
             $this->_style        = [];
             $this->_scripts      = [];
@@ -293,6 +303,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
         $this->link          = $data['link'] ?? $this->link;
         $this->_metaTags     = $data['metaTags'] ?? $this->_metaTags;
         $this->_links        = $data['links'] ?? $this->_links;
+        $this->_hreflangs    = $data['hreflangs'] ?? $this->_hreflangs;
         $this->_styleSheets  = $data['styleSheets'] ?? $this->_styleSheets;
         $this->_style        = $data['style'] ?? $this->_style;
         $this->_scripts      = $data['scripts'] ?? $this->_scripts;
@@ -358,6 +369,11 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
         $this->_links = (isset($data['links']) && !empty($data['links']) && \is_array($data['links']))
             ? array_unique(array_merge($this->_links, $data['links']), SORT_REGULAR)
             : $this->_links;
+
+        $this->_hreflangs = (isset($data['hreflangs']) && !empty($data['hreflangs']) && \is_array($data['hreflangs']))
+            ? array_unique(array_merge($this->_hreflangs, $data['hreflangs']), SORT_REGULAR)
+            : $this->_hreflangs;
+
         $this->_styleSheets = (isset($data['styleSheets']) && !empty($data['styleSheets']) && \is_array($data['styleSheets']))
             ? array_merge($this->_styleSheets, $data['styleSheets'])
             : $this->_styleSheets;
@@ -436,9 +452,16 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      */
     public function addHeadLink($href, $relation, $relType = 'rel', $attribs = [])
     {
-        $this->_links[$href]['relation'] = $relation;
-        $this->_links[$href]['relType']  = $relType;
-        $this->_links[$href]['attribs']  = $attribs;
+        // add hreflang link to separate array
+        if (\array_key_exists('hreflang', $attribs)) {
+            $this->_hreflangs[$href]['relation'] = $relation;
+            $this->_hreflangs[$href]['relType']  = $relType;
+            $this->_hreflangs[$href]['attribs']  = $attribs;
+        } else {
+            $this->_links[$href]['relation'] = $relation;
+            $this->_links[$href]['relType']  = $relType;
+            $this->_links[$href]['attribs']  = $attribs;
+        }
 
         return $this;
     }
