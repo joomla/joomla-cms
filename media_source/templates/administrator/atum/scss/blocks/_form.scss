@@ -206,6 +206,12 @@ div.subform-repeatable-group {
         inset-block-end: -1px;
         border-radius: $border-radius 0 $border-radius 0;
       }
+      &.group-copy {
+        inset-inline-end: -1px;
+        inset-block-end: -1px;
+        border-radius: $border-radius 0 0;
+        transform: translateX(-100%);
+      }
       &.group-remove {
         inset-block-start: -1px;
         inset-inline-end: -1px;
