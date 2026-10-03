@@ -1,6 +1,6 @@
-import Mark from 'mark.js/src/vanilla';
+import Mark from 'advanced-mark.js/src/vanilla';
 
-// mark.js defaults
+// advanced-mark.js defaults
 const defaultOptions = {
   exclude: [],
   separateWordSearch: true,
