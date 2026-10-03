@@ -674,6 +674,103 @@ Cypress.Commands.add('db_createSchedulerTask', (taskData) => {
 });
 
 /**
+ * Creates a workflow in the database with the given data. The workflow contains some default values when
+ * not all required fields are passed in the given data. The data of the inserted workflow is returned.
+ *
+ * @param {Object} workflowData The workflow data to insert
+ *
+ * @returns Object
+ */
+Cypress.Commands.add('db_createWorkflow', (workflowData) => {
+  const defaultWorkflowOptions = {
+    published: 1,
+    title: 'test workflow',
+    description: '',
+    extension: 'com_content.article',
+    default: 0,
+    created: '2026-01-15 18:00:00',
+    modified: '2026-01-15 18:00:00',
+  };
+  const workflow = { ...defaultWorkflowOptions, ...workflowData };
+
+  return cy.task('queryDB', createInsertQuery('workflows', workflow))
+    .then((info) => {
+      workflow.id = info.insertId;
+
+      if (workflow.default === 1) {
+        return cy.task('queryDB', `UPDATE #__workflows SET \`default\` = 0 WHERE id <> '${workflow.id}'`)
+          .then(() => workflow);
+      }
+
+      return workflow;
+    });
+});
+
+/**
+ * Creates a stage of a workflow in the database with the given data. The stage contains some default values when
+ * not all required fields are passed in the given data. The data of the inserted stage is returned.
+ *
+ * @param {Object} stageData The stage data to insert
+ *
+ * @returns Object
+ */
+Cypress.Commands.add('db_createWorkflowStage', (stageData) => {
+  const defaultStageOptions = {
+    workflow_id: 1,
+    published: 1,
+    title: '',
+    description: '',
+    default: 0,
+  };
+  const stage = { ...defaultStageOptions, ...stageData };
+
+  return cy.task('queryDB', createInsertQuery('workflow_stages', stage))
+    .then((info) => {
+      stage.id = info.insertId;
+
+      if (stage.default === 1) {
+        return cy.task('queryDB', `UPDATE #__workflow_stages SET \`default\` = 0 WHERE id <> '${stage.id}' AND workflow_id = '${stage.workflow_id}'`)
+          .then(() => stage);
+      }
+
+      return stage;
+    });
+});
+
+/**
+ * Creates a transition of a workflow in the database with the given data. The transition contains some default values when
+ * not all required fields are passed in the given data. The data of the inserted transition is returned.
+ *
+ * @param {Object} transitionData The transition data to insert
+ *
+ * @returns Object
+ */
+Cypress.Commands.add('db_createWorkflowTransition', (transitionData) => {
+  const defaultTransitionOptions = {
+    workflow_id: 1,
+    published: 1,
+    title: '',
+    description: '',
+    from_stage_id: -1,
+    to_stage_id: 1,
+    options: '{}',
+  };
+  const transition = { ...defaultTransitionOptions, ...transitionData };
+  ['options'].forEach((key) => {
+    if (typeof transition[key] === 'object') {
+      transition[key] = JSON.stringify(transition[key]);
+    }
+  });
+
+  return cy.task('queryDB', createInsertQuery('workflow_transitions', transition))
+    .then((info) => {
+      transition.id = info.insertId;
+
+      return transition;
+    });
+});
+
+/**
  * Sets the parameter for the given extension.
  *
  * @param {string} key The key
