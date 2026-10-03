@@ -31,11 +31,11 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
     /**
      * Returns the layout data.
      *
-     * @return  array
+     * @return  array|false
      *
      * @since   5.1.0
      */
-    protected function getLayoutData(): array
+    protected function getLayoutData(): array|false
     {
         BannersComponentHelper::updateReset();
 
@@ -44,6 +44,10 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
         $data['headerText'] = trim($data['params']->get('header_text', ''));
         $data['footerText'] = trim($data['params']->get('footer_text', ''));
         $data['list']       = $this->getHelperFactory()->getHelper('BannersHelper')->getBanners($data['params'], $this->getApplication());
+
+        if (empty($data['list'])) {
+            return false;
+        }
 
         return $data;
     }
