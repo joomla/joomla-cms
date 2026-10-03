@@ -132,6 +132,7 @@ class HtmlView extends FormView
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
         $toolbar    = $this->getDocument()->getToolbar();
 
         // Since we don't track these assets at the item level, use the category id.
@@ -142,8 +143,8 @@ class HtmlView extends FormView
         $canCreate = $isNew && (\count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0);
         $canEdit   = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
-        // For new records, check the create permission.
-        if ($canCreate || $canEdit) {
+        // For new records, check the create permission. A checked out item can not be saved.
+        if (!$checkedOut && ($canCreate || $canEdit)) {
             $toolbar->apply('contact.apply');
             $toolbar->save('contact.save');
         }

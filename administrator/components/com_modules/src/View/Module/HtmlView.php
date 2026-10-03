@@ -232,17 +232,18 @@ class HtmlView extends BaseHtmlView
      */
     protected function addModalToolbar()
     {
-        $isNew   = ($this->item->id == 0);
-        $toolbar = $this->getDocument()->getToolbar();
-        $canDo   = $this->canDo;
+        $isNew      = ($this->item->id == 0);
+        $toolbar    = $this->getDocument()->getToolbar();
+        $canDo      = $this->canDo;
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $this->getCurrentUser()->id);
 
         ToolbarHelper::title(Text::sprintf('COM_MODULES_MANAGER_MODULE', Text::_($this->item->module)), 'cube module');
 
         $canCreate = $isNew && $canDo->get('core.create');
         $canEdit   = $canDo->get('core.edit');
 
-        // For new records, check the create permission.
-        if ($canCreate || $canEdit) {
+        // For new records, check the create permission. A checked out item can not be saved.
+        if (!$checkedOut && ($canCreate || $canEdit)) {
             $toolbar->apply('module.apply');
             $toolbar->save('module.save');
         }

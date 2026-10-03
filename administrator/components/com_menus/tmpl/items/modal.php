@@ -44,6 +44,8 @@ if (!empty($editor)) {
     $onclick = "jSelectMenuItem";
     $link    = 'index.php?option=com_menus&view=items&layout=modal&tmpl=component&editor=' . $editor . '&' . Session::getFormToken() . '=1&function=' . $function;
 }
+
+$userId = $this->getCurrentUser()->id;
 ?>
 <div class="container-popup">
     <form action="<?php echo Route::_($link); ?>" method="post" name="adminForm" id="adminForm">
@@ -103,6 +105,7 @@ if (!empty($editor)) {
                     $attribs  = 'data-content-select data-content-type="com_menus.item"'
                         . 'data-function="' . $this->escape($function) . '"'
                         . ' data-id="' . $item->id . '"'
+                        . ' data-checked-out="' . ((int) (!empty($item->checked_out) && $item->checked_out != $userId)) . '"'
                         . ' data-title="' . $this->escape($item->title) . '"'
                         . ' data-uri="' . $this->escape($link) . '"'
                         . ' data-language="' . $this->escape($language) . '"'
@@ -115,6 +118,9 @@ if (!empty($editor)) {
                         <th scope="row">
                             <?php $prefix  = LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
                             <?php echo $prefix; ?>
+                            <?php if ($item->checked_out) : ?>
+                                <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, '', false); ?>
+                            <?php endif; ?>
                             <a class="select-link" href="javascript:void(0)" <?php echo $attribs; ?>>
                                 <?php echo $this->escape($item->title); ?>
                             </a>
