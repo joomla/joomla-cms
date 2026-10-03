@@ -42,12 +42,9 @@ if (Multilanguage::isEnabled()) {
 <form action="<?php echo Route::_('index.php'); ?>" method="post" name="adminForm" id="modules-form" class="form-validate">
     <div class="row">
         <div class="col-md-12">
-            <legend><?php echo Text::_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
+            <legend><?php echo Text::_('COM_CONFIG_MODULES_SETTINGS_TITLE') . ': ' . $this->item['title']; ?></legend>
 
             <div>
-                <?php echo Text::_('COM_CONFIG_MODULES_MODULE_NAME'); ?>
-                <span class="badge bg-secondary"><?php echo $this->item['title']; ?></span>
-                &nbsp;&nbsp;
                 <?php echo Text::_('COM_CONFIG_MODULES_MODULE_TYPE'); ?>
                 <span class="badge bg-secondary"><?php echo $this->item['module']; ?></span>
             </div>
