@@ -140,13 +140,52 @@ class ManageModel extends InstallerModel
                     continue;
                 }
 
-                // Parent template cannot be disabled if there are children
-                if ($style->load(['parent' => $table->element, 'client_id' => $table->client_id])) {
-                    Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_ERROR_DISABLE_PARENT_TEMPLATE_NOT_PERMITTED'), 'notice');
+                $db = $this->getDatabase();
+
+                if ($value === 0) {
+                    // Parent template cannot be disabled if there are enabled children.
+                    $templateColumn   = 's.parent';
+                    $extensionColumn  = 's.template';
+                    $enabled          = 1;
+                    $error            = 'COM_INSTALLER_ERROR_DISABLE_PARENT_TEMPLATE_NOT_PERMITTED';
+                } else {
+                    // Child template cannot be enabled if its parent template is disabled.
+                    $templateColumn   = 's.template';
+                    $extensionColumn  = 's.parent';
+                    $enabled          = 0;
+                    $error            = 'COM_INSTALLER_ERROR_ENABLE_CHILD_TEMPLATE_NOT_PERMITTED';
+                }
+
+                $query = $db->createQuery()
+                    ->select('1')
+                    ->from($db->quoteName('#__template_styles', 's'))
+                    ->join(
+                        'INNER',
+                        $db->quoteName('#__extensions', 'e'),
+                        $db->quoteName('e.element') . ' = ' . $db->quoteName($extensionColumn)
+                            . ' AND ' . $db->quoteName('e.type') . ' = ' . $db->quote('template')
+                            . ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('s.client_id')
+                    )
+                    ->where($db->quoteName($templateColumn) . ' = :template')
+                    ->where($db->quoteName('s.client_id') . ' = :clientid')
+                    ->where($db->quoteName('e.enabled') . ' = :enabled')
+                    ->bind(':template', $table->element)
+                    ->bind(':clientid', $table->client_id, ParameterType::INTEGER)
+                    ->bind(':enabled', $enabled, ParameterType::INTEGER);
+
+                if ($value === 1) {
+                    $query->where($db->quoteName('s.parent') . ' != ' . $db->quote(''));
+                }
+
+                $db->setQuery($query);
+
+                if ($db->loadResult()) {
+                    Factory::getApplication()->enqueueMessage(Text::_($error), 'notice');
                     unset($eid[$i]);
                     continue;
                 }
             }
+
 
             if ($table->protected == 1) {
                 $result = false;
