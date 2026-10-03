@@ -19,6 +19,7 @@
     list-style-type: none;
 
     a,
+    button,
     .menu-dashboard,
     .menu-quicktask {
       color: $sidebar-item-color; /* $sidebar-item-color $white */
@@ -31,7 +32,8 @@
       }
     }
 
-    > a {
+    > a,
+    > button {
       position: relative;
       display: flex;
       flex-grow: 1;
@@ -47,8 +49,16 @@
       }
     }
 
+    > button {
+      appearance: none;
+      font: inherit;
+      background: transparent;
+      border: 0;
+    }
+
     @for $level from 2 through 10 {
-      &-level-#{$level} > a {
+      &-level-#{$level} > a,
+      &-level-#{$level} > button {
         $pad: 3rem + (($level - 2) * .75rem);
         padding-inline-start: $pad;
       }
@@ -70,12 +80,31 @@
   .sidebar-toggle {
     background: $sidebar-toggle-bg; /* $sidebar-toggle-bg var(--template-bg-dark-60) */
 
-    a {
+    a,
+    button {
       color: $sidebar-toggle-link; /* $sidebar-toggle-link $white */
+    }
+
+    button {
+      appearance: none;
+      font: inherit;
+      background: transparent;
+      border: 0;
+      inline-size: 100%;
+      text-align: start;
+      cursor: pointer;
+
+      &:focus-visible {
+        outline: auto 2px var(--focus);
+      }
     }
 
     .sidebar-item-title {
       white-space: nowrap;
+    }
+
+    #menu-collapse-icon {
+      margin-inline-start: .5rem;
     }
   }
 }
