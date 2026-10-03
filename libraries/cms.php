@@ -7,10 +7,10 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 trigger_error(
-    sprintf(
+    \sprintf(
         'Bootstrapping Joomla using the %1$s file is deprecated.  Use %2$s instead.',
         __FILE__,
         __DIR__ . '/bootstrap.php'
@@ -40,15 +40,15 @@ $loader->unregister();
 spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
 
 // Define the Joomla version if not already defined
-if (!defined('JVERSION')) {
-    define('JVERSION', (new \Joomla\CMS\Version())->getShortVersion());
+if (!\defined('JVERSION')) {
+    \define('JVERSION', (new \Joomla\CMS\Version())->getShortVersion());
 }
 
 // Register a handler for uncaught exceptions that shows a pretty error page when possible
 set_exception_handler(['Joomla\CMS\Exception\ExceptionHandler', 'handleException']);
 
 // Set up the message queue logger for web requests
-if (array_key_exists('REQUEST_METHOD', $_SERVER)) {
+if (\array_key_exists('REQUEST_METHOD', $_SERVER)) {
     \Joomla\CMS\Log\Log::addLogger(['logger' => 'messagequeue'], \Joomla\CMS\Log\Log::ALL, ['jerror']);
 }
 

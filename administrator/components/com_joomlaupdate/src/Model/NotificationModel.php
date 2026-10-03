@@ -127,7 +127,8 @@ final class NotificationModel extends BaseDatabaseModel implements MailerFactory
                 'com_joomlaupdate.update.' . $type,
                 $receiverLocale,
                 $this->getMailerFactory()->createMailer(),
-                $this->getLanguageFactory()
+                $this->getLanguageFactory(),
+                $this->getDatabase()
             );
             $mailer->addRecipient($receiver->email, $receiver->name);
             $mailer->addTemplateData($substitutions);

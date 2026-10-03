@@ -539,7 +539,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 26
+			count: 27
 			path: administrator/components/com_categories/src/Model/CategoryModel.php
 
 		-
@@ -4660,7 +4660,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 29
+			count: 30
 			path: administrator/components/com_tags/src/Model/TagModel.php
 
 		-
@@ -11445,7 +11445,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 40
+			count: 41
 			path: libraries/src/MVC/Model/AdminModel.php
 
 		-

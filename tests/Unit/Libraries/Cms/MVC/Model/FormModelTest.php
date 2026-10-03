@@ -16,6 +16,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for \Joomla\CMS\MVC\Model\FormModel
@@ -23,19 +24,17 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  MVC
  *
- * @testdox     The FormModel
- *
  * @since       4.2.0
  */
+#[TestDox('The FormModel')]
 class FormModelTest extends UnitTestCase
 {
     /**
-     * @testdox  can checkin a record
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can checkin a record')]
     public function testSuccessfulCheckin()
     {
         $table              = $this->createStub(Table::class);
@@ -60,12 +59,11 @@ class FormModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can checkin a record when the id is 0
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can checkin a record when the id is 0')]
     public function testSuccessfulCheckinWithEmptyRecord()
     {
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends FormModel {
@@ -79,12 +77,11 @@ class FormModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can't checkin a record
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox("can't checkin a record")]
     public function testFailedCheckin()
     {
         $table              = $this->createStub(Table::class);
@@ -114,12 +111,11 @@ class FormModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can't checkin a record when load of the table fails
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox("can't checkin a record when load of the table fails")]
     public function testFailedCheckinLoad()
     {
         $table              = $this->createStub(Table::class);
@@ -141,12 +137,11 @@ class FormModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can checkin a record when the table has not the required fields
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can checkin a record when the table has not the required fields')]
     public function testSuccessfulCheckinFieldNotAvailableCheck()
     {
         $table              = $this->createStub(Table::class);
@@ -169,12 +164,11 @@ class FormModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can't checkin a record when is checked out as different user and current user is not admin
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox("can't checkin a record when is checked out as different user and current user is not admin")]
     public function testSuccessfulCheckinWhenCurrentUserIsNotAdmin()
     {
         $table              = $this->createStub(Table::class);
@@ -202,12 +196,11 @@ class FormModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can checkin a record when is checked out as different user and current user is admin
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can checkin a record when is checked out as different user and current user is admin')]
     public function testSuccessfulCheckinWhenCurrentUserAdmin()
     {
         $table              = $this->createStub(Table::class);
@@ -236,12 +229,11 @@ class FormModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can checkout a record
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can checkout a record')]
     public function testSuccessfulCheckout()
     {
         $table              = $this->createStub(Table::class);
@@ -270,12 +262,11 @@ class FormModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can checkout a record when the id is 0
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can checkout a record when the id is 0')]
     public function testSuccessfulCheckoutWithEmptyRecord()
     {
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends FormModel {
@@ -289,12 +280,11 @@ class FormModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can't checkout a record
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox("can't checkout a record")]
     public function testFailedCheckout()
     {
         $table              = $this->createStub(Table::class);
@@ -328,12 +318,11 @@ class FormModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can't checkout a record when the current user is a guest
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox("can't checkout a record when the current user is a guest")]
     public function testFailedCheckoutAsGuest()
     {
         $table              = $this->createStub(Table::class);
@@ -358,12 +347,11 @@ class FormModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can't checkout a record when load of the table fails
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox("can't checkout a record when load of the table fails")]
     public function testFailedCheckoutLoad()
     {
         $table              = $this->createStub(Table::class);
@@ -384,12 +372,11 @@ class FormModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can checkout a record when the table has not the required fields
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can checkout a record when the table has not the required fields')]
     public function testSuccessfulCheckoutFieldNotAvailableCheck()
     {
         $table              = $this->createStub(Table::class);
@@ -411,12 +398,11 @@ class FormModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can't checkout a record when is checked out as different user
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox("can't checkout a record when is checked out as different user")]
     public function testSuccessfulCheckoutWhenCurrentUserIsDifferent()
     {
         $table              = $this->createStub(Table::class);

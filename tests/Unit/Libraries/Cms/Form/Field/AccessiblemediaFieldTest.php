@@ -54,7 +54,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
         ];
 
         foreach ($properties as $property => $propertyvalue) {
-            $this->assertEquals($propertyvalue, $accessiblemediafield->__get($property));
+            $this->assertSame($propertyvalue, $accessiblemediafield->__get($property));
         }
     }
 
@@ -72,14 +72,14 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
         $properties           = [
             "directory"     => 'mydirectory',
             "preview"       => 'tooltip',
-            "previewWidth"  => "300",
-            "previewHeight" => "300",
+            "previewWidth"  => 300,
+            "previewHeight" => 300,
             "layout"        => 'joomla.form.field.media.accessiblemedia',
         ];
 
         foreach ($properties as $property => $propertyvalue) {
             $accessiblemediafield->__set($property, $propertyvalue);
-            $this->assertEquals($propertyvalue, $accessiblemediafield->__get($property));
+            $this->assertSame($propertyvalue, $accessiblemediafield->__get($property));
         }
     }
 
@@ -98,7 +98,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
         $element = new \SimpleXMLElement('<field name="testfield" />');
 
         $this->assertTrue($accessiblemediafield->setup($element, '', null));
-        $this->assertEquals('', $accessiblemediafield->__get('value'));
+        $this->assertSame('', $accessiblemediafield->__get('value'));
     }
 
     /**
@@ -121,7 +121,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
         ];
 
         $this->assertTrue($accessiblemediafield->setup($element, '/images/joomla_black.png', null));
-        $this->assertEquals($fieldvalue, $accessiblemediafield->__get('value'));
+        $this->assertSame($fieldvalue, $accessiblemediafield->__get('value'));
     }
 
     /**
@@ -144,7 +144,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
         ];
 
         $this->assertTrue($accessiblemediafield->setup($element, '{"imagefile":"pathtofile","alt_text":"alt text"}', null));
-        $this->assertEquals($fieldvalue, $accessiblemediafield->__get('value'));
+        $this->assertSame($fieldvalue, $accessiblemediafield->__get('value'));
     }
 
     /**
@@ -163,7 +163,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
         $element = new \SimpleXMLElement('<field name="testfield" />');
 
         $this->assertTrue($accessiblemediafield->setup($element, 'jfsdkl', null));
-        $this->assertEquals('', $accessiblemediafield->__get('value'));
+        $this->assertSame('', $accessiblemediafield->__get('value'));
     }
 
     /**
@@ -186,7 +186,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
         $element = new \SimpleXMLElement('<field name="testfield" />');
 
         $this->assertTrue($accessiblemediafield->setup($element, $obj, null));
-        $this->assertEquals($obj, $accessiblemediafield->__get('value'));
+        $this->assertSame($obj, $accessiblemediafield->__get('value'));
     }
 
     /**
