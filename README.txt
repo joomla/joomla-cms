@@ -1,16 +1,15 @@
 Joomla! CMS™
 
-The Joomla! 6.2 branch is under heavy development and not all links in this document are available yet
+The Joomla! 6.3 branch is under heavy development and not all links in this document are available yet
 ------------------------------------------------------------------------------------------------------
 
 1- Overview
 	* This is a Joomla! 6.x installation/upgrade package.
 	* Joomla! Official site: https://www.joomla.org
-	* Joomla! 6.2 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_6.2_version_history
-	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/6.2-dev
-	* Release Managers responsible for Joomla! 6.2
-		* Charvi Mehra @charvimehradu
-		* Martin Kopp @MacJoom
+	* Joomla! 6.3 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_6.3_version_history
+	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/6.3-dev
+	* Release Managers responsible for Joomla! 6.3
+		* tbd
 
 2- What is Joomla?
 	* Joomla! is a Content Management System (CMS) which enables you to build websites and powerful online applications.
