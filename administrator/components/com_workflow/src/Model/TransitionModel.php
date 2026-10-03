@@ -490,7 +490,7 @@ class TransitionModel extends AdminModel
         ];
 
         return HTMLHelper::_('link', '#', $label, [
-            'data-joomla-dialog'    => htmlspecialchars(
+            'data-joomla-dialog' => htmlspecialchars(
                 json_encode($popup, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
                 ENT_QUOTES,
                 'UTF-8'
