@@ -16,6 +16,9 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Component\Workflow\Administrator\Automation\ItemStorage;
+use Joomla\Component\Workflow\Administrator\Automation\UpcomingTransitionsCalculator;
+use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -47,6 +50,89 @@ class WorkflowModel extends AdminModel
         $extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
 
         $this->setState('filter.extension', $extension);
+    }
+
+    /**
+     * Returns this workflow's upcoming automated transitions, computed on the fly.
+     *
+     * @param   integer  $workflowId  The workflow id.
+     *
+     * @return  \Joomla\Component\Workflow\Administrator\Automation\UpcomingTransition[]
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getUpcomingTransitions(int $workflowId): array
+    {
+        if ($workflowId <= 0) {
+            return [];
+        }
+
+        $calculator = new UpcomingTransitionsCalculator($this->getDatabase());
+
+        return $calculator->forWorkflow($workflowId);
+    }
+
+    /**
+     * Returns the most recent automation log entries for this workflow.
+     *
+     * @param   integer  $workflowId  The workflow id.
+     * @param   integer  $limit       How many entries to return, newest first.
+     *
+     * @return  object[]
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getAutomationLog(int $workflowId, int $limit = 20): array
+    {
+        if ($workflowId <= 0) {
+            return [];
+        }
+
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->select(
+                [
+                    $db->quoteName('l.item_id'),
+                    $db->quoteName('l.transition_id'),
+                    $db->quoteName('l.extension'),
+                    $db->quoteName('l.exit_code'),
+                    $db->quoteName('l.note'),
+                    $db->quoteName('l.executed_at'),
+                    $db->quoteName('t.title', 'transition_title'),
+                    $db->quoteName('t.workflow_id'),
+                    $db->quoteName('f_stage.title', 'from_stage'),
+                    $db->quoteName('t_stage.title', 'to_stage'),
+                    $db->quoteName('u.name', 'run_as_name'),
+                ]
+            )
+            ->from($db->quoteName('#__workflow_automation_log', 'l'))
+            ->join(
+                'INNER',
+                $db->quoteName('#__workflow_transitions', 't'),
+                $db->quoteName('t.id') . ' = ' . $db->quoteName('l.transition_id')
+            )
+            ->join(
+                'LEFT',
+                $db->quoteName('#__workflow_stages', 'f_stage'),
+                $db->quoteName('f_stage.id') . ' = ' . $db->quoteName('l.from_stage_id')
+            )
+            ->join(
+                'LEFT',
+                $db->quoteName('#__workflow_stages', 't_stage'),
+                $db->quoteName('t_stage.id') . ' = ' . $db->quoteName('l.to_stage_id')
+            )
+            ->join(
+                'LEFT',
+                $db->quoteName('#__users', 'u'),
+                $db->quoteName('u.id') . ' = ' . $db->quoteName('l.run_as_user_id')
+            )
+            ->where($db->quoteName('t.workflow_id') . ' = :workflowId')
+            ->bind(':workflowId', $workflowId, ParameterType::INTEGER)
+            ->order($db->quoteName('l.executed_at') . ' DESC');
+
+        $entries = $db->setQuery($query, 0, $limit)->loadObjectList() ?: [];
+
+        return (new ItemStorage($db))->annotateTitles($entries);
     }
 
     /**
@@ -288,8 +374,8 @@ class WorkflowModel extends AdminModel
             if (
                 $table->load(
                     [
-                    'default'   => '1',
-                    'extension' => $table->extension,
+                        'default'   => '1',
+                        'extension' => $table->extension,
                     ]
                 )
             ) {

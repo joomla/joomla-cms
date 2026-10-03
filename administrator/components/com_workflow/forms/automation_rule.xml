@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form addfieldprefix="Joomla\Component\Workflow\Administrator\Field"
+	addruleprefix="Joomla\Component\Workflow\Administrator\Rule">
+	<config>
+		<inlinehelp button="show" />
+	</config>
+
+	<field
+		name="rule_type"
+		type="list"
+		label="COM_WORKFLOW_AUTOMATION_RULE_TYPE_LABEL"
+		description="COM_WORKFLOW_AUTOMATION_RULE_TYPE_DESC"
+		default="delay"
+		validate="options"
+		parentclass="cb-delay cb-rule-type"
+		>
+		<option value="delay">COM_WORKFLOW_AUTOMATION_RULE_TYPE_DELAY</option>
+		<option value="cron">COM_WORKFLOW_AUTOMATION_RULE_TYPE_CRON</option>
+	</field>
+
+	<field
+		name="delay_value"
+		type="number"
+		label="COM_WORKFLOW_AUTOMATION_DELAY_VALUE_LABEL"
+		description="COM_WORKFLOW_AUTOMATION_DELAY_VALUE_DESC"
+		validate="number"
+		min="0"
+		showon="rule_type:delay"
+		parentclass="cb-delay cb-delay-value"
+	/>
+
+	<field
+		name="delay_unit"
+		type="list"
+		label="COM_WORKFLOW_AUTOMATION_DELAY_UNIT_LABEL"
+		description="COM_WORKFLOW_AUTOMATION_DELAY_UNIT_DESC"
+		default="minutes"
+		validate="options"
+		showon="rule_type:delay"
+		parentclass="cb-delay cb-delay-unit"
+		>
+		<option value="minutes">COM_WORKFLOW_AUTOMATION_UNIT_MINUTES</option>
+		<option value="hours">COM_WORKFLOW_AUTOMATION_UNIT_HOURS</option>
+		<option value="days">COM_WORKFLOW_AUTOMATION_UNIT_DAYS</option>
+		<option value="months">COM_WORKFLOW_AUTOMATION_UNIT_MONTHS</option>
+	</field>
+
+	<field
+		name="cron_expression"
+		type="text"
+		label="COM_WORKFLOW_AUTOMATION_CRON_LABEL"
+		description="COM_WORKFLOW_AUTOMATION_CRON_DESC"
+		validate="CronExpression"
+		message="COM_WORKFLOW_AUTOMATION_ERROR_CRON"
+		showon="rule_type:cron"
+		parentclass="cb-delay cb-cron"
+	/>
+
+	<field
+		name="item_filter"
+		type="conditionbuilder"
+		label="COM_WORKFLOW_AUTOMATION_FILTER_LABEL"
+		mode="filter"
+		description="COM_WORKFLOW_AUTOMATION_FILTER_DESC"
+		validate="ConditionTree"
+	/>
+
+	<field
+		name="fire_condition"
+		type="conditionbuilder"
+		label="COM_WORKFLOW_AUTOMATION_CONDITION_LABEL"
+		mode="condition"
+		description="COM_WORKFLOW_AUTOMATION_CONDITION_DESC"
+		validate="ConditionTree"
+	/>
+</form>

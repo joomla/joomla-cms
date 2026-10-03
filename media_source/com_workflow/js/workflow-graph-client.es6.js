@@ -261,6 +261,7 @@ Joomla = window.Joomla || {};
         id: `transition-${tr.id}`,
         pathData,
         label: tr.title,
+        automated: !!tr.automated,
         labelPosition: { x: labelX, y: labelY },
         fromId,
         toId,
@@ -340,11 +341,16 @@ Joomla = window.Joomla || {};
       path.classList.toggle('highlighted', state.highlightedEdge === edge.id);
       path.setAttribute('marker-end', getMarkerUrl('arrowhead'));
 
-      let foreignObject = labelsLayer.querySelector(`foreignObject[data-edge-id="${edge.id}"]`);
+      let foreignObject = labelsLayer.querySelector(
+        `foreignObject[data-edge-id="${edge.id}"]`,
+      );
       let labelDiv;
 
       if (!foreignObject) {
-        foreignObject = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
+        foreignObject = document.createElementNS(
+          'http://www.w3.org/2000/svg',
+          'foreignObject',
+        );
         foreignObject.dataset.edgeId = edge.id;
         foreignObject.style.overflow = 'visible';
 
@@ -352,7 +358,8 @@ Joomla = window.Joomla || {};
         labelDiv.className = 'transition-label-content';
         labelDiv.addEventListener('click', (e) => {
           e.stopPropagation();
-          state.highlightedEdge = state.highlightedEdge === edge.id ? null : edge.id;
+          state.highlightedEdge
+            = state.highlightedEdge === edge.id ? null : edge.id;
           renderGraph(modal);
         });
         foreignObject.appendChild(labelDiv);
@@ -361,8 +368,29 @@ Joomla = window.Joomla || {};
         labelDiv = foreignObject.querySelector('div');
       }
 
-      labelDiv.textContent = edge.label;
-      labelDiv.classList.toggle('highlighted', state.highlightedEdge === edge.id);
+      // Rebuilt each render, because setting textContent removes the icon.
+      labelDiv.textContent = '';
+
+      if (edge.automated) {
+        const clock = document.createElement('span');
+        clock.className = 'icon icon-clock me-1';
+        clock.setAttribute('aria-hidden', 'true');
+        clock.title = Joomla.Text._('COM_WORKFLOW_GRAPH_TRANSITION_AUTOMATED');
+        labelDiv.appendChild(clock);
+
+        const automatedLabel = document.createElement('span');
+        automatedLabel.className = 'visually-hidden';
+        automatedLabel.textContent = Joomla.Text._(
+          'COM_WORKFLOW_GRAPH_TRANSITION_AUTOMATED',
+        );
+        labelDiv.appendChild(automatedLabel);
+      }
+
+      labelDiv.appendChild(document.createTextNode(edge.label));
+      labelDiv.classList.toggle(
+        'highlighted',
+        state.highlightedEdge === edge.id,
+      );
       graph.style.transform = `translate(${state.panX}px, ${state.panY}px) scale(${state.scale})`;
 
       requestAnimationFrame(() => {
@@ -370,13 +398,19 @@ Joomla = window.Joomla || {};
         const rect = labelDiv.getBoundingClientRect();
         if (rect.width === 0 && rect.height === 0) return;
         const measuredWidth = rect.width / state.scale;
-        const measuredHeight = (rect.height / state.scale) || 24;
+        const measuredHeight = rect.height / state.scale || 24;
 
         foreignObject.setAttribute('width', measuredWidth + 4);
         foreignObject.setAttribute('height', measuredHeight + 4);
 
-        foreignObject.setAttribute('x', edge.labelPosition.x - (measuredWidth / 2));
-        foreignObject.setAttribute('y', edge.labelPosition.y - (measuredHeight / 2));
+        foreignObject.setAttribute(
+          'x',
+          edge.labelPosition.x - measuredWidth / 2,
+        );
+        foreignObject.setAttribute(
+          'y',
+          edge.labelPosition.y - measuredHeight / 2,
+        );
       });
     });
 

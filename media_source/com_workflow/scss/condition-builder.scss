@@ -1,0 +1,193 @@
+.condition-builder .cb-ui {
+  margin-top: .5rem;
+}
+
+.cb-expression {
+  padding: 10px;
+  border: 1px solid rgba(128, 128, 128, .35);
+  border-radius: 8px;
+}
+
+.cb-expression .cb-expression {
+  border-inline-start: 3px solid #2a7de1;
+}
+
+.cb-expression-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+
+.cb-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-inline-start: 12px;
+  border-inline-start: 2px solid rgba(128, 128, 128, .25);
+}
+
+.cb-leaf {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid rgba(128, 128, 128, .35);
+  border-radius: 6px;
+  gap: 8px;
+}
+
+.cb-leaf-fields {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.cb-leaf-fields .form-select,
+.cb-leaf-fields .form-control,
+.cb-leaf-fields joomla-field-fancy-select {
+  flex: 1;
+  width: auto;
+  min-width: 130px;
+}
+
+.cb-match {
+  width: auto;
+  min-width: 140px;
+}
+
+.cb-chip {
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  white-space: nowrap;
+  border-radius: 12px;
+}
+
+.cb-chip-check {
+  color: #1a5fb4;
+  background: rgba(42, 125, 225, .16);
+}
+
+.cb-chip-expression {
+  color: #5b3fb0;
+  background: rgba(120, 90, 220, .18);
+}
+
+.cb-band {
+  display: flex;
+  align-items: center;
+  padding-inline-start: 12px;
+}
+
+.cb-band .cb-op {
+  width: auto;
+  min-width: 90px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cb-not {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.cb-add-op {
+  align-items: center;
+}
+
+.cb-join-label {
+  font-size: 13px;
+  color: rgba(128, 128, 128, .95);
+}
+
+.cb-add {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.cb-empty {
+  padding: 4px 0;
+  font-size: 13px;
+  font-style: italic;
+  color: rgba(128, 128, 128, .9);
+}
+
+.cb-remove {
+  margin-inline-start: auto;
+  line-height: 1;
+}
+
+.cb-root {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cb-root-head {
+  margin-bottom: 0;
+}
+
+.subform-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1.5%;
+}
+
+.subform-wrapper > .control-group {
+  flex-basis: 100%;
+}
+
+.control-group.cb-rule-type {
+  flex-basis: 32%;
+}
+
+.control-group.cb-delay-value {
+  flex-basis: 32%;
+}
+
+.control-group.cb-delay-unit {
+  flex-basis: 33%;
+}
+
+.control-group.cb-cron {
+  flex-basis: 66.5%;
+}
+
+.control-group.cb-rule-type,
+.control-group.cb-delay-value:not(.hidden),
+.control-group.cb-delay-unit:not(.hidden),
+.control-group.cb-cron:not(.hidden) {
+  display: block;
+}
+
+.control-group.cb-rule-type .control-label,
+.control-group.cb-delay-value .control-label,
+.control-group.cb-delay-unit .control-label,
+.control-group.cb-cron .control-label {
+  display: block;
+  float: none;
+  width: 100%;
+  padding: 0;
+  margin: 0 0 4px;
+  text-align: start;
+}
+
+.control-group.cb-rule-type .controls,
+.control-group.cb-delay-value .controls,
+.control-group.cb-delay-unit .controls,
+.control-group.cb-cron .controls {
+  display: block;
+  float: none;
+  width: 100%;
+  margin-inline-start: 0;
+}

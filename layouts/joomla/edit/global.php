@@ -30,6 +30,7 @@ $saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
 
 $fields = $displayData->get('fields') ?: [
     'transition',
+    'upcoming_transition',
     ['parent', 'parent_id'],
     ['published', 'state', 'enabled'],
     ['category', 'catid'],
