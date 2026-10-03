@@ -423,6 +423,26 @@ if ($this->type == 'font') {
         </form>
     <?php endif; ?>
     <?php if ($this->type != 'home') : ?>
+        <?php // Copy File Modal
+        $copyFileModalData = [
+            'selector' => 'copyFileModal',
+            'params'   => [
+                'title'      => Text::_('COM_TEMPLATES_BUTTON_COPY_FILE'),
+                'footer'     => $this->loadTemplate('modal_copy_file_footer'),
+                'height'     => '400px',
+                'width'      => '800px',
+                'bodyHeight' => 70,
+                'modalWidth' => 80,
+            ],
+            'body' => $this->loadTemplate('modal_copy_file_body')
+        ];
+        ?>
+        <form action="<?php echo Route::_('index.php?option=com_templates&task=template.copyFile&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0)); ?>" method="post">
+            <?php echo LayoutHelper::render('libraries.html.bootstrap.modal.main', $copyFileModalData); ?>
+            <?php echo HTMLHelper::_('form.token'); ?>
+        </form>
+    <?php endif; ?>
+    <?php if ($this->type != 'home') : ?>
         <?php // Delete Modal
         $deleteModalData = [
             'selector' => 'deleteModal',
