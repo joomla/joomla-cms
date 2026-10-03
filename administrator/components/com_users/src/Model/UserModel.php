@@ -511,6 +511,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
             $mailer = new MailTemplate('com_users.registration.user.admin_activated', $langTag);
             $mailer->addTemplateData($mailData);
             $mailer->addRecipient($userData['email']);
+            $mailer->addUnsafeTags(['username', 'name']);
 
             try {
                 $return = $mailer->send();

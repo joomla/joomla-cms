@@ -478,4 +478,34 @@ class UriTest extends UnitTestCase
             'http://www.evil.com/' . Uri::base() . ' should not be internal'
         );
     }
+
+    /**
+     * Test hardening of Uri::isInternal against non internal links
+     *
+     * @return void
+     *
+     * @covers Uri::isInternal
+     */
+    public function testIsInternalWithAbsoluteXssPayloads(): void
+    {
+        $this->assertFalse(
+            Uri::isInternal('http://www.example.com/ "'),
+            'http://www.example.com " should not be internal'
+        );
+    }
+
+    /**
+     * Test hardening of Uri::isInternal against non internal links
+     *
+     * @return void
+     *
+     * @covers Uri::isInternal
+     */
+    public function testIsInternalWithRelativeXssPayloads(): void
+    {
+        $this->assertFalse(
+            Uri::isInternal('index.php?<script>alert(1)</script>'),
+            'index.php?<script>alert(1)</script> should not be internal'
+        );
+    }
 }
