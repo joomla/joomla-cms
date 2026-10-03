@@ -201,6 +201,13 @@ class HtmlView extends CategoryView
             }
         }
 
+        $itemId = (int) $app->getInput()->getInt('Itemid', 0);
+
+        $app->setUserState(
+            'com_content.navigation_context',
+            $itemId
+        );
+
         parent::display($tpl);
     }
 

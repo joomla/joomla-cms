@@ -13,6 +13,7 @@ namespace Joomla\Component\Contact\Site\Model;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -146,6 +147,21 @@ class CategoryModel extends ListModel
             }
         }
 
+        $helper = new SecondaryCategoriesHelper('com_contact.contact');
+        $helper->loadSecondaryCategoriesForItems($items);
+
+        foreach ($items as $item) {
+            $secondaryIds = [];
+
+            if (!empty($item->secondary_categories)) {
+                foreach ($item->secondary_categories as $secCat) {
+                    $secondaryIds[] = (int) $secCat->id;
+                }
+            }
+
+            $item->fieldscatid = array_values(array_unique(array_merge([(int) $item->catid], $secondaryIds)));
+        }
+
         return $items;
     }
 
@@ -180,41 +196,16 @@ class CategoryModel extends ListModel
             ->whereIn($db->quoteName('a.access'), $groups);
 
         // Filter by category.
-        $categoryId           = (int) $this->getState('category.id');
-        $includeSubcategories = (int) $this->getState('filter.max_category_levels', 1) !== 0;
+        $categoryId                 = (int) $this->getState('category.id');
+        $levels                     = (int) $this->getState('filter.max_category_levels', 1);
+        $includeSubcategories       = $levels !== 0;
+        $helper                     = new SecondaryCategoriesHelper('com_contact.contact');
 
-        if ($includeSubcategories) {
-            $levels = (int) $this->getState('filter.max_category_levels', 1);
-
-            // Create a subquery for the subcategory list
-            $subQuery = $db->createQuery()
-                ->select($db->quoteName('sub.id'))
-                ->from($db->quoteName('#__categories', 'sub'))
-                ->join(
-                    'INNER',
-                    $db->quoteName('#__categories', 'this'),
-                    $db->quoteName('sub.lft') . ' > ' . $db->quoteName('this.lft')
-                    . ' AND ' . $db->quoteName('sub.rgt') . ' < ' . $db->quoteName('this.rgt')
-                )
-                ->where($db->quoteName('this.id') . ' = :subCategoryId');
-
-            $query->bind(':subCategoryId', $categoryId, ParameterType::INTEGER);
-
-            if ($levels >= 0) {
-                $subQuery->where($db->quoteName('sub.level') . ' <= ' . $db->quoteName('this.level') . ' + :levels');
-                $query->bind(':levels', $levels, ParameterType::INTEGER);
-            }
-
-            // Add the subquery to the main query
-            $query->where(
-                '(' . $db->quoteName('a.catid') . ' = :categoryId OR ' . $db->quoteName('a.catid') . ' IN (' . $subQuery . '))'
-            );
-            $query->bind(':categoryId', $categoryId, ParameterType::INTEGER);
-        } else {
-            $query->where($db->quoteName('a.catid') . ' = :acatid')
-                ->whereIn($db->quoteName('c.access'), $groups);
-            $query->bind(':acatid', $categoryId, ParameterType::INTEGER);
-        }
+        $query->where($helper->buildCategoryMembershipCondition(
+            [$categoryId],
+            $includeSubcategories,
+            $levels
+        ));
 
         // Join over the users for the author and modified_by names.
         $query->select("CASE WHEN a.created_by_alias > ' ' THEN a.created_by_alias ELSE ua.name END AS author")
@@ -336,7 +327,6 @@ class CategoryModel extends ListModel
         $id = $input->get('id', 0, 'int');
         $this->setState('category.id', $id);
         $this->setState('filter.max_category_levels', $params->get('maxLevel', 1));
-
         $user = $this->getCurrentUser();
 
         if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact'))) {
@@ -370,10 +360,11 @@ class CategoryModel extends ListModel
                 $params = new Registry();
             }
 
-            $options               = [];
-            $options['countItems'] = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
-            $categories            = Categories::getInstance('Contact', $options);
-            $this->_item           = $categories->get($this->getState('category.id', 'root'));
+            $options                               = [];
+            $options['countItems']                 = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
+            $options['categoryMappingContext']     = 'com_contact.contact';
+            $categories                            = Categories::getInstance('Contact', $options);
+            $this->_item                           = $categories->get($this->getState('category.id', 'root'));
 
             if (\is_object($this->_item)) {
                 $this->_children = $this->_item->getChildren();

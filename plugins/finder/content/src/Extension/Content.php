@@ -12,6 +12,7 @@ namespace Joomla\Plugin\Finder\Content\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Finder as FinderEvent;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Adapter;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
@@ -343,15 +344,23 @@ final class Content extends Adapter implements SubscriberInterface
 
         // Add the category taxonomy data.
         $categories = $this->getApplication()->bootComponent('com_content')->getCategory(['published' => false, 'access' => false]);
-        $category   = $categories->get($item->catid);
 
-        if (!$category) {
-            return;
-        }
-
-        // Add the category taxonomy data.
         if (\in_array('category', $taxonomies)) {
-            $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
+            $categoryIds = [$item->catid];
+
+            if (!empty($item->id)) {
+                $helper      = new SecondaryCategoriesHelper('com_content.article');
+                $categoryIds = [...$categoryIds, ...$helper->getCurrentSecondaryCategoriesByItem((int) $item->id)];
+            }
+
+            foreach ($categoryIds as $categoryId) {
+                $taxonomyCategory = $categories->get($categoryId);
+
+                if (!$taxonomyCategory) {
+                    continue;
+                }
+                $item->addNestedTaxonomy('Category', $taxonomyCategory, $this->translateState($taxonomyCategory->published), $taxonomyCategory->access, $taxonomyCategory->language);
+            }
         }
 
         // Add the language taxonomy data.
