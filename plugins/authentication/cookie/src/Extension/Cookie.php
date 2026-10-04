@@ -321,10 +321,6 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             // Remember checkbox is set. Do not mint a persistent credential while MFA is still outstanding.
             $mfaChecked = (int) $app->getSession()->get('com_users.mfa_checked', 0);
 
-            // Create a unique series which will be used over the lifespan of the cookie
-            $unique     = false;
-            $errorCount = 0;
-
             if (!$mfaChecked && MfaHelper::userMayNeedMfaGate($options['user'])) {
                 /**
                  * The user may still need to complete an MFA step (captive validation or mandatory setup).
