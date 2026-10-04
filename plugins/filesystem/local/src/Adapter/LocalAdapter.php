@@ -209,7 +209,14 @@ class LocalAdapter implements AdapterInterface
      */
     public function getResource(string $path)
     {
-        return fopen($this->rootPath . '/' . $path, 'r');
+        // Get the local path, this also validates that the path stays inside the adapter root
+        $localPath = $this->getLocalPath($path);
+
+        if (!is_file($localPath)) {
+            throw new FileNotFoundException();
+        }
+
+        return fopen($localPath, 'r');
     }
 
     /**
