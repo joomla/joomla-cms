@@ -312,7 +312,23 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
                 );
             }
 
-            $cookieArray = explode('.', $cookieValue);
+            $cookieArray = explode('.', (string) $cookieValue);
+
+            // Check for valid cookie value before using the series
+            if (\count($cookieArray) !== 2) {
+                // Destroy the cookie in the browser
+                $app->getInput()->cookie->set(
+                    $cookieName,
+                    '',
+                    [
+                        'expires' => 1,
+                        'path'    => $app->get('cookie_path', '/'),
+                        'domain'  => $app->get('cookie_domain', ''),
+                    ]
+                );
+
+                return;
+            }
 
             // Filter series since we're going to use it in the query
             $filter = new InputFilter();
@@ -371,23 +387,26 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $cookieArray = explode('.', $cookieValue);
+        $cookieArray = explode('.', (string) $cookieValue);
 
-        // Filter series since we're going to use it in the query
-        $filter = new InputFilter();
-        $series = $filter->clean($cookieArray[1], 'ALNUM');
+        // Only a well formed cookie contains a series we can remove from the database
+        if (\count($cookieArray) === 2) {
+            // Filter series since we're going to use it in the query
+            $filter = new InputFilter();
+            $series = $filter->clean($cookieArray[1], 'ALNUM');
 
-        // Remove the record from the database
-        $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
-            ->delete($db->quoteName('#__user_keys'))
-            ->where($db->quoteName('series') . ' = :series')
-            ->bind(':series', $series);
+            // Remove the record from the database
+            $db    = $this->getDatabase();
+            $query = $db->getQuery(true)
+                ->delete($db->quoteName('#__user_keys'))
+                ->where($db->quoteName('series') . ' = :series')
+                ->bind(':series', $series);
 
-        try {
-            $db->setQuery($query)->execute();
-        } catch (\RuntimeException) {
-            // We aren't concerned with errors from this query, carry on
+            try {
+                $db->setQuery($query)->execute();
+            } catch (\RuntimeException) {
+                // We aren't concerned with errors from this query, carry on
+            }
         }
 
         // Destroy the cookie
