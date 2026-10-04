@@ -72,7 +72,8 @@ class MailHelperTest extends UnitTestCase
             ["test\n\ncontent-type:me", 'testme'],
             ["test\rcontent-type:me", 'testme'],
             ["test\r\rcontent-type:me", 'testme'],
-            // @TODO Should this be included array("test\r\ncoNTent-tYPe:me", 'testme'),
+            ["test\r\ncoNTent-tYPe:me", 'testme'],
+            ["test%0A%0DconTenT-Type:me", 'testme'],
 
             ["test%0Ato:me", 'testme'],
             ["test%0DTO:me", 'testme'],
@@ -80,7 +81,8 @@ class MailHelperTest extends UnitTestCase
             ["test\n\ntO:me", 'testme'],
             ["test\rto:me", 'testme'],
             ["test\r\rto:me", 'testme'],
-            // @TODO Should this be included array("test\r\nto:me", 'testme'),
+            ["test\r\nto:me", 'testme'],
+            ["test%0A%0DTo:me", 'testme'],
 
             ["test%0Acc:me", 'testme'],
             ["test%0DCC:me", 'testme'],
@@ -88,7 +90,7 @@ class MailHelperTest extends UnitTestCase
             ["test\n\ncC:me", 'testme'],
             ["test\rcc:me", 'testme'],
             ["test\r\rcc:me", 'testme'],
-            // @TODO Should this be included array("test\r\ncc:me", 'testme'),
+            ["test\r\ncc:me", 'testme'],
 
             ["test%0Abcc:me", 'testme'],
             ["test%0DBCC:me", 'testme'],
@@ -96,7 +98,19 @@ class MailHelperTest extends UnitTestCase
             ["test\n\nbcC:me", 'testme'],
             ["test\rbcc:me", 'testme'],
             ["test\r\rbcc:me", 'testme'],
-            // @TODO Should this be included array("test\r\nbcc:me", 'testme'),
+            ["test\r\nbcc:me", 'testme'],
+
+            ["test%0Afrom:me", 'testme'],
+            ["test\r\nFrom:me", 'testme'],
+            ["test\nfrom:me", 'testme'],
+
+            ["test%0Asubject:me", 'testme'],
+            ["test\r\nSubject:me", 'testme'],
+            ["test\nsubject:me", 'testme'],
+
+            ["test%0Areply-to:me", 'testme'],
+            ["test\r\nReply-To:me", 'testme'],
+            ["test\nreply-to:me", 'testme'],
         ];
     }
 
