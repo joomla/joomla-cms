@@ -211,6 +211,7 @@ class BannerModel extends BaseDatabaseModel
                     ->bind(':id', $id, ParameterType::INTEGER)
                     ->bind(':nowDate', $nowDate)
                     ->whereIn($db->quoteName('c.access'), $user->getAuthorisedViewLevels(), ParameterType::INTEGER);
+
                 $db->setQuery($query);
 
                 return $db->loadObject();

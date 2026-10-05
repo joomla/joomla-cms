@@ -42,7 +42,7 @@ class ExtensionDiscoverInstallCommandTest extends \PHPUnit\Framework\TestCase
      */
     public function testProcessDiscoverReturnIsInt()
     {
-        $command = $this->createMock(ExtensionDiscoverInstallCommand::class);
+        $command = $this->createStub(ExtensionDiscoverInstallCommand::class);
 
         $countOfDiscoveredExtensions1   = $command->processDiscover(-1);
         $countOfDiscoveredExtensions0   = $command->processDiscover(0);
@@ -91,7 +91,7 @@ class ExtensionDiscoverInstallCommandTest extends \PHPUnit\Framework\TestCase
      */
     protected function createExtensionDiscoverInstallCommand(): ExtensionDiscoverInstallCommand
     {
-        $db = $this->createMock(DatabaseInterface::class);
+        $db = $this->createStub(DatabaseInterface::class);
 
         return new ExtensionDiscoverInstallCommand($db);
     }

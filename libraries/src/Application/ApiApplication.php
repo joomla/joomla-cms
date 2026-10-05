@@ -217,6 +217,7 @@ final class ApiApplication extends CMSApplication
      *
      * @return  boolean  True if the request origin is present in the whitelist.
      *
+     * @since   5.4.8
      * @since   6.1.3
      */
     private function isOriginAllowed(string $requestOrigin, string $allowedOrigins): bool

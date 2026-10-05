@@ -16,7 +16,7 @@ Joomla! CMS™
 * Joomla! 6.2 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_6.2_version_history).
 * Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/6.2-dev).
 * Release Managers responsible for Joomla! 6.2
-  * Charvi Mehra @charvimehradu
+  * Viviana Menzel @drmenzelit
   * Martin Kopp @MacJoom
 
 ## What is Joomla?
