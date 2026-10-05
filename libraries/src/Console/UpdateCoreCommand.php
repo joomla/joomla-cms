@@ -341,6 +341,7 @@ class UpdateCoreCommand extends AbstractCommand
                     Log::INFO,
                     'Update'
                 );
+
                 return true;
             }
         }
@@ -428,6 +429,7 @@ class UpdateCoreCommand extends AbstractCommand
         if (!$file) {
             return false;
         }
+
         Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $file), Log::INFO, 'Update');
         $tmpPath       = $this->getApplication()->get('tmp_path');
         $updatePackage = $tmpPath . '/' . $file;
