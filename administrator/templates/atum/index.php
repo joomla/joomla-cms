@@ -123,20 +123,38 @@ if ($colorScheme) {
     }
 }
 
+$a11yClasses = [];
+
+if ($a11y_font) {
+    $a11yClasses[] = 'a11y_font';
+}
+
+if ($a11y_mono || $monochrome) {
+    $a11yClasses[] = 'monochrome';
+}
+
+if ($a11y_contrast) {
+    $a11yClasses[] = 'a11y_contrast';
+}
+
+if ($a11y_highlight) {
+    $a11yClasses[] = 'a11y_highlight';
+}
+
 Text::script('TPL_ATUM_MORE_ELEMENTS');
 
 // @see administrator/templates/atum/html/layouts/status.php
 $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $a11y_font ? ' class="a11y_font"' : ''; ?><?php echo $themeModeAttr; ?>>
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $a11yClasses ? ' class="' . implode(' ', $a11yClasses) . '"' : ''; ?><?php echo $themeModeAttr; ?>>
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />
     <jdoc:include type="scripts" />
 </head>
 
-<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome || $a11y_mono ? ' monochrome' : '') . ($a11y_contrast ? ' a11y_contrast' : '') . ($a11y_highlight ? ' a11y_highlight' : ''); ?>">
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : ''); ?>">
 <noscript>
     <div class="alert alert-danger" role="alert">
         <?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
