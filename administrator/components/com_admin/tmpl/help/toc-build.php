@@ -46,6 +46,8 @@ foreach ($menu as $label => $value) {
         echo "<li class=\"item item-level-{$this->toclevel}\">{$link}</li>\n";
     }
 }
-echo "</ul>\n";
+if ($this->toclevel > 1) {
+    echo "</ul>\n";
+}
 // On return decrease the toclevel
 $this->toclevel -= 1;
