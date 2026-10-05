@@ -736,7 +736,7 @@ abstract class HTMLHelper
             // Decode spaces for filesystem lookup
            $lookupPath = str_replace('%20', ' ', $path);
 
-           // Search for relative file names
+            // Search for relative file names
             $includes = static::includeRelativeFiles('images', $lookupPath, $relative, false, false);
 
             // Grab the first found path and if none exists default to null
