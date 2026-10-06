@@ -14,8 +14,11 @@ use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
+use Joomla\CMS\Helper\HelperRedirectAwareInterface;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
+use Joomla\CMS\Table\Table;
 use Joomla\Component\Menus\Administrator\Service\HTML\Menus;
+use Joomla\Component\Menus\Administrator\Table\MenuTable;
 use Psr\Container\ContainerInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -29,7 +32,8 @@ use Psr\Container\ContainerInterface;
  */
 class MenusComponent extends MVCComponent implements
     BootableExtensionInterface,
-    AssociationServiceInterface
+    AssociationServiceInterface,
+    HelperRedirectAwareInterface
 {
     use AssociationServiceTrait;
     use HTMLRegistryAwareTrait;
@@ -50,5 +54,24 @@ class MenusComponent extends MVCComponent implements
     public function boot(ContainerInterface $container)
     {
         $this->getRegistry()->register('menus', new Menus());
+    }
+
+    /**
+     * Returns a link for a given table object or null
+     *
+     * @param Table $table
+     *
+     * @return string|null
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getLinkForRedirect(Table $table): ?string
+    {
+        // Menu link
+        if ($table instanceof MenuTable) {
+            return 'index.php?Itemid=' . $table->id;
+        }
+
+        return null;
     }
 }
