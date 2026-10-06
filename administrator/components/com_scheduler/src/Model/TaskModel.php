@@ -22,10 +22,8 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Table\TaskTable;
-use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
@@ -454,15 +452,6 @@ class TaskModel extends AdminModel
             ->update($db->quoteName(self::TASK_TABLE))
             ->set($db->quoteName('locked') . ' = :now1')
             ->bind(':now1', $now);
-
-        $activeRoutines = array_map(
-            static function (TaskOption $taskOption): string {
-                return $taskOption->id;
-            },
-            SchedulerHelper::getTaskOptions()->options
-        );
-
-        $lockQuery->whereIn($db->quoteName('type'), $activeRoutines, ParameterType::STRING);
 
         if (!$options['includeCliExclusive']) {
             $lockQuery->where($db->quoteName('cli_exclusive') . ' = 0');
