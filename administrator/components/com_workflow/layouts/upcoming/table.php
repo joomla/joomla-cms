@@ -88,10 +88,10 @@ $unitKeys = [
                 <td>
                     <?php echo htmlspecialchars(Text::_($transition->transitionTitle), ENT_QUOTES, 'UTF-8'); ?>
                     <?php if ($transition->fromStage !== $transition->toStage) : ?>
-                        <div class="small">
-                            <?php echo htmlspecialchars(Text::_($transition->fromStage), ENT_QUOTES, 'UTF-8'); ?>
+                        <div class="small mt-1">
+                            <span class="badge bg-secondary"><?php echo htmlspecialchars(Text::_($transition->fromStage), ENT_QUOTES, 'UTF-8'); ?></span>
                             <span class="icon-<?php echo $arrow; ?> icon-fw" aria-hidden="true"></span>
-                            <?php echo htmlspecialchars(Text::_($transition->toStage), ENT_QUOTES, 'UTF-8'); ?>
+                            <span class="badge bg-secondary"><?php echo htmlspecialchars(Text::_($transition->toStage), ENT_QUOTES, 'UTF-8'); ?></span>
                         </div>
                     <?php endif; ?>
                 </td>

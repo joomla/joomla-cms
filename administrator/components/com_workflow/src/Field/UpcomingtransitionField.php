@@ -170,9 +170,9 @@ class UpcomingtransitionField extends FormField
             . '<div class="mb-2"><strong>' . htmlspecialchars(Text::_($upcoming->transitionTitle), ENT_QUOTES, 'UTF-8') . '</strong></div>'
             . ($upcoming->fromStage !== $upcoming->toStage
                 ? '<div class="small mb-2">'
-                . htmlspecialchars(Text::_($upcoming->fromStage), ENT_QUOTES, 'UTF-8') . ' '
+                . '<span class="badge bg-secondary">' . htmlspecialchars(Text::_($upcoming->fromStage), ENT_QUOTES, 'UTF-8') . '</span> '
                 . '<span class="icon-' . $arrow . '" aria-hidden="true"></span> '
-                . htmlspecialchars(Text::_($upcoming->toStage), ENT_QUOTES, 'UTF-8')
+                . '<span class="badge bg-secondary">' . htmlspecialchars(Text::_($upcoming->toStage), ENT_QUOTES, 'UTF-8') . '</span>'
                 . '</div>'
                 : '')
             . '<div class="mb-1">' . $fires . '</div>'
