@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -176,6 +177,10 @@ class OverrideModel extends AdminModel
         $reservedWords = ['YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE'];
 
         if (\in_array($data['key'], $reservedWords)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_LANGUAGES_OVERRIDE_ERROR_RESERVED_WORDS'));
+            }
+
             $this->setError(Text::_('COM_LANGUAGES_OVERRIDE_ERROR_RESERVED_WORDS'));
 
             return false;
