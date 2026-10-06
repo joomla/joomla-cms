@@ -151,10 +151,18 @@ class CacheModel extends ListModel
                 } else {
                     $this->_data = [];
                 }
-            } catch (CacheConnectingException) {
+            } catch (CacheConnectingException $e) {
+                if ($this->shouldUseExceptions()) {
+                    throw $e;
+                }
+
                 $this->setError(Text::_('COM_CACHE_ERROR_CACHE_CONNECTION_FAILED'));
                 $this->_data = [];
-            } catch (UnsupportedCacheException) {
+            } catch (UnsupportedCacheException $e) {
+                if ($this->shouldUseExceptions()) {
+                    throw $e;
+                }
+
                 $this->setError(Text::_('COM_CACHE_ERROR_CACHE_DRIVER_UNSUPPORTED'));
                 $this->_data = [];
             }
