@@ -10,7 +10,7 @@
 				last="10"
 				step="1"
 				default="1"
-				filter="int"
+				filter="integer"
 				validate="number"
 			/>
 		</fieldset>
