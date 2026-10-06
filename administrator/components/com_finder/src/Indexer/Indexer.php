@@ -385,6 +385,8 @@ class Indexer
         // Truncate the tokens aggregate table.
         $db->truncateTable('#__finder_tokens_aggregate');
 
+        $formats = $item->getPropertyFormats();
+
         /*
          * Process the item's content. The items can customize their
          * processing instructions to define extra properties to process
@@ -397,6 +399,12 @@ class Indexer
                 if (empty($item->$property)) {
                     continue;
                 }
+
+                /**
+                 * Discover the parser to use. For legacy reasons a set $format takes precedence,
+                 * otherwise we use the format that is set or fallback to html
+                 */
+                $parseFormat = $format == 'html' ? ($formats[$property] ?? 'html') : $format;
 
                 // Tokenize the property.
                 if (\is_array($item->$property)) {
@@ -413,7 +421,7 @@ class Indexer
                         }
 
                         // Tokenize a string of content and add it to the database.
-                        $count += $this->tokenizeToDb($ip, $group, $item->language, $format, $count);
+                        $count += $this->tokenizeToDb($ip, $group, $item->language, $parseFormat, $count);
 
                         // Check if we're approaching the memory limit of the token table.
                         if ($count > static::$state->options->get('memory_table_limit', 7500)) {
@@ -433,7 +441,7 @@ class Indexer
                     }
 
                     // Tokenize a string of content and add it to the database.
-                    $count += $this->tokenizeToDb($item->$property, $group, $item->language, $format, $count);
+                    $count += $this->tokenizeToDb($item->$property, $group, $item->language, $parseFormat, $count);
 
                     // Check if we're approaching the memory limit of the token table.
                     if ($count > static::$state->options->get('memory_table_limit', 7500)) {
@@ -843,7 +851,7 @@ class Indexer
             // Batch the process out to avoid memory limits.
             while (!feof($input)) {
                 // Read into the buffer.
-                $buffer .= fread($input, 2048);
+                $buffer .= fread($input, 32768);
 
                 /*
                  * If we haven't reached the end of the file, seek to the last
