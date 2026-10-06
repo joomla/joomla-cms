@@ -1,0 +1,34 @@
+/**
+ * @copyright   (C) 2026 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+.mod-contact-form__contact-info {
+  margin-block-end: 1rem;
+}
+
+.mod-contact-form__contact-name {
+  margin-block-end: .25rem;
+}
+
+.mod-contact-form__fieldset {
+  margin-block-end: .5rem;
+  padding: 0;
+  border: 0;
+}
+
+.mod-contact-form__submit {
+  margin-block-start: 1rem;
+}
+
+.mod-contact-form .text-body-secondary {
+  font-size: .9em;
+}
+
+.mod-contact-form__result:empty {
+  display: none;
+}
+
+.mod-contact-form__result {
+  margin-block-start: 1rem;
+}
