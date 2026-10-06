@@ -1,0 +1,32 @@
+.treeselect .form-check-input[type="checkbox"][data-inherit-baseline-disabled="1"]:checked {
+  background-color: var(--secondary);
+  border-color: var(--secondary);
+}
+
+#jform_menuselect .card-body {
+  overflow-x: auto;
+}
+
+#jform_menuselect .treeselect {
+  inline-size: max-content;
+  min-inline-size: 100%;
+}
+
+.treeselect li .treeselect-item {
+  white-space: nowrap;
+}
+
+.treeselect .module-inherit-control {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  margin-inline-start: 1rem;
+}
+
+.treeselect .module-inherit-control .form-select {
+  inline-size: auto;
+}
+
+.treeselect .module-inherit-lock-badge {
+  margin-inline-start: .75rem;
+}
