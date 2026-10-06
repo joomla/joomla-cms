@@ -24,6 +24,7 @@ if (!$textPrefix) {
 $formURL    = $displayData['formURL'] ?? '';
 $createURL  = $displayData['createURL'] ?? '';
 $helpURL    = $displayData['helpURL'] ?? '';
+$tourUID    = $displayData['tourUID'] ?? '';
 $title      = $displayData['title'] ?? Text::_($textPrefix . '_EMPTYSTATE_TITLE');
 $content    = $displayData['content'] ?? Text::_($textPrefix . '_EMPTYSTATE_CONTENT');
 $icon       = $displayData['icon'] ?? 'icon-copy article';
@@ -46,6 +47,10 @@ $controlFields = $displayData['controlFields'] ?? '';
                 <?php if ($createURL && Factory::getApplication()->getInput()->get('tmpl') !== 'component') : ?>
                     <a href="<?php echo Route::_($createURL); ?>"
                      id="confirmButton" class="btn btn-primary btn-lg px-4 me-sm-3 emptystate-btnadd"><?php echo $btnadd; ?></a>
+                <?php endif; ?>
+                <?php if ($tourUID) : ?>
+                    <button type="button" data-gt-uid="<?php echo $tourUID; ?>"
+                       class="btn btn-outline-secondary button-start-guidedtour btn-lg px-4 me-sm-3"><?php echo Text::_('JGLOBAL_TAKE_A_TOUR'); ?></button>
                 <?php endif; ?>
                 <?php if ($helpURL) : ?>
                     <a href="<?php echo $helpURL; ?>" target="_blank"
