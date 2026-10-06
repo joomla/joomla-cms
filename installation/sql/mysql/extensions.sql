@@ -259,7 +259,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_filters` (
 CREATE TABLE IF NOT EXISTS `#__finder_links` (
   `link_id` int unsigned NOT NULL AUTO_INCREMENT,
   `url` varchar(255) NOT NULL,
-  `route` varchar(400) NOT NULL,
+  `route` text NOT NULL,
   `title` varchar(400) DEFAULT NULL,
   `description` text,
   `indexdate` datetime NOT NULL,
