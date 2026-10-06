@@ -50,15 +50,6 @@ class HtmlView extends BaseHtmlView
     protected $item;
 
     /**
-     * UNUSED?
-     *
-     * @var     boolean
-     *
-     * @since   1.6
-     */
-    protected $print;
-
-    /**
      * The current user instance
      *
      * @var    \Joomla\CMS\User\User|null
@@ -98,9 +89,6 @@ class HtmlView extends BaseHtmlView
     {
         $app  = Factory::getApplication();
         $user = $this->getCurrentUser();
-
-        // Get view related request variables.
-        $print = $app->getInput()->getBool('print');
 
         /** @var NewsfeedModel $model */
         $model = $this->getModel();
@@ -207,8 +195,6 @@ class HtmlView extends BaseHtmlView
         if (!empty($msg)) {
             $this->msg = $msg;
         }
-
-        $this->print = $print;
 
         $item->tags = new TagsHelper();
         $item->tags->getItemTags('com_newsfeeds.newsfeed', $item->id);
