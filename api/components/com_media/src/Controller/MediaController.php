@@ -18,8 +18,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
+use Joomla\Component\Media\Administrator\File\TmpFileUpload;
 use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 use Joomla\Component\Media\Api\Model\MediumModel;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -335,21 +338,49 @@ class MediaController extends ApiController
         /** @var MediumModel $model */
         $model = $this->getModel($modelName, '', ['ignore_request' => true, 'state' => $this->modelState]);
 
-        $json = $this->input->json;
+        $json         = $this->input->json;
+        $name         = basename($json->getString('path', ''));
+        $mediaContent = base64_decode($json->get('content', '', 'raw'));
+        $tmpFile      = '';
 
-        // Decode content, if any
-        if ($content = base64_decode($json->get('content', '', 'raw'))) {
-            $this->checkContent();
+        // Create tmp file
+        if ($mediaContent) {
+            $tmpContent   = $mediaContent;
+            $tmpFile      = Path::clean($this->app->get('tmp_path') . '/tmp_upload/' . uniqid('tmp-', true));
+            $mediaLength  = \strlen($tmpContent);
+            $mediaContent = new TmpFileUpload([
+                'name'     => $name,
+                'tmp_name' => $tmpFile,
+                'size'     => $mediaLength,
+                'error'    => 0,
+            ]);
+
+            $this->checkContent($mediaLength);
+
+            if (!File::write($tmpFile, $tmpContent)) {
+                throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
+            }
         }
 
         // If there is no content, com_media assumes the path refers to a folder.
-        $this->modelState->set('content', $content);
+        $this->modelState->set('content', $mediaContent);
 
-        return $model->save();
+        $result = $model->save();
+
+        if ($tmpFile) {
+            try {
+                File::delete($tmpFile);
+            } catch (\Exception) {
+            }
+        }
+
+        return $result;
     }
 
     /**
      * Performs various checks to see if it is allowed to save the content.
+     *
+     * @param  integer $fileSize  The size of submitted file
      *
      * @return  void
      *
@@ -357,19 +388,12 @@ class MediaController extends ApiController
      *
      * @throws  \RuntimeException
      */
-    private function checkContent(): void
+    private function checkContent(int $fileSize): void
     {
-        $params       = ComponentHelper::getParams('com_media');
-        $helper       = new \Joomla\CMS\Helper\MediaHelper();
-        $serverlength = $this->input->server->getInt('CONTENT_LENGTH');
+        $params              = ComponentHelper::getParams('com_media');
+        $paramsUploadMaxsize = $params->get('upload_maxsize', 0) * 1024 * 1024;
 
-        // Check if the size of the request body does not exceed various server imposed limits.
-        if (
-            ($params->get('upload_maxsize', 0) > 0 && $serverlength > ($params->get('upload_maxsize', 0) * 1024 * 1024))
-            || $serverlength > $helper->toBytes(\ini_get('upload_max_filesize'))
-            || $serverlength > $helper->toBytes(\ini_get('post_max_size'))
-            || $serverlength > $helper->toBytes(\ini_get('memory_limit'))
-        ) {
+        if ($paramsUploadMaxsize > 0 && $fileSize > $paramsUploadMaxsize) {
             throw new \RuntimeException(Text::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 400);
         }
     }

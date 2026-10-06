@@ -125,22 +125,29 @@ export const createDirectory = (context, payload) => {
 };
 
 /**
- * Create a new folder
+ * Upload a file
  * @param context
- * @param payload object with the new folder name and its parent directory
+ * @param payload object with the new file data
  */
 export const uploadFile = (context, payload) => {
   if (!api.canCreate) {
     return;
   }
-  context.commit(types.SET_IS_LOADING, true);
-  api.upload(payload.name, payload.parent, payload.content, payload.override || false)
+
+  // Commit the progress
+  context.commit(types.UPDATE_ACTIVE_UPLOADS, { name: payload.name, progress: 0 });
+  const uploadProgress = (progress) => {
+    context.commit(types.UPDATE_ACTIVE_UPLOADS, { name: payload.name, progress });
+  };
+
+  // Do file upload
+  api.upload(payload.name, payload.parent, payload.content, payload.override || false, uploadProgress)
     .then((file) => {
       context.commit(types.UPLOAD_SUCCESS, file);
-      context.commit(types.SET_IS_LOADING, false);
+      context.commit(types.UPDATE_ACTIVE_UPLOADS, { name: payload.name, completed: true });
     })
     .catch((error) => {
-      context.commit(types.SET_IS_LOADING, false);
+      context.commit(types.UPDATE_ACTIVE_UPLOADS, { name: payload.name, completed: true });
 
       // Handle file exists
       if (error.status === 409) {
