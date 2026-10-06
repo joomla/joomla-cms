@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\Database\ParameterType;
 use Joomla\Event\Dispatcher;
 use Joomla\Event\Event;
 use Joomla\Utilities\ArrayHelper;
@@ -195,7 +196,7 @@ class Nested extends Table
      *
      * @param   integer  $pk  Primary key of the node to check.
      *
-     * @return  boolean  True if a leaf node, false if not or null if the node does not exist.
+     * @return  ?boolean  True if a leaf node, false if not or null if the node does not exist.
      *
      * @note    Since 3.0.0 this method returns null if the node does not exist.
      * @since   1.7.0
@@ -210,7 +211,7 @@ class Nested extends Table
         // Get the node by primary key.
         if (empty($node)) {
             // Error message set in getNode method.
-            return;
+            return null;
         }
 
         // The node is a leaf node.
@@ -1241,81 +1242,416 @@ class Nested extends Table
      * @param   integer  $level     The level to assign to the current nodes.
      * @param   string   $path      The path to the current nodes.
      *
-     * @return  integer  1 + value of root rgt on success, false on failure
+     * @return  integer  1 + value of root rgt
      *
      * @since   1.7.0
      * @throws  \RuntimeException on database error.
      */
-    public function rebuild($parentId = null, $leftId = 0, $level = 0, $path = '')
+    public function rebuild($parentId = null, $leftId = 0, $level = 0, $path = null)
     {
-        // If no parent is provided, try to find it.
+        // If no parent is provided, try to find it in the class instance.
         if ($parentId === null) {
-            // Get the root item.
-            $parentId = $this->getRootId();
-
-            if ($parentId === false) {
-                return false;
-            }
+            $parentId = $this->parent_id;
         }
 
-        $db    = $this->getDatabase();
-        $query = $db->createQuery();
+        $state = $this->buildTreeState((int) $parentId, (int) $leftId, (int) $level, $path);
 
-        // Build the structure of the recursive query.
-        if (!isset($this->_cache['rebuild.sql'])) {
-            $query->clear()
-                ->select($this->_tbl_key . ', alias')
-                ->from($this->_tbl)
-                ->where('parent_id = %d');
-
-            // If the table has an ordering field, use that for ordering.
-            if ($this->hasField('ordering')) {
-                $query->order('parent_id, ' . $db->quoteName($this->getColumnAlias('ordering')) . ', lft');
-            } else {
-                $query->order('parent_id, lft');
-            }
-
-            $this->_cache['rebuild.sql'] = (string) $query;
-        }
-
-        // Make a shortcut to database object.
-
-        // Assemble the query to find all children of this node.
-        $db->setQuery(\sprintf($this->_cache['rebuild.sql'], (int) $parentId));
-
-        $children = $db->loadObjectList();
-
-        // The right value of this node is the left value + 1
-        $rightId = $leftId + 1;
-
-        // Execute this function recursively over all children
-        foreach ($children as $node) {
-            /*
-             * $rightId is the current right value, which is incremented on recursion return.
-             * Increment the level for the children.
-             * Add this item's alias to the path (but avoid a leading /)
-             */
-            $rightId = $this->rebuild($node->{$this->_tbl_key}, $rightId, $level + 1, $path . (empty($path) ? '' : '/') . $node->alias);
-
-            // If there is an update failure, return false to break out of the recursion.
-            if ($rightId === false) {
-                return false;
-            }
-        }
-
-        // We've got the left value, and now that we've processed
-        // the children of this node we also know the right value.
-        $query->clear()
-            ->update($this->_tbl)
-            ->set('lft = ' . (int) $leftId)
-            ->set('rgt = ' . (int) $rightId)
-            ->set('level = ' . (int) $level)
-            ->set('path = ' . $db->quote($path))
-            ->where($this->_tbl_key . ' = ' . (int) $parentId);
-        $db->setQuery($query)->execute();
+        $this->applyTreeState($this->diffTreeState($state['target'], $state['rows']));
 
         // Return the right value of this node + 1.
-        return $rightId + 1;
+        return $state['next'];
+    }
+
+    /**
+     * Method to check the structural integrity of the nested set tree.
+     *
+     * The check is purely relational: it does not traverse the tree and does not
+     * modify any data. Every condition below is local, so the whole check runs in
+     * a fixed number of queries regardless of the size of the tree.
+     *
+     * The returned array is empty when the tree is sound. Otherwise it contains
+     * one entry per detected problem class:
+     *
+     *     [
+     *         ['type' => 'inverted', 'ids' => [17, 23], 'count' => 2],
+     *         ['type' => 'gaps',     'ids' => [],       'count' => 1],
+     *     ]
+     *
+     * Problem classes:
+     *
+     *     inverted   lft is not smaller than rgt
+     *     orphans    parent_id points to a row that does not exist
+     *     containment  a node is not strictly inside its parent's interval,
+     *                  or its level is not the parent's level plus one
+     *     tiling     the children of a node do not fill the parent interval
+     *                without gaps or overlaps
+     *     gaps       the highest rgt value does not match the row count,
+     *                so the numbering is not dense
+     *
+     * @return  array  A list of detected problems, empty when the tree is sound.
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \RuntimeException on database error.
+     */
+    public function checkTreeIntegrity(): array
+    {
+        $db     = $this->getDatabase();
+        $key    = $db->quoteName($this->_tbl_key);
+        $lft    = $db->quoteName('lft');
+        $rgt    = $db->quoteName('rgt');
+        $level  = $db->quoteName('level');
+        $parent = $db->quoteName('parent_id');
+        $issues = [];
+
+        // 1. Every node must have lft < rgt.
+        $query = $db->getQuery(true)
+            ->select($key)
+            ->from($db->quoteName($this->_tbl))
+            ->where($lft . ' >= ' . $rgt);
+
+        if ($ids = $db->setQuery($query)->loadColumn()) {
+            $issues[] = ['type' => 'inverted', 'ids' => $ids, 'count' => \count($ids)];
+        }
+
+        // 2. Every parent_id other than 0 must point to an existing row.
+        $query = $db->getQuery(true)
+            ->select('c.' . $key)
+            ->from($db->quoteName($this->_tbl, 'c'))
+            ->leftJoin($db->quoteName($this->_tbl, 'p'), 'c.' . $parent . ' = p.' . $key)
+            ->where('c.' . $parent . ' <> 0')
+            ->where('p.' . $key . ' IS NULL');
+
+        if ($ids = $db->setQuery($query)->loadColumn()) {
+            $issues[] = ['type' => 'orphans', 'ids' => $ids, 'count' => \count($ids)];
+        }
+
+        // 3. Every node must sit strictly inside its parent, one level below it.
+        $query = $db->getQuery(true)
+            ->select('c.' . $key)
+            ->from($db->quoteName($this->_tbl, 'c'))
+            ->innerJoin($db->quoteName($this->_tbl, 'p'), 'c.' . $parent . ' = p.' . $key)
+            ->where('(c.' . $lft . ' <= p.' . $lft . ' OR c.' . $rgt . ' >= p.' . $rgt . ')', 'OR');
+
+        $fields = $this->getFields();
+
+        if (\array_key_exists('level', $fields)) {
+            $query->where('c.' . $level . ' <> p.' . $level . ' + 1', 'OR');
+        }
+
+        if ($ids = $db->setQuery($query)->loadColumn()) {
+            $issues[] = ['type' => 'containment', 'ids' => $ids, 'count' => \count($ids)];
+        }
+
+        /*
+         * 4. The children of a node must tile the parent interval exactly.
+         *
+         * This is the condition that catches overlapping siblings, which check 3
+         * alone lets through: with P(0,5), A(1,3) and B(2,4) every child is
+         * properly contained in its parent, yet the tree is broken. Together,
+         * checks 3 and 4 prove the structure sound.
+         */
+        $query = $db->getQuery(true)
+            ->select('p.' . $key)
+            ->from($db->quoteName($this->_tbl, 'p'))
+            ->leftJoin($db->quoteName($this->_tbl, 'c'), 'c.' . $parent . ' = p.' . $key)
+            ->group(['p.' . $key, 'p.' . $lft, 'p.' . $rgt])
+            ->having('p.' . $rgt . ' - p.' . $lft . ' - 1 <> COALESCE(SUM(c.' . $rgt . ' - c.' . $lft . ' + 1), 0)');
+
+        if ($ids = $db->setQuery($query)->loadColumn()) {
+            $issues[] = ['type' => 'tiling', 'ids' => $ids, 'count' => \count($ids)];
+        }
+
+        // 5. The numbering must be dense: with n rows and a root at lft 0, max(rgt) is 2n - 1.
+        $query = $db->getQuery(true)
+            ->select('MAX(' . $rgt . ') AS ' . $db->quoteName('maxrgt') . ', COUNT(*) AS ' . $db->quoteName('total'))
+            ->from($db->quoteName($this->_tbl));
+
+        $bounds = $db->setQuery($query)->loadObject();
+
+        if ($bounds !== null && (int) $bounds->total > 0 && (int) $bounds->maxrgt !== 2 * (int) $bounds->total - 1) {
+            $issues[] = ['type' => 'gaps', 'ids' => [], 'count' => 1];
+        }
+
+        return $issues;
+    }
+
+    /**
+     * Method to compute the canonical nested set values for a (sub)tree.
+     *
+     * The values are derived exclusively from parent_id and the sibling sort key,
+     * neither of which this class ever rewrites. The result is therefore a pure
+     * function of the adjacency list and can be recomputed at any time.
+     *
+     * No data is written and no lock is taken.
+     *
+     * @param   integer  $parentId  The root of the tree to compute.
+     * @param   integer  $leftId    The left id to start with.
+     * @param   integer  $level     The level to assign to the starting node.
+     * @param   string   $path      The path of the starting node.
+     *
+     * @return  array  An array with the keys 'target' (id => values), 'rows'
+     *                 (id => current row) and 'next' (1 + rgt of the start node).
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \RuntimeException when the adjacency list contains a cycle.
+     */
+    protected function buildTreeState(int $parentId, int $leftId = 0, int $level = 0, ?string $path = null): array
+    {
+        $db   = $this->getDatabase();
+        $k    = $this->_tbl_key;
+        $path = (string) $path;
+
+        $fields      = $this->getFields();
+        $hasLevel    = \array_key_exists('level', $fields);
+        $hasAlias    = \array_key_exists('alias', $fields);
+        $hasPath     = \array_key_exists('path', $fields);
+        $hasOrdering = \array_key_exists('ordering', $fields);
+
+        // Read the whole adjacency list in a single query.
+        $columns = [$k, 'parent_id', 'lft', 'rgt'];
+
+        foreach (['level' => $hasLevel, 'alias' => $hasAlias, 'path' => $hasPath] as $column => $exists) {
+            if ($exists) {
+                $columns[] = $column;
+            }
+        }
+
+        if ($hasOrdering) {
+            $columns[] = 'ordering';
+        }
+
+        $query = $db->getQuery(true)
+            ->select($db->quoteName($columns))
+            ->from($db->quoteName($this->_tbl));
+
+        $rows = $db->setQuery($query)->loadObjectList($k);
+
+        /*
+         * Index the children by parent and sort each sibling group.
+         *
+         * When an ordering column is present it is the authoritative sort key and
+         * the result is stable across runs. Without one we fall back to lft, which
+         * is the value this method is about to change -- see the note in
+         * rebuild() on what that means for partial application.
+         */
+        $sortKey  = $hasOrdering ? 'ordering' : 'lft';
+        $children = [];
+
+        foreach ($rows as $id => $row) {
+            $children[(int) $row->parent_id][] = $id;
+        }
+
+        foreach ($children as &$group) {
+            usort(
+                $group,
+                function ($a, $b) use ($rows, $sortKey) {
+                    return [(int) $rows[$a]->$sortKey, (int) $a] <=> [(int) $rows[$b]->$sortKey, (int) $b];
+                }
+            );
+        }
+
+        unset($group);
+
+        // Walk the tree iteratively. The explicit stack keeps the recursion depth off the PHP call stack.
+        $target  = [];
+        $seen    = [];
+        $counter = $leftId;
+
+        $stack = [
+            [
+                'id'    => $parentId,
+                'lft'   => $counter++,
+                'level' => $level,
+                'path'  => $path,
+                'index' => 0,
+            ],
+        ];
+
+        $seen[$parentId] = true;
+
+        while ($stack) {
+            $top  = \count($stack) - 1;
+            $kids = $children[$stack[$top]['id']] ?? [];
+
+            if ($stack[$top]['index'] < \count($kids)) {
+                $childId = $kids[$stack[$top]['index']++];
+
+                if (isset($seen[$childId])) {
+                    throw new \RuntimeException(
+                        \sprintf(
+                            '%1$s::buildTreeState() found a cycle in the adjacency list at record ID %2$d.',
+                            \get_class($this),
+                            $childId
+                        )
+                    );
+                }
+
+                $seen[$childId] = true;
+
+                $childPath = '';
+
+                if ($hasAlias) {
+                    $childPath = $stack[$top]['path'] === ''
+                        ? (string) $rows[$childId]->alias
+                        : $stack[$top]['path'] . '/' . $rows[$childId]->alias;
+                }
+
+                $stack[] = [
+                    'id'    => $childId,
+                    'lft'   => $counter++,
+                    'level' => $stack[$top]['level'] + 1,
+                    'path'  => $childPath,
+                    'index' => 0,
+                ];
+
+                continue;
+            }
+
+            $frame = array_pop($stack);
+
+            $values = [
+                'lft' => $frame['lft'],
+                'rgt' => $counter++,
+            ];
+
+            if ($hasLevel) {
+                $values['level'] = $frame['level'];
+            }
+
+            if ($hasPath) {
+                $values['path'] = $frame['path'];
+            }
+
+            $target[$frame['id']] = $values;
+        }
+
+        return ['target' => $target, 'rows' => $rows, 'next' => $counter];
+    }
+
+    /**
+     * Method to reduce a set of computed values to the rows that actually differ.
+     *
+     * @param   array  $target  The canonical values as returned by buildTreeState().
+     * @param   array  $rows    The current rows as returned by buildTreeState().
+     *
+     * @return  array  The subset of $target whose values differ from the stored ones.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function diffTreeState(array $target, array $rows): array
+    {
+        $dirty = [];
+
+        foreach ($target as $id => $values) {
+            // A node that is not in the table (for example the virtual parent 0) is skipped.
+            if (!isset($rows[$id])) {
+                continue;
+            }
+
+            foreach ($values as $column => $value) {
+                if ($column === 'path') {
+                    if ((string) $rows[$id]->path !== (string) $value) {
+                        $dirty[$id] = $values;
+                        break;
+                    }
+
+                    continue;
+                }
+
+                if ((int) $rows[$id]->$column !== (int) $value) {
+                    $dirty[$id] = $values;
+                    break;
+                }
+            }
+        }
+
+        return $dirty;
+    }
+
+    /**
+     * Method to write a set of computed nested set values back to the table.
+     *
+     * Only the columns lft, rgt, level and path are touched. parent_id and the
+     * ordering column, from which those values are derived, are never written, so
+     * repeated calls converge on the same result.
+     *
+     * @param   array  $dirty  The rows to update, as returned by diffTreeState().
+     *
+     * @return  integer  The number of rows written.
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \RuntimeException on database error.
+     */
+    protected function applyTreeState(array $dirty): int
+    {
+        if (!$dirty) {
+            return 0;
+        }
+
+        $db = $this->getDatabase();
+
+        $id    = 0;
+        $lft   = 0;
+        $rgt   = 0;
+        $level = 0;
+        $path  = '';
+
+        $query = $db->getQuery(true)
+            ->update($db->quoteName($this->_tbl))
+            ->set($db->quoteName('lft') . ' = :lft')
+            ->set($db->quoteName('rgt') . ' = :rgt')
+            ->where($db->quoteName($this->_tbl_key) . ' = :id')
+            ->bind(':lft', $lft, ParameterType::INTEGER)
+            ->bind(':rgt', $rgt, ParameterType::INTEGER)
+            ->bind(':id', $id, ParameterType::INTEGER);
+
+        $fields   = $this->getFields();
+        $hasLevel = \array_key_exists('level', $fields);
+        $hasPath  = \array_key_exists('path', $fields);
+
+        if ($hasLevel) {
+            $query->set($db->quoteName('level') . ' = :level')
+                ->bind(':level', $level, ParameterType::INTEGER);
+        }
+
+        if ($hasPath) {
+            $query->set($db->quoteName('path') . ' = :path')
+                ->bind(':path', $path, ParameterType::STRING);
+        }
+
+        /*
+         * Do not open a transaction while the table is under a write lock. In MySQL
+         * LOCK TABLES commits the current transaction, so the two must not be mixed.
+         */
+        $transaction = !$this->_locked;
+
+        if ($transaction) {
+            $db->transactionStart();
+        }
+
+        try {
+            foreach ($dirty as $key => $values) {
+                $id    = (int) $key;
+                $lft   = (int) $values['lft'];
+                $rgt   = (int) $values['rgt'];
+                $level = (int) ($values['level'] ?? 0);
+                $path  = (string) ($values['path'] ?? '');
+
+                $db->setQuery($query)->execute();
+            }
+        } catch (\Throwable $e) {
+            if ($transaction) {
+                $db->transactionRollback();
+            }
+
+            throw $e;
+        }
+
+        if ($transaction) {
+            $db->transactionCommit();
+        }
+
+        return \count($dirty);
     }
 
     /**
