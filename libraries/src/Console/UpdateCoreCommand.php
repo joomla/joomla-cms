@@ -255,7 +255,7 @@ class UpdateCoreCommand extends AbstractCommand
     protected function configure(): void
     {
         $help = "<info>%command.name%</info> is used to update Joomla
-		\nUsage: <info>php %command.full_name%</info>";
+        \nUsage: <info>php %command.full_name%</info>";
 
         $this->setDescription('Update Joomla');
         $this->setHelp($help);
@@ -332,9 +332,15 @@ class UpdateCoreCommand extends AbstractCommand
                     $this->progressBar->advance();
                 }
 
+                Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_CLEANUP'), Log::INFO, 'Update');
                 InstallerHelper::cleanupInstall($package['file'], $package['extractdir']);
 
                 $updatemodel->purge();
+                Log::add(
+                    Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_COMPLETE', \JVERSION),
+                    Log::INFO,
+                    'Update'
+                );
 
                 return true;
             }
@@ -420,7 +426,11 @@ class UpdateCoreCommand extends AbstractCommand
         $this->progressBar->advance();
 
         $file = $this->downloadFile($updateInformation['object']->downloadurl->_data);
+        if (!$file) {
+            return false;
+        }
 
+        Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $file), Log::INFO, 'Update');
         $tmpPath       = $this->getApplication()->get('tmp_path');
         $updatePackage = $tmpPath . '/' . $file;
 
@@ -436,6 +446,7 @@ class UpdateCoreCommand extends AbstractCommand
         $this->progressBar->display();
         $this->progressBar->advance();
 
+        Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_INSTALL'), Log::INFO, 'Update');
         $this->copyFileTo($package['extractdir'], JPATH_BASE);
 
         return ['file' => $updatePackage, 'extractdir' => $package['extractdir']];
