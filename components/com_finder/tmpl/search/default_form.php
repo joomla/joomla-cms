@@ -19,7 +19,7 @@ use Joomla\CMS\Router\Route;
 * This segment of code sets up the autocompleter.
 */
 if ($this->params->get('show_autosuggest', 1)) {
-    $this->getDocument()->getWebAssetManager()->usePreset('awesomplete');
+    $this->getDocument()->getWebAssetManager()->useScript('awesomplete');
     $this->getDocument()->addScriptOptions('finder-search', ['url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false)]);
 
     Text::script('COM_FINDER_SEARCH_FORM_LIST_LABEL');
