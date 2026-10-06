@@ -109,7 +109,7 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
                                 <?php endif; ?>
                                 <th scope="row" class="has-context">
                                     <div class="break-word">
-                                        <span hidden> <?php echo HTMLHelper::_('grid.id', $i, $item->id); ?></span>
+                                        <span hidden><?php echo HTMLHelper::_('grid.id', $i, $item->id); ?></span>
                                         <?php if (isset($item->level)) : ?>
                                             <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
                                         <?php endif; ?>
