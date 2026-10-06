@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Administrator\View\Articles;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
@@ -129,6 +130,21 @@ class HtmlView extends BaseHtmlView
             PluginHelper::importPlugin('workflow');
 
             $this->transitions = $model->getTransitions();
+        }
+
+        if ($this->items) {
+            // Preload access rules for the items
+            $assetsList = [];
+
+            foreach ($this->items as $item) {
+                $assetsList[] = 'com_content.article.' . $item->id;
+
+                if (!empty($item->catid)) {
+                    $assetsList['c' . $item->catid] = 'com_content.category.' . $item->catid;
+                }
+            }
+
+            Access::preloadItems('com_content', array_values($assetsList));
         }
 
         // We don't need toolbar in the modal window.
