@@ -328,7 +328,7 @@ abstract class Adapter extends CMSPlugin
     protected function change($id, $property, $value)
     {
         // Check for a property we know how to handle.
-        if ($property !== 'state' && $property !== 'access') {
+        if (!\in_array($property, ['state', 'access', 'cat_access'], true)) {
             return true;
         }
 
@@ -449,13 +449,9 @@ abstract class Adapter extends CMSPlugin
         $this->db->setQuery($query);
         $items = $this->db->loadObjectList();
 
-        // Adjust the access level for each item within the category.
+        // Update the category access level for each item within the category.
         foreach ($items as $item) {
-            // Set the access level.
-            $temp = max($item->access, $row->access);
-
-            // Update the item.
-            $this->change((int) $item->id, 'access', $temp);
+            $this->change((int) $item->id, 'cat_access', $row->access);
         }
     }
 
@@ -594,6 +590,8 @@ abstract class Adapter extends CMSPlugin
         // Convert the item to a result object.
         $item = ArrayHelper::toObject((array) $item, Result::class);
 
+        $this->setDefaultCategoryAccess($item);
+
         // Set the item type.
         $item->type_id = $this->type_id;
 
@@ -624,6 +622,8 @@ abstract class Adapter extends CMSPlugin
         foreach ($items as &$item) {
             $item = ArrayHelper::toObject($item, Result::class);
 
+            $this->setDefaultCategoryAccess($item);
+
             // Set the item type.
             $item->type_id = $this->type_id;
 
@@ -635,6 +635,22 @@ abstract class Adapter extends CMSPlugin
         }
 
         return $items;
+    }
+
+    /**
+     * Uses the Public access level for items without a category.
+     *
+     * @param   Result  $item  The item to prepare for indexing.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function setDefaultCategoryAccess(Result $item): void
+    {
+        if (!isset($item->cat_access)) {
+            $item->cat_access = 1;
+        }
     }
 
     /**
@@ -831,18 +847,7 @@ abstract class Adapter extends CMSPlugin
      */
     protected function itemAccessChange($row)
     {
-        $query = clone $this->getStateQuery();
-        $query->where('a.id = ' . (int) $row->id);
-
-        // Get the access level.
-        $this->db->setQuery($query);
-        $item = $this->db->loadObject();
-
-        // Set the access level.
-        $temp = max($row->access, $item->cat_access);
-
-        // Update the item.
-        $this->change((int) $row->id, 'access', $temp);
+        $this->change((int) $row->id, 'access', $row->access);
     }
 
     /**
