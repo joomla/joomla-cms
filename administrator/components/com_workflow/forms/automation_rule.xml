@@ -50,8 +50,6 @@
 		type="text"
 		label="COM_WORKFLOW_AUTOMATION_CRON_LABEL"
 		description="COM_WORKFLOW_AUTOMATION_CRON_DESC"
-		validate="CronExpression"
-		message="COM_WORKFLOW_AUTOMATION_ERROR_CRON"
 		showon="rule_type:cron"
 		parentclass="cb-delay cb-cron"
 	/>
@@ -62,7 +60,6 @@
 		label="COM_WORKFLOW_AUTOMATION_FILTER_LABEL"
 		mode="filter"
 		description="COM_WORKFLOW_AUTOMATION_FILTER_DESC"
-		validate="ConditionTree"
 	/>
 
 	<field
@@ -71,6 +68,5 @@
 		label="COM_WORKFLOW_AUTOMATION_CONDITION_LABEL"
 		mode="condition"
 		description="COM_WORKFLOW_AUTOMATION_CONDITION_DESC"
-		validate="ConditionTree"
 	/>
 </form>

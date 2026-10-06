@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Workflow\Administrator\Rule;
 
+use Cron\CronExpression;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\CMS\Language\Text;
@@ -20,15 +21,19 @@ use Joomla\Registry\Registry;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Rejects a filter or condition holding a check with no field, operator or value.
+ * Validates the whole automation rule at once.
+ *
+ * The fields live in a subform, and core's SubformRule returns only the first error its child form
+ * produced, so validating them individually can report one problem per save however many there are.
+ * Checking the row here means every problem is named in one message.
  *
  * @since  __DEPLOY_VERSION__
  */
-class ConditionTreeRule extends FormRule
+class AutomationRule extends FormRule
 {
     /**
      * @param   \SimpleXMLElement  $element  The field's XML definition.
-     * @param   mixed              $value    The submitted expression, as JSON.
+     * @param   mixed              $value    The submitted automation row.
      * @param   ?string            $group    The field's group.
      * @param   ?Registry          $input    Every value submitted with the form.
      * @param   ?Form              $form     The form being validated.
@@ -39,21 +44,53 @@ class ConditionTreeRule extends FormRule
      */
     public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null): bool
     {
-        if (!$this->hasIncompleteCheck(json_decode((string) $value, true))) {
+        $row = (array) $value;
+
+        if ($row === []) {
             return true;
         }
 
-        // Thrown rather than returned so the message can name which builder needs attention.
-        throw new \RuntimeException(
-            Text::sprintf('COM_WORKFLOW_AUTOMATION_ERROR_INCOMPLETE_CHECK', Text::_((string) $element['label']))
-        );
+        $problems = [];
+        $ruleType = $row['rule_type'] ?? 'delay';
+
+        if ($ruleType === 'cron') {
+            $expression = trim((string) ($row['cron_expression'] ?? ''));
+
+            if ($expression === '' || !CronExpression::isValidExpression($expression)) {
+                $problems[] = Text::_('COM_WORKFLOW_AUTOMATION_ERROR_CRON');
+            }
+        } elseif ((int) ($row['delay_value'] ?? 0) < 0) {
+            $problems[] = Text::_('COM_WORKFLOW_AUTOMATION_ERROR_DELAY_VALUE');
+        }
+
+        $builders = [
+            'item_filter'    => 'COM_WORKFLOW_AUTOMATION_FILTER_LABEL',
+            'fire_condition' => 'COM_WORKFLOW_AUTOMATION_CONDITION_LABEL',
+        ];
+
+        $incomplete = [];
+
+        foreach ($builders as $key => $label) {
+            if ($this->hasIncompleteCheck(json_decode((string) ($row[$key] ?? ''), true))) {
+                $incomplete[] = Text::_($label);
+            }
+        }
+
+        if (\count($incomplete) === 2) {
+            $problems[] = Text::sprintf('COM_WORKFLOW_AUTOMATION_ERROR_INCOMPLETE_CHECKS', $incomplete[0], $incomplete[1]);
+        } elseif ($incomplete !== []) {
+            $problems[] = Text::sprintf('COM_WORKFLOW_AUTOMATION_ERROR_INCOMPLETE_CHECK', $incomplete[0]);
+        }
+
+        if ($problems === []) {
+            return true;
+        }
+
+        throw new \RuntimeException(implode(' ', $problems));
     }
 
     /**
      * Whether an expression holds a check with no field, operator or value.
-     *
-     * The builder submits such checks rather than dropping them, so a save rejected here returns
-     * the expression to the editor to finish instead of losing it.
      *
      * @param   mixed  $node  A decoded expression or check, or null when there is none.
      *

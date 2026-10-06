@@ -109,6 +109,7 @@
 				type="subform"
 				label="COM_WORKFLOW_AUTOMATION_RULES_LABEL"
 				description="COM_WORKFLOW_AUTOMATION_RULES_DESC"
+				validate="Automation"
 				layout="joomla.form.field.subform.default"
 				formsource="administrator/components/com_workflow/forms/automation_rule.xml"
 				showon="automation_enabled:1"
