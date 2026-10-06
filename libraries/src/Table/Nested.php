@@ -10,6 +10,10 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\MVC\Controller\Exception\CheckinCheckoutException;
+use Joomla\CMS\Table\Exception\InvalidHierarchyException;
+use Joomla\CMS\Table\Exception\RecordNotFoundException;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\Event\Dispatcher;
 use Joomla\Event\Event;
 use Joomla\Utilities\ArrayHelper;
@@ -336,11 +340,15 @@ class Nested extends Table
 
         // Cannot move the node to be a child of itself.
         if (\in_array($referenceId, $children)) {
-            $this->setError(
-                new \UnexpectedValueException(
-                    \sprintf('%1$s::moveByReference() is trying to make record ID %2$d a child of itself.', \get_class($this), $pk)
-                )
+            $e = new InvalidHierarchyException(
+                \sprintf('%1$s::moveByReference() is trying to make record ID %2$d a child of itself.', \get_class($this), $pk)
             );
+
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
+            $this->setError($e);
 
             return false;
         }
@@ -550,11 +558,23 @@ class Nested extends Table
             if ($asset->loadByName($name)) {
                 // Delete the node in assets table.
                 if (!$asset->delete(null, $children)) {
+                    if ($this->shouldUseExceptions()) {
+                        $error = $asset->getError(null, false);
+
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
                     $this->setError($asset->getError());
 
                     return false;
                 }
             } else {
+                if ($this->shouldUseExceptions()) {
+                    $error = $asset->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($asset->getError());
 
                 return false;
@@ -680,6 +700,10 @@ class Nested extends Table
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -691,7 +715,7 @@ class Nested extends Table
         try {
             // Check that the parent_id field is valid.
             if ($this->parent_id == 0) {
-                throw new \UnexpectedValueException(\sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, \get_class($this)));
+                throw new InvalidHierarchyException(\sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, \get_class($this)));
             }
 
             $db    = $this->getDatabase();
@@ -701,10 +725,14 @@ class Nested extends Table
                 ->where($this->_tbl_key . ' = ' . $this->parent_id);
 
             if (!$db->setQuery($query)->loadResult()) {
-                throw new \UnexpectedValueException(\sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, \get_class($this)));
+                throw new InvalidHierarchyException(\sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, \get_class($this)));
             }
-        } catch (\UnexpectedValueException $e) {
+        } catch (InvalidHierarchyException $e) {
             // Validation error - record it and return false.
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e);
 
             return false;
@@ -817,7 +845,12 @@ class Nested extends Table
                 $this->rgt       = $repositionData->new_rgt;
             } else {
                 // Negative parent ids are invalid
-                $e = new \UnexpectedValueException(\sprintf('%s::store() used a negative _location_id', \get_class($this)));
+                $e = new InvalidHierarchyException(\sprintf('%s::store() used a negative _location_id', \get_class($this)));
+
+                if ($this->shouldUseExceptions()) {
+                    throw $e;
+                }
+
                 $this->setError($e);
 
                 return false;
@@ -925,7 +958,12 @@ class Nested extends Table
                 $pks = explode(',', $this->$k);
             } else {
                 // Nothing to set publishing state on, return false.
-                $e = new \UnexpectedValueException(\sprintf('%s::publish(%s, %d, %d) empty.', \get_class($this), implode(',', $pks), $state, $userId));
+                $e = new ValidationException(\sprintf('%s::publish(%s, %d, %d) empty.', \get_class($this), implode(',', $pks), $state, $userId));
+
+                if ($this->shouldUseExceptions()) {
+                    throw $e;
+                }
+
                 $this->setError($e);
 
                 return false;
@@ -955,8 +993,11 @@ class Nested extends Table
 
                 // Check for checked out children.
                 if ($db->loadResult()) {
-                    // @todo Convert to a conflict exception when available.
-                    $e = new \RuntimeException(\sprintf('%s::publish(%s, %d, %d) checked-out conflict.', \get_class($this), $pks[0], $state, $userId));
+                    $e = new CheckinCheckoutException(\sprintf('%s::publish(%s, %d, %d) checked-out conflict.', \get_class($this), $pks[0], $state, $userId));
+
+                    if ($this->shouldUseExceptions()) {
+                        throw $e;
+                    }
 
                     $this->setError($e);
 
@@ -980,9 +1021,14 @@ class Nested extends Table
                 $db->setQuery($query);
 
                 if ($db->loadResult()) {
-                    $e = new \UnexpectedValueException(
+                    $e = new InvalidHierarchyException(
                         \sprintf('%s::publish(%s, %d, %d) ancestors have lower state.', \get_class($this), $pks[0], $state, $userId)
                     );
+
+                    if ($this->shouldUseExceptions()) {
+                        throw $e;
+                    }
+
                     $this->setError($e);
 
                     return false;
@@ -1226,7 +1272,12 @@ class Nested extends Table
             }
         }
 
-        $e = new \UnexpectedValueException(\sprintf('%s::getRootId', \get_class($this)));
+        $e = new RecordNotFoundException(\sprintf('%s::getRootId', \get_class($this)));
+
+        if ($this->shouldUseExceptions()) {
+            throw $e;
+        }
+
         $this->setError($e);
         self::$root_id = false;
 
@@ -1562,7 +1613,12 @@ class Nested extends Table
 
         // Check for no $row returned
         if (empty($row)) {
-            $e = new \UnexpectedValueException(\sprintf('%s::_getNode(%d, %s) failed.', \get_class($this), $id, $k));
+            $e = new RecordNotFoundException(\sprintf('%s::_getNode(%d, %s) failed.', \get_class($this), $id, $k));
+
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e);
 
             return false;

@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Exception\DuplicateEntryException;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Event\DispatcherInterface;
 
@@ -50,6 +51,10 @@ class ContentType extends Table
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -84,6 +89,10 @@ class ContentType extends Table
         $table = new self($this->getDatabase(), $this->getDispatcher());
 
         if ($table->load(['type_alias' => $this->type_alias]) && ($table->type_id != $this->type_id || $this->type_id == 0)) {
+            if ($this->shouldUseExceptions()) {
+                throw new DuplicateEntryException(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'), 'type_alias');
+            }
+
             $this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
 
             return false;
