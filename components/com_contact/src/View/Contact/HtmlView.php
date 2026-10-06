@@ -18,7 +18,6 @@ use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -143,6 +142,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
     {
         /** @var ContactModel $model */
         $model      = $this->getModel();
+        $model->setUseExceptions(true);
         $app        = Factory::getApplication();
         $user       = $this->getCurrentUser();
         $state      = $model->getState();
@@ -197,11 +197,6 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
             $categoryModel->setState('filter.published', 1);
 
             $contacts = $categoryModel->getItems();
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Check if access is not public
