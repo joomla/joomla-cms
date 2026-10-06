@@ -180,7 +180,7 @@ class Mail extends PHPMailer implements MailerInterface, TransportConfigurableMa
     }
 
     /**
-     * Set the email sender
+     * Set the email From
      *
      * @param   mixed  $from   email address and Name of sender
      *                         <code>array([0] => email Address, [1] => Name)</code>
