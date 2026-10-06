@@ -104,6 +104,8 @@ class CategoryModel extends ListModel
         }
 
         parent::__construct($config, $factory);
+
+        $this->localeOrderColumns = ['a.name', 'a.link'];
     }
 
     /**
@@ -221,7 +223,10 @@ class CategoryModel extends ListModel
         }
 
         // Add the list ordering clause.
-        $query->order($db->escape($this->getState('list.ordering', 'a.ordering')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+        $query->order($this->getOrderByWithLocale(
+            $this->getState('list.ordering', 'a.ordering'),
+            $this->getState('list.direction', 'ASC')
+        ));
 
         return $query;
     }

@@ -85,6 +85,8 @@ class ArticlesModel extends ListModel
         }
 
         parent::__construct($config, $factory);
+
+        $this->localeOrderColumns = ['a.title', 'a.alias', 'category_title', 'a.created_by_alias'];
     }
 
     /**
@@ -669,11 +671,11 @@ class ArticlesModel extends ListModel
 
         if ($orderCol === 'a.ordering' || $orderCol === 'category_title') {
             $ordering = [
-                $db->quoteName('c.title') . ' ' . $db->escape($orderDirn),
+                $this->buildLocaleOrderByExpression('c.title', $orderDirn, ['c.title']),
                 $db->quoteName('a.ordering') . ' ' . $db->escape($orderDirn),
             ];
         } else {
-            $ordering = $db->escape($orderCol) . ' ' . $db->escape($orderDirn);
+            $ordering = $this->getOrderByWithLocale($orderCol, $orderDirn);
         }
 
         $query->order($ordering);

@@ -67,6 +67,8 @@ class FieldsModel extends ListModel
         }
 
         parent::__construct($config, $factory);
+
+        $this->localeOrderColumns = ['a.title', 'a.name', 'g.title'];
     }
 
     /**
@@ -376,7 +378,7 @@ class FieldsModel extends ListModel
         $listOrdering  = $this->state->get('list.ordering', 'a.ordering');
         $orderDirn     = $this->state->get('list.direction', 'ASC');
 
-        $query->order($db->escape($listOrdering) . ' ' . $db->escape($orderDirn));
+        $query->order($this->getOrderByWithLocale($listOrdering, $orderDirn));
 
         return $query;
     }
