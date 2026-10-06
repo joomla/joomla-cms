@@ -74,7 +74,7 @@ class StatisticsModel extends BaseDatabaseModel
         $data->type_list = $db->loadObjectList();
 
         $lang    = Factory::getLanguage();
-        $plugins = PluginHelper::getPlugin('finder');
+        $plugins = PluginHelper::getPlugins('finder');
 
         foreach ($plugins as $plugin) {
             $lang->load('plg_finder_' . $plugin->name . '.sys', JPATH_ADMINISTRATOR)
