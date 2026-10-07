@@ -47,7 +47,7 @@ abstract class ToolbarHelper
         $app                  = Factory::getApplication();
         // @deprecated 5.2.0 will be removed in 7.0 as this property is not used anymore see WebApplication
         $app->JComponentTitle = $html;
-        $title                = strip_tags($title) . ' - ' . $app->get('sitename');
+        $title                = html_entity_decode(strip_tags($title), ENT_QUOTES, 'UTF-8') . ' - ' . $app->get('sitename');
 
         if ($app->isClient('administrator')) {
             $title .= ' - ' . Text::_('JADMINISTRATION');
