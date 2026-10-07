@@ -181,10 +181,12 @@ class RemindModel extends FormModel implements MailerFactoryAwareInterface, Lang
             'com_users.reminder',
             $app->getLanguage()->getTag(),
             $this->getMailerFactory()->createMailer(),
-            $this->getLanguageFactory()
+            $this->getLanguageFactory(),
+            $this->getDatabase()
         );
         $mailer->addTemplateData($data);
         $mailer->addRecipient($user->email, $user->name);
+        $mailer->addUnsafeTags(['username', 'name']);
 
         // Try to send the password reset request email.
         try {

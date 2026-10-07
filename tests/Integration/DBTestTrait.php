@@ -42,7 +42,6 @@ trait DBTestTrait
     }
 
     /**
-     *
      * @return mixed
      *
      * @since   4.0.0
@@ -53,7 +52,6 @@ trait DBTestTrait
     }
 
     /**
-     *
      * @return array
      *
      * @since   4.0.0
