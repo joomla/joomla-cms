@@ -48,6 +48,28 @@
 				label="PLG_TASK_REQUESTS_LABEL_AUTH_KEY"
 				showon="auth:1"
 			/>
+			<field
+				name="customHeaders"
+				type="subform"
+				label="PLG_TASK_REQUESTS_LABEL_CUSTOM_HEADERS"
+				multiple="true"
+				layout="joomla.form.field.subform.repeatable-table"
+				>
+				<form>
+					<field
+						name="name"
+						type="text"
+						label="PLG_TASK_REQUESTS_LABEL_CUSTOM_HEADER_NAME"
+						filter="string"
+					/>
+					<field
+						name="value"
+						type="text"
+						label="PLG_TASK_REQUESTS_LABEL_CUSTOM_HEADER_VALUE"
+						filter="string"
+					/>
+				</form>
+			</field>
 		</fieldset>
 	</fields>
 </form>
