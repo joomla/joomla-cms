@@ -77,7 +77,7 @@ if ($dataAttribute) {
 }
 ?>
 <fieldset <?php echo implode(' ', $attribs); ?>>
-    <legend class="visually-hidden">
+    <legend>
         <?php echo $label; ?>
     </legend>
     <div class="<?php echo $containerClass; ?>">

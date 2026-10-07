@@ -71,6 +71,17 @@
     min-inline-size: 210px;
     max-inline-size: 100%;
 
+    fieldset > legend {
+      float: none;
+      width: auto;
+      margin-block-end: 0;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--login-label-color);
+      inline-size: 240px;
+      padding: .3rem 1rem .3rem 0;
+    }
+
     + div {
       inline-size: 100%;
       margin: 5px 0 10px;

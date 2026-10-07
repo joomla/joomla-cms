@@ -39,6 +39,15 @@ class RadioField extends ListField
     protected $layout = 'joomla.form.field.radio.buttons';
 
     /**
+     * Hide the label for the field as it is semantically redundant when using
+     * the radio layouts which have a legend.
+     *
+     * @var  boolean
+     * @since __DEPLOY_VERSION__
+     */
+    protected $hiddenLabel = true;
+
+    /**
      * Method to get the data to be passed to the layout for rendering.
      *
      * @return  array
