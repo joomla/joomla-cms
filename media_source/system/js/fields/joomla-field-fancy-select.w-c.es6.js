@@ -149,6 +149,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       classNames: {
         button: 'choices__button_joomla', // It is need because an original styling use unavailable Icon.svg file
       },
+      labelId: this.select.labels?.[0]?.id ?? '',
     });
 
     // Handle typing of custom Term
