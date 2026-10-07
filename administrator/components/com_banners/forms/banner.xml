@@ -38,6 +38,17 @@
 		/>
 
 		<field
+			name="secondary_categories"
+			type="categorymultiple"
+			label="JADDITIONAL_CATEGORIES"
+			description="COM_BANNERS_FIELD_ADDITIONAL_CATEGORIES_DESC"
+			primarycategoryfield="catid"
+			multiple="true"
+			extension="com_banners"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
+		/>
+
+		<field
 			name="state"
 			type="list"
 			label="JSTATUS"

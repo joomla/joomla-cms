@@ -38,7 +38,7 @@
 			<field
 				name="show_contact_category"
 				type="list"
-				label="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_LABEL"
+				label="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORIES_LABEL"
 				useglobal="true"
 				class="form-select-color-state"
 				validate="options"
@@ -58,7 +58,7 @@
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-			</field>
+ 			</field>
 
 			<field
 				name="show_name"

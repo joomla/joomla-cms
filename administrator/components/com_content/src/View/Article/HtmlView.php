@@ -85,6 +85,7 @@ class HtmlView extends FormView
 
         parent::initializeView();
 
+
         $this->canDo = ContentHelper::getActions('com_content', 'article', $this->item->id);
 
         $url = RouteHelper::getArticleRoute($this->item->id . ':' . $this->item->alias, $this->item->catid, $this->item->language);

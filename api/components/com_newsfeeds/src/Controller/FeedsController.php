@@ -10,7 +10,10 @@
 
 namespace Joomla\Component\Newsfeeds\Api\Controller;
 
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -38,4 +41,33 @@ class FeedsController extends ApiController
      * @since  3.0
      */
     protected $default_view = 'feeds';
+
+    /**
+     * Method to preprocess data before saving it.
+     *
+     * @param   array  $data  The data to be processed.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function preprocessSaveData(array $data): array
+    {
+        if (($this->input->getMethod() === 'PATCH') && !(\array_key_exists('tags', $data))) {
+            $tags = new TagsHelper();
+            $tags->getTagIds($data['id'], 'com_newsfeeds.newsfeed');
+            $data['tags'] = explode(',', $tags->tags);
+        }
+
+        if (($this->input->getMethod() === 'PATCH') && !(\array_key_exists('secondary_categories', $data))) {
+            $helper                       = new SecondaryCategoriesHelper('com_newsfeeds.newsfeed');
+            $data['secondary_categories'] = $helper->getCurrentSecondaryCategoriesByItem((int) $data['id']);
+        }
+
+        if (\array_key_exists('secondary_categories', $data)) {
+            $data['secondary_categories'] = array_values(array_filter(ArrayHelper::toInteger((array) $data['secondary_categories'])));
+        }
+
+        return parent::preprocessSaveData($data);
+    }
 }

@@ -18,6 +18,7 @@ use Joomla\CMS\Event\Model\BeforeDeleteEvent;
 use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
@@ -921,11 +922,31 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         $db    = $this->getDatabase();
         $query = $db->createQuery();
 
-        // Count the items in this category
-        $query->select('COUNT(' . $db->quoteName('id') . ')')
-            ->from($db->quoteName($table))
-            ->where($db->quoteName('catid') . ' = :catid')
-            ->bind(':catid', $catid, ParameterType::INTEGER);
+        $supportedTables = [
+                '#__banners'         => 'com_banners.banner',
+                '#__content'         => 'com_content.article',
+                '#__contact_details' => 'com_contact.contact',
+                '#__newsfeeds'       => 'com_newsfeeds.newsfeed',
+        ];
+
+        if (\array_key_exists($table, $supportedTables)) {
+            $context = $supportedTables[$table];
+
+            // Reuse the centralized helper to check primary AND secondary mappings
+            $helper    = new SecondaryCategoriesHelper($context);
+            $condition = $helper->buildCategoryMembershipCondition([(int) $catid], false, 1, 'a');
+
+            $query->select('COUNT(DISTINCT ' . $db->quoteName('a.id') . ')')
+                ->from($db->quoteName($table, 'a'))
+                ->where($condition);
+        } else {
+            // Count the items in this category
+            $query->select('COUNT(' . $db->quoteName('id') . ')')
+                ->from($db->quoteName($table))
+                ->where($db->quoteName('catid') . ' = :catid')
+                ->bind(':catid', $catid, ParameterType::INTEGER);
+        }
+
         $db->setQuery($query);
 
         try {
@@ -1019,11 +1040,37 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
         // Make sure we only do the query if we have some categories to look in
         if (\count($childCategoryIds)) {
-            // Count the items in this category
-            $query = $db->createQuery()
-                ->select('COUNT(' . $db->quoteName('id') . ')')
-                ->from($db->quoteName($table))
-                ->whereIn($db->quoteName('catid'), $childCategoryIds);
+            $childCategoryIds = SecondaryCategoriesHelper::normalizeCategoryIds($childCategoryIds);
+
+            if (!$childCategoryIds) {
+                return 0;
+            }
+            $supportedTables = [
+                    '#__banners'         => 'com_banners.banner',
+                    '#__content'         => 'com_content.article',
+                    '#__contact_details' => 'com_contact.contact',
+                    '#__newsfeeds'       => 'com_newsfeeds.newsfeed',
+            ];
+
+            if (\array_key_exists($table, $supportedTables)) {
+                $context = $supportedTables[$table];
+
+                // Reuse the centralized helper to check primary AND secondary mappings
+                $helper    = new SecondaryCategoriesHelper($context);
+                $condition = $helper->buildCategoryMembershipCondition($childCategoryIds, false, 1, 'a');
+
+                $query = $db->createQuery()
+                    ->select('COUNT(DISTINCT ' . $db->quoteName('a.id') . ')')
+                    ->from($db->quoteName($table, 'a'))
+                    ->where($condition);
+            } else {
+                // Count the items in this category
+                $query = $db->createQuery()
+                    ->select('COUNT(' . $db->quoteName('id') . ')')
+                    ->from($db->quoteName($table))
+                    ->whereIn($db->quoteName('catid'), $childCategoryIds);
+            }
+
             $db->setQuery($query);
 
             try {
