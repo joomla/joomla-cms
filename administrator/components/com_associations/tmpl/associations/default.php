@@ -38,11 +38,13 @@ $iconStates = [
 Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
 
 ?>
+
 <form action="<?php echo Route::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
                 <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
+
                 <?php if ($this->state->get('itemtype') == '' || $this->state->get('language') == '') : ?>
                     <div class="alert alert-info">
                         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -95,72 +97,68 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
                             </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($this->items as $i => $item) :
-                            $canCheckin = true;
-                            $canEdit    = AssociationsHelper::allowEdit($this->extensionName, $this->typeName, $item->id);
-                            $canCheckin = $canManageCheckin || AssociationsHelper::canCheckinItem($this->extensionName, $this->typeName, $item->id);
-                            $isCheckout = AssociationsHelper::isCheckoutItem($this->extensionName, $this->typeName, $item->id);
-                            ?>
-                            <tr class="row<?php echo $i % 2; ?>">
-                                <?php if (!empty($this->typeSupports['state'])) : ?>
-                                    <td class="text-center">
-                                        <span class="<?php echo $iconStates[$this->escape($item->state)]; ?>"></span>
-                                    </td>
-                                <?php endif; ?>
-                                <th scope="row" class="has-context">
-                                    <div class="break-word">
-                                        <span hidden><?php echo HTMLHelper::_('grid.id', $i, $item->id); ?></span>
-                                        <?php if (isset($item->level)) : ?>
-                                            <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
-                                        <?php endif; ?>
-                                        <?php if (!$canCheckin && $isCheckout) : ?>
-                                            <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.'); ?>
-                                        <?php endif; ?>
-                                        <?php if ($canCheckin && $isCheckout) : ?>
-                                            <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>
-                                        <?php endif; ?>
-                                        <?php if ($canEdit) : ?>
-                                            <a class="hasTooltip" href="<?php echo Route::_($this->editUri . '&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
-                                                <?php echo $this->escape($item->title); ?></a>
-                                        <?php else : ?>
-                                            <span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
-                                        <?php endif; ?>
-                                        <?php if (!empty($this->typeFields['alias'])) : ?>
-                                            <div class="small">
-                                                <?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-                                            </div>
-                                        <?php endif; ?>
-                                        <?php if (!empty($this->typeFields['catid'])) : ?>
-                                            <div class="small">
-                                                <?php echo Text::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
-                                </th>
-                                <td class="small">
-                                    <?php echo LayoutHelper::render('joomla.content.language', $item); ?>
-                                </td>
-                                <td>
-                                    <?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout, false); ?>
-                                </td>
-                                <td>
-                                    <?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout, true); ?>
-                                </td>
-                                <?php if (!empty($this->typeFields['menutype'])) : ?>
+                            <?php foreach ($this->items as $i => $item) :
+                                $canEdit    = AssociationsHelper::allowEdit($this->extensionName, $this->typeName, $item->id);
+                                $canCheckin = $canManageCheckin || AssociationsHelper::canCheckinItem($this->extensionName, $this->typeName, $item->id);
+                                $isCheckout = AssociationsHelper::isCheckoutItem($this->extensionName, $this->typeName, $item->id);
+                                ?>
+                                <tr class="row<?php echo $i % 2; ?>">
+                                    <?php if (!empty($this->typeSupports['state'])) : ?>
+                                        <td class="text-center">
+                                            <span class="<?php echo $iconStates[$this->escape($item->state)]; ?>"></span>
+                                        </td>
+                                    <?php endif; ?>
+                                    <th scope="row" class="has-context">
+                                        <div class="break-word">
+                                            <span hidden><?php echo HTMLHelper::_('grid.id', $i, $item->id); ?></span>
+                                            <?php if (isset($item->level)) : ?>
+                                                <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
+                                            <?php endif; ?>
+                                            <?php if ($isCheckout) : ?>
+                                                <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>
+                                            <?php endif; ?>
+                                            <?php if ($canEdit) : ?>
+                                                <a class="hasTooltip" href="<?php echo Route::_($this->editUri . '&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
+                                                    <?php echo $this->escape($item->title); ?></a>
+                                            <?php else : ?>
+                                                <span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
+                                            <?php endif; ?>
+                                            <?php if (!empty($this->typeFields['alias'])) : ?>
+                                                <div class="small">
+                                                    <?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+                                                </div>
+                                            <?php endif; ?>
+                                            <?php if (!empty($this->typeFields['catid'])) : ?>
+                                                <div class="small">
+                                                    <?php echo Text::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </th>
                                     <td class="small">
-                                        <?php echo $this->escape($item->menutype_title); ?>
+                                        <?php echo LayoutHelper::render('joomla.content.language', $item); ?>
                                     </td>
-                                <?php endif; ?>
-                                <?php if (!empty($this->typeFields['access'])) : ?>
-                                    <td class="small d-none d-md-table-cell">
-                                        <?php echo $this->escape($item->access_level); ?>
+                                    <td>
+                                        <?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout, false); ?>
                                     </td>
-                                <?php endif; ?>
-                                <td class="d-none d-md-table-cell">
-                                    <?php echo $item->id; ?>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
+                                    <td>
+                                        <?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout, true); ?>
+                                    </td>
+                                    <?php if (!empty($this->typeFields['menutype'])) : ?>
+                                        <td class="small">
+                                            <?php echo $this->escape($item->menutype_title); ?>
+                                        </td>
+                                    <?php endif; ?>
+                                    <?php if (!empty($this->typeFields['access'])) : ?>
+                                        <td class="small d-none d-md-table-cell">
+                                            <?php echo $this->escape($item->access_level); ?>
+                                        </td>
+                                    <?php endif; ?>
+                                    <td class="d-none d-md-table-cell">
+                                        <?php echo $item->id; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
 
@@ -168,6 +166,7 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
                     <?php echo $this->pagination->getListFooter(); ?>
 
                 <?php endif; ?>
+
                 <input type="hidden" name="boxchecked" value="0">
                 <?php echo $this->filterForm->renderControlFields(); ?>
                 <?php echo HTMLHelper::_('form.token'); ?>
