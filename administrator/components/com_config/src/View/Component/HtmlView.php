@@ -161,8 +161,9 @@ class HtmlView extends BaseHtmlView
             $toolbar->inlinehelp($targetClass);
         }
 
-        $helpUrl = $this->form->getData()->get('helpURL');
-        $helpKey = (string) $this->form->getXml()->config->help['key'];
+        $helpUrl      = $this->form->getData()->get('helpURL');
+        $helpOverride = (string) $this->form->getXml()->config->help['url'];
+        $helpKey      = (string) $this->form->getXml()->config->help['key'];
 
         // Try with legacy language key
         if (!$helpKey) {
@@ -174,6 +175,6 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        $toolbar->help($helpKey, (bool) $helpUrl, null, $this->currentComponent);
+        $toolbar->help($helpKey, (bool) $helpUrl, $helpOverride, $this->currentComponent);
     }
 }
