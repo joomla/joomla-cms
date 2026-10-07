@@ -26,7 +26,7 @@ $wa->useScript('keepalive')
 $app   = Factory::getApplication();
 $user  = $app->getIdentity();
 
-$this->ignore_fieldsets = ['params', 'transition', 'permissions'];
+$this->ignore_fieldsets = ['params', 'transition', 'permissions', 'automation'];
 $this->useCoreUI = true;
 
 // In case of modal
@@ -65,6 +65,19 @@ $tmpl    = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
         <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+
+        <?php if ($this->form->getGroup('automation')) : ?>
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'automation', Text::_('COM_WORKFLOW_AUTOMATION_FIELDSET_LABEL')); ?>
+            <fieldset id="fieldset-automation" class="options-form">
+                <legend><?php echo Text::_('COM_WORKFLOW_AUTOMATION_FIELDSET_LABEL'); ?></legend>
+                <div class="row">
+                    <div class="col-12">
+                        <?php echo $this->form->renderFieldset('automation'); ?>
+                    </div>
+                </div>
+            </fieldset>
+            <?php echo HTMLHelper::_('uitab.endTab'); ?>
+        <?php endif; ?>
 
         <?php if ($user->authorise('core.admin', $this->extension)) : ?>
             <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_WORKFLOW_RULES_TAB')); ?>

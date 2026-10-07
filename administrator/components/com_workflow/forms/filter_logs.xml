@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			label="COM_WORKFLOW_LOGS_FILTER_SEARCH_LABEL"
+			inputmode="search"
+			hint="COM_WORKFLOW_LOGS_FILTER_SEARCH_HINT"
+		/>
+		<field
+			name="exit_code"
+			type="list"
+			label="COM_WORKFLOW_LOGS_RESULT"
+			class="js-select-submit-on-change"
+			>
+			<option value="">COM_WORKFLOW_LOGS_SELECT_RESULT</option>
+			<option value="ok">COM_WORKFLOW_LOGS_RESULT_OK</option>
+			<option value="failed">COM_WORKFLOW_LOGS_RESULT_FAILED</option>
+			<option value="skipped">COM_WORKFLOW_LOGS_RESULT_SKIPPED</option>
+		</field>
+	</fields>
+
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			default="l.executed_at DESC"
+			class="js-select-submit-on-change"
+			validate="options"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="l.executed_at ASC">COM_WORKFLOW_LOGS_EXECUTED_AT_ASC</option>
+			<option value="l.executed_at DESC">COM_WORKFLOW_LOGS_EXECUTED_AT_DESC</option>
+			<option value="l.item_id ASC">COM_WORKFLOW_LOGS_ITEM_ASC</option>
+			<option value="l.item_id DESC">COM_WORKFLOW_LOGS_ITEM_DESC</option>
+			<option value="l.exit_code ASC">COM_WORKFLOW_LOGS_RESULT_ASC</option>
+			<option value="l.exit_code DESC">COM_WORKFLOW_LOGS_RESULT_DESC</option>
+		</field>
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
+			default="25"
+			class="js-select-submit-on-change"
+		/>
+	</fields>
+</form>
