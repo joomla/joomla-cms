@@ -72,6 +72,17 @@
 		/>
 
 		<field
+			name="previousvisitDate"
+			type="calendar"
+			label="COM_USERS_USER_FIELD_PREVIOUSVISIT_LABEL"
+			class="readonly"
+			readonly="true"
+			translateformat="true"
+			showtime="true"
+			filter="user_utc"
+		/>
+
+		<field
 			name="lastResetTime"
 			type="calendar"
 			label="COM_USERS_USER_FIELD_LASTRESET_LABEL"

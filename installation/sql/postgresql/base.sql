@@ -1026,6 +1026,7 @@ CREATE TABLE IF NOT EXISTS "#__users" (
   "sendEmail" smallint DEFAULT 0,
   "registerDate" timestamp without time zone NOT NULL,
   "lastvisitDate" timestamp without time zone,
+  "previousvisitDate" timestamp without time zone,
   "activation" varchar(100) DEFAULT '' NOT NULL,
   "params" text NOT NULL,
   "lastResetTime" timestamp without time zone,

@@ -1003,6 +1003,7 @@ CREATE TABLE IF NOT EXISTS `#__users` (
   `sendEmail` tinyint DEFAULT 0,
   `registerDate` datetime NOT NULL,
   `lastvisitDate` datetime,
+  `previousvisitDate` datetime,
   `activation` varchar(100) NOT NULL DEFAULT '',
   `params` text NOT NULL,
   `lastResetTime` datetime COMMENT 'Date of last password reset',
