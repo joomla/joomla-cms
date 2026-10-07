@@ -47,11 +47,12 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   string   $maxsize         Maximum file size allowed for upload.
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
 
-$maxSize = HTMLHelper::_('number.bytes', Utility::getMaxUploadSize());
+$maxSize = HTMLHelper::_('number.bytes', Utility::getMaxUploadSize($maxsize));
 
 ?>
 <input type="file"
