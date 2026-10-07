@@ -17,7 +17,10 @@ namespace Joomla\CMS\Access\Exception;
  * Exception class defining an authentication failed event
  *
  * @since  4.0.0
+ *
+ * @deprecated  __DEPLOY_VERSION__ will be removed in 8.0
+ *              Use the class with the Exception suffix instead.
  */
-class AuthenticationFailed extends \RuntimeException
+class AuthenticationFailed extends AuthenticationFailedException
 {
 }

@@ -17,7 +17,10 @@ namespace Joomla\CMS\MVC\Controller\Exception;
  * Checkin/checkout Exception
  *
  * @since  4.0.0
+ *
+ * @deprecated  __DEPLOY_VERSION__ will be removed in 8.0
+ *              Use the class with the Exception suffix instead.
  */
-class CheckinCheckout extends \RuntimeException
+class CheckinCheckout extends CheckinCheckoutException
 {
 }

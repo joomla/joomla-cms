@@ -192,7 +192,8 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface, 
                             'com_users.registration.admin.verification_request',
                             $app->getLanguage()->getTag(),
                             $this->getMailerFactory()->createMailer(),
-                            $this->getLanguageFactory()
+                            $this->getLanguageFactory(),
+                            $this->getDatabase()
                         );
                         $mailer->addTemplateData($data);
                         $mailer->addRecipient($row->email);
@@ -233,7 +234,8 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface, 
                 'com_users.registration.user.admin_activated',
                 $app->getLanguage()->getTag(),
                 $this->getMailerFactory()->createMailer(),
-                $this->getLanguageFactory()
+                $this->getLanguageFactory(),
+                $this->getDatabase()
             );
             $mailer->addTemplateData($data);
             $mailer->addRecipient($data['email']);
@@ -534,7 +536,8 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface, 
                 $mailtemplate,
                 $app->getLanguage()->getTag(),
                 $this->getMailerFactory()->createMailer(),
-                $this->getLanguageFactory()
+                $this->getLanguageFactory(),
+                $this->getDatabase()
             );
             $mailer->addTemplateData($data);
             $mailer->addRecipient($data['email']);
@@ -581,7 +584,8 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface, 
                         'com_users.registration.admin.new_notification',
                         $app->getLanguage()->getTag(),
                         $this->getMailerFactory()->createMailer(),
-                        $this->getLanguageFactory()
+                        $this->getLanguageFactory(),
+                        $this->getDatabase()
                     );
                     $mailer->addTemplateData($data);
                     $mailer->addRecipient($row->email);

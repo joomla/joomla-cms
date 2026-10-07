@@ -248,4 +248,67 @@ class CMSObjectTest extends UnitTestCase
             $object->getErrors()
         );
     }
+
+    /**
+     * Tests that setError() throws a string error wrapped in a generic \Exception once useExceptions is enabled.
+     *
+     * @group     CMSObject
+     * @covers    CMSObject::setError
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function testSetErrorThrowsGenericExceptionForStringWhenUseExceptionsIsEnabled()
+    {
+        $object = new CMSObject();
+        $object->setUseExceptions(true);
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('A Test Error');
+
+        $object->setError('A Test Error');
+    }
+
+    /**
+     * Tests that setError() rethrows an already-built Throwable unchanged (preserving its concrete type)
+     * once useExceptions is enabled, instead of collapsing it into a generic \Exception.
+     *
+     * @group     CMSObject
+     * @covers    CMSObject::setError
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function testSetErrorPreservesThrowableTypeWhenUseExceptionsIsEnabled()
+    {
+        $object    = new CMSObject();
+        $exception = new \RuntimeException('A Typed Error');
+        $object->setUseExceptions(true);
+
+        try {
+            $object->setError($exception);
+            $this->fail('Expected exception was not thrown.');
+        } catch (\Throwable $caught) {
+            $this->assertSame($exception, $caught);
+        }
+    }
+
+    /**
+     * Tests that setError() does not throw while useExceptions remains disabled, regardless of the argument type.
+     *
+     * @group     CMSObject
+     * @covers    CMSObject::setError
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function testSetErrorDoesNotThrowWhenUseExceptionsIsDisabled()
+    {
+        $object    = new CMSObject();
+        $exception = new \RuntimeException('A Typed Error');
+
+        $object->setError($exception);
+
+        $this->assertSame($exception, $object->getError(0, false));
+    }
 }

@@ -216,7 +216,8 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
                     'plg_task_updatenotification.mail',
                     $jLanguage->getTag(),
                     $this->getMailerFactory()->createMailer(),
-                    $this->getLanguageFactory()
+                    $this->getLanguageFactory(),
+                    $this->getDatabase()
                 );
                 $mailer->addRecipient($superUser->email);
                 $mailer->addTemplateData($substitutions);

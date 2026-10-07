@@ -491,6 +491,31 @@ class CategoryNode implements NodeInterface
     }
 
     /**
+     * Check whether this category has a child that is visible to the user.
+     *
+     * @param   array  $groups               The user's authorised view levels.
+     * @param   bool   $showEmptyCategories  Whether empty categories should be displayed.
+     *
+     * @return  bool  True if a visible child should be displayed.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function hasVisibleChildren(array $groups, bool $showEmptyCategories): bool
+    {
+        foreach ($this->getChildren() as $child) {
+            if (!\in_array($child->access, $groups)) {
+                continue;
+            }
+
+            if ($showEmptyCategories || $child->getNumItems(true) || \count($child->getChildren())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Serialize the node.
      *
      * @since   4.3.2
