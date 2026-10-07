@@ -103,6 +103,8 @@ class HtmlView extends BaseHtmlView
     protected function _prepareDocument()
     {
         // There is no menu item for this so we have to use the title from the component
-        $this->setDocumentTitle(Text::_('COM_CONFIG_MODULES_SETTINGS_TITLE'));
+        $this->setDocumentTitle(
+            Text::_('COM_CONFIG_MODULES_SETTINGS_TITLE') . ': ' . $this->item['title']
+        );
     }
 }
