@@ -73,6 +73,7 @@ class CategoriesModel extends ListModel
 
         if (Associations::isEnabled()) {
             $config['filter_fields'][] = 'association';
+            $config['filter_fields'][] = 'translation';
         }
 
         parent::__construct($config, $factory);
@@ -147,6 +148,7 @@ class CategoriesModel extends ListModel
         $id .= ':' . $this->getState('filter.published');
         $id .= ':' . $this->getState('filter.access');
         $id .= ':' . $this->getState('filter.language');
+        $id .= ':' . $this->getState('filter.translation');
         $id .= ':' . $this->getState('filter.level');
         $id .= ':' . serialize($this->getState('filter.tag'));
 
@@ -221,6 +223,7 @@ class CategoriesModel extends ListModel
 
         if ($assoc) {
             $query->select('COUNT(asso2.id)>1 as association')
+                ->select($db->quoteName('asso.outdated', 'association_outdated'))
                 ->join(
                     'LEFT',
                     $db->quoteName('#__associations', 'asso'),
@@ -232,7 +235,15 @@ class CategoriesModel extends ListModel
                     $db->quoteName('#__associations', 'asso2'),
                     $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key')
                 )
-                ->group('a.id, l.title, uc.name, ag.title, ua.name');
+                ->group('a.id, l.title, uc.name, ag.title, ua.name, asso.outdated');
+
+            $translation = $this->getState('filter.translation');
+
+            if ($translation === 'outdated') {
+                $query->where($db->quoteName('asso.outdated') . ' = 1');
+            } elseif ($translation === 'uptodate') {
+                $query->where($db->quoteName('asso.outdated') . ' = 0');
+            }
         }
 
         // Filter by extension

@@ -19,7 +19,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -902,32 +901,12 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
 
         // Association for modules
         if (Associations::isEnabled()) {
-            $languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
-
-            if (\count($languages) > 1) {
-                $addform = new \SimpleXMLElement('<form />');
-                $fields  = $addform->addChild('fields');
-                $fields->addAttribute('name', 'associations');
-                $fieldset = $fields->addChild('fieldset');
-                $fieldset->addAttribute('name', 'item_associations');
-                $fieldset->addAttribute('addfieldprefix', 'Joomla\Component\Modules\Administrator\Field');
-
-                foreach ($languages as $language) {
-                    $field = $fieldset->addChild('field');
-                    $field->addAttribute('name', $language->lang_code);
-                    $field->addAttribute('type', 'modal_module');
-                    $field->addAttribute('language', $language->lang_code);
-                    $field->addAttribute('label', $language->title);
-                    $field->addAttribute('translate_label', 'false');
-                    $field->addAttribute('select', 'true');
-                    $field->addAttribute('new', 'true');
-                    $field->addAttribute('edit', 'true');
-                    $field->addAttribute('clear', 'true');
-                    $field->addAttribute('propagate', 'true');
-                }
-
-                $form->load($addform, false);
-            }
+            $this->associationPreprocessForm(
+                $form,
+                $data,
+                ['type' => 'modal_module'],
+                'Joomla\Component\Modules\Administrator\Field'
+            );
         }
         // Trigger the default form events.
         parent::preprocessForm($form, $data, $group);

@@ -937,11 +937,13 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
                                 $id,
                                 $context,
                                 $key,
+                                0,
                             ],
                             [
                                 ParameterType::INTEGER,
                                 ParameterType::STRING,
                                 ParameterType::STRING,
+                                ParameterType::INTEGER,
                             ]
                         )
                     )

@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS `#__associations` (
   `id` int NOT NULL COMMENT 'A reference to the associated item.',
   `context` varchar(50) NOT NULL COMMENT 'The context of the associated item.',
   `key` char(32) NOT NULL COMMENT 'The key for the association computed from an md5 on associated ids.',
+  `outdated` tinyint NOT NULL DEFAULT 0 COMMENT 'Whether this item is outdated compared to the item the last translation relevant change was made in.',
   PRIMARY KEY (`context`,`id`),
   KEY `idx_key` (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
