@@ -48,6 +48,7 @@ extract($displayData);
  * @var   string[] $urls
  * @var   string[] $modalTitles
  * @var   string[] $buttonIcons
+ * @var   boolean  $checkedOut      Is the selected item checked out by another user?
  */
 
 // Prepare options for each Modal
@@ -82,13 +83,14 @@ $isSelectAlways = !empty($canDo['select']) && empty($canDo['clear']);
 <?php if ($modalNew['src'] && $canDo['new'] ?? false) : ?>
 <button type="button" class="btn btn-secondary" <?php echo $value ? 'hidden' : ''; ?>
         data-button-action="create" data-show-when-value=""
-        data-modal-config="<?php echo $this->escape(json_encode($modalNew, JSON_UNESCAPED_SLASHES)); ?>">
+        data-modal-config="<?php echo $this->escape(json_encode($modalNew, JSON_UNESCAPED_SLASHES)); ?>"
+        data-checkin-url="<?php echo empty($urls['checkin']) ? '' : Route::_($urls['checkin']); ?>">
     <span class="icon-plus" aria-hidden="true"></span> <?php echo Text::_('JACTION_CREATE'); ?>
 </button>
 <?php endif; ?>
 
 <?php if ($modalEdit['src'] && $canDo['edit'] ?? false) : ?>
-<button type="button" class="btn btn-primary" <?php echo $value ? '' : 'hidden'; ?>
+<button type="button" class="btn btn-primary" <?php echo $value && empty($checkedOut) ? '' : 'hidden'; ?>
         data-button-action="edit" data-show-when-value="1"
         data-modal-config="<?php echo $this->escape(json_encode($modalEdit, JSON_UNESCAPED_SLASHES)); ?>"
         data-checkin-url="<?php echo empty($urls['checkin']) ? '' : Route::_($urls['checkin']); ?>">

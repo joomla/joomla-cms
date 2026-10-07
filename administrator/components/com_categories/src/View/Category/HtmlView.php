@@ -349,6 +349,7 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
         $toolbar    = $this->getDocument()->getToolbar();
 
         // Avoid nonsense situation.
@@ -382,8 +383,8 @@ class HtmlView extends BaseHtmlView
         $canCreate = $isNew;
         $canEdit   = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId);
 
-        // For new records, check the create permission.
-        if ($canCreate || $canEdit) {
+        // For new records, check the create permission. A checked out item can not be saved.
+        if (!$checkedOut && ($canCreate || $canEdit)) {
             $toolbar->apply('category.apply');
             $toolbar->save('category.save');
         }
