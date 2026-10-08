@@ -45,11 +45,11 @@ if (!empty($parentclass)) {
 
 ?>
 <div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
-    <?php if ($hideLabel) : ?>
-        <div class="visually-hidden"><?php echo $label; ?></div>
-    <?php else : ?>
-        <div class="control-label"><?php echo $label; ?></div>
-    <?php endif; ?>
+    <div class="control-label">
+        <?php if (!$hideLabel) : ?>
+            <?php echo $label; ?>
+        <?php endif; ?>
+    </div>
     <div class="controls">
         <?php echo $input; ?>
         <?php if (!$hideDescription && !empty($description)) : ?>
