@@ -94,7 +94,7 @@
   .form-vertical & {
     flex-direction: column;
 
-    .controls fieldset>legend {
+    .controls fieldset > legend {
       position: static;
       inline-size: auto;
       padding: .3rem 1rem .3rem 0;
@@ -178,8 +178,8 @@ label.valid {
 }
 
 // reveal associated tooltip on focus
-:focus+[role="tooltip"],
-:hover+[role="tooltip"] {
+:focus + [role="tooltip"],
+:hover + [role="tooltip"] {
   position: absolute;
   display: block;
   max-inline-size: 100%;
@@ -197,7 +197,7 @@ label.valid {
   inset-block-end: auto;
 }
 
-.input-group>.form-control[readonly] {
+.input-group > .form-control[readonly] {
   margin-inline-end: 1px;
 }
 
@@ -213,7 +213,7 @@ div.subform-repeatable-group {
   border: $input-border-width solid $input-border-color;
   @include border-radius($border-radius);
 
-  >.btn-toolbar {
+  > .btn-toolbar {
 
     .btn-group {
       position: static;
@@ -275,26 +275,26 @@ div.subform-repeatable-group {
   flex-flow: row wrap;
   column-gap: 1rem;
 
-  >.control-group {
+  > .control-group {
     flex: 1 1 220px;
     flex-flow: column;
 
-    >.control-label {
+    > .control-label {
       width: 100%;
     }
 
-    >.controls {
+    > .controls {
       width: 100%;
       min-width: unset;
     }
   }
 
   // For groupByFieldset="true"
-  >fieldset {
+  > fieldset {
     flex: 1 1 220px;
 
-    >.control-group {
-      >.control-label {
+    > .control-group {
+      > .control-label {
         width: 100%;
       }
     }
@@ -307,7 +307,7 @@ div.subform-repeatable-group {
   background-color: $teal;
 
   // For table layout
-  >td {
+  > td {
     background-color: $teal;
   }
 }
