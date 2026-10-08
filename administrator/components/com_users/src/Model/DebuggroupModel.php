@@ -79,7 +79,7 @@ class DebuggroupModel extends ListModel
     {
         $groupId = $this->getState('group_id');
 
-        if (($assets          = parent::getItems()) && $groupId) {
+        if (($assets = parent::getItems()) && $groupId) {
             $actions          = $this->getDebugActions();
             $isSuperUserGroup = Access::checkGroup($groupId, 'core.admin');
 
