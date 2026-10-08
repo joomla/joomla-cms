@@ -481,6 +481,7 @@ class TaskModel extends AdminModel
 
         $stateCondition = $options['allowDisabled'] ? [0, 1] : [1];
         $lockQuery->whereIn($db->quoteName('state'), $stateCondition);
+        $lockQuery->where($db->quoteName('locked') . ' IS NULL');
 
         return $lockQuery;
     }
@@ -527,6 +528,7 @@ class TaskModel extends AdminModel
         $idQuery->whereIn($db->quoteName('state'), $stateCondition);
 
         $idQuery->where($db->quoteName('next_execution') . ' IS NOT NULL')
+            ->where($db->quoteName('locked') . ' IS NULL')
             ->order($db->quoteName('priority') . ' DESC')
             ->order($db->quoteName('next_execution') . ' ASC')
             ->setLimit(1);
