@@ -45,6 +45,17 @@ describe('Test that content API endpoint', () => {
         .should('include', 'automated test article'));
   });
 
+  it('can deliver a single article with separate fields intro and full text ', () => {
+    cy.db_createArticle({ title: 'automated test article', introtext: 'This is the intro text.', fulltext: 'This is the full text.' })
+      .then((article) => cy.api_get(`/content/articles/${article.id}`))
+      .then((response) =>
+        cy.wrap(response.body.data.attributes).should((attrs) => {
+          expect(attrs.introtext).to.include('This is the intro text.');
+          expect(attrs.fulltext).to.include('This is the full text.');
+        }),
+      );
+  });
+
   it('can create an article', () => {
     cy.db_createCategory({ extension: 'com_content' })
       .then((categoryId) => cy.api_post('/content/articles', {
