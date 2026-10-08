@@ -87,6 +87,7 @@ if (!empty($editor)) {
                 foreach ($this->items as $i => $item) :
                     $attrs = 'data-content-select data-content-type="com_modules.module"'
                         . ' data-id="' . $item->id . '"'
+                        . ' data-uri="#mod-' . (int) $item->id . '"'
                         . ' data-title="' . $this->escape($item->title) . '"'
                         . ' data-position="' . $this->escape($item->position) . '"'
                         . ' data-module-element="' . $this->escape($item->module) . '"'

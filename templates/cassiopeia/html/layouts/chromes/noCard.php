@@ -22,6 +22,7 @@ if ($module->content === null || $module->content === '') {
 
 $moduleTag              = $params->get('module_tag', 'div');
 $moduleAttribs          = [];
+$moduleAttribs['id']    = 'mod-' . $module->id;
 $moduleAttribs['class'] = $module->position . ' no-card ' . htmlspecialchars($params->get('moduleclass_sfx', ''), ENT_QUOTES, 'UTF-8');
 $headerTag              = htmlspecialchars($params->get('header_tag', 'h3'), ENT_QUOTES, 'UTF-8');
 $headerClass            = htmlspecialchars($params->get('header_class', ''), ENT_QUOTES, 'UTF-8');
@@ -36,7 +37,7 @@ if ($headerClass !== '') {
 if ($moduleTag !== 'div') {
     if ($module->showtitle) :
         $moduleAttribs['aria-labelledby'] = 'mod-' . $module->id;
-        $headerAttribs['id']              = 'mod-' . $module->id;
+        $headerAttribs['id']              = 'mod-' . $module->id . '-title';
     else :
         $moduleAttribs['aria-label'] = htmlspecialchars($module->title, ENT_QUOTES, 'UTF-8');
     endif;

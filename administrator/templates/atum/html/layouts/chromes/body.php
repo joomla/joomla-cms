@@ -40,7 +40,7 @@ $headerClass = $params->get('header_class');
 $headerClass = $headerClass ? ' ' . htmlspecialchars($headerClass, ENT_QUOTES, 'UTF-8') : '';
 
 ?>
-<div class="<?php echo $moduleClass; ?> module-wrapper">
+<div class="<?php echo $moduleClass; ?> module-wrapper" id="<?php echo 'mod-' . $module->id; ?>">
     <<?php echo $moduleTag; ?> class="card pt-3<?php echo $moduleClassSfx; ?>">
         <?php if ($canEdit || $canChange) : ?>
             <?php $dropdownPosition = Factory::getLanguage()->isRtl() ? 'start' : 'end'; ?>

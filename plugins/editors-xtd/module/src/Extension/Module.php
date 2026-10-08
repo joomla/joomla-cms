@@ -103,6 +103,16 @@ final class Module extends CMSPlugin implements SubscriberInterface
                 ]
             );
 
+            // Register as a link source for editors that offer a link picker (e.g. TinyMCE)
+            $this->getApplication()->getDocument()->addScriptOptions('editor-link-providers', [
+            $this->_name => [
+                'title'  => Text::_('PLG_MODULE_BUTTON_MODULE'),
+                'icon'   => 'cube',
+                'src'    => 'index.php?option=com_modules&view=modules&layout=modal&tmpl=component',
+                'select' => 'content',
+                ],
+            ], true);
+
             return $button;
         }
     }

@@ -48,7 +48,7 @@ $headerClass = $params->get('header_class') ? ' class="' . htmlspecialchars($par
 $headerIcon = $params->get('header_icon') ? '<span class="' . htmlspecialchars($params->get('header_icon'), ENT_QUOTES, 'UTF-8') . '" aria-hidden="true"></span>' : '';
 
 ?>
-<div class="<?php echo $moduleClass; ?> module-wrapper">
+<div class="<?php echo $moduleClass; ?> module-wrapper" id="<?php echo 'mod-' . $module->id; ?>">
     <<?php echo $moduleTag; ?> class="card mb-3 <?php echo $moduleClassSfx; ?>">
         <?php if ($canEdit || $canChange || $headerIcon || $module->showtitle) : ?>
             <div class="card-header">
