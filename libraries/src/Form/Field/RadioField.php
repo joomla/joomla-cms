@@ -48,6 +48,14 @@ class RadioField extends ListField
     protected $hiddenLabel = true;
 
     /**
+     * Keep the label wrapper to preserve the form layout.
+     *
+     * @var  boolean
+     * @since __DEPLOY_VERSION__
+     */
+    protected $keepLabelWrapper = true;
+
+    /**
      * Method to get the data to be passed to the layout for rendering.
      *
      * @return  array

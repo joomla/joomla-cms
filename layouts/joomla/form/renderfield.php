@@ -45,11 +45,13 @@ if (!empty($parentclass)) {
 
 ?>
 <div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
-    <div class="control-label">
-        <?php if (!$hideLabel) : ?>
-            <?php echo $label; ?>
-        <?php endif; ?>
-    </div>
+    <?php if (!$hideLabel || !empty($options['keepLabelWrapper'])) : ?>
+        <div class="control-label">
+            <?php if (!$hideLabel) : ?>
+                <?php echo $label; ?>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
     <div class="controls">
         <?php echo $input; ?>
         <?php if (!$hideDescription && !empty($description)) : ?>

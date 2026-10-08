@@ -126,6 +126,14 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     protected $hiddenLabel = false;
 
     /**
+     * Keep the label wrapper when the label is hidden.
+     *
+     * @var    boolean
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $keepLabelWrapper = false;
+
+    /**
      * Should the description be hidden when rendering the form field? This may be useful if you have the
      * description rendering in your form field itself for e.g. note fields.
      *
@@ -1035,6 +1043,8 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                 $options['hiddenLabel'] = $this->hiddenLabel;
             }
         }
+
+        $options['keepLabelWrapper'] = $this->keepLabelWrapper;
 
         if (empty($options['hiddenDescription'])) {
             if ($this->getAttribute('hiddenDescription')) {
