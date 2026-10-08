@@ -146,7 +146,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 <jdoc:include type="modules" name="customtop" style="none" />
 
 <?php
-$logoInput = $this->getApplication()->getInput();
+$logoInput = \Joomla\CMS\Factory::getApplication()->getInput();
 
 $isHomeDashboard =
     $logoInput->getCmd('option', 'com_cpanel') === 'com_cpanel'
@@ -160,11 +160,11 @@ $isHomeDashboard =
         <div class="header-title d-flex">
             <div class="d-flex align-items-center">
                 <?php // No home link in edit mode so users cannot jump out (for a11y purposes)?>
-                <?php if ($hiddenMenu) : ?>
+               <?php if ($hiddenMenu) : ?>
                     <div class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>">
-                        <?php echo HTMLHelper::_('image', $logoBrandLarge, $logoBrandLargeAlt, ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
-                        <?php echo HTMLHelper::_('image', $logoBrandSmall, '', ['class' => 'logo-collapsed', 'loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
-                    </div>
+                        <?php echo HTMLHelper::_('image', $logoBrandLarge, 'Joomla!', ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
+                        <?php echo HTMLHelper::_('image', $logoBrandSmall, 'Joomla!', ['class' => 'logo-collapsed', 'loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
+            </div>
                 <?php else : ?>
                     <a
                         class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>"
