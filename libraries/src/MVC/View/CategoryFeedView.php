@@ -97,7 +97,7 @@ class CategoryFeedView extends AbstractView
 
             // Strip html from feed item title
             if ($titleField) {
-                $title = htmlspecialchars($item->$titleField, ENT_QUOTES, 'UTF-8');
+                $title = $this->escape($item->$titleField);
                 $title = html_entity_decode($title, ENT_QUOTES, 'UTF-8');
             } else {
                 $title = '';
