@@ -64,7 +64,7 @@
     inline-size: 240px;
     padding: .3rem 1rem .3rem 0;
 
-    span {
+    span:not(.invalid):not(.valid):not(.form-control-feedback) {
       color: var(--login-label-color);
     }
   }
@@ -124,6 +124,7 @@ td .form-control {
   border-color: var(--danger);
 }
 
+.control-group .control-label .invalid,
 label.invalid {
   color: var(--danger-text);
 }
@@ -132,6 +133,7 @@ label.invalid {
   border-color: var(--success);
 }
 
+.control-group .control-label .valid,
 label.valid {
   color: var(--success-text);
 }
