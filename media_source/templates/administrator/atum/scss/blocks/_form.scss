@@ -63,6 +63,10 @@
   .control-label {
     inline-size: 240px;
     padding: .3rem 1rem .3rem 0;
+
+    span {
+      color: var(--login-label-color);
+    }
   }
 
   .controls {
