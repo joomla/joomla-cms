@@ -24,17 +24,19 @@ extract($displayData);
 $classes = array_filter((array) $classes);
 $id      = $for . '-lbl';
 
-$isRadioField = isset($field)
-    && $field instanceof \Joomla\CMS\Form\Field\RadioField;
+$isGroupedField = isset($field) && (
+    $field instanceof \Joomla\CMS\Form\Field\RadioField
+    || $field instanceof \Joomla\CMS\Form\Field\CheckboxesField
+);
 
-$tag = $isRadioField ? 'span' : 'label';
+$tag = $isGroupedField ? 'span' : 'label';
 
 if ($required) {
     $classes[] = 'required';
 }
 
 ?>
-<<?php echo $tag; ?> id="<?php echo $id; ?>"<?php if (!$isRadioField) : ?> for="<?php echo $for; ?>"<?php endif; ?><?php if (!empty($classes)) {
+<<?php echo $tag; ?> id="<?php echo $id; ?>"<?php if (!$isGroupedField) : ?> for="<?php echo $for; ?>"<?php endif; ?><?php if (!empty($classes)) {
     echo ' class="' . implode(' ', $classes) . '"';
            } ?>>
     <?php echo $text; ?><?php if ($required) :
