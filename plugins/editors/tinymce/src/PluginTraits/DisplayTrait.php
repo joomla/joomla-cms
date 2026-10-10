@@ -484,7 +484,7 @@ trait DisplayTrait
         }
 
         $sandboxIframesExclusions = [
-            // Allow the following TinyMCE defined domoains to be embedded without sandboxing
+            // Allow the following TinyMCE defined domains to be embedded without sandboxing
             'youtube.com',
             'youtu.be',
             'vimeo.com',
