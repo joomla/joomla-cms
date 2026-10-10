@@ -123,23 +123,12 @@ if ($colorScheme) {
     }
 }
 
-$a11yClasses = [];
-
-if ($a11y_font) {
-    $a11yClasses[] = 'a11y_font';
-}
-
-if ($a11y_mono || $monochrome) {
-    $a11yClasses[] = 'monochrome';
-}
-
-if ($a11y_contrast) {
-    $a11yClasses[] = 'a11y_contrast';
-}
-
-if ($a11y_highlight) {
-    $a11yClasses[] = 'a11y_highlight';
-}
+$$a11yClasses = array_filter([
+    $a11y_font                  ? 'a11y_font'      : null,
+    ($a11y_mono || $monochrome) ? 'monochrome'     : null,
+    $a11y_contrast              ? 'a11y_contrast'  : null,
+    $a11y_highlight             ? 'a11y_highlight' : null,
+]);
 
 Text::script('TPL_ATUM_MORE_ELEMENTS');
 
