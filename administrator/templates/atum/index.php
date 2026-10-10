@@ -123,7 +123,7 @@ if ($colorScheme) {
     }
 }
 
-$$a11yClasses = array_filter([
+$a11yClasses = array_filter([
     $a11y_font                  ? 'a11y_font'      : null,
     ($a11y_mono || $monochrome) ? 'monochrome'     : null,
     $a11y_contrast              ? 'a11y_contrast'  : null,
