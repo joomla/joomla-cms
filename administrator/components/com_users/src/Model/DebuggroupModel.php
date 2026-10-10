@@ -88,7 +88,7 @@ class DebuggroupModel extends ListModel
 
                 foreach ($actions as $action) {
                     $name                 = $action[0];
-                    $asset->checks[$name] = Access::checkGroup($groupId, $name, $asset->name) || $isSuperUserGroup;
+                    $asset->checks[$name] = $isSuperUserGroup ?: Access::checkGroup($groupId, $name, $asset->name);
                 }
             }
         }
