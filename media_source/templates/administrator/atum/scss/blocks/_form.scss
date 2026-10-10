@@ -64,7 +64,7 @@
     inline-size: 240px;
     padding: .3rem 1rem .3rem 0;
 
-    span:not(.invalid):not(.valid):not(.form-control-feedback) {
+    > span:not(.invalid):not(.valid) {
       color: var(--login-label-color);
     }
   }
