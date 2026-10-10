@@ -69,6 +69,7 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
     wrapper.classList.toggle('closed');
     menuToggleIcon.classList.toggle('icon-toggle-on');
     menuToggleIcon.classList.toggle('icon-toggle-off');
+    menuToggle.setAttribute('aria-pressed', wrapper.classList.contains('closed') ? 'true' : 'false');
 
     document.querySelectorAll('.main-nav > li').forEach((item) => item.classList.remove('open'));
 
@@ -137,6 +138,7 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
         menuToggleIcon.classList.toggle('icon-toggle-off');
         menuToggleIcon.classList.toggle('icon-toggle-on');
       }
+      menuToggle.setAttribute('aria-pressed', 'false');
       mainNav.classList.add('child-open');
 
       if (menuItem.parentNode.classList.contains('main-nav')) {
