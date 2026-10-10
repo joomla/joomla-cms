@@ -102,7 +102,7 @@ final class Article extends CMSPlugin implements SubscriberInterface
                 'action'  => 'modal',
                 'link'    => $link,
                 'text'    => Text::_('PLG_ARTICLE_BUTTON_ARTICLE'),
-                'icon'    => 'file-add',
+                'icon'    => 'copy',
                 'iconSVG' => '<svg viewBox="0 0 32 32" width="24" height="24"><path d="M28 24v-4h-4v4h-4v4h4v4h4v-4h4v-4zM2 2h18v6h6v10h2v-10l-8-'
                     . '8h-20v32h18v-2h-16z"></path></svg>',
                 // This is whole Plugin name, it is needed for keeping backward compatibility
@@ -114,7 +114,7 @@ final class Article extends CMSPlugin implements SubscriberInterface
         $this->getApplication()->getDocument()->addScriptOptions('editor-link-providers', [
             $this->_name => [
                 'title'  => Text::_('PLG_ARTICLE_BUTTON_ARTICLE'),
-                'icon'   => 'file-add',
+                'icon'   => 'copy',
                 'src'    => 'index.php?option=com_content&view=articles&layout=modal&tmpl=component',
                 'select' => 'content',
             ],
