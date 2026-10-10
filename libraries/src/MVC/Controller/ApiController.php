@@ -458,6 +458,9 @@ class ApiController extends BaseController
         $checkin    = property_exists($table, $table->getColumnAlias('checked_out'));
         $data[$key] = $recordKey;
 
+        // Stored values of the fields which are not in the PATCH request
+        $storedValues = [];
+
         if ($this->input->getMethod() === 'PATCH') {
             if ($recordKey && $table->load($recordKey)) {
                 $fields = $table->getFields();
@@ -467,7 +470,8 @@ class ApiController extends BaseController
                         continue;
                     }
 
-                    $data[$field->Field] = $table->{$field->Field};
+                    $data[$field->Field]         = $table->{$field->Field};
+                    $storedValues[$field->Field] = $table->{$field->Field};
                 }
             }
         }
@@ -505,6 +509,17 @@ class ApiController extends BaseController
             }
 
             throw new InvalidParameterException(implode("\n", $messages));
+        }
+
+        // Stored values are already in UTC, so don't let the SERVER_UTC / USER_UTC form filter convert them a second time
+        foreach ($storedValues as $field => $value) {
+            if (!\array_key_exists($field, $validData)) {
+                continue;
+            }
+
+            if (\in_array(strtoupper($form->getFieldAttribute($field, 'filter', '')), ['SERVER_UTC', 'USER_UTC'], true)) {
+                $validData[$field] = $value;
+            }
         }
 
         if (!isset($validData['tags'])) {
@@ -551,7 +566,7 @@ class ApiController extends BaseController
      */
     protected function allowEdit($data = [], $key = 'id')
     {
-        $user = $this->app->getIdentity();
+        $user     = $this->app->getIdentity();
         $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
 
         if (!$user->authorise('core.manage', $this->option)) {
@@ -564,7 +579,7 @@ class ApiController extends BaseController
         }
 
         $inflector = InflectorFactory::create()->build();
-        $asset = $this->option . '.' . $inflector->singularize($this->contentType) . '.' . $recordId;
+        $asset     = $this->option . '.' . $inflector->singularize($this->contentType) . '.' . $recordId;
 
         // Check edit on the record asset (explicit or inherited)
         if ($user->authorise('core.edit', $asset)) {
