@@ -483,20 +483,34 @@ trait DisplayTrait
             }
         }
 
-        // Add the current domain to the sandbox_iframes_exclusions list
-        $sandboxIframesExclusions = Uri::getInstance()->getHost();
+        $sandboxIframesExclusions = [
+            // Allow the following TinyMCE defined domoains to be embedded without sandboxing
+            'youtube.com',
+            'youtu.be',
+            'vimeo.com',
+            'player.vimeo.com',
+            'dailymotion.com',
+            'embed.music.apple.com',
+            'open.spotify.com',
+            'giphy.com',
+            'dai.ly',
+            'codepen.io',
+            // Allow the current domain to be embedded without sandboxing
+            Uri::getInstance()->getHost(),
+        ];
 
-        // Build the list of additional domains to add to the sandbox_iframes_exclusions list
+        // Add any additional domains configured in the plugin.
         if (isset($extraOptions->sandbox_iframes_exclusions) && $extraOptions->sandbox_iframes_exclusions) {
-            $exclusionsArray = [];
             foreach ($extraOptions->sandbox_iframes_exclusions as $value) {
                 if (isset($value->exclusion_domain)) {
-                    $exclusionsArray[] = $value->exclusion_domain;
+                    $sandboxIframesExclusions[] = $value->exclusion_domain;
                 }
             }
-            // Join the URLs into a comma-separated string and add to the sandbox_iframes_exclusions list
-            $sandboxIframesExclusions .= ', ' . implode(', ', $exclusionsArray);
         }
+
+        $sandboxIframesExclusions = array_values(
+            array_unique(array_filter($sandboxIframesExclusions))
+        );
 
         // Build the final options set
         $scriptOptions   = array_merge(
