@@ -18,7 +18,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterSaveConfigurationEvent;
 use Joomla\CMS\Event\Application\BeforeSaveConfigurationEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
@@ -27,15 +28,16 @@ use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Table\Asset;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseFactory;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 use Joomla\Filter\OutputFilter;
+use Joomla\Http\HttpFactory;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
@@ -49,9 +51,10 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  *
  * @since  3.2
  */
-class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
+class ApplicationModel extends FormModel implements MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
     use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * Array of protected password fields from the configuration.php
@@ -59,7 +62,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
      * @var    array
      * @since  3.9.23
      */
-    private $protectedConfigurationFields = ['password', 'secret', 'smtppass', 'redis_server_auth', 'session_redis_server_auth'];
+    private $protectedConfigurationFields = ['password', 'secret', 'smtppass', 'smtp_oauth2_client_secret', 'smtp_oauth2_refresh_token', 'redis_server_auth', 'session_redis_server_auth'];
 
     /**
      * Method to get a form object.
@@ -67,20 +70,14 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  mixed  A Form object on success, false on failure
+     * @return  mixed  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_config.application', 'application', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_config.application', 'application', ['control' => 'jform', 'load_data' => $loadData]);
     }
 
     /**
@@ -328,7 +325,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         try {
-            $revisedDbo = DatabaseDriver::getInstance($options);
+            $revisedDbo = (new DatabaseFactory())->getDriver($options['driver'], $options);
             $revisedDbo->getVersion();
         } catch (\Exception $e) {
             $app->enqueueMessage(Text::sprintf('COM_CONFIG_ERROR_DATABASE_NOT_AVAILABLE', $e->getCode(), $e->getMessage()), 'error');
@@ -364,7 +361,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                         CURLOPT_PROXYUSERPWD   => null,
                     ]
                 );
-                $response = HttpFactory::getHttp($options)->get('https://' . $host . Uri::root(true) . '/', ['Host' => $host], 10);
+                $response = (new HttpFactory())->getHttp($options)->get('https://' . $host . Uri::root(true) . '/', ['Host' => $host], 10);
 
                 // If available in HTTPS check also the status code.
                 if (!\in_array($response->getStatusCode(), [200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401], true)) {
@@ -397,7 +394,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 return false;
             }
 
-            $asset = Table::getInstance('asset');
+            $asset = new Asset($this->getDatabase());
 
             if ($asset->loadByName('root.1')) {
                 $asset->rules = (string) $rules;
@@ -420,7 +417,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         if (isset($data['filters'])) {
             $registry = new Registry(['filters' => $data['filters']]);
 
-            $extension = Table::getInstance('extension');
+            $extension = new Extension($this->getDatabase());
 
             // Get extension_id
             $extensionId = $extension->find(['name' => 'com_config']);
@@ -461,7 +458,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         // Purge the database session table if we are changing to the database handler.
         if ($prev['session_handler'] != 'database' && $data['session_handler'] == 'database') {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__session'))
                 ->where($db->quoteName('time') . ' < ' . (time() - 1));
             $db->setQuery($query);
@@ -474,7 +471,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 // If we are are using the session handler, purge the extra columns, otherwise truncate the whole session table
                 if ($data['session_handler'] === 'database') {
                     $revisedDbo->setQuery(
-                        $revisedDbo->getQuery(true)
+                        $revisedDbo->createQuery()
                             ->update('#__session')
                             ->set(
                                 [
@@ -628,7 +625,9 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         // Clean the cache if disabled but previously enabled or changing cache handlers; these operations use the `$prev` data already in memory
         if ((!$data['caching'] && $prev['caching']) || $data['cache_handler'] !== $prev['cache_handler']) {
             try {
-                Factory::getCache()->clean();
+                $this->getCacheControllerFactory()
+                    ->createCacheController('callback', ['defaultgroup' => ''])
+                    ->clean();
             } catch (CacheConnectingException) {
                 try {
                     Log::add(Text::_('COM_CONFIG_ERROR_CACHE_CONNECTION_FAILED'), Log::WARNING, 'jerror');
@@ -747,7 +746,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         // Overwrite webservices cors settings
         $app->set('cors', $data['cors'] ?? 0);
         $app->set('cors_allow_origin', $data['cors_allow_origin'] ?? '*');
-        $app->set('cors_allow_headers', $data['cors_allow_headers'] ?? 'Content-Type,X-Joomla-Token');
+        $app->set('cors_allow_headers', $data['cors_allow_headers'] ?? 'Content-Type,X-Joomla-Token,Authorization');
         $app->set('cors_allow_methods', $data['cors_allow_methods'] ?? '');
 
         // Clear cache of com_config component.
@@ -832,7 +831,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
 
         $app = Factory::getApplication();
 
-        // Attempt to make the file writeable.
+        // Attempt to make the file writable.
         if (Path::isOwner($file) && !Path::setPermissions($file, '0644')) {
             $app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
         }
@@ -844,7 +843,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'));
         }
 
-        // Attempt to make the file unwriteable.
+        // Attempt to make the file unwritable.
         if (Path::isOwner($file) && !Path::setPermissions($file, '0444')) {
             $app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
         }
@@ -941,8 +940,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         try {
-            /** @var Asset $asset */
-            $asset  = Table::getInstance('asset');
+            $asset  = new Asset($this->getDatabase());
             $result = $asset->loadByName($permission['component']);
 
             if ($result === false) {
@@ -954,8 +952,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 $asset->title = (string) $permission['title'];
 
                 // Get the parent asset id so we have a correct tree.
-                /** @var Asset $parentAsset */
-                $parentAsset = Table::getInstance('Asset');
+                $parentAsset = new Asset($this->getDatabase());
 
                 if (str_contains($asset->name, '.')) {
                     $assetParts = explode('.', $asset->name);
@@ -1036,7 +1033,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             $db = $this->getDatabase();
 
             // Get the asset id by the name of the component.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__assets'))
                 ->where($db->quoteName('name') . ' = :component')
@@ -1210,6 +1207,14 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $config->set('mailer', $input->get('mailer'));
         $config->set('mailonline', $input->get('mailonline'));
 
+        // We do not load the current oauth2 information since this information needs to be already saved after authorization
+        $config->set('smtp_oauth2_client_id', $app->get('smtp_oauth2_client_id', ''));
+        $config->set('smtp_oauth2_client_secret', $app->get('smtp_oauth2_client_secret', ''));
+        $config->set('smtp_oauth2_scope', $app->get('smtp_oauth2_scope', ''));
+        $config->set('smtp_oauth2_authorize_url', $app->get('smtp_oauth2_authorize_url', ''));
+        $config->set('smtp_oauth2_token_url', $app->get('smtp_oauth2_token_url', ''));
+        $config->set('smtp_oauth2_refresh_token', $app->get('smtp_oauth2_refresh_token', ''));
+
         // Use smtppass only if it was submitted
         if ($smtppass !== null) {
             $config->set('smtppass', $smtppass);
@@ -1218,16 +1223,21 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $mail = $this->getMailerFactory()->createMailer($config);
 
         // Prepare email and try to send it
-        $mailer = new MailTemplate('com_config.test_mail', $user->getParam('language', $app->get('language')), $mail);
+        $mailer = new MailTemplate(
+            'com_config.test_mail',
+            $user->getParam('language', $app->get('language')),
+            $mail,
+            $this->getLanguageFactory(),
+            $this->getDatabase()
+        );
         $mailer->addTemplateData(
             [
                 // Replace the occurrences of "@" and "|" in the site name
                 'sitename' => str_replace(['@', '|'], '', $app->get('sitename')),
-                'method'   => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer)),
+                'method'   => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer ?? $input->get('mailer'))),
             ]
         );
         $mailer->addRecipient($user->email, $user->name);
-
 
         try {
             $mailSent = $mailer->send();
@@ -1238,10 +1248,10 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         if ($mailSent === true) {
-            $methodName = Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer));
+            $methodName = Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer ?? $input->get('mailer')));
 
-            // If JMail send the mail using PHP Mail as fallback.
-            if ($mail->Mailer !== $app->get('mailer')) {
+            // If Mail send the mail using PHP Mail as fallback.
+            if (($mail->Mailer ?? $app->get('mailer')) !== $app->get('mailer')) {
                 $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS_FALLBACK', $user->email, $methodName), 'warning');
             } else {
                 $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $user->email, $methodName), 'message');

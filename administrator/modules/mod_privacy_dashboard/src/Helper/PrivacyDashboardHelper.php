@@ -38,7 +38,7 @@ class PrivacyDashboardHelper implements DatabaseAwareInterface
     public function getPrivacyRequests(): array
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     'COUNT(*) AS count',
