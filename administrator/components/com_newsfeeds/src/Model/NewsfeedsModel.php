@@ -66,6 +66,7 @@ class NewsfeedsModel extends ListModel
 
             if (Associations::isEnabled()) {
                 $config['filter_fields'][] = 'association';
+                $config['filter_fields'][] = 'translation';
             }
         }
 
@@ -132,6 +133,7 @@ class NewsfeedsModel extends ListModel
         $id .= ':' . $this->getState('filter.category_id');
         $id .= ':' . $this->getState('filter.access');
         $id .= ':' . $this->getState('filter.language');
+        $id .= ':' . $this->getState('filter.translation');
         $id .= ':' . $this->getState('filter.level');
         $id .= ':' . serialize($this->getState('filter.tag'));
 
@@ -203,6 +205,22 @@ class NewsfeedsModel extends ListModel
                 );
 
             $query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
+
+            $query->select($db->quoteName('assoc.outdated', 'association_outdated'))
+                ->join(
+                    'LEFT',
+                    $db->quoteName('#__associations', 'assoc'),
+                    $db->quoteName('assoc.id') . ' = ' . $db->quoteName('a.id')
+                    . ' AND ' . $db->quoteName('assoc.context') . ' = ' . $db->quote('com_newsfeeds.item')
+                );
+
+            $translation = $this->getState('filter.translation');
+
+            if ($translation === 'outdated') {
+                $query->where($db->quoteName('assoc.outdated') . ' = 1');
+            } elseif ($translation === 'uptodate') {
+                $query->where($db->quoteName('assoc.outdated') . ' = 0');
+            }
         }
 
         // Filter by access level.

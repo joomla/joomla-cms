@@ -13,6 +13,7 @@ namespace Joomla\Component\Categories\Administrator\View\Categories;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -122,6 +123,11 @@ class HtmlView extends BaseHtmlView
         // Preprocess the list of items to find ordering divisions.
         foreach ($this->items as &$item) {
             $this->ordering[$item->parent_id][] = $item->id;
+        }
+
+        if (!Associations::isEnabled()) {
+            unset($this->activeFilters['translation']);
+            $this->filterForm->removeField('translation', 'filter');
         }
 
         // We don't need toolbar in the modal window.

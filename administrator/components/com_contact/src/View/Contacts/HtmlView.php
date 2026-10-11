@@ -12,6 +12,7 @@ namespace Joomla\Component\Contact\Administrator\View\Contacts;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\View\ListView;
 use Joomla\CMS\Session\Session;
@@ -67,6 +68,11 @@ class HtmlView extends ListView
         // Special case of we can create contact for specific categories show add button
         if (\count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0) {
             $this->canDo->set('core.create', true);
+        }
+
+        if (!Associations::isEnabled()) {
+            unset($this->activeFilters['translation']);
+            $this->filterForm->removeField('translation', 'filter');
         }
 
         // We don't need toolbar in the modal window.
