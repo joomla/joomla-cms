@@ -84,6 +84,17 @@ $lang     = $this->getLanguage()->getTag();
 
         <?php endif; ?>
 
+                <?php // What is coming, and what already happened, beside the workflow they belong to. ?>
+                <?php if (!empty($this->item->id)) : ?>
+                    <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'upcoming', Text::_('COM_WORKFLOW_UPCOMING_TAB')); ?>
+                    <?php echo $this->loadTemplate('upcoming'); ?>
+                    <?php echo HTMLHelper::_('uitab.endTab'); ?>
+
+                    <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'automationlog', Text::_('COM_WORKFLOW_LOG_TAB')); ?>
+                    <?php echo $this->loadTemplate('log'); ?>
+                    <?php echo HTMLHelper::_('uitab.endTab'); ?>
+                <?php endif; ?>
+
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
     </div>
     <?php echo $this->form->getInput('extension'); ?>
