@@ -247,6 +247,11 @@ class User extends Table
             $this->lastvisitDate = null;
         }
 
+        // Set the previousvisitDate timestamp
+        if (empty($this->previousvisitDate)) {
+            $this->previousvisitDate = null;
+        }
+
         // Set the lastResetTime timestamp
         if (empty($this->lastResetTime)) {
             $this->lastResetTime = null;
@@ -535,6 +540,7 @@ class User extends Table
         $db    = $this->getDatabase();
         $query = $db->createQuery()
             ->update($db->quoteName($this->_tbl))
+            ->set($db->quoteName('previousvisitDate') . ' = ' . $db->quoteName('lastvisitDate'))
             ->set($db->quoteName('lastvisitDate') . ' = :lastvisitDate')
             ->where($db->quoteName('id') . ' = :id')
             ->bind(':lastvisitDate', $lastVisit)

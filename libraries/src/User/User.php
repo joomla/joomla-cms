@@ -128,6 +128,14 @@ class User
     public $lastvisitDate = null;
 
     /**
+     * Date of previous visit
+    *
+    * @var    string
+    * @since  __DEPLOY_VERSION__
+    */
+    public $previousvisitDate = null;
+
+    /**
      * Activation hash
      *
      * @var    string
