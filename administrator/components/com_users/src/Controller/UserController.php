@@ -35,6 +35,33 @@ class UserController extends FormController
     protected $text_prefix = 'COM_USERS_USER';
 
     /**
+     * Add a new user.
+     *
+     * If a user group is selected in the Users list, use that group
+     * as the default group for the new user.
+     *
+     * @return  boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function add()
+    {
+        $filter  = $this->input->post->get('filter', [], 'array');
+        $groupId = (int) ($filter['group_id'] ?? 0);
+
+        $result = parent::add();
+
+        if ($result && $groupId) {
+            $this->app->setUserState(
+                'com_users.edit.user.data',
+                ['groups' => [$groupId]]
+            );
+        }
+
+        return $result;
+    }
+
+    /**
      * Overrides Joomla\CMS\MVC\Controller\FormController::allowEdit
      *
      * Checks that non-Super Admins are not editing Super Admins.
