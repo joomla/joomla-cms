@@ -253,19 +253,9 @@ class JoomlaFieldSubform extends HTMLElement {
     this.lastRowIndex = countnew + 1;
     row.setAttribute('data-group', groupnew);
 
-    // Fix inputs that have a "name" attribute
-    let haveName = row.querySelectorAll('[name]');
+    // Fix inputs that have a "name" attribute, including the existing rows of nested subforms
+    const haveName = row.querySelectorAll('[name]');
     const ids = {}; // Collect id for fix checkboxes and radio
-
-    // Filter out nested
-    haveName = [].slice.call(haveName).filter((el) => {
-      if (el.nodeName === 'JOOMLA-FIELD-SUBFORM') {
-        // Skip self in .closest() call
-        return el.parentElement.closest('joomla-field-subform') === this;
-      }
-
-      return el.closest('joomla-field-subform') === this;
-    });
 
     haveName.forEach((elem) => {
       const $el = elem;
