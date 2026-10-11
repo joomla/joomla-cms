@@ -515,8 +515,7 @@ class TaskModel extends AdminModel
         $now       = Factory::getDate('now', 'UTC');
         $timeout   = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
         $threshold = (clone $now)->modify("-$timeout seconds")->toSql();
-
-        $idQuery = $db->getQuery(true)
+        $idQuery   = $db->getQuery(true)
             ->from($db->quoteName(self::TASK_TABLE))
             ->select($db->quoteName('id'));
 
