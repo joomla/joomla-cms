@@ -175,7 +175,7 @@ abstract class PluginHelper
         $dispatcher = $dispatcher ?: Factory::getApplication()->getDispatcher();
 
         // Get the dispatcher's hash to allow plugins to be registered to unique dispatchers
-        $dispatcherHash = spl_object_hash($dispatcher);
+        $dispatcherHash = spl_object_id($dispatcher);
 
         if (!isset($loaded[$dispatcherHash])) {
             $loaded[$dispatcherHash] = [];
@@ -222,7 +222,7 @@ abstract class PluginHelper
         static $plugins = [];
 
         // Get the dispatcher's hash to allow paths to be tracked against unique dispatchers
-        $hash = spl_object_hash($dispatcher) . $plugin->type . $plugin->name;
+        $hash = spl_object_id($dispatcher) . $plugin->type . $plugin->name;
 
         if (\array_key_exists($hash, $plugins)) {
             return;
