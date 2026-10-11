@@ -26,11 +26,12 @@
 			type="category"
 			label="JCATEGORY"
 			extension="com_newsfeeds"
+			multiple="true"
+			layout="joomla.form.field.list-fancy-select"
+			hint="JOPTION_SELECT_CATEGORY"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			class="js-select-submit-on-change"
-			>
-			<option value="">JOPTION_SELECT_CATEGORY</option>
-		</field>
+		/>
 
 		<field
 			name="access"

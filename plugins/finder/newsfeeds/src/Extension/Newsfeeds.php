@@ -12,6 +12,7 @@ namespace Joomla\Plugin\Finder\Newsfeeds\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Finder as FinderEvent;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Adapter;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
@@ -314,15 +315,29 @@ final class Newsfeeds extends Adapter implements SubscriberInterface
 
         // Add the category taxonomy data.
         $categories = $this->getApplication()->bootComponent('com_newsfeeds')->getCategory(['published' => false, 'access' => false]);
-        $category   = $categories->get($item->catid);
 
-        if (!$category) {
+        if (!$categories->get($item->catid)) {
             return;
         }
 
         // Add the category taxonomy data.
         if (\in_array('category', $taxonomies)) {
-            $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
+            $categoryIds = [$item->catid];
+
+            if (!empty($item->id)) {
+                $helper      = new SecondaryCategoriesHelper('com_newsfeeds.newsfeed');
+                $categoryIds = [...$categoryIds, ...$helper->getCurrentSecondaryCategoriesByItem((int) $item->id)];
+            }
+
+            foreach ($categoryIds as $categoryId) {
+                $category = $categories->get($categoryId);
+
+                if (!$category) {
+                    continue;
+                }
+
+                $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
+            }
         }
 
         // Add the language taxonomy data.

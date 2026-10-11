@@ -12,6 +12,7 @@ namespace Joomla\Component\Contact\Site\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -101,8 +102,8 @@ class FeaturedModel extends ListModel
 
         // Filter by category.
         if ($categoryId = $this->getState('category.id')) {
-            $query->where($db->quoteName('a.catid') . ' = :catid');
-            $query->bind(':catid', $categoryId, ParameterType::INTEGER);
+            $helper = new SecondaryCategoriesHelper('com_contact.contact');
+            $query->where($helper->buildCategoryMembershipCondition([(int) $categoryId]));
         }
 
         $query->select('c.published as cat_published, c.published AS parents_published')
