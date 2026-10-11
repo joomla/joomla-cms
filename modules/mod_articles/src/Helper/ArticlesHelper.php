@@ -383,6 +383,8 @@ class ArticlesHelper implements DatabaseAwareInterface
             $item->displayDate          = $show_date ? $item->displayDate : '';
             $item->displayHits          = $show_hits ? $item->hits : '';
 
+            $item->introTextTruncated = false;
+
             if ($show_category) {
                 $item->displayCategories[] = [
                     'title' => $item->category_title,
@@ -407,7 +409,9 @@ class ArticlesHelper implements DatabaseAwareInterface
                 }
 
                 if ($introtext_limit != 0) {
-                    $item->displayIntrotext = HTMLHelper::_('string.truncateComplex', $item->displayIntrotext, $introtext_limit);
+                    $truncated                = HTMLHelper::_('string.truncateComplex', $item->displayIntrotext, $introtext_limit);
+                    $item->introTextTruncated = $truncated !== $item->displayIntrotext;
+                    $item->displayIntrotext   = $truncated;
                 }
             }
 
