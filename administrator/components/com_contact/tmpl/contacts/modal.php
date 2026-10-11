@@ -45,6 +45,8 @@ if (!empty($editor)) {
     $this->getDocument()->addScriptOptions('xtd-contacts', ['editor' => $editor]);
     $onclick = "jSelectContact";
 }
+
+$userId = $this->getCurrentUser()->id;
 ?>
 <div class="container-popup">
 
@@ -122,12 +124,16 @@ if (!empty($editor)) {
                             <?php $attribs = 'data-content-select data-content-type="com_contact.contact"'
                                 . 'data-function="' . $this->escape($onclick) . '"'
                                 . ' data-id="' . $item->id . '"'
+                                . ' data-checked-out="' . ((int) (!empty($item->checked_out) && $item->checked_out != $userId)) . '"'
                                 . ' data-title="' . $this->escape($item->name) . '"'
                                 . ' data-cat-id="' . $this->escape($item->catid) . '"'
                                 . ' data-uri="' . $this->escape($link) . '"'
                                 . ' data-language="' . $this->escape($lang) . '"'
                                 . ' data-html="' . $this->escape($itemHtml) . '"';
                             ?>
+                            <?php if ($item->checked_out) : ?>
+                                <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, '', false); ?>
+                            <?php endif; ?>
                             <a class="select-link" href="javascript:void(0)" <?php echo $attribs; ?>>
                                 <?php echo $this->escape($item->name); ?>
                             </a>
