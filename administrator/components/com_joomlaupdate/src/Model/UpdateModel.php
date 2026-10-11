@@ -1391,15 +1391,6 @@ ENDDATA;
             $options[]      = $option;
         }
 
-        // Check for a missing native parse_ini_file implementation.
-        $option         = new \stdClass();
-        $option->state  = $this->getIniParserAvailability();
-        $option->label  = $option->state
-            ? Text::_('INSTL_PARSE_INI_FILE_AVAILABLE')
-            : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PARSE_INI_FILE_NOT_AVAILABLE', Text::_('INSTL_PARSE_INI_FILE_AVAILABLE'));
-        $option->notice = $option->state ? null : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PARSE_INI_FILE_NOT_AVAILABLE_NOTICE');
-        $options[]      = $option;
-
         // Check for missing native json_encode / json_decode support.
         $option         = new \stdClass();
         $option->state  = \function_exists('json_encode') && \function_exists('json_decode');
@@ -1607,36 +1598,6 @@ ENDDATA;
         // Fallback to JOOMLA_MINIMUM_PHP if php_minimum is not set
         return JOOMLA_MINIMUM_PHP;
     }
-
-    /**
-     * Checks the availability of the parse_ini_file and parse_ini_string functions.
-     * @todo: Outsource, build common code base for pre install and pre update check
-     *
-     * @return  boolean  True if the method exists.
-     *
-     * @since   3.10.0
-     */
-    public function getIniParserAvailability()
-    {
-        $disabledFunctions = \ini_get('disable_functions');
-
-        if (!empty($disabledFunctions)) {
-            // Attempt to detect them in the PHP INI disable_functions variable.
-            $disabledFunctions         = explode(',', trim($disabledFunctions));
-
-            foreach ($disabledFunctions as &$disabledFunction) {
-                $disabledFunction = trim($disabledFunction);
-            }
-
-            $result = !\in_array('parse_ini_string', $disabledFunctions);
-        } else {
-            // Attempt to detect their existence; even pure PHP implementations of them will trigger a positive response, though.
-            $result = \function_exists('parse_ini_string');
-        }
-
-        return $result;
-    }
-
 
     /**
      * Check if database structure is up to date
