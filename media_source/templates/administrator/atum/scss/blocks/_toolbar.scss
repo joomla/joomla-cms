@@ -59,13 +59,24 @@
 
     &:not([disabled]):hover,
     &:not([disabled]):active,
-    &:not([disabled]):focus {
+    &:not([disabled]):focus,
+    &.inlinehelp-active {
       color: var(--atum-btn-hvr);
       background-color: var(--subhead-btn-bg-hvr);
       border: var(--subhead-btn-border);
 
       > span {
         color: var(--subhead-btn-icon-hvr); /* $atum-btn-hvr rgba(255, 255, 255, .9); */
+      }
+    }
+
+    // A toggle switched off keeps focus after the click; without this it would still look pressed.
+    &[data-storage]:not(.inlinehelp-active):focus:not(:hover) {
+      color: var(--atum-btn);
+      background-color: var(--subhead-btn-bg);
+
+      > span {
+        color: var(--subhead-btn-icon);
       }
     }
 
