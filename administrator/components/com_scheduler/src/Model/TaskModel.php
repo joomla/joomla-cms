@@ -456,9 +456,8 @@ class TaskModel extends AdminModel
      */
     private function buildLockQuery($db, $now, $options)
     {
-        $now       = Factory::getDate('now', 'UTC');
         $timeout   = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
-        $threshold = (clone $now)->modify("-$timeout seconds")->toSql();
+        $threshold = Factory::getDate($now, 'UTC')->modify("-$timeout seconds")->toSql();
         $lockQuery = $db->getQuery(true)
             ->update($db->quoteName(self::TASK_TABLE))
             ->set($db->quoteName('locked') . ' = :now1')
@@ -512,9 +511,8 @@ class TaskModel extends AdminModel
      */
     private function getNextTaskId($db, $now, $options)
     {
-        $now       = Factory::getDate('now', 'UTC');
         $timeout   = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
-        $threshold = (clone $now)->modify("-$timeout seconds")->toSql();
+        $threshold = Factory::getDate($now, 'UTC')->modify("-$timeout seconds")->toSql();
         $idQuery   = $db->getQuery(true)
             ->from($db->quoteName(self::TASK_TABLE))
             ->select($db->quoteName('id'));
