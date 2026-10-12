@@ -364,6 +364,7 @@ class ApiModel extends BaseDatabaseModel
         $type              = $file->type === 'file' ? 'file' : 'folder';
         $object            = new \stdClass();
         $object->adapter   = $adapter;
+        $object->name      = $file->name;
         $object->path      = $path;
 
         $dispatcher = $this->getDispatcher();
