@@ -19,6 +19,41 @@ function hasModifier(event) {
   return (event.ctrlKey || event.metaKey || event.shiftKey);
 }
 
+/**
+ * Make an id from the field name
+ * @param {string} name
+ *
+ * @returns {string}
+ */
+function nameToId(name) {
+  return name.replace(/(\]\[)/g, '__').replace(/\[/g, '_').replace(/\]/g, '').replace(/\W/g, '_');
+}
+
+/**
+ * Replace the name prefix in an attribute value, the value may hold several ids like aria-describedby
+ * @param {string} value
+ * @param {string} oldName
+ * @param {string} newName
+ *
+ * @returns {string}
+ */
+function replacePrefix(value, oldName, newName) {
+  const oldId = nameToId(oldName);
+  const newId = nameToId(newName);
+
+  return value.split(' ').map((part) => {
+    if (part.startsWith(oldName)) {
+      return newName + part.substring(oldName.length);
+    }
+
+    if (part.startsWith(oldId)) {
+      return newId + part.substring(oldId.length);
+    }
+
+    return part;
+  }).join(' ');
+}
+
 class JoomlaFieldSubform extends HTMLElement {
   // Attribute getters
   get buttonAdd() { return this.getAttribute('button-add'); }
@@ -41,7 +76,7 @@ class JoomlaFieldSubform extends HTMLElement {
     const oldName = this.name;
 
     // Update the template
-    this.template = this.template.replace(new RegExp(` name="${oldName.replace(/[[\]]/g, '\\$&')}`, 'g'), ` name="${value}`);
+    this.template = this.template.replace(/(\s)(name|id|for|aria-describedby)="([^"]*)"/g, (match, space, attr, attrValue) => `${space}${attr}="${replacePrefix(attrValue, oldName, value)}"`);
 
     this.setAttribute('name', value);
 
@@ -284,7 +319,7 @@ class JoomlaFieldSubform extends HTMLElement {
       const nameNew = name.replace(`[${group}][`, `[${groupnew}][`); // New name
       let idNew = id.replace(group, groupnew).replace(/\W/g, '_'); // Count new id
       let countMulti = 0; // count for multiple radio/checkboxes
-      const forOldAttr = $el.id; // Fix "for" in the labels
+      const forOldAttr = $el.id || id; // Fix "for" in the labels, nested subform has no id
 
       if ($el.type === 'checkbox' && name.match(/\[\]$/)) { // <input type="checkbox" name="name[]"> fix
         countMulti = ids[id] ? ids[id].length : 0;
@@ -385,9 +420,6 @@ class JoomlaFieldSubform extends HTMLElement {
    * @param {String} newName
    */
   fixNamePrefix(row, oldName, newName) {
-    const toId = (name) => name.replace(/(\]\[)/g, '__').replace(/\[/g, '_').replace(/\]/g, ''); // id from name
-    const oldId = toId(oldName);
-    const newId = toId(newName);
     let elements = row.querySelectorAll('[name], [id], [for], [aria-describedby]');
 
     // Filter out nested
@@ -412,10 +444,8 @@ class JoomlaFieldSubform extends HTMLElement {
       ['name', 'id', 'for', 'aria-describedby'].forEach((attr) => {
         const value = $el.getAttribute(attr);
 
-        if (value && value.startsWith(oldName)) {
-          $el.setAttribute(attr, newName + value.substring(oldName.length));
-        } else if (value && value.startsWith(oldId)) {
-          $el.setAttribute(attr, newId + value.substring(oldId.length));
+        if (value) {
+          $el.setAttribute(attr, replacePrefix(value, oldName, newName));
         }
       });
     });
