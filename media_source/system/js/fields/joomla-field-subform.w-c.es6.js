@@ -38,10 +38,15 @@ class JoomlaFieldSubform extends HTMLElement {
   get name() { return this.getAttribute('name'); }
 
   set name(value) {
+    const oldName = this.name;
+
     // Update the template
-    this.template = this.template.replace(new RegExp(` name="${this.name.replace(/[[\]]/g, '\\$&')}`, 'g'), ` name="${value}`);
+    this.template = this.template.replace(new RegExp(` name="${oldName.replace(/[[\]]/g, '\\$&')}`, 'g'), ` name="${value}`);
 
     this.setAttribute('name', value);
+
+    // Update existing rows
+    this.getRows().forEach((row) => this.fixNamePrefix(row, oldName, value));
   }
 
   constructor() {
@@ -253,9 +258,19 @@ class JoomlaFieldSubform extends HTMLElement {
     this.lastRowIndex = countnew + 1;
     row.setAttribute('data-group', groupnew);
 
-    // Fix inputs that have a "name" attribute, including the existing rows of nested subforms
-    const haveName = row.querySelectorAll('[name]');
+    // Fix inputs that have a "name" attribute
+    let haveName = row.querySelectorAll('[name]');
     const ids = {}; // Collect id for fix checkboxes and radio
+
+    // Filter out nested
+    haveName = [].slice.call(haveName).filter((el) => {
+      if (el.nodeName === 'JOOMLA-FIELD-SUBFORM') {
+        // Skip self in .closest() call
+        return el.parentElement.closest('joomla-field-subform') === this;
+      }
+
+      return el.closest('joomla-field-subform') === this;
+    });
 
     haveName.forEach((elem) => {
       const $el = elem;
@@ -360,6 +375,49 @@ class JoomlaFieldSubform extends HTMLElement {
           lbl.setAttribute('id', `${idNew}-lbl`);
         }
       }
+    });
+  }
+
+  /**
+   * Fix name and id for fields that are in the row, after the subform name has changed
+   * @param {HTMLElement} row
+   * @param {String} oldName
+   * @param {String} newName
+   */
+  fixNamePrefix(row, oldName, newName) {
+    const toId = (name) => name.replace(/(\]\[)/g, '__').replace(/\[/g, '_').replace(/\]/g, ''); // id from name
+    const oldId = toId(oldName);
+    const newId = toId(newName);
+    let elements = row.querySelectorAll('[name], [id], [for], [aria-describedby]');
+
+    // Filter out nested
+    elements = [].slice.call(elements).filter((el) => {
+      if (el.nodeName === 'JOOMLA-FIELD-SUBFORM') {
+        // Skip self in .closest() call
+        return el.parentElement.closest('joomla-field-subform') === this;
+      }
+
+      return el.closest('joomla-field-subform') === this;
+    });
+
+    elements.forEach((elem) => {
+      const $el = elem;
+
+      // Nested subform will fix own fields
+      if ($el.nodeName === 'JOOMLA-FIELD-SUBFORM') {
+        $el.name = newName + $el.name.substring(oldName.length);
+        return;
+      }
+
+      ['name', 'id', 'for', 'aria-describedby'].forEach((attr) => {
+        const value = $el.getAttribute(attr);
+
+        if (value && value.startsWith(oldName)) {
+          $el.setAttribute(attr, newName + value.substring(oldName.length));
+        } else if (value && value.startsWith(oldId)) {
+          $el.setAttribute(attr, newId + value.substring(oldId.length));
+        }
+      });
     });
   }
 
