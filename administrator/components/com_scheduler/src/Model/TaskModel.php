@@ -546,7 +546,6 @@ class TaskModel extends AdminModel
             'OR'
         )->bind(':lockThreshold', $threshold);
 
-
         $idQuery->where($db->quoteName('next_execution') . ' IS NOT NULL')
             ->order($db->quoteName('priority') . ' DESC')
             ->order($db->quoteName('next_execution') . ' ASC')
