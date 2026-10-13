@@ -3972,7 +3972,29 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 2
+			path: administrator/components/com_languages/src/Controller/InstalledController.php
+
+		-
+			message: '''
+				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getError$#
+			'''
+			identifier: method.deprecated
+			count: 2
 			path: administrator/components/com_languages/src/Controller/OverrideController.php
+
+		-
+			message: '''
+				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getError$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_languages/src/Controller/OverridesController.php
 
 		-
 			message: '''
