@@ -161,6 +161,7 @@ class CategoriesController extends ApiController
      *
      * @return  boolean
      *
+     * @since   5.4.8
      * @since   6.1.3
      */
     protected function allowAdd($data = [])
@@ -184,6 +185,7 @@ class CategoriesController extends ApiController
      *
      * @return  boolean
      *
+     * @since   5.4.8
      * @since   6.1.3
      */
     protected function allowEdit($data = [], $key = 'id')
@@ -227,6 +229,7 @@ class CategoriesController extends ApiController
      *
      * @return  boolean
      *
+     * @since   5.4.8
      * @since   6.1.3
      */
     protected function allowDelete(): bool
