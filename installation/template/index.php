@@ -57,6 +57,11 @@ Text::script('INSTL');
 Text::script('INSTL_FINISHED');
 Text::script('INSTL_IN_PROGRESS');
 Text::script('INSTL_PROCESS_BUSY');
+Text::script('INSTL_PAGE_TITLE');
+Text::script('INSTL_SETUP_SITE_NAME');
+Text::script('INSTL_LOGIN_DATA');
+Text::script('INSTL_DATABASE');
+Text::script('INSTL_PROGRESS');
 
 // Load strings for translated messages (directory removal)
 Text::script('INSTL_REMOVE_INST_FOLDER');
@@ -86,7 +91,7 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
                     <div class="d-flex flex-wrap align-items-center col justify-content-center">
                         <h1 class="h2 mx-1 d-flex align-items-baseline text-white">
                             <span class="icon-cogs d-none d-md-block mx-2 align-items-center" aria-hidden="true"></span>
-                            <?php echo Text::_('INSTL_PAGE_TITLE'); ?>
+                            <span id="page-title"></span>
                         </h1>
                         <span class="small mx-1">
                             Joomla! <?php echo (new Version())->getShortVersion(); ?>
