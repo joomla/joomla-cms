@@ -220,6 +220,7 @@ Joomla.checkDbCredentials = function () {
         if (document.getElementById('installStep2')) {
           document.getElementById('installStep2').classList.add('active');
           document.getElementById('installStep1').classList.remove('active');
+          
           // Focus to the next field
           if (document.getElementById('jform_admin_user')) {
             document.getElementById('jform_admin_user').focus();
