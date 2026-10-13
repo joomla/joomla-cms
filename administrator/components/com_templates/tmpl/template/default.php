@@ -125,6 +125,9 @@ if ($this->type == 'font') {
                             <?php endif; ?>
                             <form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0)); ?>" method="post" name="adminForm" id="adminForm">
                                 <input type="hidden" name="isMedia" value="<?php echo $input->get('isMedia', 0); ?>">
+                                <?php if ($returnParam = $input->getCmd('return', '')) : ?>
+                                    <input type="hidden" name="return" value="<?php echo $this->escape($returnParam); ?>">
+                                <?php endif; ?>
                                 <div class="editor-border">
                                     <?php echo $this->form->getInput('source'); ?>
                                 </div>
