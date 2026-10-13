@@ -263,6 +263,7 @@
 				name="a11y_shortcut_timeout"
 				type="list"
 				label="COM_USERS_A11Y_SETTINGS_FIELD_SHORTCUT_TIMEOUT"
+				description="COM_USERS_A11Y_SETTINGS_FIELD_SHORTCUT_TIMEOUT_DESC"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 				<option value="2000">COM_USERS_A11Y_SETTINGS_SHORTCUT_TIMEOUT_2000</option>
