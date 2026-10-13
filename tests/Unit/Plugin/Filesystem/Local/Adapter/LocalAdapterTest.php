@@ -14,6 +14,8 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\ComponentRecord;
 use Joomla\CMS\Factory;
+use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
+use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Filesystem\File;
 use Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter;
 use Joomla\Registry\Registry;
@@ -113,6 +115,65 @@ class LocalAdapterTest extends UnitTestCase
 
 
         return $bytes;
+    }
+
+    /**
+     * @testdox  returns a readable resource for a file inside the adapter root
+     *
+     * @return  void
+     *
+     * @since   5.4.10
+     */
+    public function testGetResourceReturnsResourceForFile()
+    {
+        $name = 'readme.txt';
+        file_put_contents($this->workDir . '/' . $name, 'MEDIA RESOURCE CONTENT');
+
+        $adapter  = new LocalAdapter($this->workDir, 'test-media');
+        $resource = $adapter->getResource('/' . $name);
+
+        $this->assertIsResource($resource, 'A readable resource should be returned for a regular file.');
+        $this->assertSame(
+            'MEDIA RESOURCE CONTENT',
+            stream_get_contents($resource),
+            'The resource should expose the contents of the requested file.'
+        );
+
+        fclose($resource);
+    }
+
+    /**
+     * @testdox  rejects a path attempting to escape the adapter root
+     *
+     * getResource() must resolve the path through getLocalPath() like every
+     * other read or write operation of the adapter, so a traversal style path
+     * can never be opened directly against the adapter root.
+     *
+     * @return  void
+     *
+     * @since   5.4.10
+     */
+    public function testGetResourceRejectsPathOutsideAdapterRoot()
+    {
+        $adapter = new LocalAdapter($this->workDir, 'test-media');
+
+        $this->expectException(InvalidPathException::class);
+        $adapter->getResource('/' . str_repeat('../', 10) . 'outside.txt');
+    }
+
+    /**
+     * @testdox  throws a file not found exception for a missing file
+     *
+     * @return  void
+     *
+     * @since   5.4.10
+     */
+    public function testGetResourceThrowsForMissingFile()
+    {
+        $adapter = new LocalAdapter($this->workDir, 'test-media');
+
+        $this->expectException(FileNotFoundException::class);
+        $adapter->getResource('/does-not-exist.txt');
     }
 
     /**
