@@ -246,7 +246,7 @@ Joomla.checkDbCredentials = function () {
           document.getElementById('setupButton').classList.remove('hidden');
           document.title = Joomla.Text._('INSTL_PAGE_TITLE') + ': ' + Joomla.Text._('INSTL_DATABASE');
           document.getElementById('page-title').innerText = Joomla.Text._('INSTL_PAGE_TITLE') + ': ' + Joomla.Text._('INSTL_DATABASE');
-          
+
           Joomla.makeRandomDbPrefix();
 
           // Focus to the next field
