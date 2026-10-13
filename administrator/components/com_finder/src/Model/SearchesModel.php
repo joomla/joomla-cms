@@ -13,6 +13,7 @@ namespace Joomla\Component\Finder\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -141,9 +142,9 @@ class SearchesModel extends ListModel
 
         foreach ($items as $item) {
             if (\is_resource($item->query)) {
-                $item->query = unserialize(stream_get_contents($item->query));
+                $item->query = unserialize(stream_get_contents($item->query), ['allowed_classes' => [Query::class]]);
             } else {
-                $item->query = unserialize($item->query);
+                $item->query = unserialize($item->query, ['allowed_classes' => [Query::class]]);
             }
         }
 
