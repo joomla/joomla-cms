@@ -250,7 +250,7 @@ final class Authentication
         // Make sure the public key credential request options in the session are valid
         $encodedPkOptions                  = $this->session->get('plg_system_webauthn.publicKeyCredentialRequestOptions', null);
         $serializedOptions                 = base64_decode($encodedPkOptions);
-        $publicKeyCredentialRequestOptions = unserialize($serializedOptions);
+        $publicKeyCredentialRequestOptions = unserialize($serializedOptions, ['allowed_classes' => [PublicKeyCredentialRequestOptions::class]]);
 
         if (
             !\is_object($publicKeyCredentialRequestOptions)
@@ -307,7 +307,7 @@ final class Authentication
 
         /** @var PublicKeyCredentialCreationOptions|null $publicKeyCredentialCreationOptions */
         try {
-            $publicKeyCredentialCreationOptions = unserialize(base64_decode($encodedOptions));
+            $publicKeyCredentialCreationOptions = unserialize(base64_decode($encodedOptions), ['allowed_classes' => [PublicKeyCredentialCreationOptions::class]]);
         } catch (\Exception) {
             Log::add('The plg_system_webauthn.publicKeyCredentialCreationOptions in the session is invalid', Log::NOTICE, 'webauthn.system');
             $publicKeyCredentialCreationOptions = null;
@@ -501,7 +501,7 @@ final class Authentication
         }
 
         try {
-            $publicKeyCredentialRequestOptions = unserialize(base64_decode($encodedOptions));
+            $publicKeyCredentialRequestOptions = unserialize(base64_decode($encodedOptions), ['allowed_classes' => [PublicKeyCredentialRequestOptions::class]]);
         } catch (\Exception) {
             Log::add('Invalid plg_system_webauthn.publicKeyCredentialRequestOptions in the session', Log::NOTICE, 'webauthn.system');
 
