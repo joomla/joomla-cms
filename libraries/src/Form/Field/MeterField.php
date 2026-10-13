@@ -112,6 +112,8 @@ class MeterField extends FormField
             case 'width':
             case 'animated':
             case 'color':
+            case 'max':
+            case 'min':
                 return $this->$name;
         }
 
@@ -175,6 +177,8 @@ class MeterField extends FormField
         $return = parent::setup($element, $value, $group);
 
         if ($return) {
+            $this->max   = isset($this->element['max']) ? (int) $this->element['max'] : $this->max;
+            $this->min   = isset($this->element['min']) ? (int) $this->element['min'] : $this->min;
             $this->width = isset($this->element['width']) ? (string) $this->element['width'] : '';
             $this->color = isset($this->element['color']) ? (string) $this->element['color'] : '';
 
