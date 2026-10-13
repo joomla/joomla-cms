@@ -141,7 +141,7 @@ class MediaHelper
         if ($params->get('check_mime', 1)) {
             $allowedMime = $params->get(
                 'upload_mime',
-                'image/jpeg,image/gif,image/png,image/bmp,image/webp,image/avif,application/msword,' .
+                'image/jpeg,image/gif,image/png,image/bmp,image/webp,image/avif,image/jxl,application/msword,' .
                     'application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip'
             );
 
