@@ -43,6 +43,19 @@ class MemcachedStorage extends CacheStorage
     protected $_compress = 0;
 
     /**
+     * Number of index shards the item list is spread across.
+     *
+     * The list of cached items is not stored in a single Memcached item (which is limited to 1 MB
+     * by default) but split across this many shards, so that even very large sites can track and
+     * clear all of their cached items. Each item is deterministically assigned to a shard based on
+     * a hash of its cache id.
+     *
+     * @var    integer
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $_indexShards = 16;
+
+    /**
      * Constructor
      *
      * @param   array  $options  Optional parameters.
@@ -53,7 +66,10 @@ class MemcachedStorage extends CacheStorage
     {
         parent::__construct($options);
 
-        $this->_compress = Factory::getApplication()->get('memcached_compress', false) ? \Memcached::OPT_COMPRESSION : 0;
+        $app = Factory::getApplication();
+
+        $this->_compress = $app->get('memcached_compress', false) ? \Memcached::OPT_COMPRESSION : 0;
+        $this->_indexShards = max(1, (int) $app->get('memcached_index_shards', 16));
 
         if (static::$_db === null) {
             $this->getConnection();
@@ -136,6 +152,50 @@ class MemcachedStorage extends CacheStorage
     }
 
     /**
+     * Get the index shard key that tracks a given cache id.
+     *
+     * The item is deterministically mapped to one of the index shards so that it can be located
+     * again (for de-duplication and removal) without scanning every shard.
+     *
+     * @param   string  $cacheId  The full cache id of the item
+     *
+     * @return  string  The Memcached key of the index shard responsible for the item
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getIndexShardKey($cacheId)
+    {
+        // Mask to 31 bits to keep the value non-negative on every platform.
+        $shard = (crc32($cacheId) & 0x7FFFFFFF) % $this->_indexShards;
+
+        return $this->_hash . '-index-' . $shard;
+    }
+
+    /**
+     * Get the list of all index shard keys.
+     *
+     * The legacy single-item index key (used before the index was sharded) is included so that
+     * items tracked before an upgrade are still listed and cleared correctly.
+     *
+     * @return  string[]  The Memcached keys of every index shard
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getIndexShardKeys()
+    {
+        $keys = [];
+
+        for ($shard = 0; $shard < $this->_indexShards; $shard++) {
+            $keys[] = $this->_hash . '-index-' . $shard;
+        }
+
+        // Legacy, pre-sharding index for backward compatibility.
+        $keys[] = $this->_hash . '-index';
+
+        return $keys;
+    }
+
+    /**
      * Check if the cache contains data stored by ID and group
      *
      * @param   string  $id     The cache data ID
@@ -177,12 +237,22 @@ class MemcachedStorage extends CacheStorage
      */
     public function getAll()
     {
-        $keys   = static::$_db->get($this->_hash . '-index');
         $secret = $this->_hash;
 
         $data = [];
 
-        if (\is_array($keys)) {
+        // Read every index shard in a single round trip.
+        $indexes = static::$_db->getMulti($this->getIndexShardKeys());
+
+        if (!\is_array($indexes)) {
+            return $data;
+        }
+
+        foreach ($indexes as $keys) {
+            if (!\is_array($keys)) {
+                continue;
+            }
+
             foreach ($keys as $key) {
                 if (empty($key)) {
                     continue;
@@ -228,7 +298,10 @@ class MemcachedStorage extends CacheStorage
             return false;
         }
 
-        $index = static::$_db->get($this->_hash . '-index');
+        // Only the shard responsible for this item has to be read and written, which keeps every
+        // shard small regardless of how many items the site caches in total.
+        $indexKey = $this->getIndexShardKey($cache_id);
+        $index    = static::$_db->get($indexKey);
 
         if (!\is_array($index)) {
             $index = [];
@@ -238,8 +311,26 @@ class MemcachedStorage extends CacheStorage
         $tmparr->name = $cache_id;
         $tmparr->size = \strlen($data);
 
-        $index[] = $tmparr;
-        static::$_db->set($this->_hash . '-index', $index, 0);
+        // Replace an existing index entry for the same item instead of appending a duplicate.
+        // Otherwise the shard grows without bounds as items are re-cached, eventually exceeding
+        // Memcached's maximum item size. Once that happens the shard can no longer be stored and
+        // newly cached items are no longer tracked, which makes them impossible to clear from the
+        // administrator (only a full flush/restart of memcached would remove them).
+        $found = false;
+
+        foreach ($index as $key => $value) {
+            if ($value->name === $cache_id) {
+                $index[$key] = $tmparr;
+                $found       = true;
+                break;
+            }
+        }
+
+        if (!$found) {
+            $index[] = $tmparr;
+        }
+
+        static::$_db->set($indexKey, $index, 0);
         $this->unlockindex();
 
         static::$_db->set($cache_id, $data, $this->_lifetime);
@@ -265,13 +356,14 @@ class MemcachedStorage extends CacheStorage
             return false;
         }
 
-        $index = static::$_db->get($this->_hash . '-index');
+        $indexKey = $this->getIndexShardKey($cache_id);
+        $index    = static::$_db->get($indexKey);
 
         if (\is_array($index)) {
             foreach ($index as $key => $value) {
                 if ($value->name == $cache_id) {
                     unset($index[$key]);
-                    static::$_db->set($this->_hash . '-index', $index, 0);
+                    static::$_db->set($indexKey, $index, 0);
                     break;
                 }
             }
@@ -301,19 +393,33 @@ class MemcachedStorage extends CacheStorage
             return false;
         }
 
-        $index = static::$_db->get($this->_hash . '-index');
+        $prefix     = $this->_hash . '-cache-' . $group . '-';
+        $indexKeys  = $this->getIndexShardKeys();
 
-        if (\is_array($index)) {
-            $prefix = $this->_hash . '-cache-' . $group . '-';
+        // Read every index shard in a single round trip.
+        $indexes = static::$_db->getMulti($indexKeys);
 
-            foreach ($index as $key => $value) {
-                if (str_starts_with($value->name, $prefix) xor $mode !== 'group') {
-                    static::$_db->delete($value->name);
-                    unset($index[$key]);
+        if (\is_array($indexes)) {
+            foreach ($indexKeys as $indexKey) {
+                if (!isset($indexes[$indexKey]) || !\is_array($indexes[$indexKey])) {
+                    continue;
+                }
+
+                $index   = $indexes[$indexKey];
+                $changed = false;
+
+                foreach ($index as $key => $value) {
+                    if (str_starts_with($value->name, $prefix) xor $mode !== 'group') {
+                        static::$_db->delete($value->name);
+                        unset($index[$key]);
+                        $changed = true;
+                    }
+                }
+
+                if ($changed) {
+                    static::$_db->set($indexKey, $index, 0);
                 }
             }
-
-            static::$_db->set($this->_hash . '-index', $index, 0);
         }
 
         $this->unlockindex();
