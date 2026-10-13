@@ -456,6 +456,8 @@ class TaskModel extends AdminModel
      */
     private function buildLockQuery($db, $now, $options)
     {
+        $timeout   = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
+        $threshold = Factory::getDate($now, 'UTC')->modify("-$timeout seconds")->toSql();
         $lockQuery = $db->getQuery(true)
             ->update($db->quoteName(self::TASK_TABLE))
             ->set($db->quoteName('locked') . ' = :now1')
@@ -481,6 +483,14 @@ class TaskModel extends AdminModel
 
         $stateCondition = $options['allowDisabled'] ? [0, 1] : [1];
         $lockQuery->whereIn($db->quoteName('state'), $stateCondition);
+        $lockQuery->extendWhere(
+            'AND',
+            [
+                $db->quoteName('locked') . ' IS NULL',
+                $db->quoteName('locked') . ' < :lockThreshold',
+            ],
+            'OR'
+        )->bind(':lockThreshold', $threshold);
 
         return $lockQuery;
     }
@@ -501,7 +511,9 @@ class TaskModel extends AdminModel
      */
     private function getNextTaskId($db, $now, $options)
     {
-        $idQuery = $db->getQuery(true)
+        $timeout   = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
+        $threshold = Factory::getDate($now, 'UTC')->modify("-$timeout seconds")->toSql();
+        $idQuery   = $db->getQuery(true)
             ->from($db->quoteName(self::TASK_TABLE))
             ->select($db->quoteName('id'));
 
@@ -525,6 +537,14 @@ class TaskModel extends AdminModel
 
         $stateCondition = $options['allowDisabled'] ? [0, 1] : [1];
         $idQuery->whereIn($db->quoteName('state'), $stateCondition);
+        $idQuery->extendWhere(
+            'AND',
+            [
+                $db->quoteName('locked') . ' IS NULL',
+                $db->quoteName('locked') . ' < :lockThreshold',
+            ],
+            'OR'
+        )->bind(':lockThreshold', $threshold);
 
         $idQuery->where($db->quoteName('next_execution') . ' IS NOT NULL')
             ->order($db->quoteName('priority') . ' DESC')
