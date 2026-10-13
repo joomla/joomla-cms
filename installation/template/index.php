@@ -54,14 +54,14 @@ Text::script('INSTL_DATABASE_RESPONSE_ERROR');
 
 // Add strings for installation progress
 Text::script('INSTL');
+Text::script('INSTL_DATABASE');
 Text::script('INSTL_FINISHED');
 Text::script('INSTL_IN_PROGRESS');
-Text::script('INSTL_PROCESS_BUSY');
-Text::script('INSTL_PAGE_TITLE');
-Text::script('INSTL_SETUP_SITE_NAME');
 Text::script('INSTL_LOGIN_DATA');
-Text::script('INSTL_DATABASE');
+Text::script('INSTL_PAGE_TITLE');
+Text::script('INSTL_PROCESS_BUSY');
 Text::script('INSTL_PROGRESS');
+Text::script('INSTL_SETUP_SITE_NAME');
 
 // Load strings for translated messages (directory removal)
 Text::script('INSTL_REMOVE_INST_FOLDER');
