@@ -633,6 +633,13 @@ abstract class Bootstrap
      */
     public static function framework($debug = null): void
     {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            throw new \BadMethodCallException(\sprintf(
+                '%1$s() is only available in compatibility mode (compatibility plugin enabled). Load the different scripts with their individual method calls.',
+                __METHOD__
+            ));
+        }
+
         $wa = Factory::getApplication()
             ->getDocument()
             ->getWebAssetManager();
