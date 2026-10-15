@@ -98,7 +98,6 @@ $has_data = !empty($gauges_html) || !empty($buttons_html) || !empty($lists_html)
                 <?php echo $tables_html; ?>
             </div>
         <?php endif; ?>
-
     <?php else : ?>
         <?php echo LayoutHelper::render('joomla.content.emptystate_module', [
             'textPrefix' => 'MOD_HEALTHCHECK',
