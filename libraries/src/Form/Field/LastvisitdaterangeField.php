@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -52,5 +53,33 @@ class LastvisitdaterangeField extends PredefinedlistField
             'post_year'   => 'COM_USERS_OPTION_RANGE_POST_YEAR',
             'never'       => 'COM_USERS_OPTION_RANGE_NEVER',
         ];
+    }
+
+    /**
+     * Add runtime compatibility for dynamic values like inactive_180.
+     *
+     * @return  object[]
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getOptions()
+    {
+        $options = parent::getOptions();
+        $value   = (string) $this->value;
+
+        if (preg_match('/^inactive_(\d+)$/', $value, $matches)) {
+            foreach ($options as $option) {
+                if ((string) $option->value === $value) {
+                    return $options;
+                }
+            }
+
+            $options[] = (object) [
+                'value' => $value,
+                'text'  => Text::sprintf('COM_USERS_OPTION_RANGE_INACTIVE_DAYS', (int) $matches[1]),
+            ];
+        }
+
+        return $options;
     }
 }
