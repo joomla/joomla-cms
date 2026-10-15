@@ -108,6 +108,7 @@ class TagsSimilarHelper implements DatabaseAwareInterface
                 $db->quoteName('#__content_types', 'ct'),
                 $db->quoteName('m.type_alias') . ' = ' . $db->quoteName('ct.type_alias')
             )
+            ->join('LEFT', $db->quoteName('#__categories', 'tc'), $db->quoteName('tc.id') . ' = ' . $db->quoteName('cc.core_catid'))
             ->whereIn($db->quoteName('m.tag_id'), $tagsToMatch)
             ->whereIn($db->quoteName('t.access'), $groups)
             ->where($db->quoteName('cc.core_state') . ' = 1')
@@ -116,6 +117,14 @@ class TagsSimilarHelper implements DatabaseAwareInterface
                 [
                     $db->quoteName('cc.core_access') . ' IN (' . implode(',', $query->bindArray($groups)) . ')',
                     $db->quoteName('cc.core_access') . ' = 0',
+                ],
+                'OR'
+            )
+            ->extendWhere(
+                'AND',
+                [
+                    $db->quoteName('cc.core_catid') . ' = 0',
+                    $db->quoteName('tc.access') . ' IN (' . implode(',', $query->bindArray($groups)) . ')',
                 ],
                 'OR'
             )
@@ -146,6 +155,14 @@ class TagsSimilarHelper implements DatabaseAwareInterface
                     $db->quoteName('cc.core_publish_down') . ' IS NULL',
                     $db->quoteName('cc.core_publish_down') . ' = :nullDateDown',
                     $db->quoteName('cc.core_publish_down') . ' >= :nowDateDown',
+                ],
+                'OR'
+            )
+            ->extendWhere(
+                'AND',
+                [
+                    $db->quoteName('cc.core_catid') . ' = 0',
+                    $db->quoteName('tc.published') . ' = 1',
                 ],
                 'OR'
             )
