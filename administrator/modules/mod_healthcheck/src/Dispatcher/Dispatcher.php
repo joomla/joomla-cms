@@ -44,7 +44,6 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
         $data['buttons'] = $helper->getButtons($data['params'], $this->getApplication());
         $data['lists']   = $helper->getLists($data['params'], $this->getApplication());
         $data['tables']  = $helper->getTables($data['params'], $this->getApplication());
-        $data['reports'] = $helper->getReports($data['params'], $this->getApplication());
 
         $data['leading'] = $helper->getLeading($data['params'], $this->getApplication());
         $data['footer']  = $helper->getFooter($data['params'], $this->getApplication());
