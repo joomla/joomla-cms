@@ -48,6 +48,7 @@ class RequestController extends FormController
 
         /** @var RequestModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         /** @var RequestTable $table */
         $table = $model->getTable();
@@ -101,9 +102,11 @@ class RequestController extends FormController
         }
 
         // Attempt to save the data.
-        if (!$model->save($data)) {
+        try {
+            $model->save($data);
+        } catch (\Exception $e) {
             // Redirect back to the edit screen.
-            $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
+            $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $e->getMessage()), 'error');
 
             $this->setRedirect(
                 Route::_(
@@ -149,14 +152,17 @@ class RequestController extends FormController
 
         /** @var ExportModel $model */
         $model = $this->getModel('Export');
+        $model->setUseExceptions(true);
 
         $recordId = $this->input->getUint('id');
 
-        if (!$model->emailDataExport($recordId)) {
-            // Redirect back to the edit screen.
-            $this->setMessage(Text::sprintf('COM_PRIVACY_ERROR_EXPORT_EMAIL_FAILED', $model->getError()), 'error');
-        } else {
+        try {
+            $model->emailDataExport($recordId);
+
             $this->setMessage(Text::_('COM_PRIVACY_EXPORT_EMAILED'));
+        } catch (\Exception $e) {
+            // Redirect back to the edit screen.
+            $this->setMessage(Text::sprintf('COM_PRIVACY_ERROR_EXPORT_EMAIL_FAILED', $e->getMessage()), 'error');
         }
 
         $url = 'index.php?option=com_privacy&view=requests';
@@ -205,6 +211,7 @@ class RequestController extends FormController
 
         /** @var RequestModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         /** @var RequestTable $table */
         $table = $model->getTable();
@@ -258,9 +265,11 @@ class RequestController extends FormController
         }
 
         // Attempt to save the data.
-        if (!$model->save($data)) {
+        try {
+            $model->save($data);
+        } catch (\Exception $e) {
             // Redirect back to the edit screen.
-            $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
+            $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $e->getMessage()), 'error');
 
             $this->setRedirect(
                 Route::_(
@@ -306,12 +315,15 @@ class RequestController extends FormController
 
         /** @var RemoveModel $model */
         $model = $this->getModel('Remove');
+        $model->setUseExceptions(true);
 
         $recordId = $this->input->getUint('id');
 
-        if (!$model->removeDataForRequest($recordId)) {
+        try {
+            $model->removeDataForRequest($recordId);
+        } catch (\Exception $e) {
             // Redirect back to the edit screen.
-            $this->setMessage(Text::sprintf('COM_PRIVACY_ERROR_REMOVE_DATA_FAILED', $model->getError()), 'error');
+            $this->setMessage(Text::sprintf('COM_PRIVACY_ERROR_REMOVE_DATA_FAILED', $e->getMessage()), 'error');
 
             $this->setRedirect(
                 Route::_(

@@ -68,6 +68,7 @@ class ContactsController extends AdminController
         // Get the model.
         /** @var \Joomla\Component\Contact\Administrator\Model\ContactModel $model */
         $model  = $this->getModel();
+        $model->setUseExceptions(true);
 
         // Access checks.
         foreach ($ids as $i => $id) {
@@ -93,8 +94,10 @@ class ContactsController extends AdminController
             $this->app->enqueueMessage(Text::_('COM_CONTACT_NO_ITEM_SELECTED'), 'warning');
         } else {
             // Publish the items.
-            if (!$model->featured($ids, $value)) {
-                $this->app->enqueueMessage($model->getError(), 'warning');
+            try {
+                $model->featured($ids, $value);
+            } catch (\Exception $e) {
+                $this->app->enqueueMessage($e->getMessage(), 'warning');
             }
 
             if ($value == 1) {

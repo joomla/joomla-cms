@@ -104,11 +104,10 @@ class UpdatesitesController extends AdminController
         // Get the model.
         /** @var \Joomla\Component\Installer\Administrator\Model\UpdatesitesModel $model */
         $model = $this->getModel('Updatesites');
+        $model->setUseExceptions(true);
 
         // Change the state of the records.
-        if (!$model->publish($ids, $value)) {
-            throw new \Exception(implode('<br>', $model->getErrors()), 500);
-        }
+        $model->publish($ids, $value);
 
         $ntext = ($value == 0) ? 'COM_INSTALLER_N_UPDATESITES_UNPUBLISHED' : 'COM_INSTALLER_N_UPDATESITES_PUBLISHED';
 

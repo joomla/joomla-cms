@@ -51,21 +51,26 @@ class OverridesController extends AdminController
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);
 
+        $this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+
         if (empty($cid)) {
             $this->setMessage(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
         } else {
             // Get the model.
             $model = $this->getModel('overrides');
+            $model->setUseExceptions(true);
 
             // Remove the items.
-            if ($model->delete($cid)) {
-                $this->setMessage(Text::plural($this->text_prefix . '_N_ITEMS_DELETED', \count($cid)));
-            } else {
-                $this->setMessage($model->getError(), 'error');
-            }
-        }
+            try {
+                $model->delete($cid);
+            } catch (\Exception $e) {
+                $this->setMessage($e->getMessage(), 'error');
 
-        $this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+                return;
+            }
+
+            $this->setMessage(Text::plural($this->text_prefix . '_N_ITEMS_DELETED', \count($cid)));
+        }
     }
 
     /**

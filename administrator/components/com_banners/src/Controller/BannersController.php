@@ -90,28 +90,33 @@ class BannersController extends AdminController
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
 
+        $this->setRedirect('index.php?option=com_banners&view=banners');
+
         if (empty($ids)) {
             $this->app->enqueueMessage(Text::_('COM_BANNERS_NO_BANNERS_SELECTED'), 'warning');
         } else {
             // Get the model.
             /** @var \Joomla\Component\Banners\Administrator\Model\BannerModel $model */
             $model = $this->getModel();
+            $model->setUseExceptions(true);
 
             // Change the state of the records.
-            if (!$model->stick($ids, $value)) {
-                $this->app->enqueueMessage($model->getError(), 'warning');
-            } else {
-                if ($value == 1) {
-                    $ntext = 'COM_BANNERS_N_BANNERS_STUCK';
-                } else {
-                    $ntext = 'COM_BANNERS_N_BANNERS_UNSTUCK';
-                }
+            try {
+                $model->stick($ids, $value);
+            } catch (\Exception $e) {
+                $this->app->enqueueMessage($e->getMessage(), 'warning');
 
-                $this->setMessage(Text::plural($ntext, \count($ids)));
+                return;
             }
-        }
 
-        $this->setRedirect('index.php?option=com_banners&view=banners');
+            if ($value == 1) {
+                $ntext = 'COM_BANNERS_N_BANNERS_STUCK';
+            } else {
+                $ntext = 'COM_BANNERS_N_BANNERS_UNSTUCK';
+            }
+
+            $this->setMessage(Text::plural($ntext, \count($ids)));
+        }
     }
 
     /**

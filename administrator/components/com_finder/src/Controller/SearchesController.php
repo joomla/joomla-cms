@@ -36,9 +36,12 @@ class SearchesController extends BaseController
         Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
         $model = $this->getModel('Searches');
+        $model->setUseExceptions(true);
 
-        if (!$model->reset()) {
-            $this->app->enqueueMessage($model->getError(), 'error');
+        try {
+            $model->reset();
+        } catch (\Exception $e) {
+            $this->app->enqueueMessage($e->getMessage(), 'error');
         }
 
         $this->setRedirect('index.php?option=com_finder&view=searches');

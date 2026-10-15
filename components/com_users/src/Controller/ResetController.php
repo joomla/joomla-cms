@@ -41,10 +41,28 @@ class ResetController extends BaseController
 
         /** @var \Joomla\Component\Users\Site\Model\ResetModel $model */
         $model = $this->getModel('Reset', 'Site');
+        $model->setUseExceptions(true);
         $data  = $this->input->post->get('jform', [], 'array');
 
         // Submit the password reset request.
-        $return = $model->processResetRequest($data);
+        try {
+            $return = $model->processResetRequest($data);
+        } catch (\Exception $e) {
+            if (JDEBUG) {
+                // The request failed.
+                // Go back to the request form.
+                $message = Text::sprintf('COM_USERS_RESET_REQUEST_FAILED', $e->getMessage());
+                $this->setRedirect(Route::_('index.php?option=com_users&view=reset', false), $message, 'notice');
+
+                return false;
+            }
+
+            // To not expose if the user exists or not we send a generic message.
+            $message = Text::_('COM_USERS_RESET_REQUEST');
+            $this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=confirm', false), $message, 'notice');
+
+            return true;
+        }
 
         // Check for a hard error.
         if ($return instanceof \Exception && JDEBUG) {
@@ -57,15 +75,6 @@ class ResetController extends BaseController
 
             // Go back to the request form.
             $this->setRedirect(Route::_('index.php?option=com_users&view=reset', false), $message, 'error');
-
-            return false;
-        }
-
-        if ($return === false && JDEBUG) {
-            // The request failed.
-            // Go back to the request form.
-            $message = Text::sprintf('COM_USERS_RESET_REQUEST_FAILED', $model->getError());
-            $this->setRedirect(Route::_('index.php?option=com_users&view=reset', false), $message, 'notice');
 
             return false;
         }
@@ -94,10 +103,20 @@ class ResetController extends BaseController
 
         /** @var \Joomla\Component\Users\Site\Model\ResetModel $model */
         $model = $this->getModel('Reset', 'Site');
+        $model->setUseExceptions(true);
         $data  = $this->input->get('jform', [], 'array');
 
         // Confirm the password reset request.
-        $return = $model->processResetConfirm($data);
+        try {
+            $return = $model->processResetConfirm($data);
+        } catch (\Exception $e) {
+            // Confirm failed.
+            // Go back to the confirm form.
+            $message = Text::sprintf('COM_USERS_RESET_CONFIRM_FAILED', $e->getMessage());
+            $this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=confirm', false), $message, 'notice');
+
+            return false;
+        }
 
         // Check for a hard error.
         if ($return instanceof \Exception) {
@@ -110,15 +129,6 @@ class ResetController extends BaseController
 
             // Go back to the confirm form.
             $this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=confirm', false), $message, 'error');
-
-            return false;
-        }
-
-        if ($return === false) {
-            // Confirm failed.
-            // Go back to the confirm form.
-            $message = Text::sprintf('COM_USERS_RESET_CONFIRM_FAILED', $model->getError());
-            $this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=confirm', false), $message, 'notice');
 
             return false;
         }
@@ -146,10 +156,20 @@ class ResetController extends BaseController
 
         /** @var \Joomla\Component\Users\Site\Model\ResetModel $model */
         $model = $this->getModel('Reset', 'Site');
+        $model->setUseExceptions(true);
         $data  = $this->input->post->get('jform', [], 'array');
 
         // Complete the password reset request.
-        $return = $model->processResetComplete($data);
+        try {
+            $return = $model->processResetComplete($data);
+        } catch (\Exception $e) {
+            // Complete failed.
+            // Go back to the complete form.
+            $message = Text::sprintf('COM_USERS_RESET_COMPLETE_FAILED', $e->getMessage());
+            $this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=complete', false), $message, 'notice');
+
+            return false;
+        }
 
         // Check for a hard error.
         if ($return instanceof \Exception) {
@@ -162,15 +182,6 @@ class ResetController extends BaseController
 
             // Go back to the complete form.
             $this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=complete', false), $message, 'error');
-
-            return false;
-        }
-
-        if ($return === false) {
-            // Complete failed.
-            // Go back to the complete form.
-            $message = Text::sprintf('COM_USERS_RESET_COMPLETE_FAILED', $model->getError());
-            $this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=complete', false), $message, 'notice');
 
             return false;
         }

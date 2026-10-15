@@ -69,6 +69,7 @@ class TasksController extends AdminController
         } else {
             /** @var TaskModel $model */
             $model = $this->getModel();
+            $model->setUseExceptions(true);
 
             // Make sure the item IDs are integers
             $cid = ArrayHelper::toInteger($cid);
@@ -76,17 +77,9 @@ class TasksController extends AdminController
             // Unlock the items.
             try {
                 $model->unlock($cid);
-                $errors     = $model->getErrors();
-                $noticeText = null;
-
-                if ($errors) {
-                    $this->app->enqueueMessage(Text::plural($this->text_prefix . '_N_ITEMS_FAILED_UNLOCKING', \count($cid)), 'error');
-                } else {
-                    $noticeText = $this->text_prefix . '_N_ITEMS_UNLOCKED';
-                }
 
                 if (\count($cid)) {
-                    $this->setMessage(Text::plural($noticeText, \count($cid)));
+                    $this->setMessage(Text::plural($this->text_prefix . '_N_ITEMS_UNLOCKED', \count($cid)));
                 }
             } catch (\Exception $e) {
                 $this->setMessage($e->getMessage(), 'error');

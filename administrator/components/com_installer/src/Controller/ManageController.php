@@ -76,11 +76,12 @@ class ManageController extends BaseController
         } else {
             /** @var ManageModel $model */
             $model = $this->getModel('manage');
+            $model->setUseExceptions(true);
 
             // Change the state of the records.
-            if (!$model->publish($ids, $value)) {
-                $this->setMessage(implode('<br>', $model->getErrors()), 'warning');
-            } else {
+            try {
+                $model->publish($ids, $value);
+
                 if ($value == 1) {
                     $ntext = 'COM_INSTALLER_N_EXTENSIONS_PUBLISHED';
                 } else {
@@ -88,6 +89,8 @@ class ManageController extends BaseController
                 }
 
                 $this->setMessage(Text::plural($ntext, \count($ids)));
+            } catch (\Exception $e) {
+                $this->setMessage($e->getMessage(), 'warning');
             }
         }
 

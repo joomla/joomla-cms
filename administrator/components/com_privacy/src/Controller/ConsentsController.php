@@ -49,11 +49,14 @@ class ConsentsController extends FormController
         } else {
             /** @var ConsentsModel $model */
             $model = $this->getModel();
+            $model->setUseExceptions(true);
 
-            if (!$model->invalidate($ids)) {
-                $this->setMessage($model->getError());
-            } else {
+            try {
+                $model->invalidate($ids);
+
                 $this->setMessage(Text::plural('COM_PRIVACY_N_CONSENTS_INVALIDATED', \count($ids)));
+            } catch (\Exception $e) {
+                $this->setMessage($e->getMessage());
             }
         }
 
@@ -86,9 +89,12 @@ class ConsentsController extends FormController
 
         /** @var ConsentsModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        if (!$model->invalidateAll($subject)) {
-            $this->setMessage($model->getError());
+        try {
+            $model->invalidateAll($subject);
+        } catch (\Exception $e) {
+            $this->setMessage($e->getMessage());
         }
 
         $this->setMessage(Text::_('COM_PRIVACY_CONSENTS_INVALIDATED_ALL'));

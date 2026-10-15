@@ -42,14 +42,18 @@ class MailController extends BaseController
         $this->checkToken('request');
 
         $model = $this->getModel('Mail');
+        $model->setUseExceptions(true);
 
-        if ($model->send()) {
+        try {
+            $model->send();
+
+            $msg  = '';
             $type = 'message';
-        } else {
+        } catch (\Exception $e) {
+            $msg  = $e->getMessage();
             $type = 'error';
         }
 
-        $msg = $model->getError();
         $this->setRedirect('index.php?option=com_users&view=mail', $msg, $type);
     }
 

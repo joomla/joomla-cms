@@ -94,6 +94,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
 
         $app    = $this->app;
         $model  = $this->getModel('contact');
+        $model->setUseExceptions(true);
         $stub   = $this->input->getString('id');
         $id     = (int) $stub;
 
@@ -102,10 +103,11 @@ class ContactController extends FormController implements UserFactoryAwareInterf
 
         // Get item
         $model->setState('filter.published', 1);
-        $contact = $model->getItem($id);
 
-        if ($contact === false) {
-            $this->setMessage($model->getError(), 'error');
+        try {
+            $contact = $model->getItem($id);
+        } catch (\Exception $e) {
+            $this->setMessage($e->getMessage(), 'error');
 
             return false;
         }
@@ -152,10 +154,6 @@ class ContactController extends FormController implements UserFactoryAwareInterf
 
         // Validate the posted data.
         $form = $model->getForm();
-
-        if (!$form) {
-            throw new \Exception($model->getError(), 500);
-        }
 
         if (!$model->validate($form, $data)) {
             $errors = $model->getErrors();
