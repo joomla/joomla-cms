@@ -370,7 +370,7 @@ Date.prototype.print = function (str, dateType, translate, localStrings) {
 	return tmpDate;
 };
 
-Date.parseFieldDate = function(str, fmt, dateType, localStrings) {
+Date.parseFieldDate = function(str, fmt, dateType, localStrings, strict) {
 	str = Date.numbersToIso(str);
 
 	var today = new Date();
@@ -437,8 +437,33 @@ Date.parseFieldDate = function(str, fmt, dateType, localStrings) {
 	if (isNaN(d)) d = today.getDate();
 	if (isNaN(hr)) hr = today.getHours();
 	if (isNaN(min)) min = today.getMinutes();
-	if (y != 0 && m != -1 && d != 0)
-		return new Date(y, m, d, hr, min, 0);
+	if (y != 0 && m != -1 && d != 0) {
+		var result = new Date(y, m, d, hr, min, 0);
+		// NOT native JS: custom properties we add on this Date object.
+		// Expose the raw, unmodified y/m/d exactly as parsed from the string,
+		// as plain numbers - NOT derived from result.getFullYear()/getMonth()/
+		// getDate(). Those native getters cannot be trusted for non-Gregorian
+		// calendars (e.g. Jalali): native Date always validates the day-of-month
+		// against *Gregorian* month lengths, so e.g. day 31 of a Jalali month
+		// that has 31 days, but whose numeric index happens to land on
+		// a native Gregorian month with only 30 days (April, June, ...),
+		// silently rolls over to the 1st of the following month. Callers
+		// converting a local-calendar date to Gregorian (Date.localCalToGregorian)
+		// must use these raw values instead.
+		result.rawYear = y;
+		result.rawMonth = m;
+		result.rawDay = d;
+		return result;
+	}
+
+	// In strict mode, bail out here: the string is incomplete or invalid.
+	// We avoid falling back to the heuristic below, which can end up
+	// returning "today" as a fallback, wrongly treated by the caller as
+	// a valid date (e.g. Jalali -> Gregorian conversion while still typing).
+	if (strict) {
+		return null;
+	}
+
 	y = 0; m = -1; d = 0;
 	for (i = 0; i < a.length; ++i) {
 		if (a[i].search(/[a-zA-Z]+/) != -1) {
@@ -463,8 +488,17 @@ Date.parseFieldDate = function(str, fmt, dateType, localStrings) {
 	}
 	if (y == 0)
 		y = today.getFullYear();
-	if (m != -1 && d != 0)
-		return new Date(y, m, d, hr, min, 0);
+	if (m != -1 && d != 0) {
+		var result2 = new Date(y, m, d, hr, min, 0);
+		result2.rawYear = y;   // custom, non-native (see note above)
+		result2.rawMonth = m;  // custom, non-native
+		result2.rawDay = d;    // custom, non-native
+		return result2;
+	}
+	// custom, non-native properties (see note above), kept in sync with today
+	today.rawYear = today.getFullYear();
+	today.rawMonth = today.getMonth();
+	today.rawDay = today.getDate();
 	return today;
 };
 

@@ -13,7 +13,6 @@ namespace Joomla\Plugin\Captcha\POWCaptcha\Extension;
 use Joomla\CMS\Event\Captcha\CaptchaSetupEvent;
 use Joomla\CMS\Event\Plugin\AjaxEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Session\Session;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\Captcha\POWCaptcha\Provider\POWCaptchaProvider;
 
@@ -64,13 +63,6 @@ final class POWCaptcha extends CMSPlugin implements SubscriberInterface
      */
     public function handleAjaxRequest(AjaxEvent $event)
     {
-        // CRSF Token check
-        if (!Session::checkToken('get')) {
-            $event->updateEventResult(json_encode([]));
-
-            return;
-        }
-
         $event->updateEventResult(
             json_encode(
                 $this->getProvider()->getChallenge()

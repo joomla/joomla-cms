@@ -423,6 +423,13 @@ trait DisplayTrait
             Text::script('PLG_TINY_TOOLBAR_BUTTON_REMOVE_ABBREVIATION');
         }
 
+        // Load the readmore plugin?
+        if (!empty($allButtons['readmore'])) {
+            $wa->useScript('plg_editors_tinymce.readmore');
+            $plugins[] = 'readmore';
+            Text::script('PLG_TINY_TOOLBAR_BUTTON_READMORE');
+        }
+
         // User custom plugins and buttons
         $custom_plugin = trim($levelParams->get('custom_plugin', ''));
         $custom_button = trim($levelParams->get('custom_button', ''));

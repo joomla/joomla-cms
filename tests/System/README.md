@@ -183,6 +183,7 @@ The Joomla System Tests come with some convenient [Cypress Tasks](https://docs.c
 - **startMailServer** – Starts the smtp-tester SMTP server
 - **getMails** – Get received mails from smtp-tester
 - **clearEmails** – Clear all smtp-tester received mails
+- **executeCli** – Executes a CLI command
 
 The following code in a test executes the writing file task with parameters:
 ```JavaScript
@@ -232,9 +233,14 @@ The following commands are available and are served by the file [tests/System/su
 - **db_createUser** – Creates a user entry and returns the id
 - **db_createUserGroup** – Creates a user group and returns the id
 - **db_createUserLevel** – Creates a user access level  and returns the id
+- **db_createWorkflow** – Creates a workflow and returns the inserted record
+- **db_createWorkflowStage** – Creates a workflow stage and returns the inserted record
+- **db_createWorkflowTransition** – Creates a workflow transition and returns the inserted record
 - **db_enableExtension** – Sets the enabled status for the given extension
 - **db_getUserId** – Returns the id of the currently logged in user
 - **db_updateExtensionParameter** – Sets the parameter for the given extension
+- **db_deleteMenuItem** - Deletes a menu item with the given title
+- **db_deleteCategory** - Deletes a category with the given title
 
 
 #### API Commands

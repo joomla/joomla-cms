@@ -108,6 +108,17 @@
       "dependencies": [
         "tinymce"
       ]
+    },
+    {
+      "name": "plg_editors_tinymce.readmore",
+      "type": "script",
+      "uri": "plg_editors_tinymce/plugins/readmore/plugin.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "tinymce"
+      ]
     }
   ]
 }
