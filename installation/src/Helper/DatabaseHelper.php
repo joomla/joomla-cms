@@ -14,6 +14,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseFactory;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
@@ -59,20 +61,21 @@ abstract class DatabaseHelper
     /**
      * Method to get a database driver.
      *
-     * @param   string   $driver    The database driver to use.
-     * @param   string   $host      The hostname to connect on.
-     * @param   string   $user      The user name to connect with.
-     * @param   string   $password  The password to use for connection authentication.
-     * @param   string   $database  The database to use.
-     * @param   string   $prefix    The table prefix to use.
-     * @param   boolean  $select    True if the database should be selected.
-     * @param   array    $ssl       Database TLS connection options.
+     * @param   string                $driver      The database driver to use.
+     * @param   string                $host        The hostname to connect on.
+     * @param   string                $user        The user name to connect with.
+     * @param   string                $password    The password to use for connection authentication.
+     * @param   string                $database    The database to use.
+     * @param   string                $prefix      The table prefix to use.
+     * @param   boolean               $select      True if the database should be selected.
+     * @param   array                 $ssl         Database TLS connection options.
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for database driver.
      *
      * @return  DatabaseInterface
      *
      * @since   1.6
      */
-    public static function getDbo($driver, $host, $user, $password, $database, $prefix, $select = true, array $ssl = [])
+    public static function getDbo($driver, $host, $user, $password, $database, $prefix, $select = true, array $ssl = [], ?DispatcherInterface $dispatcher = null)
     {
         static $db;
 
@@ -114,6 +117,9 @@ abstract class DatabaseHelper
 
             // Get a database object.
             $db = (new DatabaseFactory())->getDriver($options['driver'], $options);
+            if ($dispatcher && $db instanceof DispatcherAwareInterface) {
+                $db->setDispatcher($dispatcher);
+            }
         }
 
         return $db;

@@ -294,6 +294,7 @@ final class InstallationApplication extends CMSApplication
 
         $factory = new MVCFactory('Joomla\\CMS', $this->getLogger());
         $factory->setDatabase($this->getContainer()->get(DatabaseInterface::class));
+        $factory->setDispatcher($this->getDispatcher());
 
         // Create the instance
         $controller = $factory->createController($controllerName, 'Installation', ['base_path' => JPATH_INSTALLATION], $this, $this->input);
