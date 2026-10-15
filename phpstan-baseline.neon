@@ -6959,16 +6959,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to deprecated property \$sefparams of class Joomla\\Component\\Tags\\Site\\Service\\Router\:
-				5\.2\.0 will be removed in 7\.0
-				             without replacement$#
-			'''
-			identifier: property.deprecated
-			count: 3
-			path: components/com_tags/src/Service/Router.php
-
-		-
-			message: '''
 				#^Call to deprecated method get\(\) of class Joomla\\CMS\\MVC\\View\\AbstractView\:
 				5\.3\.0 will be removed in 7\.0\.
 				             Retrieve the model with \$model \= \$this\-\>getModel\(\); and call the methods
