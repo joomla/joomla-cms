@@ -61,14 +61,6 @@ class HealthCheckHelper
     protected $tables = [];
 
     /**
-     * Stack to hold reports
-     *
-     * @var     array[]
-     * @since   __DEPLOY_VERSION__
-     */
-    protected $reports = [];
-
-    /**
      * Stack to hold leading information
      *
      * @var     array[]
@@ -194,7 +186,7 @@ class HealthCheckHelper
             'sublabel'                => null,
             'note'                    => null,
             'link'                    => null,
-            'link_title'              => null,
+            'linktitle'               => null,
             'access'                  => true,
             'class'                   => null,
             'group'                   => 'general',
@@ -327,47 +319,6 @@ class HealthCheckHelper
             $params,
             'tables',
             'onHealthcheckGetTables',
-            $defaults,
-            $requiredFields,
-            $application
-        );
-    }
-
-    /**
-     * Helper method to return report list.
-     *
-     * This method returns the array by reference so it can be
-     * used to add custom reports or remove default ones.
-     *
-     * @param   Registry         $params       The module parameters
-     * @param   ?CMSApplication  $application  The application
-     *
-     * @return  array  An array of reports
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function getReports(Registry $params, ?CMSApplication $application = null)
-    {
-        $defaults = [
-            'link'    => null,
-            'image'   => null,
-            'text'    => null,
-            'name'    => null,
-            'linkadd' => null,
-            'access'  => true,
-            'class'   => null,
-            'group'   => 'general',
-        ];
-
-        $requiredFields = [
-            ['link'],
-            ['text', 'name'], // Must have either text or name
-        ];
-
-        return $this->getHealthCheckData(
-            $params,
-            'reports',
-            'onHealthcheckGetReports',
             $defaults,
             $requiredFields,
             $application
