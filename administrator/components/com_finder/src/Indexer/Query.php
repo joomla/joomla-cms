@@ -199,19 +199,14 @@ class Query
     /**
      * Method to instantiate the query object.
      *
-     * @param   array               $options  An array of query options.
-     * @param   ?DatabaseInterface  $db       The database
+     * @param   array              $options  An array of query options.
+     * @param   DatabaseInterface  $db       The database
      *
      * @since   2.5
      * @throws  \Exception on database error.
      */
-    public function __construct($options, ?DatabaseInterface $db = null)
+    public function __construct($options, DatabaseInterface $db)
     {
-        if ($db === null) {
-            @trigger_error('Database will be mandatory in 7.0.', E_USER_DEPRECATED);
-            $db = Factory::getContainer()->get(DatabaseInterface::class);
-        }
-
         $this->setDatabase($db);
 
         // Get the input string.
