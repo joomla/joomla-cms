@@ -3,16 +3,16 @@
   * @license     GNU General Public License version 2 or later; see LICENSE.txt
   */
 
-document.addEventListener("DOMContentLoaded", function (event) {
+document.addEventListener('DOMContentLoaded', function (event) {
   new MetisMenu('#helpmenu', {
-    toggle: true
+    toggle: true,
   });
   const helpIndex = document.getElementById('helpmenu');
   if (helpIndex) {
-    helpIndex.querySelectorAll('a').forEach(element => element.addEventListener('click', () => {
+    helpIndex.querySelectorAll('a').forEach((element) => element.addEventListener('click', () => {
       if (element.classList.contains('has-arrow')) {
         // 🔸 Action for a link to a folder, where <a class="has-arrow">
-        helpIndex.querySelectorAll('a.has-arrow').forEach(a => {
+        helpIndex.querySelectorAll('a.has-arrow').forEach((a) => {
           // Remove 'active' from all collapsed folders.
           if (element.classList.contains('mm-collapsed')) {
             element.classList.remove('active');
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         const id = element.dataset.id;
         if (id) {
           // First, reset all other links to default state
-          helpIndex.querySelectorAll('a:not(has-arrow)').forEach(a => {
+          helpIndex.querySelectorAll('a:not(has-arrow)').forEach((a) => {
             if (a.dataset.id !== id) {
               a.classList.remove('active');
               a.removeAttribute('aria-current');
@@ -40,8 +40,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
         const btn = document.querySelector('button[data-bs-target="#help-index"]');
         const isVisible = !!(btn && btn.offsetParent !== null);
         if (isVisible) {
-          document.querySelector(`nav#help-index`).classList.add('collapse');
-          document.querySelector(`nav#help-index`).classList.remove('show');
+          document.querySelector('nav#help-index').classList.add('collapse');
+          document.querySelector('nav#help-index').classList.remove('show');
         }
       }
     }));
@@ -95,7 +95,7 @@ const breakpoints = {
   md: 768,
   lg: 992,
   xl: 1200,
-  xxl: 1400
+  xxl: 1400,
 };
 
 // Collapse the Help menu on small screens (sm) by causing a page reload

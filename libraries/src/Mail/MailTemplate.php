@@ -117,7 +117,7 @@ class MailTemplate
      * The language factory
      *
      * @var    LanguageFactoryInterface
-     * @since  __DEPLOY_VERSION__
+     * @since  6.2.0
      */
     protected LanguageFactoryInterface $languageFactory;
 
@@ -577,7 +577,7 @@ class MailTemplate
      *
      * @return  \stdClass|null  An object with the data of the mail, or null if the template not found in the db.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     protected function loadTemplate(string $key, string $language): ?\stdClass
     {
@@ -609,7 +609,7 @@ class MailTemplate
      *
      * @since   4.0.0
      *
-     * @deprecated __DEPLOY_VERSION__ this will be removed without replacement in 8.0
+     * @deprecated 6.2.0 this will be removed without replacement in 8.0
      *             Use $app->bootComponent('com_mails')->getMVCFactory()->createModel('Template', 'Administrator')->getItem(); instead
      */
     public static function getTemplate($key, $language)
@@ -630,7 +630,7 @@ class MailTemplate
      *
      * @since   4.0.0
      *
-     * @deprecated __DEPLOY_VERSION__ this will be removed without replacement in 8.0
+     * @deprecated 6.2.0 this will be removed without replacement in 8.0
      *             Use $app->bootComponent('com_mails')->getMVCFactory()->createModel('Template', 'Administrator')->save(); instead
      */
     public static function createTemplate($key, $subject, $body, $tags, $htmlbody = '')
@@ -661,7 +661,7 @@ class MailTemplate
      *
      * @since   4.0.0
      *
-     * @deprecated __DEPLOY_VERSION__ this will be removed without replacement in 8.0
+     * @deprecated 6.2.0 this will be removed without replacement in 8.0
      *             Use $app->bootComponent('com_mails')->getMVCFactory()->createModel('Template', 'Administrator')->save(); instead
      */
     public static function updateTemplate($key, $subject, $body, $tags, $htmlbody = '')
@@ -686,7 +686,7 @@ class MailTemplate
      *
      * @since   4.0.0
      *
-     * @deprecated __DEPLOY_VERSION__ this will be removed without replacement in 8.0
+     * @deprecated 6.2.0 this will be removed without replacement in 8.0
      *             Use $app->bootComponent('com_mails')->getMVCFactory()->createModel('Template', 'Administrator')->delete(); instead
      */
     public static function deleteTemplate($key)

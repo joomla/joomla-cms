@@ -12,7 +12,7 @@ describe('Test in backend that the Installer', () => {
     cy.get('body').then((body) => {
       if (body.find('#installer-languages table').length === 0) {
         cy.get('#installer-languages .alert.alert-info').should('contain.text', 'No Matching Results');
-        cy.checkForSystemMessage(`Can't connect to https://update.joomla.org/language/translationlist`);
+        cy.checkForSystemMessage('Can\'t connect to https://update.joomla.org/language/translationlist');
       } else {
         cy.get('#installer-languages table').within(() => {
           cy.get('input[type="button"]').should('have.value', 'Install');

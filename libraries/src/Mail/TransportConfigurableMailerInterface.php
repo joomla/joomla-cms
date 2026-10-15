@@ -16,7 +16,7 @@ namespace Joomla\CMS\Mail;
 /**
  * Provides a common interface to send emails through an SMTP or sendmail service.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  6.2.0
  */
 interface TransportConfigurableMailerInterface
 {
@@ -32,7 +32,7 @@ interface TransportConfigurableMailerInterface
      *
      * @return  boolean  True on success
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     public function useSmtp($auth = null, $host = null, $user = null, $pass = null, $secure = null, $port = 25);
 
@@ -41,7 +41,7 @@ interface TransportConfigurableMailerInterface
      *
      * @return  boolean  True on success
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     public function useSendmail($sendmail = null);
 }

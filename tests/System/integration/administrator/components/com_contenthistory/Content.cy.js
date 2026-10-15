@@ -24,15 +24,16 @@ describe('Test in backend that the content history list', () => {
 
     const currentDate = new Date();
     const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
-    cy.log(formattedDate);
-    cy.wait(5000);
-    cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
-      .should('not.be.empty') // Ensure the body is loaded
-      .then(cy.wrap) // Wrap the body for further Cypress commands
-      .find('a') // Find the specific element containing the string
-      .should('contain.text', formattedDate);
-    cy.get('button.button-close.btn-close').click();
+    cy.get('joomla-dialog[type="iframe"]').as('dialogContent');
+    cy.get('@dialogContent').should('be.visible');
+    cy.get('@dialogContent').within(() => {
+      cy.get('header.joomla-dialog-header').should('contain', 'Versions');
+      cy.get('section.joomla-dialog-body iframe').iframe().within(() => {
+        cy.get('a').should('contain.text', formattedDate);
+      });
+      cy.get('header.joomla-dialog-header button.button-close.btn-close').click();
+    });
+    cy.get('@dialogContent').should('not.exist');
   });
 
   it('can open the history content item modal', () => {
@@ -40,30 +41,22 @@ describe('Test in backend that the content history list', () => {
     cy.get('#jform_title').clear().type('Test article versions');
     cy.clickToolbarButton('Save');
     cy.clickToolbarButton('Versions');
-    cy.wait(5000);
 
-    cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
-      .should('not.be.empty') // Ensure the body is loaded
-      .then(cy.wrap) // Wrap the body for further Cypress commands
-      .find('a')
-      .invoke('attr', 'data-url')
-      .then((url) => {
-        // Get the base URL from the Cypress configuration
-        const baseUrl = Cypress.config('baseUrl');
-        // Combine the base URL and the relative URL
-        const completeUrl = new URL(url, baseUrl).href;
-
-        // Remove the subdomain (in this case, the base URL's hostname)
-        const basePath = new URL(baseUrl).pathname; // Get the base path
-        const modifiedUrl = completeUrl.replace(new URL(baseUrl).origin + basePath, '');
-
-        cy.log('new window url', modifiedUrl);
-        // Visit the URL directly
-        cy.visit(modifiedUrl);
-        // Verify the text on the new page
-        cy.contains('Test article versions').should('be.visible');
+    cy.get('joomla-dialog[type="iframe"]').as('dialogContent');
+    cy.get('@dialogContent').should('be.visible');
+    cy.get('@dialogContent').within(() => {
+      cy.get('header.joomla-dialog-header').should('contain', 'Versions');
+      cy.get('section.joomla-dialog-body iframe').iframe().within(() => {
+        cy.location('href').then((location) => {
+          cy.get('a').invoke('attr', 'data-url').then((url) => {
+            cy.visit(new URL(url, location).href);
+          });
+        });
       });
+    });
+
+    cy.get('h1').should('contain.text', 'Preview of version');
+    cy.contains('Test article versions').should('be.visible');
   });
 
   it('cannot compare one history content item only', () => {
@@ -72,26 +65,16 @@ describe('Test in backend that the content history list', () => {
     cy.clickToolbarButton('Save');
     cy.clickToolbarButton('Versions');
 
-    cy.wait(5000);
-
-    cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
-      .should('not.be.empty') // Ensure the body is loaded
-      .find('input.form-check-input[name="checkall-toggle"]')
-      .check();
-    // Target the button using its parent id and class
-    cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
-      .should('not.be.empty') // Ensure the body is loaded
-
-      .find('button.button-compare') // Locate the button inside it
-      .should('contain.text', 'Compare') // Validate the button text
-      .click(); // Perform the click action
-    // Verify the text on the new page
-    cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
-      .should('not.be.empty')
-      .should('contain.text', 'Please select two versions');
+    cy.get('joomla-dialog[type="iframe"]').as('dialogContent');
+    cy.get('@dialogContent').should('be.visible');
+    cy.get('@dialogContent').within(() => {
+      cy.get('header.joomla-dialog-header').should('contain', 'Versions');
+      cy.get('section.joomla-dialog-body iframe').iframe().within(() => {
+        cy.checkAllResults();
+        cy.get('button.button-compare').should('contain.text', 'Compare').click();
+        cy.checkForSystemMessage('Please select two versions.');
+      });
+    });
   });
 
   it('can delete a history content item', () => {
@@ -99,27 +82,24 @@ describe('Test in backend that the content history list', () => {
     cy.get('#jform_title').clear().type('Test article versions');
     cy.clickToolbarButton('Save');
     cy.clickToolbarButton('Versions');
-    cy.wait(5000);
 
-    cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
-      .should('not.be.empty') // Ensure the body is loaded
-      .find('input.form-check-input[name="checkall-toggle"]')
-      .check();
-    // Target the button using its parent id and class
-    cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
-      .should('not.be.empty') // Ensure the body is loaded
-
-      .find('button.button-delete') // Locate the button inside it
-      .should('contain.text', 'Delete') // Validate the button text
-      .click(); // Perform the click action
-    cy.wait(5000);
-    // Verify the text on the new page
-    cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
-      .should('not.be.empty')
-      .should('contain.text', 'History version deleted');
+    cy.get('joomla-dialog[type="iframe"]').as('dialogContent');
+    cy.get('@dialogContent').should('be.visible');
+    cy.get('@dialogContent').within(() => {
+      cy.get('header.joomla-dialog-header').should('contain', 'Versions');
+      cy.get('section.joomla-dialog-body iframe').iframe().within(() => {
+        cy.checkAllResults();
+        cy.get('button.button-delete').should('contain.text', 'Delete').click();
+      });
+      cy.get('section.joomla-dialog-body iframe').then((iframe) => {
+        return new Cypress.Promise((resolve) => {
+          iframe.on('load', () => resolve());
+        });
+      });
+      cy.get('section.joomla-dialog-body iframe').iframe().within(() => {
+        cy.checkForSystemMessage('History version deleted.');
+      });
+    });
   });
 
   it('can keep on a history content item', () => {
@@ -127,27 +107,24 @@ describe('Test in backend that the content history list', () => {
     cy.get('#jform_title').clear().type('Test article versions');
     cy.clickToolbarButton('Save');
     cy.clickToolbarButton('Versions');
-    cy.wait(5000);
 
-    cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
-      .should('not.be.empty') // Ensure the body is loaded
-      .find('input.form-check-input[name="checkall-toggle"]')
-      .check();
-    // Target the button using its parent id and class
-    cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
-      .should('not.be.empty') // Ensure the body is loaded
-
-      .find('button.button-keep') // Locate the button inside it
-      .should('contain.text', 'Keep On/Off') // Validate the button text
-      .click(); // Perform the click action
-    cy.wait(5000);
-    // Verify the text on the new page
-    cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
-      .should('not.be.empty')
-      .should('contain.text', 'Changed the keep forever value for a history version');
+    cy.get('joomla-dialog[type="iframe"]').as('dialogContent');
+    cy.get('@dialogContent').should('be.visible');
+    cy.get('@dialogContent').within(() => {
+      cy.get('header.joomla-dialog-header').should('contain', 'Versions');
+      cy.get('section.joomla-dialog-body iframe').iframe().within(() => {
+        cy.checkAllResults();
+        cy.get('button.button-keep').should('contain.text', 'Keep On/Off').click();
+      });
+      cy.get('section.joomla-dialog-body iframe').then((iframe) => {
+        return new Cypress.Promise((resolve) => {
+          iframe.on('load', () => resolve());
+        });
+      });
+      cy.get('section.joomla-dialog-body iframe').iframe().within(() => {
+        cy.checkForSystemMessage('Changed the keep forever value for a history version.');
+      });
+    });
   });
 
   it('can restore a history content item', () => {
@@ -155,25 +132,23 @@ describe('Test in backend that the content history list', () => {
     cy.get('#jform_title').clear().type('Test article versions');
     cy.clickToolbarButton('Save');
     cy.clickToolbarButton('Versions');
-    cy.wait(5000);
 
-    cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
-      .should('not.be.empty') // Ensure the body is loaded
-      .find('input.form-check-input[name="checkall-toggle"]')
-      .check();
-    // Target the button using its parent id and class
-    cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
-      .should('not.be.empty') // Ensure the body is loaded
-
-      .find('button.button-load') // Locate the button inside it
-      .should('contain.text', 'Restore') // Validate the button text
-      .click(); // Perform the click action
-    cy.wait(5000);
-    cy.get('.button-close').click();
-    // Verify the text
-    cy.get('.alert-message')
-      .should('contain.text', 'Article saved');
+    cy.get('joomla-dialog[type="iframe"]').as('dialogContent');
+    cy.get('@dialogContent').should('be.visible');
+    cy.get('@dialogContent').within(() => {
+      cy.get('header.joomla-dialog-header').should('contain', 'Versions');
+      cy.get('section.joomla-dialog-body iframe').iframe().within(() => {
+        cy.checkAllResults();
+        cy.get('button.button-load').should('contain.text', 'Restore').click();
+      });
+      cy.get('section.joomla-dialog-body iframe').then((iframe) => {
+        return new Cypress.Promise((resolve) => {
+          iframe.on('load', () => resolve());
+        });
+      });
+      cy.get('section.joomla-dialog-body iframe').iframe().within(() => {
+        cy.checkForSystemMessage('Prior version restored.');
+      });
+    });
   });
 });

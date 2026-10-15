@@ -317,24 +317,27 @@ trait MultiFactorAuthenticationHandler
             return false;
         }
 
-        $allowedViews = ['captive'];
-        $allowedTasks = [
-            'captive.display', 'captive.captive', 'captive.validate',
-            'methods.display',
-        ];
+        $allowedTasks = ['captive.captive', 'captive.validate', 'callback.callback', 'captive.select', 'methods.display'];
+        $allowedViews = ['captive', 'methods'];
 
         if (!$onlyCaptive) {
-            $allowedViews = array_merge($allowedViews, ['method', 'methods', 'callback']);
             $allowedTasks = array_merge(
                 $allowedTasks,
                 [
-                    'method.display', 'method.add', 'method.edit', 'method.regenerateBackupCodes',
-                    'method.delete', 'method.save', 'methods.disable', 'methods.doNotShowThisAgain',
+                    'method.add', 'method.edit', 'method.regenerateBackupCodes',
+                    'method.delete', 'method.save', 'methods.doNotShowThisAgain',
+                ]
+            );
+
+            $allowedViews = array_merge(
+                $allowedViews,
+                [
+                    'method', 'methods',
                 ]
             );
         }
 
-        return \in_array($view, $allowedViews) || \in_array($task, $allowedTasks);
+        return \in_array($task, $allowedTasks) || (\in_array($view, $allowedViews) && !$task);
     }
 
     /**

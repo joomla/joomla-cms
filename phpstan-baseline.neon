@@ -530,7 +530,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 26
+			count: 27
 			path: administrator/components/com_categories/src/Model/CategoryModel.php
 
 		-
@@ -4542,7 +4542,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 29
+			count: 30
 			path: administrator/components/com_tags/src/Model/TagModel.php
 
 		-
@@ -7552,7 +7552,7 @@ parameters:
 		-
 			message: '''
 				#^Access to constant on deprecated class Joomla\\CMS\\Application\\CliApplication\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ConsoleApplication instead$#
 			'''
 			identifier: classConstant.deprecatedClass
@@ -7562,7 +7562,7 @@ parameters:
 		-
 			message: '''
 				#^Access to property \$input of deprecated class Joomla\\CMS\\Application\\CliApplication\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ConsoleApplication instead$#
 			'''
 			identifier: property.deprecatedClass
@@ -7572,7 +7572,7 @@ parameters:
 		-
 			message: '''
 				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Application\\CliApplication\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ConsoleApplication instead$#
 			'''
 			identifier: method.deprecatedClass
@@ -7582,7 +7582,7 @@ parameters:
 		-
 			message: '''
 				#^Call to method getContainer\(\) of deprecated class Joomla\\CMS\\Application\\CliApplication\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ConsoleApplication instead$#
 			'''
 			identifier: method.deprecatedClass
@@ -7592,7 +7592,7 @@ parameters:
 		-
 			message: '''
 				#^Class Joomla\\CMS\\Application\\DaemonApplication extends deprecated class Joomla\\CMS\\Application\\CliApplication\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ConsoleApplication instead$#
 			'''
 			identifier: class.extendsDeprecatedClass
@@ -9658,7 +9658,7 @@ parameters:
 		-
 			message: '''
 				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Filesystem\\Stream\:
-				4\.4 will be removed in 6\.0
+				4\.4 will be removed in 7\.0
 				             Use Joomla\\Filesystem\\Stream instead\.$#
 			'''
 			identifier: method.deprecatedClass
@@ -9668,7 +9668,7 @@ parameters:
 		-
 			message: '''
 				#^Instantiation of deprecated class Joomla\\CMS\\Filesystem\\Stream\:
-				4\.4 will be removed in 6\.0
+				4\.4 will be removed in 7\.0
 				             Use Joomla\\Filesystem\\Stream instead\.$#
 			'''
 			identifier: new.deprecatedClass
@@ -11166,7 +11166,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 40
+			count: 41
 			path: libraries/src/MVC/Model/AdminModel.php
 
 		-
@@ -11788,29 +11788,9 @@ parameters:
 
 		-
 			message: '''
-				#^Access to constant on deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
-				4\.0 will be removed in 7\.0
-				             Support for PHPass hashed passwords will be removed without replacement$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 4
-			path: libraries/src/Service/Provider/Authentication.php
-
-		-
-			message: '''
 				#^Instantiation of deprecated class Joomla\\CMS\\Authentication\\Password\\MD5Handler\:
 				4\.0 will be removed in 7\.0
 				             Support for MD5 hashed passwords will be removed without replacement$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: libraries/src/Service/Provider/Authentication.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
-				4\.0 will be removed in 7\.0
-				             Support for PHPass hashed passwords will be removed without replacement$#
 			'''
 			identifier: new.deprecatedClass
 			count: 1
@@ -12533,16 +12513,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to constant on deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
-				4\.0 will be removed in 7\.0
-				             Support for PHPass hashed passwords will be removed without replacement$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 2
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
@@ -12589,69 +12559,9 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method checkIfRehashNeeded\(\) of deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
-				4\.0 will be removed in 7\.0
-				             Support for PHPass hashed passwords will be removed without replacement$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
-				#^Call to method validatePassword\(\) of deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
-				4\.0 will be removed in 7\.0
-				             Support for PHPass hashed passwords will be removed without replacement$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
-				#^Fetching deprecated class constant HASH_ARGON2ID_BC of class Joomla\\CMS\\User\\UserHelper\:
-				4\.0 will be removed in 7\.0
-				             Use UserHelper\:\:HASH_ARGON2ID instead$#
-			'''
-			identifier: classConstant.deprecated
-			count: 1
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
-				#^Fetching deprecated class constant HASH_ARGON2I_BC of class Joomla\\CMS\\User\\UserHelper\:
-				4\.0 will be removed in 7\.0
-				             Use UserHelper\:\:HASH_ARGON2I instead$#
-			'''
-			identifier: classConstant.deprecated
-			count: 1
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
-				#^Fetching deprecated class constant HASH_BCRYPT_BC of class Joomla\\CMS\\User\\UserHelper\:
-				4\.0 will be removed in 7\.0
-				             Use UserHelper\:\:HASH_BCRYPT instead$#
-			'''
-			identifier: classConstant.deprecated
-			count: 1
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
 				#^Fetching deprecated class constant HASH_MD5 of class Joomla\\CMS\\User\\UserHelper\:
 				4\.0 will be removed in 7\.0
 				             Support for MD5 hashed passwords will be removed use any of the other hashing methods$#
-			'''
-			identifier: classConstant.deprecated
-			count: 1
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
-				#^Fetching deprecated class constant HASH_PHPASS of class Joomla\\CMS\\User\\UserHelper\:
-				4\.0 will be removed in 7\.0
-				             Support for PHPass hashed passwords will be removed use any of the other hashing methods$#
 			'''
 			identifier: classConstant.deprecated
 			count: 1
@@ -12704,7 +12614,7 @@ parameters:
 		-
 			message: '''
 				#^Call to static method clean\(\) on deprecated class Joomla\\CMS\\Filesystem\\Path\:
-				4\.4 will be removed in 6\.0
+				4\.4 will be removed in 7\.0
 				             Use Joomla\\Filesystem\\Path instead\.$#
 			'''
 			identifier: staticMethod.deprecatedClass

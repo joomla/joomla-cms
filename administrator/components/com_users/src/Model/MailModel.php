@@ -211,7 +211,7 @@ class MailModel extends AdminModel implements MailerFactoryAwareInterface, Langu
 
                 $rs = false;
             } catch (\RuntimeException $exception) {
-                Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                Factory::getApplication()->enqueueMessage(Text::_($exception->getMessage()), 'warning');
 
                 $rs = false;
             }

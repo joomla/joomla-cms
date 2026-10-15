@@ -93,7 +93,8 @@ document.addEventListener('onMediaFileSelected', async (e) => {
  * @returns {boolean}
  */
 const isElement = (o) => (
-  typeof HTMLElement === 'object' ? o instanceof HTMLElement
+  typeof HTMLElement === 'object'
+    ? o instanceof HTMLElement
     : o && typeof o === 'object' && o.nodeType === 1 && typeof o.nodeName === 'string'
 );
 

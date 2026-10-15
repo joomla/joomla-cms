@@ -29,9 +29,9 @@ use Joomla\Utilities\ArrayHelper;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * An example custom terms and conditions plugin.
+ * Token authentication for the API application
  *
- * @since  3.9.0
+ * @since  4.0.0
  */
 final class Token extends CMSPlugin implements SubscriberInterface
 {
