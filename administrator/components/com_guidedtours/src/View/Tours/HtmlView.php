@@ -172,6 +172,6 @@ class HtmlView extends BaseHtmlView
             $toolbar->preferences('com_guidedtours');
         }
 
-        ToolbarHelper::help('Guided_Tours');
+        $toolbar->help('Guided_Tours');
     }
 }

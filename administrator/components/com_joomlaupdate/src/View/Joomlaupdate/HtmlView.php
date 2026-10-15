@@ -282,26 +282,28 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
+        $toolbar = $this->getDocument()->getToolbar();
+
         // Set the toolbar information.
         ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'joomla install');
 
         if (\in_array($this->getLayout(), ['update', 'complete'])) {
             $arrow = $this->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
-            ToolbarHelper::link('index.php?option=com_joomlaupdate', 'JTOOLBAR_BACK', $arrow);
+            $toolbar->link('index.php?option=com_joomlaupdate', 'JTOOLBAR_BACK', $arrow);
 
             ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD'), 'joomla install');
         } elseif (!$this->selfUpdateAvailable) {
-            ToolbarHelper::custom('update.purge', 'loop', '', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', false);
+            $toolbar->custom('update.purge', 'loop', '', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', false);
         }
 
         // Add toolbar buttons.
         if ($this->getCurrentUser()->authorise('core.admin')) {
-            ToolbarHelper::preferences('com_joomlaupdate');
+            $toolbar->preferences('com_joomlaupdate');
         }
 
-        ToolbarHelper::divider();
-        ToolbarHelper::help('Joomla_Update');
+        $toolbar->divider();
+        $toolbar->help('Joomla_Update');
     }
 
     /**
