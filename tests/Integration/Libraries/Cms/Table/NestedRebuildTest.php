@@ -113,7 +113,9 @@ class NestedRebuildTest extends IntegrationTestCase implements DBTestInterface
             $columns[] = $db->quoteName('ordering') . ' = ' . $ordering;
         }
 
-        $db->setQuery('INSERT INTO ' . $db->quoteName($table) . ' SET ' . implode(', ', $columns))->execute();
+        $query = $db->createQuery();
+        $query->insert($table)->values($columns);
+        $db->setQuery($query)->execute();
     }
 
     /**
@@ -568,13 +570,14 @@ class NestedRebuildTest extends IntegrationTestCase implements DBTestInterface
     public function testATableWithoutAliasLevelOrPathColumns()
     {
         $db = $this->getDBDriver();
+        $query = $db->createQuery();
+        $query->insert($db->quoteName('#__testnestedminimal'));
 
         foreach ([[1, 0], [2, 1], [3, 2], [4, 1]] as [$id, $parentId]) {
-            $db->setQuery(
-                'INSERT INTO ' . $db->quoteName('#__testnestedminimal') . ' SET '
-                . $db->quoteName('id') . ' = ' . $id . ', ' . $db->quoteName('parent_id') . ' = ' . $parentId
-                . ', ' . $db->quoteName('lft') . ' = 999, ' . $db->quoteName('rgt') . ' = 999'
-            )->execute();
+            $cloned = clone $query;
+            $cloned->columns(['id', 'parent_id', 'lft', 'rgt'])
+                ->values([$id, $parentId, 999, 999]);
+            $db->setQuery($query)->execute();
         }
 
         // Only the columns that exist are touched, so an assets style table can be rebuilt too.
@@ -605,15 +608,16 @@ class NestedRebuildTest extends IntegrationTestCase implements DBTestInterface
     public function testADeepChainIsHandledIteratively()
     {
         $db    = $this->getDBDriver();
+        $query = $db->createQuery();
+        $query->insert($db->quoteName('#__testnestedminimal'));
         $depth = 400;
 
         // The minimal table has no path column, so the chain can be deeper than a path would allow.
         for ($i = 1; $i <= $depth; $i++) {
-            $db->setQuery(
-                'INSERT INTO ' . $db->quoteName('#__testnestedminimal') . ' SET '
-                . $db->quoteName('id') . ' = ' . $i . ', ' . $db->quoteName('parent_id') . ' = ' . ($i - 1)
-                . ', ' . $db->quoteName('lft') . ' = 999, ' . $db->quoteName('rgt') . ' = 999'
-            )->execute();
+            $cloned = clone $query;
+            $cloned->columns(['id', 'parent_id', 'lft', 'rgt'])
+                ->values([$i, $i - 1, 999, 999]);
+            $db->setQuery($query)->execute();
         }
 
         $table = new Nested('#__testnestedminimal', 'id', $db, new Dispatcher());
