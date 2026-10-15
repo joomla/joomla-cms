@@ -160,7 +160,7 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
         // Validation succeeded, continue with custom handlers
         $results = $this->getDispatcher()->dispatch('onValidateContact', new ValidateContactEvent('onValidateContact', [
             'subject' => $contact,
-            'data'    => &$data, // @todo: Remove reference in Joomla 6, @deprecated: Data modification onValidateContact is not allowed, use onSubmitContact instead
+            'data'    => $data,
         ]))->getArgument('result', []);
 
         foreach ($results as $result) {
@@ -172,7 +172,7 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
         // Passed Validation: Process the contact plugins to integrate with other applications
         $event = $this->getDispatcher()->dispatch('onSubmitContact', new SubmitContactEvent('onSubmitContact', [
             'subject' => $contact,
-            'data'    => &$data, // @todo: Remove reference in Joomla 6, see SubmitContactEvent::__constructor()
+            'data'    => $data,
         ]));
         // Get the final data
         $data = $event->getArgument('data', $data);
