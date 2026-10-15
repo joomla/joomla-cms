@@ -19,8 +19,7 @@ use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
-use Joomla\Database\DatabaseQuery;
-use Joomla\Database\Exception\DatabaseNotFoundException;
+use Joomla\Database\QueryInterface;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
@@ -85,18 +84,6 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      * @since  3.0.1
      */
     protected $_tbl_keys = [];
-
-    /**
-     * DatabaseInterface object.
-     *
-     * @var    DatabaseInterface
-     * @since  1.7.0
-     *
-     * @deprecated  5.4.0 will be removed in 7.0
-     *              Use setDatabase() and getDatabase() instead
-     *              Example: $this->setDatabase($db);
-     */
-    protected $_db;
 
     /**
      * Should rows be tracked as ACL assets?
@@ -456,8 +443,8 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     /**
      * Method to append the primary keys for this table to a query.
      *
-     * @param   DatabaseQuery  $query  A query object to append.
-     * @param   mixed          $pk     Optional primary key parameter.
+     * @param   QueryInterface  $query  A query object to append.
+     * @param   mixed           $pk     Optional primary key parameter.
      *
      * @return  void
      *
@@ -542,65 +529,13 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      *
      * @since   1.7.0
      *
-     * @deprecated  5.4.0 will be removed in 7.0
+     * @deprecated  5.4.0 will be removed in 8.0
      *               Use getDatabase() instead
      *               Example: $this->getDatabase();
      */
     public function getDbo()
     {
-        return $this->_db;
-    }
-
-    /**
-     * Method to set the DatabaseInterface object.
-     *
-     * @param   DatabaseInterface  $db  A DatabaseInterface object to be used by the table object.
-     *
-     * @return  boolean  True on success.
-     *
-     * @since   1.7.0
-     *
-     * @deprecated  5.4.0 will be removed in 7.0
-     *              Use setDatabase() instead
-     *              Example: $this->setDatabase($db);
-     */
-    public function setDbo(DatabaseInterface $db)
-    {
-        $this->_db = $db;
-
-        return true;
-    }
-
-    /**
-     * Get the database.
-     *
-     * @return  DatabaseInterface
-     *
-     * @since   5.4.0
-     * @throws  DatabaseNotFoundException May be thrown if the database has not been set.
-     *
-     * @note    This method will be removed in 7.0 and DatabaseAwareTrait will be used instead.
-     */
-    protected function getDatabase(): DatabaseInterface
-    {
-        return $this->getDbo();
-    }
-
-    /**
-     * Set the database.
-     *
-     * @param   DatabaseInterface  $db  The database.
-     *
-     * @return  void
-     *
-     * @since   5.4.0
-     *
-     * @note    This method will be removed in 7.0 and DatabaseAwareTrait will be used instead.
-     */
-    public function setDatabase(DatabaseInterface $db): void
-    {
-        $this->_db                        = $db;
-        $this->databaseAwareTraitDatabase = $db;
+        return $this->getDatabase();
     }
 
     /**

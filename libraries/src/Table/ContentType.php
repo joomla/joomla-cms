@@ -162,7 +162,7 @@ class ContentType extends Table
                     throw new \RuntimeException('Class must be an instance of Joomla\\CMS\\Table\\TableInterface');
                 }
 
-                $result = new $class($this->getDbo());
+                $result = new $class($this->getDatabase());
             }
         }
 
