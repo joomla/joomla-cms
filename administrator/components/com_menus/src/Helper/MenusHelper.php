@@ -450,7 +450,7 @@ class MenusHelper extends ContentHelper
         $dispatcher = Factory::getApplication()->getDispatcher();
         $items      = $dispatcher->dispatch('onPreprocessMenuItems', new PreprocessMenuItemsEvent('onPreprocessMenuItems', [
             'context' => 'com_menus.administrator.import',
-            'subject' => &$items, // @todo: Remove reference in Joomla 6, see PreprocessMenuItemsEvent::__constructor()
+            'subject' => $items,
             'params'  => null,
             'enabled' => true,
         ]))->getArgument('subject', $items);
