@@ -814,26 +814,6 @@ class TagsHelper extends CMSHelper
     }
 
     /**
-     * Function that handles saving tags used in a table class after a store()
-     *
-     * @param   TableInterface  $table    Table being processed
-     * @param   array           $newTags  Array of new tags
-     * @param   boolean         $replace  Flag indicating if all existing tags should be replaced
-     *
-     * @return  boolean
-     *
-     * @since   3.1
-     *
-     * @deprecated  5.3 will be removed in 7.0
-     */
-    public function postStoreProcess(TableInterface $table, $newTags = [], $replace = true)
-    {
-        @trigger_error('7.0 Method postStoreProcess() is deprecated, use postStore() instead.', \E_USER_DEPRECATED);
-
-        $this->postStore($table, (array) $newTags, (bool) $replace);
-    }
-
-    /**
      * Function that handles saving tags used in a table class after a store().
      *
      * @param   TableInterface  $table    Table being processed.
