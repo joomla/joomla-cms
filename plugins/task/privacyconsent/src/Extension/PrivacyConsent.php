@@ -12,8 +12,10 @@ namespace Joomla\Plugin\Task\PrivacyConsent\Extension;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
@@ -44,6 +46,8 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
     use DatabaseAwareTrait;
     use TaskPluginTrait;
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * @var string[]
@@ -159,7 +163,12 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
                     'token'    => $token,
                 ];
 
-                $mailer = new MailTemplate('plg_task_privacyconsent.request.reminder', $app->getLanguage()->getTag());
+                $mailer = new MailTemplate(
+                    'plg_task_privacyconsent.request.reminder',
+                    $app->getLanguage()->getTag(),
+                    $this->getMailerFactory()->createMailer(),
+                    $this->getLanguageFactory()
+                );
                 $mailer->addTemplateData($templateData);
                 $mailer->addRecipient($user->email);
 

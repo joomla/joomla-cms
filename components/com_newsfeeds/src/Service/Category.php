@@ -30,9 +30,11 @@ class Category extends Categories
      */
     public function __construct($options = [])
     {
-        $options['table']      = '#__newsfeeds';
-        $options['extension']  = 'com_newsfeeds';
-        $options['statefield'] = 'published';
+        $options['table']       = '#__newsfeeds';
+        $options['extension']   = 'com_newsfeeds';
+        $options['accessfield'] = 'access';
+        $options['statefield']  = 'published';
+
         parent::__construct($options);
     }
 }

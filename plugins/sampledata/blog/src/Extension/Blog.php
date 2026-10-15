@@ -114,10 +114,10 @@ final class Blog extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        if (!ComponentHelper::isEnabled('com_tags')) {
+        if (!ComponentHelper::isEnabled('com_tags') || !$this->getApplication()->getIdentity()->authorise('core.edit', 'com_tags')) {
             $response            = [];
             $response['success'] = true;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 1, 'com_tags');
+            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, 'com_tags');
 
             $event->addResult($response);
             return;

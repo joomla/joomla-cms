@@ -8,30 +8,6 @@ Joomla = window.Joomla || {};
 (function (Joomla, document) {
   'use strict';
 
-  /**
-   * USED IN: libraries/joomla/html/toolbar/button/help.php
-   *
-   * Pops up a new window in the middle of the screen
-   *
-   * @param {string}  mypage  The URL for the redirect
-   * @param {string}  myname  The name of the page
-   * @param {int}     w       The width of the new window
-   * @param {int}     h       The height of the new window
-   * @param {string}  scroll  The vertical/horizontal scroll bars
-   *
-   * @since 4.0.0
-   *
-   * @deprecated  4.3 will be removed in 7.0
-   *             Will be removed without replacement. Use browser native call instead
-   */
-  Joomla.popupWindow = function (mypage, myname, w, h, scroll) {
-    const winl = (screen.width - w) / 2;
-    const wint = (screen.height - h) / 2;
-    const winprops = `height=${h},width=${w},top=${wint},left=${winl},scrollbars=${scroll},resizable`;
-
-    window.open(mypage, myname, winprops).window.focus();
-  };
-
   document.addEventListener('DOMContentLoaded', () => {
     /**
      * Fix the alignment of the Options and Help toolbar buttons

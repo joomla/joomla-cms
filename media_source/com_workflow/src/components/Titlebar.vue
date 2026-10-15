@@ -43,7 +43,7 @@
         <dd class="me-3 mb-1 d-flex mb-0">
           <span>
             {{ transitionsCount }} {{ transitionsCount === 1 ? translate('COM_WORKFLOW_GRAPH_TRANSITION')
-            : translate('COM_WORKFLOW_GRAPH_TRANSITIONS') }}
+              : translate('COM_WORKFLOW_GRAPH_TRANSITIONS') }}
           </span>
         </dd>
       </dl>

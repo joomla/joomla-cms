@@ -1,11 +1,12 @@
 /**
  * Builder factory class
  */
+import { pathToFileURL } from 'node:url';
 import path from 'node:path';
 import fs from 'node:fs';
 import DefaultModuleBuilder from './default-module-builder.mjs';
 
-export class BuilderFactory{
+export class BuilderFactory {
   constructor(basePath = '', targetPath = '', cmdOptions = {}) {
     this.basePath = basePath;
     this.targetPath = targetPath;
@@ -21,8 +22,11 @@ export class BuilderFactory{
       // Use default module
       return new DefaultModuleBuilder(name, this.basePath, this.targetPath, this.cmdOptions);
     }
+    let resolvedPath = path.resolve(modulePath);
+    resolvedPath = resolvedPath.replace(/\\/g, '/');
+    const fileURL = pathToFileURL(resolvedPath).href;
 
-    return import(modulePath).then((module) => {
+    return import(fileURL).then((module) => {
       return new module.default(name, this.basePath, this.targetPath, this.cmdOptions);
     });
   }
@@ -42,7 +46,7 @@ export const createAndRunBuilder = async (program, name, factory, tasksToRun = [
   return factory.createBuilder(name)
     .then((builder) => {
       if (!builder.getBuildTasks) {
-        program.error(`Builder module for "${name}" should provide "getBuildTasks()" method. This is used to determine which task can be run for the builder.`)
+        program.error(`Builder module for "${name}" should provide "getBuildTasks()" method. This is used to determine which task can be run for the builder.`);
       }
       console.log(`Initialize build [${name}]`);
 

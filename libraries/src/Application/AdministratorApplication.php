@@ -240,7 +240,7 @@ class AdministratorApplication extends CMSApplication
      */
     protected function initialiseApp($options = [])
     {
-        $user = Factory::getUser();
+        $user = $this->getIdentity();
 
         // If the user is a guest we populate it with the guest user group.
         if ($user->guest) {
@@ -333,25 +333,6 @@ class AdministratorApplication extends CMSApplication
         }
 
         return $result;
-    }
-
-    /**
-     * Purge the jos_messages table of old messages
-     *
-     * @return  void
-     *
-     * @since   3.2
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Purge the messages through the messages model
-     *              Example:
-     *              Factory::getApplication()->bootComponent('messages')->getMVCFactory()
-     *                ->createModel('Messages', 'Administrator')->purge(Factory::getApplication()->getIdentity()->id);
-     */
-    public static function purgeMessages()
-    {
-        Factory::getApplication()->bootComponent('messages')->getMVCFactory()
-            ->createModel('Messages', 'Administrator')->purge(Factory::getUser()->id);
     }
 
     /**

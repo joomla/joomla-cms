@@ -15,7 +15,7 @@
         role="treeitem"
         :aria-level="level"
         :aria-setsize="directories.length"
-        :aria-posinset="index"
+        :aria-posinset="index + 1"
         :tabindex="getTabindex(item)"
         @click.stop.prevent="onItemClick(item)"
         @keyup.up="moveFocusToPreviousElement(index)"

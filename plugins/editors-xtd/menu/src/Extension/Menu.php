@@ -55,7 +55,7 @@ final class Menu extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $button = $this->onDisplay($event->getEditorId());
+        $button = $this->getButton($event->getEditorId());
 
         if ($button) {
             $subject->add($button);
@@ -63,17 +63,15 @@ final class Menu extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Display the button
+     * Prepare the button
      *
      * @param   string  $name  The name of the button to add
      *
-     * @return  Button|void  The button options as Button object
+     * @return  ?Button  The button options as Button object, null if ACL check fails
      *
-     * @since  3.7.0
-     *
-     * @deprecated  5.0 Use onEditorButtonsSetup event instead, will be removed in 7.0
+     * @since   __DEPLOY_VERSION__
      */
-    public function onDisplay($name)
+    private function getButton(string $name): ?Button
     {
         $user  = $this->getApplication()->getIdentity();
 
@@ -104,7 +102,19 @@ final class Menu extends CMSPlugin implements SubscriberInterface
                 ]
             );
 
+            // Register as a link source for editors that offer a link picker (e.g. TinyMCE)
+            $this->getApplication()->getDocument()->addScriptOptions('editor-link-providers', [
+                $this->_name => [
+                    'title'  => Text::_('PLG_EDITORS-XTD_MENU_BUTTON_MENU'),
+                    'icon'   => 'list',
+                    'src'    => 'index.php?option=com_menus&view=items&layout=modal&tmpl=component',
+                    'select' => 'content',
+                ],
+            ], true);
+
             return $button;
         }
+
+        return null;
     }
 }

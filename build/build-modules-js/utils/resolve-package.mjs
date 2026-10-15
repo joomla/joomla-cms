@@ -50,9 +50,12 @@ export const getPackagesUnderScope = (scope) => {
   });
 
   // List of modules
+  // Use forward slashes for module names (package specifiers always use forward slashes,
+  // even on Windows; using path.join() here would produce backslashes on Windows and
+  // break Rollup's external module matching).
   roots.forEach((rootPath) => {
     readdirSync(rootPath).forEach((subModule) => {
-      cmModules.add(path.join(scope, subModule));
+      cmModules.add(`${scope}/${subModule}`);
     });
   });
 

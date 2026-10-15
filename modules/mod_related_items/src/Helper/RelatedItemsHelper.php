@@ -176,27 +176,4 @@ class RelatedItemsHelper implements DatabaseAwareInterface
 
         return $related;
     }
-
-    /**
-     * Get a list of related articles
-     *
-     * @param   Registry  &$params  module parameters
-     *
-     * @return  array
-     *
-     * @since   1.6
-     *
-     * @deprecated  4.4.0  will be removed in 7.0
-     *              Use the non-static method getRelatedArticles
-     *              Example: Factory::getApplication()->bootModule('mod_related_items', 'site')
-     *                           ->getHelper('RelatedItemsHelper')
-     *                           ->getRelatedArticles($params, Factory::getApplication())
-     */
-    public static function getList(&$params)
-    {
-        /** @var SiteApplication $app */
-        $app = Factory::getApplication();
-
-        return (new self())->getRelatedArticles($params, $app);
-    }
 }

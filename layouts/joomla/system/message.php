@@ -35,6 +35,7 @@ Text::script('ERROR');
 Text::script('MESSAGE');
 Text::script('NOTICE');
 Text::script('WARNING');
+Text::script('SUCCESS');
 
 // Load other Javascript message strings
 Text::script('JCLOSE');

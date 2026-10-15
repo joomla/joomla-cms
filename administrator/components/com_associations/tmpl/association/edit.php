@@ -70,11 +70,11 @@ $options = [
                 <iframe id="target-association" name="target-association" title="target-association"
                     src="<?php echo $this->defaultTargetSrc; ?>"
                     height="400" width="400"
-                    data-action="<?php echo $this->targetAction; ?>"
-                    data-item="<?php echo $this->typeName; ?>"
-                    data-id="<?php echo $this->targetId; ?>"
-                    data-title="<?php echo $this->targetTitle; ?>"
-                    data-language="<?php echo $this->targetLanguage; ?>"
+                    data-action="<?php echo $this->escape($this->targetAction); ?>"
+                    data-item="<?php echo $this->escape($this->typeName); ?>"
+                    data-id="<?php echo $this->escape($this->targetId); ?>"
+                    data-title="<?php echo $this->escape($this->targetTitle); ?>"
+                    data-language="<?php echo $this->escape($this->targetLanguage); ?>"
                     data-editurl="<?php echo Route::_($this->editUri); ?>">
                 </iframe>
             </div>

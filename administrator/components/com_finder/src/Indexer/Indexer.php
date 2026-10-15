@@ -121,7 +121,7 @@ class Indexer
     public function __construct(?DatabaseInterface $db = null)
     {
         if ($db === null) {
-            @trigger_error('Database will be mandatory in 5.0.', E_USER_DEPRECATED);
+            @trigger_error('Database will be mandatory in 7.0.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
@@ -436,7 +436,7 @@ class Indexer
                     $count += $this->tokenizeToDb($item->$property, $group, $item->language, $format, $count);
 
                     // Check if we're approaching the memory limit of the token table.
-                    if ($count > static::$state->options->get('memory_table_limit', 30000)) {
+                    if ($count > static::$state->options->get('memory_table_limit', 7500)) {
                         $this->toggleTables(false);
                     }
                 }

@@ -19,9 +19,11 @@ use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
@@ -52,6 +54,8 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -194,7 +198,12 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                 }
                 // Send email
                 try {
-                    $mailer = new MailTemplate('plg_content_joomla.newarticle', $receiver->getParam('admin_language', $this->getLanguage()->getTag()));
+                    $mailer = new MailTemplate(
+                        'plg_content_joomla.newarticle',
+                        $receiver->getParam('admin_language', $this->getLanguage()->getTag()),
+                        $this->getMailerFactory()->createMailer(),
+                        $this->getLanguageFactory()
+                    );
                     $mailer->addTemplateData($templateData);
                     $mailer->addRecipient($receiver->email, $receiver->name);
 
@@ -579,9 +588,13 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         $cache = Factory::getContainer()->get(CacheControllerFactory::class)
             ->createCacheController('Callback', ['lifetime' => $app->get('cachetime'), 'caching' => $enableCache, 'defaultgroup' => 'schemaorg']);
 
+        // The schema is emitted on every response, so it has to respect the view levels of the current user
+        $viewLevels = $app->getIdentity()->getAuthorisedViewLevels();
+
         // Add contact data
         if ($view == 'contact' && $id > 0) {
-            $additionalSchema = $cache->get(function ($id) use ($component, $baseId) {
+            // $viewLevels is passed as an argument so that it becomes part of the cache key
+            $additionalSchema = $cache->get(function ($id, $viewLevels) use ($component, $baseId) {
                 $model = $component->createModel('Contact', 'Site');
 
                 $contact = $model->getItem($id);
@@ -590,16 +603,23 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                     return;
                 }
 
+                // Do not expose contacts the current user is not allowed to see
+                if (!\in_array($contact->access, $viewLevels) || !\in_array($contact->category_access, $viewLevels)) {
+                    return;
+                }
+
                 $contactSchema = $this->createContactSchema($contact);
 
                 $contactSchema['isPartOf'] = ['@id' => $baseId . 'WebPage/base'];
 
                 return $contactSchema;
-            }, [$id]);
+            }, [$id, $viewLevels]);
 
-            $mySchema['@graph'][] = $additionalSchema;
+            if (!empty($additionalSchema)) {
+                $mySchema['@graph'][] = $additionalSchema;
+            }
         } elseif ($view === 'featured') {
-            $additionalSchemas = $cache->get(function ($graph) use ($component, $baseId) {
+            $additionalSchemas = $cache->get(function ($graph, $viewLevels) use ($component, $baseId) {
                 $model = $component->createModel('Featured', 'Site');
 
                 $contacts = $model->getItems();
@@ -607,6 +627,11 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                 $allSchemas = [];
 
                 foreach ($contacts as $contact) {
+                    // Do not expose contacts the current user is not allowed to see
+                    if (!\in_array($contact->access, $viewLevels)) {
+                        continue;
+                    }
+
                     foreach ($graph as $entry) {
                         $schemaId = $baseId . 'com_contact/contact/' . (int) $contact->id;
 
@@ -624,9 +649,9 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                 }
 
                 return $allSchemas;
-            }, [$mySchema['@graph']]);
+            }, [$mySchema['@graph'], $viewLevels]);
 
-            foreach ($additionalSchemas as $additionalSchema) {
+            foreach ($additionalSchemas ?: [] as $additionalSchema) {
                 $mySchema['@graph'][] = $additionalSchema;
             }
         }

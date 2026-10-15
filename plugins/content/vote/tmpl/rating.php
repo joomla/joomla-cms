@@ -16,18 +16,17 @@ use Joomla\CMS\Uri\Uri;
 
 
 /**
- * @var Joomla\CMS\WebAsset\WebAssetManager $wa
- * @var \Joomla\Plugin\Content\Vote\Extension\Vote $this
+ * @var \Joomla\Plugin\Content\Vote\Extension\Vote         $this
+ * @var \Joomla\CMS\Application\CMSWebApplicationInterface $app
  */
-$wa = $this->getApplication()->getDocument()->getWebAssetManager();
-$wa->registerAndUseStyle('plg_content_vote', 'plg_content_vote/rating.css');
+$app->getDocument()->getWebAssetManager()->registerAndUseStyle('plg_content_vote', 'plg_content_vote/rating.css');
 
 /**
  * Layout variables
  * -----------------
  * @var   string   $context  The context of the content being passed to the plugin
- * @var   object   &$row     The article object
- * @var   object   &$params  The article params
+ * @var   object   $row      The article object
+ * @var   object   $params   The article params
  * @var   integer  $page     The 'page' number
  * @var   array    $parts    The context segments
  * @var   string   $path     Path to this file

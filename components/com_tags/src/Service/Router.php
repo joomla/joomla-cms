@@ -187,7 +187,7 @@ class Router extends RouterBase
             }
         }
 
-        // TODO: Remove this whole block in 6.0 as it is a bug
+        // TODO: Remove this whole block in 7.0 as it is a bug
         if (!$this->sefparams->get('strictrouting', 0)) {
             // If not found, return language specific home link
             if (!isset($query['Itemid'])) {

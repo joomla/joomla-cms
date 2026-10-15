@@ -11,7 +11,6 @@ namespace Joomla\CMS\MVC\Model;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
-use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -29,8 +28,6 @@ abstract class BaseModel implements ModelInterface, StatefulModelInterface
     use StateBehaviorTrait;
     use LegacyModelLoaderTrait;
     use LegacyErrorHandlingTrait;
-    use LegacyPropertyManagementTrait;
-
 
     /**
      * The model (base) name

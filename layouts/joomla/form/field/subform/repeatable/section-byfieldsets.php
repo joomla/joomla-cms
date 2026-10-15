@@ -8,10 +8,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+
+\defined('_JEXEC') or die;
 
 extract($displayData);
 
@@ -45,14 +45,15 @@ extract($displayData);
     <?php endif; ?>
     <div class="row">
         <?php foreach ($form->getFieldsets() as $fieldset) : ?>
-        <fieldset class="<?php echo !empty($fieldset->class) ? $this->escape($fieldset->class) : ''; ?>"
-            <?php if (!empty($fieldset->label)) : ?>
-                <legend><?php echo Text::_($fieldset->label); ?></legend>
-            <?php endif; ?>
-            <?php foreach ($form->getFieldset($fieldset->name) as $field) : ?>
-                <?php echo $field->renderField(); ?>
-            <?php endforeach; ?>
-        </fieldset>
+            <?php $class = !empty($fieldset->class) ? ' class="' . $this->escape($fieldset->class) . '"' : ''; ?>
+            <fieldset<?php echo $class; ?>>
+                <?php if (!empty($fieldset->label)) : ?>
+                    <legend><?php echo Text::_($fieldset->label); ?></legend>
+                <?php endif; ?>
+                <?php foreach ($form->getFieldset($fieldset->name) as $field) : ?>
+                    <?php echo $field->renderField(); ?>
+                <?php endforeach; ?>
+            </fieldset>
         <?php endforeach; ?>
     </div>
 </div>

@@ -1,16 +1,14 @@
 /**
  * Assets Builder
  */
-
+import { pathToFileURL } from 'node:url';
 import path from 'node:path';
-import fsp from "node:fs/promises";
-import fs from "node:fs";
+import fsp from 'node:fs/promises';
+import fs from 'node:fs';
 import DefaultModuleBuilder from '../../build/build-modules-js/builder/default-module-builder.mjs';
 import { resolvePackageFile } from '../../build/build-modules-js/utils/resolve-package.mjs';
 
-
-export default class TinyMCEModuleBuilder extends DefaultModuleBuilder
-{
+export default class TinyMCEModuleBuilder extends DefaultModuleBuilder {
   /**
    * Copy files to target location.
    *
@@ -25,12 +23,12 @@ export default class TinyMCEModuleBuilder extends DefaultModuleBuilder
 
     // This should never happen
     if (!modulePathJson || !moduleLngPathJson) {
-      throw new Error(`Modules source for "tinymce" or for "tinymce-i18n" not found`);
+      throw new Error('Modules source for "tinymce" or for "tinymce-i18n" not found');
     }
 
     const tinySrcPath = path.dirname(modulePathJson);
     const tinyVendorPath = path.join(path.dirname(this.targetPath), 'vendor', 'tinymce');
-    const moduleOptions = await import(modulePathJson, { with: { type: 'json' } });
+    const moduleOptions = await import(pathToFileURL(modulePathJson).href, { with: { type: 'json' } });
     const version = moduleOptions.default.version;
     const majorVersion = version.split('.')[0];
     const tinyLngSrcPath = path.join(path.dirname(moduleLngPathJson), `langs${majorVersion}`);
@@ -55,7 +53,7 @@ export default class TinyMCEModuleBuilder extends DefaultModuleBuilder
       promises.push(fsp.cp(
         path.join(tinySrcPath, folder),
         path.join(tinyVendorPath, folder),
-        { preserveTimestamps: true, recursive: true, filter: filterFunc }
+        { preserveTimestamps: true, recursive: true, filter: filterFunc },
       ));
     });
 
@@ -64,7 +62,7 @@ export default class TinyMCEModuleBuilder extends DefaultModuleBuilder
       promises.push(fsp.cp(
         tinyLngSrcPath,
         path.join(tinyVendorPath, 'langs'),
-        { preserveTimestamps: true, recursive: true }
+        { preserveTimestamps: true, recursive: true },
       ));
     }
 
@@ -84,7 +82,7 @@ export default class TinyMCEModuleBuilder extends DefaultModuleBuilder
     promises.push(fsp.cp(
       tmplSrcPath,
       tmplTargetPath,
-      { preserveTimestamps: true, recursive: true }
+      { preserveTimestamps: true, recursive: true },
     ));
 
     return Promise.all(promises);

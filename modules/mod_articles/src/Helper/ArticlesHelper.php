@@ -341,6 +341,7 @@ class ArticlesHelper implements DatabaseAwareInterface
                     'context' => 'com_content.article',
                     'subject' => $item,
                     'params'  => $item->params,
+                    'page'    => 0,
                 ];
 
                 // onContentPrepare plugins work on $item->text

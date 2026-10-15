@@ -18,7 +18,6 @@ use Joomla\CMS\Event\User\BeforeSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
-use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
@@ -37,7 +36,6 @@ use Joomla\Utilities\ArrayHelper;
 class User
 {
     use LegacyErrorHandlingTrait;
-    use LegacyPropertyManagementTrait;
 
     /**
      * A cached switch for if this user has root access rights.
@@ -929,5 +927,42 @@ class User
             $this->sendEmail = 0;
             $this->guest     = 1;
         }
+    }
+
+    /**
+     * Returns a property of the user or the default value if the property is not set.
+     *
+     * @param   string  $property  The name of the property.
+     * @param   mixed   $default   The default value.
+     *
+     * @return  mixed    The value of the property.
+     *
+     * @since   __DEPLOY_VERSION__
+     *
+     * @deprecated 4.3.0 will be removed in 8.0 (is backported from LegacyPropertyManagementTrait)
+     *             Create a proper getter function for the property
+     */
+    public function get($property, $default = null)
+    {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            throw new \BadMethodCallException(\sprintf(
+                '%1$s() is only available in compatibility mode (compatibility plugin enabled). Access directly the property from the user object.',
+                __METHOD__
+            ));
+        }
+
+        @trigger_error(
+            \sprintf(
+                '%1$s() is deprecated. Access directly the property from the user object.',
+                __METHOD__
+            ),
+            E_USER_DEPRECATED
+        );
+
+        if (isset($this->$property)) {
+            return $this->$property;
+        }
+
+        return $default;
     }
 }

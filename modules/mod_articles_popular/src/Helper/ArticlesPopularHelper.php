@@ -161,24 +161,4 @@ class ArticlesPopularHelper
 
         return $item;
     }
-
-    /**
-     * Get a list of popular articles from the articles model
-     *
-     * @param   \Joomla\Registry\Registry  &$params  object holding the models parameters
-     *
-     * @return  mixed
-     *
-     * @since  4.3.0
-     *
-     * @deprecated 4.3 will be removed in 7.0
-     *             Use the non-static method getArticles
-     *             Example: Factory::getApplication()->bootModule('mod_articles_popular', 'site')
-     *                          ->getHelper('ArticlesPopularHelper')
-     *                          ->getArticles($params, Factory::getApplication())
-     */
-    public static function getList(&$params)
-    {
-        return (new self())->getArticles($params, Factory::getApplication());
-    }
 }

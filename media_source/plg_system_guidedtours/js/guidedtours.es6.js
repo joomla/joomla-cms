@@ -221,7 +221,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
                 (target.hasAttribute('required') || (this.options.params.required || 0))
                 && (
                   (target.tagName.toLowerCase() === 'input' && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(target.type))
-                    || target.tagName.toLowerCase() === 'textarea'
+                  || target.tagName.toLowerCase() === 'textarea'
                 )
               ) {
                 if ((this.options.params.requiredvalue || '') !== '') {
@@ -449,6 +449,10 @@ function addBackButton(buttons, step) {
 }
 
 function startTour(obj) {
+  if (!obj || !obj.steps) {
+    return;
+  }
+
   // We store the tour id to restart on site refresh
   sessionStorage.setItem('tourId', obj.id);
   sessionStorage.setItem('stepCount', String(obj.steps.length));
@@ -673,7 +677,7 @@ document.querySelector('body').addEventListener('click', (event) => {
   // Click button but missing data-id
   if (
     (!event.target.hasAttribute('data-id') || event.target.getAttribute('data-id') <= 0)
-  && (!event.target.hasAttribute('data-gt-uid') || event.target.getAttribute('data-gt-uid') === '')
+    && (!event.target.hasAttribute('data-gt-uid') || event.target.getAttribute('data-gt-uid') === '')
   ) {
     Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR')] });
     return;

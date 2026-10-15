@@ -13,8 +13,12 @@ namespace Joomla\Component\Users\Site\Model;
 use Joomla\CMS\Event\User\AfterRemindEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Router\Route;
@@ -30,8 +34,11 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.5
  */
-class RemindModel extends FormModel
+class RemindModel extends FormModel implements MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
+
     /**
      * Method to get the username remind request form.
      *
@@ -162,15 +169,20 @@ class RemindModel extends FormModel
 
         // Assemble the login link.
         $link = 'index.php?option=com_users&view=login';
-        $mode = $app->get('force_ssl', 0) == 2 ? 1 : (-1);
+        $mode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
         // Put together the email template data.
         $data              = ArrayHelper::fromObject($user);
         $data['sitename']  = $app->get('sitename');
-        $data['link_text'] = Route::_($link, false, $mode);
-        $data['link_html'] = Route::_($link, true, $mode);
+        $data['link_text'] = Route::link('site', $link, false, $mode, true);
+        $data['link_html'] = Route::link('site', $link, true, $mode, true);
 
-        $mailer = new MailTemplate('com_users.reminder', $app->getLanguage()->getTag());
+        $mailer = new MailTemplate(
+            'com_users.reminder',
+            $app->getLanguage()->getTag(),
+            $this->getMailerFactory()->createMailer(),
+            $this->getLanguageFactory()
+        );
         $mailer->addTemplateData($data);
         $mailer->addRecipient($user->email, $user->name);
 
@@ -183,7 +195,7 @@ class RemindModel extends FormModel
 
                 $return = false;
             } catch (\RuntimeException $exception) {
-                Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                Factory::getApplication()->enqueueMessage(Text::_($exception->getMessage()), 'warning');
 
                 $return = false;
             }

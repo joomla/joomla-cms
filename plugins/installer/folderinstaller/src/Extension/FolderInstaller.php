@@ -52,9 +52,10 @@ final class FolderInstaller extends CMSPlugin implements SubscriberInterface
         // Load language files
         $this->loadLanguage();
 
-        $tab            = [];
-        $tab['name']    = 'folder';
-        $tab['label']   = $this->getApplication()->getLanguage()->_('PLG_INSTALLER_FOLDERINSTALLER_TEXT');
+        $app          = $this->getApplication();
+        $tab          = [];
+        $tab['name']  = 'folder';
+        $tab['label'] = $app->getLanguage()->_('PLG_INSTALLER_FOLDERINSTALLER_TEXT');
 
         // Render the input
         ob_start();

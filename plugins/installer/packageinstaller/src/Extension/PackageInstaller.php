@@ -52,9 +52,10 @@ final class PackageInstaller extends CMSPlugin implements SubscriberInterface
         // Load language files
         $this->loadLanguage();
 
-        $tab            = [];
-        $tab['name']    = 'package';
-        $tab['label']   = $this->getApplication()->getLanguage()->_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE');
+        $app          = $this->getApplication();
+        $tab          = [];
+        $tab['name']  = 'package';
+        $tab['label'] = $app->getLanguage()->_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE');
 
         // Render the input
         ob_start();

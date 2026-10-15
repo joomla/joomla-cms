@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
@@ -25,6 +26,7 @@ $groups = $user->getAuthorisedViewLevels();
     <?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
         <?php // Check whether category access level allows access to subcategories. ?>
         <?php if (in_array($child->access, $groups)) : ?>
+            <?php $childParams = new \Joomla\Registry\Registry($child->params); ?>
             <?php if ($this->params->get('show_empty_categories') || $child->getNumItems(true) || count($child->getChildren())) : ?>
             <div class="com-content-category__children">
                 <?php if ($lang->isRtl()) : ?>
@@ -54,6 +56,15 @@ $groups = $user->getAuthorisedViewLevels();
                         <a href="#category-<?php echo $child->id; ?>" data-bs-toggle="collapse" class="btn btn-sm float-end" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
                     <?php endif; ?>
                 </h3>
+                <?php endif; ?>
+                <?php if ($this->params->get('show_subcat_image') && $childParams->get('image')) : ?>
+                    <?php echo LayoutHelper::render(
+                        'joomla.html.image',
+                        [
+                            'src' => $childParams->get('image'),
+                            'alt' => $childParams->get('image_alt', false),
+                        ]
+                    ); ?>
                 <?php endif; ?>
                 <?php if ($this->params->get('show_subcat_desc') == 1) : ?>
                     <?php if ($child->description) : ?>

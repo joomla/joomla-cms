@@ -16,6 +16,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\View\ListView;
+use Joomla\CMS\Session\Session;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -128,6 +129,13 @@ class HtmlView extends ListView
             // If in the frontend state and language should not activate the search tools.
             if (Factory::getApplication()->isClient('site')) {
                 unset($this->activeFilters['state'], $this->activeFilters['language']);
+
+                /*
+                * When loaded from the frontend, the modal template requires a valid CSRF token on every request.
+                * Pagination links are plain GET anchor tags that bypass form submission,
+                * so the token must be threaded into all pagination URLs via additionalUrlParams.
+                */
+                $this->pagination->setAdditionalUrlParam(Session::getFormToken(), '1');
             }
 
             // In menu associations modal we need to remove language filter if forcing a language.

@@ -286,6 +286,11 @@ Joomla = window.Joomla || {};
         }
 
         i.value = '';
+
+        if (i.hasAttribute('data-alt-value')) {
+          i.setAttribute('data-alt-value', '');
+          i.dispatchEvent(new Event('change', { bubbles: true }));
+        }
         self.checkFilter(i);
       });
 
@@ -374,7 +379,6 @@ Joomla = window.Joomla || {};
         filteredByCaption.textContent += captionContent;
       }
     }
-
 
     deactiveFilter(element) {
       element.classList.remove('active');

@@ -21,12 +21,39 @@ describe('Test that content API endpoint', () => {
         .should('not.include', 'automated test article after'));
   });
 
+  it('can deliver a list of unpublished articles', () => {
+    cy.db_createArticle({ title: 'automated test article', state: 0 })
+      .then(() => cy.api_get('/content/articles?filter[state]=0'))
+      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
+        .its('title')
+        .should('include', 'automated test article'));
+  });
+
+  it('can deliver a list of published articles', () => {
+    cy.db_createArticle({ title: 'automated test article', state: 1 })
+      .then(() => cy.api_get('/content/articles?filter[state]=1'))
+      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
+        .its('title')
+        .should('include', 'automated test article'));
+  });
+
   it('can deliver a single article', () => {
     cy.db_createArticle({ title: 'automated test article' })
       .then((article) => cy.api_get(`/content/articles/${article.id}`))
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('title')
         .should('include', 'automated test article'));
+  });
+
+  it('can deliver a single article with separate fields intro and full text ', () => {
+    cy.db_createArticle({ title: 'automated test article', introtext: 'This is the intro text.', fulltext: 'This is the full text.' })
+      .then((article) => cy.api_get(`/content/articles/${article.id}`))
+      .then((response) =>
+        cy.wrap(response.body.data.attributes).should((attrs) => {
+          expect(attrs.introtext).to.include('This is the intro text.');
+          expect(attrs.fulltext).to.include('This is the full text.');
+        }),
+      );
   });
 
   it('can create an article', () => {
@@ -66,7 +93,7 @@ describe('Test that content API endpoint', () => {
       .then((article) => cy.api_delete(`/content/articles/${article.id}`));
   });
 
-    it('creates unique alias when duplicate article is created', () => {
+  it('creates unique alias when duplicate article is created', () => {
     cy.db_createCategory({ extension: 'com_content' })
       .then((categoryId) => {
         // Create first article

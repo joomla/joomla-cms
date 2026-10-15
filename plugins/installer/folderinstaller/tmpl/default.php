@@ -12,11 +12,14 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-/** @var \Joomla\Plugin\Installer\Folder\Extension\FolderInstaller $this */
+/**
+ * @var \Joomla\Plugin\Installer\Folder\Extension\FolderInstaller $this
+ * @var \Joomla\CMS\Application\CMSWebApplicationInterface        $app
+ */
 
 Text::script('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH');
 
-$this->getApplication()->getDocument()->getWebAssetManager()
+$app->getDocument()->getWebAssetManager()
     ->registerAndUseScript(
         'plg_installer_folderinstaller.folderinstaller',
         'plg_installer_folderinstaller/folderinstaller.js',
@@ -34,7 +37,7 @@ $this->getApplication()->getDocument()->getWebAssetManager()
     </label>
     <div class="controls">
         <input type="text" id="install_directory" name="install_directory" class="form-control"
-            value="<?php echo $this->getApplication()->getInput()->get('install_directory', $this->getApplication()->get('tmp_path')); ?>">
+            value="<?php echo $app->getInput()->get('install_directory', $app->get('tmp_path')); ?>">
     </div>
 </div>
 <div class="control-group">

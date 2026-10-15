@@ -14,7 +14,11 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\UserGroupsHelper;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\LanguageFactoryInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -33,8 +37,11 @@ use Joomla\Utilities\ArrayHelper;
  * @internal
  * @since  5.4.0
  */
-final class NotificationModel extends BaseDatabaseModel
+final class NotificationModel extends BaseDatabaseModel implements MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
+
     /**
      * Sends the update notification to the specifically configured emails and superusers
      *
@@ -116,7 +123,12 @@ final class NotificationModel extends BaseDatabaseModel
                 $receiverLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR, $receiverLocale);
             }
 
-            $mailer = new MailTemplate('com_joomlaupdate.update.' . $type, $receiverLocale);
+            $mailer = new MailTemplate(
+                'com_joomlaupdate.update.' . $type,
+                $receiverLocale,
+                $this->getMailerFactory()->createMailer(),
+                $this->getLanguageFactory()
+            );
             $mailer->addRecipient($receiver->email, $receiver->name);
             $mailer->addTemplateData($substitutions);
             $mailer->send();

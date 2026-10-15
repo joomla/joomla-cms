@@ -10,10 +10,15 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Event\Content\AfterDisplayEvent;
+use Joomla\CMS\Event\Content\AfterTitleEvent;
+use Joomla\CMS\Event\Content\BeforeDisplayEvent;
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\Event\DispatcherInterface;
 
 /**
  * Note that this layout opens a div with the page class suffix. If you do not use the category children
@@ -26,19 +31,40 @@ $canEdit   = $params->get('access-edit');
 $className = substr($extension, 4);
 $htag      = $params->get('show_page_heading') ? 'h2' : 'h1';
 
-$app = Factory::getApplication();
+$dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
 
 $category->text = $category->description;
-$app->triggerEvent('onContentPrepare', [$extension . '.categories', &$category, &$params, 0]);
+
+$contentEventArguments = [
+    'context' => $extension . '.categories',
+    'subject' => $category,
+    'params'  => $params,
+    'page'    => 0,
+];
+
+$dispatcher->dispatch('onContentPrepare', new ContentPrepareEvent('onContentPrepare', $contentEventArguments));
+
 $category->description = $category->text;
 
-$results = $app->triggerEvent('onContentAfterTitle', [$extension . '.categories', &$category, &$params, 0]);
+$results = $dispatcher->dispatch(
+    'onContentAfterTitle',
+    new AfterTitleEvent('onContentAfterTitle', $contentEventArguments)
+)->getArgument('result', []);
+
 $afterDisplayTitle = trim(implode("\n", $results));
 
-$results = $app->triggerEvent('onContentBeforeDisplay', [$extension . '.categories', &$category, &$params, 0]);
+$results = $dispatcher->dispatch(
+    'onContentBeforeDisplay',
+    new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments)
+)->getArgument('result', []);
+
 $beforeDisplayContent = trim(implode("\n", $results));
 
-$results = $app->triggerEvent('onContentAfterDisplay', [$extension . '.categories', &$category, &$params, 0]);
+$results = $dispatcher->dispatch(
+    'onContentAfterDisplay',
+    new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments)
+)->getArgument('result', []);
+
 $afterDisplayContent = trim(implode("\n", $results));
 
 /**

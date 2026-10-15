@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
@@ -21,6 +22,6 @@ HTMLHelper::_('bootstrap.collapse');
         <span class="icon-menu" aria-hidden="true"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbar<?php echo $module->id; ?>">
-        <?php require __DIR__ . '/default.php'; ?>
+        <?php require ModuleHelper::getLayoutPath(module: 'mod_menu', layout:'default'); ?>
     </div>
 </nav>
