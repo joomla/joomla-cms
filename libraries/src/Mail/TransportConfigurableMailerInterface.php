@@ -23,18 +23,19 @@ interface TransportConfigurableMailerInterface
     /**
      * Use SMTP for sending the email.
      *
-     * @param   string   $auth    SMTP Authentication [optional]
-     * @param   string   $host    SMTP Host [optional]
-     * @param   string   $user    SMTP Username [optional]
-     * @param   string   $pass    SMTP Password [optional]
-     * @param   string   $secure  Use secure methods
-     * @param   integer  $port    The SMTP port
+     * @param integer  $auth               SMTP Authentication [optional]
+     * @param string   $host               SMTP Host [optional]
+     * @param string   $user               SMTP Username [optional]
+     * @param string   $pass               SMTP Password [optional]
+     * @param string   $secure             Use secure methods
+     * @param integer  $port               The SMTP port
+     * @param object   $oauthTokenProvider The OAuth token provider
      *
      * @return  boolean  True on success
      *
      * @since   6.2.0
      */
-    public function useSmtp($auth = null, $host = null, $user = null, $pass = null, $secure = null, $port = 25);
+    public function useSmtp($auth = null, $host = null, $user = null, $pass = null, $secure = null, $port = 25, $oauthTokenProvider = null);
 
     /**
      * Use sendmail for sending the email.

@@ -14,6 +14,7 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for \Joomla\CMS\User\UserFactoryAwareTrait
@@ -25,12 +26,11 @@ use Joomla\Tests\Unit\UnitTestCase;
 class UserFactoryAwareTraitTest extends UnitTestCase
 {
     /**
-     * @testdox  The user factory can be set and accessed by the trait
-     *
      * @return  void
      *
      * @since   4.4.0
      */
+    #[TestDox('The user factory can be set and accessed by the trait')]
     public function testGetSetUserFactory()
     {
         $userFactory = new class () implements UserFactoryInterface {
@@ -56,16 +56,15 @@ class UserFactoryAwareTraitTest extends UnitTestCase
 
         $trait->setUserFactory($userFactory);
 
-        $this->assertEquals($userFactory, $trait->getFactory());
+        $this->assertSame($userFactory, $trait->getFactory());
     }
 
     /**
-     * @testdox  The user factory can be set and accessed by the trait
-     *
      * @return  void
      *
      * @since   4.4.0
      */
+    #[TestDox('The user factory can be set and accessed by the trait')]
     public function testGetUserFactoryThrowsException()
     {
         $this->expectException(\UnexpectedValueException::class);
