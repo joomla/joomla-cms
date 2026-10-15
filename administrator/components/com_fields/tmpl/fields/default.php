@@ -37,8 +37,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.ordering');
 $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 
-// Factory::getApplication()->bootComponent($component)->getCategory($options, $section);
-
 // The category object of the component
 $category = Factory::getApplication()->bootComponent(str_replace('com_', '', $component))->getCategory([], $section);
 
