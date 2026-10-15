@@ -353,7 +353,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
                     $dispatcher->dispatch(
                         $this->event_before_delete,
                         new BeforeDeleteEvent($this->event_before_delete, [
-                            'subject' => $table->getProperties(),
+                            'subject' => ArrayHelper::fromObject($table, false),
                         ])
                     );
 
@@ -423,7 +423,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
                 unset($pks[$i]);
                 Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'), 'error');
             } elseif ($table->load($pk)) {
-                $old   = $table->getProperties();
+                $old   = ArrayHelper::fromObject($table, false);
                 $allow = $user->authorise('core.edit.state', 'com_users');
 
                 // Don't allow non-super-admin to delete a super admin
@@ -457,7 +457,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
                             new BeforeSaveEvent($this->event_before_save, [
                                 'subject' => $old,
                                 'isNew'   => false,
-                                'data'    => $table->getProperties(),
+                                'data'    => ArrayHelper::fromObject($table, false),
                             ])
                         )->getArgument('result', []);
 
@@ -479,7 +479,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
 
                         // Trigger the after save event
                         $dispatcher->dispatch($this->event_after_save, new AfterSaveEvent($this->event_after_save, [
-                            'subject'      => $table->getProperties(),
+                            'subject'      => ArrayHelper::fromObject($table, false),
                             'isNew'        => false,
                             'savingResult' => true,
                             'errorMessage' => null,
@@ -584,7 +584,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
         // Activate and send the notification email
         foreach ($pks as $i => $pk) {
             if ($table->load($pk)) {
-                $prevUserData = $table->getProperties();
+                $prevUserData = ArrayHelper::fromObject($table, false);
                 $allow        = $user->authorise('core.edit.state', 'com_users');
 
                 // Don't allow non-super-admin to edit the active status of a super admin
@@ -616,7 +616,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
                             new BeforeSaveEvent($this->event_before_save, [
                                 'subject' => $prevUserData,
                                 'isNew'   => false,
-                                'data'    => $table->getProperties(),
+                                'data'    => ArrayHelper::fromObject($table, false),
                             ])
                         )->getArgument('result', []);
 
@@ -635,7 +635,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
 
                         // Fire the after save event
                         $dispatcher->dispatch($this->event_after_save, new AfterSaveEvent($this->event_after_save, [
-                            'subject'      => $table->getProperties(),
+                            'subject'      => ArrayHelper::fromObject($table, false),
                             'isNew'        => false,
                             'savingResult' => true,
                             'errorMessage' => null,
