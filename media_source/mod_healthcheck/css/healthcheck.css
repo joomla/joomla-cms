@@ -30,6 +30,12 @@
   --btn-border-color: #7a4b00;
 }
 
+/* The dark brown above has too little contrast on a dark background */
+[data-bs-theme="dark"] .healthcheck-filters .healthcheck-filter-btn.btn-outline-warning {
+  --btn-color: var(--warning-text-emphasis, #f6ce95);
+  --btn-border-color: var(--warning-text-emphasis, #f6ce95);
+}
+
 /* Item lists shown below an icon when it is clicked */
 .health-checks .healthcheck-itemlist {
   font-size: .8125rem;
@@ -71,11 +77,14 @@
   --gauge-color-healthy: #28a745;
   --gauge-color-track: #e9ecef;
   --gauge-color-muted: #6c757d;
+  --gauge-color-label: #495057;
+  --gauge-color-border: #dee2e6;
+  --gauge-bg: #fff;
   --gauge-color-current: var(--gauge-color-critical);
   padding: 15px;
   margin: 15px;
   cursor: default;
-  background-color: #fff;
+  background-color: var(--gauge-bg);
   border-radius: 8px;
   /* Ensure sufficient focus indicator */
   transition: box-shadow .15s ease-in-out, border-color .15s ease-in-out;
@@ -131,7 +140,7 @@
 .gauge-label {
   font-size: 16px;
   font-weight: 600;
-  color: #495057;
+  color: var(--gauge-color-label);
 }
 
 .gauge-sublabel {
@@ -141,15 +150,15 @@
 .gauge-note {
   font-size: 11px;
   font-style: italic;
-  color: #6c757d;
+  color: var(--gauge-color-muted);
 }
 
 .gauge-debug {
   padding-top: 5px;
   font-family: monospace;
   font-size: 10px;
-  color: #6c757d;
-  border-top: 1px solid #dee2e6;
+  color: var(--gauge-color-muted);
+  border-top: 1px solid var(--gauge-color-border);
 }
 
 .gauge-link {
@@ -179,6 +188,15 @@
 /* Linked gauges should have pointer cursor */
 .healthcheck-gauge:has(.gauge-link) {
   cursor: pointer;
+}
+
+/* Dark mode: follow the Atum colour scheme (Joomla compiles Bootstrap without the "bs-" prefix) */
+[data-bs-theme="dark"] .healthcheck-gauge {
+  --gauge-color-track: var(--secondary-bg, #343a40);
+  --gauge-color-muted: var(--secondary-color, #dee2e6bf);
+  --gauge-color-label: var(--body-color, #dee2e6);
+  --gauge-color-border: var(--border-color, #495057);
+  --gauge-bg: var(--body-bg, #212529);
 }
 
 /* High contrast mode support */
