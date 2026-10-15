@@ -22,7 +22,6 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
  */
 class AfterCleanCacheEvent extends AbstractImmutableEvent
 {
-
     /**
      * Constructor.
      *
