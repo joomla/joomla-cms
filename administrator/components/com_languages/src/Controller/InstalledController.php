@@ -11,7 +11,7 @@
 namespace Joomla\Component\Languages\Administrator\Controller;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -45,7 +45,7 @@ class InstalledController extends BaseController
             // Switching to the new administrator language for the message
             if ($model->getState('client_id') == 1) {
                 $language          = Factory::getLanguage();
-                $newLang           = Language::getInstance($cid);
+                $newLang           = Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($cid);
                 Factory::$language = $newLang;
                 $this->app->loadLanguage($language = $newLang);
                 $newLang->load('com_languages', JPATH_ADMINISTRATOR);
@@ -93,7 +93,7 @@ class InstalledController extends BaseController
             // Switching to the new language for the message
             $languageName      = $info['nativeName'];
             $language          = Factory::getLanguage();
-            $newLang           = Language::getInstance($cid);
+            $newLang           = Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($cid);
             Factory::$language = $newLang;
             $this->app->loadLanguage($language = $newLang);
             $newLang->load('com_languages', JPATH_ADMINISTRATOR);

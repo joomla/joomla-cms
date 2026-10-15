@@ -13,9 +13,9 @@ namespace Joomla\Component\Privacy\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Privacy\ExportRequestEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageFactoryAwareInterface;
 use Joomla\CMS\Language\LanguageFactoryAwareTrait;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\MailerFactoryAwareInterface;
 use Joomla\CMS\Mail\MailerFactoryAwareTrait;
@@ -208,7 +208,7 @@ class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
                 $langCode = $receiver->getParam('language', $lang->getTag());
             }
 
-            $lang = Language::getInstance($langCode, $lang->getDebug());
+            $lang = Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($langCode, $lang->getDebug());
         }
 
         // Ensure the right language files have been loaded

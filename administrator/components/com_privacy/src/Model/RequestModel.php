@@ -13,9 +13,9 @@ namespace Joomla\Component\Privacy\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageFactoryAwareInterface;
 use Joomla\CMS\Language\LanguageFactoryAwareTrait;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Mail\MailerFactoryAwareInterface;
@@ -286,7 +286,7 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface, Mail
                 $langCode = $receiver->getParam('language', $lang->getTag());
             }
 
-            $lang = Language::getInstance($langCode, $lang->getDebug());
+            $lang = Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($langCode, $lang->getDebug());
         }
 
         // Ensure the right language files have been loaded
