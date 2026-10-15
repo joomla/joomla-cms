@@ -144,27 +144,6 @@ class Session extends BaseSession
     }
 
     /**
-     * Returns the global session object.
-     *
-     * @return  static  The Session object.
-     *
-     * @since   1.5
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Load the session service from the dependency injection container or via $app->getSession()
-     *              Example: Factory::getApplication()->getSession();
-     */
-    public static function getInstance()
-    {
-        @trigger_error(
-            __METHOD__ . '() is deprecated. Load the session from the dependency injection container or via Factory::getApplication()->getSession().',
-            E_USER_DEPRECATED
-        );
-
-        return Factory::getApplication()->getSession();
-    }
-
-    /**
      * Get data from the session store
      *
      * @param   string  $name     Name of a variable
