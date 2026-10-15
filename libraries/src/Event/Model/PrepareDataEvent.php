@@ -23,16 +23,6 @@ namespace Joomla\CMS\Event\Model;
 class PrepareDataEvent extends ModelEvent
 {
     /**
-     * The argument names, in order expected by legacy plugins.
-     *
-     * @var array
-     *
-     * @since  5.0.0
-     * @deprecated 5.0 will be removed in 7.0
-     */
-    protected $legacyArgumentsOrder = ['context', 'data', 'subject'];
-
-    /**
      * Constructor.
      *
      * @param   string  $name       The event name.
@@ -53,13 +43,10 @@ class PrepareDataEvent extends ModelEvent
             throw new \BadMethodCallException("Argument 'data' of event {$name} is required but has not been provided");
         }
 
-        // For backward compatibility make sure the content is referenced
-        // @todo: Remove in Joomla 7
-        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 7
         if (key($arguments) === 0) {
-            $this->arguments['data'] = &$arguments[1];
+            $this->arguments['data'] = $arguments[1];
         } elseif (\array_key_exists('data', $arguments)) {
-            $this->arguments['data'] = &$arguments['data'];
+            $this->arguments['data'] = $arguments['data'];
         }
     }
 

@@ -21,16 +21,6 @@ namespace Joomla\CMS\Event\User;
 abstract class AbstractDeleteEvent extends UserEvent
 {
     /**
-     * The argument names, in order expected by legacy plugins.
-     *
-     * @var array
-     *
-     * @since  5.0.0
-     * @deprecated 5.0 will be removed in 7.0
-     */
-    protected $legacyArgumentsOrder = ['subject'];
-
-    /**
      * Setter for the subject argument.
      *
      * @param   array  $value  The value to set

@@ -25,16 +25,6 @@ use Joomla\Registry\Registry;
 class ContentPrepareEvent extends ContentEvent
 {
     /**
-     * The argument names, in order expected by legacy plugins.
-     *
-     * @var array
-     *
-     * @since  5.0.0
-     * @deprecated 5.0 will be removed in 7.0
-     */
-    protected $legacyArgumentsOrder = ['context', 'subject', 'params', 'page'];
-
-    /**
      * Setter for the subject argument.
      *
      * @param   object  $value  The value to set
@@ -59,17 +49,6 @@ class ContentPrepareEvent extends ContentEvent
      */
     protected function onSetParams($value): Registry
     {
-        // This is for b/c compatibility, because some extensions pass a mixed types
-        if (!$value instanceof Registry) {
-            $value = new Registry($value);
-
-            // @TODO: In 7.0 throw an exception
-            @trigger_error(
-                \sprintf('The "params" attribute for the event "%s" must be type of Registry. In 7.0 it will throw an exception', $this->getName()),
-                E_USER_DEPRECATED
-            );
-        }
-
         return $value;
     }
 

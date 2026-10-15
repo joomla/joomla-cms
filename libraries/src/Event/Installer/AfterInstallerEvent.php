@@ -23,16 +23,6 @@ use Joomla\CMS\Installer\Installer as ExtensionInstaller;
 class AfterInstallerEvent extends InstallerEvent
 {
     /**
-     * The argument names, in order expected by legacy plugins.
-     *
-     * @var array
-     *
-     * @since  5.0.0
-     * @deprecated 5.0 will be removed in 7.0
-     */
-    protected $legacyArgumentsOrder = ['subject', 'package', 'installer', 'installerResult', 'message'];
-
-    /**
      * Constructor.
      *
      * @param   string  $name       The event name.
@@ -58,15 +48,12 @@ class AfterInstallerEvent extends InstallerEvent
             throw new \BadMethodCallException("Argument 'message' of event {$name} is required but has not been provided");
         }
 
-        // For backward compatibility make sure the values is referenced
-        // @todo: Remove in Joomla 7
-        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 7
         if (key($arguments) === 0) {
-            $this->arguments['installerResult'] = &$arguments[3];
-            $this->arguments['message']         = &$arguments[4];
+            $this->arguments['installerResult'] = $arguments[3];
+            $this->arguments['message']         = $arguments[4];
         } elseif (\array_key_exists('installerResult', $arguments)) {
-            $this->arguments['installerResult'] = &$arguments['installerResult'];
-            $this->arguments['message']         = &$arguments['message'];
+            $this->arguments['installerResult'] = $arguments['installerResult'];
+            $this->arguments['message']         = $arguments['message'];
         }
     }
 

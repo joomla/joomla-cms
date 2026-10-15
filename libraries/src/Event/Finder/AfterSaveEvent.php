@@ -24,13 +24,4 @@ use Joomla\CMS\Event\Model\SaveEvent;
  */
 class AfterSaveEvent extends SaveEvent implements FinderEventInterface
 {
-    /**
-     * The argument names, in order expected by legacy plugins.
-     *
-     * @var array
-     *
-     * @since  5.0.0
-     * @deprecated 5.0 will be removed in 7.0
-     */
-    protected $legacyArgumentsOrder = ['context', 'subject', 'isNew'];
 }

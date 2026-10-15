@@ -57,10 +57,9 @@ class BeforeReorderEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated 4.4.0 will be removed in 7.0
-     *                Use counterpart with onSet prefix
+     * @since  4.4.0
      */
-    protected function setQuery($value)
+    protected function onSetQuery($value)
     {
         if (!($value instanceof DatabaseQuery)) {
             throw new \BadMethodCallException("Argument 'query' of event {$this->name} must be of DatabaseQuery type");
@@ -78,47 +77,14 @@ class BeforeReorderEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated 4.4.0 will be removed in 7.0
-     *                Use counterpart with onSet prefix
+     * @since  4.4.0
      */
-    protected function setWhere($value)
+    protected function onSetWhere($value)
     {
         if (!empty($value) && !\is_string($value) && !\is_array($value)) {
             throw new \BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string or array of strings");
         }
 
         return $value;
-    }
-
-    /**
-     * Setter for the query argument
-     *
-     * @param   DatabaseQuery  $value  The value to set
-     *
-     * @return  mixed
-     *
-     * @throws  \BadMethodCallException  if the argument is not of the expected type
-     *
-     * @since  4.4.0
-     */
-    protected function onSetQuery($value)
-    {
-        return $this->setQuery($value);
-    }
-
-    /**
-     * Setter for the where argument
-     *
-     * @param   array|string|null  $value  A string or array of where conditions.
-     *
-     * @return  mixed
-     *
-     * @throws  \BadMethodCallException  if the argument is not of the expected type
-     *
-     * @since  4.4.0
-     */
-    protected function onSetWhere($value)
-    {
-        return $this->setWhere($value);
     }
 }
