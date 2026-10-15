@@ -36,12 +36,9 @@ $wa->useScript('keepalive')
         <div class="row">
             <div class="col-lg-9">
                 <?php echo $this->form->renderField('type'); ?>
-                <div id="image">
-                    <?php echo $this->form->renderFieldset('image'); ?>
-                </div>
-                <div id="custom">
-                    <?php echo $this->form->renderField('custombannercode'); ?>
-                </div>
+
+                <?php echo $this->form->renderFieldset('image'); ?>
+                <?php echo $this->form->renderField('custombannercode'); ?>
                 <?php
                 echo $this->form->renderField('clickurl');
                 echo $this->form->renderField('description');
