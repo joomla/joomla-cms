@@ -191,12 +191,14 @@ class ManageModel extends InstallerModel
             $eid = [$eid => 0];
         }
 
-        // Get an installer object for the extension type
-        $installer = Installer::getInstance();
-        $result    = 0;
+        $result = 0;
 
         // Uninstall the chosen extensions
         foreach ($eid as $id) {
+            // Get an installer object for the extension type
+            $installer = new Installer();
+            $installer->setDatabase($this->getDatabase());
+
             $result |= $installer->refreshManifestCache($id);
         }
 
@@ -230,9 +232,8 @@ class ManageModel extends InstallerModel
             $eid = [$eid => 0];
         }
 
-        // Get an installer object for the extension type
-        $installer = Installer::getInstance();
-        $row       = new \Joomla\CMS\Table\Extension($this->getDatabase());
+        $app = Factory::getApplication();
+        $row = new \Joomla\CMS\Table\Extension($this->getDatabase());
 
         // Uninstall the chosen extensions
         $msgs   = [];
@@ -258,7 +259,15 @@ class ManageModel extends InstallerModel
             }
 
             if ($row->type) {
+                // Get an installer object for the extension type
+                $installer = new Installer();
+                $installer->setDatabase($this->getDatabase());
+
                 $result = $installer->uninstall($row->type, $id);
+
+                $this->setState('name', $installer->get('name'));
+                $app->setUserState('com_installer.message', $installer->message);
+                $app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
 
                 // Build an array of extensions that failed to uninstall
                 if ($result === false) {
@@ -280,12 +289,8 @@ class ManageModel extends InstallerModel
         }
 
         $msg = implode('<br>', $msgs);
-        $app = Factory::getApplication();
         $app->enqueueMessage($msg);
         $this->setState('action', 'remove');
-        $this->setState('name', $installer->get('name'));
-        $app->setUserState('com_installer.message', $installer->message);
-        $app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
 
         // Clear the cached extension data and menu cache
         $this->cleanCache('_system');

@@ -220,6 +220,9 @@ class Installer implements DatabaseAwareInterface
      * @return  Installer  An installer object
      *
      * @since   3.1
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 9.0
+     *             Use a new instance of the installer instead, eg. $installer = new Installer();
      */
     public static function getInstance($basepath = __DIR__, $classprefix = '\\Joomla\\CMS\\Installer\\Adapter', $adapterfolder = 'Adapter')
     {

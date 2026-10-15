@@ -177,8 +177,10 @@ class ExtensionRemoveCommand extends AbstractCommand
 
         if ((strtolower($response) === 'yes') || $input->getOption('no-interaction')) {
             // Get an installer object for the extension type
-            $installer = Installer::getInstance();
-            $row       = new Extension($this->getDatabase());
+            $installer = new Installer();
+            $installer->setDatabase($this->getDatabase());
+
+            $row = new Extension($this->getDatabase());
 
             if ((int) $extensionId === 0 || !$row->load($extensionId)) {
                 $this->ioStyle->error("Extension with ID of $extensionId not found.");

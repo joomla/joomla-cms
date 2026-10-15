@@ -2492,16 +2492,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Installer\\Installer\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_joomlaupdate/src/Controller/UpdateController.php
-
-		-
-			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -2575,16 +2565,6 @@ parameters:
 				             register an autoloader for your files\.$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_joomlaupdate/src/Model/UpdateModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method set\(\) of class Joomla\\CMS\\Installer\\Installer\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper setter function for the property$#
-			'''
-			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_joomlaupdate/src/Model/UpdateModel.php
 
