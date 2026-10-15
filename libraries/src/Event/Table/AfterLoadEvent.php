@@ -55,12 +55,12 @@ class AfterLoadEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated 4.4.0 will be removed in 7.0
+     * @deprecated 4.4.0 will be removed in 8.0
      *                Use counterpart with onSet prefix
      */
     protected function setResult($value)
     {
-        return $value ? true : false;
+        return $this->onSetResult($value);
     }
 
     /**
@@ -72,16 +72,12 @@ class AfterLoadEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated 4.4.0 will be removed in 7.0
+     * @deprecated 4.4.0 will be removed in 8.0
      *                Use counterpart with onSet prefix
      */
     protected function setRow($value)
     {
-        if (!\is_null($value) && !\is_array($value)) {
-            throw new \BadMethodCallException("Argument 'row' of event {$this->name} is not of the expected type");
-        }
-
-        return $value;
+        return $this->onSetRow($value);
     }
 
     /**
@@ -97,7 +93,7 @@ class AfterLoadEvent extends AbstractEvent
      */
     protected function onSetResult($value)
     {
-        return $this->setResult($value);
+        return $value ? true : false;
     }
 
     /**
@@ -113,6 +109,10 @@ class AfterLoadEvent extends AbstractEvent
      */
     protected function onSetRow($value)
     {
-        return $this->setRow($value);
+        if (!\is_null($value) && !\is_array($value)) {
+            throw new \BadMethodCallException("Argument 'row' of event {$this->name} is not of the expected type");
+        }
+
+        return $value;
     }
 }

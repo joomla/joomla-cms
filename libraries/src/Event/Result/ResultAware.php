@@ -86,21 +86,12 @@ trait ResultAware
      * @return  array
      * @since   4.2.0
      *
-     * @deprecated 4.4.0 will be removed in 7.0
+     * @deprecated 4.4.0 will be removed in 8.0
      *                Use counterpart with onSet prefix
      */
     protected function setResult(array $value)
     {
-        if ($this->preventSetArgumentResult) {
-            throw new \BadMethodCallException('You are not allowed to set the result argument directly. Use addResult() instead.');
-        }
-
-        // Always assume that the last element of the array is the result the handler is trying to append.
-        $latestValue = array_pop($value);
-
-        $this->addResult($latestValue);
-
-        return $this->arguments['result'];
+        return $this->onSetResult($value);
     }
 
     /**
@@ -124,6 +115,15 @@ trait ResultAware
      */
     protected function onSetResult(array $value)
     {
-        return $this->setResult($value);
+        if ($this->preventSetArgumentResult) {
+            throw new \BadMethodCallException('You are not allowed to set the result argument directly. Use addResult() instead.');
+        }
+
+        // Always assume that the last element of the array is the result the handler is trying to append.
+        $latestValue = array_pop($value);
+
+        $this->addResult($latestValue);
+
+        return $this->arguments['result'];
     }
 }

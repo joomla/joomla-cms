@@ -53,12 +53,12 @@ class BeforeLoadEvent extends AbstractEvent
      *
      * @return  boolean  Normalised value
      *
-     * @deprecated 4.4.0 will be removed in 7.0
+     * @deprecated 4.4.0 will be removed in 8.0
      *                Use counterpart with onSet prefix
      */
     protected function setReset($value)
     {
-        return $value ? true : false;
+        return $this->onSetReset($value);
     }
 
     /**
@@ -72,6 +72,6 @@ class BeforeLoadEvent extends AbstractEvent
      */
     protected function onSetReset($value)
     {
-        return $this->setReset($value);
+        return $value ? true : false;
     }
 }

@@ -53,12 +53,12 @@ class BeforeStoreEvent extends AbstractEvent
      *
      * @return  boolean  Normalised value
      *
-     * @deprecated 4.4.0 will be removed in 7.0
+     * @deprecated 4.4.0 will be removed in 8.0
      *                Use counterpart with onSet prefix
      */
     protected function setUpdateNulls($value)
     {
-        return $value ? true : false;
+        return $this->onSetUpdateNulls($value);
     }
 
     /**
@@ -72,6 +72,6 @@ class BeforeStoreEvent extends AbstractEvent
      */
     protected function onSetUpdateNulls($value)
     {
-        return $this->setUpdateNulls($value);
+        return $value ? true : false;
     }
 }
