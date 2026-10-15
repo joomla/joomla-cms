@@ -39,7 +39,7 @@ $tables_html  = HTMLHelper::_('healthchecks.tables', $tables);
 $leading_html = HTMLHelper::_('healthchecks.leadings', $leading);
 $footer_html  = HTMLHelper::_('healthchecks.footers', $footer);
 
-$has_data = !empty($gauges_html) || !empty($buttons_html) || !empty($lists_html) || !empty($tables_html) || !empty($reports_html);
+$has_data = !empty($gauges_html) || !empty($buttons_html) || !empty($lists_html) || !empty($tables_html);
 ?>
 <?php if ($has_data) : ?>
     <!-- Filter Buttons -->
@@ -99,12 +99,6 @@ $has_data = !empty($gauges_html) || !empty($buttons_html) || !empty($lists_html)
             </div>
         <?php endif; ?>
 
-        <!-- show reports, links -->
-        <?php if (!empty($reports_html)) : ?>
-            <ul class="nav flex-wrap">
-                <?php echo $reports_html; ?>
-            </ul>
-        <?php endif; ?>
     <?php else : ?>
         <?php echo LayoutHelper::render('joomla.content.emptystate_module', [
             'textPrefix' => 'MOD_HEALTHCHECK',
