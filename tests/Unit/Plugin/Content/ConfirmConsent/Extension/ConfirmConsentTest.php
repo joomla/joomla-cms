@@ -15,7 +15,6 @@ use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\User\User;
-use Joomla\Event\Dispatcher;
 use Joomla\Plugin\Content\ConfirmConsent\Extension\ConfirmConsent;
 use Joomla\Tests\Unit\UnitTestCase;
 
@@ -46,8 +45,7 @@ class ConfirmConsentTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($this->createStub(Language::class));
 
-        $dispatcher = new Dispatcher();
-        $plugin     = new ConfirmConsent($dispatcher, ['params' => []]);
+        $plugin     = new ConfirmConsent(['params' => []]);
         $plugin->setApplication($app);
         $plugin->onContentPrepareForm(new PrepareFormEvent('onContentPrepareForm', [
             'subject' => $form,
@@ -69,8 +67,7 @@ class ConfirmConsentTest extends UnitTestCase
         $form = new Form('invalid');
         $form->load('<form/>');
 
-        $dispatcher = new Dispatcher();
-        $plugin     = new ConfirmConsent($dispatcher, ['params' => []]);
+        $plugin     = new ConfirmConsent(['params' => []]);
         $plugin->setApplication($this->createStub(CMSApplicationInterface::class));
         $plugin->onContentPrepareForm(new PrepareFormEvent('onContentPrepareForm', [
             'subject' => $form,
@@ -95,8 +92,7 @@ class ConfirmConsentTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('isClient')->willReturn(true);
 
-        $dispatcher = new Dispatcher();
-        $plugin     = new ConfirmConsent($dispatcher, ['params' => []]);
+        $plugin     = new ConfirmConsent(['params' => []]);
         $plugin->setApplication($app);
         $plugin->onContentPrepareForm(new PrepareFormEvent('onContentPrepareForm', [
             'subject' => $form,

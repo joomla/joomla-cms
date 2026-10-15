@@ -52,7 +52,7 @@ namespace Joomla\CMS\Event;
  *
  * @since  4.2.0
  *
- * @deprecated  4.3 will be removed in 7.0
+ * @deprecated  4.3 will be removed in 8.0
  *              Will be removed without replacement
  */
 trait ReshapeArgumentsAware
@@ -70,6 +70,10 @@ trait ReshapeArgumentsAware
      */
     protected function reshapeArguments(array $arguments, array $argumentNames, array $defaults = [])
     {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            return $arguments;
+        }
+
         $reconstructed = [];
 
         // Check when the source is non-associative, example [$context, $item, $isNew, $data]
