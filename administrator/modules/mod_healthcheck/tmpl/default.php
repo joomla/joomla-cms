@@ -29,6 +29,9 @@ $wa->registerAndUseScript('mod_healthcheck.filter', 'mod_healthcheck/healthcheck
     ->registerAndUseScript('mod_healthcheck.onclick', 'mod_healthcheck/healthcheck-onclick.js', [], ['defer' => true])
     ->registerAndUseStyle('mod_healthcheck.general', 'mod_healthcheck/healthcheck.css');
 
+// Label for the close button of the code modal opened by the async script.
+Text::script('JCLOSE');
+
 $gauges_html  = HTMLHelper::_('healthchecks.gauges', $gauges);
 $buttons_html = HTMLHelper::_('healthchecks.buttons', $buttons);
 $lists_html   = HTMLHelper::_('healthchecks.lists', $lists);

@@ -198,3 +198,61 @@
     transition: none !important;
   }
 }
+
+/* Code modal (used by checks whose items carry source code, e.g. class redefinitions) */
+.healthcheck-code-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1090;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.healthcheck-code-modal[hidden] {
+  display: none;
+}
+
+.healthcheck-code-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .5);
+}
+
+.healthcheck-code-modal-dialog {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: min(900px, 92vw);
+  max-height: 85vh;
+  overflow: hidden;
+  color: var(--body-color, #212529);
+  background: var(--body-bg, #fff);
+  border-radius: .5rem;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, .4);
+}
+
+.healthcheck-code-modal-header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: .75rem 1rem;
+  border-bottom: 1px solid var(--border-color, #dee2e6);
+}
+
+.healthcheck-code-modal-title {
+  margin: 0;
+  font-size: 1rem;
+  word-break: break-word;
+}
+
+.healthcheck-code-modal-body {
+  padding: 1rem;
+  margin: 0;
+  overflow: auto;
+  font-size: .85rem;
+  line-height: 1.4;
+  white-space: pre;
+}
