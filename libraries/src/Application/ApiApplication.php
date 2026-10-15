@@ -149,8 +149,32 @@ final class ApiApplication extends CMSApplication
      */
     protected function render()
     {
+        // Trigger the onBeforeRender event.
+        PluginHelper::importPlugin('system');
+        $this->triggerEvent('onBeforeRender');
+
+        /**
+         * Check we aren't in offline mode. In which case for users who can't access the site the API is disabled
+         * and we won't show anything!
+         */
+        if ($this->get('offline') && !$this->getIdentity()->authorise('core.login.offline')) {
+            $offlineMessage = '';
+
+            if ($this->get('display_offline_message', true) == true) {
+                $offlineMessage = $this->get('offline_message');
+            }
+
+            throw new Exception\OfflineWebsiteException($offlineMessage);
+        }
+
         // Render the document
         $this->setBody($this->document->render($this->allowCache()));
+
+        // Trigger the onAfterRender event.
+        $this->triggerEvent('onAfterRender');
+
+        // Mark afterRender in the profiler.
+        JDEBUG ? $this->profiler->mark('afterRender') : null;
     }
 
     /**
