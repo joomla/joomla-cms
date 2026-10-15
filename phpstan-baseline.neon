@@ -8496,16 +8496,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\Content\\AfterDisplayEvent\:
-				4\.3 will be removed in 7\.0
-				             You should use nullable values or exceptions instead of returning boolean false results\.$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Event/Content/AfterDisplayEvent.php
-
-		-
-			message: '''
 				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Content\\AfterDisplayEvent\:
 				4\.4\.0 will be removed in 7\.0
 				               Use counterpart with onSet prefix$#
@@ -8516,16 +8506,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\Content\\AfterTitleEvent\:
-				4\.3 will be removed in 7\.0
-				             You should use nullable values or exceptions instead of returning boolean false results\.$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Event/Content/AfterTitleEvent.php
-
-		-
-			message: '''
 				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Content\\AfterTitleEvent\:
 				4\.4\.0 will be removed in 7\.0
 				               Use counterpart with onSet prefix$#
@@ -8533,16 +8513,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: libraries/src/Event/Content/AfterTitleEvent.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\Content\\BeforeDisplayEvent\:
-				4\.3 will be removed in 7\.0
-				             You should use nullable values or exceptions instead of returning boolean false results\.$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Event/Content/BeforeDisplayEvent.php
 
 		-
 			message: '''
@@ -8591,16 +8561,6 @@ parameters:
 			identifier: traitUse.deprecatedTrait
 			count: 1
 			path: libraries/src/Event/CustomFields/CustomFieldsEvent.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\CustomFields\\GetTypesEvent\:
-				4\.3 will be removed in 7\.0
-				             You should use nullable values or exceptions instead of returning boolean false results\.$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Event/CustomFields/GetTypesEvent.php
 
 		-
 			message: '''
@@ -8678,16 +8638,6 @@ parameters:
 			identifier: traitUse.deprecatedTrait
 			count: 1
 			path: libraries/src/Event/Finder/AbstractFinderEvent.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\Installer\\AddInstallationTabEvent\:
-				4\.3 will be removed in 7\.0
-				             You should use nullable values or exceptions instead of returning boolean false results\.$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Event/Installer/AddInstallationTabEvent.php
 
 		-
 			message: '''
@@ -8981,16 +8931,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\MultiFactor\\Captive\:
-				4\.3 will be removed in 7\.0
-				             You should use nullable values or exceptions instead of returning boolean false results\.$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Event/MultiFactor/Captive.php
-
-		-
-			message: '''
 				#^Call to deprecated method setRecord\(\) of class Joomla\\CMS\\Event\\MultiFactor\\Captive\:
 				4\.4\.0 will be removed in 7\.0
 				               Use counterpart with onSet prefix$#
@@ -9011,16 +8951,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\MultiFactor\\GetMethod\:
-				4\.3 will be removed in 7\.0
-				             You should use nullable values or exceptions instead of returning boolean false results\.$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Event/MultiFactor/GetMethod.php
-
-		-
-			message: '''
 				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\MultiFactor\\GetMethod\:
 				4\.4\.0 will be removed in 7\.0
 				               Use counterpart with onSet prefix$#
@@ -9028,16 +8958,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: libraries/src/Event/MultiFactor/GetMethod.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\MultiFactor\\GetSetup\:
-				4\.3 will be removed in 7\.0
-				             You should use nullable values or exceptions instead of returning boolean false results\.$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Event/MultiFactor/GetSetup.php
 
 		-
 			message: '''
@@ -9058,16 +8978,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: libraries/src/Event/MultiFactor/GetSetup.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\MultiFactor\\SaveSetup\:
-				4\.3 will be removed in 7\.0
-				             You should use nullable values or exceptions instead of returning boolean false results\.$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Event/MultiFactor/SaveSetup.php
 
 		-
 			message: '''
@@ -9141,16 +9051,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\PageCache\\GetKeyEvent\:
-				4\.3 will be removed in 7\.0
-				             You should use nullable values or exceptions instead of returning boolean false results\.$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Event/PageCache/GetKeyEvent.php
-
-		-
-			message: '''
 				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\PageCache\\GetKeyEvent\:
 				4\.4\.0 will be removed in 7\.0
 				               Use counterpart with onSet prefix$#
@@ -9190,16 +9090,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\Plugin\\System\\Stats\\GetStatsDataEvent\:
-				4\.3 will be removed in 7\.0
-				             You should use nullable values or exceptions instead of returning boolean false results\.$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Event/Plugin/System/Stats/GetStatsDataEvent.php
-
-		-
-			message: '''
 				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Plugin\\System\\Stats\\GetStatsDataEvent\:
 				4\.4\.0 will be removed in 7\.0
 				               Use counterpart with onSet prefix$#
@@ -9230,16 +9120,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\Plugin\\System\\Webauthn\\AjaxCreate\:
-				4\.3 will be removed in 7\.0
-				             You should use nullable values or exceptions instead of returning boolean false results\.$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Event/Plugin/System/Webauthn/AjaxCreate.php
-
-		-
-			message: '''
 				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Plugin\\System\\Webauthn\\AjaxCreate\:
 				4\.4\.0 will be removed in 7\.0
 				               Use counterpart with onSet prefix$#
@@ -9257,16 +9137,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: libraries/src/Event/Plugin/System/Webauthn/AjaxDelete.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\Plugin\\System\\Webauthn\\AjaxInitCreate\:
-				4\.3 will be removed in 7\.0
-				             You should use nullable values or exceptions instead of returning boolean false results\.$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Event/Plugin/System/Webauthn/AjaxInitCreate.php
 
 		-
 			message: '''
@@ -9297,16 +9167,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: libraries/src/Event/Privacy/CanRemoveDataEvent.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\Privacy\\CollectCapabilitiesEvent\:
-				4\.3 will be removed in 7\.0
-				             You should use nullable values or exceptions instead of returning boolean false results\.$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Event/Privacy/CollectCapabilitiesEvent.php
 
 		-
 			message: '''
@@ -9349,16 +9209,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\QuickIcon\\GetIconEvent\:
-				4\.3 will be removed in 7\.0
-				             You should use nullable values or exceptions instead of returning boolean false results\.$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Event/QuickIcon/GetIconEvent.php
-
-		-
-			message: '''
 				#^Call to deprecated method setContext\(\) of class Joomla\\CMS\\Event\\QuickIcon\\GetIconEvent\:
 				4\.4\.0 will be removed in 7\.0
 				               Use counterpart with onSet prefix$#
@@ -9386,16 +9236,6 @@ parameters:
 			identifier: traitUse.deprecatedTrait
 			count: 1
 			path: libraries/src/Event/QuickIcon/GetIconEvent.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\SampleData\\GetOverviewEvent\:
-				4\.3 will be removed in 7\.0
-				             You should use nullable values or exceptions instead of returning boolean false results\.$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Event/SampleData/GetOverviewEvent.php
 
 		-
 			message: '''
@@ -9646,16 +9486,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: libraries/src/Event/User/BeforeSaveEvent.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\User\\LoginButtonsEvent\:
-				4\.3 will be removed in 7\.0
-				             You should use nullable values or exceptions instead of returning boolean false results\.$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Event/User/LoginButtonsEvent.php
 
 		-
 			message: '''
