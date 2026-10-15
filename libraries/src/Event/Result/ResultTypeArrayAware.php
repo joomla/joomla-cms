@@ -32,17 +32,6 @@ trait ResultTypeArrayAware
     protected $resultIsNullable = false;
 
     /**
-     * Can the result attribute values also be boolean FALSE?
-     *
-     * @var    boolean
-     * @since  4.2.0
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              You should use nullable values or exceptions instead of returning boolean false results.
-     */
-    protected $resultIsFalseable = false;
-
-    /**
      * Checks the type of the data being appended to the result argument.
      *
      * @param   mixed  $data  The data to type check
@@ -56,10 +45,6 @@ trait ResultTypeArrayAware
     public function typeCheckResult($data): void
     {
         if ($this->resultIsNullable && $data === null) {
-            return;
-        }
-
-        if ($this->resultIsFalseable && $data === false) {
             return;
         }
 
