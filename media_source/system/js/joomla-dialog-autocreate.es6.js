@@ -50,9 +50,13 @@ document.addEventListener('click', (event) => {
     triggerEl.JoomlaDialogInstance = popup;
   }
 
-  // Perform close when received any message
+  // Perform close when received a Joomla message
   if ('closeOnMessage' in triggerEl.dataset) {
     window.addEventListener('message', (message) => {
+      // Ignore messages not sent by Joomla, eg: from browser extensions injected into the iframe
+      const messageType = message.data && message.data.messageType;
+      if (typeof messageType !== 'string' || !messageType.startsWith('joomla:')) return;
+
       // Close when source Window match the iframe Window (for iframe) or current Window (for other popups)
       if (message.source === (popup.getBodyContent().contentWindow || window)) {
         popup.close();
