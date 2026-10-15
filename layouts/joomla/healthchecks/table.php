@@ -89,8 +89,12 @@ if (!empty($tableClass)) {
                         <?php
                         $align = $column['align'] ?? '';
                         $cellClass = $column['cellClass'] ?? '';
-                        if ($cellClass && is_callable($column['cellClass'])) {
-                            $cellClass = call_user_func($column['cellClass'], $item, $rowIndex, $columnIndex);
+
+                        // Only execute trusted Closure instances, never string or array callables.
+                        if ($cellClass instanceof \Closure) {
+                            $cellClass = $cellClass($item, $rowIndex, $columnIndex);
+                        } elseif (!\is_string($cellClass)) {
+                            $cellClass = '';
                         }
                         ?>
                         <td<?php echo $cellClass ? ' class="' . htmlspecialchars($cellClass, ENT_QUOTES, 'UTF-8') . '"' : ''; ?>
