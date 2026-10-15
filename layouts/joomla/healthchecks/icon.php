@@ -61,6 +61,11 @@ if (isset($displayData['linkadd'])) : ?>
     <li class="quickicon quickicon-single" data-healthcheck-status="<?php echo $filterStatus; ?>">
 <?php endif; ?>
         <a<?php echo $id; ?> class="<?php echo $class; ?>" href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
+            <?php if (isset($displayData['heading'])) : ?>
+                <div class="quickicon-heading">
+                    <small><?php echo $this->escape($displayData['heading']); ?></small>
+                </div>
+            <?php endif; ?>
             <div class="quickicon-info">
                 <div class="quickicon-icon">
                 <?php if (isset($displayData['image'])) : ?>
