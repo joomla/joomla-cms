@@ -837,15 +837,6 @@ parameters:
 
 		-
 			message: '''
-				#^Class Joomla\\Component\\Contact\\Administrator\\Extension\\ContactComponent implements deprecated interface Joomla\\CMS\\Fields\\FieldsFormServiceInterface\:
-				5\.1\.0 will be removed in 7\.0$#
-			'''
-			identifier: class.implementsDeprecatedInterface
-			count: 1
-			path: administrator/components/com_contact/src/Extension/ContactComponent.php
-
-		-
-			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
@@ -995,15 +986,6 @@ parameters:
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
 			'''
 			identifier: method.deprecatedInterface
-			count: 1
-			path: administrator/components/com_content/src/Extension/ContentComponent.php
-
-		-
-			message: '''
-				#^Class Joomla\\Component\\Content\\Administrator\\Extension\\ContentComponent implements deprecated interface Joomla\\CMS\\Fields\\FieldsFormServiceInterface\:
-				5\.1\.0 will be removed in 7\.0$#
-			'''
-			identifier: class.implementsDeprecatedInterface
 			count: 1
 			path: administrator/components/com_content/src/Extension/ContentComponent.php
 
@@ -1407,15 +1389,6 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 5
-			path: administrator/components/com_fields/src/Model/FieldModel.php
-
-		-
-			message: '''
-				#^Call to method prepareForm\(\) of deprecated interface Joomla\\CMS\\Fields\\FieldsFormServiceInterface\:
-				5\.1\.0 will be removed in 7\.0$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 1
 			path: administrator/components/com_fields/src/Model/FieldModel.php
 
 		-
@@ -4943,15 +4916,6 @@ parameters:
 			identifier: method.deprecated
 			count: 2
 			path: administrator/components/com_users/src/Controller/UsersController.php
-
-		-
-			message: '''
-				#^Class Joomla\\Component\\Users\\Administrator\\Extension\\UsersComponent implements deprecated interface Joomla\\CMS\\Fields\\FieldsFormServiceInterface\:
-				5\.1\.0 will be removed in 7\.0$#
-			'''
-			identifier: class.implementsDeprecatedInterface
-			count: 1
-			path: administrator/components/com_users/src/Extension/UsersComponent.php
 
 		-
 			message: '''
@@ -9609,15 +9573,6 @@ parameters:
 				             implementing the RouterInterface$#
 			'''
 			identifier: method.deprecatedClass
-			count: 1
-			path: libraries/src/Extension/LegacyComponent.php
-
-		-
-			message: '''
-				#^Class Joomla\\CMS\\Extension\\LegacyComponent implements deprecated interface Joomla\\CMS\\Fields\\FieldsFormServiceInterface\:
-				5\.1\.0 will be removed in 7\.0$#
-			'''
-			identifier: class.implementsDeprecatedInterface
 			count: 1
 			path: libraries/src/Extension/LegacyComponent.php
 
