@@ -6,6 +6,4 @@ DROP TABLE IF EXISTS "#__finder_taxonomy";
 DROP TABLE IF EXISTS "#__finder_taxonomy_map";
 DROP TABLE IF EXISTS "#__finder_terms";
 DROP TABLE IF EXISTS "#__finder_terms_common";
-DROP TABLE IF EXISTS "#__finder_tokens";
-DROP TABLE IF EXISTS "#__finder_tokens_aggregate";
 DROP TABLE IF EXISTS "#__finder_types";
