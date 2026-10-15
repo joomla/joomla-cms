@@ -17,7 +17,8 @@ Joomla! CMS™
 * Joomla! 7.0 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_7.0_version_history).
 * Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/7.0-dev).
 * Release Managers responsible for Joomla! 7.0
-  * tbd
+  * Harald Leithner @HLeithner
+  * Stefan Wendhausen @tecpromotion
 
 ## What is Joomla?
 
