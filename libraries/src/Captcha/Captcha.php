@@ -27,6 +27,7 @@ use Joomla\Event\DispatcherInterface;
  *
  * @abstract
  * @since  2.5
+ * @deprecated  __DEPLOY_VERSION__ will be removed with 9.0. Use onCaptchaSetup event to register your Captcha provider.
  */
 class Captcha implements DispatcherAwareInterface
 {
