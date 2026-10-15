@@ -2661,17 +2661,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Language\\Language\:
-				4\.3 will be removed in 7\.0
-				             Use the language factory instead
-				             Example\: Factory\:\:getContainer\(\)\-\>get\(LanguageFactoryInterface\:\:class\)\-\>createLanguage\(\$lang, \$debug\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 2
-			path: administrator/components/com_languages/src/Controller/InstalledController.php
-
-		-
-			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
@@ -2809,17 +2798,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_languages/src/Model/LanguagesModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Language\\Language\:
-				4\.3 will be removed in 7\.0
-				             Use the language factory instead
-				             Example\: Factory\:\:getContainer\(\)\-\>get\(LanguageFactoryInterface\:\:class\)\-\>createLanguage\(\$lang, \$debug\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_languages/src/Model/OverrideModel.php
 
 		-
 			message: '''
@@ -3618,17 +3596,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Language\\Language\:
-				4\.3 will be removed in 7\.0
-				             Use the language factory instead
-				             Example\: Factory\:\:getContainer\(\)\-\>get\(LanguageFactoryInterface\:\:class\)\-\>createLanguage\(\$lang, \$debug\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_messages/src/Model/MessageModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -4260,17 +4227,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Language\\Language\:
-				4\.3 will be removed in 7\.0
-				             Use the language factory instead
-				             Example\: Factory\:\:getContainer\(\)\-\>get\(LanguageFactoryInterface\:\:class\)\-\>createLanguage\(\$lang, \$debug\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_privacy/src/Model/ExportModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
@@ -4334,17 +4290,6 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 4
-			path: administrator/components/com_privacy/src/Model/RequestModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Language\\Language\:
-				4\.3 will be removed in 7\.0
-				             Use the language factory instead
-				             Example\: Factory\:\:getContainer\(\)\-\>get\(LanguageFactoryInterface\:\:class\)\-\>createLanguage\(\$lang, \$debug\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
 			path: administrator/components/com_privacy/src/Model/RequestModel.php
 
 		-
@@ -7351,17 +7296,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Language\\Language\:
-				4\.3 will be removed in 7\.0
-				             Use the language factory instead
-				             Example\: Factory\:\:getContainer\(\)\-\>get\(LanguageFactoryInterface\:\:class\)\-\>createLanguage\(\$lang, \$debug\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: installation/src/Controller/LanguageController.php
-
-		-
-			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
@@ -9840,17 +9774,6 @@ parameters:
 			identifier: method.notFound
 			count: 1
 			path: libraries/src/Feed/FeedParser.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Language\\Language\:
-				4\.3 will be removed in 7\.0
-				             Use the language factory instead
-				             Example\: Factory\:\:getContainer\(\)\-\>get\(LanguageFactoryInterface\:\:class\)\-\>createLanguage\(\$lang, \$debug\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Filter/OutputFilter.php
 
 		-
 			message: '''
