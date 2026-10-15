@@ -291,7 +291,7 @@ class CssMenu implements DatabaseAwareInterface
          */
         $children = $dispatcher->dispatch('onPreprocessMenuItems', new PreprocessMenuItemsEvent('onPreprocessMenuItems', [
             'context' => 'com_menus.administrator.module',
-            'subject' => &$children, // @todo: Remove reference in Joomla 6, see PreprocessMenuItemsEvent::__constructor()
+            'subject' => $children,
             'params'  => $this->params,
             'enabled' => $this->enabled,
         ]))->getArgument('subject', $children);
