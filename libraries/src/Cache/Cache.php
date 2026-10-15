@@ -78,33 +78,6 @@ class Cache
     }
 
     /**
-     * Returns a reference to a cache adapter object, always creating it
-     *
-     * @param   string  $type     The cache object type to instantiate
-     * @param   array   $options  The array of options
-     *
-     * @return  CacheController
-     *
-     * @since       1.7.0
-     *
-     * @deprecated  4.2 will be removed in 7.0
-     *              Use the cache controller factory instead
-     *              Example: Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);
-     */
-    public static function getInstance($type = 'output', $options = [])
-    {
-        @trigger_error(
-            \sprintf(
-                '%s() is deprecated. The cache controller should be fetched from the factory.',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        return Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);
-    }
-
-    /**
      * Get the storage handlers
      *
      * @return  array
