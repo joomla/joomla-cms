@@ -569,7 +569,7 @@ class NestedRebuildTest extends IntegrationTestCase implements DBTestInterface
      */
     public function testATableWithoutAliasLevelOrPathColumns()
     {
-        $db = $this->getDBDriver();
+        $db    = $this->getDBDriver();
         $query = $db->createQuery();
         $query->insert($db->quoteName('#__testnestedminimal'));
 
