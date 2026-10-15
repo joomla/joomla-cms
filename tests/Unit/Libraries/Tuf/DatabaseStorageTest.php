@@ -12,7 +12,9 @@ namespace Joomla\Tests\Unit\Libraries\Tuf;
 
 use Joomla\CMS\Table\Tuf;
 use Joomla\CMS\TUF\DatabaseStorage;
+use Joomla\Test\TestHelper;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 
 /**
  * Test class for DatabaseStorage
@@ -28,12 +30,13 @@ class DatabaseStorageTest extends UnitTestCase
      *
      * @since   5.1.0
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testConstructorWritesColumnMetadataToInternalStorage()
     {
         $table  = $this->getTableMock(['root' => 'rootfoo']);
         $object = new DatabaseStorage($table);
 
-        $this->assertEquals('rootfoo', $this->getInternalStorageValue($object)['root']);
+        $this->assertSame('rootfoo', TestHelper::getValue($object, 'container')['root']);
     }
 
     /**
@@ -41,12 +44,13 @@ class DatabaseStorageTest extends UnitTestCase
      *
      * @since   5.1.0
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testConstructorIgnoresNonMetadataColumns()
     {
         $table  = $this->getTableMock(['foobar' => 'aaa']);
         $object = new DatabaseStorage($table);
 
-        $this->assertArrayNotHasKey('foobar', $this->getInternalStorageValue($object));
+        $this->assertArrayNotHasKey('foobar', TestHelper::getValue($object, 'container'));
     }
 
     /**
@@ -54,10 +58,11 @@ class DatabaseStorageTest extends UnitTestCase
      *
      * @since   5.1.0
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testReadReturnsStorageValueForExistingColumns()
     {
         $object = new DatabaseStorage($this->getTableMock(['root' => 'foobar']));
-        $this->assertEquals('foobar', $object->read('root'));
+        $this->assertSame('foobar', $object->read('root'));
     }
 
     /**
@@ -65,6 +70,7 @@ class DatabaseStorageTest extends UnitTestCase
      *
      * @since   5.1.0
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testReadReturnsNullForNonexistentColumns()
     {
         $object = new DatabaseStorage($this->getTableMock([]));
@@ -76,12 +82,13 @@ class DatabaseStorageTest extends UnitTestCase
      *
      * @since   5.1.0
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testWriteUpdatesGivenInternalStorageValue()
     {
         $object = new DatabaseStorage($this->getTableMock(['root' => 'foo']));
         $object->write('root', 'bar');
 
-        $this->assertEquals('bar', $this->getInternalStorageValue($object)['root']);
+        $this->assertSame('bar', TestHelper::getValue($object, 'container')['root']);
     }
 
     /**
@@ -89,12 +96,13 @@ class DatabaseStorageTest extends UnitTestCase
      *
      * @since   5.1.0
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testWriteCreatesNewInternalStorageValue()
     {
         $object = new DatabaseStorage($this->getTableMock(['root' => 'foo']));
         $object->write('targets', 'bar');
 
-        $this->assertEquals('bar', $this->getInternalStorageValue($object)['targets']);
+        $this->assertSame('bar', TestHelper::getValue($object, 'container')['targets']);
     }
 
     /**
@@ -102,12 +110,13 @@ class DatabaseStorageTest extends UnitTestCase
      *
      * @since   5.1.0
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testDeleteRemovesRowFromInternalStorage()
     {
         $object = new DatabaseStorage($this->getTableMock(['root' => 'foo']));
         $object->delete('root');
 
-        $this->assertArrayNotHasKey('root', $this->getInternalStorageValue($object));
+        $this->assertArrayNotHasKey('root', TestHelper::getValue($object, 'container'));
     }
 
     /**
@@ -146,19 +155,5 @@ class DatabaseStorageTest extends UnitTestCase
         }
 
         return $table;
-    }
-
-    /**
-     * @param $class
-     *
-     * @since   5.1.0
-     *
-     * @return mixed
-     */
-    protected function getInternalStorageValue($class)
-    {
-        $reflectionProperty = new \ReflectionProperty(DatabaseStorage::class, 'container');
-
-        return $reflectionProperty->getValue($class);
     }
 }
