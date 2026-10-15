@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -38,12 +37,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.ordering');
 $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 
+// Factory::getApplication()->bootComponent($component)->getCategory($options, $section);
+
 // The category object of the component
-$category = Categories::getInstance(str_replace('com_', '', $component) . '.' . $section);
+$category = Factory::getApplication()->bootComponent(str_replace('com_', '', $component))->getCategory([], $section);
 
 // If there is no category for the component and section, then check the component only
 if (!$category) {
-    $category = Categories::getInstance(str_replace('com_', '', $component));
+    $category = Factory::getApplication()->bootComponent(str_replace('com_', '', $component))->getCategory();
 }
 
 if ($saveOrder && !empty($this->items)) {
