@@ -18,6 +18,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Task\UpdateNotification\Extension\UpdateNotification;
 
 return new class () implements ServiceProviderInterface {
@@ -39,6 +40,7 @@ return new class () implements ServiceProviderInterface {
                     (array) PluginHelper::getPlugin('task', 'updatenotification')
                 );
                 $plugin->setApplication(Factory::getApplication());
+                $plugin->setEventDispatcher($container->get(DispatcherInterface::class));
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
                 $plugin->setMailerFactory($container->get(MailerFactoryInterface::class));
                 $plugin->setLanguageFactory($container->get(LanguageFactoryInterface::class));

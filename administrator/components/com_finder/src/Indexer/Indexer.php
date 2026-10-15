@@ -11,12 +11,17 @@
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Finder\IndexAfterDeleteEvent;
+use Joomla\CMS\Event\Finder\IndexAfterIndexEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Filesystem\File;
 use Joomla\String\StringHelper;
 
@@ -37,8 +42,10 @@ use Joomla\String\StringHelper;
  *
  * @since  2.5
  */
-class Indexer
+class Indexer implements DispatcherAwareInterface
 {
+    use DispatcherAwareTrait;
+
     /**
      * The title context identifier.
      *
@@ -114,12 +121,17 @@ class Indexer
     /**
      * Indexer constructor.
      *
-     * @param  ?DatabaseInterface  $db  The database
+     * @param  ?DatabaseInterface    $db          The database
+     * @param  ?DispatcherInterface  $dispatcher  The dispatcher the indexer events are fired on
      *
      * @since  3.8.0
      */
-    public function __construct(?DatabaseInterface $db = null)
+    public function __construct(?DatabaseInterface $db = null, ?DispatcherInterface $dispatcher = null)
     {
+        if ($dispatcher) {
+            $this->setDispatcher($dispatcher);
+        }
+
         if ($db === null) {
             @trigger_error('Database will be mandatory in 7.0.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
@@ -140,6 +152,22 @@ class Indexer
                     $db->quoteName('language'),
                 ]
             );
+    }
+
+    /**
+     * Get the event dispatcher, falling back to the shared one when none was injected.
+     *
+     * @return  DispatcherInterface
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getDispatcher()
+    {
+        if (!$this->dispatcher) {
+            $this->setDispatcher(Factory::getContainer()->get(DispatcherInterface::class));
+        }
+
+        return $this->dispatcher;
     }
 
     /**
@@ -630,8 +658,11 @@ class Indexer
         static::$profiler ? static::$profiler->mark('afterTruncating') : null;
 
         // Trigger a plugin event after indexing
-        PluginHelper::importPlugin('finder');
-        Factory::getApplication()->triggerEvent('onFinderIndexAfterIndex', [$item, $linkId]);
+        PluginHelper::importPlugin('finder', null, true, $this->getDispatcher());
+        $this->getDispatcher()->dispatch(
+            'onFinderIndexAfterIndex',
+            new IndexAfterIndexEvent('onFinderIndexAfterIndex', ['subject' => $item, 'linkId' => (int) $linkId])
+        );
 
         return $linkId;
     }
@@ -690,8 +721,11 @@ class Indexer
             Taxonomy::removeOrphanNodes();
         }
 
-        PluginHelper::importPlugin('finder');
-        Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', [$linkId]);
+        PluginHelper::importPlugin('finder', null, true, $this->getDispatcher());
+        $this->getDispatcher()->dispatch(
+            'onFinderIndexAfterDelete',
+            new IndexAfterDeleteEvent('onFinderIndexAfterDelete', ['linkId' => $linkId])
+        );
 
         return true;
     }

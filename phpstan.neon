@@ -38,3 +38,12 @@ parameters:
 			paths:
 				- components/*
 				- administrator/components/*
+		-
+			message: '''
+				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Module\\GetStatsEvent\:
+				4\.4\.0 will be removed in 7\.0
+				               Use counterpart with onSet prefix$#
+			'''
+			identifier: method.deprecated
+			paths:
+				- libraries/src/Event/Result/ResultAware.php

@@ -11,6 +11,7 @@
 namespace Joomla\Module\StatsAdmin\Administrator\Helper;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Event\Module\GetStatsEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -126,7 +127,10 @@ class StatsAdminHelper
         // Include additional data defined by published system plugins
         PluginHelper::importPlugin('system');
 
-        $arrays = (array) $app->triggerEvent('onGetStats', ['mod_stats_admin']);
+        $arrays = $app->getDispatcher()->dispatch(
+            'onGetStats',
+            new GetStatsEvent('onGetStats', ['context' => 'mod_stats_admin'])
+        )->getArgument('result', []);
 
         foreach ($arrays as $response) {
             foreach ($response as $row) {

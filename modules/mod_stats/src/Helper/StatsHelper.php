@@ -11,6 +11,7 @@
 namespace Joomla\Module\Stats\Site\Helper;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Event\Module\GetStatsEvent;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -148,7 +149,10 @@ class StatsHelper implements DatabaseAwareInterface
         // Include additional data defined by published system plugins
         PluginHelper::importPlugin('system');
 
-        $arrays = (array) $app->triggerEvent('onGetStats', ['mod_stats']);
+        $arrays = $app->getDispatcher()->dispatch(
+            'onGetStats',
+            new GetStatsEvent('onGetStats', ['context' => 'mod_stats'])
+        )->getArgument('result', []);
 
         foreach ($arrays as $response) {
             foreach ($response as $row) {

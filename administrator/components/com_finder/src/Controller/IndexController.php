@@ -61,7 +61,7 @@ class IndexController extends AdminController
         $dispatcher->dispatch('onFinderGarbageCollection', new GarbageCollectionEvent('onFinderGarbageCollection', []));
 
         // Now run the optimisation method from the indexer
-        $indexer = new Indexer();
+        $indexer = new Indexer(null, $dispatcher);
         $indexer->optimize();
 
         $message = Text::_('COM_FINDER_INDEX_OPTIMISE_FINISHED');

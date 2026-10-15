@@ -33,20 +33,21 @@ trait CoreEventAware
      */
     private static $eventNameToConcreteClass = [
         // Application
-        'onBeforeExecute'     => Application\BeforeExecuteEvent::class,
-        'onAfterExecute'      => Application\AfterExecuteEvent::class,
-        'onAfterInitialise'   => Application\AfterInitialiseEvent::class,
-        'onAfterRoute'        => Application\AfterRouteEvent::class,
-        'onBeforeApiRoute'    => Application\BeforeApiRouteEvent::class,
-        'onAfterApiRoute'     => Application\AfterApiRouteEvent::class,
-        'onAfterDispatch'     => Application\AfterDispatchEvent::class,
-        'onBeforeRender'      => Application\BeforeRenderEvent::class,
-        'onAfterRender'       => Application\AfterRenderEvent::class,
-        'onBeforeCompileHead' => Application\BeforeCompileHeadEvent::class,
-        'onAfterCompress'     => Application\AfterCompressEvent::class,
-        'onBeforeRespond'     => Application\BeforeRespondEvent::class,
-        'onAfterRespond'      => Application\AfterRespondEvent::class,
-        'onError'             => ErrorEvent::class,
+        'onBeforeExecute'              => Application\BeforeExecuteEvent::class,
+        'onAfterExecute'               => Application\AfterExecuteEvent::class,
+        'onAfterInitialise'            => Application\AfterInitialiseEvent::class,
+        'onAfterRoute'                 => Application\AfterRouteEvent::class,
+        'onBeforeApiRoute'             => Application\BeforeApiRouteEvent::class,
+        'onAfterApiRoute'              => Application\AfterApiRouteEvent::class,
+        'onAfterDispatch'              => Application\AfterDispatchEvent::class,
+        'onBeforeRender'               => Application\BeforeRenderEvent::class,
+        'onAfterRender'                => Application\AfterRenderEvent::class,
+        'onBeforeCompileHead'          => Application\BeforeCompileHeadEvent::class,
+        'onAfterCompress'              => Application\AfterCompressEvent::class,
+        'onBeforeRespond'              => Application\BeforeRespondEvent::class,
+        'onAfterRespond'               => Application\AfterRespondEvent::class,
+        'onBuildAdministratorLoginURL' => Application\BuildAdministratorLoginUrlEvent::class,
+        'onError'                      => ErrorEvent::class,
         // Application configuration
         'onApplicationBeforeSave' => Application\BeforeSaveConfigurationEvent::class,
         'onApplicationAfterSave'  => Application\AfterSaveConfigurationEvent::class,
@@ -143,6 +144,7 @@ trait CoreEventAware
         'onPrepareModuleList'    => Module\PrepareModuleListEvent::class,
         'onAfterModuleList'      => Module\AfterModuleListEvent::class,
         'onAfterCleanModuleList' => Module\AfterCleanModuleListEvent::class,
+        'onGetStats'             => Module\GetStatsEvent::class,
         // Extension
         'onBeforeExtensionBoot'      => BeforeExtensionBootEvent::class,
         'onAfterExtensionBoot'       => AfterExtensionBootEvent::class,
@@ -178,6 +180,10 @@ trait CoreEventAware
         'onBuildIndex'                => Finder\BuildIndexEvent::class,
         'onStartIndex'                => Finder\StartIndexEvent::class,
         'onFinderGarbageCollection'   => Finder\GarbageCollectionEvent::class,
+        'onFinderIndexAfterIndex'     => Finder\IndexAfterIndexEvent::class,
+        'onFinderIndexAfterDelete'    => Finder\IndexAfterDeleteEvent::class,
+        'onFinderIndexAfterPurge'     => Finder\IndexAfterPurgeEvent::class,
+        'onFinderSortOrderFields'     => Finder\SortOrderFieldsEvent::class,
         // Menu
         'onBeforeRenderMenuItems'   => Menu\BeforeRenderMenuItemsViewEvent::class,
         'onAfterGetMenuTypeOptions' => Menu\AfterGetMenuTypeOptionsEvent::class,
@@ -211,7 +217,8 @@ trait CoreEventAware
         // Sample Data
         'onSampledataGetOverview' => SampleData\GetOverviewEvent::class,
         // Mail
-        'onMailBeforeRendering' => Mail\BeforeRenderingMailTemplateEvent::class,
+        'onMailBeforeRendering'     => Mail\BeforeRenderingMailTemplateEvent::class,
+        'onMailBeforeTagsRendering' => Mail\BeforeTagsRenderingEvent::class,
     ];
 
     /**
