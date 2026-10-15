@@ -1139,7 +1139,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         // Get the full request URI.
         $uri = clone Uri::getInstance();
 
-        $router = static::getRouter();
+        $router = $this->getContainer()->get(ucfirst($this->getName()) . 'Router');
         $result = $router->parse($uri, true);
 
         $active = $this->getMenu()->getActive();

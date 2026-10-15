@@ -135,8 +135,13 @@ class Route
         // Get the router instance, only attempt when a client name is given.
         if ($client && !isset(self::$_router[$client])) {
             try {
-                self::$_router[$client] = Factory::getContainer()->get(ucfirst($client) . 'Router') ?: Factory::getApplication()::getRouter($client);
+                self::$_router[$client] = Factory::getContainer()->get(ucfirst($client) . 'Router') ?: null;
             } catch (KeyNotFoundException) {
+                self::$_router[$client] = null;
+            }
+
+            // Legacy application routers are only available through the compatibility plugin.
+            if (!isset(self::$_router[$client]) && \defined('COMPAT_JOOMLA_7')) {
                 self::$_router[$client] = Factory::getApplication()::getRouter($client);
             }
         }

@@ -6115,17 +6115,6 @@ parameters:
 			path: components/com_contact/src/Model/FeaturedModel.php
 
 		-
-			message: '''
-				#^Call to deprecated method getRouter\(\) of class Joomla\\CMS\\Application\\CMSApplication\:
-				4\.3 will be removed in 7\.0
-				             Inject the router or load it from the dependency injection container
-				             Example\: Factory\:\:getContainer\(\)\-\>get\(\$name\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 4
-			path: components/com_contact/src/Service/Router.php
-
-		-
 			message: '#^Access to an undefined property Joomla\\Component\\Contact\\Site\\View\\Category\\HtmlView\:\:\$menu\.$#'
 			identifier: property.notFound
 			count: 1
@@ -6427,17 +6416,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: components/com_content/src/Model/FormModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getRouter\(\) of class Joomla\\CMS\\Application\\CMSApplication\:
-				4\.3 will be removed in 7\.0
-				             Inject the router or load it from the dependency injection container
-				             Example\: Factory\:\:getContainer\(\)\-\>get\(\$name\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 4
-			path: components/com_content/src/Service/Router.php
 
 		-
 			message: '''
@@ -6744,17 +6722,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: components/com_newsfeeds/src/Model/NewsfeedModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getRouter\(\) of class Joomla\\CMS\\Application\\CMSApplication\:
-				4\.3 will be removed in 7\.0
-				             Inject the router or load it from the dependency injection container
-				             Example\: Factory\:\:getContainer\(\)\-\>get\(\$name\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 4
-			path: components/com_newsfeeds/src/Service/Router.php
 
 		-
 			message: '#^Access to an undefined property Joomla\\Component\\Newsfeeds\\Site\\View\\Category\\HtmlView\:\:\$menu\.$#'
