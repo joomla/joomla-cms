@@ -12,7 +12,7 @@ namespace Joomla\Component\Languages\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -47,7 +47,7 @@ class OverrideModel extends AdminModel
 
         $client   = $this->getState('filter.client', 'site');
         $language = $this->getState('filter.language', 'en-GB');
-        $langName = Language::getInstance($language)->getName();
+        $langName = Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($language)->getName();
 
         if (!$langName) {
             // If a language only exists in frontend, its metadata cannot be

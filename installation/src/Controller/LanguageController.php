@@ -12,7 +12,7 @@ namespace Joomla\CMS\Installation\Controller;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Model\SetupModel;
-use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -67,7 +67,7 @@ class LanguageController extends JSONController
         $model->storeOptions($return);
 
         // Setup language
-        Factory::$language = Language::getInstance($return['language']);
+        Factory::$language = Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($return['language']);
 
         // Redirect to the page.
         $r->view = $this->input->getWord('view', 'setup');

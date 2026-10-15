@@ -15,9 +15,9 @@ use Joomla\CMS\Access\Rule;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageFactoryAwareInterface;
 use Joomla\CMS\Language\LanguageFactoryAwareTrait;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
@@ -360,7 +360,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface, Mail
             $fromUser         = $this->getUserFactory()->loadUserById($table->user_id_from);
             $debug            = Factory::getApplication()->get('debug_lang');
             $default_language = ComponentHelper::getParams('com_languages')->get('administrator');
-            $lang             = Language::getInstance($toUser->getParam('admin_language', $default_language), $debug);
+            $lang             = Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($toUser->getParam('admin_language', $default_language), $debug);
             $lang->load('com_messages', JPATH_ADMINISTRATOR);
 
             // Build the email subject and message
