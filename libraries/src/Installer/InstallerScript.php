@@ -12,6 +12,7 @@ namespace Joomla\CMS\Installer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\Component\Modules\Administrator\Model\ModuleModel;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
@@ -370,7 +371,9 @@ class InstallerScript
      */
     public function addDashboardMenu(string $dashboard, string $preset)
     {
+        /** @var ModuleModel $model */
         $model  = Factory::getApplication()->bootComponent('com_modules')->getMVCFactory()->createModel('Module', 'Administrator', ['ignore_request' => true]);
+        $model->setUseExceptions(true);
         $module = [
             'id'         => 0,
             'asset_id'   => 0,
@@ -397,8 +400,10 @@ class InstallerScript
             'style'    => 'System-none',
         ];
 
-        if (!$model->save($module)) {
-            Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_FAILED_TO_CREATE_DASHBOARD', $model->getError()));
+        try {
+            $model->save($module);
+        } catch (\Exception $e) {
+            Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_FAILED_TO_CREATE_DASHBOARD', $e->getMessage()));
         }
     }
 }

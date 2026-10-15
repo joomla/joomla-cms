@@ -147,13 +147,17 @@ class ConfigurationModel extends BaseInstallationModel
         $installer = Installer::getInstance();
 
         foreach ($extensions as $extension) {
-            if (!$installer->refreshManifestCache($extension->extension_id)) {
-                Factory::getApplication()->enqueueMessage(
-                    Text::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name),
-                    'error'
-                );
+            try {
+                if (!$installer->refreshManifestCache($extension->extension_id)) {
+                    Factory::getApplication()->enqueueMessage(
+                        Text::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name),
+                        'error'
+                    );
 
-                return false;
+                    return false;
+                }
+            } catch (\Exception $e) {
+                var_dump($e);
             }
         }
 

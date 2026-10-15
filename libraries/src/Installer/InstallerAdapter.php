@@ -15,7 +15,6 @@ use Joomla\CMS\Installer\Manifest\PackageManifest;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Extension;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
@@ -164,7 +163,8 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         // Get a generic TableExtension instance for use if not already loaded
         if (!($this->extension instanceof TableInterface)) {
-            $this->extension = Table::getInstance('Extension');
+            $this->extension = new Extension($this->getDatabase());
+            $this->extension->setUseExceptions(true);
         }
 
         // Sanity check, make sure the type is set by taking the adapter name from the class name
@@ -1113,7 +1113,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         // If in postflight or uninstall, set the message for display
         if (($method === 'uninstall' || $method === 'postflight') && $this->extensionMessage !== '') {
-            $this->parent->set('extension_message', $this->extensionMessage);
+            $this->parent->extension_message = $this->extensionMessage;
         }
 
         return true;
