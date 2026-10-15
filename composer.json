@@ -20,10 +20,12 @@
     }
   },
   "support": {
+    "github": "https://github.com/joomla/joomla-cms",
     "issues": "https://issues.joomla.org/",
-    "irc": "irc://chat.freenode.net/joomla/",
+    "chat": "https://joom.la/chat/",
     "forum": "https://forum.joomla.org/",
-    "docs": "https://docs.joomla.org/"
+    "docs": "https://guide.joomla.org/",
+    "developer docs": "https://manual.joomla.org/"
   },
   "repositories": [
     {
@@ -59,8 +61,8 @@
     "joomla/database": "^4.0",
     "joomla/di": "^4.0",
     "joomla/event": "^4.0",
-    "joomla/filter": "4.0.2",
-    "joomla/filesystem": "^4.1",
+    "joomla/filter": "^4.1.0",
+    "joomla/filesystem": "^4.2.1",
     "joomla/http": "^4.0",
     "joomla/input": "^4.0",
     "joomla/language": "^4.0",
@@ -101,7 +103,7 @@
     "dragonmantank/cron-expression": "^3.6.0",
     "enshrined/svg-sanitize": "^0.22.0",
     "lcobucci/jwt": "^4.3.0",
-    "web-token/jwt-library": "^3.4.9",
+    "web-token/jwt-library": "^3.4.10",
     "phpseclib/bcmath_compat": "^2.0.3",
     "jfcherng/php-diff": "^6.16.2",
     "php-tuf/php-tuf": "^1.0.3",

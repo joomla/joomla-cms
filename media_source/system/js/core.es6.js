@@ -725,7 +725,8 @@ Joomla.enqueueRequest = (options) => {
  */
 Joomla.sanitizeHtml = (unsafeHtml, allowList, sanitizeFn) => {
   const allowed = (allowList === undefined || allowList === null)
-    ? DefaultAllowlist : { ...DefaultAllowlist, ...allowList };
+    ? DefaultAllowlist
+    : { ...DefaultAllowlist, ...allowList };
   return sanitizeHtml(unsafeHtml, allowed, sanitizeFn);
 };
 

@@ -530,7 +530,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 26
+			count: 27
 			path: administrator/components/com_categories/src/Model/CategoryModel.php
 
 		-
@@ -1744,16 +1744,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_finder/src/Indexer/Taxonomy.php
-
-		-
-			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
@@ -1970,16 +1960,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_finder/src/Table/MapTable.php
-
-		-
-			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -2105,16 +2085,6 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 7
-			path: administrator/components/com_guidedtours/src/Model/TourModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 1
 			path: administrator/components/com_guidedtours/src/Model/TourModel.php
 
 		-
@@ -2769,16 +2739,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_languages/src/Model/LanguageModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -3089,16 +3049,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 2
-			path: administrator/components/com_mails/src/Model/TemplateModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -3383,16 +3333,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 2
-			path: administrator/components/com_menus/src/Model/ItemModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -3434,16 +3374,6 @@ parameters:
 				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_menus/src/Model/MenuModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_menus/src/Model/MenuModel.php
 
@@ -3784,16 +3714,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_modules/src/Model/ModuleModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -4065,16 +3985,6 @@ parameters:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_plugins/src/Model/PluginModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_plugins/src/Model/PluginModel.php
 
@@ -4632,7 +4542,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 29
+			count: 30
 			path: administrator/components/com_tags/src/Model/TagModel.php
 
 		-
@@ -5158,16 +5068,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 2
-			path: administrator/components/com_users/src/Model/GroupModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -5309,16 +5209,6 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
-			path: administrator/components/com_users/src/Model/UserModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 7
 			path: administrator/components/com_users/src/Model/UserModel.php
 
 		-
@@ -5597,36 +5487,6 @@ parameters:
 			identifier: method.deprecated
 			count: 2
 			path: administrator/components/com_workflow/src/Model/StageModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_workflow/src/Model/StagesModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_workflow/src/Model/TransitionModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_workflow/src/Model/TransitionsModel.php
 
 		-
 			message: '''
@@ -6410,16 +6270,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: components/com_content/src/Model/FormModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -6936,16 +6786,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: components/com_tags/src/Helper/RouteHelper.php
-
-		-
-			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: components/com_tags/src/Model/TagModel.php
 
 		-
 			message: '''
@@ -7984,17 +7824,6 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 2
-			path: libraries/src/Categories/CategoryNode.php
-
-		-
-			message: '''
-				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyPropertyManagementTrait in class Joomla\\CMS\\Categories\\CategoryNode\:
-				4\.3\.0 will be removed in 7\.0
-				             Will be removed without replacement
-				             Create proper setter functions for the individual properties or use a \\Joomla\\Registry\\Registry$#
-			'''
-			identifier: traitUse.deprecatedTrait
-			count: 1
 			path: libraries/src/Categories/CategoryNode.php
 
 		-
@@ -11327,7 +11156,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 40
+			count: 41
 			path: libraries/src/MVC/Model/AdminModel.php
 
 		-
@@ -11949,29 +11778,9 @@ parameters:
 
 		-
 			message: '''
-				#^Access to constant on deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
-				4\.0 will be removed in 7\.0
-				             Support for PHPass hashed passwords will be removed without replacement$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 4
-			path: libraries/src/Service/Provider/Authentication.php
-
-		-
-			message: '''
 				#^Instantiation of deprecated class Joomla\\CMS\\Authentication\\Password\\MD5Handler\:
 				4\.0 will be removed in 7\.0
 				             Support for MD5 hashed passwords will be removed without replacement$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: libraries/src/Service/Provider/Authentication.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
-				4\.0 will be removed in 7\.0
-				             Support for PHPass hashed passwords will be removed without replacement$#
 			'''
 			identifier: new.deprecatedClass
 			count: 1
@@ -12282,16 +12091,6 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 3
-			path: libraries/src/Table/Table.php
-
-		-
-			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 2
 			path: libraries/src/Table/Table.php
 
 		-
@@ -12650,16 +12449,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/User/User.php
-
-		-
-			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
@@ -12714,16 +12503,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to constant on deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
-				4\.0 will be removed in 7\.0
-				             Support for PHPass hashed passwords will be removed without replacement$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 2
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
@@ -12770,69 +12549,9 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method checkIfRehashNeeded\(\) of deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
-				4\.0 will be removed in 7\.0
-				             Support for PHPass hashed passwords will be removed without replacement$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
-				#^Call to method validatePassword\(\) of deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
-				4\.0 will be removed in 7\.0
-				             Support for PHPass hashed passwords will be removed without replacement$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
-				#^Fetching deprecated class constant HASH_ARGON2ID_BC of class Joomla\\CMS\\User\\UserHelper\:
-				4\.0 will be removed in 7\.0
-				             Use UserHelper\:\:HASH_ARGON2ID instead$#
-			'''
-			identifier: classConstant.deprecated
-			count: 1
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
-				#^Fetching deprecated class constant HASH_ARGON2I_BC of class Joomla\\CMS\\User\\UserHelper\:
-				4\.0 will be removed in 7\.0
-				             Use UserHelper\:\:HASH_ARGON2I instead$#
-			'''
-			identifier: classConstant.deprecated
-			count: 1
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
-				#^Fetching deprecated class constant HASH_BCRYPT_BC of class Joomla\\CMS\\User\\UserHelper\:
-				4\.0 will be removed in 7\.0
-				             Use UserHelper\:\:HASH_BCRYPT instead$#
-			'''
-			identifier: classConstant.deprecated
-			count: 1
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
 				#^Fetching deprecated class constant HASH_MD5 of class Joomla\\CMS\\User\\UserHelper\:
 				4\.0 will be removed in 7\.0
 				             Support for MD5 hashed passwords will be removed use any of the other hashing methods$#
-			'''
-			identifier: classConstant.deprecated
-			count: 1
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
-				#^Fetching deprecated class constant HASH_PHPASS of class Joomla\\CMS\\User\\UserHelper\:
-				4\.0 will be removed in 7\.0
-				             Support for PHPass hashed passwords will be removed use any of the other hashing methods$#
 			'''
 			identifier: classConstant.deprecated
 			count: 1

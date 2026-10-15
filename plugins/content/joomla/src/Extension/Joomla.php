@@ -588,9 +588,13 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         $cache = Factory::getContainer()->get(CacheControllerFactory::class)
             ->createCacheController('Callback', ['lifetime' => $app->get('cachetime'), 'caching' => $enableCache, 'defaultgroup' => 'schemaorg']);
 
+        // The schema is emitted on every response, so it has to respect the view levels of the current user
+        $viewLevels = $app->getIdentity()->getAuthorisedViewLevels();
+
         // Add contact data
         if ($view == 'contact' && $id > 0) {
-            $additionalSchema = $cache->get(function ($id) use ($component, $baseId) {
+            // $viewLevels is passed as an argument so that it becomes part of the cache key
+            $additionalSchema = $cache->get(function ($id, $viewLevels) use ($component, $baseId) {
                 $model = $component->createModel('Contact', 'Site');
 
                 $contact = $model->getItem($id);
@@ -599,16 +603,23 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                     return;
                 }
 
+                // Do not expose contacts the current user is not allowed to see
+                if (!\in_array($contact->access, $viewLevels) || !\in_array($contact->category_access, $viewLevels)) {
+                    return;
+                }
+
                 $contactSchema = $this->createContactSchema($contact);
 
                 $contactSchema['isPartOf'] = ['@id' => $baseId . 'WebPage/base'];
 
                 return $contactSchema;
-            }, [$id]);
+            }, [$id, $viewLevels]);
 
-            $mySchema['@graph'][] = $additionalSchema;
+            if (!empty($additionalSchema)) {
+                $mySchema['@graph'][] = $additionalSchema;
+            }
         } elseif ($view === 'featured') {
-            $additionalSchemas = $cache->get(function ($graph) use ($component, $baseId) {
+            $additionalSchemas = $cache->get(function ($graph, $viewLevels) use ($component, $baseId) {
                 $model = $component->createModel('Featured', 'Site');
 
                 $contacts = $model->getItems();
@@ -616,6 +627,11 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                 $allSchemas = [];
 
                 foreach ($contacts as $contact) {
+                    // Do not expose contacts the current user is not allowed to see
+                    if (!\in_array($contact->access, $viewLevels)) {
+                        continue;
+                    }
+
                     foreach ($graph as $entry) {
                         $schemaId = $baseId . 'com_contact/contact/' . (int) $contact->id;
 
@@ -633,9 +649,9 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                 }
 
                 return $allSchemas;
-            }, [$mySchema['@graph']]);
+            }, [$mySchema['@graph'], $viewLevels]);
 
-            foreach ($additionalSchemas as $additionalSchema) {
+            foreach ($additionalSchemas ?: [] as $additionalSchema) {
                 $mySchema['@graph'][] = $additionalSchema;
             }
         }
@@ -744,7 +760,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             $table = $tableInfo[$extension]['table_name'];
 
             // See if this category has any content items
-            $count = $this->countItemsInCategory($table, $data->get('id'));
+            $count = $this->countItemsInCategory($table, $data->id);
 
             // Return false if db error
             if ($count === false) {
@@ -752,7 +768,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             } else {
                 // Show error if items are found in the category
                 if ($count > 0) {
-                    $msg = Text::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
+                    $msg = Text::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->title)
                         . ' ' . Text::plural('COM_CATEGORIES_N_ITEMS_ASSIGNED', $count);
                     $this->getApplication()->enqueueMessage($msg, 'error');
                     $result = false;
@@ -760,12 +776,12 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
                 // Check for items in any child categories (if it is a leaf, there are no child categories)
                 if (!$data->isLeaf()) {
-                    $count = $this->countItemsInChildren($table, $data->get('id'), $data);
+                    $count = $this->countItemsInChildren($table, $data->id, $data);
 
                     if ($count === false) {
                         $result = false;
                     } elseif ($count > 0) {
-                        $msg = Text::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
+                        $msg = Text::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->title)
                             . ' ' . Text::plural('COM_CATEGORIES_HAS_SUBCATEGORY_ITEMS', $count);
                         $this->getApplication()->enqueueMessage($msg, 'error');
                         $result = false;

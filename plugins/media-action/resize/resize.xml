@@ -23,8 +23,8 @@
 		<fields name="params">
 			<fieldset
 				name="batch"
-				label="PLG_MEDIA-ACTION_RESIZE_BATCH_LABEL"
-				description="PLG_MEDIA-ACTION_RESIZE_BATCH_DESC"
+				label="PLG_MEDIA-ACTION_RESIZE_AUTOMATIC_LABEL"
+				description="PLG_MEDIA-ACTION_RESIZE_AUTOMATIC_DESC"
 				>
 
 				<field

@@ -331,9 +331,13 @@ $assoc = Associations::isEnabled();
                                 </td>
                                 <td class="small d-none d-md-table-cell">
                                     <?php if (!empty($item->author_name)) : ?>
-                                        <a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>">
+                                        <?php if ($item->created_by == $userId || ($user->authorise('core.manage', 'com_users') && $user->authorise('core.edit', 'com_users'))) : ?>
+                                            <a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>">
+                                                <?php echo $this->escape($item->author_name); ?>
+                                            </a>
+                                        <?php else : ?>
                                             <?php echo $this->escape($item->author_name); ?>
-                                        </a>
+                                        <?php endif; ?>
                                     <?php else : ?>
                                         [ <?php echo Text::_('JNONE'); ?> ]
                                     <?php endif; ?>
