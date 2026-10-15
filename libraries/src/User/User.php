@@ -879,7 +879,7 @@ class User
         }
 
         // Assuming all is well at this point let's bind the data
-        foreach ($table->getProperties() as $key => $value) {
+        foreach (ArrayHelper::fromObject($table, false) as $key => $value) {
             $this->$key = $value;
         }
 
