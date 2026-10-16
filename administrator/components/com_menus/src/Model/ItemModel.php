@@ -715,7 +715,7 @@ class ItemModel extends AdminModel
         $this->setState('item.type', $table->type);
 
         // Convert to the \Joomla\CMS\Object\CMSObject before adding the params.
-        $properties = $table->getProperties(1);
+        $properties = ArrayHelper::fromObject($table, false);
         $result     = ArrayHelper::toObject($properties);
 
         // Convert the params field to an array.
@@ -1033,7 +1033,7 @@ class ItemModel extends AdminModel
 
         $table->load(['menutype' => $menutype]);
 
-        return (object) $table->getProperties();
+        return (object) ArrayHelper::fromObject($table, false);
     }
 
     /**
