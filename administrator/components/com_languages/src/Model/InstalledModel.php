@@ -335,12 +335,13 @@ class InstalledModel extends ListModel
      */
     protected function getFolders()
     {
-        if (\is_null($this->folders)) {
+        static $folders;
+        if (\is_null($folders)) {
             $path          = $this->getPath();
-            $this->folders = Folder::folders($path, '.', false, false, ['.svn', 'CVS', '.DS_Store', '__MACOSX', 'pdf_fonts', 'overrides']);
+            $folders = Folder::folders($path, '.', false, false, ['.svn', 'CVS', '.DS_Store', '__MACOSX', 'pdf_fonts', 'overrides']);
         }
 
-        return $this->folders;
+        return $folders;
     }
 
     /**
