@@ -42,6 +42,14 @@ class TracksModel extends ListModel
     protected $basename;
 
     /**
+     * Content string
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $content;
+
+    /**
      * Constructor.
      *
      * @param   array                 $config   An optional associative array of configuration settings.

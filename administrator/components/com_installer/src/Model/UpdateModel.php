@@ -505,9 +505,6 @@ class UpdateModel extends ListModel
             $result = true;
         }
 
-        // Quick change
-        $this->type = $package['type'];
-
         $this->setState('name', $installer->get('name'));
         $this->setState('result', $result);
 

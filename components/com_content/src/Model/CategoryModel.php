@@ -104,6 +104,13 @@ class CategoryModel extends ListModel
     protected $_categories = null;
 
     /**
+     * Pagination object.
+     *
+     * @var  Pagination
+     */
+    protected $_pagination = null;
+
+    /**
      * @param   array                 $config   An optional associative array of configuration settings.
      * @param   ?MVCFactoryInterface  $factory  The factory.
      *
