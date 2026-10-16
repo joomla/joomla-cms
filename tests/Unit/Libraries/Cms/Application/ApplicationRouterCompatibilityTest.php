@@ -19,15 +19,17 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Router;
 use Joomla\DI\Container;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Tests the compatibility boundary for legacy application router access.
  *
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
- *
  * @since  __DEPLOY_VERSION__
  */
+#[RunTestsInSeparateProcesses]
+#[PreserveGlobalState(false)]
 class ApplicationRouterCompatibilityTest extends UnitTestCase
 {
     /**
@@ -39,10 +41,9 @@ class ApplicationRouterCompatibilityTest extends UnitTestCase
     }
 
     /**
-     * @dataProvider applicationClasses
-     *
      * @since  __DEPLOY_VERSION__
      */
+    #[DataProvider('applicationClasses')]
     public function testRouterAccessRequiresCompatibility(string $applicationClass): void
     {
         // The guard must run before accessing the global application or router services.
@@ -69,10 +70,9 @@ class ApplicationRouterCompatibilityTest extends UnitTestCase
     }
 
     /**
-     * @dataProvider compatibleRouterCalls
-     *
      * @since  __DEPLOY_VERSION__
      */
+    #[DataProvider('compatibleRouterCalls')]
     public function testCompatibilityPreservesRouterSelection(string $applicationClass, array $arguments, string $client): void
     {
         \define('COMPAT_JOOMLA_7', true);
