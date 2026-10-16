@@ -19,8 +19,15 @@ defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
-if (array_key_exists('src', $displayData) && !empty($displayData['src'])) {
-    $displayData['src'] = $this->escape($displayData['src']);
+$attributes = [];
+
+foreach ($displayData as $attributeName => $attributeValue) {
+    // Skip invalid attribute names
+    if (!preg_match('/^[a-zA-Z][a-zA-Z0-9_:.-]*$/', $attributeName)) {
+        continue;
+    }
+
+    $attributes[$attributeName] = htmlspecialchars((string) $attributeValue, ENT_QUOTES, 'UTF-8');
 }
 
-echo '<audio ' . ArrayHelper::toString($displayData) . '></audio>';
+echo '<audio ' . ArrayHelper::toString($attributes) . '></audio>';

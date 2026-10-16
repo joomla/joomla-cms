@@ -214,6 +214,18 @@
 		</field>
 
 		<field
+			name="show_subcat_image"
+			type="radio"
+			label="JGLOBAL_SHOW_SUBCATEGORIES_IMAGE_LABEL"
+			default="0"
+			layout="joomla.form.field.radio.switcher"
+			showon="maxLevel:-1,1,2,3,4,5"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field
 			name="show_cat_items"
 			type="radio"
 			layout="joomla.form.field.radio.switcher"

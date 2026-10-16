@@ -10,13 +10,13 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\MVC\Model;
 
-use Exception;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for \Joomla\CMS\MVC\Model\BaseDatabaseModel
@@ -24,19 +24,17 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  MVC
  *
- * @testdox     The BaseDatabaseModel
- *
  * @since       4.2.0
  */
+#[TestDox('The BaseDatabaseModel')]
 class DatabaseModelTest extends UnitTestCase
 {
     /**
-     * @testdox  contains the right db and MVC factory
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('contains the right db and MVC factory')]
     public function testInjectedDatabaseAndMVCFactory()
     {
         $db         = $this->createStub(DatabaseInterface::class);
@@ -54,17 +52,16 @@ class DatabaseModelTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals($db, $model->getDatabase());
-        $this->assertEquals($mvcFactory, $model->getMVCFactory());
+        $this->assertSame($db, $model->getDatabase());
+        $this->assertSame($mvcFactory, $model->getMVCFactory());
     }
 
     /**
-     * @testdox  returns the right table
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('returns the right table')]
     public function testGetTable()
     {
         $table      = $this->createStub(Table::class);
@@ -74,16 +71,15 @@ class DatabaseModelTest extends UnitTestCase
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel {
         };
 
-        $this->assertEquals($table, $model->getTable());
+        $this->assertSame($table, $model->getTable());
     }
 
     /**
-     * @testdox  throws an exception when no table can be created
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('throws an exception when no table can be created')]
     public function testGetTableWhenNull()
     {
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
@@ -97,12 +93,11 @@ class DatabaseModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  returns the right list when the query is an object
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('returns the right list when the query is an object')]
     public function testGetListFromObject()
     {
         $db = $this->createStub(DatabaseInterface::class);
@@ -115,16 +110,15 @@ class DatabaseModelTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals([1], $model->_getList($this->getQueryStub($db), 0, 1));
+        $this->assertSame([1], $model->_getList($this->getQueryStub($db), 0, 1));
     }
 
     /**
-     * @testdox  returns the right list when the query is a string
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('returns the right list when the query is a string')]
     public function testGetListFromString()
     {
         $db = $this->createStub(DatabaseInterface::class);
@@ -138,16 +132,15 @@ class DatabaseModelTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals([1], $model->_getList('query', 0, 1));
+        $this->assertSame([1], $model->_getList('query', 0, 1));
     }
 
     /**
-     * @testdox  returns the right list count from a query object
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('returns the right list count from a query object')]
     public function testGetListCountFromObject()
     {
         $db = $this->createStub(DatabaseInterface::class);
@@ -160,16 +153,15 @@ class DatabaseModelTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals(5, $model->_getListCount($this->getQueryStub($db)));
+        $this->assertSame(5, $model->_getListCount($this->getQueryStub($db)));
     }
 
     /**
-     * @testdox  returns the right list count from a query object
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('returns the right list count from a query object')]
     public function testGetListCountFromObjectTypeSelect()
     {
         $db = $this->createStub(DatabaseInterface::class);
@@ -185,16 +177,15 @@ class DatabaseModelTest extends UnitTestCase
         $query = $this->getQueryStub($db);
         $query->select('*');
 
-        $this->assertEquals(5, $model->_getListCount($query));
+        $this->assertSame(5, $model->_getListCount($query));
     }
 
     /**
-     * @testdox  returns the right list count from a query string
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('returns the right list count from a query string')]
     public function testGetListCountFromString()
     {
         $db = $this->createStub(DatabaseInterface::class);
@@ -207,16 +198,15 @@ class DatabaseModelTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals(5, $model->_getListCount('query'));
+        $this->assertSame(5, $model->_getListCount('query'));
     }
 
     /**
-     * @testdox  can't determine the checked out state of an item that has not the required field
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox("can't determine the checked out state of an item that has not the required field")]
     public function testCheckedOutWithoutField()
     {
         $table = $this->createStub(Table::class);
@@ -232,12 +222,11 @@ class DatabaseModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can determine the checked out state of an item with the same user
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can determine the checked out state of an item with the same user')]
     public function testCheckedOutWithCheckedOutUser()
     {
         $table = $this->createStub(Table::class);
@@ -257,12 +246,11 @@ class DatabaseModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can determine the checked out state of an item with a different user
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can determine the checked out state of an item with a different user')]
     public function testCheckedOutWithNotCheckedOutUser()
     {
         $table = $this->createStub(Table::class);
@@ -282,12 +270,11 @@ class DatabaseModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can determine the checked out state of an item when the user is not set
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can determine the checked out state of an item when the user is not set')]
     public function testCheckedOutWitFieldEmptyUserSet()
     {
         $table = $this->createStub(Table::class);
