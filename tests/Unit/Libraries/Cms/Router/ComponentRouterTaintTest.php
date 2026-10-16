@@ -19,25 +19,26 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\Database\QueryInterface;
 use Joomla\DI\Container;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Tests that component redirects taint the shared router without compatibility mode.
  *
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
- *
  * @since  __DEPLOY_VERSION__
  */
+#[RunTestsInSeparateProcesses]
+#[PreserveGlobalState(false)]
 class ComponentRouterTaintTest extends UnitTestCase
 {
     /**
-     * @dataProvider componentRouters
-     *
      * @since  __DEPLOY_VERSION__
      */
+    #[DataProvider('componentRouters')]
     public function testOutdatedAliasTaintsTheSharedSiteRouter(string $routerClass, string $parseMethod): void
     {
-        $query = $this->createMock(QueryInterface::class);
+        $query = $this->createStub(QueryInterface::class);
 
         foreach (['select', 'from', 'where', 'bind'] as $method) {
             $query->method($method)->willReturnSelf();

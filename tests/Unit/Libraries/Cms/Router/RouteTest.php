@@ -17,22 +17,23 @@ use Joomla\CMS\Router\Router;
 use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Tests router service resolution and the compatibility-only legacy fallback.
  *
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
- *
  * @since  __DEPLOY_VERSION__
  */
+#[RunTestsInSeparateProcesses]
+#[PreserveGlobalState(false)]
 class RouteTest extends UnitTestCase
 {
     /**
-     * @dataProvider compatibilityModes
-     *
      * @since  __DEPLOY_VERSION__
      */
+    #[DataProvider('compatibilityModes')]
     public function testLinkUsesTheContainerRouterWithoutALegacyApplication(bool $compatibility): void
     {
         if ($compatibility) {
@@ -63,10 +64,9 @@ class RouteTest extends UnitTestCase
     }
 
     /**
-     * @dataProvider missingRouterServices
-     *
      * @since  __DEPLOY_VERSION__
      */
+    #[DataProvider('missingRouterServices')]
     public function testMissingContainerRouterRespectsCompatibility(bool $compatibility, string $serviceState): void
     {
         if ($compatibility) {
