@@ -59,6 +59,66 @@ class JFormValidator {
     };
   }
 
+  getFieldLabel(element) {
+    if (element.tagName.toLowerCase() === 'fieldset') {
+      const legend = element.querySelector('legend');
+
+      return legend ? legend.textContent.trim() : '';
+    }
+
+    const labels = element.labels ? Array.from(element.labels) : [];
+
+    for (const label of labels) {
+      const labelCopy = label.cloneNode(true);
+
+      labelCopy.querySelectorAll('.star, .form-control-feedback').forEach((item) => {
+        item.remove();
+      });
+
+      const text = labelCopy.textContent.trim().replace(/\s+/g, ' ');
+
+      if (text) {
+        return text;
+      }
+    }
+
+    return '';
+  }
+
+  escapeHtml(value) {
+    return value.replace(/[&<>"']/g, (character) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;',
+    })[character]);
+  }
+
+  buildInvalidFieldsMessage(message, invalid) {
+    const invalidFieldsets = invalid.filter(
+      (element) => element.tagName.toLowerCase() === 'fieldset'
+        && this.getFieldLabel(element) !== '',
+    );
+
+    const labels = invalid
+      .filter((element) => !invalidFieldsets.some(
+        (fieldset) => fieldset !== element && fieldset.contains(element),
+      ))
+      .map((element) => this.getFieldLabel(element))
+      .filter((label) => label !== '');
+
+    if (!labels.length) {
+      return message;
+    }
+
+    const list = labels
+      .map((label) => `<li>${this.escapeHtml(label)}</li>`)
+      .join('');
+
+    return `${message}<ul>${list}</ul>`;
+  }
+
   markValid(element) {
     // Get a label
     const label = element.form.querySelector(`label[for="${element.id}"]`);
@@ -266,6 +326,8 @@ class JFormValidator {
       } else {
         message = Joomla.Text._('JLIB_FORM_CONTAINS_INVALID_FIELDS');
       }
+
+      message = this.buildInvalidFieldsMessage(message, invalid);
 
       error = { error: [message] };
       Joomla.renderMessages(error);
