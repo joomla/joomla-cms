@@ -71,6 +71,7 @@
 							required="true"
 							hint="https://"
 							validate="url"
+							schemes="http,https"
 						/>
 					</form>
 				</field>
