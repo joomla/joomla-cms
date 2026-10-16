@@ -15,7 +15,6 @@ use Joomla\Authentication\Password\BCryptHandler;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Authentication\Password\ChainedHandler;
 use Joomla\CMS\Authentication\Password\CheckIfRehashNeededHandlerInterface;
-use Joomla\CMS\Authentication\Password\MD5Handler;
 use Joomla\CMS\Event\Model\PrepareDataEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -72,17 +71,6 @@ abstract class UserHelper
     public const HASH_BCRYPT = '2y';
 
     /**
-     * Constant defining the MD5 password algorithm for use with password hashes
-     *
-     * @var    string
-     * @since  4.0.0
-     *
-     * @deprecated  4.0 will be removed in 7.0
-     *              Support for MD5 hashed passwords will be removed use any of the other hashing methods
-     */
-    public const HASH_MD5 = 'md5';
-
-    /**
      * Mapping array for the algorithm handler
      *
      * @var array
@@ -92,7 +80,6 @@ abstract class UserHelper
         self::HASH_ARGON2I  => Argon2iHandler::class,
         self::HASH_ARGON2ID => Argon2idHandler::class,
         self::HASH_BCRYPT   => BCryptHandler::class,
-        self::HASH_MD5      => MD5Handler::class,
     ];
 
     /**
