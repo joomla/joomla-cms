@@ -59,7 +59,6 @@ class JFormValidator {
     };
   }
 
-
   getFieldLabel(element) {
     if (element.tagName.toLowerCase() === 'fieldset') {
       const legend = element.querySelector('legend');
