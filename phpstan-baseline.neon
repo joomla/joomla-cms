@@ -5444,12 +5444,13 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel\:
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
-				             Use getDatabase\(\) instead
-				             Example\: \$model\-\>getDatabase\(\);$#
+				             Use the database service in the DI container
+				             Example\:
+				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
-			identifier: method.deprecated
+			identifier: staticMethod.deprecated
 			count: 1
 			path: administrator/components/com_workflow/src/Controller/WorkflowController.php
 

@@ -11,6 +11,7 @@
 namespace Joomla\Component\Workflow\Administrator\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -183,7 +184,7 @@ class WorkflowController extends FormController
             $recordId = (int) $this->input->getInt($key);
 
             // @todo Moves queries out of the controller.
-            $db    = $model->getDbo();
+            $db    = Factory::getDbo();
             $query = $db->createQuery();
 
             $query->select('*')
