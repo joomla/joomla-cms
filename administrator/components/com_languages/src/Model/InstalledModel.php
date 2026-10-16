@@ -338,7 +338,7 @@ class InstalledModel extends ListModel
         static $folders;
         if (\is_null($folders)) {
             $path          = $this->getPath();
-            $folders = Folder::folders($path, '.', false, false, ['.svn', 'CVS', '.DS_Store', '__MACOSX', 'pdf_fonts', 'overrides']);
+            $folders       = Folder::folders($path, '.', false, false, ['.svn', 'CVS', '.DS_Store', '__MACOSX', 'pdf_fonts', 'overrides']);
         }
 
         return $folders;
