@@ -75,6 +75,12 @@ class FilterModel extends AdminModel
 
         // Check for a database error.
         if ($return === false && $filter->getError()) {
+            if ($this->shouldUseExceptions()) {
+                $error = $filter->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($filter->getError());
 
             return false;
