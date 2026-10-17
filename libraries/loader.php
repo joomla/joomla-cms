@@ -702,7 +702,7 @@ if (!\function_exists('jexit')) {
      * @return  never
      *
      * @codeCoverageIgnore
-     * @since   1.7.0
+     * @since   1.5.2
      */
     function jexit($message = 0): never
     {
