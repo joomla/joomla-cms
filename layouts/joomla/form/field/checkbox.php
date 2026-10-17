@@ -45,6 +45,7 @@ extract($displayData);
  * @var   boolean        $checked         Whether the checkbox should be checked.
  * @var   string         $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array          $dataAttributes  Miscellaneous data attribute for eg, data-*.
+ * @var   boolean        $emptyValueWhenUnselected  Submit an empty value when nothing is selected.
  */
 
 // Initialize some field attributes.
@@ -60,6 +61,12 @@ $onchange = $onchange ? ' onchange="' . $onchange . '"' : '';
 
 ?>
 <div class="form-check form-check-inline">
+    <?php
+    // Submit an empty value when nothing is checked,
+    // because browser does not submit anything when <input type="checkbox"> is unchecked.
+    if (!empty($emptyValueWhenUnselected)) : ?>
+    <input type="hidden" name="<?php echo $name; ?>" value="">
+    <?php endif; ?>
     <input
         type="checkbox"
         name="<?php echo $name; ?>"
