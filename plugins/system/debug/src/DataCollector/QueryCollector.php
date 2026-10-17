@@ -12,7 +12,8 @@ namespace Joomla\Plugin\System\Debug\DataCollector;
 
 use DebugBar\DataCollector\AssetProvider;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Database\Monitor\DebugMonitor;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\QueryMonitorInterface;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 use Joomla\Registry\Registry;
 
@@ -38,7 +39,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
     /**
      * The query monitor.
      *
-     * @var    DebugMonitor
+     * @var    QueryMonitorInterface
      * @since  4.0.0
      */
     private $queryMonitor;
@@ -62,7 +63,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
     /**
      * Accumulated Duration.
      *
-     * @var   integer
+     * @var   int
      * @since 4.0.0
      */
     private $accumulatedDuration = 0;
@@ -70,7 +71,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
     /**
      * Accumulated Memory.
      *
-     * @var   integer
+     * @var   int
      * @since 4.0.0
      */
     private $accumulatedMemory = 0;
@@ -78,14 +79,14 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
     /**
      * Constructor.
      *
-     * @param   Registry      $params        Parameters.
-     * @param   DebugMonitor  $queryMonitor  Query monitor.
-     * @param   array         $profiles      Profile data.
-     * @param   array         $explains      Explain data
+     * @param   Registry               $params        Parameters.
+     * @param   QueryMonitorInterface  $queryMonitor  Query monitor.
+     * @param   array                  $profiles      Profile data.
+     * @param   array                  $explains      Explain data
      *
      * @since 4.0.0
      */
-    public function __construct(Registry $params, DebugMonitor $queryMonitor, array $profiles, array $explains)
+    public function __construct(Registry $params, QueryMonitorInterface $queryMonitor, array $profiles, array $explains)
     {
         $this->queryMonitor = $queryMonitor;
 
@@ -209,7 +210,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
             if (isset($stacks[$id])) {
                 $cnt = 0;
 
-                foreach ($stacks[$id] as $i => $stack) {
+                foreach ($stacks[$id] as $stack) {
                     $class = $stack['class'] ?? '';
                     $file  = $stack['file'] ?? '';
                     $line  = $stack['line'] ?? '';
@@ -219,7 +220,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 
                     $isCaller = 0;
 
-                    if (\Joomla\Database\DatabaseDriver::class === $class && !str_contains($file, 'DatabaseDriver.php')) {
+                    if (DatabaseDriver::class === $class && !str_contains($file, 'DatabaseDriver.php')) {
                         $callerLocation = $location;
                         $isCaller       = 1;
                     }
