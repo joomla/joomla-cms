@@ -13,7 +13,10 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\Exception\CheckinCheckoutException;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Table\Exception\DuplicateEntryException;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
@@ -70,6 +73,10 @@ class Menu extends Nested
     {
         // Verify that the default home menu is not unset
         if ($this->home == '1' && $this->language === '*' && $array['home'] == '0') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT_DEFAULT'));
+            }
+
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT_DEFAULT'));
 
             return false;
@@ -77,6 +84,10 @@ class Menu extends Nested
 
         // Verify that the default home menu set to "all" languages" is not unset
         if ($this->home == '1' && $this->language === '*' && $array['language'] !== '*') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT'));
+            }
+
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT'));
 
             return false;
@@ -84,6 +95,10 @@ class Menu extends Nested
 
         // Verify that the default home menu is not unpublished
         if ($this->home == '1' && $this->language === '*' && $array['published'] != '1') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
+            }
+
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
 
             return false;
@@ -110,6 +125,10 @@ class Menu extends Nested
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -117,6 +136,10 @@ class Menu extends Nested
 
         // Check for a title.
         if ($this->title === null || trim($this->title) === '') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MENUITEM'));
+            }
+
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MENUITEM'));
 
             return false;
@@ -142,6 +165,10 @@ class Menu extends Nested
 
         // Verify that the home item is a component.
         if ($this->home && $this->type !== 'component') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_COMPONENT'));
+            }
+
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_COMPONENT'));
 
             return false;
@@ -183,6 +210,10 @@ class Menu extends Nested
         if ($this->parent_id == 1 && $this->client_id == 0) {
             // Verify that a first level menu item alias is not 'component'.
             if ($this->alias === 'component') {
+                if ($this->shouldUseExceptions()) {
+                    throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
+                }
+
                 $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
 
                 return false;
@@ -190,6 +221,10 @@ class Menu extends Nested
 
             // Verify that a first level menu item alias is not the name of a folder.
             if (\in_array($this->alias, Folder::folders(JPATH_ROOT))) {
+                if ($this->shouldUseExceptions()) {
+                    throw new ValidationException(Text::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
+                }
+
                 $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
 
                 return false;
@@ -247,6 +282,14 @@ class Menu extends Nested
                 $url = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $table->id);
 
                 // Is the existing menu item trashed?
+                if ($this->shouldUseExceptions()) {
+                    $message = $table->published === -2
+                        ? Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_TRASHED', $this->alias, $table->title, $menuTypeTable->title, $url)
+                        : Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title, $url);
+
+                    throw new DuplicateEntryException($message, 'alias');
+                }
+
                 $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title, $url));
 
                 if ($table->published === -2) {
@@ -261,6 +304,10 @@ class Menu extends Nested
             // Verify that the home page for this language is unique per client id
             if ($table->load(['home' => '1', 'language' => $this->language, 'client_id' => (int) $this->client_id])) {
                 if ($table->checked_out && $table->checked_out != $this->checked_out) {
+                    if ($this->shouldUseExceptions()) {
+                        throw new CheckinCheckoutException(Text::_('JLIB_DATABASE_ERROR_MENU_DEFAULT_CHECKIN_USER_MISMATCH'));
+                    }
+
                     $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_DEFAULT_CHECKIN_USER_MISMATCH'));
 
                     return false;
