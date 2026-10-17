@@ -103,9 +103,10 @@ class AdministratorApplication extends CMSApplication
 
         // Load the document to the API
         $this->loadDocument();
+        $document = $this->getDocument();
 
-        // Set up the params
-        $document = Factory::getDocument();
+        // Register the document object with Factory for legacy access
+        Factory::$document = $document;
 
         switch ($document->getType()) {
             case 'html':
