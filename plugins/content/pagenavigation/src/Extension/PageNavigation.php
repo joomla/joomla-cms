@@ -64,11 +64,6 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
 
         $app   = $this->getApplication();
         $view  = $app->getInput()->get('view');
-        $print = $app->getInput()->getBool('print');
-
-        if ($print) {
-            return;
-        }
 
         if ($context === 'com_content.article' && $view === 'article' && $params->get('show_item_navigation')) {
             $db         = $this->getDatabase();
