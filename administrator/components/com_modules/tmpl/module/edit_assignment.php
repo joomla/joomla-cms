@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -20,11 +21,18 @@ use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
 // Initialise related data.
 $menuTypes = MenusHelper::getMenuLinks();
-
-$this->getDocument()->getWebAssetManager()
-    ->useScript('joomla.treeselectmenu')
+$wa = $this->getDocument()->getWebAssetManager();
+$wa->useScript('joomla.treeselectmenu')
     ->useScript('com_modules.admin-module-edit-assignment');
 
+$params = ComponentHelper::getParams('com_modules');
+
+$inheritEnabled = $params->get('enable_inherit', 0);
+
+if ($inheritEnabled) {
+    $wa->usePreset('com_modules.admin-module-inherit');
+    Text::script('COM_MODULES_INHERITED_BADGE');
+}
 ?>
 <div class="control-group">
     <label id="jform_menus-lbl" class="control-label" for="jform_assignment"><?php echo Text::_('COM_MODULES_MODULE_ASSIGN'); ?></label>
@@ -87,6 +95,13 @@ $this->getDocument()->getWebAssetManager()
                             } elseif ($this->item->assignment > 0) {
                                 $selected = in_array($link->value, $this->item->assigned);
                             }
+
+                            $isParent = false;
+                            $nextId = $i + 1;
+                            if (isset($type->links[$nextId])) {
+                                $nextLevel = $type->links[$nextId]->level;
+                                $isParent = $link->level < $nextLevel;
+                            }
                             ?>
                             <li>
                                 <div class="treeselect-item">
@@ -112,6 +127,31 @@ $this->getDocument()->getWebAssetManager()
                                             <?php echo ' <span class="badge bg-secondary">' . Text::_('COM_MODULES_MENU_ITEM_' . strtoupper($link->type)) . '</span>'; ?>
                                         <?php endif; ?>
                                     </label>
+                                    <?php if ($inheritEnabled) : ?>
+                                        <?php if ($isParent && $link->level != 0 && !$uselessMenuItem) : ?>
+                                            <?php
+                                            $inheritValue = (int) ($this->item->inherit[$link->value] ?? 0);
+                                            $inheritId    = 'jform_inherit' . (int) $link->value;
+                                            $inheritTitle = strip_tags($link->text);
+                                            ?>
+                                            <span class="module-inherit-control">
+                                                <label class="module-inherit-label" for="<?php echo $inheritId; ?>"><?php echo Text::_('COM_MODULES_INHERIT_TO_LABEL'); ?></label>
+                                                <select
+                                                    id="<?php echo $inheritId; ?>"
+                                                    class="form-select form-select-sm"
+                                                    data-inherit-menu-id="<?php echo (int) $link->value; ?>"
+                                                    data-inherit-menu-title="<?php echo $this->escape($inheritTitle); ?>"
+                                                    aria-label="<?php echo $this->escape(Text::sprintf('COM_MODULES_INHERIT_TO_MENU_ITEM_LABEL', $inheritTitle)); ?>"
+                                                >
+                                                    <option value="0"<?php echo $inheritValue === 0 ? ' selected' : ''; ?>><?php echo Text::_('COM_MODULES_INHERIT_NOT_SET'); ?></option>
+                                                    <option value="1"<?php echo $inheritValue === 1 ? ' selected' : ''; ?>><?php echo Text::_('COM_MODULES_INHERIT_DIRECT'); ?></option>
+                                                    <option value="2"<?php echo $inheritValue === 2 ? ' selected' : ''; ?>><?php echo Text::_('COM_MODULES_INHERIT_ALL'); ?></option>
+                                                </select>
+                                            </span>
+                                        <?php endif; ?>
+                                        <span class="module-inherit-lock-badge badge bg-info d-none"></span>
+                                        <input type="hidden" name="jform[inherit][<?php echo (int) $link->value; ?>]" value="<?php echo (int) ($this->item->inherit[$link->value] ?? 0); ?>">
+                                    <?php endif; ?>
                                 </div>
                             <?php
 
