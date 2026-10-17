@@ -235,7 +235,8 @@ final class Cache extends CMSPlugin implements SubscriberInterface, DispatcherAw
         return $isSite
             && $isGET
             && $app->getIdentity()->guest
-            && empty($app->getMessageQueue());
+            && empty($app->getMessageQueue())
+            && empty($app->getDocument()->error);
     }
 
     /**
