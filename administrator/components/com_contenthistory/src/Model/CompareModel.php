@@ -14,9 +14,11 @@ use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFoundException;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper;
 
@@ -54,6 +56,10 @@ class CompareModel extends ListModel
         $id2 = $input->getInt('id2');
 
         if (!$id1 || \is_array($id1) || !$id2 || \is_array($id2)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_CONTENTHISTORY_ERROR_INVALID_ID'));
+            }
+
             $this->setError(Text::_('COM_CONTENTHISTORY_ERROR_INVALID_ID'));
 
             return false;
@@ -62,6 +68,10 @@ class CompareModel extends ListModel
         $result = [];
 
         if (!$table1->load($id1) || !$table2->load($id2)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ResourceNotFoundException(Text::_('COM_CONTENTHISTORY_ERROR_VERSION_NOT_FOUND'));
+            }
+
             $this->setError(Text::_('COM_CONTENTHISTORY_ERROR_VERSION_NOT_FOUND'));
 
             // Assume a failure to load the content means broken data, abort mission
@@ -76,6 +86,10 @@ class CompareModel extends ListModel
         $typeAlias        = implode('.', $typeAlias);
 
         if (!$contentTypeTable->load(['type_alias' => $typeAlias])) {
+            if ($this->shouldUseExceptions()) {
+                throw new ResourceNotFoundException(Text::_('COM_CONTENTHISTORY_ERROR_FAILED_LOADING_CONTENT_TYPE'));
+            }
+
             $this->setError(Text::_('COM_CONTENTHISTORY_ERROR_FAILED_LOADING_CONTENT_TYPE'));
 
             // Assume a failure to load the content type means broken data, abort mission
