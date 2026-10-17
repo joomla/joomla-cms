@@ -387,11 +387,12 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
 
         // Find the user id for the given email address.
         $db    = $this->getDatabase();
+        $email = trim($data['email']);
         $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
             ->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')
-            ->bind(':email', $data['email']);
+            ->bind(':email', $email);
 
         // Get the user object.
         $db->setQuery($query);
