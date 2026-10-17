@@ -519,20 +519,47 @@ class Indexer
          * table have a term of 0, then no term record exists for that
          * term so we need to add it to the terms table.
          */
-        $db->setQuery(
-            'INSERT INTO ' . $db->quoteName('#__finder_terms') .
-            ' (' . $db->quoteName('term') .
-            ', ' . $db->quoteName('stem') .
-            ', ' . $db->quoteName('common') .
-            ', ' . $db->quoteName('phrase') .
-            ', ' . $db->quoteName('weight') .
-            ', ' . $db->quoteName('soundex') .
-            ', ' . $db->quoteName('language') . ')' .
-            ' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language' .
-            ' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
-            ' WHERE ta.term_id = 0' .
-            ' GROUP BY ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language'
-        );
+        $select = $db->getQuery(true)
+            ->select([
+                $db->quoteName('ta.term'),
+                $db->quoteName('ta.stem'),
+                $db->quoteName('ta.common'),
+                $db->quoteName('ta.phrase'),
+                $db->quoteName('ta.term_weight'),
+                'SOUNDEX(' . $db->quoteName('ta.term') . ') AS ' . $db->quoteName('soundex'),
+                $db->quoteName('ta.language'),
+            ])
+            ->from($db->quoteName('#__finder_tokens_aggregate', 'ta'))
+            ->leftJoin(
+                $db->quoteName('#__finder_terms', 'ft') . ' ON ' . $db->quoteName('ft.term') . ' = ' . $db->quoteName('ta.term') . ' AND ' . $db->quoteName('ft.language') . ' = ' . $db->quoteName('ta.language')
+            )
+            ->where($db->quoteName('ta.term_id') . ' = :termid')
+            ->andWhere($db->quoteName('ft.term_id') . ' IS NULL')
+            ->group(
+                $db->quoteName('ta.term') . ', ' .
+                $db->quoteName('ta.stem') . ', ' .
+                $db->quoteName('ta.common') . ', ' .
+                $db->quoteName('ta.phrase') . ', ' .
+                $db->quoteName('ta.term_weight') . ', SOUNDEX(' . $db->quoteName('ta.term') . '), ' .
+                $db->quoteName('ta.language')
+            );
+
+        $select->bind(':termid', 0, ParameterType::INTEGER);
+
+        $insert = $db->getQuery(true)
+            ->insert($db->quoteName('#__finder_terms'))
+            ->columns([
+                $db->quoteName('term'),
+                $db->quoteName('stem'),
+                $db->quoteName('common'),
+                $db->quoteName('phrase'),
+                $db->quoteName('weight'),
+                $db->quoteName('soundex'),
+                $db->quoteName('language'),
+            ])
+            ->select($select);
+
+        $db->setQuery($insert);
         $db->execute();
 
         /*
