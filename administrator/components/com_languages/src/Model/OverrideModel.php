@@ -123,7 +123,7 @@ class OverrideModel extends AdminModel
     public function getItem($pk = null)
     {
         $input    = Factory::getApplication()->getInput();
-        $pk       = !empty($pk) ? $pk : $input->get('id');
+        $pk       = !empty($pk) ? $pk : $input->get('id', '');
         $fileName = \constant('JPATH_' . strtoupper($this->getState('filter.client')))
             . '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
         $strings  = LanguageHelper::parseIniFile($fileName);
@@ -140,7 +140,7 @@ class OverrideModel extends AdminModel
         $oppositeFileName = \constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site'))
             . '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
         $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFileName);
-        $result->both     = isset($oppositeStrings[$pk]) && ($oppositeStrings[$pk] == $strings[$pk]);
+        $result->both     = isset($oppositeStrings[$pk], $strings[$pk]) && ($oppositeStrings[$pk] == $strings[$pk]);
 
         return $result;
     }
@@ -186,16 +186,17 @@ class OverrideModel extends AdminModel
         // Parse the override.ini file in order to get the keys and strings.
         $fileName = \constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini';
         $strings  = LanguageHelper::parseIniFile($fileName);
+        $id       = $data['id'] ?? '';
 
-        if (isset($strings[$data['id']])) {
+        if (isset($strings[$id])) {
             // If an existent string was edited check whether
             // the name of the constant is still the same.
-            if ($data['key'] == $data['id']) {
+            if ($data['key'] == $id) {
                 // If yes, simply override it.
                 $strings[$data['key']] = $data['override'];
             } else {
                 // If no, delete the old string and prepend the new one.
-                unset($strings[$data['id']]);
+                unset($strings[$id]);
                 $strings = [$data['key'] => $data['override']] + $strings;
             }
         } else {
