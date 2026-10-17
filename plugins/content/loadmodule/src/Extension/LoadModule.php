@@ -85,7 +85,7 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
         $regexmod = '/{loadmodule\s(.*?)}/i';
 
         // Expression to search for(id)
-        $regexmodid = '/{loadmoduleid\s([1-9][0-9]*)}/i';
+        $regexmodid = '/{loadmoduleid\s([1-9][0-9]*)(?:[^\}]*)\}/i';
 
         // Remove macros and don't run this plugin when the content is being indexed
         if ($context === 'com_finder.indexer') {
