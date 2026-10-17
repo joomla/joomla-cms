@@ -41,34 +41,34 @@ class TelFilterTest extends UnitTestCase
     {
         return [
             // North American Numbering Plan, in each of the shapes the pattern accepts.
-            'NANP with brackets and spaces'   => ['1.2025550125', '(202) 555-0125'],
-            'NANP with dots'                  => ['1.2025550125', '202.555.0125'],
-            'NANP with hyphens'               => ['1.2025550125', '202-555-0125'],
-            'NANP with a leading +1'          => ['1.2025550125', '+1 202 555 0125'],
-            'NANP with a leading 1'           => ['1.2025550125', '1-202-555-0125'],
-            'NANP with surrounding spaces'    => ['1.2025550125', '  (202) 555-0125  '],
+            'NANP with brackets and spaces' => ['1.2025550125', '(202) 555-0125'],
+            'NANP with dots'                => ['1.2025550125', '202.555.0125'],
+            'NANP with hyphens'             => ['1.2025550125', '202-555-0125'],
+            'NANP with a leading +1'        => ['1.2025550125', '+1 202 555 0125'],
+            'NANP with a leading 1'         => ['1.2025550125', '1-202-555-0125'],
+            'NANP with surrounding spaces'  => ['1.2025550125', '  (202) 555-0125  '],
 
             // ITU-T, which splits the country code off at the first space.
-            'ITU-T'                           => ['44.2079460000', '+44 2079460000'],
+            'ITU-T' => ['44.2079460000', '+44 2079460000'],
 
             // EPP, which keeps the country code and drops any extension.
-            'EPP'                             => ['44.2079460000', '+44.2079460000'],
-            'EPP with an extension'           => ['44.2079460000', '+44.2079460000x123'],
+            'EPP'                   => ['44.2079460000', '+44.2079460000'],
+            'EPP with an extension' => ['44.2079460000', '+44.2079460000x123'],
 
             // Already in the stored shape.
-            'already normalised'              => ['44.2079460000', '44.2079460000'],
+            'already normalised' => ['44.2079460000', '44.2079460000'],
 
             // Fallback: reduce to digits, then split a country code off the front when there are
             // more than twelve of them.
-            'seven digits stay local'         => ['.5550125', '5550125'],
-            'twelve digits stay local'        => ['.123456789012', '123456789012'],
-            'thirteen digits gain a code'     => ['1.234567890123', '1234567890123'],
-            'fifteen digits gain a code'      => ['123.456789012345', '123456789012345'],
+            'seven digits stay local'     => ['.5550125', '5550125'],
+            'twelve digits stay local'    => ['.123456789012', '123456789012'],
+            'thirteen digits gain a code' => ['1.234567890123', '1234567890123'],
+            'fifteen digits gain a code'  => ['123.456789012345', '123456789012345'],
 
             // Anything the fallback cannot use is discarded.
-            'sixteen digits are discarded'    => ['', '1234567890123456'],
-            'letters only'                    => ['', 'not a number'],
-            'empty string'                    => ['', ''],
+            'sixteen digits are discarded' => ['', '1234567890123456'],
+            'letters only'                 => ['', 'not a number'],
+            'empty string'                 => ['', ''],
         ];
     }
 

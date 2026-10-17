@@ -38,12 +38,12 @@ class UnsetFilterTest extends UnitTestCase
     public static function dataFilter(): array
     {
         return [
-            'string'  => ['a value'],
-            'empty'   => [''],
-            'zero'    => [0],
-            'null'    => [null],
-            'array'   => [['a', 'b']],
-            'object'  => [(object) ['title' => 'Test']],
+            'string' => ['a value'],
+            'empty'  => [''],
+            'zero'   => [0],
+            'null'   => [null],
+            'array'  => [['a', 'b']],
+            'object' => [(object) ['title' => 'Test']],
         ];
     }
 

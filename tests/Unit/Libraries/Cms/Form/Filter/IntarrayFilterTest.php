@@ -39,15 +39,15 @@ class IntarrayFilterTest extends UnitTestCase
     public static function dataFilter(): array
     {
         return [
-            'numeric string is wrapped'      => [[5], '5'],
-            'array of numeric strings'       => [[1, 2], ['1', '2']],
-            'non numeric member becomes 0'   => [[1, 2, 0], ['1', '2', 'x']],
-            'empty array stays empty'        => [[], []],
-            'string keys are preserved'      => [['x' => 7], ['x' => '7']],
-            'non numeric string becomes 0'   => [[0], 'abc'],
-            'null becomes zero'              => [[0], null],
-            'float is truncated'             => [[3], 3.9],
-            'boolean true'                   => [[1], true],
+            'numeric string is wrapped'    => [[5], '5'],
+            'array of numeric strings'     => [[1, 2], ['1', '2']],
+            'non numeric member becomes 0' => [[1, 2, 0], ['1', '2', 'x']],
+            'empty array stays empty'      => [[], []],
+            'string keys are preserved'    => [['x' => 7], ['x' => '7']],
+            'non numeric string becomes 0' => [[0], 'abc'],
+            'null becomes zero'            => [[0], null],
+            'float is truncated'           => [[3], 3.9],
+            'boolean true'                 => [[1], true],
         ];
     }
 

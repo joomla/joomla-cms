@@ -42,15 +42,15 @@ class RulesFilterTest extends UnitTestCase
     public static function dataPermissions(): array
     {
         return [
-            'string one is allow'        => [true, '1'],
-            'string true is allow'       => [true, 'true'],
-            'integer one is allow'       => [true, 1],
-            'boolean true is allow'      => [true, true],
-            'leading zero is allow'      => [true, '01'],
-            'string zero is deny'        => [false, '0'],
-            'string false is deny'       => [false, 'false'],
-            'arbitrary string is deny'   => [false, 'nonsense'],
-            'minus one is deny'          => [false, '-1'],
+            'string one is allow'      => [true, '1'],
+            'string true is allow'     => [true, 'true'],
+            'integer one is allow'     => [true, 1],
+            'boolean true is allow'    => [true, true],
+            'leading zero is allow'    => [true, '01'],
+            'string zero is deny'      => [false, '0'],
+            'string false is deny'     => [false, 'false'],
+            'arbitrary string is deny' => [false, 'nonsense'],
+            'minus one is deny'        => [false, '-1'],
         ];
     }
 
