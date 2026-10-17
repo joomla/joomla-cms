@@ -14,6 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Registry\Registry;
 
 /** @var \Joomla\Component\Finder\Administrator\View\Filter\HtmlView $this */
 
@@ -29,6 +30,8 @@ $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_finder.finder-edit');
+
+$filterParams = new Registry($this->item->params ?? '');
 
 ?>
 
@@ -53,7 +56,7 @@ $wa->useScript('keepalive')
                     <hr>
                 <?php endif; ?>
 
-                <?php echo HTMLHelper::_('filter.slider', ['selected_nodes' => $this->filter->data]); ?>
+                <?php echo HTMLHelper::_('filter.slider', ['selected_nodes' => $this->filter->data, 'active_user_only' => (int) $filterParams->get('active_user_only')]); ?>
             </div>
             <div class="col-lg-3">
                 <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
