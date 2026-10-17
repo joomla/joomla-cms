@@ -32,7 +32,7 @@ export const compressFileAndSave = async (file, enableBrotli = false) => {
     });
     const brotliRun = !enableBrotli
       ? Promise.resolve()
-      : brotliEncode(content).then(() => {
+      : brotliEncode(content).then((data) => {
           return writeFile(`${file}.br`, data);
         });
 
