@@ -331,6 +331,9 @@ class SubformField extends FormField
     /**
      * Loads the form instance for the subform.
      *
+     * Uses the parent form's subform registry to cache and reuse subform
+     * instances, avoiding repeated XML parsing for the same subform source.
+     *
      * @return  Form  The form instance.
      *
      * @throws  \InvalidArgumentException if no form provided.
@@ -348,7 +351,20 @@ class SubformField extends FormField
 
         // Prepare the form template
         $formname = 'subform.' . str_replace(['jform[', '[', ']'], ['', '.', ''], $this->name);
-        $tmpl     = Form::getInstance($formname, $this->formsource, ['control' => $control]);
+
+        // Check the parent form's subform registry first
+        $parentForm = $this->form;
+
+        if ($parentForm && $parentForm->hasSubForm($formname)) {
+            return $parentForm->getSubForm($formname);
+        }
+
+        $tmpl = Form::getInstance($formname, $this->formsource, ['control' => $control]);
+
+        // Store in the parent form's subform registry for reuse
+        if ($parentForm) {
+            $parentForm->setSubForm($formname, $tmpl);
+        }
 
         return $tmpl;
     }
@@ -374,15 +390,28 @@ class SubformField extends FormField
         }
 
         // Multiple rows possible: Construct array and bind values to their respective forms.
-        $forms = [];
-        $value = array_values($value);
+        $forms      = [];
+        $value      = array_values($value);
+        $parentForm = $this->form;
 
         // Show as many rows as we have values, but at least min and at most max.
         $c = max($this->min, min(\count($value), $this->max));
 
         for ($i = 0; $i < $c; $i++) {
-            $control  = $this->name . '[' . $this->fieldname . $i . ']';
-            $itemForm = Form::getInstance($subForm->getName() . $i, $this->formsource, ['control' => $control]);
+            $control      = $this->name . '[' . $this->fieldname . $i . ']';
+            $itemFormName = $subForm->getName() . $i;
+
+            // Check the parent form's subform registry first
+            if ($parentForm && $parentForm->hasSubForm($itemFormName)) {
+                $itemForm = $parentForm->getSubForm($itemFormName);
+            } else {
+                $itemForm = Form::getInstance($itemFormName, $this->formsource, ['control' => $control]);
+
+                // Store in the parent form's subform registry for reuse
+                if ($parentForm) {
+                    $parentForm->setSubForm($itemFormName, $itemForm);
+                }
+            }
 
             if (!empty($value[$i])) {
                 $itemForm->bind($value[$i]);

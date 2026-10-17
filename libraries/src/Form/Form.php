@@ -110,6 +110,18 @@ class Form implements CurrentUserInterface
     public $repeat = false;
 
     /**
+     * Registry for cached subform instances.
+     *
+     * Stores child Form objects that have been loaded for subform fields,
+     * keyed by subform name. This avoids repeatedly parsing and loading
+     * the same subform XML definition within a single parent form context.
+     *
+     * @var    Form[]
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $subforms = [];
+
+    /**
      * Method to instantiate the form object.
      *
      * @param   string  $name     The name of the form.
@@ -127,6 +139,65 @@ class Form implements CurrentUserInterface
 
         // Set the options if specified.
         $this->options['control'] = $options['control'] ?? false;
+    }
+
+    /**
+     * Get a cached subform instance from the registry.
+     *
+     * @param   string  $name  The name of the subform.
+     *
+     * @return  Form|null  The cached Form instance or null if not found.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getSubForm(string $name): ?Form
+    {
+        return $this->subforms[$name] ?? null;
+    }
+
+    /**
+     * Store a subform instance in the registry.
+     *
+     * @param   string  $name  The name of the subform.
+     * @param   Form    $form  The Form instance to cache.
+     *
+     * @return  static  This form instance for method chaining.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setSubForm(string $name, Form $form): static
+    {
+        $this->subforms[$name] = $form;
+
+        return $this;
+    }
+
+    /**
+     * Check whether a subform instance exists in the registry.
+     *
+     * @param   string  $name  The name of the subform.
+     *
+     * @return  boolean  True if the subform exists in the registry.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function hasSubForm(string $name): bool
+    {
+        return isset($this->subforms[$name]);
+    }
+
+    /**
+     * Clear all cached subform instances from the registry.
+     *
+     * @return  static  This form instance for method chaining.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function clearSubForms(): static
+    {
+        $this->subforms = [];
+
+        return $this;
     }
 
     /**
