@@ -145,23 +145,38 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 
 <jdoc:include type="modules" name="customtop" style="none" />
 
+<?php
+$logoInput = \Joomla\CMS\Factory::getApplication()->getInput();
+
+$isHomeDashboard =
+    $logoInput->getCmd('option', 'com_cpanel') === 'com_cpanel'
+    && $logoInput->getCmd('view', 'cpanel') === 'cpanel'
+    && $logoInput->getCmd('dashboard', '') === '';
+?>
+
 <?php // Header ?>
 <header id="header" class="header">
     <div class="header-inside">
         <div class="header-title d-flex">
             <div class="d-flex align-items-center">
-                <?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
-                <?php if ($hiddenMenu || $cpanel) : ?>
+                <?php // No home link in edit mode so users cannot jump out (for a11y purposes)?>
+               <?php if ($hiddenMenu) : ?>
                     <div class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>">
-                        <?php echo HTMLHelper::_('image', $logoBrandLarge, $logoBrandLargeAlt, ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
-                        <?php echo HTMLHelper::_('image', $logoBrandSmall, $logoBrandSmallAlt, ['class' => 'logo-collapsed', 'loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
-                    </div>
+                        <?php echo HTMLHelper::_('image', $logoBrandLarge, 'Joomla!', ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
+                        <?php echo HTMLHelper::_('image', $logoBrandSmall, 'Joomla!', ['class' => 'logo-collapsed', 'loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
+            </div>
                 <?php else : ?>
-                    <a class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>" href="<?php echo Route::_('index.php'); ?>">
-                        <?php echo HTMLHelper::_('image', $logoBrandLarge, Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'), ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
-                        <?php echo HTMLHelper::_('image', $logoBrandSmall, Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'), ['class' => 'logo-collapsed', 'loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
-                    </a>
+                    <a
+                        class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>"
+                        href="<?php echo Route::_('index.php'); ?>"
+                        <?php if ($isHomeDashboard) : ?>
+                        aria-current="page"
                 <?php endif; ?>
+                    >
+        <?php echo HTMLHelper::_('image', $logoBrandLarge, Text::_('TPL_ATUM_JOOMLA_HOME_DASHBOARD'), ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
+        <?php echo HTMLHelper::_('image', $logoBrandSmall, Text::_('TPL_ATUM_JOOMLA_HOME_DASHBOARD'), ['class' => 'logo-collapsed', 'loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
+    </a>
+<?php endif; ?>
             </div>
             <jdoc:include type="modules" name="title" />
         </div>
