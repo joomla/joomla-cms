@@ -106,7 +106,7 @@ abstract class JsonApiView extends JsonView
      *
      * @param   ?array  $items  Array of items
      *
-     * @return  string
+     * @return  void
      *
      * @since   4.0.0
      */
@@ -194,8 +194,6 @@ abstract class JsonApiView extends JsonView
 
         // Set the data into the document and render it
         $this->getDocument()->setData($collection);
-
-        return $this->getDocument()->render();
     }
 
     /**
@@ -203,7 +201,7 @@ abstract class JsonApiView extends JsonView
      *
      * @param   object  $item  Item
      *
-     * @return  string
+     * @return  void
      *
      * @since   4.0.0
      */
@@ -248,8 +246,6 @@ abstract class JsonApiView extends JsonView
 
         $this->getDocument()->setData($element);
         $this->getDocument()->addLink('self', Uri::current());
-
-        return $this->getDocument()->render();
     }
 
     /**
