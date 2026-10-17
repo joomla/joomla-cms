@@ -1330,7 +1330,7 @@ class Installer implements DatabaseAwareInterface
                     $db->setQuery($query)->execute();
                 } catch (\RuntimeException $e) {
                     if (!$canFail) {
-                        $errorMessage = Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage());
+                        $errorMessage = Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage() . ' (' . $file . ')');
 
                         // Log the error in the update log file
                         Log::add(Text::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), Log::INFO, 'Update');
