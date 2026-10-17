@@ -458,7 +458,7 @@
 			type="list"
 			label="COM_CONTENT_URL_FIELD_A_BROWSERNAV_LABEL"
 			default="Parent"
-			filter="int"
+			filter="integer"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 			validate="options"
 			>
@@ -473,7 +473,7 @@
 			type="list"
 			label="COM_CONTENT_URL_FIELD_B_BROWSERNAV_LABEL"
 			default="Parent"
-			filter="int"
+			filter="integer"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 			validate="options"
 			>
@@ -488,7 +488,7 @@
 			type="list"
 			label="COM_CONTENT_URL_FIELD_C_BROWSERNAV_LABEL"
 			default="Parent"
-			filter="int"
+			filter="integer"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 			validate="options"
 			>
