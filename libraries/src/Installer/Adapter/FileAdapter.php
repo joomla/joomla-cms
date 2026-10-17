@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Text;
@@ -224,7 +225,7 @@ class FileAdapter extends InstallerAdapter
             $element      = preg_replace('/\.xml/', '', basename($manifestPath));
         }
 
-        return $element;
+        return strtolower(InputFilter::getInstance()->clean($element, 'cmd'));
     }
 
     /**
