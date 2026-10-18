@@ -64,8 +64,13 @@ describe('Test that content categories API endpoint', () => {
   });
 
   it('can delete a category', () => {
-    cy.db_createCategory({ title: 'automated test content category', extension: 'com_content', published: -2 })
-      .then((category) => cy.api_delete(`/content/categories/${category}`))
-      .then((response) => cy.wrap(response).its('status').should('equal', 204));
+    cy.api_post('/content/categories', { title: 'automated test content category', parent_id: 1, extension: 'com_content', published: -2 })
+      .then((response) => response.body.data.id)
+      .then((id) => cy.api_delete(`/content/categories/${id}`).then((response) => {
+        expect(response.status).to.equal(204);
+        return id;
+      }))
+      .then((id) => cy.task('queryDB', `SELECT id FROM #__categories WHERE id = ${id}`))
+      .then((rows) => expect(rows).to.have.length(0));
   });
 });
