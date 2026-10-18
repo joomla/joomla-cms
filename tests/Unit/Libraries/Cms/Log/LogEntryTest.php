@@ -37,18 +37,18 @@ class LogEntryTest extends UnitTestCase
     public static function dataPriorities(): array
     {
         return [
-            'emergency'                    => [Log::EMERGENCY, Log::EMERGENCY],
-            'alert'                        => [Log::ALERT, Log::ALERT],
-            'critical'                     => [Log::CRITICAL, Log::CRITICAL],
-            'error'                        => [Log::ERROR, Log::ERROR],
-            'warning'                      => [Log::WARNING, Log::WARNING],
-            'notice'                       => [Log::NOTICE, Log::NOTICE],
-            'info'                         => [Log::INFO, Log::INFO],
-            'debug'                        => [Log::DEBUG, Log::DEBUG],
-            'unknown falls back to info'   => [Log::INFO, 999],
-            'zero falls back to info'      => [Log::INFO, 0],
-            'null falls back to info'      => [Log::INFO, null],
-            'numeric string is not a hit'  => [Log::INFO, '64'],
+            'emergency'                   => [Log::EMERGENCY, Log::EMERGENCY],
+            'alert'                       => [Log::ALERT, Log::ALERT],
+            'critical'                    => [Log::CRITICAL, Log::CRITICAL],
+            'error'                       => [Log::ERROR, Log::ERROR],
+            'warning'                     => [Log::WARNING, Log::WARNING],
+            'notice'                      => [Log::NOTICE, Log::NOTICE],
+            'info'                        => [Log::INFO, Log::INFO],
+            'debug'                       => [Log::DEBUG, Log::DEBUG],
+            'unknown falls back to info'  => [Log::INFO, 999],
+            'zero falls back to info'     => [Log::INFO, 0],
+            'null falls back to info'     => [Log::INFO, null],
+            'numeric string is not a hit' => [Log::INFO, '64'],
         ];
     }
 
@@ -82,10 +82,10 @@ class LogEntryTest extends UnitTestCase
     public static function dataCategories(): array
     {
         return [
-            'spaces and punctuation go'   => ['mycategory', 'My Category!'],
+            'spaces and punctuation go'    => ['mycategory', 'My Category!'],
             'dots dashes underscores stay' => ['a.b-c_d', 'a.b-c_d'],
-            'upper case is lowered'       => ['allcaps', 'ALLCAPS'],
-            'symbols are stripped'        => ['symbols', 'sym#$%bols'],
+            'upper case is lowered'        => ['allcaps', 'ALLCAPS'],
+            'symbols are stripped'         => ['symbols', 'sym#$%bols'],
         ];
     }
 

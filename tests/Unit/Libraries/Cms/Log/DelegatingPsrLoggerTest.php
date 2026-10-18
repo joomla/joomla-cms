@@ -65,7 +65,7 @@ class DelegatingPsrLoggerTest extends UnitTestCase
      */
     private function createRecordingLog(): Log
     {
-        return new class extends Log {
+        return new class () extends Log {
             /**
              * @var  LogEntry[]
              */
@@ -237,7 +237,7 @@ class DelegatingPsrLoggerTest extends UnitTestCase
         $log = $this->createRecordingLog();
         Log::setInstance($log);
 
-        $message = new class implements \Stringable {
+        $message = new class () implements \Stringable {
             public function __toString(): string
             {
                 return 'from an object';

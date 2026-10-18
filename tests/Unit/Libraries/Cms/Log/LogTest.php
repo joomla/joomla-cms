@@ -70,7 +70,7 @@ class LogTest extends UnitTestCase
      */
     private function createInspectableLog(): Log
     {
-        return new class extends Log {
+        return new class () extends Log {
             public function __construct()
             {
             }

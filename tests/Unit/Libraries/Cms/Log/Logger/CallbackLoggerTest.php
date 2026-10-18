@@ -94,7 +94,7 @@ class CallbackLoggerTest extends UnitTestCase
     #[TestDox('accepts a callable given as an object and method pair')]
     public function testObjectMethodPairIsAccepted(): void
     {
-        $collector = new class {
+        $collector = new class () {
             public array $seen = [];
 
             public function collect(LogEntry $entry): void
@@ -136,12 +136,12 @@ class CallbackLoggerTest extends UnitTestCase
     public static function dataInvalidCallbacks(): array
     {
         return [
-            'missing'              => [null],
-            'null'                 => [null],
-            'unknown function'     => ['no_such_function_exists_here'],
-            'empty array'          => [[]],
-            'plain string'         => ['not a callable'],
-            'integer'              => [42],
+            'missing'          => [null],
+            'null'             => [null],
+            'unknown function' => ['no_such_function_exists_here'],
+            'empty array'      => [[]],
+            'plain string'     => ['not a callable'],
+            'integer'          => [42],
         ];
     }
 
