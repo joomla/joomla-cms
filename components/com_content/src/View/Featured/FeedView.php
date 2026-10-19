@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Content\Site\View\Featured;
 
-use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -55,7 +54,7 @@ class FeedView extends AbstractView
 
         // Get some data from the model
         $app->getInput()->set('limit', $app->get('feed_limit'));
-        $categories = Categories::getInstance('Content');
+        $categories = $app->bootComponent('com_content')->getCategory();
 
         /** @var FeaturedModel $model */
         $model = $this->getModel();

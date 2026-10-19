@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Contact\Site\Model;
 
-use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -372,7 +371,7 @@ class CategoryModel extends ListModel
 
             $options               = [];
             $options['countItems'] = $params->get('show_cat_items', 1) || !$params->get('show_empty_categories', 0);
-            $categories            = Categories::getInstance('Contact', $options);
+            $categories            = $app->bootComponent('com_contact')->getCategory($options);
             $this->_item           = $categories->get($this->getState('category.id', 'root'));
 
             if (\is_object($this->_item)) {
