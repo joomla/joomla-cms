@@ -90,7 +90,8 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
         $associations = $this->getAssociations($typeName, $itemId);
 
         foreach ($associations as $key => $association) {
-            $items[$key] = ArrayHelper::fromObject($this->getItem($typeName, (int) $association->id), false);
+            $items[$key]                         = ArrayHelper::fromObject($this->getItem($typeName, (int) $association->id), false);
+            $items[$key]['association_outdated'] = (int) ($association->outdated ?? 0);
         }
 
         return $items;

@@ -19,7 +19,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -1027,31 +1026,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
 
         // Association content items
         if (Associations::isEnabled()) {
-            $languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
-
-            if (\count($languages) > 1) {
-                $addform = new \SimpleXMLElement('<form />');
-                $fields  = $addform->addChild('fields');
-                $fields->addAttribute('name', 'associations');
-                $fieldset = $fields->addChild('fieldset');
-                $fieldset->addAttribute('name', 'item_associations');
-
-                foreach ($languages as $language) {
-                    $field = $fieldset->addChild('field');
-                    $field->addAttribute('name', $language->lang_code);
-                    $field->addAttribute('type', 'modal_article');
-                    $field->addAttribute('language', $language->lang_code);
-                    $field->addAttribute('label', $language->title);
-                    $field->addAttribute('translate_label', 'false');
-                    $field->addAttribute('select', 'true');
-                    $field->addAttribute('new', 'true');
-                    $field->addAttribute('edit', 'true');
-                    $field->addAttribute('clear', 'true');
-                    $field->addAttribute('propagate', 'true');
-                }
-
-                $form->load($addform, false);
-            }
+            $this->associationPreprocessForm($form, $data, ['type' => 'modal_article']);
         }
 
         $this->workflowPreprocessForm($form, $data);

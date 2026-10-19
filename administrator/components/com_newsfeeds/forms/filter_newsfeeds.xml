@@ -52,6 +52,19 @@
 		</field>
 
 		<field
+			name="translation"
+			type="list"
+			label="JGLOBAL_ASSOCIATIONS_FILTER_TRANSLATION"
+			class="js-select-submit-on-change"
+			default=""
+			validate="options"
+			>
+			<option value="">JGLOBAL_ASSOCIATIONS_FILTER_TRANSLATION_SELECT</option>
+			<option value="outdated">JGLOBAL_ASSOCIATIONS_OUTDATED</option>
+			<option value="uptodate">JGLOBAL_ASSOCIATIONS_UPTODATE</option>
+		</field>
+
+		<field
 			name="tag"
 			type="tag"
 			label="JTAG"

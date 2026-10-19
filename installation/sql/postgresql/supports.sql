@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS "#__associations" (
   "id" int NOT NULL,
   "context" varchar(50) NOT NULL,
   "key" char(32) NOT NULL,
+  "outdated" smallint DEFAULT 0 NOT NULL,
   CONSTRAINT "#__associations_idx_context_id" PRIMARY KEY ("context", "id")
 );
 CREATE INDEX "#__associations_idx_key" ON "#__associations" ("key");
@@ -13,6 +14,7 @@ CREATE INDEX "#__associations_idx_key" ON "#__associations" ("key");
 COMMENT ON COLUMN "#__associations"."id" IS 'A reference to the associated item.';
 COMMENT ON COLUMN "#__associations"."context" IS 'The context of the associated item.';
 COMMENT ON COLUMN "#__associations"."key" IS 'The key for the association computed from an md5 on associated ids.';
+COMMENT ON COLUMN "#__associations"."outdated" IS 'Whether this item is outdated compared to the item the last translation relevant change was made in.';
 
 --
 -- Table structure for table `#__categories`
