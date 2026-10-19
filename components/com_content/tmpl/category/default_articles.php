@@ -184,10 +184,15 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                         <?php if (Associations::isEnabled() && $this->params->get('show_associations')) : ?>
                             <div class="cat-list-association">
                             <?php $associations = AssociationHelper::displayAssociations($article->id); ?>
+                            <?php $display = (int) $this->params->get('flags', 1); ?>
                             <?php foreach ($associations as $association) : ?>
-                                <?php if ($this->params->get('flags', 1) && $association['language']->image) : ?>
+                                <?php if ($display === 1 && $association['language']->image) : ?>
                                     <?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, ['title' => $association['language']->title_native], true); ?>
                                     <a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
+                                <?php elseif ($display === 2) : ?>
+                                    <a href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->title_native; ?></a>
+                                <?php elseif ($display === 3) : ?>
+                                    <a href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->title; ?></a>
                                 <?php else : ?>
                                     <?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>
                                     <a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->lang_code; ?>
@@ -210,10 +215,15 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                         <?php if (Associations::isEnabled() && $this->params->get('show_associations')) : ?>
                             <div class="cat-list-association">
                             <?php $associations = AssociationHelper::displayAssociations($article->id); ?>
+                            <?php $display = (int) $this->params->get('flags', 1); ?>
                             <?php foreach ($associations as $association) : ?>
-                                <?php if ($this->params->get('flags', 1)) : ?>
+                                <?php if ($display === 1 && $association['language']->image) : ?>
                                     <?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, ['title' => $association['language']->title_native], true); ?>
                                     <a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
+                                <?php elseif ($display === 2) : ?>
+                                    <a href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->title_native; ?></a>
+                                <?php elseif ($display === 3) : ?>
+                                    <a href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->title; ?></a>
                                 <?php else : ?>
                                     <?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>
                                     <a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->lang_code; ?>
