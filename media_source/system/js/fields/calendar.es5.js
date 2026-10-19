@@ -970,7 +970,14 @@
 				self.date = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, self.params.dateType, self.strings, false);
 			}
 			self.close();
-		});
+    });
+
+    // Prevent Safari from closing the calendar before its action buttons are clicked.
+    this.wrapper.addEventListener('mousedown', function (event) {
+      if (event.target.closest('[data-action]')) {
+        event.preventDefault();
+      }
+    });
 
 		// Validate the date and time when they are manually entered in the input field.
 		self.inputField.addEventListener('input', function (e) {
