@@ -84,6 +84,9 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_LAST_VISIT_DATE', 'a.lastvisitDate', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="w-12 d-none d-xl-table-cell">
+                                    <?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_PREVIOUS_VISIT_DATE', 'a.previousvisitDate', $listDirn, $listOrder); ?>
+                                </th>
+                                <th scope="col" class="w-12 d-none d-xl-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_REGISTRATION_DATE', 'a.registerDate', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="w-5 d-none d-md-table-cell">
@@ -191,6 +194,13 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                 <td class="d-none d-xl-table-cell">
                                     <?php if ($item->lastvisitDate !== null) : ?>
                                         <?php echo HTMLHelper::_('date', $item->lastvisitDate, Text::_('DATE_FORMAT_LC6')); ?>
+                                    <?php else : ?>
+                                        <?php echo Text::_('JNEVER'); ?>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="d-none d-xl-table-cell">
+                                    <?php if ($item->previousvisitDate !== null) : ?>
+                                        <?php echo HTMLHelper::_('date', $item->previousvisitDate, Text::_('DATE_FORMAT_LC6')); ?>
                                     <?php else : ?>
                                         <?php echo Text::_('JNEVER'); ?>
                                     <?php endif; ?>
