@@ -1067,7 +1067,7 @@ class ItemModel extends AdminModel
         $clientId = $menutype === 'main' ? 1 : 0;
 
         if ($menutype !== 'main') {
-            $clientQuery = $db->getQuery(true)
+            $clientQuery = $db->createQuery()
                 ->select($db->quoteName('client_id'))
                 ->from($db->quoteName('#__menu_types'))
                 ->where($db->quoteName('menutype') . ' = :menutype')
@@ -1075,7 +1075,7 @@ class ItemModel extends AdminModel
             $clientId = (int) $db->setQuery($clientQuery)->loadResult();
         }
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('id'),
