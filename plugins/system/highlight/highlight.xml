@@ -18,4 +18,17 @@
 		<language tag="en-GB">language/en-GB/plg_system_highlight.ini</language>
 		<language tag="en-GB">language/en-GB/plg_system_highlight.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="selector"
+					type="text"
+					label="PLG_SYSTEM_HIGHLIGHT_FIELD_SELECTOR"
+					description="PLG_SYSTEM_HIGHLIGHT_FIELD_SELECTOR_DESC"
+					filter="string"
+				/>
+			</fieldset>
+		</fields>
+	</config>
 </extension>
