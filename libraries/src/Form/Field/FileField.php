@@ -41,6 +41,14 @@ class FileField extends FormField
     protected $accept;
 
     /**
+     * The maximum file size allowed.
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $maxsize;
+
+    /**
      * Name of the layout being used to render the field
      *
      * @var    string
@@ -63,6 +71,10 @@ class FileField extends FormField
             return $this->accept;
         }
 
+        if ($name === 'maxsize') {
+            return $this->maxsize;
+        }
+
         return parent::__get($name);
     }
 
@@ -81,6 +93,10 @@ class FileField extends FormField
         switch ($name) {
             case 'accept':
                 $this->accept = (string) $value;
+                break;
+
+            case 'maxsize':
+                $this->maxsize = (string) $value;
                 break;
 
             default:
@@ -107,7 +123,8 @@ class FileField extends FormField
         $return = parent::setup($element, $value, $group);
 
         if ($return) {
-            $this->accept = (string) $this->element['accept'];
+            $this->accept  = (string) $this->element['accept'];
+            $this->maxsize = (string) $this->element['maxsize'];
         }
 
         return $return;
@@ -142,6 +159,7 @@ class FileField extends FormField
 
         $extraData = [
             'accept'   => $this->accept,
+            'maxsize'  => $this->maxsize,
             'multiple' => $this->multiple,
         ];
 
