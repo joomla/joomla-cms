@@ -43,7 +43,7 @@ use Psr\Log\LoggerInterface;
  *
  * @since  3.10.0
  */
-class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, SiteRouterAwareInterface, UserFactoryAwareInterface, MailerFactoryAwareInterface, LanguageFactoryAwareInterface
+class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, SiteRouterAwareInterface, UserFactoryAwareInterface, MailerFactoryAwareInterface, LanguageFactoryAwareInterface, DispatcherAwareInterface
 {
     use FormFactoryAwareTrait;
     use DispatcherAwareTrait;
