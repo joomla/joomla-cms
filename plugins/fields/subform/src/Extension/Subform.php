@@ -298,6 +298,11 @@ final class Subform extends FieldsPlugin implements SubscriberInterface
         if ($field_params->get('repeat', '1') == '1') {
             $parent_field->setAttribute('multiple', 'true');
             $parent_field->setAttribute('layout', 'joomla.form.field.subform.repeatable-table');
+
+            // If the rows can be copied, add the copy button
+            if ($field_params->get('copy_rows', '0') == '1') {
+                $parent_field->setAttribute('buttons', 'add,copy,remove,move');
+            }
         }
 
         // Create a child 'form' DOMElement under the field[type=subform] element.

@@ -519,7 +519,8 @@
         "type": "module"
       },
       "dependencies": [
-        "webcomponent.field-subform-legacy"
+        "webcomponent.field-subform-legacy",
+        "editor-api"
       ]
     },
     {
