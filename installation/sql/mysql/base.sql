@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
 --
 
 INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
-(1, 0, 0, 183, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.api":{"8":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1, 0, 0, 185, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.api":{"8":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'),
 (3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -107,17 +107,17 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (87, 18, 124, 125, 2, 'com_modules.module.97', 'Recently Added Articles', '{}'),
 (88, 18, 126, 127, 2, 'com_modules.module.98', 'Logged-in Users', '{}'),
 (89, 18, 128, 129, 2, 'com_modules.module.90', 'Login Support', '{}'),
-(90, 1, 165, 172, 1, 'com_scheduler', 'com_scheduler', '{}'),
-(91, 1, 173, 174, 1, 'com_associations', 'com_associations', '{}'),
-(92, 1, 175, 176, 1, 'com_categories', 'com_categories', '{}'),
-(93, 1, 177, 178, 1, 'com_fields', 'com_fields', '{}'),
-(94, 1, 179, 180, 1, 'com_workflow', 'com_workflow', '{}'),
-(95, 1, 181, 182, 1, 'com_guidedtours', 'com_guidedtours', '{}'),
+(90, 1, 165, 174, 1, 'com_scheduler', 'com_scheduler', '{}'),
+(91, 1, 175, 176, 1, 'com_associations', 'com_associations', '{}'),
+(92, 1, 177, 178, 1, 'com_categories', 'com_categories', '{}'),
+(93, 1, 179, 180, 1, 'com_fields', 'com_fields', '{}'),
+(94, 1, 181, 182, 1, 'com_workflow', 'com_workflow', '{}'),
+(95, 1, 183, 184, 1, 'com_guidedtours', 'com_guidedtours', '{}'),
 (96, 18, 130, 131, 2, 'com_modules.module.109', 'Guided Tours', '{}'),
 (97, 90, 166, 167, 2, 'com_scheduler.task.1', 'Rotate Logs', '{}'),
 (98, 90, 168, 169, 2, 'com_scheduler.task.2', 'Session GC', '{}'),
-(99, 90, 170, 171, 2, 'com_scheduler.task.3', 'Update Notification', '{}');
-
+(99, 90, 170, 171, 2, 'com_scheduler.task.3', 'Update Notification', '{}'),
+(100, 90, 172, 173, 2, 'com_scheduler.task.4', 'Workflow Automation', '{}');
 -- --------------------------------------------------------
 
 --
@@ -380,6 +380,7 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_task_sessiongc', 'plugin', 'sessiongc', 'task', 0, 1, 1, 0, 1, '', '{}', '', 7, 0),
 (0, 'plg_task_sitestatus', 'plugin', 'sitestatus', 'task', 0, 1, 1, 0, 1, '', '{}', '', 8, 0),
 (0, 'plg_task_updatenotification', 'plugin', 'updatenotification', 'task', 0, 1, 1, 0, 1, '', '{}', '', 9, 0),
+(0, 'plg_task_workflowtransition', 'plugin', 'workflowtransition', 'task', 0, 1, 1, 0, 1, '', '{}', '', 10, 0),
 (0, 'plg_multifactorauth_totp', 'plugin', 'totp', 'multifactorauth', 0, 1, 1, 0, 1, '', '', '', 1, 0),
 (0, 'plg_multifactorauth_yubikey', 'plugin', 'yubikey', 'multifactorauth', 0, 1, 1, 0, 1, '', '', '', 2, 0),
 (0, 'plg_multifactorauth_webauthn', 'plugin', 'webauthn', 'multifactorauth', 0, 1, 1, 0, 1, '', '', '', 3, 0),
@@ -411,6 +412,8 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_workflow_featuring', 'plugin', 'featuring', 'workflow', 0, 1, 1, 0, 1, '', '{}', '', 1, 0),
 (0, 'plg_workflow_notification', 'plugin', 'notification', 'workflow', 0, 1, 1, 0, 1, '', '{}', '', 2, 0),
 (0, 'plg_workflow_publishing', 'plugin', 'publishing', 'workflow', 0, 1, 1, 0, 1, '', '{}', '', 3, 0),
+(0, 'plg_workflow_automation', 'plugin', 'automation', 'workflow', 0, 1, 1, 0, 1, '', '{}', '', 4, 0),
+(0, 'plg_workflow_remotecheck', 'plugin', 'remotecheck', 'workflow', 0, 0, 1, 0, 1, '', '{}', '', 5, 0),
 (0, 'plg_system_guidedtours', 'plugin', 'guidedtours', 'system', 0, 1, 1, 0, 1, '', '{}', '', 15, 0);
 
 -- Templates
@@ -1266,3 +1269,72 @@ INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`
 (5, 62, 1, 5, 1, 'FEATURE', '', -1, 1, '{"featuring":"1"}'),
 (6, 63, 1, 6, 1, 'UNFEATURE', '', -1, 1, '{"featuring":"0"}'),
 (7, 64, 1, 7, 1, 'PUBLISH_AND_FEATURE', '', -1, 1, '{"publishing":"1","featuring":"1"}');
+
+--
+-- Table structure for table `#__workflow_automation_rules`
+--
+
+CREATE TABLE IF NOT EXISTS `#__workflow_automation_rules` (
+	`id` int NOT NULL AUTO_INCREMENT,
+	`transition_id` int NOT NULL COMMENT 'Foreign Key to #__workflow_transitions.id',
+	`published` tinyint NOT NULL DEFAULT 0,
+	`ordering` int NOT NULL DEFAULT 0,
+	`rule_type` varchar(20) NOT NULL DEFAULT 'delay' COMMENT 'delay or cron',
+	`delay_value` int DEFAULT NULL,
+	`delay_unit` varchar(10) DEFAULT NULL COMMENT 'minutes, hours, days, months',
+	`cron_expression` varchar(100) DEFAULT NULL,
+	`item_filter` text COMMENT 'JSON filter tree: which items this rule applies to (evaluated at selection)',
+	`fire_condition` text COMMENT 'JSON expression tree: gate evaluated live at fire time',
+	`run_as_user_id` int NOT NULL DEFAULT 0 COMMENT 'User identity used to execute the transition',
+	`created` datetime NOT NULL,
+	`created_by` int NOT NULL DEFAULT 0,
+	`modified` datetime NOT NULL,
+	`modified_by` int NOT NULL DEFAULT 0,
+	PRIMARY KEY (`id`),
+	UNIQUE KEY `idx_transition` (`transition_id`),
+	KEY `idx_published` (`published`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `#__workflow_item_state`
+--
+
+CREATE TABLE IF NOT EXISTS `#__workflow_item_state` (
+	`id` int NOT NULL AUTO_INCREMENT,
+	`item_id` int NOT NULL DEFAULT 0 COMMENT 'Extension table id value',
+	`extension` varchar(50) NOT NULL,
+	`stage_id` int NOT NULL COMMENT 'Foreign Key to #__workflow_stages.id',
+	`entered_at` datetime NOT NULL COMMENT 'When the item arrived in stage_id',
+	`triggered_by` varchar(20) NOT NULL DEFAULT 'manual' COMMENT 'Determine if a transition was triggered manually or by the automation',
+	`requires_intervention` tinyint NOT NULL DEFAULT 0 COMMENT 'Set when an automated transition failed; excluded from the scheduler until an admin clears it',
+	`last_checked_at` datetime DEFAULT NULL COMMENT 'When the scheduler last considered this item; null means never',
+	`last_failure_at` datetime DEFAULT NULL COMMENT 'When this item last could not be evaluated; null means it evaluated cleanly',
+	`last_failure_reason` varchar(500) DEFAULT NULL COMMENT 'Why it could not be evaluated, so the same failure is only reported once',
+	PRIMARY KEY (`id`),
+	UNIQUE KEY `idx_item_extension` (`item_id`, `extension`),
+	KEY `idx_stage_entered` (`stage_id`, `entered_at`),
+	KEY `idx_requires_intervention` (`requires_intervention`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `#__workflow_automation_log`
+--
+
+CREATE TABLE IF NOT EXISTS `#__workflow_automation_log` (
+	`id` int NOT NULL AUTO_INCREMENT,
+	`rule_id` int DEFAULT NULL COMMENT 'Foreign Key to #__workflow_automation_rules.id',
+	`item_id` int NOT NULL DEFAULT 0,
+	`extension` varchar(50) NOT NULL,
+	`transition_id` int NOT NULL,
+	`from_stage_id` int NOT NULL DEFAULT 0,
+	`to_stage_id` int NOT NULL DEFAULT 0,
+	`run_as_user_id` int NOT NULL DEFAULT 0,
+	`trigger_type` varchar(20) NOT NULL DEFAULT 'rule',
+	`exit_code` tinyint NOT NULL DEFAULT 0 COMMENT '0 ok, 1 permission denied, 2 invalid transition, 3 exception, 4 no longer applicable',
+	`note` varchar(500) DEFAULT NULL,
+	`executed_at` datetime NOT NULL,
+	PRIMARY KEY (`id`),
+	KEY `idx_item_id` (`item_id`),
+	KEY `idx_executed_at` (`executed_at`),
+	KEY `idx_exit_code` (`exit_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
