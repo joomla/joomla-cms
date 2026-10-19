@@ -11,13 +11,19 @@ import JoomlaDialog from 'joomla.dialog';
  * @param {object} data
  * @param {HTMLInputElement} inputValue
  * @param {HTMLInputElement} inputTitle
+ * @param {HTMLElement} container
  */
-const setValues = (data, inputValue, inputTitle) => {
+const setValues = (data, inputValue, inputTitle, container) => {
   const value = `${data.id || data.value || ''}`;
   const isChanged = inputValue.value !== value;
   inputValue.value = value;
   if (inputTitle) {
     inputTitle.value = data.title || inputValue.value;
+  }
+  // The selected item reports whether it is checked out by someone else. A list which does not
+  // report it at all counts as not checked out, same as before.
+  if (container) {
+    container.dataset.checkedOut = data.checkedOut && data.checkedOut !== '0' ? '1' : '0';
   }
   if (isChanged) {
     inputValue.dispatchEvent(new CustomEvent('change', { bubbles: true, cancelable: true }));
@@ -30,9 +36,10 @@ const setValues = (data, inputValue, inputTitle) => {
  * @param {HTMLInputElement} inputValue
  * @param {HTMLInputElement} inputTitle
  * @param {Object} dialogConfig
+ * @param {HTMLElement} container
  * @returns {Promise}
  */
-const doSelect = (inputValue, inputTitle, dialogConfig) => {
+const doSelect = (inputValue, inputTitle, dialogConfig, container) => {
   // Use a JoomlaExpectingPostMessage flag to be able to distinct legacy methods
   // @TODO: This should be removed after full transition to postMessage()
   window.JoomlaExpectingPostMessage = true;
@@ -47,7 +54,7 @@ const doSelect = (inputValue, inputTitle, dialogConfig) => {
       if (event.origin !== window.location.origin) return;
       // Check message type
       if (event.data.messageType === 'joomla:content-select') {
-        setValues(event.data, inputValue, inputTitle);
+        setValues(event.data, inputValue, inputTitle, container);
         dialog.close();
       } else if (event.data.messageType === 'joomla:cancel') {
         dialog.close();
@@ -82,6 +89,19 @@ const updateView = (inputValue, container) => {
       hasValue ? el.setAttribute('hidden', '') : el.removeAttribute('hidden');
     }
   });
+
+  // An item which is checked out by another user must not be editable
+  const isCheckedOut = hasValue && container.dataset.checkedOut === '1';
+  const buttonEdit = container.querySelector('[data-button-action="edit"]');
+  const note = container.querySelector('.js-checked-out-note');
+
+  if (buttonEdit && isCheckedOut) {
+    buttonEdit.setAttribute('hidden', '');
+  }
+
+  if (note) {
+    isCheckedOut ? note.removeAttribute('hidden') : note.setAttribute('hidden', '');
+  }
 };
 
 /**
@@ -111,6 +131,9 @@ const setupField = (container) => {
     const dialogConfig = button.dataset.modalConfig ? JSON.parse(button.dataset.modalConfig) : {};
     const keyName = container.dataset.keyName || 'id';
     const token = Joomla.getOptions('csrf.token', '');
+    // When the item is checked out by someone else then the dialog was not able to check it out for
+    // us, and closing it must not release the lock of that other user.
+    const wasCheckedOut = container.dataset.checkedOut === '1';
 
     // Handle requested action
     let handle;
@@ -120,7 +143,7 @@ const setupField = (container) => {
         const url = dialogConfig.src.indexOf('http') === 0 ? new URL(dialogConfig.src) : new URL(dialogConfig.src, window.location.origin);
         url.searchParams.set(token, '1');
         dialogConfig.src = url.toString();
-        handle = doSelect(inputValue, inputTitle, dialogConfig);
+        handle = doSelect(inputValue, inputTitle, dialogConfig, container);
         break;
       }
       case 'edit': {
@@ -130,19 +153,20 @@ const setupField = (container) => {
         url.searchParams.set(token, '1');
         dialogConfig.src = url.toString();
 
-        handle = doSelect(inputValue, inputTitle, dialogConfig);
+        handle = doSelect(inputValue, inputTitle, dialogConfig, container);
         break;
       }
       case 'clear':
-        handle = (async () => setValues({ id: '', title: '' }, inputValue, inputTitle))();
+        handle = (async () => setValues({ id: '', title: '' }, inputValue, inputTitle, container))();
         break;
       default:
         throw new Error(`Unknown action ${action} for Modal select field`);
     }
 
     handle.then(() => {
-      // Perform checkin when needed
-      if (button.dataset.checkinUrl) {
+      // Perform checkin when needed. The item may have been checked out again by "Save" in the
+      // dialog, that applies to a newly created item as well.
+      if (button.dataset.checkinUrl && inputValue.value && !wasCheckedOut) {
         const chckUrl = button.dataset.checkinUrl;
         const url = chckUrl.indexOf('http') === 0 ? new URL(chckUrl) : new URL(chckUrl, window.location.origin);
         // Add value to request
@@ -156,6 +180,16 @@ const setupField = (container) => {
         Joomla.request({
           url: url.toString(), method: 'POST', promise: true, data,
         });
+      }
+
+      // Keep the view in sync, also when the same item was selected again
+      updateView(inputValue, container);
+
+      // The dialog returns the focus to the button which opened it. When that button is hidden by
+      // now, move the focus to the next available one instead of losing it to the document.
+      if (button.hasAttribute('hidden')) {
+        const nextButton = container.querySelector('[data-button-action]:not([hidden])');
+        (nextButton || inputTitle || inputValue).focus();
       }
     });
   });

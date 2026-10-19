@@ -37,6 +37,8 @@ $extension = $this->escape($this->state->get('filter.extension'));
 $function  = $app->getInput()->getCmd('function', 'jSelectCategory');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+
+$userId = $this->getCurrentUser()->id;
 ?>
 <div class="container-popup">
 
@@ -108,12 +110,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                             <th scope="row">
                                 <?php $attribs = 'data-content-select data-content-type="' . $extension . '.category"'
                                     . ' data-id="' . $item->id . '"'
+                                    . ' data-checked-out="' . ((int) (!empty($item->checked_out) && $item->checked_out != $userId)) . '"'
                                     . ' data-title="' . $this->escape($item->title) . '"'
                                     . ' data-uri="' . $this->escape($link) . '"'
                                     . ' data-language="' . $this->escape($lang) . '"'
                                     . ' data-html="' . $this->escape($itemHtml) . '"';
                                 ?>
                                 <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
+                                <?php if ($item->checked_out) : ?>
+                                    <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, '', false); ?>
+                                <?php endif; ?>
                                 <a href="javascript:void(0)" <?php echo $attribs; ?> onclick="if (window.parent && !window.parent.JoomlaExpectingPostMessage) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', null, '<?php echo $this->escape(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
                                     <?php echo $this->escape($item->title); ?></a>
                                 <div class="small" title="<?php echo $this->escape($item->path); ?>">
