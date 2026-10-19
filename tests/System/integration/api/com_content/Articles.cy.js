@@ -1,5 +1,8 @@
 describe('Test that content API endpoint', () => {
-  afterEach(() => cy.task('queryDB', 'DELETE FROM #__content'));
+  afterEach(() => {
+    cy.task('queryDB', 'DELETE FROM #__content');
+    cy.db_deleteCategory({ title: 'automated test content category' });
+  });
 
   it('can deliver a list of articles', () => {
     cy.db_createArticle({ title: 'automated test article' })
@@ -139,7 +142,7 @@ describe('Test that content API endpoint', () => {
         .should('equal', 'test-article-2'));
   });
 
-  it('should handle invalid payload formatting gracefully with a clean JSON error schema', () => {
+  it('should handle missing required fields gracefully with a clean JSON error schema', () => {
     cy.api_getBearerToken().then((token) => {
       cy.request({
         method: 'POST',
@@ -148,18 +151,16 @@ describe('Test that content API endpoint', () => {
           Authorization: `Bearer ${token}`,
         },
         body: {
-          // Purposely malformed payload missing mandatory "data" wrap and required fields
-          attributes: {
-            title: 'Malformed Test Article',
-          },
+          // Flat payload missing mandatory required fields like title and category
+          title: 'Malformed Test Article',
         },
         failOnStatusCode: false,
       })
         .then((response) => {
-        // It should fail gracefully, not crash with a 500 Unhandled PHP Error
+          // It should fail gracefully, not crash with a 500 Unhandled PHP Error
           expect(response.status).to.be.equal(400);
 
-          // Validate
+          // Validate error schema
           expect(response.body).to.have.property('errors');
           expect(response.body.errors).to.be.an('array');
           expect(response.body.errors[0]).to.have.property('title');
@@ -195,11 +196,13 @@ describe('Test that content API endpoint', () => {
   });
 
   it('should successfully fetch articles and verify their category relationships', () => {
-    const categoryId = '2'; // Uncategorised
-    cy.db_createArticle({
-      title: 'automated test article',
-      catid: parseInt(categoryId),
-    })
+    let categoryId;
+
+    cy.api_post('/content/categories', { title: 'automated test content category', parent_id: 1, extension: 'com_content' })
+      .then((response) => {
+        categoryId = response.body.data.id;
+        return cy.db_createArticle({ title: 'automated test article', catid: Number(categoryId) });
+      })
       .then(() => {
         return cy.api_get('/content/articles');
       })
@@ -208,9 +211,10 @@ describe('Test that content API endpoint', () => {
         cy.wrap(response).its('body').its('data').its('0').its('attributes').its('title')
           .should('include', 'automated test article');
 
-        // Validate the relational linkage matches category ID "2" from the list
+        // Validate the relational linkage matches the created category ID
         cy.wrap(response).its('body').its('data').its('0').its('relationships').its('category').its('data').its('id')
           .should('equal', categoryId);
       });
   });
 });
+
