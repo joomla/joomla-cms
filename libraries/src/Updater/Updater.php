@@ -436,7 +436,7 @@ class Updater implements DatabaseAwareInterface
      *
      * @return  int|null
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     private function findHighestSeverity(string $installedVersion, UpdateTable $update, array $securityUpdates): ?int
     {

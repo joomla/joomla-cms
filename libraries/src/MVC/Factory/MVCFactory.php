@@ -15,6 +15,8 @@ use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Mail\MailerFactoryAwareInterface;
 use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\MVC\Model\ModelInterface;
@@ -41,7 +43,7 @@ use Psr\Log\LoggerInterface;
  *
  * @since  3.10.0
  */
-class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, SiteRouterAwareInterface, UserFactoryAwareInterface, MailerFactoryAwareInterface
+class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, SiteRouterAwareInterface, UserFactoryAwareInterface, MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
     use FormFactoryAwareTrait;
     use DispatcherAwareTrait;
@@ -50,6 +52,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
     use CacheControllerFactoryAwareTrait;
     use UserFactoryAwareTrait;
     use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * The namespace to create the objects from.
@@ -115,6 +118,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
         $this->setCacheControllerOnObject($controller);
         $this->setUserFactoryOnObject($controller);
         $this->setMailerFactoryOnObject($controller);
+        $this->setLanguageFactoryOnObject($controller);
 
         if ($controller instanceof LoggerAwareInterface && $this->logger !== null) {
             $controller->setLogger($this->logger);
@@ -166,12 +170,13 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
         $this->setCacheControllerOnObject($model);
         $this->setUserFactoryOnObject($model);
         $this->setMailerFactoryOnObject($model);
+        $this->setLanguageFactoryOnObject($model);
 
         if ($model instanceof DatabaseAwareInterface) {
             try {
                 $model->setDatabase($this->getDatabase());
             } catch (DatabaseNotFoundException) {
-                @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
+                @trigger_error('Database must be set, this will not be caught anymore in 7.0.', E_USER_DEPRECATED);
                 $model->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
         }
@@ -267,7 +272,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
         try {
             $db = \array_key_exists('dbo', $config) ? $config['dbo'] : $this->getDatabase();
         } catch (DatabaseNotFoundException) {
-            @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
+            @trigger_error('Database must be set, this will not be caught anymore in 7.0.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
@@ -430,6 +435,28 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setMailerFactory($this->getMailerFactory());
+        } catch (\UnexpectedValueException) {
+            // Ignore it
+        }
+    }
+
+    /**
+     * Sets the internal mailer factory on the given object.
+     *
+     * @param   object  $object  The object
+     *
+     * @return  void
+     *
+     * @since   6.2.0
+     */
+    private function setLanguageFactoryOnObject($object): void
+    {
+        if (!$object instanceof LanguageFactoryAwareInterface) {
+            return;
+        }
+
+        try {
+            $object->setLanguageFactory($this->getLanguageFactory());
         } catch (\UnexpectedValueException) {
             // Ignore it
         }
