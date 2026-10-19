@@ -25,7 +25,8 @@ $wa = $this->getDocument()->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('com_contenthistory');
 $wa->useScript('keepalive')
     ->useScript('form.validate')
-    ->useScript('com_contenthistory.admin-history-versions');
+    ->useScript('com_contenthistory.admin-history-versions')
+    ->registerAndUseScript('field.secondary-categories', 'layouts/joomla/form/field/secondary-categories.min.js', [], ['defer' => true], ['core', 'webcomponent.field-fancy-select']);
 
 $this->configFieldsets  = ['editorConfig'];
 $this->hiddenFieldsets  = ['basic-limited'];

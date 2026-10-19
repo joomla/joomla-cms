@@ -34,6 +34,7 @@ class JsonapiView extends BaseApiView
     protected $fieldsToRenderItem = [
         'id',
         'category',
+        'secondary_categories',
         'name',
         'alias',
         'link',
@@ -77,6 +78,7 @@ class JsonapiView extends BaseApiView
         'checked_out',
         'checked_out_time',
         'category',
+        'secondary_categories',
         'numarticles',
         'cache_time',
         'created_by',
@@ -154,6 +156,17 @@ class JsonapiView extends BaseApiView
      */
     protected function prepareItem($item)
     {
+        if (!empty($item->secondary_categories)) {
+            $item->secondary_categories = array_values(
+                array_map(
+                    static fn ($category): int => \is_object($category) ? (int) $category->id : (int) $category,
+                    (array) $item->secondary_categories
+                )
+            );
+        } else {
+            $item->secondary_categories = [];
+        }
+
         if (Multilanguage::isEnabled() && !empty($item->associations)) {
             $associations = [];
 

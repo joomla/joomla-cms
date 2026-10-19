@@ -13,6 +13,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -130,9 +131,10 @@ abstract class AdminModel extends FormModel
      * @since  3.4
      */
     protected $batch_commands = [
-        'assetgroup_id' => 'batchAccess',
-        'language_id'   => 'batchLanguage',
-        'tag'           => 'batchTag',
+        'assetgroup_id'      => 'batchAccess',
+        'language_id'        => 'batchLanguage',
+        'secondary_category' => 'batchSecondaryCategory',
+        'tag'                => 'batchTag',
     ];
 
     /**
@@ -330,6 +332,12 @@ abstract class AdminModel extends FormModel
                     $removeTags = ArrayHelper::getValue($commands, 'tag_addremove', 'a') === 'r';
 
                     if (!$this->batchTags($commands[$identifier], $pks, $contexts, $removeTags)) {
+                        return false;
+                    }
+                } elseif ($command === 'batchSecondaryCategory') {
+                    $removeSecondaryCategories = ArrayHelper::getValue($commands, 'secondary_category_addremove', 'a') === 'r';
+
+                    if (!$this->batchSecondaryCategories($commands[$identifier], $pks, $contexts, $removeSecondaryCategories)) {
                         return false;
                     }
                 } elseif (!$this->$command($commands[$identifier], $pks, $contexts)) {
@@ -769,6 +777,73 @@ abstract class AdminModel extends FormModel
         }
 
         // Clean the cache
+        $this->cleanCache();
+
+        return true;
+    }
+
+    /**
+     * Batch add or remove a secondary category from a list of items.
+     *
+     * @param   integer  $value                     The secondary category ID.
+     * @param   array    $pks                       An array of row IDs.
+     * @param   array    $contexts                  An array of item contexts.
+     * @param   boolean  $removeSecondaryCategories   Flag indicating whether the secondary category should be removed.
+     *
+     * @return  boolean  True if successful, false otherwise and internal error is set.
+     *
+     * @since   __DEPLOY_VERSION__
+     *
+     * @throws  \RuntimeException
+     */
+    protected function batchSecondaryCategories($value, $pks, $contexts, $removeSecondaryCategories = false)
+    {
+        // Initialize re-usable member properties and local variables.
+        $this->initBatch();
+        $secondaryCategoryId = (int) $value;
+
+        // If no category was selected, do nothing
+        if (empty($secondaryCategoryId)) {
+            return true;
+        }
+
+        // Extract the typeAlias
+        $firstContext = reset($contexts);
+        $contextParts = explode('.', $firstContext);
+        $typeAlias    = $contextParts[0] . '.' . $contextParts[1];
+
+        // Initialize the Helper
+        $helper = new SecondaryCategoriesHelper($typeAlias);
+        foreach ($pks as $pk) {
+            if (!$this->user->authorise('core.edit', $contexts[$pk])) {
+                throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+            }
+
+            if ($removeSecondaryCategories) {
+                $helper->removeMappings((int) $pk, [$secondaryCategoryId]);
+            } else {
+                $this->table->reset();
+                if (!$this->table->load($pk)) {
+                    throw new \RuntimeException(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                }
+                $primaryCatId = (int) $this->table->catid;
+
+                // Check if the chosen secondary category is the same as the primary category
+                if ($primaryCatId === $secondaryCategoryId) {
+                    continue;
+                }
+
+                // Check if the user has permission to assign the target category
+                $targetAsset = $typeAlias . '.category.' . $secondaryCategoryId;
+
+                if (!$this->user->authorise('core.create', $targetAsset)) {
+                    throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+                }
+                $helper->addMappings((int) $pk, [$secondaryCategoryId]);
+            }
+        }
+
+        // Clean the cache.
         $this->cleanCache();
 
         return true;
@@ -1363,6 +1438,8 @@ abstract class AdminModel extends FormModel
                 return false;
             }
 
+            $this->postStore($table, $data);
+
             // Clean the cache.
             $this->cleanCache();
 
@@ -1486,6 +1563,20 @@ abstract class AdminModel extends FormModel
         }
 
         return true;
+    }
+
+    /**
+     * Perform operations after an item has been stored and before the after-save event is dispatched.
+     *
+     * @param   TableInterface  $table  The stored table.
+     * @param   array           $data   The submitted data.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function postStore(TableInterface $table, array $data): void
+    {
     }
 
     /**
