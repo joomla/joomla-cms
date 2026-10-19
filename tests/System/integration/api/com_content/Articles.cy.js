@@ -149,22 +149,22 @@ describe('Test that content API endpoint', () => {
         },
         body: {
           // Purposely malformed payload missing mandatory "data" wrap and required fields
-          "attributes": {
-            "title": "Malformed Test Article"
-          }
+          attributes: {
+            title: 'Malformed Test Article',
+          },
         },
-        failOnStatusCode: false
+        failOnStatusCode: false,
       })
-      .then((response) => {
+        .then((response) => {
         // It should fail gracefully, not crash with a 500 Unhandled PHP Error
-        expect(response.status).to.be.equal(400);
+          expect(response.status).to.be.equal(400);
 
-        // Validate
-        expect(response.body).to.have.property('errors');
-        expect(response.body.errors).to.be.an('array');
-        expect(response.body.errors[0]).to.have.property('title');
-        expect(response.body.errors[0].title).to.include('Field required: Category');
-      });
+          // Validate
+          expect(response.body).to.have.property('errors');
+          expect(response.body.errors).to.be.an('array');
+          expect(response.body.errors[0]).to.have.property('title');
+          expect(response.body.errors[0].title).to.include('Field required: Category');
+        });
     });
   });
 
@@ -196,21 +196,21 @@ describe('Test that content API endpoint', () => {
 
   it('should successfully fetch articles and verify their category relationships', () => {
     const categoryId = '2'; // Uncategorised
-    cy.db_createArticle({ 
-      title: 'automated test article', 
-      catid: parseInt(categoryId) 
+    cy.db_createArticle({
+      title: 'automated test article',
+      catid: parseInt(categoryId),
     })
-    .then(() => {
-      return cy.api_get('/content/articles');
-    })
-    .then((response) => {
-      cy.wrap(response).its('body').its('data').should('be.an', 'array').and('have.length.at.least', 1);
-      cy.wrap(response).its('body').its('data').its('0').its('attributes').its('title')
-        .should('include', 'automated test article');
+      .then(() => {
+        return cy.api_get('/content/articles');
+      })
+      .then((response) => {
+        cy.wrap(response).its('body').its('data').should('be.an', 'array').and('have.length.at.least', 1);
+        cy.wrap(response).its('body').its('data').its('0').its('attributes').its('title')
+          .should('include', 'automated test article');
 
-      // Validate the relational linkage matches category ID "2" from the list
-      cy.wrap(response).its('body').its('data').its('0').its('relationships').its('category').its('data').its('id')
-        .should('equal', categoryId);
-    });
+        // Validate the relational linkage matches category ID "2" from the list
+        cy.wrap(response).its('body').its('data').its('0').its('relationships').its('category').its('data').its('id')
+          .should('equal', categoryId);
+      });
   });
 });
