@@ -110,7 +110,7 @@ final class SiteApplication extends CMSApplication
     protected function authorise($itemid)
     {
         $menus = $this->getMenu();
-        $user  = Factory::getUser();
+        $user  = $this->getIdentity();
 
         if (!$menus->authorise($itemid)) {
             if ($user->id == 0) {
@@ -403,7 +403,7 @@ final class SiteApplication extends CMSApplication
      */
     protected function initialiseApp($options = [])
     {
-        $user = Factory::getUser();
+        $user = $this->getIdentity();
 
         // If the user is a guest we populate it with the guest user group.
         if ($user->guest) {
@@ -561,7 +561,7 @@ final class SiteApplication extends CMSApplication
                     $this->set('themeFile', 'index.php');
                 }
 
-                if ($this->get('offline') && !Factory::getUser()->authorise('core.login.offline')) {
+                if ($this->get('offline') && !$this->getIdentity()->authorise('core.login.offline')) {
                     $this->setUserState('users.login.form.data', ['return' => Uri::getInstance()->toString()]);
                     $this->set('themeFile', 'offline.php');
                     $this->setHeader('Status', '503 Service Temporarily Unavailable', 'true');

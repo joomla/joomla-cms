@@ -11,6 +11,10 @@
 namespace Joomla\Component\Menus\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model\AfterDeleteEvent;
+use Joomla\CMS\Event\Model\AfterSaveEvent;
+use Joomla\CMS\Event\Model\BeforeDeleteEvent;
+use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -239,7 +243,8 @@ class MenuModel extends AdminModel
         $table = $this->getTable();
 
         // Include the plugins for the save events.
-        PluginHelper::importPlugin('content');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
         // Load the row if saving an existing item.
         if ($id > 0) {
@@ -262,7 +267,12 @@ class MenuModel extends AdminModel
         }
 
         // Trigger the before event.
-        $result = Factory::getApplication()->triggerEvent('onContentBeforeSave', [$this->_context, &$table, $isNew, $data]);
+        $result = $dispatcher->dispatch('onContentBeforeSave', new BeforeSaveEvent('onContentBeforeSave', [
+            'context' => $this->_context,
+            'subject' => $table,
+            'isNew'   => $isNew,
+            'data'    => $data,
+        ]))->getArgument('result', []);
 
         // Store the data.
         if (\in_array(false, $result, true) || !$table->store()) {
@@ -272,7 +282,12 @@ class MenuModel extends AdminModel
         }
 
         // Trigger the after save event.
-        Factory::getApplication()->triggerEvent('onContentAfterSave', [$this->_context, &$table, $isNew]);
+        $dispatcher->dispatch('onContentAfterSave', new AfterSaveEvent('onContentAfterSave', [
+            'context' => $this->_context,
+            'subject' => $table,
+            'isNew'   => $isNew,
+            'data'    => $data,
+        ]));
 
         $this->setState('menu.id', $table->id);
 
@@ -300,13 +315,20 @@ class MenuModel extends AdminModel
         $table = $this->getTable();
 
         // Include the plugins for the delete events.
-        PluginHelper::importPlugin('content');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
         // Iterate the items to delete each one.
         foreach ($itemIds as $itemId) {
             if ($table->load($itemId)) {
                 // Trigger the before delete event.
-                $result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', [$this->_context, $table]);
+                $result = $dispatcher->dispatch(
+                    'onContentBeforeDelete',
+                    new BeforeDeleteEvent('onContentBeforeDelete', [
+                        'context' => $this->_context,
+                        'subject' => $table,
+                    ])
+                )->getArgument('result', []);
 
                 if (\in_array(false, $result, true) || !$table->delete($itemId)) {
                     $this->setError($table->getError());
@@ -315,7 +337,10 @@ class MenuModel extends AdminModel
                 }
 
                 // Trigger the after delete event.
-                Factory::getApplication()->triggerEvent('onContentAfterDelete', [$this->_context, $table]);
+                $dispatcher->dispatch('onContentAfterDelete', new AfterDeleteEvent('onContentAfterDelete', [
+                    'context' => $this->_context,
+                    'subject' => $table,
+                ]));
 
                 // @todo: Delete the menu associations - Menu items and Modules
             }

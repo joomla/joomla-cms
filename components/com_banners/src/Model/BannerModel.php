@@ -163,7 +163,8 @@ class BannerModel extends BaseDatabaseModel
     {
         if (!isset($this->_item)) {
             /** @var \Joomla\CMS\Cache\Controller\CallbackController $cache */
-            $cache = Factory::getCache('com_banners', 'callback');
+            $cache = $this->getCacheControllerFactory()
+                ->createCacheController('callback', ['defaultgroup' => 'com_banners']);
 
             $id = (int) $this->getState('banner.id');
 
