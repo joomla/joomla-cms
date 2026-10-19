@@ -217,4 +217,3 @@ describe('Test that content API endpoint', () => {
       });
   });
 });
-
