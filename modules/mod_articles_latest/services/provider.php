@@ -6,6 +6,8 @@
  *
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * @deprecated  6.2 will be removed in 8.0 without replacement. Use mod_article.
  */
 
 \defined('_JEXEC') or die;
@@ -20,6 +22,8 @@ use Joomla\DI\ServiceProviderInterface;
  * The article latest module service provider.
  *
  * @since  4.2.0
+ *
+ * @deprecated  6.2 will be removed in 8.0 without replacement.
  */
 return new class () implements ServiceProviderInterface {
     /**
