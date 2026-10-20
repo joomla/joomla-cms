@@ -14,6 +14,7 @@ use Joomla\CMS\Event\Content\AfterDisplayEvent;
 use Joomla\CMS\Event\Content\AfterTitleEvent;
 use Joomla\CMS\Event\Content\BeforeDisplayEvent;
 use Joomla\CMS\Event\Content\ContentPrepareEvent;
+use Joomla\CMS\Event\Content\ItemsDisplayEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -80,6 +81,13 @@ class HtmlView extends BaseHtmlView
      * @since  4.0.0
      */
     protected $params = null;
+
+    /**
+     * Prepared dispatcher result for category
+     * @var  \stdClass
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $eventResult;
 
     /**
      * The search query used on any archived articles (note this may not be displayed depending on the value of the
@@ -149,13 +157,13 @@ class HtmlView extends BaseHtmlView
                 $item->parent_id = null;
             }
 
-            $item->event = new \stdClass();
+            $dispatcher->dispatch(
+                'onContentPrepare',
+                new ContentPrepareEvent('onContentPrepare', ['context' => 'com_content.archive', 'subject' => $item, 'params' => $item->params, 'page' => 0])
+            );
+        }
 
-            // Old plugins: Ensure that text property is available
-            if (!isset($item->text)) {
-                $item->text = $item->introtext;
-            }
-
+        foreach ($items as $item) {
             $contentEventArguments = [
                 'context' => 'com_content.archive',
                 'subject' => $item,
@@ -163,19 +171,13 @@ class HtmlView extends BaseHtmlView
                 'page'    => 0,
             ];
 
-            $dispatcher->dispatch(
-                'onContentPrepare',
-                new ContentPrepareEvent('onContentPrepare', $contentEventArguments)
-            );
-
-            // Old plugins: Use processed text as introtext
-            $item->introtext = $item->text;
-
             $contentEvents = [
                 'afterDisplayTitle'    => new AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
                 'beforeDisplayContent' => new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
                 'afterDisplayContent'  => new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
             ];
+
+            $item->event = new \stdClass();
 
             foreach ($contentEvents as $resultKey => $event) {
                 $results = $dispatcher->dispatch($event->getName(), $event)->getArgument('result', []);
@@ -183,6 +185,20 @@ class HtmlView extends BaseHtmlView
                 $item->event->{$resultKey} = trim(implode("\n", $results));
             }
         }
+
+        // Prepare category in dispatcher
+        $this->eventResult     = new \stdClass();
+        $contentEventArguments = [
+            'context' => 'com_content.archive',
+            'subject' => $this,
+            'params'  => $this->params,
+            'page'    => 0,
+        ];
+        $results = $dispatcher->dispatch(
+            'onContentAfterItems',
+            new ItemsDisplayEvent('onContentAfterItems', $contentEventArguments)
+        )->getArgument('result', []);
+        $this->eventResult->afterDisplayItems = trim(implode("\n", $results));
 
         $form = new \stdClass();
 
