@@ -62,7 +62,7 @@ class JsonapiView extends BaseApiView
      *
      * @param   ?array  $items  Array of items
      *
-     * @return  string
+     * @return  void
      *
      * @since   4.0.0
      */
@@ -81,7 +81,7 @@ class JsonapiView extends BaseApiView
             $items[] = $this->prepareItem($item);
         }
 
-        return parent::displayList($items);
+        parent::displayList($items);
     }
 
     /**
