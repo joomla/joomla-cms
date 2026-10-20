@@ -58,10 +58,21 @@ $wa->useScript('keepalive')
             <div class="col-lg-9">
                 <?php echo $this->form->renderField('url'); ?>
                 <?php echo $this->form->renderField('description'); ?>
-
                 <?php if ($this->item->id != 0 && strpos($this->item->description, 'GUIDEDTOUR') !== false) : ?>
-                    <?php $this->form->setFieldAttribute('description_translation', 'label', Text::sprintf('COM_GUIDEDTOURS_DESCRIPTION_TRANSLATION', $lang)); ?>
-                    <?php echo $this->form->renderField('description_translation'); ?>
+                    <?php
+                    echo LayoutHelper::render(
+                        'joomla.form.renderfield',
+                        [
+                            'label' => Text::sprintf('COM_GUIDEDTOURS_DESCRIPTION_TRANSLATION', $lang),
+                            'input' => '<div class="form-control border rounded p-3" aria-readonly="true">'
+                                . ($this->item->description_translation ?? '')
+                                . '</div>',
+                            'name' => 'description_translation_preview',
+                            'id' => 'description_translation_preview',
+                            'options' => [],
+                        ]
+                    );
+                    ?>
                 <?php endif; ?>
             </div>
 
