@@ -1,5 +1,2 @@
---
--- Add position column to workflow stages table
---
-
-ALTER TABLE `#__workflow_stages` ADD COLUMN `position` text NULL AFTER `default` /** CAN FAIL **/;
+ALTER TABLE `#__guidedtours` 
+    ADD COLUMN `url_type` VARCHAR(255) NOT NULL DEFAULT '' AFTER `extensions`;
