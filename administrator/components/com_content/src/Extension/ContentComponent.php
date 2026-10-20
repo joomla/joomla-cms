@@ -23,18 +23,23 @@ use Joomla\CMS\Fields\FieldsFormServiceInterface;
 use Joomla\CMS\Fields\FieldsServiceTrait;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper as LibraryContentHelper;
+use Joomla\CMS\Helper\HelperRedirectAwareInterface;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
 use Joomla\CMS\Schemaorg\SchemaorgServiceTrait;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Tag\TagServiceInterface;
 use Joomla\CMS\Tag\TagServiceTrait;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\CMS\Workflow\WorkflowServiceTrait;
+use Joomla\Component\Categories\Administrator\Table\CategoryTable;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
+use Joomla\Component\Content\Administrator\Table\ArticleTable;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\DatabaseInterface;
 use Psr\Container\ContainerInterface;
 
@@ -55,7 +60,8 @@ class ContentComponent extends MVCComponent implements
     SchemaorgServiceInterface,
     WorkflowServiceInterface,
     RouterServiceInterface,
-    TagServiceInterface
+    TagServiceInterface,
+    HelperRedirectAwareInterface
 {
     use AssociationServiceTrait;
     use RouterServiceTrait;
@@ -301,6 +307,27 @@ class ContentComponent extends MVCComponent implements
         }
 
         return ucfirst($modelname);
+    }
+
+    /**
+     * Returns a link for a given table object or null
+     *
+     * @param Table $table
+     *
+     * @return string|null
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getLinkForRedirect(Table $table): ?string
+    {
+        // Content link
+        if ($table instanceof ArticleTable) {
+            return RouteHelper::getArticleRoute($table->id . ':' . $table->alias, $table->catid, $table->language);
+        } elseif ($table instanceof CategoryTable) {
+            return RouteHelper::getCategoryRoute($table->id . ':' . $table->alias, $table->language);
+        }
+
+        return null;
     }
 
     /**
