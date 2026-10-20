@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
@@ -930,6 +931,10 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
                 $db->insertObject($this->_tbl, $this, $this->_tbl_keys[0]);
             }
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
             $result = false;
         }
@@ -956,10 +961,14 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             $this->asset_id = $asset->id;
 
             // Check for an error.
-            $error = $asset->getError();
+            $error = $asset->getError(null, false);
 
             if ($error) {
-                $this->setError($error);
+                if ($this->shouldUseExceptions()) {
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
+                $this->setError($error instanceof \Throwable ? $error->getMessage() : $error);
 
                 return false;
             }
@@ -981,6 +990,12 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             }
 
             if (!$asset->check() || !$asset->store()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $asset->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($asset->getError());
 
                 return false;
@@ -1112,6 +1127,12 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
 
             if ($asset->loadByName($name)) {
                 if (!$asset->delete()) {
+                    if ($this->shouldUseExceptions()) {
+                        $error = $asset->getError(null, false);
+
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
                     $this->setError($asset->getError());
 
                     return false;
@@ -1774,6 +1795,10 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
                     $pk[$key] = $this->$key;
                 } else {
                     // We don't have a full primary key - return false
+                    if ($this->shouldUseExceptions()) {
+                        throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+                    }
+
                     $this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
                     return false;
@@ -1820,6 +1845,10 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             try {
                 $db->execute();
             } catch (\RuntimeException $e) {
+                if ($this->shouldUseExceptions()) {
+                    throw $e;
+                }
+
                 $this->setError($e->getMessage());
 
                 return false;
