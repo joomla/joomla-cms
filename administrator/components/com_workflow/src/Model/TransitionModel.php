@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -298,7 +299,7 @@ class TransitionModel extends AdminModel
 
         $workflow->load($workflow_id);
 
-        return (object) $workflow->getProperties();
+        return (object) ArrayHelper::fromObject($workflow, false);
     }
 
     /**
@@ -316,7 +317,7 @@ class TransitionModel extends AdminModel
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
-        $extension = Factory::getApplication()->getInput()->get('extension');
+        $extension = Factory::getApplication()->getInput()->get('extension', '');
 
         $parts = explode('.', $extension);
 
