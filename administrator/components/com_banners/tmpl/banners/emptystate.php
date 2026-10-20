@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
 /** @var \Joomla\Component\Banners\Administrator\View\Banners\HtmlView $this */
@@ -27,6 +28,17 @@ $user = $this->getCurrentUser();
 
 if ($user->authorise('core.create', 'com_banners') || count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0) {
     $displayData['createURL'] = 'index.php?option=com_banners&task=banner.add';
+}
+
+$factory = Factory::getApplication()->bootComponent('com_guidedtours')->getMVCFactory();
+
+// Get an instance of the guided tour model
+$tourModel = $factory->createModel('Tour', 'Administrator', ['ignore_request' => true]);
+
+$tourUid = 'joomla-banners';
+
+if ($tourModel->isAvailable($tourUid) !== false) {
+    $displayData['tourUID'] = $tourUid;
 }
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);
