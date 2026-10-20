@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ac882cb614894c583b265528f6e9f688",
+    "content-hash": "6bb2d3149863375201f20d5e06aea613",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -5665,16 +5665,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v6.4.41",
+            "version": "v6.4.48",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "e8fdf3408c85806198d5826e604ffc6830d33152"
+                "reference": "91288fddb497a598b564343ea663ea272370a7dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/e8fdf3408c85806198d5826e604ffc6830d33152",
-                "reference": "e8fdf3408c85806198d5826e604ffc6830d33152",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/91288fddb497a598b564343ea663ea272370a7dc",
+                "reference": "91288fddb497a598b564343ea663ea272370a7dc",
                 "shasum": ""
             },
             "require": {
@@ -5717,7 +5717,7 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v6.4.41"
+                "source": "https://github.com/symfony/yaml/tree/v6.4.48"
             },
             "funding": [
                 {
@@ -5737,7 +5737,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-25T06:03:23+00:00"
+            "time": "2026-10-12T09:18:28+00:00"
         },
         {
             "name": "tobscure/json-api",
