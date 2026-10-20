@@ -113,12 +113,16 @@ $usersConfig = ComponentHelper::getParams('com_users');
         </fieldset>
     </form>
     <div class="com-users-login__options list-group">
-        <a class="com-users-login__reset list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=reset'); ?>">
-            <?php echo Text::_('COM_USERS_LOGIN_RESET'); ?>
-        </a>
-        <a class="com-users-login__remind list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
-            <?php echo Text::_('COM_USERS_LOGIN_REMIND'); ?>
-        </a>
+        <?php if ($this->params->get('showPasswordReset', 1)) : ?>
+            <a class="com-users-login__reset list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=reset'); ?>">
+                <?php echo Text::_('COM_USERS_LOGIN_RESET'); ?>
+            </a>
+        <?php endif; ?>
+        <?php if ($this->params->get('showUsernameReminder', 1)) : ?>
+            <a class="com-users-login__remind list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
+                <?php echo Text::_('COM_USERS_LOGIN_REMIND'); ?>
+            </a>
+        <?php endif; ?>
         <?php
         if ($usersConfig->get('allowUserRegistration')) :
             $regLinkMenuId = $this->params->get('customRegLinkMenu');
