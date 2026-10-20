@@ -78,7 +78,7 @@ class User
     public $email = null;
 
     /**
-     * MD5 encrypted password
+     * Hashed password
      *
      * @var    string
      * @since  1.7.0
