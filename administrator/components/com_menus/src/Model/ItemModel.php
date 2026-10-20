@@ -1002,6 +1002,12 @@ class ItemModel extends AdminModel
              * Note: a new menu item will have no field type.
              * The field is required so the user has to change it.
              */
+
+            // An existing item already has a type, on the row loaded above. The Web Services API is
+            // stateless, so the user state is empty and the request only has "type" if the caller sent it.
+            if (!$type && isset($table)) {
+                $type = $table->type;
+            }
         }
 
         $this->setState('item.type', $type);
