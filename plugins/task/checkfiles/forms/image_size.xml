@@ -11,7 +11,7 @@
 				hide_none="true"
 				required="true"
 				validate="options"
-				>
+			>
 				<option value="">JOPTION_DO_NOT_USE</option>
 			</field>
 			<field
@@ -20,7 +20,7 @@
 				label="PLG_TASK_CHECK_FILES_LABEL_IMAGE_DIMENSION"
 				required="true"
 				default="width"
-				>
+			>
 				<option value="width">JFIELD_MEDIA_WIDTH_LABEL</option>
 				<option value="height">JFIELD_MEDIA_HEIGHT_LABEL</option>
 			</field>
@@ -43,6 +43,18 @@
 				min="1"
 				step="1"
 				default="1"
+				filter="int"
+			/>
+			<field
+				name="compression"
+				type="number"
+				label="PLG_TASK_CHECK_FILES_LABEL_COMPRESSION"
+				description="PLG_TASK_CHECK_FILES_LABEL_COMPRESSION_DESC"
+				min="0"
+				max="100"
+				step="1"
+				required="true"
+				default="0"
 				filter="int"
 			/>
 		</fieldset>
