@@ -29,10 +29,7 @@ $layoutAttr  = [
     'class' => $imageClass,
 ];
 ?>
-<?php if (isset($images->image_intro_caption) && $images->image_intro_caption !== '') : ?>
-    <figure class="<?php echo $this->escape($figureClass); ?> item-image">
-<?php endif; ?>
-
+<figure class="<?php echo $this->escape($figureClass); ?> item-image">
     <?php if ($params->get('link_intro_image') && ($params->get('access-view') || $params->get('show_noauth', '0') == '1')) : ?>
         <a href="<?php echo Route::_(RouteHelper::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)); ?>" title="<?php echo $this->escape($displayData->title); ?>">
             <?php echo LayoutHelper::render('joomla.html.image', $layoutAttr); ?>
@@ -40,9 +37,7 @@ $layoutAttr  = [
     <?php else : ?>
         <?php echo LayoutHelper::render('joomla.html.image', $layoutAttr); ?>
     <?php endif; ?>
-
-<?php if (isset($images->image_intro_caption) && $images->image_intro_caption !== '') : ?>
+    <?php if (isset($images->image_intro_caption) && $images->image_intro_caption !== '') : ?>
         <figcaption class="caption"><?php echo $this->escape($images->image_intro_caption); ?></figcaption>
-
-    </figure>
-<?php endif; ?>
+    <?php endif; ?>
+</figure>
