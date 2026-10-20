@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
 --
 
 INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
-(1, 0, 0, 183, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.api":{"8":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1, 0, 0, 185, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.api":{"8":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'),
 (3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -107,16 +107,17 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (87, 18, 124, 125, 2, 'com_modules.module.97', 'Recently Added Articles', '{}'),
 (88, 18, 126, 127, 2, 'com_modules.module.98', 'Logged-in Users', '{}'),
 (89, 18, 128, 129, 2, 'com_modules.module.90', 'Login Support', '{}'),
-(90, 1, 165, 172, 1, 'com_scheduler', 'com_scheduler', '{}'),
-(91, 1, 173, 174, 1, 'com_associations', 'com_associations', '{}'),
-(92, 1, 175, 176, 1, 'com_categories', 'com_categories', '{}'),
-(93, 1, 177, 178, 1, 'com_fields', 'com_fields', '{}'),
-(94, 1, 179, 180, 1, 'com_workflow', 'com_workflow', '{}'),
-(95, 1, 181, 182, 1, 'com_guidedtours', 'com_guidedtours', '{}'),
+(90, 1, 165, 174, 1, 'com_scheduler', 'com_scheduler', '{}'),
+(91, 1, 175, 176, 1, 'com_associations', 'com_associations', '{}'),
+(92, 1, 177, 178, 1, 'com_categories', 'com_categories', '{}'),
+(93, 1, 179, 180, 1, 'com_fields', 'com_fields', '{}'),
+(94, 1, 181, 182, 1, 'com_workflow', 'com_workflow', '{}'),
+(95, 1, 183, 184, 1, 'com_guidedtours', 'com_guidedtours', '{}'),
 (96, 18, 130, 131, 2, 'com_modules.module.109', 'Guided Tours', '{}'),
 (97, 90, 166, 167, 2, 'com_scheduler.task.1', 'Rotate Logs', '{}'),
 (98, 90, 168, 169, 2, 'com_scheduler.task.2', 'Session GC', '{}'),
-(99, 90, 170, 171, 2, 'com_scheduler.task.3', 'Update Notification', '{}');
+(99, 90, 170, 171, 2, 'com_scheduler.task.3', 'Update Notification', '{}'),
+(100, 90, 172, 173, 2, 'com_scheduler.task.4', 'Extensions Update Notification', '{}');
 
 -- --------------------------------------------------------
 
