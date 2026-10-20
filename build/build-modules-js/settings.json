@@ -63,7 +63,10 @@
             "uri": "awesomplete.min.js",
             "attributes": {
               "defer": true
-            }
+            },
+            "crossDependencies": [
+              "awesomplete#style"
+            ]
           },
           {
             "name": "awesomplete",
@@ -71,7 +74,9 @@
             "dependencies": [
               "awesomplete#style",
               "awesomplete#script"
-            ]
+            ],
+            "deprecated": true,
+            "deprecatedMsg": "Use script asset directly. Will be removed in 7.0"
           }
         ],
         "dependencies": [],
@@ -256,7 +261,10 @@
             "name": "cropper-module",
             "type": "script",
             "uri": "cropper.esm.js",
-            "importmap": true
+            "importmap": true,
+            "crossDependencies": [
+              "cropperjs#style"
+            ]
           },
           {
             "name": "cropperjs",
@@ -265,7 +273,10 @@
             "uri": "cropper.min.js",
             "attributes": {
               "defer": true
-            }
+            },
+            "crossDependencies": [
+              "cropperjs#style"
+            ]
           },
           {
             "name": "cropperjs",
@@ -273,7 +284,9 @@
             "dependencies": [
               "cropperjs#style",
               "cropperjs#script"
-            ]
+            ],
+            "deprecated": true,
+            "deprecatedMsg": "Use script asset directly. Will be removed in 7.0"
           }
         ],
         "dependencies": [],
@@ -305,7 +318,10 @@
             "uri": "choices.min.js",
             "attributes": {
               "defer": true
-            }
+            },
+            "crossDependencies": [
+              "choicesjs#style"
+            ]
           },
           {
             "name": "choicesjs",
@@ -313,7 +329,9 @@
             "dependencies": [
               "choicesjs#style",
               "choicesjs#script"
-            ]
+            ],
+            "deprecated": true,
+            "deprecatedMsg": "Use script asset directly. Will be removed in 7.0"
           }
         ],
         "dependencies": [],
@@ -359,7 +377,10 @@
             "uri": "dragula.min.js",
             "attributes": {
               "defer": true
-            }
+            },
+            "crossDependencies": [
+              "dragula#style"
+            ]
           },
           {
             "name": "dragula",
@@ -367,7 +388,9 @@
             "dependencies": [
               "dragula#style",
               "dragula#script"
-            ]
+            ],
+            "deprecated": true,
+            "deprecatedMsg": "Use script asset directly. Will be removed in 7.0"
           }
         ],
         "dependencies": [],
