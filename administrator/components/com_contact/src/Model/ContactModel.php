@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Contact\Administrator\Model;
 
+use Joomla\CMS\Access\Exception\NotAllowedException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
@@ -17,6 +18,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Model\Exception\BatchOperationException;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
@@ -101,11 +103,21 @@ class ContactModel extends AdminModel implements VersionableModelInterface
                 $this->table->user_id = (int) $value;
 
                 if (!$this->table->store()) {
+                    if ($this->shouldUseExceptions()) {
+                        $error = $this->table->getError(null, false);
+
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
                     $this->setError($this->table->getError());
 
                     return false;
                 }
             } else {
+                if ($this->shouldUseExceptions()) {
+                    throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+                }
+
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
                 return false;
@@ -303,6 +315,12 @@ class ContactModel extends AdminModel implements VersionableModelInterface
 
             // Create new category.
             if (!$categoryModel->save($category)) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $categoryModel->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($categoryModel->getError());
 
                 return false;
@@ -466,6 +484,10 @@ class ContactModel extends AdminModel implements VersionableModelInterface
         $pks = ArrayHelper::toInteger((array) $pks);
 
         if (empty($pks)) {
+            if ($this->shouldUseExceptions()) {
+                throw new BatchOperationException(Text::_('COM_CONTACT_NO_ITEM_SELECTED'));
+            }
+
             $this->setError(Text::_('COM_CONTACT_NO_ITEM_SELECTED'));
 
             return false;
@@ -486,6 +508,10 @@ class ContactModel extends AdminModel implements VersionableModelInterface
 
             $db->execute();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
