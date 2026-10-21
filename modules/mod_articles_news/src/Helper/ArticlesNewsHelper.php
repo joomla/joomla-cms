@@ -162,7 +162,7 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
                     $item->imageSrc = htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8');
                     $item->imageAlt = htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8');
 
-                    if ($images->image_intro_caption) {
+                    if (isset($images->image_intro_caption)) {
                         $item->imageCaption = htmlspecialchars($images->image_intro_caption, ENT_COMPAT, 'UTF-8');
                     }
                 } elseif ($params->get('img_intro_full') === 'full' && !empty($images->image_fulltext)) {
