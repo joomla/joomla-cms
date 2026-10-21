@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Session\Session;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -35,6 +36,12 @@ class AjaxController extends BaseController
      */
     public function fetchUserState()
     {
+        // The request changes persisted user state, so it must carry a valid token.
+        if (!Session::checkToken('get')) {
+            echo new JsonResponse(null, Text::_('JINVALID_TOKEN'), true);
+            $this->app->close();
+        }
+
         $user = $this->app->getIdentity();
 
         $tourId     = $this->app->getInput()->getInt('tid', 0);
