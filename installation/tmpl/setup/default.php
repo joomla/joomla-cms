@@ -21,6 +21,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
 $wa = $this->getDocument()->getWebAssetManager();
 
 $wa->useScript('joomla.dialog-autocreate');
+Text::script('INSTL_ADMIN_PASSWORD_CHARACTERS_ENTERED');
 ?>
 
 <div id="installer-view" data-page-name="setup">
