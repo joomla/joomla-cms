@@ -88,8 +88,7 @@ class PasswordStrength {
  */
 ((Joomla, document) => {
   // Method to check the input and set the meter
-  const getMeter = (element) => {
-    const meter = document.querySelector('meter');
+  const getMeter = (element, meter) => {
     const minLength = element.getAttribute('data-min-length');
     const minIntegers = element.getAttribute('data-min-integers');
     const minSymbols = element.getAttribute('data-min-symbols');
@@ -105,34 +104,58 @@ class PasswordStrength {
     });
 
     const score = strength.getScore(element.value);
-    const i = meter.getAttribute('id').replace(/^\D+/g, '');
-    const label = element.parentNode.parentNode.querySelector(`#password-${i}`);
+
+    let message = '';
+    let instruction = '';
+
+    if (!element.value.length) {
+      meter.value = 0;
+      element.setAttribute('required', '');
+
+      return { message, instruction };
+    }
 
     if (element.value !== element.value.trim()) {
-      label.innerText = Joomla.Text._('JFIELD_PASSWORD_SPACES_IN_PASSWORD');
+      message = Joomla.Text._('JFIELD_PASSWORD_SPACES_IN_PASSWORD');
       meter.value = 0;
-      return;
+    } else {
+      message = score === 100
+        ? Joomla.Text._('JFIELD_PASSWORD_INDICATE_COMPLETE')
+        : Joomla.Text._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
+
+      meter.value = score;
     }
 
-    if (label) {
-      if (score === 100) {
-        label.innerText = Joomla.Text._('JFIELD_PASSWORD_INDICATE_COMPLETE');
-      } else {
-        label.innerText = Joomla.Text._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
-      }
-      meter.value = score;
-      if (!element.value.length) {
-        label.innerText = '';
-        element.setAttribute('required', '');
+    if (
+      element.id === 'jform_admin_password'
+      && element.value.length < strength.length
+    ) {
+      const description = document.getElementById(`${element.id}-desc`);
+      const requirement = description ? description.textContent.trim() : '';
+
+      if (requirement) {
+        const characterCount = Joomla.Text._(
+          'INSTL_ADMIN_PASSWORD_CHARACTERS_ENTERED',
+        )
+          .replace(/%1\$s/g, () => String(element.value.length))
+          .replace(/%2\$s/g, () => String(strength.length));
+
+        instruction = `${requirement} ${characterCount}`;
       }
     }
+
+    return { message, instruction };
   };
 
-  document.addEventListener('DOMContentLoaded', () => {
+  const initialize = () => {
     const fields = document.querySelectorAll('.js-password-strength');
 
     // Loop  through the fields
     fields.forEach((field, index) => {
+      if (field.dataset.passwordStrengthInitialized === 'true') {
+        return;
+      }
+
       let initialVal = '';
 
       if (!field.value.length) {
@@ -152,21 +175,104 @@ class PasswordStrength {
       const label = document.createElement('output');
       label.setAttribute('id', `password-${index}`);
       label.setAttribute('for', field.id);
+      label.setAttribute('role', 'status');
+      label.setAttribute('aria-live', 'polite');
+      label.setAttribute('aria-atomic', 'true');
 
+      const visibleStatus = document.createElement('span');
+      visibleStatus.setAttribute('aria-hidden', 'true');
+
+      const spokenInstruction = document.createElement('span');
+      spokenInstruction.classList.add('visually-hidden');
+
+      label.appendChild(visibleStatus);
+      label.appendChild(spokenInstruction);
       field.parentNode.insertAdjacentElement('afterEnd', label);
       field.parentNode.insertAdjacentElement('afterEnd', meter);
+      field.dataset.passwordStrengthInitialized = 'true';
 
       // Add a data attribute for the required
       if (field.value.length > 0) {
         field.setAttribute('required', true);
       }
 
-      // Add a listener for input data change
-      field.addEventListener('keyup', ({ target }) => getMeter(target));
+      // Add a listener for input data change (status feedback)
+      let feedbackTimer = null;
+      let lastFeedbackTime = 0;
+      let pendingFeedback = null;
+      let previousStatus = '';
+
+      const renderFeedback = () => {
+        feedbackTimer = null;
+
+        if (!pendingFeedback) {
+          return;
+        }
+
+        const { message, instruction } = pendingFeedback;
+        pendingFeedback = null;
+
+        const statusChanged = message !== previousStatus;
+        let spokenMessage = '';
+
+        if (message) {
+          if (instruction) {
+            spokenMessage = statusChanged
+              ? `${message} ${instruction}`
+              : instruction;
+          } else {
+            spokenMessage = message;
+          }
+        }
+
+        if (
+          visibleStatus.textContent !== message
+          || spokenInstruction.textContent !== spokenMessage
+        ) {
+          label.setAttribute('aria-busy', 'true');
+          visibleStatus.textContent = message;
+          spokenInstruction.textContent = spokenMessage;
+          label.setAttribute('aria-busy', 'false');
+        }
+
+        previousStatus = message;
+        lastFeedbackTime = Date.now();
+      };
+
+      field.addEventListener('input', () => {
+        pendingFeedback = getMeter(field, meter);
+
+        if (!field.value.length || !pendingFeedback.instruction) {
+          window.clearTimeout(feedbackTimer);
+          feedbackTimer = null;
+          renderFeedback();
+          return;
+        }
+
+        if (feedbackTimer !== null) {
+          return;
+        }
+
+        const delay = Math.max(
+          0,
+          500 - (Date.now() - lastFeedbackTime),
+        );
+
+        feedbackTimer = window.setTimeout(renderFeedback, delay);
+      });
+
+      field.addEventListener('blur', () => {
+        window.clearTimeout(feedbackTimer);
+        feedbackTimer = null;
+
+        if (pendingFeedback) {
+          renderFeedback();
+        }
+      });
     });
 
     // Set a handler for the validation script
-    if (fields[0]) {
+    if (fields[0] && document.formvalidator) {
       document.formvalidator.setHandler('password-strength', (value) => {
         if (value !== value.trim()) {
           return false;
@@ -190,5 +296,11 @@ class PasswordStrength {
         return strength.getScore(value) === 100;
       });
     }
-  });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initialize, { once: true });
+  } else {
+    initialize();
+  }
 })(Joomla, document);
