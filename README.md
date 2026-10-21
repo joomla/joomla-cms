@@ -86,7 +86,7 @@ Using a simple classification keeps the project **stable**, **transparent**, and
 | **Bug / Patch release** | The change fixes an actual error. The software crashes, produces the wrong result, or behaves contrary to its specification. It can be resolved without large‑scale refactoring or new functionality. | **[6.2-dev](https://github.com/joomla/joomla-cms/tree/6.2-dev)** (6.2-dev) **\*** |
 | **Feature / Minor release** | Anything that isn’t a strict bug – new behavior, refactoring, performance improvements, enhancements, UI tweaks, etc. These changes are bundled together for the next minor version. | **[6.3-dev](https://github.com/joomla/joomla-cms/tree/6.3-dev)**                  |
 
-**\*** All bugs that already exist in version 5.4.x, 6.1.x or 6.2.x should be fixed in `6.2-dev`. Only bugs that are introduced for the first time in version 6.3.x should target the [`6.3-dev`](https://github.com/joomla/joomla-cms/tree/6.3-dev) branch.
+**\*** All bugs that already exist in version 5.4.x or 6.1.x or 6.2.x should be fixed in `6.2-dev`. Only bugs that are introduced for the first time in version 6.3.x should target the [`6.3-dev`](https://github.com/joomla/joomla-cms/tree/6.3-dev) branch.
 
 A member of the maintainer or bug squad team confirms the classification and sets the appropriate labels when a PR is opened. If a PR is opened in the wrong branch, a maintainer will simply ask you to retarget it to the proper branch.
 
