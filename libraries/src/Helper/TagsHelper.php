@@ -634,7 +634,15 @@ class TagsHelper extends CMSHelper
 
         $groups   = array_values(array_unique($user->getAuthorisedViewLevels()));
         $groups[] = 0;
-        $query->whereIn($db->quoteName('c.core_access'), $groups);
+        $query->whereIn($db->quoteName('c.core_access'), $groups)
+            ->extendWhere(
+                'AND',
+                [
+                    $db->quoteName('c.core_catid') . ' = 0',
+                    $db->quoteName('tc.access') . ' IN (' . implode(',', ArrayHelper::toInteger($groups)) . ')',
+                ],
+                'OR'
+            );
 
         if (!\in_array(0, $stateFilters, true)) {
             $query->extendWhere(

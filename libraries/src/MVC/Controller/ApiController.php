@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
@@ -422,6 +423,9 @@ class ApiController extends BaseController
         $checkin    = property_exists($table, $table->getColumnAlias('checked_out'));
         $data[$key] = $recordKey;
 
+        // Stored values of the fields which are not in the PATCH request
+        $storedValues = [];
+
         if ($this->input->getMethod() === 'PATCH') {
             if ($recordKey && $table->load($recordKey)) {
                 $fields = $table->getFields();
@@ -431,7 +435,8 @@ class ApiController extends BaseController
                         continue;
                     }
 
-                    $data[$field->Field] = $table->{$field->Field};
+                    $data[$field->Field]         = $table->{$field->Field};
+                    $storedValues[$field->Field] = $table->{$field->Field};
                 }
             }
         }
@@ -469,6 +474,17 @@ class ApiController extends BaseController
             }
 
             throw new InvalidParameterException(implode("\n", $messages));
+        }
+
+        // Stored values are already in UTC, so don't let the SERVER_UTC / USER_UTC form filter convert them a second time
+        foreach ($storedValues as $field => $value) {
+            if (!\array_key_exists($field, $validData)) {
+                continue;
+            }
+
+            if (\in_array(strtoupper($form->getFieldAttribute($field, 'filter', '')), ['SERVER_UTC', 'USER_UTC'], true)) {
+                $validData[$field] = $value;
+            }
         }
 
         if (!isset($validData['tags'])) {
@@ -515,13 +531,42 @@ class ApiController extends BaseController
      */
     protected function allowEdit($data = [], $key = 'id')
     {
-        $user = $this->app->getIdentity();
+        $user     = $this->app->getIdentity();
+        $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
 
         if (!$user->authorise('core.manage', $this->option)) {
             return false;
         }
 
-        return $user->authorise('core.edit', $this->option);
+        // No record: fall back to the component permission.
+        if (!$recordId) {
+            return $user->authorise('core.edit', $this->option);
+        }
+
+        $inflector = InflectorFactory::create()->build();
+        $asset     = $this->option . '.' . $inflector->singularize($this->contentType) . '.' . $recordId;
+
+        // Check edit on the record asset (explicit or inherited)
+        if ($user->authorise('core.edit', $asset)) {
+            return true;
+        }
+
+        $table = $this->getModel($inflector->singularize($this->contentType))->getTable();
+
+        // Check edit own on the record asset (explicit or inherited)
+        if ($table->hasField('created_by') && $user->authorise('core.edit.own', $asset)) {
+            // Existing record already has an owner, get it
+            $table->load($recordId);
+
+            if (empty($table->getId())) {
+                return false;
+            }
+
+            // Grant if current user is owner of the record
+            return $user->id == $table->created_by;
+        }
+
+        return false;
     }
 
     /**
