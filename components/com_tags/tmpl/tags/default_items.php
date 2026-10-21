@@ -87,7 +87,7 @@ $n         = count($this->items);
         </div>
     <?php else : ?>
         <?php foreach ($this->items as $i => $item) : ?>
-            <?php if ($n === 1 || $i === 0 || $bscolumns === 1 || $i % $bscolumns === 0) : ?>
+            <?php if ($i === 0 || ($bscolumns > 1 && $i % $bscolumns === 0)) : ?>
                 <ul class="com-tags__category category list-group">
             <?php endif; ?>
 
@@ -133,7 +133,7 @@ $n         = count($this->items);
                 <?php endif; ?>
             </li>
 
-            <?php if (($i === 0 && $n === 1) || $i === $n - 1 || $bscolumns === 1 || (($i + 1) % $bscolumns === 0)) : ?>
+            <?php if ($i === $n - 1 || ($bscolumns > 1 && ($i + 1) % $bscolumns === 0)) : ?>
                 </ul>
             <?php endif; ?>
 
