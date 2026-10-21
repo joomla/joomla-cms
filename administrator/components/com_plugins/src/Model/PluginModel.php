@@ -81,9 +81,10 @@ class PluginModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|bool  A Form object on success, false on failure.
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -106,10 +107,6 @@ class PluginModel extends AdminModel
 
         // Get the form.
         $form = $this->loadForm('com_plugins.plugin', 'plugin', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         // Modify the form based on access controls.
         if (!$this->canEditState((object) $data)) {
@@ -253,7 +250,7 @@ class PluginModel extends AdminModel
 
         // Load the core and/or local language sys file(s) for the ordering field.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('element'))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))

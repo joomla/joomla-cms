@@ -114,8 +114,8 @@ class SetupRenderOptions extends DataShapeObject
     /**
      * Attributes other than type and id which will be added to the HTML input box.
      *
-     * @var    array
-     * @@since 4.2.0
+     * @var   array
+     * @since 4.2.0
      */
     protected $input_attributes = [];
 

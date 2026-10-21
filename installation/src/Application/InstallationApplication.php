@@ -187,11 +187,6 @@ final class InstallationApplication extends CMSApplication
         // Register the document object with Factory.
         Factory::$document = $document;
 
-        // Define component path.
-        \define('JPATH_COMPONENT', JPATH_BASE);
-        \define('JPATH_COMPONENT_SITE', JPATH_SITE);
-        \define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
-
         // Execute the task.
         ob_start();
         $this->executeController();
@@ -294,14 +289,14 @@ final class InstallationApplication extends CMSApplication
 
         // Parse task in format controller.task
         if ($task !== '') {
-            list($controllerName, $task) = explode('.', $task, 2);
+            [$controllerName, $task] = explode('.', $task, 2);
         }
 
         $factory = new MVCFactory('Joomla\\CMS', $this->getLogger());
         $factory->setDatabase($this->getContainer()->get(DatabaseInterface::class));
 
         // Create the instance
-        $controller = $factory->createController($controllerName, 'Installation', [], $this, $this->input);
+        $controller = $factory->createController($controllerName, 'Installation', ['base_path' => JPATH_INSTALLATION], $this, $this->input);
 
         // Execute the task
         $controller->execute($task);
@@ -366,30 +361,6 @@ final class InstallationApplication extends CMSApplication
         }
 
         return $langfiles;
-    }
-
-    /**
-     * Gets the name of the current template.
-     *
-     * @param   boolean  $params  True to return the template parameters
-     *
-     * @return  string|\stdClass  The name of the template.
-     *
-     * @since   3.1
-     */
-    public function getTemplate($params = false)
-    {
-        if ($params) {
-            $template              = new \stdClass();
-            $template->template    = 'template';
-            $template->params      = new Registry();
-            $template->inheritable = 0;
-            $template->parent      = '';
-
-            return $template;
-        }
-
-        return 'template';
     }
 
     /**
@@ -567,5 +538,22 @@ final class InstallationApplication extends CMSApplication
     public function getMenu($name = null, $options = [])
     {
         return null;
+    }
+
+    /**
+     * Initialise the template.
+     *
+     * @return  void
+     *
+     * @since   6.1.0
+     */
+    protected function initialiseTemplate(): void
+    {
+        $this->template = (object) [
+            'template'    => 'template',
+            'params'      => new Registry(),
+            'inheritable' => 0,
+            'parent'      => '',
+        ];
     }
 }

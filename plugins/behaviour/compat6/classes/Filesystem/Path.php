@@ -22,7 +22,7 @@ if (!\defined('JPATH_ROOT')) {
  * A Path handling class
  *
  * @since  1.7.0
- * @deprecated  4.4 will be removed in 6.0
+ * @deprecated  4.4 will be removed in 7.0
  *              Use Joomla\Filesystem\Path instead.
  */
 class Path extends FilesystemPath
@@ -36,7 +36,7 @@ class Path extends FilesystemPath
      *
      * @throws  \Exception
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Path::check() instead.
      */
     public static function check($path, $basePath = '')
@@ -56,7 +56,7 @@ class Path extends FilesystemPath
      * @return  boolean  True if the php script owns the path passed.
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Path::isOwner() instead.
      */
     public static function isOwner($path)

@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Contenthistory\Administrator\View\Compare;
 
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Contenthistory\Administrator\Model\CompareModel;
 
@@ -52,14 +51,10 @@ class HtmlView extends BaseHtmlView
     {
         /** @var CompareModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->state = $model->getState();
         $this->items = $model->getItems();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         parent::display($tpl);
     }

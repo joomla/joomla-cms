@@ -432,7 +432,7 @@ final class Contacts extends Adapter implements SubscriberInterface
         $db = $this->getDatabase();
 
         // Check if we can use the supplied SQL query.
-        $query = $query instanceof QueryInterface ? $query : $db->getQuery(true)
+        $query = $query instanceof QueryInterface ? $query : $db->createQuery()
             ->select('a.id, a.name AS title, a.alias, a.con_position AS position, a.address, a.created AS start_date')
             ->select('a.created_by_alias, a.modified, a.modified_by')
             ->select('a.metakey, a.metadesc, a.metadata, a.language')

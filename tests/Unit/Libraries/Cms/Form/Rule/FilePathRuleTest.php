@@ -2,7 +2,7 @@
 
 /**
  * @package     Joomla.UnitTest
- * @subpackage  HTML
+ * @subpackage  Form
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Form\Rule;
 
 use Joomla\CMS\Form\Rule\FilePathRule;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for FilePathRule.
@@ -29,7 +30,7 @@ class FilePathRuleTest extends UnitTestCase
      *
      * @since   3.9.26
      */
-    public function dataTest(): array
+    public static function dataTest(): array
     {
         $xml = new \SimpleXMLElement('<field
 			name="file_path"
@@ -72,17 +73,17 @@ class FilePathRuleTest extends UnitTestCase
     /**
      * Tests the FilePathRule::test method.
      *
-     * @param   string             $expected  The expected test result
-     * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-     * @param   mixed              $value    The form field value to validate.
+     * @param   bool               $expected  The expected test result
+     * @param   \SimpleXMLElement  $element   The SimpleXMLElement object representing the `<field>` tag for the form field object.
+     * @param   string             $value     The form field value to validate.
      *
      * @return  void
      *
      * @since   3.9.26
-     * @dataProvider dataTest
      */
-    public function testRule($expected, $element, $value)
+    #[DataProvider('dataTest')]
+    public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
     {
-        $this->assertEquals($expected, (new FilePathRule())->test($element, $value));
+        $this->assertSame($expected, (new FilePathRule())->test($element, $value));
     }
 }

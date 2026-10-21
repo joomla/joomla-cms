@@ -110,7 +110,7 @@ class ActionlogsController extends AdminController
             $output = fopen("php://output", "w");
 
             foreach ($rows as $row) {
-                fputcsv($output, $row, $csvDelimiter);
+                fputcsv($output, $row, $csvDelimiter, escape: "");
             }
 
             fclose($output);

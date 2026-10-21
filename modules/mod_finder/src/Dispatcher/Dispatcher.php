@@ -27,7 +27,7 @@ use Joomla\Component\Finder\Site\Helper\RouteHelper;
 /**
  * Dispatcher class for mod_finder
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.4.0
  */
 class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareInterface
 {
@@ -38,7 +38,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     protected function getLayoutData()
     {

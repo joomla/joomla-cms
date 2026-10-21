@@ -11,7 +11,10 @@
 namespace Joomla\Component\Guidedtours\Administrator\Model;
 
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Event\Model\AfterDeleteEvent;
+use Joomla\CMS\Event\Model\BeforeDeleteEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -104,7 +107,7 @@ class TourModel extends AdminModel
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('MAX(ordering)')
                     ->from($db->quoteName('#__guidedtours'));
                 $db->setQuery($query);
@@ -125,9 +128,10 @@ class TourModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return \JForm|boolean  A Form object on success, false on failure
+     * @return Form  A Form object
      *
      * @since  4.3.0
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -140,10 +144,6 @@ class TourModel extends AdminModel
                 'load_data' => $loadData,
             ]
         );
-
-        if (empty($form)) {
-            return false;
-        }
 
         $id = $data['id'] ?? $form->getValue('id');
 
@@ -256,7 +256,8 @@ class TourModel extends AdminModel
         $table = $this->getTable();
 
         // Include the plugins for the delete events.
-        PluginHelper::importPlugin($this->events_map['delete']);
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin($this->events_map['delete'], null, true, $dispatcher);
 
         // Iterate the items to delete each one.
         foreach ($pks as $i => $pk) {
@@ -265,7 +266,13 @@ class TourModel extends AdminModel
                     $context = $this->option . '.' . $this->name;
 
                     // Trigger the before delete event.
-                    $result = Factory::getApplication()->triggerEvent($this->event_before_delete, [$context, $table]);
+                    $result = $dispatcher->dispatch(
+                        $this->event_before_delete,
+                        new BeforeDeleteEvent($this->event_before_delete, [
+                            'context' => $context,
+                            'subject' => $table,
+                        ])
+                    )->getArgument('result', []);
 
                     if (\in_array(false, $result, true)) {
                         $this->setError($table->getError());
@@ -283,14 +290,20 @@ class TourModel extends AdminModel
 
                     // Delete of the tour has been successful, now delete the steps
                     $db    = $this->getDatabase();
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->delete($db->quoteName('#__guidedtour_steps'))
                         ->where($db->quoteName('tour_id') . '=' . $tourId);
                     $db->setQuery($query);
                     $db->execute();
 
                     // Trigger the after event.
-                    Factory::getApplication()->triggerEvent($this->event_after_delete, [$context, $table]);
+                    $dispatcher->dispatch(
+                        $this->event_after_delete,
+                        new AfterDeleteEvent($this->event_after_delete, [
+                            'context' => $context,
+                            'subject' => $table,
+                        ])
+                    );
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
@@ -355,7 +368,7 @@ class TourModel extends AdminModel
 
                 $pk = (int) $pk;
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select(
                         $db->quoteName(
                             [
@@ -385,7 +398,7 @@ class TourModel extends AdminModel
                 $rows = $db->loadObjectList();
 
                 if ($rows) {
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->insert($db->quoteName('#__guidedtour_steps'))
                         ->columns(
                             [
@@ -494,7 +507,7 @@ class TourModel extends AdminModel
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__guidedtour_steps'))
             ->set($db->quoteName('language') . ' = :language')
             ->where($db->quoteName('tour_id') . ' = :tourId')
@@ -517,7 +530,7 @@ class TourModel extends AdminModel
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__guidedtours'))
             ->set($db->quoteName('autostart') . ' = :autostart')
             ->where($db->quoteName('id') . ' = :tourId')
@@ -541,7 +554,7 @@ class TourModel extends AdminModel
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('autostart'))
             ->from($db->quoteName('#__guidedtours'))
             ->where($db->quoteName('published') . ' = 1');
@@ -586,7 +599,7 @@ class TourModel extends AdminModel
         $profileKey = 'guidedtour.id.' . $id;
 
         // Check if the profile key already exists.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('profile_value'))
             ->from($db->quoteName('#__user_profiles'))
             ->where($db->quoteName('user_id') . ' = :user_id')

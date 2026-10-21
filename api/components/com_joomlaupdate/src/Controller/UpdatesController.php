@@ -96,8 +96,11 @@ class UpdatesController extends BaseController
     {
         $this->validateUpdateToken();
 
-        $fromVersion    = $this->input->json->getString('fromVersion', null);
-        $updateFileName = $this->input->json->getString('updateFileName', null);
+        $fromVersion    = $this->input->json->getString('fromVersion', '');
+        $updateFileName = $this->input->json->getString('updateFileName', '');
+
+        // Sanitize provided file name
+        $updateFileName = pathinfo($updateFileName, PATHINFO_BASENAME);
 
         $view = $this->prepareView();
 

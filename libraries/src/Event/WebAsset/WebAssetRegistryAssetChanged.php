@@ -62,7 +62,7 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
      *
      * @since  4.0.0
      *
-     * @deprecated 4.4.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 7.0
      *                Use counterpart with onSet prefix
      */
     protected function setSubject($value)

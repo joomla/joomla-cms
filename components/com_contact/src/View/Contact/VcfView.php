@@ -11,6 +11,7 @@
 namespace Joomla\Component\Contact\Site\View\Contact;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\Component\Contact\Site\Model\ContactModel;
@@ -45,12 +46,24 @@ class VcfView extends AbstractView
     public function display($tpl = null)
     {
         /** @var ContactModel $model */
-        $model = $this->getModel();
-        $item  = $model->getItem();
+        $model      = $this->getModel();
+        $app        = Factory::getApplication();
+        $user       = $app->getIdentity();
+        $item       = $model->getItem();
 
         // Check for errors.
         if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
+        }
+
+        // Check if access is not public
+        $groups = $user->getAuthorisedViewLevels();
+
+        if (!\in_array($item->access, $groups) || !\in_array($item->category_access, $groups)) {
+            $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+            $app->setHeader('status', 403, true);
+
+            return;
         }
 
         $this->getDocument()->setMimeEncoding('text/directory', true);
@@ -88,7 +101,11 @@ class VcfView extends AbstractView
 
         $rev = date('c', strtotime($item->modified));
 
-        Factory::getApplication()->setHeader('Content-disposition', 'attachment; filename="' . $card_name . '.vcf"', true);
+        Factory::getApplication()->setHeader(
+            'Content-disposition',
+            'attachment; filename="' . str_replace('"', '', $card_name) . '.vcf"',
+            true
+        );
 
         $vcard   = [];
         $vcard[] = 'BEGIN:VCARD';

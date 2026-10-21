@@ -34,7 +34,7 @@ trait ResultAware
      * @var    boolean
      * @since  4.2.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Using setResult() for the result argument will always be disallowed.
      */
     protected $preventSetArgumentResult = false;
@@ -86,7 +86,7 @@ trait ResultAware
      * @return  array
      * @since   4.2.0
      *
-     * @deprecated 4.4.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 7.0
      *                Use counterpart with onSet prefix
      */
     protected function setResult(array $value)

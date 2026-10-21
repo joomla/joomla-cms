@@ -30,14 +30,14 @@ class PopularHelper
     /**
      * @var CMSApplicationInterface
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected $app;
 
     /**
      * @var Registry
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected $params;
 
@@ -46,7 +46,7 @@ class PopularHelper
      *
      * @param   array  $config  Parameters we are using
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function __construct($config)
     {
@@ -64,7 +64,7 @@ class PopularHelper
      *
      * @throws  \Exception
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function getArticles(Registry $params, ArticlesModel $model): mixed
     {
@@ -72,7 +72,7 @@ class PopularHelper
 
         // Set List SELECT
         $model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .
-            ' a.created_by, a.publish_up, a.hits');
+            ' a.created, a.modified, a.publish_up, a.created_by, a.hits');
 
         // Set Ordering filter
         $model->setState('list.ordering', 'a.hits');
@@ -103,6 +103,21 @@ class PopularHelper
         $model->setState('list.start', 0);
         $model->setState('list.limit', $params->get('count', 5));
 
+        // Set date filtering using ArticlesModel's built-in filter
+        $dateFiltering = $params->get('date_filtering', 'off');
+
+        if ($dateFiltering !== 'off') {
+            $model->setState('filter.date_filtering', $dateFiltering);
+            $model->setState('filter.date_field', $params->get('date_field', 'a.created'));
+
+            if ($dateFiltering === 'range') {
+                $model->setState('filter.start_date_range', $params->get('start_date_range', '1000-01-01 00:00:00'));
+                $model->setState('filter.end_date_range', $params->get('end_date_range', '9999-12-31 23:59:59'));
+            } elseif ($dateFiltering === 'relative') {
+                $model->setState('filter.relative_date', (int) $params->get('relative_date', 30));
+            }
+        }
+
         $items = $model->getItems();
 
         if ($error = $model->getError()) {
@@ -131,7 +146,7 @@ class PopularHelper
      *
      * @return  string  The alternate title for the module.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function getModuleTitle(Registry $params): string
     {

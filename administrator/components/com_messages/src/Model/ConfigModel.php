@@ -11,6 +11,7 @@
 namespace Joomla\Component\Messages\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -63,7 +64,7 @@ class ConfigModel extends FormModel
         $userid = (int) $this->getState('user.id');
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select(
             [
                 $db->quoteName('cfg_name'),
@@ -86,7 +87,7 @@ class ConfigModel extends FormModel
 
         foreach ($rows as $row) {
             $property        = $row->cfg_name;
-            $item->$property = $row->cfg_value;
+            $item->set($property, $row->cfg_value);
         }
 
         $this->preprocessData('com_messages.config', $item);
@@ -100,20 +101,14 @@ class ConfigModel extends FormModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_messages.config', 'config', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_messages.config', 'config', ['control' => 'jform', 'load_data' => $loadData]);
     }
 
     /**
@@ -130,7 +125,7 @@ class ConfigModel extends FormModel
         $db = $this->getDatabase();
 
         if ($userId = (int) $this->getState('user.id')) {
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__messages_cfg'))
                 ->where($db->quoteName('user_id') . ' = :userid')
                 ->bind(':userid', $userId, ParameterType::INTEGER);
@@ -145,7 +140,7 @@ class ConfigModel extends FormModel
             }
 
             if (\count($data)) {
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->insert($db->quoteName('#__messages_cfg'))
                     ->columns(
                         [

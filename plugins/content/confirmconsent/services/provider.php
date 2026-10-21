@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Content\ConfirmConsent\Extension\ConfirmConsent;
 
 return new class () implements ServiceProviderInterface {
@@ -32,15 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(ConfirmConsent::class, function (Container $container) {
                 $plugin     = new ConfirmConsent(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('content', 'confirmconsent')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

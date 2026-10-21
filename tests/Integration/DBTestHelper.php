@@ -48,12 +48,12 @@ class DBTestHelper
         if (!self::$driver) {
             $factory      = new DatabaseFactory();
             self::$driver = $factory->getDriver(
-                JTEST_DB_ENGINE,
+                getenv('JTEST_DB_ENGINE') ?: JTEST_DB_ENGINE,
                 [
-                    'database' => JTEST_DB_NAME,
-                    'host'     => JTEST_DB_HOST,
-                    'user'     => JTEST_DB_USER,
-                    'password' => JTEST_DB_PASSWORD,
+                    'database' => getenv('JTEST_DB_NAME') ?: JTEST_DB_NAME,
+                    'host'     => getenv('JTEST_DB_HOST') ?: JTEST_DB_HOST,
+                    'user'     => getenv('JTEST_DB_USER') ?: JTEST_DB_USER,
+                    'password' => getenv('JTEST_DB_PASSWORD') ?: JTEST_DB_PASSWORD,
                     'prefix'   => 'jos' . PHP_MAJOR_VERSION . PHP_MINOR_VERSION . '_',
                 ]
             );
@@ -67,7 +67,7 @@ class DBTestHelper
                 continue;
             }
 
-            $sql     = file_get_contents(JPATH_ROOT . '/tests/Integration/datasets/' . strtolower(JTEST_DB_ENGINE) . '/' . $file);
+            $sql     = file_get_contents(JPATH_ROOT . '/tests/Integration/datasets/' . strtolower(getenv('JTEST_DB_ENGINE') ?: JTEST_DB_ENGINE) . '/' . $file);
             $queries = self::splitQueries($sql);
 
             if (!\count($queries)) {

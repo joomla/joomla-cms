@@ -9,6 +9,7 @@ plugins/finder/*  @hackwar
 build/build.php  @rdeutz
 build/bump.php  @rdeutz
 build/deleted_file_check.php  @rdeutz
+.drone.yml  @rdeutz @hackwar
 
 # Core/Extension Install/Update Tools
 administrator/components/com_joomlaupdate/*  @rdeutz
@@ -19,9 +20,7 @@ libraries/src/Updater/*  @rdeutz
 .github/workflows/ci.yml  @rdeutz @hackwar @laoneo
 tests/*  @hackwar @laoneo
 tests/Unit/*  @rdeutz @laoneo
-.drone.yml  @rdeutz @hackwar @laoneo
 phpunit.xml.dist  @rdeutz @hackwar @laoneo
-phpunit-pgsql.xml.dist  @rdeutz @hackwar @laoneo
 phpunit-windows.xml.dist  @rdeutz @hackwar @laoneo
 
 # Workflow

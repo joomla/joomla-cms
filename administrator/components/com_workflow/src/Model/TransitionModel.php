@@ -210,9 +210,10 @@ class TransitionModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|boolean  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   4.0.0
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -225,10 +226,6 @@ class TransitionModel extends AdminModel
                 'load_data' => $loadData,
             ]
         );
-
-        if (empty($form)) {
-            return false;
-        }
 
         $id = $data['id'] ?? $form->getValue('id');
 
@@ -319,7 +316,7 @@ class TransitionModel extends AdminModel
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
-        $extension = Factory::getApplication()->getInput()->get('extension');
+        $extension = Factory::getApplication()->getInput()->get('extension', '');
 
         $parts = explode('.', $extension);
 

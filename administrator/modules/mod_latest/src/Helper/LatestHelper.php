@@ -37,7 +37,7 @@ class LatestHelper
      *
      * @return  mixed  An array of articles, or false on error.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     public function getArticles(Registry $params, ArticlesModel $model, CMSApplicationInterface $app): mixed
     {
@@ -115,7 +115,7 @@ class LatestHelper
      *
      * @return  string  The alternate title for the module.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     public function getModuleTitle(Registry $params, CMSApplicationInterface $app): string
     {
@@ -148,7 +148,7 @@ class LatestHelper
      *
      * @return  mixed  An array of articles, or false on error.
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.4.0 will be removed in 7.0
      *             Use the non-static method getArticles
      *             Example: Factory::getApplication()->bootModule('mod_latest', 'administrator')
      *                          ->getHelper('LatestHelper')
@@ -166,7 +166,7 @@ class LatestHelper
      *
      * @return  string  The alternate title for the module.
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.4.0 will be removed in 7.0
      *             Use the non-static method getModuleTitle
      *             Example: Factory::getApplication()->bootModule('mod_latest', 'administrator')
      *                          ->getHelper('LatestHelper')

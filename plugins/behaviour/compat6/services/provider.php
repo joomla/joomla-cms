@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Behaviour\Compat6\Extension\Compat6;
 
 return new class () implements ServiceProviderInterface {
@@ -29,13 +28,12 @@ return new class () implements ServiceProviderInterface {
      */
     public function register(Container $container)
     {
+        // The compatibility plugin is a special case which does not use the lazy loading because it
+        // uses the constructor to load b/c code, the constructor might not be initialized when lazy loading is used.
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $plugin     = PluginHelper::getPlugin('behaviour', 'compat6');
-                $dispatcher = $container->get(DispatcherInterface::class);
-
-                $plugin = new Compat6($dispatcher, (array) $plugin);
+                $plugin = new Compat6((array) PluginHelper::getPlugin('behaviour', 'compat6'));
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;

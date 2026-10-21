@@ -28,7 +28,7 @@ if ($component === 'com_categories') {
 
 $saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
 
-$fields = $displayData->fields ?? [
+$fields = $displayData->get('fields') ?: [
     'transition',
     ['parent', 'parent_id'],
     ['published', 'state', 'enabled'],
@@ -42,7 +42,7 @@ $fields = $displayData->fields ?? [
     'version_note',
 ];
 
-$hiddenFields = $displayData->hidden_fields ?? [];
+$hiddenFields = $displayData->get('hidden_fields') ?: [];
 
 if (!$saveHistory) {
     $hiddenFields[] = 'version_note';

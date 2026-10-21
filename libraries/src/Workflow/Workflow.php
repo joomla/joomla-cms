@@ -111,7 +111,7 @@ class Workflow
 
         // Initialise default objects if none have been provided
         if ($app === null) {
-            @trigger_error('From 6.0 declaring the app dependency will be mandatory.', E_USER_DEPRECATED);
+            @trigger_error('From 7.0 declaring the app dependency will be mandatory.', E_USER_DEPRECATED);
             $app = Factory::getApplication();
         }
 
@@ -122,7 +122,7 @@ class Workflow
         $this->app = $app;
 
         if ($db === null) {
-            @trigger_error('From 6.0 declaring the database dependency will be mandatory.', E_USER_DEPRECATED);
+            @trigger_error('From 7.0 declaring the database dependency will be mandatory.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseDriver::class);
         }
 
@@ -204,7 +204,7 @@ class Workflow
 
         // Check if the workflow exists
         if ($workflow_id = (int) $workflow_id) {
-            $query = $this->db->getQuery(true);
+            $query = $this->db->createQuery();
 
             $query->select(
                 [
@@ -238,7 +238,7 @@ class Workflow
         }
 
         // Use default workflow
-        $query  = $this->db->getQuery(true);
+        $query  = $this->db->createQuery();
 
         $query->select(
             [
@@ -290,7 +290,7 @@ class Workflow
             return null;
         }
 
-        $query = $this->db->getQuery(true);
+        $query = $this->db->createQuery();
 
         $user = $this->app->getIdentity();
 
@@ -387,7 +387,7 @@ class Workflow
             AbstractEvent::create(
                 'onWorkflowBeforeTransition',
                 [
-                    'eventClass'     => 'Joomla\CMS\Event\Workflow\WorkflowTransitionEvent',
+                    'eventClass'     => WorkflowTransitionEvent::class,
                     'subject'        => $this,
                     'extension'      => $this->extension,
                     'pks'            => $pks,
@@ -435,7 +435,7 @@ class Workflow
     public function createAssociation(int $pk, int $state): bool
     {
         try {
-            $query = $this->db->getQuery(true);
+            $query = $this->db->createQuery();
 
             $query->insert($this->db->quoteName('#__workflow_associations'))
                 ->columns(
@@ -473,7 +473,7 @@ class Workflow
         $pks = ArrayHelper::toInteger($pks);
 
         try {
-            $query = $this->db->getQuery(true);
+            $query = $this->db->createQuery();
 
             $query->update($this->db->quoteName('#__workflow_associations'))
                 ->set($this->db->quoteName('stage_id') . ' = :state')
@@ -504,7 +504,7 @@ class Workflow
         $pks = ArrayHelper::toInteger($pks);
 
         try {
-            $query = $this->db->getQuery(true);
+            $query = $this->db->createQuery();
 
             $query
                 ->delete($this->db->quoteName('#__workflow_associations'))
@@ -531,7 +531,7 @@ class Workflow
      */
     public function getAssociation(int $itemId): ?\stdClass
     {
-        $query = $this->db->getQuery(true);
+        $query = $this->db->createQuery();
 
         $query->select(
             [

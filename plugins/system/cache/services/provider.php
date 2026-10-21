@@ -11,6 +11,7 @@
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -34,19 +35,20 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Cache::class, function (Container $container) {
                 $plugin                 = PluginHelper::getPlugin('system', 'cache');
                 $dispatcher             = $container->get(DispatcherInterface::class);
-                $documentFactory        = $container->get('document.factory');
+                $documentFactory        = $container->get(FactoryInterface::class);
                 $cacheControllerFactory = $container->get(CacheControllerFactoryInterface::class);
                 $profiler               = (\defined('JDEBUG') && JDEBUG) ? Profiler::getInstance('Application') : null;
                 $router                 = $container->has(SiteRouter::class) ? $container->get(SiteRouter::class) : null;
 
-                $plugin = new Cache($dispatcher, (array) $plugin, $documentFactory, $cacheControllerFactory, $profiler, $router);
+                $plugin = new Cache((array) $plugin, $documentFactory, $cacheControllerFactory, $profiler, $router);
+                $plugin->setDispatcher($dispatcher);
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

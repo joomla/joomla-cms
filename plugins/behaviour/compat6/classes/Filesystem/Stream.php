@@ -31,7 +31,7 @@ use Joomla\CMS\Object\LegacyPropertyManagementTrait;
  * @link   https://www.php.net/manual/en/filters.php Stream Filters
  * @link   https://www.php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
  * @since  1.7.0
- * @deprecated  4.4 will be removed in 6.0
+ * @deprecated  4.4 will be removed in 7.0
  *              Use Joomla\Filesystem\Stream instead.
  */
 class Stream
@@ -152,7 +152,7 @@ class Stream
      * @param   array   $context      The context options (optional).
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::__construct() instead.
      */
     public function __construct($writeprefix = '', $readprefix = '', $context = [])
@@ -167,7 +167,7 @@ class Stream
      * Destructor
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::__destruct() instead.
      */
     public function __destruct()
@@ -195,7 +195,7 @@ class Stream
      * @return  boolean
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::open() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -308,7 +308,7 @@ class Stream
      * @return  boolean
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::close() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -368,7 +368,7 @@ class Stream
      * @return  boolean
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::eof() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -414,7 +414,7 @@ class Stream
      * @return  mixed
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::filesize() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -477,7 +477,7 @@ class Stream
      * @return  mixed
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::gets() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -532,7 +532,7 @@ class Stream
      *
      * @link    https://www.php.net/manual/en/function.fread.php
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::read() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -623,7 +623,7 @@ class Stream
      *
      * @link    https://www.php.net/manual/en/function.fseek.php
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::seek() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -674,7 +674,7 @@ class Stream
      * @return  mixed
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::tell() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -734,7 +734,7 @@ class Stream
      *
      * @link    https://www.php.net/manual/en/function.fwrite.php
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::write() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -803,7 +803,7 @@ class Stream
      * @return  boolean
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::chmod() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -865,7 +865,7 @@ class Stream
      *
      * @link    https://www.php.net/manual/en/function.stream-get-meta-data.php
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::get_meta_data() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -887,7 +887,7 @@ class Stream
      * @return  void
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::_buildContext() instead.
      */
     public function _buildContext()
@@ -911,7 +911,7 @@ class Stream
      *
      * @link    https://www.php.net/stream_context_create
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::setContextOptions() instead.
      */
     public function setContextOptions($context)
@@ -932,7 +932,7 @@ class Stream
      * @link    https://www.php.net/stream_context_create Stream Context Creation
      * @link    https://www.php.net/manual/en/context.php Context Options for various streams
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::addContextEntry() instead.
      */
     public function addContextEntry($wrapper, $name, $value)
@@ -951,7 +951,7 @@ class Stream
      *
      * @link    https://www.php.net/stream_context_create
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::deleteContextEntry() instead.
      */
     public function deleteContextEntry($wrapper, $name)
@@ -983,7 +983,7 @@ class Stream
      * @return  mixed
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::applyContextToStream() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -1021,7 +1021,7 @@ class Stream
      *
      * @link    https://www.php.net/manual/en/function.stream-filter-append.php
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::appendFilter() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -1061,7 +1061,7 @@ class Stream
      *
      * @link    https://www.php.net/manual/en/function.stream-filter-prepend.php
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::prependFilter() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -1101,7 +1101,7 @@ class Stream
      * @return  boolean   Result of operation
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::removeFilter() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -1140,7 +1140,7 @@ class Stream
      * @return  mixed
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::copy() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -1193,7 +1193,7 @@ class Stream
      * @return  mixed
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::move() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -1241,7 +1241,7 @@ class Stream
      * @return  mixed
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::delete() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -1287,7 +1287,7 @@ class Stream
      * @return  mixed
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::upload() instead.
      *              The framework class throws Exceptions in case of error which you have to catch.
      */
@@ -1312,7 +1312,7 @@ class Stream
      * @return  boolean
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::writeFile() instead.
      */
     public function writeFile($filename, &$buffer)
@@ -1339,7 +1339,7 @@ class Stream
      * @return  string
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::_getFilename() instead.
      */
     public function _getFilename($filename, $mode, $usePrefix, $relative)
@@ -1374,7 +1374,7 @@ class Stream
      * @return  resource  File handler
      *
      * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Stream::getFileHandle() instead.
      */
     public function getFileHandle()

@@ -14,7 +14,6 @@ use Joomla\CMS\Event\Extension\AfterInstallEvent;
 use Joomla\CMS\Event\Extension\AfterUninstallEvent;
 use Joomla\CMS\Event\Extension\AfterUpdateEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -38,7 +37,6 @@ final class NamespaceMap extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor
      *
-     * @param   DispatcherInterface  $subject  The object to observe
      * @param   \JNamespacePsr4Map   $map      The namespace map creator
      * @param   array                $config   An optional associative array of configuration settings.
      *                                         Recognized key values include 'name', 'group', 'params', 'language'
@@ -46,11 +44,11 @@ final class NamespaceMap extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function __construct(DispatcherInterface $dispatcher, \JNamespacePsr4Map $map, array $config = [])
+    public function __construct(\JNamespacePsr4Map $map, array $config = [])
     {
         $this->fileCreator = $map;
 
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
     }
 
     /**

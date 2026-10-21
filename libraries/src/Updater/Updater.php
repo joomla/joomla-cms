@@ -189,7 +189,7 @@ class Updater implements DatabaseAwareInterface
 
             // Make sure there is no update left over in the database.
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__updates'))
                 ->where($db->quoteName('update_site_id') . ' = :id')
                 ->bind(':id', $result['update_site_id'], ParameterType::INTEGER);
@@ -258,7 +258,7 @@ class Updater implements DatabaseAwareInterface
     private function getUpdateSites($eid = 0)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select(
             [
@@ -388,6 +388,7 @@ class Updater implements DatabaseAwareInterface
 
                             if (version_compare($current_update->version, $data['version'], $operator) == 1) {
                                 $current_update->extension_id = $eid;
+                                $current_update->security     = $this->findHighestSeverity($data['version'], $current_update, $update_result['security'] ?? []);
                                 $retVal[]                     = $current_update;
                             }
                         } else {
@@ -406,6 +407,17 @@ class Updater implements DatabaseAwareInterface
                         // If there is an update, check that the version is newer then replaces
                         if (version_compare($current_update->version, $update->version, $operator) == 1) {
                             $retVal[] = $current_update;
+                            if (!$eid) {
+                                continue;
+                            }
+
+                            $extension->load($eid);
+                            $data = json_decode($extension->manifest_cache ?? '', true);
+                            if (empty($data['version'])) {
+                                continue;
+                            }
+
+                            $current_update->security = $this->findHighestSeverity($data['version'], $current_update, $update_result['security'] ?? []);
                         }
                     }
                 }
@@ -413,6 +425,31 @@ class Updater implements DatabaseAwareInterface
         }
 
         return $retVal;
+    }
+
+    /**
+     * Searches for the highest severity in security updates since the installed version.
+     *
+     * @param   string       $installedVersion  The installed version
+     * @param   UpdateTable  $update            The latest compatible update
+     * @param   array        $securityUpdates   The found security updates
+     *
+     * @return  int|null
+     *
+     * @since   6.2.0
+     */
+    private function findHighestSeverity(string $installedVersion, UpdateTable $update, array $securityUpdates): ?int
+    {
+        $securityLevel = (int) $update->security;
+
+        /** @var \Joomla\CMS\Table\Update $securityUpdate */
+        foreach ($securityUpdates as $securityUpdate) {
+            if (version_compare($securityUpdate->version, $installedVersion, '>') && $securityLevel < (int) $securityUpdate->security) {
+                $securityLevel = (int) $securityUpdate->security;
+            }
+        }
+
+        return $securityLevel;
     }
 
     /**
@@ -430,12 +467,12 @@ class Updater implements DatabaseAwareInterface
         $db        = $this->getDatabase();
         $timestamp = (int) $timestamp;
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('DISTINCT ' . $db->quoteName('update_site_id'))
             ->from($db->quoteName('#__updates'));
 
         if ($timestamp) {
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select($db->quoteName('update_site_id'))
                 ->from($db->quoteName('#__update_sites'))
                 ->where(
@@ -474,7 +511,7 @@ class Updater implements DatabaseAwareInterface
         $db           = $this->getDatabase();
         $updateSiteId = (int) $updateSiteId;
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__update_sites'))
             ->set($db->quoteName('last_check_timestamp') . ' = :timestamp')
             ->where($db->quoteName('update_site_id') . ' = :id')

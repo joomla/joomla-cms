@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Fields\ListField\Extension\ListPlugin;
 
 return new class () implements ServiceProviderInterface {
@@ -32,15 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(ListPlugin::class, function (Container $container) {
                 $plugin     = new ListPlugin(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('fields', 'list')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

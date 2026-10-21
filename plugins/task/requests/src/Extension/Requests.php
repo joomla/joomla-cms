@@ -11,14 +11,15 @@
 namespace Joomla\Plugin\Task\Requests\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Version;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status as TaskStatus;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
 use Joomla\Http\HttpFactory;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -87,16 +88,15 @@ final class Requests extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface  $dispatcher     The dispatcher
      * @param   array                $config         An optional associative array of configuration settings
      * @param   HttpFactory          $httpFactory    The http factory
      * @param   string               $rootDirectory  The root directory to store the output file in
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, HttpFactory $httpFactory, string $rootDirectory)
+    public function __construct(array $config, HttpFactory $httpFactory, string $rootDirectory)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->httpFactory   = $httpFactory;
         $this->rootDirectory = $rootDirectory;
@@ -119,17 +119,20 @@ final class Requests extends CMSPlugin implements SubscriberInterface
 
         $url      = $params->url;
         $timeout  = $params->timeout;
-        $auth     = (string) $params->auth ?? 0;
-        $authType = (string) $params->authType ?? '';
-        $authKey  = (string) $params->authKey ?? '';
+        $auth     = (string) ($params->auth ?? 0);
+        $authType = (string) ($params->authType ?? '');
+        $authKey  = (string) ($params->authKey ?? '');
         $headers  = [];
 
         if ($auth && $authType && $authKey) {
             $headers = ['Authorization' => $authType . ' ' . $authKey];
         }
 
+        $options = new Registry();
+        $options->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
+
         try {
-            $response = $this->httpFactory->getHttp([])->get($url, $headers, $timeout);
+            $response = $this->httpFactory->getHttp($options)->get($url, $headers, $timeout);
         } catch (\Exception $e) {
             $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_TIMEOUT'));
 

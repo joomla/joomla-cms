@@ -8,9 +8,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\Database\ParameterType;
 
 $value = $field->value;
@@ -19,9 +18,9 @@ if ($value == '') {
     return;
 }
 
-$db    = Factory::getDbo();
+$db    = $this->getDatabase();
 $value = (array) $value;
-$query = $db->getQuery(true);
+$query = $db->createQuery();
 $sql   = $fieldParams->get('query', '');
 
 $bindNames = $query->bindArray($value, ParameterType::STRING);

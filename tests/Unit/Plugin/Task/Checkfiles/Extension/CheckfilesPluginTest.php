@@ -15,10 +15,10 @@ use Joomla\CMS\Language\Language;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
-use Joomla\Event\Dispatcher;
 use Joomla\Filesystem\Folder;
 use Joomla\Plugin\Task\Checkfiles\Extension\Checkfiles;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for Checkfiles plugin
@@ -26,10 +26,9 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  Checkfiles
  *
- * @testdox     The Checkfiles plugin
- *
  * @since       4.2.0
  */
+#[TestDox('The Checkfiles plugin')]
 class CheckfilesPluginTest extends UnitTestCase
 {
     /**
@@ -60,7 +59,6 @@ class CheckfilesPluginTest extends UnitTestCase
         $image = imagecreate(200, 200);
         imagecolorallocate($image, 255, 255, 0);
         imagepng($image, $this->tmpFolder . '/test.png');
-        imagedestroy($image);
     }
 
     /**
@@ -78,12 +76,11 @@ class CheckfilesPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can resize an image
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can resize an image')]
     public function testResize()
     {
         $language = $this->createStub(Language::class);
@@ -92,7 +89,7 @@ class CheckfilesPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Checkfiles(new Dispatcher(), [], $this->tmpFolder);
+        $plugin = new Checkfiles([], $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -107,20 +104,19 @@ class CheckfilesPluginTest extends UnitTestCase
         );
         $plugin->standardRoutineHandler($event);
 
-        $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+        $this->assertSame(Status::OK, $event->getResultSnapshot()['status']);
 
         list($width, $height) = getimagesize($this->tmpFolder . '/test.png');
-        $this->assertEquals(20, $width);
-        $this->assertEquals(20, $height);
+        $this->assertSame(20, $width);
+        $this->assertSame(20, $height);
     }
 
     /**
-     * @testdox  can resize a subset of images
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can resize a subset of images')]
     public function testResizeWithLimit()
     {
         copy($this->tmpFolder . '/test.png', $this->tmpFolder . '/test1.png');
@@ -131,7 +127,7 @@ class CheckfilesPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Checkfiles(new Dispatcher(), [], $this->tmpFolder);
+        $plugin = new Checkfiles([], $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -146,24 +142,23 @@ class CheckfilesPluginTest extends UnitTestCase
         );
         $plugin->standardRoutineHandler($event);
 
-        $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+        $this->assertSame(Status::OK, $event->getResultSnapshot()['status']);
 
         list($width, $height) = getimagesize($this->tmpFolder . '/test.png');
-        $this->assertEquals(20, $width);
-        $this->assertEquals(20, $height);
+        $this->assertSame(20, $width);
+        $this->assertSame(20, $height);
 
         list($width, $height) = getimagesize($this->tmpFolder . '/test1.png');
-        $this->assertEquals(200, $width);
-        $this->assertEquals(200, $height);
+        $this->assertSame(200, $width);
+        $this->assertSame(200, $height);
     }
 
     /**
-     * @testdox  can resize an image
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can resize an image')]
     public function testIgnoreResize()
     {
         $language = $this->createStub(Language::class);
@@ -172,7 +167,7 @@ class CheckfilesPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Checkfiles(new Dispatcher(), [], $this->tmpFolder);
+        $plugin = new Checkfiles([], $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -187,20 +182,19 @@ class CheckfilesPluginTest extends UnitTestCase
         );
         $plugin->standardRoutineHandler($event);
 
-        $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+        $this->assertSame(Status::OK, $event->getResultSnapshot()['status']);
 
         list($width, $height) = getimagesize($this->tmpFolder . '/test.png');
-        $this->assertEquals(200, $width);
-        $this->assertEquals(200, $height);
+        $this->assertSame(200, $width);
+        $this->assertSame(200, $height);
     }
 
     /**
-     * @testdox  can not run when invalid folder
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can not run when invalid folder')]
     public function testInvalidFolder()
     {
         $language = $this->createStub(Language::class);
@@ -209,7 +203,7 @@ class CheckfilesPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Checkfiles(new Dispatcher(), [], $this->tmpFolder);
+        $plugin = new Checkfiles([], $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -225,8 +219,8 @@ class CheckfilesPluginTest extends UnitTestCase
         $plugin->standardRoutineHandler($event);
 
         list($width, $height) = getimagesize($this->tmpFolder . '/test.png');
-        $this->assertEquals(Status::NO_RUN, $event->getResultSnapshot()['status']);
-        $this->assertEquals(200, $width);
-        $this->assertEquals(200, $height);
+        $this->assertSame(Status::NO_RUN, $event->getResultSnapshot()['status']);
+        $this->assertSame(200, $width);
+        $this->assertSame(200, $height);
     }
 }

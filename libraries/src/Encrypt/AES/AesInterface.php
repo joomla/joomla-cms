@@ -56,8 +56,8 @@ interface AesInterface
     /**
      * Decrypts a string. Returns the raw binary plaintext.
      *
-     * $ciphertext MUST start with the IV followed by the ciphertext, even for EBC data (the first block of data is
-     * dropped in EBC mode since there is no concept of IV in EBC).
+     * $ciphertext MUST start with the IV followed by the ciphertext, even for ECB data (the first block of data is
+     * dropped in ECB mode since there is no concept of IV in ECB).
      *
      * WARNING: The returned plaintext is zero-padded to the algorithm's block size during encryption. You are advised
      * to trim the string to the original plaintext's length upon decryption. While rtrim($decrypted, "\0") sounds

@@ -17,7 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 $displayData = [
     'textPrefix' => 'COM_BANNERS',
     'formURL'    => 'index.php?option=com_banners&view=banners',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Banners',
+    'helpURL'    => 'https://guide.joomla.org/user-manual/banners/banners-banners',
     'icon'       => 'icon-bookmark banners',
 
     'controlFields' => $this->filterForm->renderControlFields(),

@@ -55,6 +55,66 @@
 					<option value="by_me">MOD_POPULAR_FIELD_VALUE_ADDED_OR_MODIFIED_BY_ME</option>
 					<option value="not_me">MOD_POPULAR_FIELD_VALUE_NOT_ADDED_OR_MODIFIED_BY_ME</option>
 				</field>
+
+				<field
+					name="filteringspacer1"
+					type="spacer"
+					hr="true"
+				/>
+
+				<field
+					name="date_filtering"
+					type="list"
+					label="MOD_POPULAR_FIELD_DATEFILTERING_LABEL"
+					default="off"
+					validate="options"
+					>
+					<option value="off">MOD_POPULAR_OPTION_OFF_VALUE</option>
+					<option value="range">MOD_POPULAR_OPTION_DATERANGE_VALUE</option>
+					<option value="relative">MOD_POPULAR_OPTION_RELATIVEDAY_VALUE</option>
+				</field>
+
+				<field
+					name="date_field"
+					type="list"
+					label="MOD_POPULAR_FIELD_DATERANGEFIELD_LABEL"
+					default="a.created"
+					showon="date_filtering!:off"
+					validate="options"
+					>
+					<option value="a.created">MOD_POPULAR_OPTION_CREATED_VALUE</option>
+					<option value="a.modified">MOD_POPULAR_OPTION_MODIFIED_VALUE</option>
+					<option value="a.publish_up">MOD_POPULAR_OPTION_STARTPUBLISHING_VALUE</option>
+				</field>
+
+				<field
+					name="start_date_range"
+					type="calendar"
+					label="MOD_POPULAR_FIELD_STARTDATE_LABEL"
+					translateformat="true"
+					showtime="true"
+					filter="user_utc"
+					showon="date_filtering:range"
+				/>
+
+				<field
+					name="end_date_range"
+					type="calendar"
+					label="MOD_POPULAR_FIELD_ENDDATE_LABEL"
+					translateformat="true"
+					showtime="true"
+					filter="user_utc"
+					showon="date_filtering:range"
+				/>
+
+				<field
+					name="relative_date"
+					type="number"
+					label="MOD_POPULAR_FIELD_RELATIVEDATE_LABEL"
+					default="30"
+					filter="integer"
+					showon="date_filtering:relative"
+				/>
 			</fieldset>
 
 			<fieldset name="advanced">

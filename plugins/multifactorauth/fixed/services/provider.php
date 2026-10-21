@@ -14,7 +14,6 @@ use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Multifactorauth\Fixed\Extension\Fixed;
 
 return new class () implements ServiceProviderInterface {
@@ -31,9 +30,9 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
-                return new Fixed($container->get(DispatcherInterface::class), (array) PluginHelper::getPlugin('multifactorauth', 'fixed'));
-            }
+            $container->lazy(Fixed::class, function (Container $container) {
+                return new Fixed((array) PluginHelper::getPlugin('multifactorauth', 'fixed'));
+            })
         );
     }
 };

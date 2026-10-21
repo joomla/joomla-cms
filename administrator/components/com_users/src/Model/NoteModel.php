@@ -10,9 +10,12 @@
 
 namespace Joomla\Component\Users\Administrator\Model;
 
+use Joomla\CMS\Event\Model\PrepareDataEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -24,7 +27,7 @@ use Joomla\CMS\Versioning\VersionableModelTrait;
  *
  * @since  2.5
  */
-class NoteModel extends AdminModel
+class NoteModel extends AdminModel implements VersionableModelInterface
 {
     use VersionableModelTrait;
 
@@ -42,20 +45,14 @@ class NoteModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   2.5
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_users.note', 'note', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_users.note', 'note', ['control' => 'jform', 'load_data' => $loadData]);
     }
 
     /**
@@ -73,13 +70,17 @@ class NoteModel extends AdminModel
         $result = parent::getItem($pk);
 
         // Get the dispatcher and load the content plugins.
-        PluginHelper::importPlugin('content');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
         // Load the user plugins for backward compatibility (v3.3.3 and earlier).
-        PluginHelper::importPlugin('user');
+        PluginHelper::importPlugin('user', null, true, $dispatcher);
 
         // Trigger the data preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareData', ['com_users.note', $result]);
+        $dispatcher->dispatch('onContentPrepareData', new PrepareDataEvent('onContentPrepareData', [
+            'context' => 'com_users.note',
+            'data'    => $result,
+        ]));
 
         return $result;
     }

@@ -68,13 +68,32 @@ class SubfieldsField extends ListField
     {
         $options = parent::getOptions();
 
+        // Get the ID of the field currently being edited
+        $currentFieldId = (int) $this->form->getValue('id');
+
+        // If current field ID is zero
+        if ($currentFieldId === 0) {
+            $currentFieldId = (int) Factory::getApplication()->getInput()->getInt('id');
+        }
+
         // Check whether we have a result for this context yet
         if (!isset(static::$customFieldsCache[$this->context])) {
-            static::$customFieldsCache[$this->context] = FieldsHelper::getFields($this->context, null, false, null, true);
+            static::$customFieldsCache[$this->context] = FieldsHelper::getFields(
+                $this->context,
+                null,
+                false,
+                null,
+                true
+            );
         }
 
         // Iterate over the custom fields for this context
         foreach (static::$customFieldsCache[$this->context] as $customField) {
+            // Skip the current field itself so it cannot be selected as a subfield
+            if ($currentFieldId && (int) $customField->id === $currentFieldId) {
+                continue;
+            }
+
             $options[] = HTMLHelper::_(
                 'select.option',
                 $customField->id,
@@ -90,8 +109,11 @@ class SubfieldsField extends ListField
             }
         );
 
-        if (\count($options) == 0) {
-            Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_NO_FIELDS_TO_CREATE_SUBFORM_FIELD_WARNING'), 'warning');
+        if (\count($options) === 0) {
+            Factory::getApplication()->enqueueMessage(
+                Text::_('COM_FIELDS_NO_FIELDS_TO_CREATE_SUBFORM_FIELD_WARNING'),
+                'warning'
+            );
         }
 
         return $options;

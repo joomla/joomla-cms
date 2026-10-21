@@ -12,12 +12,13 @@
 
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageFactoryInterface;
+use Joomla\CMS\Mail\MailerFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Task\PrivacyConsent\Extension\PrivacyConsent;
 
 return new class () implements ServiceProviderInterface {
@@ -34,17 +35,18 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(PrivacyConsent::class, function (Container $container) {
                 $plugin = new PrivacyConsent(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('task', 'privacyconsent')
                 );
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
+                $plugin->setMailerFactory($container->get(MailerFactoryInterface::class));
+                $plugin->setLanguageFactory($container->get(LanguageFactoryInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

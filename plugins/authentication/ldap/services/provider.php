@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Authentication\Ldap\Extension\Ldap;
 use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactory;
 
@@ -33,16 +32,15 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Ldap::class, function (Container $container) {
                 $plugin = new Ldap(
                     new LdapFactory(),
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('authentication', 'ldap')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

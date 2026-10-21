@@ -23,6 +23,7 @@ Text::script('ERROR');
 Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
+Text::script('SUCCESS');
 
 Text::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 

@@ -27,7 +27,7 @@ $alert     = [
     CMSApplication::MSG_NOTICE    => 'info',
     CMSApplication::MSG_INFO      => 'info',
     CMSApplication::MSG_DEBUG     => 'info',
-    'message'                     => 'success'
+    CMSApplication::MSG_MESSAGE   => 'success'
 ];
 
 // Load JavaScript message titles
@@ -35,6 +35,7 @@ Text::script('ERROR');
 Text::script('MESSAGE');
 Text::script('NOTICE');
 Text::script('WARNING');
+Text::script('SUCCESS');
 
 // Load other Javascript message strings
 Text::script('JCLOSE');

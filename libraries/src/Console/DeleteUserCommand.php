@@ -119,7 +119,7 @@ class DeleteUserCommand extends AbstractCommand
         if ($user->block == 0) {
             foreach ($groups as $groupId) {
                 if (Access::checkGroup($groupId, 'core.admin')) {
-                    $queryUser = $db->getQuery(true);
+                    $queryUser = $db->createQuery();
                     $queryUser->select('COUNT(*)')
                         ->from($db->quoteName('#__users', 'u'))
                         ->leftJoin(

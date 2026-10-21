@@ -116,7 +116,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Create a shortcut to the parameters.
-        $this->params = $this->state->params;
+        $this->params = $this->state->get('params');
 
         // Escape strings for HTML output
         $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''));
@@ -132,7 +132,7 @@ class HtmlView extends BaseHtmlView
 
         // Add form control fields
         $this->form
-            ->addControlField('task', '')
+            ->addControlField('task')
             ->addControlField('return', $this->return_page);
 
         $this->_prepareDocument();

@@ -14,7 +14,6 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Event\User\LogoutEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -29,15 +28,14 @@ use Joomla\Event\SubscriberInterface;
 final class Logout extends CMSPlugin implements SubscriberInterface
 {
     /**
-     * @param   DispatcherInterface      $dispatcher  The object to observe -- event dispatcher.
      * @param   array                    $config      An optional associative array of configuration settings.
      * @param   CMSApplicationInterface  $app         The object to observe -- event dispatcher.
      *
      * @since   1.6
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, CMSApplicationInterface $app)
+    public function __construct(array $config, CMSApplicationInterface $app)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->setApplication($app);
 

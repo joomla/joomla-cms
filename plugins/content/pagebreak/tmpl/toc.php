@@ -25,7 +25,7 @@ use Joomla\CMS\Router\Route;
             <?php $class = $listItem->active ? ' active' : ''; ?>
             <li class="py-1">
                 <a href="<?php echo Route::_($listItem->link); ?>" class="toclink<?php echo $class; ?>">
-                    <?php echo $listItem->title; ?>
+                    <?php echo htmlspecialchars($listItem->title, ENT_QUOTES, 'UTF-8'); ?>
                 </a>
             </li>
         <?php endforeach; ?>

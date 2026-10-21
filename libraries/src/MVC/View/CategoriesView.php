@@ -102,7 +102,7 @@ class CategoriesView extends HtmlView
             return false;
         }
 
-        $params = &$state->params;
+        $params = $state->get('params');
 
         $items = [$parent->id => $items];
 

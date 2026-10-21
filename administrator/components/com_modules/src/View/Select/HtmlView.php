@@ -12,7 +12,6 @@ namespace Joomla\Component\Modules\Administrator\View\Select;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Modules\Administrator\Model\SelectModel;
@@ -60,15 +59,11 @@ class HtmlView extends BaseHtmlView
     {
         /** @var SelectModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->state     = $model->getState();
         $this->items     = $model->getItems();
         $this->modalLink = '';
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         $this->addToolbar();
         parent::display($tpl);

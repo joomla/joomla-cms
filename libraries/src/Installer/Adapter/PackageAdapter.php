@@ -219,7 +219,7 @@ class PackageAdapter extends InstallerAdapter
         // Set the package ID for each of the installed extensions to track the relationship
         if (!empty($this->installedIds)) {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__extensions'))
                 ->set($db->quoteName('package_id') . ' = :id')
                 ->whereIn($db->quoteName('extension_id'), $this->installedIds)
@@ -306,7 +306,7 @@ class PackageAdapter extends InstallerAdapter
         $db = $this->getDatabase();
 
         // Remove the schema version
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__schemas'))
             ->where($db->quoteName('extension_id') . ' = :extension_id')
             ->bind(':extension_id', $this->extension->extension_id, ParameterType::INTEGER);
@@ -655,7 +655,7 @@ class PackageAdapter extends InstallerAdapter
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))
             ->where(

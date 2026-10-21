@@ -18,9 +18,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\Component\Guidedtours\Administrator\View\Tours\HtmlView;
 
-/** @var  HtmlView  $this */
+/** @var  \Joomla\Component\Guidedtours\Administrator\View\Tours\HtmlView  $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();

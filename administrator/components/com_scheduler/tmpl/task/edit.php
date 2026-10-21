@@ -17,9 +17,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
-use Joomla\Component\Scheduler\Administrator\View\Task\HtmlView;
 
-/** @var  HtmlView $this */
+/** @var  \Joomla\Component\Scheduler\Administrator\View\Task\HtmlView $this */
 
 $wa = $this->getDocument()->getWebAssetManager();
 

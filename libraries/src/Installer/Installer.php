@@ -580,7 +580,7 @@ class Installer implements DatabaseAwareInterface
                 case 'extension':
                     // Get database connector object
                     $db     = $this->getDatabase();
-                    $query  = $db->getQuery(true);
+                    $query  = $db->createQuery();
                     $stepId = (int) $step['id'];
 
                     // Remove the entry from the #__extensions table
@@ -1010,6 +1010,10 @@ class Installer implements DatabaseAwareInterface
         // Load the adapter
         $adapter = $this->getAdapter($type, $params);
 
+        // Ensure cached adapter always points to the current extension
+        $adapter->setManifest($params['manifest']);
+        $adapter->setRoute($params['route']);
+
         if ($returnAdapter) {
             return $adapter;
         }
@@ -1186,7 +1190,7 @@ class Installer implements DatabaseAwareInterface
                     usort($files, 'version_compare');
 
                     // Update the database
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->delete('#__schemas')
                         ->where('extension_id = :extension_id')
                         ->bind(':extension_id', $eid, ParameterType::INTEGER);
@@ -1272,7 +1276,7 @@ class Installer implements DatabaseAwareInterface
         $files = str_replace('.sql', '', $files);
         usort($files, 'version_compare');
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('version_id')
             ->from('#__schemas')
             ->where('extension_id = :extension_id')
@@ -1401,7 +1405,7 @@ class Installer implements DatabaseAwareInterface
              */
             $db->transactionStart();
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete('#__schemas')
                 ->where('extension_id = :extension_id')
                 ->bind(':extension_id', $eid, ParameterType::INTEGER);
@@ -2156,7 +2160,7 @@ class Installer implements DatabaseAwareInterface
     public function cleanDiscoveredExtension($type, $element, $folder = '', $client = 0)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__extensions'))
             ->where('type = :type')
             ->where('element = :element')
@@ -2511,7 +2515,7 @@ class Installer implements DatabaseAwareInterface
      *
      * @throws  \InvalidArgumentException
      * @since   3.4
-     * @deprecated  6.0.0 will be removed in 7.0
+     * @deprecated  6.0 will be removed in 8.0
      *              Use getAdapter() instead
      */
     public function loadAdapter($adapter, $options = [])

@@ -168,10 +168,12 @@ class UserController extends FormController
      *
      * @return void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  6.0.0
      */
     public function active(): void
     {
+        $this->checkToken();
+
         // Get the ID of the user
         $userId = $this->input->getString('userid', '');
 

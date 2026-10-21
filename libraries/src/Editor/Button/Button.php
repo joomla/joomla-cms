@@ -79,7 +79,7 @@ final class Button implements ButtonInterface
     {
         if ($name === 'options') {
             @trigger_error(
-                'Accessing options property is deprecated. To access the Button options use getOptions() method.',
+                'Accessing options property is deprecated. To access the Button options use getOptions() method. Will be removed in 7.0.',
                 \E_USER_DEPRECATED
             );
 
@@ -102,7 +102,7 @@ final class Button implements ButtonInterface
     {
         if ($name === 'options') {
             @trigger_error(
-                'Accessing options property is deprecated. To set the Button options use setOptions() method.',
+                'Accessing options property is deprecated. To set the Button options use setOptions() method.  Will be removed in 7.0.',
                 \E_USER_DEPRECATED
             );
 
@@ -148,11 +148,11 @@ final class Button implements ButtonInterface
      * @return string|null A value if the property name is valid, null otherwise.
      *
      * @since       5.0.0
-     * @deprecated  6.0  This is a B/C proxy for deprecated read accesses
+     * @deprecated  7.0  This is a B/C proxy for deprecated read accesses
      */
     public function __get($name)
     {
-        @trigger_error('Property access is deprecated in Joomla\CMS\Editor\Button class, use get/set methods.', \E_USER_DEPRECATED);
+        @trigger_error('Property access is deprecated in Joomla\CMS\Editor\Button class, use get/set methods. Will be removed in 7.0.', \E_USER_DEPRECATED);
 
         return $this->get($name);
     }
@@ -166,11 +166,11 @@ final class Button implements ButtonInterface
      * @return void
      *
      * @since       5.0.0
-     * @deprecated  6.0  This is a B/C proxy for deprecated write accesses
+     * @deprecated  7.0  This is a B/C proxy for deprecated write accesses
      */
     public function __set($name, $value)
     {
-        @trigger_error('Property access is deprecated in Joomla\CMS\Editor\Button class, use get/set methods.', \E_USER_DEPRECATED);
+        @trigger_error('Property access is deprecated in Joomla\CMS\Editor\Button class, use get/set methods. Will be removed in 7.0.', \E_USER_DEPRECATED);
 
         $this->set($name, $value);
     }

@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Quickicon\PhpVersionCheck\Extension\PhpVersionCheck;
 
 return new class () implements ServiceProviderInterface {
@@ -32,15 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(PhpVersionCheck::class, function (Container $container) {
                 $plugin     = new PhpVersionCheck(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('quickicon', 'phpversioncheck')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

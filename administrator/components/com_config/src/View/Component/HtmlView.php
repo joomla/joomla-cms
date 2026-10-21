@@ -127,7 +127,7 @@ class HtmlView extends BaseHtmlView
 
         // Add form control fields
         $this->form
-            ->addControlField('task', '')
+            ->addControlField('task')
             ->addControlField('id', $this->component->id)
             ->addControlField('component', $this->component->option)
             ->addControlField('return', $this->return);

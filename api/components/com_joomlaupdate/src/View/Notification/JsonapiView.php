@@ -33,7 +33,7 @@ class JsonapiView extends BaseApiView
      *
      * @since   5.4.0
      */
-    public function notification($type, $oldVersion)
+    public function notification($type, $oldVersion, $newVersion)
     {
         /**
          * @var UpdateModel $model
@@ -43,7 +43,7 @@ class JsonapiView extends BaseApiView
 
         try {
             // Perform the finalization action
-            $model->sendNotification($type, $oldVersion);
+            $model->sendNotification($type, $oldVersion, $newVersion);
         } catch (\Throwable $e) {
             $success = false;
         }
