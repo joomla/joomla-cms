@@ -126,21 +126,21 @@ class PasswordStrength {
       meter.value = score;
     }
 
-    if (
-      element.id === 'jform_admin_password'
-      && element.value.length < strength.length
-    ) {
-      const description = document.getElementById(`${element.id}-desc`);
-      const requirement = description ? description.textContent.trim() : '';
+    if (score !== 100) {
+      const requirements = element.getAttribute('data-password-requirements');
 
-      if (requirement) {
-        const characterCount = Joomla.Text._(
-          'INSTL_ADMIN_PASSWORD_CHARACTERS_ENTERED',
-        )
-          .replace(/%1\$s/g, () => String(element.value.length))
-          .replace(/%2\$s/g, () => String(strength.length));
+      if (requirements) {
+        instruction = requirements;
 
-        instruction = `${requirement} ${characterCount}`;
+        if (element.value.length < strength.length) {
+          const characterCount = Joomla.Text._(
+            'JFIELD_PASSWORD_CHARACTERS_ENTERED',
+          )
+            .replace(/%1\$s/g, () => String(element.value.length))
+            .replace(/%2\$s/g, () => String(strength.length));
+
+          instruction = `${requirements} ${characterCount}`;
+        }
       }
     }
 
@@ -213,11 +213,14 @@ class PasswordStrength {
         pendingFeedback = null;
 
         const statusChanged = message !== previousStatus;
+        const isGenericIncomplete = message === Joomla.Text._(
+          'JFIELD_PASSWORD_INDICATE_INCOMPLETE',
+        );
         let spokenMessage = '';
 
         if (message) {
           if (instruction) {
-            spokenMessage = statusChanged
+            spokenMessage = statusChanged || !isGenericIncomplete
               ? `${message} ${instruction}`
               : instruction;
           } else {
