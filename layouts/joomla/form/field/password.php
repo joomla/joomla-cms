@@ -69,10 +69,10 @@ if ($meter) {
 
 $wa->useScript('field.passwordview');
 
+Text::script('JFIELD_PASSWORD_CHARACTERS_ENTERED');
 Text::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 Text::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
 Text::script('JFIELD_PASSWORD_SPACES_IN_PASSWORD');
-Text::script('JFIELD_PASSWORD_CHARACTERS_ENTERED');
 Text::script('JSHOWPASSWORD');
 Text::script('JHIDEPASSWORD');
 
