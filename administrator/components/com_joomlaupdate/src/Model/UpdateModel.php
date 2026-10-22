@@ -519,7 +519,7 @@ class UpdateModel extends BaseDatabaseModel
             }
         }
 
-        // Fetch update and check constraints - if the "otherinfo" is set, we have a contraint issue
+        // Fetch update and check constraints - if the "otherinfo" is set, we have a constraint issue
         $updateInfo = $this->getUpdateInformation();
 
         if (!empty($updateInfo['object']->get('otherUpdateInfo'))) {
