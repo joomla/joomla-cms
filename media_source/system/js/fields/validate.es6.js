@@ -94,10 +94,6 @@ class JFormValidator {
     return element;
   }
 
-  getTabForElement(element) {
-    return element.closest('joomla-tab-element');
-  }
-
   updateInvalidTabs(form, invalid) {
     form.querySelectorAll('joomla-tab-element').forEach((tab) => {
       const tabButton = Array.from(document.querySelectorAll('button[aria-controls]'))
@@ -172,7 +168,7 @@ class JFormValidator {
     });
   }
 
-  buildInvalidFieldsMessage(message, invalid) {
+  buildInvalidFieldsMessage(invalid) {
     const invalidFieldsets = invalid.filter(
       (element) => element.tagName.toLowerCase() === 'fieldset'
         && this.getFieldLabel(element) !== '',
@@ -191,20 +187,20 @@ class JFormValidator {
 
         const target = this.getInvalidFieldTarget(element);
         const targetId = this.ensureElementId(target, index);
-        const tab = this.getTabForElement(element);
+        const tab = element.closest('joomla-tab-element');
         const tabName = tab ? tab.getAttribute('name') : '';
         const fieldLabel = tabName ? `${tabName} → ${label}` : label;
         const tabAttribute = tab && tab.id ? ` data-tab-id="${this.escapeHtml(tab.id)}"` : '';
 
-        return `<li><a class="js-validation-error-link" href="#${this.escapeHtml(targetId)}" data-target-id="${this.escapeHtml(targetId)}"${tabAttribute}>${this.escapeHtml(fieldLabel)}</a></li>`;
+        return `<li><a class="js-validation-error-link" href="#${targetId}" data-target-id="${targetId}"${tabAttribute}>${this.escapeHtml(fieldLabel)}</a></li>`;
       })
       .filter((field) => field !== null);
 
     if (!fields.length) {
-      return message;
+      return '';
     }
 
-    return `${message}<ul>${fields.join('')}</ul>`;
+    return `<ul>${fields.join('')}</ul>`;
   }
 
   markValid(element) {
@@ -417,7 +413,11 @@ class JFormValidator {
         message = Joomla.Text._('JLIB_FORM_CONTAINS_INVALID_FIELDS');
       }
 
-      message = this.buildInvalidFieldsMessage(message, invalid);
+      const fieldsMessage = this.buildInvalidFieldsMessage(invalid);
+
+      if (fieldsMessage) {
+        message = `${message} ${fieldsMessage}`;
+      }
 
       error = { error: [message] };
       Joomla.renderMessages(error);
