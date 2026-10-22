@@ -20,6 +20,10 @@
     const qr = qrcode(0, 'H');
     qr.addData(qrData);
     qr.make();
-    elTarget.innerHTML = qr.createImgTag(4);
+    elTarget.innerHTML = qr.createImgTag(
+      4,
+      undefined,
+      Joomla.Text._('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_QR_ALT'),
+    );
   });
 })(Joomla, document, qrcode);
