@@ -98,6 +98,21 @@ class JFormValidator {
     return element.closest('joomla-tab-element');
   }
 
+  updateInvalidTabs(form, invalid) {
+    form.querySelectorAll('joomla-tab-element').forEach((tab) => {
+      const tabButton = Array.from(document.querySelectorAll('button[aria-controls]'))
+        .find((button) => button.getAttribute('aria-controls') === tab.id);
+
+      if (!tabButton) {
+        return;
+      }
+
+      const hasInvalidFields = invalid.some((field) => tab.contains(field));
+
+      tabButton.classList.toggle('text-danger', hasInvalidFields);
+    });
+  }
+
   ensureElementId(element, index) {
     if (element.id) {
       return element.id;
@@ -383,6 +398,8 @@ class JFormValidator {
         invalid.push(field);
       }
     });
+
+    this.updateInvalidTabs(form, invalid);
 
     // Run custom form validators if present
     if (Object.keys(this.customValidators).length) {
