@@ -61,7 +61,6 @@ class Totp extends CMSPlugin implements SubscriberInterface
      * Returns an array of events this subscriber will listen to.
      *
      * @return  array
-     *
      * @since   4.2.0
      */
     public static function getSubscribedEvents(): array
@@ -195,6 +194,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
         $wam      = $document->getWebAssetManager();
 
         $document->addScriptOptions('plg_multifactorauth_totp.totp.qr', $otpURL);
+        Text::script('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_QR_ALT');
 
         $wam->getRegistry()->addExtensionRegistryFile('plg_multifactorauth_totp');
         $wam->useScript('plg_multifactorauth_totp.setup');
