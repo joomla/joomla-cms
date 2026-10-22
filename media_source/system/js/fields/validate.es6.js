@@ -10,6 +10,7 @@ class JFormValidator {
     this.handlers = [];
     this.handlers = {};
     this.removeMarking = this.removeMarking.bind(this);
+    document.addEventListener('click', (event) => this.handleInvalidFieldLink(event));
     this.inputEmail = () => {
       const input = document.createElement('input');
       input.setAttribute('type', 'email');
@@ -63,7 +64,7 @@ class JFormValidator {
     if (element.tagName.toLowerCase() === 'fieldset') {
       const legend = element.querySelector('legend');
 
-      return legend ? legend.textContent.trim() : '';
+      return legend ? legend.textContent.trim().replace(/\\s+/g, ' ') : '';
     }
 
     const labels = element.labels ? Array.from(element.labels) : [];
@@ -75,7 +76,7 @@ class JFormValidator {
         item.remove();
       });
 
-      const text = labelCopy.textContent.trim().replace(/\s+/g, ' ');
+      const text = labelCopy.textContent.trim().replace(/\\s+/g, ' ');
 
       if (text) {
         return text;
@@ -83,6 +84,36 @@ class JFormValidator {
     }
 
     return '';
+  }
+
+  getInvalidFieldTarget(element) {
+    if (element.tagName.toLowerCase() === 'fieldset') {
+      return element.querySelector('input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled])') || element;
+    }
+
+    return element;
+  }
+
+  getTabForElement(element) {
+    return element.closest('joomla-tab-element');
+  }
+
+  ensureElementId(element, index) {
+    if (element.id) {
+      return element.id;
+    }
+
+    let id = `form-validation-target-${index}`;
+    let suffix = 1;
+
+    while (document.getElementById(id)) {
+      id = `form-validation-target-${index}-${suffix}`;
+      suffix += 1;
+    }
+
+    element.id = id;
+
+    return id;
   }
 
   escapeHtml(value) {
@@ -95,28 +126,70 @@ class JFormValidator {
     })[character]);
   }
 
+  handleInvalidFieldLink(event) {
+    const link = event.target.closest('a.js-validation-error-link');
+
+    if (!link) {
+      return;
+    }
+
+    const target = document.getElementById(link.dataset.targetId);
+
+    if (!target) {
+      return;
+    }
+
+    event.preventDefault();
+
+    const tab = link.dataset.tabId ? document.getElementById(link.dataset.tabId) : null;
+
+    if (tab) {
+      const tabButton = Array.from(document.querySelectorAll('button[aria-controls]'))
+        .find((button) => button.getAttribute('aria-controls') === tab.id);
+
+      if (tabButton) {
+        tabButton.click();
+      }
+    }
+
+    window.requestAnimationFrame(() => {
+      target.focus();
+    });
+  }
+
   buildInvalidFieldsMessage(message, invalid) {
     const invalidFieldsets = invalid.filter(
       (element) => element.tagName.toLowerCase() === 'fieldset'
         && this.getFieldLabel(element) !== '',
     );
 
-    const labels = invalid
+    const fields = invalid
       .filter((element) => !invalidFieldsets.some(
         (fieldset) => fieldset !== element && fieldset.contains(element),
       ))
-      .map((element) => this.getFieldLabel(element))
-      .filter((label) => label !== '');
+      .map((element, index) => {
+        const label = this.getFieldLabel(element);
 
-    if (!labels.length) {
+        if (!label) {
+          return null;
+        }
+
+        const target = this.getInvalidFieldTarget(element);
+        const targetId = this.ensureElementId(target, index);
+        const tab = this.getTabForElement(element);
+        const tabName = tab ? tab.getAttribute('name') : '';
+        const fieldLabel = tabName ? `${tabName} → ${label}` : label;
+        const tabAttribute = tab && tab.id ? ` data-tab-id="${this.escapeHtml(tab.id)}"` : '';
+
+        return `<li><a class="js-validation-error-link" href="#${this.escapeHtml(targetId)}" data-target-id="${this.escapeHtml(targetId)}"${tabAttribute}>${this.escapeHtml(fieldLabel)}</a></li>`;
+      })
+      .filter((field) => field !== null);
+
+    if (!fields.length) {
       return message;
     }
 
-    const list = labels
-      .map((label) => `<li>${this.escapeHtml(label)}</li>`)
-      .join('');
-
-    return `${message}<ul>${list}</ul>`;
+    return `${message}<ul>${fields.join('')}</ul>`;
   }
 
   markValid(element) {
