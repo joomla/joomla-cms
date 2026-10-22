@@ -86,16 +86,16 @@ $wa->useScript('com_users.admin-users-groups')
                             <tr class="row<?php echo $i % 2; ?>">
                                 <td class="text-center" data-usercount="<?php echo $item->user_count; ?>">
                                     <?php if ($canEdit) : ?>
-                                        <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
+                                        <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', Text::_($item->title)); ?>
                                     <?php endif; ?>
                                 </td>
                                 <th scope="row">
                                     <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level + 1]); ?>
                                     <?php if ($canEdit) : ?>
-                                    <a href="<?php echo Route::_('index.php?option=com_users&task=group.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
-                                        <?php echo $this->escape($item->title); ?></a>
+                                    <a href="<?php echo Route::_('index.php?option=com_users&task=group.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(Text::_($item->title)); ?>">
+                                        <?php echo $this->escape(Text::_($item->title)); ?></a>
                                     <?php else : ?>
-                                        <?php echo $this->escape($item->title); ?>
+                                        <?php echo $this->escape(Text::_($item->title)); ?>
                                     <?php endif; ?>
                                 </th>
                                 <td class="text-center btns">

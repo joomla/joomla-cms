@@ -112,7 +112,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                                 <?php $canChange  = $user->authorise('core.edit.state', $component . '.fieldgroup.' . $item->id) && $canCheckin; ?>
                                 <tr class="row<?php echo $i % 2; ?>" data-draggable-group="0" item-id="<?php echo $item->id; ?>">
                                     <td class="text-center">
-                                        <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
+                                        <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', Text::_($item->title)); ?>
                                     </td>
                                     <td class="text-center d-none d-md-table-cell">
                                         <?php $iconClass = ''; ?>
@@ -137,10 +137,10 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                                                 <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'groups.', $canCheckin); ?>
                                             <?php endif; ?>
                                             <?php if ($canEdit || $canEditOwn) : ?>
-                                                <a href="<?php echo Route::_('index.php?option=com_fields&task=group.edit&id=' . $item->id . '&context=' . $context); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
-                                                    <?php echo $this->escape($item->title); ?></a>
+                                                <a href="<?php echo Route::_('index.php?option=com_fields&task=group.edit&id=' . $item->id . '&context=' . $context); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(Text::_($item->title)); ?>">
+                                                    <?php echo $this->escape(Text::_($item->title)); ?></a>
                                             <?php else : ?>
-                                                <?php echo $this->escape($item->title); ?>
+                                                <?php echo $this->escape(Text::_($item->title)); ?>
                                             <?php endif; ?>
                                             <div class="small break-word">
                                                 <?php if ($item->note) : ?>

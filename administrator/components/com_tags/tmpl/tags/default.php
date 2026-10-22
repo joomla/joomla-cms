@@ -163,7 +163,7 @@ if ($saveOrder && !empty($this->items)) {
                             data-item-id="<?php echo $item->id; ?>" data-parents="<?php echo $parentsStr; ?>"
                             data-level="<?php echo $item->level; ?>">
                             <td class="text-center">
-                                <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
+                                <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', Text::_($item->title)); ?>
                             </td>
                             <td class="text-center d-none d-md-table-cell">
                                 <?php
@@ -190,10 +190,10 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'tags.', $canCheckin); ?>
                                 <?php endif; ?>
                                 <?php if ($canEdit) : ?>
-                                    <a href="<?php echo Route::_('index.php?option=com_tags&task=tag.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
-                                        <?php echo $this->escape($item->title); ?></a>
+                                    <a href="<?php echo Route::_('index.php?option=com_tags&task=tag.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(Text::_($item->title)); ?>">
+                                        <?php echo $this->escape(Text::_($item->title)); ?></a>
                                 <?php else : ?>
-                                    <?php echo $this->escape($item->title); ?>
+                                    <?php echo $this->escape(Text::_($item->title)); ?>
                                 <?php endif; ?>
                                 <div class="small" title="<?php echo $this->escape($item->path); ?>">
                                     <?php if (empty($item->note)) : ?>

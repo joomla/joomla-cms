@@ -120,7 +120,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                                 <?php $canChange  = $user->authorise('core.edit.state', $component . '.field.' . $item->id) && $canCheckin; ?>
                                 <tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->group_id; ?>" item-id="<?php echo $item->id; ?>">
                                     <td class="text-center">
-                                        <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
+                                        <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', Text::_($item->title)); ?>
                                     </td>
                                     <td class="text-center d-none d-md-table-cell">
                                         <?php $iconClass = ''; ?>
@@ -145,10 +145,10 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                                                 <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'fields.', $canCheckin); ?>
                                             <?php endif; ?>
                                             <?php if ($canEdit || $canEditOwn) : ?>
-                                                <a href="<?php echo Route::_('index.php?option=com_fields&task=field.edit&id=' . $item->id . '&context=' . $context); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
-                                                    <?php echo $this->escape($item->title); ?></a>
+                                                <a href="<?php echo Route::_('index.php?option=com_fields&task=field.edit&id=' . $item->id . '&context=' . $context); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(Text::_($item->title)); ?>">
+                                                    <?php echo $this->escape(Text::_($item->title)); ?></a>
                                             <?php else : ?>
-                                                <?php echo $this->escape($item->title); ?>
+                                                <?php echo $this->escape(Text::_($item->title)); ?>
                                             <?php endif; ?>
                                             <div class="small break-word">
                                                 <?php if (empty($item->note)) : ?>
@@ -179,7 +179,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                                         <?php echo $this->escape($item->type); ?>
                                     </td>
                                     <td>
-                                        <?php echo !empty($item->group_title) ? $this->escape($item->group_title) : '[ ' . Text::_('JNONE') . ' ]'; ?>
+                                        <?php echo !empty($item->group_title) ? $this->escape(Text::_($item->group_title)) : '[ ' . Text::_('JNONE') . ' ]'; ?>
                                     </td>
                                     <td class="small d-none d-md-table-cell">
                                         <?php echo $this->escape($item->access_level); ?>
