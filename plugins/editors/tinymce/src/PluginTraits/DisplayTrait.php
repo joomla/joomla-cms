@@ -312,7 +312,7 @@ trait DisplayTrait
         $toolbar2 = (array) $levelParams->get('toolbar2', []);
 
         // Make sure that we load the help plugin if the help menu is enabled
-        if (in_array('help', $menubar, true)) {
+        if (\in_array('help', $menubar, true)) {
             $plugins[] = 'help';
         }
 
