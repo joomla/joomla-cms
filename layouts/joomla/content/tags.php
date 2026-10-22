@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\Registry\Registry;
@@ -19,7 +20,7 @@ $authorised = Factory::getUser()->getAuthorisedViewLevels();
 
 ?>
 <?php if (!empty($displayData)) : ?>
-    <ul class="tags list-inline">
+    <ul class="tags list-inline" aria-label="<?php echo $this->escape(Text::_('JTAG')); ?>">
         <?php foreach ($displayData as $i => $tag) : ?>
             <?php if (in_array($tag->access, $authorised)) : ?>
                 <?php $tagParams = new Registry($tag->params); ?>
