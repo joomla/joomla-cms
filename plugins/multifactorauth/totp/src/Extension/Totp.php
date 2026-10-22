@@ -61,6 +61,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
      * Returns an array of events this subscriber will listen to.
      *
      * @return  array
+     *
      * @since   4.2.0
      */
     public static function getSubscribedEvents(): array
