@@ -64,7 +64,7 @@ class JFormValidator {
     if (element.tagName.toLowerCase() === 'fieldset') {
       const legend = element.querySelector('legend');
 
-      return legend ? legend.textContent.trim().replace(/\\s+/g, ' ') : '';
+      return legend ? legend.textContent.trim().replace(/\s+/g, ' ') : '';
     }
 
     const labels = element.labels ? Array.from(element.labels) : [];
@@ -76,7 +76,7 @@ class JFormValidator {
         item.remove();
       });
 
-      const text = labelCopy.textContent.trim().replace(/\\s+/g, ' ');
+      const text = labelCopy.textContent.trim().replace(/\s+/g, ' ');
 
       if (text) {
         return text;
