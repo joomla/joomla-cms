@@ -51,7 +51,7 @@ $shownMethods = [];
                href="<?php echo Route::_('index.php?option=com_users&view=captive&record_id=' . $record->id)?>">
                 <div class="com-users-methods-list-method-image">
                 <img src="<?php echo Uri::root() . $this->getModel()->getMethodImage($record->method) ?>"
-                     alt="<?php echo $this->escape(strip_tags($record->title)) ?>"
+                     alt=""
                      class="img-fluid" />
                 </div>
                 <?php if (!$this->allowEntryBatching || !$allowEntryBatching) : ?>
@@ -62,16 +62,10 @@ $shownMethods = [];
                         <?php echo $this->escape($record->title) ?>
                     <?php endif; ?>
                 </span>
-                    <small class="com-users-method-name text-muted">
-                        <?php echo $methodName ?>
-                    </small>
                 <?php else : ?>
                     <span class="com-users-method-title flex-grow-1 fs-5 fw-bold">
                     <?php echo $methodName ?>
                 </span>
-                    <small class="com-users-method-name text-muted">
-                        <?php echo $methodName ?>
-                    </small>
                 <?php endif; ?>
             </a>
         <?php endforeach; ?>
