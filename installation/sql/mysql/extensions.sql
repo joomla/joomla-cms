@@ -946,7 +946,7 @@ CREATE TABLE IF NOT EXISTS `#__scheduler_logs` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `taskname` varchar(255) NOT NULL DEFAULT '',
   `tasktype` varchar(128) NOT NULL COMMENT 'unique identifier for job defined by plugin',
-  `duration` DECIMAL(10,3) NOT NULL,
+  `duration` DECIMAL(8,3) NOT NULL,
   `jobid` int UNSIGNED NOT NULL,
   `taskid` int UNSIGNED NOT NULL,
   `exitcode` int NOT NULL,

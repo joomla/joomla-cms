@@ -910,7 +910,7 @@ CREATE TABLE IF NOT EXISTS "#__scheduler_logs" (
   "id" serial NOT NULL,
   "taskname" varchar(255) DEFAULT '' NOT NULL,
   "tasktype" varchar(128) NOT NULL,
-  "duration" NUMERIC(10,3) NOT NULL,
+  "duration" NUMERIC(8,3) NOT NULL,
   "jobid" integer NOT NULL,
   "taskid" integer NOT NULL,
   "exitcode" integer NOT NULL,
