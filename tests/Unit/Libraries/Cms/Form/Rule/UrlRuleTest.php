@@ -49,6 +49,34 @@ class UrlRuleTest extends UnitTestCase
 			required="true"
 			relative="true"
 		/>');
+        $xmlrelativenumeric = new \SimpleXMLElement('<field
+			name="unittest"
+			type="text"
+			validate="url"
+			required="true"
+			relative="1"
+		/>');
+        $xmlrelativename = new \SimpleXMLElement('<field
+			name="unittest"
+			type="text"
+			validate="url"
+			required="true"
+			relative="relative"
+		/>');
+        $xmlnotrelative = new \SimpleXMLElement('<field
+			name="unittest"
+			type="text"
+			validate="url"
+			required="true"
+			relative="false"
+		/>');
+        $xmlnotrelativenumeric = new \SimpleXMLElement('<field
+			name="unittest"
+			type="text"
+			validate="url"
+			required="true"
+			relative="0"
+		/>');
 
         return [
             [true, $xml, 'https://example.com'],
@@ -62,6 +90,11 @@ class UrlRuleTest extends UnitTestCase
             [true, $xmlschemes, 'https://example.com'],
             [true, $xmlrelative, 'https://example.com'],
             [true, $xmlrelative, '/relative/path'],
+            [true, $xmlrelativenumeric, '/relative/path'],
+            [true, $xmlrelativename, '/relative/path'],
+            [false, $xmlnotrelative, '/relative/path'],
+            [true, $xmlnotrelative, 'https://example.com'],
+            [false, $xmlnotrelativenumeric, '/relative/path'],
             [false, $xml, ''],
             [false, $xml, 'invalid://example.com'],
             [false, $xml, 'example.com'],
