@@ -303,15 +303,6 @@ joomla-tab[view=accordion] {
           margin-block-end: .5rem;
         }
 
-        .d-flex {
-          flex-direction: column;
-          align-items: stretch !important;
-        }
-
-        select {
-          inline-size: 100%;
-          max-inline-size: 100%;
-        }
       }
 
       .respTable td:nth-child(1) {
@@ -328,6 +319,18 @@ joomla-tab[view=accordion] {
     }
   }
 
+}
+
+@include media-breakpoint-down(lg) {
+  joomla-tab[view=accordion] #permissions-sliders .respTable td:nth-child(2) .d-flex {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+
+  joomla-tab[view=accordion] #permissions-sliders .respTable td:nth-child(2) select {
+    inline-size: 100%;
+    max-inline-size: 100%;
+  }
 }
 
 @if $enable-dark-mode {
