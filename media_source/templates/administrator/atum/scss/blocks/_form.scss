@@ -140,10 +140,6 @@ label.valid {
   box-shadow: $input-box-shadow;
 }
 
-.sortable-handler.inactive {
-  opacity: .3;
-}
-
 // set up hidden tooltip
 [role="tooltip"]:not(.show) {
   z-index: $zindex-tooltip;
