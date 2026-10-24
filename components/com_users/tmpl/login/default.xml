@@ -16,7 +16,7 @@
 		<fieldset name="basic" addruleprefix="Joomla\Component\Users\Site\Rule" label="COM_MENUS_BASIC_FIELDSET_LABEL">
 			<fieldset name="login" label="COM_USERS_FIELD_OPTIONS_LOGIN">
 				<field
-					name="showPasswordReset"
+					name="showpasswordreset"
 					type="radio"
 					label="COM_USERS_FIELD_SHOW_PASSWORD_RESET_LABEL"
 					layout="joomla.form.field.radio.switcher"
@@ -28,7 +28,7 @@
 				</field>
 
 				<field
-					name="showUsernameReminder"
+					name="showusernamereminder"
 					type="radio"
 					label="COM_USERS_FIELD_SHOW_USERNAME_REMINDER_LABEL"
 					layout="joomla.form.field.radio.switcher"
