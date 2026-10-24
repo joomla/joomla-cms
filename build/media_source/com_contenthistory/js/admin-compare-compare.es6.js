@@ -18,22 +18,17 @@
     const fragment = document.createDocumentFragment();
 
     diff.forEach((part) => {
-          const tag = part.added ? 'ins' : part.removed ? 'del' : 'span';
-          const element = document.createElement(tag);
+      let tag = 'span';
 
-          if (part.added) {
-            element.style.backgroundColor = '#2ced2c';
-          }
+      if (part.added) {
+        tag = 'ins';
+      } else if (part.removed) {
+        tag = 'del';
+      }
 
-          if (part.removed) {
-            element.style.backgroundColor = '#e70d0d';
-          }
-
-          element.style.borderRadius = '.2rem';
-          element.style.padding = '2px 4px';
-
-          element.appendChild(document.createTextNode(decodeHtml(part.value)));
-          fragment.appendChild(element);
+      const element = document.createElement(tag);
+      element.appendChild(document.createTextNode(decodeHtml(part.value)));
+      fragment.appendChild(element);
     });
 
     display.appendChild(fragment);
