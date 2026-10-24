@@ -1055,9 +1055,8 @@ class Image
                 } else {
                     $ratio = min($rx, $ry);
                 }
-
-                $dimensions->width  = (int) round($this->getWidth() / $ratio);
-                $dimensions->height = (int) round($this->getHeight() / $ratio);
+                $dimensions->width  = max(1, (int) round($this->getWidth() / $ratio));
+                $dimensions->height = max(1, (int) round($this->getHeight() / $ratio));
                 break;
 
             default:
