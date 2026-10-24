@@ -16,6 +16,30 @@
 		<fieldset name="basic" addruleprefix="Joomla\Component\Users\Site\Rule" label="COM_MENUS_BASIC_FIELDSET_LABEL">
 			<fieldset name="login" label="COM_USERS_FIELD_OPTIONS_LOGIN">
 				<field
+					name="showpasswordreset"
+					type="radio"
+					label="COM_USERS_FIELD_SHOW_PASSWORD_RESET_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="showusernamereminder"
+					type="radio"
+					label="COM_USERS_FIELD_SHOW_USERNAME_REMINDER_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+						>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
 					name="loginredirectchoice"
 					type="radio"
 					label="COM_USERS_FIELD_LOGIN_REDIRECT_CHOICE_LABEL"
