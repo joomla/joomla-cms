@@ -720,7 +720,7 @@ class TaskModel extends AdminModel
             $buildExpression .= ' ' . $this->wildcardIfMatch($matches['hours'], range(0, 23), true);
             $buildExpression .= ' ' . $this->wildcardIfMatch($matches['days_month'], range(1, 31), true);
             $buildExpression .= ' ' . $this->wildcardIfMatch($matches['months'], range(1, 12), true);
-            $buildExpression .= ' ' . $this->wildcardIfMatch($matches['days_week'], range(0, 6), true);
+            $buildExpression .= ' ' . $this->wildcardIfMatch($matches['days_week'], range(1, 7), true);
         }
 
         return [

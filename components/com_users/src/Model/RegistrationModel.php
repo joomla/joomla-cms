@@ -184,6 +184,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
                         $mailer = new MailTemplate('com_users.registration.admin.verification_request', $app->getLanguage()->getTag());
                         $mailer->addTemplateData($data);
                         $mailer->addRecipient($row->email);
+                        $mailer->addUnsafeTags(['username', 'name']);
                         $return = $mailer->send();
                     } catch (\Exception $exception) {
                         try {
@@ -191,7 +192,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
 
                             $return = false;
                         } catch (\RuntimeException $exception) {
-                            Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                            Factory::getApplication()->enqueueMessage(Text::_($exception->getMessage()), 'warning');
 
                             $return = false;
                         }
@@ -220,6 +221,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
             $mailer           = new MailTemplate('com_users.registration.user.admin_activated', $app->getLanguage()->getTag());
             $mailer->addTemplateData($data);
             $mailer->addRecipient($data['email']);
+            $mailer->addUnsafeTags(['username', 'name']);
 
             try {
                 $return = $mailer->send();
@@ -229,7 +231,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
 
                     $return = false;
                 } catch (\RuntimeException $exception) {
-                    Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                    Factory::getApplication()->enqueueMessage(Text::_($exception->getMessage()), 'warning');
 
                     $return = false;
                 }

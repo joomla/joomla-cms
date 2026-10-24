@@ -58,6 +58,11 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
       // Watch on list selection
       this.formElement.boxchecked.addEventListener('change', this.onChange);
     }
+
+    this.onHideDropdown = this.onHideDropdown.bind(this);
+    if (this.buttonElement.classList.contains('dropdown-toggle')) {
+      this.buttonElement.addEventListener('hide.bs.dropdown', this.onHideDropdown);
+    }
   }
 
   /**
@@ -69,6 +74,21 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
     }
 
     this.buttonElement.removeEventListener('click', this.executeTask);
+
+    if (this.buttonElement.classList.contains('dropdown-toggle')) {
+      this.buttonElement.removeEventListener('hide.bs.dropdown', this.onHideDropdown);
+    }
+  }
+
+  onHideDropdown(e) {
+    if (e.clickEvent && e.clickEvent.target instanceof Element) {
+      const target = e.clickEvent.target;
+      if (this.formElement && this.formElement.contains(target) && target.closest('input[type="checkbox"], label')) {
+        if (this.formElement.boxchecked && this.formElement.boxchecked.value > 0) {
+          e.preventDefault();
+        }
+      }
+    }
   }
 
   onChange({ target }) {
@@ -84,6 +104,16 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
     // An anchor does not support "disabled" attribute, so use class
     if (this.buttonElement) {
       if (this.disabled) {
+        // If it's a dropdown toggle and it's currently showing, hide it before disabling
+        if (this.buttonElement.classList.contains('dropdown-toggle') && this.buttonElement.classList.contains('show')) {
+          if (window.bootstrap && window.bootstrap.Dropdown) {
+            const dropdown = window.bootstrap.Dropdown.getInstance(this.buttonElement);
+            if (dropdown) {
+              dropdown.hide();
+            }
+          }
+        }
+
         if (this.buttonElement.nodeName === 'BUTTON') {
           this.buttonElement.disabled = true;
         } else {

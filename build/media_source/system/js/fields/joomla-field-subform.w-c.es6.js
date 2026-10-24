@@ -398,6 +398,7 @@ class JoomlaFieldSubform extends HTMLElement {
 
     // Helper method to move row to selected position
     function switchRowPositions(src, dest) {
+      if (src === dest) return;
       let isRowBefore = false;
       if (src.parentNode === dest.parentNode) {
         for (let cur = src; cur; cur = cur.previousSibling) {

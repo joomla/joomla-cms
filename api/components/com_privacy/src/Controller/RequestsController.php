@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Privacy\Api\Controller;
 
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Privacy\Api\View\Requests\JsonapiView;
 
@@ -41,6 +42,40 @@ class RequestsController extends ApiController
     protected $default_view = 'requests';
 
     /**
+     * Basic display of an item view
+     *
+     * @param   integer  $id  The primary key to display. Leave empty if you want to retrieve data from the request
+     *
+     * @return  static  A \JControllerLegacy object to support chaining.
+     *
+     * @since   5.4.7
+     */
+    public function displayItem($id = null)
+    {
+        if (!$this->app->getIdentity()->authorise('core.admin', $this->option)) {
+            throw new NotAllowed('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN', 403);
+        }
+
+        return parent::displayItem($id);
+    }
+
+    /**
+     * Basic display of a list view
+     *
+     * @return  static  A \JControllerLegacy object to support chaining.
+     *
+     * @since   5.4.7
+     */
+    public function displayList()
+    {
+        if (!$this->app->getIdentity()->authorise('core.admin', $this->option)) {
+            throw new NotAllowed('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN', 403);
+        }
+
+        return parent::displayList();
+    }
+
+    /**
      * Export request data
      *
      * @param   integer  $id  The primary key to display. Leave empty if you want to retrieve data from the request
@@ -51,6 +86,10 @@ class RequestsController extends ApiController
      */
     public function export($id = null)
     {
+        if (!$this->app->getIdentity()->authorise('core.admin', $this->option)) {
+            throw new NotAllowed('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN', 403);
+        }
+
         if ($id === null) {
             $id = $this->input->get('id', 0, 'int');
         }

@@ -709,6 +709,11 @@ class Language extends BaseLanguage
     {
         try {
             $strings = LanguageHelper::parseIniFile($fileName, $this->debug);
+
+            // Parser Errors detected
+            if ($this->debug && is_file($fileName)) {
+                $this->debugFile($fileName);
+            }
         } catch (\RuntimeException $e) {
             $strings = [];
 

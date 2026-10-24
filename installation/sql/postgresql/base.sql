@@ -886,6 +886,7 @@ CREATE TABLE IF NOT EXISTS "#__updates" (
   "infourl" text NOT NULL,
   "changelogurl" text,
   "extra_query" varchar(1000) DEFAULT '',
+  "security" smallint DEFAULT NULL,
   PRIMARY KEY ("update_id")
 );
 
