@@ -5,6 +5,7 @@
 
 const wrapper = document.getElementById('wrapper');
 const sidebar = document.getElementById('sidebar-wrapper');
+const menuToggle = document.getElementById('menu-collapse');
 const menuToggleIcon = document.getElementById('menu-collapse-icon');
 
 // Strip server-side mm-show/mm-active, then re-apply after init (no visual flash).
@@ -51,7 +52,6 @@ if (!sidebar) {
 
 if (sidebar && !sidebar.getAttribute('data-hidden')) {
   // Sidebar
-  const menuToggle = document.getElementById('menu-collapse');
 
   // Apply 2nd level collapse
   sidebar.querySelectorAll('.collapse-level-1').forEach((first) => {
