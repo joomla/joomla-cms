@@ -197,7 +197,7 @@ abstract class DaemonApplication extends CliApplication
                 break;
             case SIGCHLD:
                 // A child process has died
-                while (static::$instance->pcntlWait($signal, WNOHANG || WUNTRACED) > 0) {
+                while (static::$instance->pcntlWait($signal, WNOHANG | WUNTRACED) > 0) {
                     usleep(1000);
                 }
                 break;
