@@ -74,7 +74,16 @@ class CallbackController extends CacheController
                 $this->cache->unlock($id);
             }
 
-            $data = unserialize(trim($data));
+            $trimmed = trim($data);
+
+            // Try secure deserialization first
+            $data = @unserialize($trimmed, ['allowed_classes' => false]);
+
+            // Fallback for backward compatibility: if secure unserialize failed and the serialized data is not boolean false
+            if ($data === false && $trimmed !== 'b:0;') {
+                // Legacy fallback to preserve existing cache entries that store objects
+                $data = unserialize($trimmed);
+            }
 
             if ($wrkarounds) {
                 echo Cache::getWorkarounds(
