@@ -80,6 +80,23 @@
   .form-vertical & {
     flex-direction: column;
   }
+
+  @media (max-width: 575.98px) {
+    .control-label {
+      inline-size: 100%;
+      padding-inline-end: 0;
+    }
+
+    .controls {
+      flex: 0 0 100%;
+      min-inline-size: 0;
+      inline-size: 100%;
+    }
+
+    .controls select {
+      max-inline-size: 100%;
+    }
+  }
 }
 
 .stack .control-label {
@@ -138,10 +155,6 @@ label.valid {
 
 [aria-grabbed="true"] {
   box-shadow: $input-box-shadow;
-}
-
-.sortable-handler.inactive {
-  opacity: .3;
 }
 
 // set up hidden tooltip
