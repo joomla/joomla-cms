@@ -500,7 +500,7 @@ class Indexer
             ' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term AND t2.language = t1.language' .
             ' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term AND t.language = t1.language' .
             ' WHERE t2.context = %d' .
-            ' GROUP BY t1.term, t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
+            ' GROUP BY t1.term, t1.language, t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context' .
             ' ORDER BY t1.term DESC';
 
         // Iterate through the contexts and aggregate the tokens per context.
@@ -532,7 +532,7 @@ class Indexer
             ' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language' .
             ' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
             ' WHERE ta.term_id = 0' .
-            ' GROUP BY ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language'
+            ' GROUP BY ta.term, ta.language, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term)'
         );
         $db->execute();
 
