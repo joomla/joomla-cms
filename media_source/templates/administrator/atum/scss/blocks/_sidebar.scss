@@ -85,6 +85,10 @@
       text-align: start;
       background: transparent;
       border: 0;
+
+      &.focus-visible {
+        outline-color: $white;
+      }
     }
 
     .sidebar-item-title {
