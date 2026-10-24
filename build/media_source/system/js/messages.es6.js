@@ -49,16 +49,15 @@ const getMessageContainer = (container) => {
  */
 Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
   const messageContainer = getMessageContainer(selector);
-  if (typeof keepOld === 'undefined' || (keepOld && keepOld === false)) {
-    Joomla.removeMessages(messageContainer);
-  }
+  const isKeepOld = typeof keepOld !== 'undefined' && keepOld !== false;
+  const existingAlerts = Array.from(messageContainer.querySelectorAll('joomla-alert'));
+  const preservedAlerts = [];
 
   Object.keys(messages).forEach((type) => {
     let alertClass = type;
 
     // Array of messages of this type
     const typeMessages = messages[type];
-    const messagesBox = document.createElement('joomla-alert');
 
     if (['success', 'info', 'danger', 'warning'].indexOf(type) < 0) {
       alertClass = (type === 'notice') ? 'info' : type;
@@ -67,34 +66,78 @@ Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
       alertClass = (type === 'warning') ? 'warning' : alertClass;
     }
 
-    messagesBox.setAttribute('type', alertClass);
-    messagesBox.setAttribute('close-text', Joomla.Text._('JCLOSE'));
-    messagesBox.setAttribute('dismiss', true);
+    let messagesBox = null;
+    let messageWrapper = null;
+    let isUpdated = false;
 
-    if (timeout && parseInt(timeout, 10) > 0) {
-      messagesBox.setAttribute('auto-dismiss', timeout);
+    if (!isKeepOld) {
+      messagesBox = existingAlerts.find((alert) => alert.getAttribute('type') === alertClass && !preservedAlerts.includes(alert));
     }
 
-    // Title
-    const title = Joomla.Text._(type);
+    if (messagesBox) {
+      isUpdated = true;
+      preservedAlerts.push(messagesBox);
+      messageWrapper = messagesBox.querySelector('.alert-wrapper');
 
-    // Skip titles with untranslated strings
-    if (typeof title !== 'undefined') {
-      const titleWrapper = document.createElement('div');
-      titleWrapper.className = 'alert-heading';
-      titleWrapper.innerHTML = Joomla.sanitizeHtml(`<span class="${type}"></span><span class="visually-hidden">${Joomla.Text._(type) ? Joomla.Text._(type) : type}</span>`);
-      messagesBox.appendChild(titleWrapper);
+      if (timeout && parseInt(timeout, 10) > 0) {
+        messagesBox.setAttribute('auto-dismiss', timeout);
+      }
+
+      if (messageWrapper) {
+        messageWrapper.innerHTML = '';
+      }
+    } else {
+      messagesBox = document.createElement('joomla-alert');
+      messagesBox.setAttribute('type', alertClass);
+      messagesBox.setAttribute('close-text', Joomla.Text._('JCLOSE'));
+      messagesBox.setAttribute('dismiss', true);
+
+      if (timeout && parseInt(timeout, 10) > 0) {
+        messagesBox.setAttribute('auto-dismiss', timeout);
+      }
+
+      // Title
+      const title = Joomla.Text._(type);
+
+      // Skip titles with untranslated strings
+      if (typeof title !== 'undefined') {
+        const titleWrapper = document.createElement('div');
+        titleWrapper.className = 'alert-heading';
+        titleWrapper.innerHTML = Joomla.sanitizeHtml(`<span class="${type}"></span><span class="visually-hidden">${Joomla.Text._(type) ? Joomla.Text._(type) : type}</span>`);
+        messagesBox.appendChild(titleWrapper);
+      }
+
+      messageWrapper = document.createElement('div');
+      messageWrapper.className = 'alert-wrapper';
+      messagesBox.appendChild(messageWrapper);
+      messageContainer.appendChild(messagesBox);
     }
 
-    // Add messages to the message box
-    const messageWrapper = document.createElement('div');
-    messageWrapper.className = 'alert-wrapper';
-    typeMessages.forEach((typeMessage) => {
-      messageWrapper.innerHTML += Joomla.sanitizeHtml(`<div class="alert-message">${typeMessage}</div>`);
-    });
-    messagesBox.appendChild(messageWrapper);
-    messageContainer.appendChild(messagesBox);
+    // Add messages to the message wrapper
+    if (messageWrapper) {
+      typeMessages.forEach((typeMessage) => {
+        messageWrapper.innerHTML += Joomla.sanitizeHtml(`<div class="alert-message">${typeMessage}</div>`);
+      });
+
+      if (isUpdated && typeof messageWrapper.animate === 'function') {
+        messageWrapper.animate(
+          [
+            { opacity: 0.3 },
+            { opacity: 1 }
+          ],
+          { duration: 250, easing: 'ease-in-out' }
+        );
+      }
+    }
   });
+
+  if (!isKeepOld) {
+    existingAlerts.forEach((alert) => {
+      if (!preservedAlerts.includes(alert)) {
+        alert.close();
+      }
+    });
+  }
 };
 
 /**
