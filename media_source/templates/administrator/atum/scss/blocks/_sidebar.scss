@@ -89,7 +89,8 @@
 
       &:focus-visible,
       &.focus-visible {
-        outline-color: $white;
+        outline: auto 2px $white;
+        border-radius: $border-radius;
       }
     }
 
