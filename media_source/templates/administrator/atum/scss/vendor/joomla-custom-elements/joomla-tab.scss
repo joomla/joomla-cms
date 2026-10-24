@@ -293,6 +293,27 @@ joomla-tab[view=accordion] {
         content: attr(data-label) ":";
       }
 
+      .respTable td:nth-child(2) {
+        text-align: start;
+
+        &::before {
+          display: block;
+          float: none;
+          padding-inline-end: 0;
+          margin-block-end: .5rem;
+        }
+
+        .d-flex {
+          flex-direction: column;
+          align-items: stretch !important;
+        }
+
+        select {
+          inline-size: 100%;
+          max-inline-size: 100%;
+        }
+      }
+
       .respTable td:nth-child(1) {
         font-weight: $bold-weight;
       }
