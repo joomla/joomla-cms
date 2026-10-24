@@ -53,6 +53,7 @@
 }
 
 .choices__list--single {
+  width: 90%;
   padding: 7px 16px 0 4px;
 }
 
@@ -197,8 +198,8 @@
     position: absolute;
     inset-block-start: 50%;
     inset-inline-end: 0;
-    inline-size: 20px;
-    block-size: 20px;
+    inline-size: 24px;
+    block-size: 24px;
     padding: 0;
     margin-block-start: -10px;
     margin-inline-end: 50px;
