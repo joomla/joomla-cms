@@ -96,7 +96,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
         // Iterate the items to delete each one.
         foreach ($pks as $i => $pk) {
             if ($table->load($pk)) {
-                if ($table->user_id_to != $user->id) {
+                if (($table->user_id_to != $user->id) && ($table->user_id_from != $user->id)) {
                     // Prune items that you can't change.
                     unset($pks[$i]);
 
@@ -171,7 +171,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                             $this->item->set('subject', $re . ' ' . $message->subject);
                         }
                     }
-                } elseif ($this->item->user_id_to != $this->getCurrentUser()->id) {
+                } elseif (($this->item->user_id_to != $this->getCurrentUser()->id) && ($this->item->user_id_from != $this->getCurrentUser()->id)) {
                     $this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
 
                     return false;
@@ -352,7 +352,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
         $key = $table->getKeyName();
 
         if (isset($table->$key)) {
-            $this->setState($this->getName() . '.id', $table->$key);
+            Factory::getApplication()->getInput()->set($key, $table->$key);
         }
 
         if ($config->get('mail_on_new', true)) {
