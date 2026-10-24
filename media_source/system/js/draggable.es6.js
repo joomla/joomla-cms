@@ -34,7 +34,7 @@ if (container) {
 
   ({ url } = options);
   ({ direction } = options);
-  isNested = options.nested === 'true';
+  isNested = options.nested;
 }
 
 if (container) {
