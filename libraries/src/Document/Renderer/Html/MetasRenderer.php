@@ -191,6 +191,11 @@ class MetasRenderer extends DocumentRenderer
             $buffer .= '>' . $lnEnd;
         }
 
+        // Output the head-only custom tags - array_unique makes sure that we don't output the same tags twice
+        foreach (array_unique($this->_doc->_customHead) as $custom) {
+            $buffer .= $tab . $custom . $lnEnd;
+        }
+
         return ltrim($buffer, $tab);
     }
 }
