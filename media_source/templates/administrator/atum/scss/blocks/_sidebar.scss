@@ -72,17 +72,13 @@
   .sidebar-toggle {
     background: $sidebar-toggle-bg; /* $sidebar-toggle-bg var(--template-bg-dark-60) */
 
-    a,
-    button {
-      color: $sidebar-toggle-link; /* $sidebar-toggle-link $white */
-    }
-
     button {
       display: flex;
       flex-grow: 1;
       align-items: center;
       min-block-size: 40px;
       padding: 0;
+      color: $sidebar-toggle-link; /* $sidebar-toggle-link $white */
       text-align: start;
       background: transparent;
       border: 0;
