@@ -86,6 +86,7 @@
       background: transparent;
       border: 0;
 
+      &:focus-visible,
       &.focus-visible {
         outline-color: $white;
       }
