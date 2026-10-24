@@ -65,9 +65,7 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
 
   // Keep the button state in sync with the sidebar
   const setMenuToggleState = (expanded) => {
-    if (menuToggle) {
-      menuToggle.setAttribute('aria-expanded', String(expanded));
-    }
+    menuToggle.setAttribute('aria-expanded', String(expanded));
   };
 
   setMenuToggleState(!wrapper.classList.contains('closed'));

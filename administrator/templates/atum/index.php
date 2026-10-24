@@ -181,7 +181,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
         <div id="sidebar-wrapper" class="sidebar-wrapper sidebar-menu" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
             <div id="sidebarmenu" class="sidebar-sticky">
                 <div class="sidebar-toggle item item-level-1">
-                    <button id="menu-collapse" type="button" aria-expanded="<?php echo $sidebarState === 'closed' ? 'false' : 'true'; ?>" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
+                    <button id="menu-collapse" type="button" aria-expanded="<?php echo $sidebarState === 'closed' ? 'false' : 'true'; ?>" aria-controls="sidebar-wrapper" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
                         <span id="menu-collapse-icon" class="<?php echo $sidebarState === 'closed' ? 'icon-toggle-on' : 'icon-toggle-off'; ?> icon-fw" aria-hidden="true"></span>
                         <span class="sidebar-item-title"><?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?></span>
                     </button>
