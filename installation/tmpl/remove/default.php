@@ -14,8 +14,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-HTMLHelper::_('behavior.formvalidator');
-
 $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
 
 /** @var \Joomla\CMS\Installation\View\Remove\HtmlView $this */

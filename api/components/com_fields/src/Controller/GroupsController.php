@@ -10,8 +10,8 @@
 
 namespace Joomla\Component\Fields\Api\Controller;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\String\Inflector;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -93,6 +93,7 @@ class GroupsController extends ApiController
      * @return  boolean
      *
      * @since   5.4.7
+     * @since   6.1.2
      */
     protected function allowAdd($data = [])
     {
@@ -117,6 +118,7 @@ class GroupsController extends ApiController
      * @return  boolean
      *
      * @since   5.4.7
+     * @since   6.1.2
      */
     protected function allowEdit($data = [], $key = 'parent_id')
     {
@@ -135,7 +137,8 @@ class GroupsController extends ApiController
         }
 
         // Get existing record
-        $record = $this->getModel(Inflector::singularize($this->contentType))->getItem($recordId);
+        $inflector = InflectorFactory::create()->build();
+        $record    = $this->getModel($inflector->singularize($this->contentType))->getItem($recordId);
 
         if (empty($record)) {
             return false;
@@ -175,6 +178,7 @@ class GroupsController extends ApiController
      * @return  boolean
      *
      * @since   5.4.8
+     * @since   6.1.3
      */
     protected function allowDelete(): bool
     {

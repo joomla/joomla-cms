@@ -155,7 +155,7 @@ class ExtensionsListCommand extends AbstractCommand
     private function getAllExtensionsFromDB(): array
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select('*')
             ->from('#__extensions');
         $db->setQuery($query);

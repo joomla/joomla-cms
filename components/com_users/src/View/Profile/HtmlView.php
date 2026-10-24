@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Site\View\Profile;
 
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -19,7 +20,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\Mfa;
 use Joomla\Component\Users\Site\Model\ProfileModel;
-use Joomla\Database\DatabaseDriver;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -61,18 +61,6 @@ class HtmlView extends BaseHtmlView
     protected $state;
 
     /**
-     * An instance of DatabaseDriver.
-     *
-     * @var    DatabaseDriver
-     * @since  3.6.3
-     *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Will be removed without replacement use database from the container instead
-     *              Example: Factory::getContainer()->get(DatabaseInterface::class);
-     */
-    protected $db;
-
-    /**
      * The page class suffix
      *
      * @var    string
@@ -109,7 +97,6 @@ class HtmlView extends BaseHtmlView
         $this->state              = $model->getState();
         $this->params             = $this->state->get('params');
         $this->mfaConfigurationUI = Mfa::getConfigurationInterface($user);
-        $this->db                 = Factory::getDbo();
 
         // Check for errors.
         if (\count($errors = $model->getErrors())) {
@@ -132,9 +119,15 @@ class HtmlView extends BaseHtmlView
             throw new \Exception(Text::_('JERROR_USERS_PROFILE_NOT_FOUND'), 404);
         }
 
-        PluginHelper::importPlugin('content');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
         $this->data->text = '';
-        Factory::getApplication()->triggerEvent('onContentPrepare', ['com_users.user', &$this->data, &$this->data->params, 0]);
+        $dispatcher->dispatch('onContentPrepare', new ContentPrepareEvent('onContentPrepare', [
+            'context' => 'com_users.user',
+            'subject' => $this->data,
+            'params'  => $this->data->params,
+            'page'    => 0,
+        ]));
         unset($this->data->text);
 
         // Check for layout from menu item.

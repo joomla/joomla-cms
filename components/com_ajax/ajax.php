@@ -18,7 +18,7 @@ use Joomla\CMS\Plugin\Attribute\AllowUnauthorizedAdministratorAccess;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\String\StringableInterface;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
 
 /*
  * References
@@ -83,7 +83,7 @@ if (!$format) {
      *
      */
     $module   = $input->get('module');
-    $table    = Table::getInstance('extension');
+    $table    = new Extension(Factory::getDbo());
     $moduleId = $table->find(['type' => 'module', 'element' => 'mod_' . $module]);
 
     if ($moduleId && $table->load($moduleId) && $table->enabled) {
@@ -189,7 +189,7 @@ if (!$format) {
      *
      */
     $template   = $input->get('template');
-    $table      = Table::getInstance('extension');
+    $table      = new Extension(Factory::getDbo());
     $templateId = $table->find(['type' => 'template', 'element' => $template]);
 
     if ($templateId && $table->load($templateId) && $table->enabled) {

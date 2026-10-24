@@ -19,7 +19,6 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\CMS\WebAuthn\Server;
 use Joomla\Plugin\Multifactorauth\Webauthn\CredentialRepository;
 use Joomla\Session\SessionInterface;
-use Laminas\Diactoros\ServerRequestFactory;
 use Webauthn\AuthenticationExtensions\AuthenticationExtensionsClientInputs;
 use Webauthn\AuthenticatorSelectionCriteria;
 use Webauthn\PublicKeyCredentialCreationOptions;
@@ -58,11 +57,7 @@ abstract class Credentials
                 self::getUserEntity($user),
                 PublicKeyCredentialCreationOptions::ATTESTATION_CONVEYANCE_PREFERENCE_NONE,
                 self::getPubKeyDescriptorsForUser($user),
-                new AuthenticatorSelectionCriteria(
-                    AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE,
-                    false,
-                    AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_PREFERRED
-                ),
+                new AuthenticatorSelectionCriteria(),
                 new AuthenticationExtensionsClientInputs()
             );
 
@@ -126,7 +121,7 @@ abstract class Credentials
         return self::getWebauthnServer($myUser->id)->loadAndCheckAttestationResponse(
             base64_decode($data),
             $publicKeyCredentialCreationOptions,
-            ServerRequestFactory::fromGlobals()
+            Uri::getInstance()->toString(['host'])
         );
     }
 
@@ -220,7 +215,7 @@ abstract class Credentials
             $data,
             $publicKeyCredentialRequestOptions,
             self::getUserEntity($user),
-            ServerRequestFactory::fromGlobals()
+            Uri::getInstance()->toString(['host'])
         );
     }
 
@@ -288,17 +283,7 @@ abstract class Credentials
             ''
         );
 
-        $refClass       = new \ReflectionClass(Server::class);
-        $refConstructor = $refClass->getConstructor();
-        $params         = $refConstructor->getParameters();
-
-        if (\count($params) === 3) {
-            // WebAuthn library 2, 3
-            $server = new Server($rpEntity, $repository, null);
-        } else {
-            // WebAuthn library 4 (based on the deprecated comments in library version 3)
-            $server = new Server($rpEntity, $repository);
-        }
+        $server = new Server($rpEntity, $repository);
 
         // Ed25519 is only available with libsodium
         if (!\function_exists('sodium_crypto_sign_seed_keypair')) {

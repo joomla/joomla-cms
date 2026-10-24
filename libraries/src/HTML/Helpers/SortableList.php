@@ -20,7 +20,7 @@ use Joomla\CMS\HTML\HTMLHelper;
  *
  * @since  3.0
  *
- * @deprecated  4.0 will be removed in 6.0
+ * @deprecated  4.0 will be removed in 7.0
  *              Sortable List will be deprecated in favour of a new dragula script in 4.0
  */
 abstract class SortableList
@@ -39,7 +39,7 @@ abstract class SortableList
      *
      * @since   3.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the new dragula script
      *              Example: JHtml::_('draggablelist.draggable') and add a class of js-draggable to the tbody element of the table
      */

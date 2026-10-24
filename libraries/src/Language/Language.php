@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Language;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\Language\Language as BaseLanguage;
 use Joomla\String\StringHelper;
@@ -41,6 +42,22 @@ class Language extends BaseLanguage
     protected $strings = [];
 
     /**
+     * Cached fallback chains, keyed by language tag.
+     *
+     * @var    array
+     * @since  6.2.0
+     */
+    protected $fallbackChains = [];
+
+    /**
+     * Cached admin fallback overrides (language tag => fallback tag), or null until first read.
+     *
+     * @var    array|null
+     * @since  6.2.0
+     */
+    protected $fallbackOverrides = null;
+
+    /**
      * Name of the transliterator function for this language.
      *
      * @var    callable
@@ -62,7 +79,7 @@ class Language extends BaseLanguage
      * @var    callable
      * @since  1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     protected $ignoredSearchWordsCallback = null;
 
@@ -72,7 +89,7 @@ class Language extends BaseLanguage
      * @var    callable
      * @since  1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     protected $lowerLimitSearchWordCallback = null;
 
@@ -82,7 +99,7 @@ class Language extends BaseLanguage
      * @var    callable
      * @since  1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     protected $upperLimitSearchWordCallback = null;
 
@@ -92,7 +109,7 @@ class Language extends BaseLanguage
      * @var    callable
      * @since  1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     protected $searchDisplayedCharactersNumberCallback = null;
 
@@ -204,7 +221,7 @@ class Language extends BaseLanguage
      *
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the language factory instead
      *              Example: Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($lang, $debug);
      */
@@ -406,7 +423,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function getIgnoredSearchWords()
     {
@@ -424,7 +441,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function getIgnoredSearchWordsCallback()
     {
@@ -440,7 +457,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function setIgnoredSearchWordsCallback(callable $function)
     {
@@ -457,7 +474,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function getLowerLimitSearchWord()
     {
@@ -475,7 +492,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function getLowerLimitSearchWordCallback()
     {
@@ -491,7 +508,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function setLowerLimitSearchWordCallback(callable $function)
     {
@@ -508,7 +525,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function getUpperLimitSearchWord()
     {
@@ -526,7 +543,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function getUpperLimitSearchWordCallback()
     {
@@ -542,7 +559,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function setUpperLimitSearchWordCallback(callable $function)
     {
@@ -559,7 +576,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function getSearchDisplayedCharactersNumber()
     {
@@ -577,7 +594,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function getSearchDisplayedCharactersNumberCallback()
     {
@@ -593,7 +610,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function setSearchDisplayedCharactersNumberCallback(callable $function)
     {
@@ -629,6 +646,13 @@ class Language extends BaseLanguage
             $this->load($extension, $basePath, $this->default, false, true);
         }
 
+        // Load the fallback chain next, weakest first, so missing strings are filled per key.
+        if (!$this->debug) {
+            foreach (array_reverse($this->getFallbackChain($lang)) as $fallbackLang) {
+                $this->load($extension, $basePath, $fallbackLang, $reload, false);
+            }
+        }
+
         $path = LanguageHelper::getLanguagePath($basePath, $lang);
 
         $internal = $extension === 'joomla' || $extension == '';
@@ -659,6 +683,86 @@ class Language extends BaseLanguage
         }
 
         return false;
+    }
+
+    /**
+     * Resolves the ordered fallback chain for a language tag, strongest first.
+     *
+     * The fallback of a tag is taken from the com_languages override, else from the optional
+     * <fallback> element of its langmetadata.xml. The chain stops at a language without a fallback,
+     * the site default, or a cycle, and excludes both the requested language and the site default.
+     *
+     * @param   string  $lang  The language tag to resolve the fallback chain for.
+     *
+     * @return  string[]  Ordered list of fallback language tags, strongest first.
+     *
+     * @since   6.2.0
+     */
+    protected function getFallbackChain($lang)
+    {
+        if (isset($this->fallbackChains[$lang])) {
+            return $this->fallbackChains[$lang];
+        }
+
+        $chain     = [];
+        $seen      = [$lang => true];
+        $next      = $lang;
+        $overrides = $this->getFallbackOverrides();
+
+        while (true) {
+            if (isset($overrides[$next])) {
+                $fallback = $overrides[$next];
+            } else {
+                $metadata = ($next === $this->lang ? $this->metadata : LanguageHelper::getMetadata($next)) ?: [];
+                $fallback = $metadata['fallback'] ?? '';
+            }
+
+            if ($fallback === '' || $fallback === $this->default || isset($seen[$fallback])) {
+                break;
+            }
+
+            $chain[]         = $fallback;
+            $seen[$fallback] = true;
+            $next            = $fallback;
+        }
+
+        $this->fallbackChains[$lang] = $chain;
+
+        return $chain;
+    }
+
+    /**
+     * Reads and caches the administrator fallback overrides (tag => fallback) from the
+     * com_languages options. Returns an empty map when the component parameters are not yet available.
+     *
+     * @return  array  Map of language tag => fallback tag.
+     *
+     * @since   6.2.0
+     */
+    protected function getFallbackOverrides()
+    {
+        if ($this->fallbackOverrides !== null) {
+            return $this->fallbackOverrides;
+        }
+
+        $this->fallbackOverrides = [];
+
+        try {
+            $overrides = ComponentHelper::getParams('com_languages')->get('fallback_overrides');
+        } catch (\Throwable $e) {
+            return $this->fallbackOverrides;
+        }
+
+        foreach ((array) $overrides as $override) {
+            $tag      = trim((string) ($override->tag ?? ''));
+            $fallback = trim((string) ($override->fallback ?? ''));
+
+            if ($tag !== '' && $fallback !== '') {
+                $this->fallbackOverrides[$tag] = $fallback;
+            }
+        }
+
+        return $this->fallbackOverrides;
     }
 
     /**

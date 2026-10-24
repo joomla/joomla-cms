@@ -22,7 +22,7 @@ use Joomla\Registry\Registry;
  *
  * @since       1.5
  *
- * @deprecated  4.3 will be removed in 6.0
+ * @deprecated  4.3 will be removed in 7.0
  *              Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
  */
 abstract class JHtmlIcon
@@ -37,7 +37,7 @@ abstract class JHtmlIcon
      *
      * @return  string  The HTML markup for the create item link
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use \Joomla\Component\Content\Administrator\Service\HTML\Icon::create instead
      *              Example:
      *              use Joomla\Component\Content\Administrator\Service\HTML\Icon;
@@ -64,7 +64,7 @@ abstract class JHtmlIcon
      *
      * @since   1.6
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use \Joomla\Component\Content\Administrator\Service\HTML\Icon::edit instead
      *              Example:
      *              use Joomla\Component\Content\Administrator\Service\HTML\Icon;
@@ -86,7 +86,7 @@ abstract class JHtmlIcon
      *
      * @return  string  The HTML markup for the popup link
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              No longer used, will be removed without replacement
      */
     public static function print_popup($article, $params, $attribs = [], $legacy = false)
@@ -104,7 +104,7 @@ abstract class JHtmlIcon
      *
      * @return  string  The HTML markup for the popup link
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use \Joomla\Component\Content\Administrator\Service\HTML\Icon::print_screen instead
      *              Example:
      *              use Joomla\Component\Content\Administrator\Service\HTML\Icon;
@@ -121,7 +121,7 @@ abstract class JHtmlIcon
      *
      * @return  \Joomla\Component\Content\Administrator\Service\HTML\Icon
      *
-     * @deprecated  4.3 will be removed in 6.0 without replacement
+     * @deprecated  4.3 will be removed in 7.0 without replacement
      */
     private static function getIcon()
     {
