@@ -345,6 +345,33 @@ class UriTest extends UnitTestCase
     }
 
     /**
+     * Test hardening of Uri::getInstance against control characters in the server URI
+     *
+     * @return  void
+     *
+     * @covers  Uri::getInstance
+     */
+    public function testGetInstanceRemovesControlCharactersFromServerUri(): void
+    {
+        Uri::reset();
+
+        $_SERVER['HTTP_HOST']   = "www.example.com\r\n";
+        $_SERVER['SCRIPT_NAME'] = '/joomla/index.php';
+        $_SERVER['PHP_SELF']    = '/joomla/index.php';
+        $_SERVER['REQUEST_URI'] = "/joomla/index.php\x00?var=value 10";
+
+        $this->object = new Uri();
+
+        $uri = Uri::getInstance()->toString(['scheme', 'host', 'port', 'path', 'query']);
+
+        $this->assertSame(
+            'http://www.example.com/joomla/index.php?var=value 10',
+            $uri,
+            'Control characters should be stripped from the URI built from the server variables'
+        );
+    }
+
+    /**
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
