@@ -84,9 +84,11 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      *
      * @param   Model\PrepareFormEvent  $event  The event
      *
+     * @return  void
+     *
      * @since   4.0.0
      */
-    public function onContentPrepareForm(Model\PrepareFormEvent $event)
+    public function onContentPrepareForm(Model\PrepareFormEvent $event): void
     {
         $form    = $event->getForm();
         $data    = $event->getData();
@@ -112,7 +114,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    protected function enhanceTransitionForm(Form $form, $data)
+    protected function enhanceTransitionForm(Form $form, $data): bool
     {
         $workflow = $this->enhanceWorkflowTransitionForm($form, $data);
 
@@ -136,7 +138,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    protected function enhanceItemForm(Form $form, $data)
+    protected function enhanceItemForm(Form $form, $data): bool
     {
         $context = $form->getName();
 
@@ -200,7 +202,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function onAfterDisplay(DisplayEvent $event)
+    public function onAfterDisplay(DisplayEvent $event): void
     {
         if (!$this->getApplication()->isClient('administrator')) {
             return;
@@ -255,24 +257,24 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      *
      * @param   WorkflowTransitionEvent  $event
      *
-     * @return boolean
+     * @return  void
      *
      * @since   4.0.0
      */
-    public function onWorkflowBeforeTransition(WorkflowTransitionEvent $event)
+    public function onWorkflowBeforeTransition(WorkflowTransitionEvent $event): void
     {
         $context    = $event->getArgument('extension');
         $transition = $event->getArgument('transition');
         $pks        = $event->getArgument('pks');
 
         if (!$this->isSupported($context) || !is_numeric($transition->options->get('publishing'))) {
-            return true;
+            return;
         }
 
         $value = $transition->options->get('publishing');
 
         if (!is_numeric($value)) {
-            return true;
+            return;
         }
 
         /**
@@ -293,11 +295,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
 
         if (\in_array(false, $result, true)) {
             $event->setStopTransition();
-
-            return false;
         }
-
-        return true;
     }
 
     /**
@@ -309,7 +307,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function onWorkflowAfterTransition(WorkflowTransitionEvent $event)
+    public function onWorkflowAfterTransition(WorkflowTransitionEvent $event): void
     {
         $context       = $event->getArgument('extension');
         $extensionName = $event->getArgument('extensionName');
@@ -317,7 +315,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
         $pks           = $event->getArgument('pks');
 
         if (!$this->isSupported($context)) {
-            return true;
+            return;
         }
 
         $component = $this->getApplication()->bootComponent($extensionName);
@@ -346,24 +344,24 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      *
      * @param   Model\BeforeChangeStateEvent  $event
      *
-     * @return boolean
+     * @return  void
      *
-     * @throws \Exception
+     * @throws  \Exception
      * @since   4.0.0
      */
-    public function onContentBeforeChangeState(Model\BeforeChangeStateEvent $event)
+    public function onContentBeforeChangeState(Model\BeforeChangeStateEvent $event): void
     {
         $context = $event->getContext();
         $pks     = $event->getPks();
 
         if (!$this->isSupported($context)) {
-            return true;
+            return;
         }
 
         // We have allowed the pks, so we're the one who triggered
         // With onWorkflowBeforeTransition => free pass
         if ($this->getApplication()->get('plgWorkflowPublishing.' . $context) === $pks) {
-            return true;
+            return;
         }
 
         throw new \Exception($this->getApplication()->getLanguage()->_('PLG_WORKFLOW_PUBLISHING_CHANGE_STATE_NOT_ALLOWED'));
@@ -374,16 +372,17 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      *
      * @param   Model\BeforeSaveEvent  $event
      *
-     * @return  boolean
+     * @return  void
      *
+     * @throws  \Exception
      * @since   4.0.0
      */
-    public function onContentBeforeSave(Model\BeforeSaveEvent $event)
+    public function onContentBeforeSave(Model\BeforeSaveEvent $event): void
     {
         $context = $event->getContext();
 
         if (!$this->isSupported($context)) {
-            return true;
+            return;
         }
 
         /** @var TableInterface $table */
@@ -401,12 +400,8 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
          * As we're setting the field to disabled, no value should be there at all
          */
         if (isset($data[$keyName])) {
-            $this->getApplication()->enqueueMessage($this->getApplication()->getLanguage()->_('PLG_WORKFLOW_PUBLISHING_CHANGE_STATE_NOT_ALLOWED'), 'error');
-
-            return false;
+            throw new \Exception($this->getApplication()->getLanguage()->_('PLG_WORKFLOW_PUBLISHING_CHANGE_STATE_NOT_ALLOWED'));
         }
-
-        return true;
     }
 
     /**
@@ -418,7 +413,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function onContentVersioningPrepareTable(EventInterface $event)
+    public function onContentVersioningPrepareTable(EventInterface $event): void
     {
         $subject = $event->getArgument('subject');
         $context = $event->getArgument('extension');
@@ -449,7 +444,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function onTableBeforeStore(BeforeStoreEvent $event)
+    public function onTableBeforeStore(BeforeStoreEvent $event): void
     {
         $subject = $event->getArgument('subject');
 
@@ -487,11 +482,11 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      *
      * @param   string  $context
      *
-     * @return boolean
+     * @return  boolean
      *
      * @since   4.0.0
      */
-    protected function isSupported($context)
+    protected function isSupported($context): bool
     {
         if (!$this->checkAllowedAndForbiddenlist($context) || !$this->checkExtensionSupport($context, $this->supportFunctionality)) {
             return false;
@@ -536,13 +531,16 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      *
      * @param   WorkflowFunctionalityUsedEvent  $event
      *
-     * @since 4.0.0
+     * @return  void
+     *
+     * @since   4.0.0
      */
-    public function onWorkflowFunctionalityUsed(WorkflowFunctionalityUsedEvent $event)
+    public function onWorkflowFunctionalityUsed(WorkflowFunctionalityUsedEvent $event): void
     {
         $functionality = $event->getArgument('functionality');
+        $context       = $event->getArgument('extension');
 
-        if ($functionality !== 'core.state') {
+        if ($functionality !== 'core.state' || !$this->isSupported($context)) {
             return;
         }
 
