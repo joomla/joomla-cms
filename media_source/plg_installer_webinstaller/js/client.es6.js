@@ -1,3 +1,4 @@
+
 /**
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
@@ -30,8 +31,10 @@ class WebInstaller {
     webInstallerOptions.loaded = 1;
 
     const cancelButton = document.getElementById('uploadform-web-cancel');
+    const dialog = document.getElementById('uploadform-web-modal');
+
     cancelButton.addEventListener('click', () => {
-      document.getElementById('uploadform-web').classList.add('hidden');
+      dialog.close();
 
       if (webInstallerOptions.list && document.querySelector('.list-view')) {
         document.querySelector('.list-view').click();
@@ -162,6 +165,7 @@ class WebInstaller {
             loaderContainer.classList.add('hidden');
             errorContainer.classList.remove('hidden');
           }
+
           Joomla.renderMessages({ danger: [Joomla.Text._('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING_ERROR')] }, '#web-loader-error');
 
           reject();
@@ -197,8 +201,10 @@ class WebInstaller {
 
         if (installExtensionButton) {
           installExtensionButton.addEventListener('click', () => {
-            WebInstaller.installfromweb(installExtensionButton.getAttribute('data-downloadurl'), installExtensionButton.getAttribute('data-name'));
-            document.getElementById('uploadform-web-install').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            WebInstaller.installfromweb(
+              installExtensionButton.getAttribute('data-downloadurl'),
+              installExtensionButton.getAttribute('data-name'),
+            );
           });
         }
 
@@ -358,7 +364,14 @@ class WebInstaller {
       document.getElementById('uploadform-web-name-label').classList.add('hidden');
     }
 
-    document.getElementById('uploadform-web').classList.remove('hidden');
+    const confirmation = document.getElementById('uploadform-web');
+    const dialog = document.getElementById('uploadform-web-modal');
+
+    confirmation.classList.remove('hidden');
+
+    if (!dialog.open) {
+      dialog.showModal();
+    }
 
     return true;
   }
@@ -371,6 +384,7 @@ class WebInstaller {
       Joomla.renderMessages({ warning: [Joomla.Text._('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL')] });
     } else {
       const loading = document.getElementById('loading');
+
       if (loading) {
         loading.classList.remove('hidden');
       }
