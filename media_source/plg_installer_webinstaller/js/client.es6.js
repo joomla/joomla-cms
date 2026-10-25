@@ -32,7 +32,6 @@ class WebInstaller {
 
     const cancelButton = document.getElementById('uploadform-web-cancel');
     const dialog = document.getElementById('uploadform-web-modal');
-
     cancelButton.addEventListener('click', () => {
       dialog.close();
 
@@ -165,7 +164,6 @@ class WebInstaller {
             loaderContainer.classList.add('hidden');
             errorContainer.classList.remove('hidden');
           }
-
           Joomla.renderMessages({ danger: [Joomla.Text._('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING_ERROR')] }, '#web-loader-error');
 
           reject();
@@ -384,7 +382,6 @@ class WebInstaller {
       Joomla.renderMessages({ warning: [Joomla.Text._('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL')] });
     } else {
       const loading = document.getElementById('loading');
-
       if (loading) {
         loading.classList.remove('hidden');
       }
