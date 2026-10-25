@@ -85,8 +85,8 @@
 
       &:focus-visible,
       &.focus-visible {
-        outline: auto 2px $white;
         border-radius: $border-radius;
+        outline: auto 2px $white;
         outline-offset: -1px;
       }
     }
