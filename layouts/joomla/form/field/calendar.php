@@ -142,7 +142,7 @@ foreach ($strings as $c) {
 // Redefine locale/helper assets to use correct path, and load calendar assets
 $document->getWebAssetManager()
     ->registerAndUseScript('field.calendar.helper', $helperPath, [], ['defer' => true])
-    ->useStyle('field.calendar' . ($direction === 'rtl' ? '-rtl' : ''))
+    ->useStyle('field.calendar')
     ->useScript('field.calendar');
 
 ?>

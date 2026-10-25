@@ -11,6 +11,8 @@ namespace Joomla\CMS\Language;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Menu\MenuItem;
+use Joomla\CMS\Menu\SiteMenu;
 use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -89,40 +91,15 @@ class Multilanguage
     /**
      * Method to return a list of language home page menu items.
      *
-     * @param   ?DatabaseInterface  $db  The database
-     *
-     * @return  array of menu objects.
+     * @return  MenuItem[] array of menu item objects.
      *
      * @since   3.5
      */
-    public static function getSiteHomePages(?DatabaseInterface $db = null)
+    public static function getSiteHomePages()
     {
-        // To avoid doing duplicate database queries.
-        static $multilangSiteHomePages = null;
+        /** @var SiteMenu $menu */
+        $menu = Factory::getApplication()->getMenu('site');
 
-        if (!isset($multilangSiteHomePages)) {
-            // Check for Home pages languages.
-            $db    = $db ?: Factory::getDbo();
-            $query = $db->createQuery()
-                ->select(
-                    [
-                        $db->quoteName('language'),
-                        $db->quoteName('id'),
-                    ]
-                )
-                ->from($db->quoteName('#__menu'))
-                ->where(
-                    [
-                        $db->quoteName('home') . ' = ' . $db->quote('1'),
-                        $db->quoteName('published') . ' = 1',
-                        $db->quoteName('client_id') . ' = 0',
-                    ]
-                );
-            $db->setQuery($query);
-
-            $multilangSiteHomePages = $db->loadObjectList('language');
-        }
-
-        return $multilangSiteHomePages;
+        return $menu->getHomepages();
     }
 }

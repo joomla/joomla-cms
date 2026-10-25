@@ -14,11 +14,12 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\Rule\NotequalsRule;
 use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for NotequalsRule.
  *
- * @since  6.0.3
+ * @since  5.4.3
  */
 class NotequalsRuleTest extends UnitTestCase
 {
@@ -27,9 +28,9 @@ class NotequalsRuleTest extends UnitTestCase
      *
      * @return  array
      *
-     * @since   6.0.3
+     * @since   5.4.3
      */
-    public function dataTest(): array
+    public static function dataTest(): array
     {
         $xml = new \SimpleXMLElement('<field
 			name="unittest"
@@ -45,25 +46,25 @@ class NotequalsRuleTest extends UnitTestCase
 
         return [
             [true, $xml, 'testvalue', null, new Registry(), null],
-            [true, $xml, 'testvalue', null, new Registry(['testfield' => '']), null],
-            [true, $xml, 'TESTVALUE', null, new Registry(['testfield' => 'testvalue']), null],
-            [true, $xml, 'testvalue2', null, new Registry(['testfield' => 'testvalue']), null],
-            [true, $xml, '', null, new Registry(['testfield' => 'testvalue']), null],
+            [true, $xml, 'testvalue', null, new Registry(['testfield'   => '']), null],
+            [true, $xml, 'TESTVALUE', null, new Registry(['testfield'   => 'testvalue']), null],
+            [true, $xml, 'testvalue2', null, new Registry(['testfield'  => 'testvalue']), null],
+            [true, $xml, '', null, new Registry(['testfield'            => 'testvalue']), null],
             [true, $xml, 'testvaluegroup', 'user', new Registry(['user' => ['testfield' => 'testvaluegroup']]), null],
-            [true, $xml, 'testvaluegroup', 'a', new Registry(['user' => ['testfield' => 'testvaluegroup']]), null],
-            [true, $xml, 'a', null, new Registry(['testfield' => 0]), null],
-            [false, $xml, 'testvalue', null, new Registry(['testfield' => 'testvalue']), null],
-            [false, $xml, 'testvalue', '', new Registry(['testfield' => 'testvalue']), null],
+            [true, $xml, 'testvaluegroup', 'a', new Registry(['user'    => ['testfield' => 'testvaluegroup']]), null],
+            [true, $xml, 'a', null, new Registry(['testfield'           => 0]), null],
+            [false, $xml, 'testvalue', null, new Registry(['testfield'  => 'testvalue']), null],
+            [false, $xml, 'testvalue', '', new Registry(['testfield'    => 'testvalue']), null],
             [false, $xml, '', null, new Registry(), null],
-            [false, $xml, '1', null, new Registry(['testfield' => '1']), null],
-            [false, $xml, '2', null, new Registry(['testfield' => '02']), null],
-            [false, $xml, '3', null, new Registry(['testfield' => 3]), null],
+            [false, $xml, '1', null, new Registry(['testfield'  => '1']), null],
+            [false, $xml, '2', null, new Registry(['testfield'  => '02']), null],
+            [false, $xml, '3', null, new Registry(['testfield'  => 3]), null],
             [false, $xml, '04', null, new Registry(['testfield' => '4']), null],
-            [false, $xml, '5', null, new Registry(['testfield' => 5]), null],
-            [false, $xml, 6, null, new Registry(['testfield' => '6']), null],
-            [false, $xml, '0', null, new Registry(['testfield' => false]), null],
-            [false, $xml, 0, null, new Registry(['testfield' => false]), null],
-            [false, $xml, 4, null, new Registry(['testfield' => true]), null],
+            [false, $xml, '5', null, new Registry(['testfield'  => 5]), null],
+            [false, $xml, 6, null, new Registry(['testfield'    => '6']), null],
+            [false, $xml, '0', null, new Registry(['testfield'  => false]), null],
+            [false, $xml, 0, null, new Registry(['testfield'    => false]), null],
+            [false, $xml, 4, null, new Registry(['testfield'    => true]), null],
             [\InvalidArgumentException::class, $xml, '', null, null, null],
             [\UnexpectedValueException::class, $xml2, '', null, null, null],
         ];
@@ -81,9 +82,9 @@ class NotequalsRuleTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   6.0.3
-     * @dataProvider dataTest
+     * @since   5.4.3
      */
+    #[DataProvider('dataTest')]
     public function testRule(bool|string $expected, \SimpleXMLElement $element, string|int $value, ?string $group, ?Registry $input, ?Form $form): void
     {
         if (\is_string($expected) && class_exists($expected)) {
@@ -91,6 +92,6 @@ class NotequalsRuleTest extends UnitTestCase
             (new NotequalsRule())->test($element, $value, $group, $input, $form);
         }
 
-        $this->assertEquals($expected, (new NotequalsRule())->test($element, $value, $group, $input, $form));
+        $this->assertSame($expected, (new NotequalsRule())->test($element, $value, $group, $input, $form));
     }
 }

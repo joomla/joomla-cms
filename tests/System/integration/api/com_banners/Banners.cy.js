@@ -69,11 +69,11 @@ describe('Test that banners API endpoint', () => {
     cy.api_getBearerToken().then((token) => {
       cy.request({
         method: 'DELETE',
-        url: `/api/index.php/v1/banners/9999`,
+        url: '/api/index.php/v1/banners/9999',
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        failOnStatusCode: false
+        failOnStatusCode: false,
       }).then((response) => {
         expect(response.status).to.equal(404);
         expect(response.body.data.message).to.include('Resource not found');
@@ -91,7 +91,7 @@ describe('Test that banners API endpoint', () => {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-            failOnStatusCode: false
+            failOnStatusCode: false,
           }).then((response) => {
             expect(response.status).to.equal(409);
             expect(response.body.data.message).to.include('must be trashed before it can be deleted');

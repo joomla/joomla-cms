@@ -10,7 +10,7 @@
 
 namespace Joomla\Plugin\System\Stats\Extension;
 
-use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Event\Application\AfterDispatchEvent;
 use Joomla\CMS\Event\Application\AfterInitialiseEvent;
 use Joomla\CMS\Event\Plugin\AjaxEvent;
@@ -41,6 +41,7 @@ use Joomla\Registry\Registry;
 final class Stats extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
+    use CacheControllerFactoryAwareTrait;
 
     /**
      * Indicates sending statistics is always allowed.
@@ -356,7 +357,7 @@ final class Stats extends CMSPlugin implements SubscriberInterface
             'db_type'     => $this->getDatabase()->name,
             'db_version'  => $this->getDatabase()->getVersion(),
             'cms_version' => JVERSION,
-            'server_os'   => php_uname('s') . ' ' . php_uname('r'),
+            'server_os'   => \function_exists('php_uname') ? php_uname('s') . ' ' . php_uname('r') : (getenv('OSTYPE') ?: \PHP_OS),
         ];
 
         // Check if we have a MariaDB version string and extract the proper version from it
@@ -588,8 +589,8 @@ final class Stats extends CMSPlugin implements SubscriberInterface
                     'cachebase'    => $this->getApplication()->get('cache_path', JPATH_CACHE),
                 ];
 
-                $cache = Cache::getInstance('callback', $options);
-                $cache->clean();
+                $this->getCacheControllerFactory()
+                    ->createCacheController('callback', $options)->clean();
             } catch (\Exception) {
                 // Ignore it
             }

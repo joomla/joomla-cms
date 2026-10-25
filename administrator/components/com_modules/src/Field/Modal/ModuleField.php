@@ -27,7 +27,7 @@ use Joomla\Database\ParameterType;
 /**
  * Supports a modal menu item picker.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  6.1.0
  */
 class ModuleField extends ModalSelectField
 {
@@ -35,7 +35,7 @@ class ModuleField extends ModalSelectField
      * The form field type.
      *
      * @var     string
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected $type = 'Modal_Module';
 
@@ -52,7 +52,7 @@ class ModuleField extends ModalSelectField
      * @return  boolean  True on success.
      *
      * @see     FormField::setup()
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
@@ -144,7 +144,7 @@ class ModuleField extends ModalSelectField
      *
      * @return string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function getExtensionId()
     {
@@ -178,7 +178,7 @@ class ModuleField extends ModalSelectField
      *
      * @return string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function getValueTitle()
     {
@@ -209,7 +209,7 @@ class ModuleField extends ModalSelectField
      *
      * @return  array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 6.1.0
      */
     protected function getLayoutData()
     {
@@ -226,7 +226,7 @@ class ModuleField extends ModalSelectField
      *
      * @return  FileLayout
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function getRenderer($layoutId = 'default')
     {

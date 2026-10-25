@@ -12,7 +12,7 @@ namespace Joomla\CMS\Installation\Helper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseFactory;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
@@ -113,7 +113,7 @@ abstract class DatabaseHelper
             }
 
             // Get a database object.
-            $db = DatabaseDriver::getInstance($options);
+            $db = (new DatabaseFactory())->getDriver($options['driver'], $options);
         }
 
         return $db;

@@ -45,7 +45,7 @@ class BannersController extends ApiController
      *
      * @return  static  A BaseController object to support chaining.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     public function displayList()
     {

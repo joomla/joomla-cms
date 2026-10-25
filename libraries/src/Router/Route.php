@@ -100,7 +100,7 @@ class Route
         } catch (\RuntimeException) {
             /**
              * @deprecated  3.9 this method will not fail silently from 7.0
-             *              Before 3.9.0 this method failed silently on router error. This B/C will be removed in Joomla 6.0
+             *              Before 3.9.0 this method failed silently on router error. This B/C will be removed in Joomla 7.0
              */
             return null;
         }

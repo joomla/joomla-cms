@@ -12,11 +12,12 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Form\Rule;
 
 use Joomla\CMS\Form\Rule\CalendarRule;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for CalendarRule.
  *
- * @since  6.0.3
+ * @since  5.4.3
  */
 class CalendarRuleTest extends UnitTestCase
 {
@@ -25,9 +26,9 @@ class CalendarRuleTest extends UnitTestCase
      *
      * @return  array
      *
-     * @since   6.0.3
+     * @since   5.4.3
      */
-    public function dataTest(): array
+    public static function dataTest(): array
     {
         $xml = new \SimpleXMLElement('<field
 			name="unittest"
@@ -59,11 +60,11 @@ class CalendarRuleTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   6.0.3
-     * @dataProvider dataTest
+     * @since   5.4.3
      */
+    #[DataProvider('dataTest')]
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
     {
-        $this->assertEquals($expected, (new CalendarRule())->test($element, $value));
+        $this->assertSame($expected, (new CalendarRule())->test($element, $value));
     }
 }

@@ -111,7 +111,7 @@ class Workflow
 
         // Initialise default objects if none have been provided
         if ($app === null) {
-            @trigger_error('From 6.0 declaring the app dependency will be mandatory.', E_USER_DEPRECATED);
+            @trigger_error('From 7.0 declaring the app dependency will be mandatory.', E_USER_DEPRECATED);
             $app = Factory::getApplication();
         }
 
@@ -122,7 +122,7 @@ class Workflow
         $this->app = $app;
 
         if ($db === null) {
-            @trigger_error('From 6.0 declaring the database dependency will be mandatory.', E_USER_DEPRECATED);
+            @trigger_error('From 7.0 declaring the database dependency will be mandatory.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseDriver::class);
         }
 

@@ -508,7 +508,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     {
         try {
             Log::add(
-                \sprintf('%s() is deprecated and will be removed in 6.0. Use Factory->getApplication()->get() instead.', __METHOD__),
+                \sprintf('%s() is deprecated and will be removed in 7.0. Use Factory->getApplication()->get() instead.', __METHOD__),
                 Log::WARNING,
                 'deprecated'
             );
@@ -599,7 +599,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         }
 
         if ($this->menuFactory === null) {
-            @trigger_error('Menu factory must be set in 5.0', E_USER_DEPRECATED);
+            @trigger_error('Menu factory must be set in 7.0', E_USER_DEPRECATED);
             $this->menuFactory = $this->getContainer()->get(MenuFactoryInterface::class);
         }
 
@@ -1411,7 +1411,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function initialiseTemplate(): void
     {
@@ -1431,7 +1431,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @return  bool  True if the template is valid, false otherwise. A template is valid if its index.php file exists
      *                either in the template itself or in its parent template.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function isValidTemplate($template): bool
     {

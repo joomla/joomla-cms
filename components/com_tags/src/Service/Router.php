@@ -187,7 +187,7 @@ class Router extends RouterBase
             }
         }
 
-        // TODO: Remove this whole block in 6.0 as it is a bug
+        // TODO: Remove this whole block in 7.0 as it is a bug
         if (!$this->sefparams->get('strictrouting', 0)) {
             // If not found, return language specific home link
             if (!isset($query['Itemid'])) {
@@ -248,6 +248,18 @@ class Router extends RouterBase
                 }
 
                 unset($query['id']);
+            }
+
+            // Strip 'types' from the URL if they match the menu item's own configured types
+            if (isset($query['types'], $menuItem->query['types'])) {
+                $queryTypes = ArrayHelper::toInteger((array) $query['types']);
+                $menuTypes  = ArrayHelper::toInteger((array) $menuItem->query['types']);
+                sort($queryTypes);
+                sort($menuTypes);
+
+                if ($queryTypes === $menuTypes) {
+                    unset($query['types']);
+                }
             }
 
             unset($query['view']);

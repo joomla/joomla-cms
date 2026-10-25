@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /** @var \Joomla\Component\Modules\Administrator\View\Module\HtmlView $this */
 
 // A backward compatibility for bootstrap modals: hide toolbar
-// @TODO: Remove in 6.0
+// @TODO: Remove in 7.0
 $this->getDocument()->getWebAssetManager()->addInlineScript('
 if (window.parent.Joomla.Modal) {
     const modal = window.parent.Joomla.Modal.getCurrent();

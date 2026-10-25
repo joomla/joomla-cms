@@ -128,6 +128,9 @@ class HtmlView extends FormView
      */
     protected function addToolbar()
     {
+        if ($this->getLayout() === 'pagebreak') {
+            return;
+        }
         if ($this->getLayout() === 'modal') {
             $this->addModalToolbar();
 

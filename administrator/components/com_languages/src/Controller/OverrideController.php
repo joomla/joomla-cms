@@ -204,7 +204,7 @@ class OverrideController extends FormController
      *
      * @return  string  The arguments to append to the redirect URL.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
     {

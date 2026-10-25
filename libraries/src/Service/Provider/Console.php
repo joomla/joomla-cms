@@ -40,6 +40,7 @@ use Joomla\Database\Command\ImportCommand;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -222,6 +223,8 @@ class Console implements ServiceProviderInterface
                     $container->get('config')->get('language'),
                     $container->get('config')->get('debug_lang')
                 ));
+
+                $command->setDispatcher($container->get(DispatcherInterface::class));
 
                 return $command;
             },

@@ -29,7 +29,7 @@ describe('Test that the webauthn system plugin', { browser: '!firefox' }, () => 
     cy.doFrontendLogout();
     cy.db_updateExtensionParameter('attestationSupport', '1', 'plg_system_webauthn');
     cy.visit('index.php?option=com_users&view=login');
-    cy.get('form.mod-login input[name="username"]').type(Cypress.env('username'));
+    cy.get('form.mod-login input[name="username"]').type(Cypress.expose('username'));
     cy.get('.mod-login .plg_system_webauthn_login_button').contains('Sign in with a passkey').click();
     cy.get('.mod-login-logout button[type=submit]').should('exist').should('contain', 'Log out');
     cy.visit('/index.php?option=com_users&view=profile');
@@ -53,7 +53,7 @@ describe('Test that the webauthn system plugin', { browser: '!firefox' }, () => 
     cy.clickToolbarButton('Cancel');
     cy.doAdministratorLogout();
     cy.db_updateExtensionParameter('attestationSupport', '1', 'plg_system_webauthn');
-    cy.get('#mod-login-username').type(Cypress.env('username'));
+    cy.get('#mod-login-username').type(Cypress.expose('username'));
     cy.get('#form-login .plg_system_webauthn_login_button').contains('Sign in with a passkey').click();
     cy.get('h1.page-title').should('contain', 'Home Dashboard');
     cy.visit('/administrator/index.php?option=com_users&view=users');

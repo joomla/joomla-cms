@@ -24,7 +24,7 @@ use Joomla\Database\ParameterType;
 /**
  * Module associations helper.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  6.1.0
  */
 class AssociationsHelper extends AssociationExtensionHelper
 {
@@ -33,7 +33,7 @@ class AssociationsHelper extends AssociationExtensionHelper
      *
      * @var     array   $extension
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected $extension = 'com_modules';
 
@@ -42,7 +42,7 @@ class AssociationsHelper extends AssociationExtensionHelper
      *
      * @var     array   $itemTypes
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected $itemTypes = ['module'];
 
@@ -51,7 +51,7 @@ class AssociationsHelper extends AssociationExtensionHelper
      *
      * @var     boolean   $associationsSupport
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected $associationsSupport = true;
 
@@ -63,7 +63,7 @@ class AssociationsHelper extends AssociationExtensionHelper
      *
      * @return  array   Array of associations for the item
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     public function getAssociationsForItem($id = 0, $view = null)
     {
@@ -78,7 +78,7 @@ class AssociationsHelper extends AssociationExtensionHelper
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     public function getAssociations($typeName, $id)
     {
@@ -107,7 +107,7 @@ class AssociationsHelper extends AssociationExtensionHelper
      *
      * @return  Table|null
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     public function getItem($typeName, $id)
     {
@@ -133,7 +133,7 @@ class AssociationsHelper extends AssociationExtensionHelper
      *
      * @return  array  Array of item types
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     public function getType($typeName = '')
     {
@@ -176,7 +176,7 @@ class AssociationsHelper extends AssociationExtensionHelper
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     public function getUrlOptions($type = '')
     {
@@ -195,7 +195,7 @@ class AssociationsHelper extends AssociationExtensionHelper
      *
      * @return string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     public function getExtensionId($id)
     {
