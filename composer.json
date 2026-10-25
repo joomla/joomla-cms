@@ -20,10 +20,12 @@
     }
   },
   "support": {
+    "github": "https://github.com/joomla/joomla-cms",
     "issues": "https://issues.joomla.org/",
-    "irc": "irc://chat.freenode.net/joomla/",
+    "chat": "https://joom.la/chat/",
     "forum": "https://forum.joomla.org/",
-    "docs": "https://docs.joomla.org/"
+    "docs": "https://guide.joomla.org/",
+    "developer docs": "https://manual.joomla.org/"
   },
   "repositories": [
     {
@@ -59,14 +61,14 @@
     "joomla/database": "^4.0",
     "joomla/di": "^4.0",
     "joomla/event": "^4.0",
-    "joomla/filter": "4.0.2",
-    "joomla/filesystem": "^4.1",
+    "joomla/filter": "^4.1.0",
+    "joomla/filesystem": "^4.2.1",
     "joomla/http": "^4.0",
     "joomla/input": "^4.0",
     "joomla/language": "^4.0",
     "joomla/oauth1": "^4.0",
     "joomla/oauth2": "^4.0",
-    "joomla/registry": "^4.0",
+    "joomla/registry": "^4.0.1",
     "joomla/router": "^4.0",
     "joomla/session": "^4.0",
     "joomla/string": "^4.0",
@@ -78,7 +80,7 @@
     "fig/link-util": "^1.2.0",
     "google/recaptcha": "^1.3.1",
     "laminas/laminas-diactoros": "^3.8.0",
-    "paragonie/sodium_compat": "^1.24.0",
+    "paragonie/sodium_compat": "^1.24.2",
     "phpmailer/phpmailer": "^6.12.0",
     "psr/link": "~1.1.1",
     "symfony/console": "^7",
@@ -109,9 +111,9 @@
     "altcha-org/altcha": "^1.3.2"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.6.34",
+    "phpunit/phpunit": "^12.5",
     "friendsofphp/php-cs-fixer": "^3.94.2",
-    "squizlabs/php_codesniffer": "^3.13.5",
+    "squizlabs/php_codesniffer": "^3.13.6",
     "joomla/mediawiki": "^4.0",
     "joomla/test": "~4.0",
     "phpstan/phpstan": "^2.1.40",

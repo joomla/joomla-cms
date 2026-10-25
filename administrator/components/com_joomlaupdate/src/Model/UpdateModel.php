@@ -1805,22 +1805,35 @@ ENDDATA;
             return (object) ['state' => 2];
         }
 
-        foreach ($updateSites as $updateSite) {
-            if ($updateSite['type'] === 'collection') {
-                $updateFileUrls = $this->getCollectionDetailsUrls($updateSite, $joomlaTargetVersion);
+        $hasUpdateSiteError = false;
 
-                foreach ($updateFileUrls as $updateFileUrl) {
-                    $compatibleVersions = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
+        foreach ($updateSites as $updateSite) {
+            try {
+                if ($updateSite['type'] === 'collection') {
+                    $updateFileUrls = $this->getCollectionDetailsUrls($updateSite, $joomlaTargetVersion);
+
+                    foreach ($updateFileUrls as $updateFileUrl) {
+                        $compatibleVersions = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
+
+                        // Return the compatible versions
+                        return (object) ['state' => 1, 'compatibleVersions' => $compatibleVersions];
+                    }
+                } else {
+                    $compatibleVersions = $this->checkCompatibility($updateSite['location'], $joomlaTargetVersion);
 
                     // Return the compatible versions
                     return (object) ['state' => 1, 'compatibleVersions' => $compatibleVersions];
                 }
-            } else {
-                $compatibleVersions = $this->checkCompatibility($updateSite['location'], $joomlaTargetVersion);
+            } catch (\Throwable $exception) {
+                $this->reportCompatibilityUpdateSiteFailure($updateSite, $exception);
+                $hasUpdateSiteError = true;
 
-                // Return the compatible versions
-                return (object) ['state' => 1, 'compatibleVersions' => $compatibleVersions];
+                continue;
             }
+        }
+
+        if ($hasUpdateSiteError) {
+            return (object) ['state' => 3];
         }
 
         // In any other case we mark this extension as not compatible
@@ -1844,6 +1857,8 @@ ENDDATA;
 
         $query->select(
             [
+                $db->quoteName('us.update_site_id'),
+                $db->quoteName('us.name', 'update_site_name'),
                 $db->quoteName('us.type'),
                 $db->quoteName('us.location'),
                 $db->quoteName('e.element', 'ext_element'),
@@ -1905,7 +1920,18 @@ ENDDATA;
             return $return;
         }
 
-        $updateSiteXML = simplexml_load_string((string) $response->getBody());
+        $useInternalXmlErrors = libxml_use_internal_errors(true);
+        $updateSiteXML        = simplexml_load_string((string) $response->getBody());
+        libxml_clear_errors();
+        libxml_use_internal_errors($useInternalXmlErrors);
+
+        if ($updateSiteXML === false) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_UPDATE_SITE_INVALID_XML'));
+        }
+
+        if (!isset($updateSiteXML->extension)) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_UPDATE_SITE_XML_MISSING_EXTENSION'));
+        }
 
         foreach ($updateSiteXML->extension as $extension) {
             $attribs = new \stdClass();
@@ -1948,7 +1974,10 @@ ENDDATA;
 
         $update = new Update();
         $update->setTargetVersion($joomlaTargetVersion);
-        $update->loadFromXml($updateFileUrl, $minimumStability);
+
+        if (!$update->loadFromXml($updateFileUrl, $minimumStability)) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_UPDATE_SITE_INVALID_XML'));
+        }
 
         $compatibleVersions = $update->get('compatibleVersions');
 
@@ -1963,6 +1992,46 @@ ENDDATA;
         usort($compatibleVersions, 'version_compare');
 
         return $compatibleVersions;
+    }
+
+    /**
+     * Report an update site compatibility check failure.
+     *
+     * @param   array       $updateSiteInfo  The update site and extension information record.
+     * @param   \Throwable  $exception       The caught failure.
+     *
+     * @return  void
+     *
+     * @since   6.1.3
+     */
+    private function reportCompatibilityUpdateSiteFailure(array $updateSiteInfo, \Throwable $exception): void
+    {
+        $updateSiteId   = (int) ($updateSiteInfo['update_site_id'] ?? 0);
+        $updateSiteName = $updateSiteInfo['update_site_name'] ?? '';
+        $updateSiteUrl  = $updateSiteInfo['location'] ?? '';
+
+        Log::add(
+            \sprintf(
+                'Error checking compatibility for update site #%d "%s" (%s): %s',
+                $updateSiteId,
+                $updateSiteName,
+                $updateSiteUrl,
+                $exception->getMessage()
+            ),
+            Log::WARNING,
+            'updater'
+        );
+
+        Factory::getApplication()->enqueueMessage(
+            Text::sprintf(
+                'COM_JOOMLAUPDATE_UPDATE_SITE_COMPATIBILITY_ERROR',
+                $updateSiteId,
+                htmlspecialchars($updateSiteName, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
+                htmlspecialchars($updateSiteUrl, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
+                htmlspecialchars($exception->getMessage(), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
+            ),
+            'warning'
+        );
     }
 
     /**
