@@ -120,11 +120,16 @@
   border: 0;
   opacity: .5;
   appearance: none;
+  inline-size: 24px;
+  block-size: 24px;
+  flex: 0 0 24px;
 
   &::before {
     position: absolute;
     inset: 0;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     text-indent: 0;
     content: "\00d7";
