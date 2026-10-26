@@ -422,4 +422,51 @@ class Users
 
         return static::value('');
     }
+
+    /**
+     * Get the sanitized color scheme
+     *
+     * @param   mixed  $value  Value of the field
+     *
+     * @return  mixed  String/void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function colorScheme($value)
+    {
+        if (empty($value)) {
+            return static::value($value);
+        }
+
+        switch ($value) {
+            case 'os':
+                return Text::_('COM_USERS_USER_COLORSCHEME_OPTION_FOLLOW_OS');
+            case 'light':
+                return Text::_('COM_USERS_USER_COLORSCHEME_OPTION_LIGHT');
+            case 'dark':
+                return Text::_('COM_USERS_USER_COLORSCHEME_OPTION_DARK');
+        }
+
+        return static::value('');
+    }
+
+    /**
+     * Get the sanitized allow tour auto start value
+     *
+     * @param   mixed  $value  Value of the field
+     *
+     * @return  mixed  String/void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function allowTourAutoStart($value)
+    {
+        if ($value == 0) {
+            return Text::_('JNO');
+        } elseif ($value == 1) {
+            return Text::_('JYES');
+        }
+
+        return static::value('');
+    }
 }
