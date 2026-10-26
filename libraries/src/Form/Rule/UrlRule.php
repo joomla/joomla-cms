@@ -78,11 +78,13 @@ class UrlRule extends FormRule
          * @link https://www.php.net/manual/en/function.parse-url.php
          */
         if ($urlParts === false || !\array_key_exists('scheme', $urlParts)) {
+            $relative = ((string) $element['relative'] === 'true' || (string) $element['relative'] === 'relative' || (string) $element['relative'] === '1');
+
             /*
              * The function parse_url() returned false (seriously malformed URL) or no scheme
              * was found and the relative option is not set: in both cases the field is not valid.
              */
-            if ($urlParts === false || !$element['relative']) {
+            if ($urlParts === false || !$relative) {
                 $element->addAttribute('message', Text::sprintf('JLIB_FORM_VALIDATE_FIELD_URL_SCHEMA_MISSING', $value, implode(', ', $scheme)));
 
                 return false;
