@@ -94,27 +94,31 @@ abstract class PunycodeHelper
         $newuri  = '';
 
         if (!empty($parsed['scheme'])) {
-            // Assume :// is required although it is not always.
-            $newuri .= $parsed['scheme'] . '://';
+            $newuri .= $parsed['scheme'] . ':';
         }
 
-        if (!empty($newhost)) {
-            $newuri .= $newhost;
+        // The URL has a host, so it always has an authority, also when it is protocol-relative
+        $newuri .= '//';
+
+        if (isset($parsed['user'])) {
+            $newuri .= $parsed['user'] . (isset($parsed['pass']) ? ':' . $parsed['pass'] : '') . '@';
         }
+
+        $newuri .= $newhost;
 
         if (!empty($parsed['port'])) {
             $newuri .= ':' . $parsed['port'];
         }
 
-        if (!empty($parsed['path'])) {
+        if (isset($parsed['path'])) {
             $newuri .= $parsed['path'];
         }
 
-        if (!empty($parsed['query'])) {
+        if (isset($parsed['query'])) {
             $newuri .= '?' . $parsed['query'];
         }
 
-        if (!empty($parsed['fragment'])) {
+        if (isset($parsed['fragment'])) {
             $newuri .= '#' . $parsed['fragment'];
         }
 
@@ -156,27 +160,31 @@ abstract class PunycodeHelper
         $newuri  = '';
 
         if (!empty($parsed['scheme'])) {
-            // Assume :// is required although it is not always.
-            $newuri .= $parsed['scheme'] . '://';
+            $newuri .= $parsed['scheme'] . ':';
         }
 
-        if (!empty($newhost)) {
-            $newuri .= $newhost;
+        // The URL has a host, so it always has an authority, also when it is protocol-relative
+        $newuri .= '//';
+
+        if (isset($parsed['user'])) {
+            $newuri .= $parsed['user'] . (isset($parsed['pass']) ? ':' . $parsed['pass'] : '') . '@';
         }
+
+        $newuri .= $newhost;
 
         if (!empty($parsed['port'])) {
             $newuri .= ':' . $parsed['port'];
         }
 
-        if (!empty($parsed['path'])) {
+        if (isset($parsed['path'])) {
             $newuri .= $parsed['path'];
         }
 
-        if (!empty($parsed['query'])) {
+        if (isset($parsed['query'])) {
             $newuri .= '?' . $parsed['query'];
         }
 
-        if (!empty($parsed['fragment'])) {
+        if (isset($parsed['fragment'])) {
             $newuri .= '#' . $parsed['fragment'];
         }
 
