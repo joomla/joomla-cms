@@ -99,7 +99,7 @@
     "ext-gd": "*",
     "web-auth/webauthn-lib": "4.5.2",
     "ext-dom": "*",
-    "composer/ca-bundle": "^1.5.10",
+    "composer/ca-bundle": "^1.6.0",
     "dragonmantank/cron-expression": "^3.6.0",
     "enshrined/svg-sanitize": "^1.1.1",
     "lcobucci/jwt": "^4.3.0",
