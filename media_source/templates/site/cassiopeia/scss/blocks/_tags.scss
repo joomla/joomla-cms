@@ -21,9 +21,9 @@
   gap: 0 1rem;
 
   > .list-group-item {
-    border-radius: var(--bs-list-group-border-radius, .375rem);
-    border: var(--bs-list-group-border-width, 1px) solid var(--bs-list-group-border-color, #dee2e6);
     margin: .125rem 0;
+    border: var(--bs-list-group-border-width) solid var(--bs-list-group-border-color);
+    border-radius: var(--bs-list-group-border-radius, .375rem);
   }
 }
 
