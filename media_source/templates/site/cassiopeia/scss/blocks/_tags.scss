@@ -22,8 +22,8 @@
 
   > .list-group-item {
     margin: .125rem 0;
-    border: var(--bs-list-group-border-width) solid var(--bs-list-group-border-color);
-    border-radius: var(--bs-list-group-border-radius, .375rem);
+    border: var(--list-group-border-width) solid var(--list-group-border-color);
+    border-radius: var(--list-group-border-radius);
   }
 }
 
