@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\MVC\Model;
 
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for \Joomla\CMS\MVC\Model\BaseModel
@@ -19,34 +20,31 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  MVC
  *
- * @testdox     The BaseModel
- *
  * @since       4.2.0
  */
+#[TestDox('The BaseModel')]
 class BaseModelTest extends UnitTestCase
 {
     /**
-     * @testdox  gets the injected name
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('gets the injected name')]
     public function testGetInjectedName()
     {
         $model = new class (['name' => 'unit test']) extends BaseModel {
         };
 
-        $this->assertEquals('unit test', $model->getName());
+        $this->assertSame('unit test', $model->getName());
     }
 
     /**
-     * @testdox  compiles its own name
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('compiles its own name')]
     public function testGetCompiledName()
     {
         $model = new class () extends BaseModel {
@@ -56,28 +54,26 @@ class BaseModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  gets the injected state
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('gets the injected state')]
     public function testGetInjectedState()
     {
         $state = ['test' => 'unit'];
         $model = new class (['state' => $state]) extends BaseModel {
         };
 
-        $this->assertEquals($state, $model->getState());
+        $this->assertSame($state, $model->getState());
     }
 
     /**
-     * @testdox  does populate the state before accessing it
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('does populate the state before accessing it')]
     public function testAcceptRequest()
     {
         $model = new class (['ignore_request' => false]) extends BaseModel {
@@ -91,12 +87,11 @@ class BaseModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  does ignore to populate the state before accessing it
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('does ignore to populate the state before accessing it')]
     public function testIgnoreRequest()
     {
         $model = new class (['ignore_request' => true]) extends BaseModel {
