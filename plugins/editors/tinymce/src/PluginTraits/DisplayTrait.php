@@ -576,6 +576,9 @@ trait DisplayTrait
                 // Set License
                 'license_key' => 'gpl',
 
+                // Set the iframe title
+                'iframe_aria_text' => Text::_('PLG_TINY_IFRAME_ARIA_TEXT'),
+
                 // Hardened security
                 'sandbox_iframes'            => (bool) $levelParams->get('sandbox_iframes', true),
                 'sandbox_iframes_exclusions' => $sandboxIframesExclusions,
