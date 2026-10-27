@@ -192,6 +192,7 @@ $table-variants: (
 
 // Forms
 $input-border-color:                  $gray-400 !default;
+$form-check-input-border:              var(--border-width) solid $gray-600 !default; // contrast ratio: 4.7 on #fff
 $input-padding:                       .6rem 1rem !default;
 $input-btn-padding-y:                 .6rem !default;
 $input-btn-padding-x:                 1rem !default;
