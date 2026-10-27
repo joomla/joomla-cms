@@ -512,10 +512,18 @@ class UpdateModel extends BaseDatabaseModel
      */
     public function getAutoUpdateRequirementsState(): bool
     {
+        // Check basic requirements of the *current* system
         foreach ($this->getPhpOptions() as $option) {
             if ($option->state !== true) {
                 return false;
             }
+        }
+
+        // Fetch update and check constraints - if the "otherinfo" is set, we have a constraint issue
+        $updateInfo = $this->getUpdateInformation();
+
+        if (!empty($updateInfo['object']) && !empty((array) $updateInfo['object']->get('otherUpdateInfo'))) {
+            return false;
         }
 
         return true;
