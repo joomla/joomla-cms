@@ -308,6 +308,14 @@
       }
     },
     {
+      "name":"joomla.batch-secondary-category-addremove",
+      "type":"script",
+      "uri":"layouts/joomla/html/batch/batch-secondary-category-addremove.min.js",
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
       "name": "webcomponent.field-fancy-select-legacy",
       "type": "script",
       "deprecated": true,

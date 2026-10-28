@@ -215,6 +215,14 @@ class HtmlView extends BaseHtmlView
 
         $this->_prepareDocument();
 
+        $app    = Factory::getApplication();
+        $itemId = (int) $app->getInput()->getInt('Itemid', 0);
+
+        $app->setUserState(
+            'com_content.navigation_context',
+            $itemId
+        );
+
         parent::display($tpl);
     }
 

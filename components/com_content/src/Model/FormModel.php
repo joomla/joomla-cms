@@ -151,6 +151,9 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
             $value->tags->getTagIds($value->id, 'com_content.article');
             $value->metadata['tags'] = $value->tags;
 
+            // Load assigned secondary categories for the edit form.
+            $value->secondary_categories = $this->getCurrentSecondaryCategories($value->id);
+
             $value->featured_up   = null;
             $value->featured_down = null;
 
@@ -251,6 +254,9 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
             $form->setFieldAttribute('catid', 'readonly', 'true');
             $form->setFieldAttribute('catid', 'required', 'false');
             $form->setFieldAttribute('catid', 'filter', 'unset');
+            $form->setFieldAttribute('secondary_categories', 'required', 'false');
+            $form->setFieldAttribute('secondary_categories', 'readonly', 'true');
+            $form->setFieldAttribute('secondary_categories', 'filter', 'unset');
         }
 
         // Prevent messing with article language and category when editing existing article with associations
@@ -263,6 +269,9 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
                 $form->setFieldAttribute('catid', 'readonly', 'true');
                 $form->setFieldAttribute('language', 'filter', 'unset');
                 $form->setFieldAttribute('catid', 'filter', 'unset');
+                $form->setFieldAttribute('secondary_categories', 'required', 'false');
+                $form->setFieldAttribute('secondary_categories', 'readonly', 'true');
+                $form->setFieldAttribute('secondary_categories', 'filter', 'unset');
             }
         }
 

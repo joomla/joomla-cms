@@ -41,6 +41,7 @@ class JsonapiView extends BaseApiView
         'alias',
         'name',
         'category',
+        'secondary_categories',
         'created',
         'created_by',
         'created_by_alias',
@@ -88,6 +89,7 @@ class JsonapiView extends BaseApiView
         'alias',
         'name',
         'category',
+        'secondary_categories',
         'created',
         'created_by',
         'created_by_alias',
@@ -182,6 +184,16 @@ class JsonapiView extends BaseApiView
      */
     protected function prepareItem($item)
     {
+        $fieldCategoryIds = [(int) ($item->catid ?? 0)];
+
+        if (!empty($item->secondary_categories)) {
+            foreach ((array) $item->secondary_categories as $category) {
+                $fieldCategoryIds[] = \is_object($category) ? (int) $category->id : (int) $category;
+            }
+        }
+
+        $item->fieldscatid = array_values(array_unique(array_filter($fieldCategoryIds)));
+
         foreach (FieldsHelper::getFields('com_contact.contact', $item, true) as $field) {
             $item->{$field->name} = $field->apivalue ?? $field->rawvalue;
         }
@@ -208,6 +220,17 @@ class JsonapiView extends BaseApiView
             $item->tags = array_combine($tagsIds, $tagsNames);
         } else {
             $item->tags = [];
+        }
+
+        if (!empty($item->secondary_categories)) {
+            $item->secondary_categories = array_values(
+                array_map(
+                    static fn ($category): int => \is_object($category) ? (int) $category->id : (int) $category,
+                    (array) $item->secondary_categories
+                )
+            );
+        } else {
+            $item->secondary_categories = [];
         }
 
         if (isset($item->image)) {

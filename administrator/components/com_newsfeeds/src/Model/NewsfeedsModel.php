@@ -12,6 +12,7 @@ namespace Joomla\Component\Newsfeeds\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -129,7 +130,7 @@ class NewsfeedsModel extends ListModel
         // Compile the store id.
         $id .= ':' . $this->getState('filter.search');
         $id .= ':' . $this->getState('filter.published');
-        $id .= ':' . $this->getState('filter.category_id');
+        $id .= ':' . serialize($this->getState('filter.category_id'));
         $id .= ':' . $this->getState('filter.access');
         $id .= ':' . $this->getState('filter.language');
         $id .= ':' . $this->getState('filter.level');
@@ -228,12 +229,19 @@ class NewsfeedsModel extends ListModel
         }
 
         // Filter by category.
-        $categoryId = $this->getState('filter.category_id');
+        $categoryId = $this->getState('filter.category_id', []);
 
-        if (is_numeric($categoryId)) {
-            $categoryId = (int) $categoryId;
-            $query->where($db->quoteName('a.catid') . ' = :categoryId')
-                ->bind(':categoryId', $categoryId, ParameterType::INTEGER);
+        if (!\is_array($categoryId)) {
+            $categoryId = $categoryId ? [$categoryId] : [];
+        }
+
+        if (\count($categoryId)) {
+            $categoryId    = array_values(array_filter(ArrayHelper::toInteger($categoryId)));
+
+            if ($categoryId) {
+                $helper = new SecondaryCategoriesHelper('com_newsfeeds.newsfeed');
+                $query->where($helper->buildCategoryMembershipCondition($categoryId));
+            }
         }
 
         // Filter on the level.
@@ -357,5 +365,24 @@ class NewsfeedsModel extends ListModel
         $query->order($ordering);
 
         return $query;
+    }
+
+    /**
+     * Method to get an array of data items.
+     *
+     * @return  mixed  An array of data items on success, false on failure.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getItems()
+    {
+        $items = parent::getItems();
+
+        if ($items) {
+            $helper = new SecondaryCategoriesHelper('com_newsfeeds.newsfeed');
+            $helper->loadSecondaryCategoriesForItems($items);
+        }
+
+        return $items;
     }
 }
