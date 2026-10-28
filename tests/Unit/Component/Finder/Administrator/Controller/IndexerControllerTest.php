@@ -18,7 +18,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 /**
  * Test class for \Joomla\Component\Finder\Administrator\Controller\IndexerController
  *
- * @since  6.2.1
+ * @since  __DEPLOY_VERSION__
  */
 #[CoversMethod(IndexerController::class, 'getHttpStatus')]
 class IndexerControllerTest extends UnitTestCase
@@ -32,7 +32,7 @@ class IndexerControllerTest extends UnitTestCase
      *
      * @return void
      *
-     * @since   6.2.1
+     * @since  __DEPLOY_VERSION__
      */
     #[DataProvider('statusProvider')]
     public function testGetHttpStatus(int $code, int $expected): void
@@ -43,7 +43,7 @@ class IndexerControllerTest extends UnitTestCase
     /**
      * @return array
      *
-     * @since   6.2.1
+     * @since  __DEPLOY_VERSION__
      */
     public static function statusProvider(): array
     {

@@ -23,7 +23,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Test class for \Joomla\Component\Finder\Administrator\Indexer\Taxonomy
  *
- * @since  6.2.1
+ * @since  __DEPLOY_VERSION__
  */
 #[CoversMethod(Taxonomy::class, 'removeOrphanNodes')]
 class TaxonomyTest extends UnitTestCase
@@ -41,7 +41,7 @@ class TaxonomyTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   6.2.1
+     * @since  __DEPLOY_VERSION__
      */
     protected function setUp(): void
     {
@@ -52,7 +52,7 @@ class TaxonomyTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   6.2.1
+     * @since  __DEPLOY_VERSION__
      */
     protected function tearDown(): void
     {
@@ -67,7 +67,7 @@ class TaxonomyTest extends UnitTestCase
      *
      * @return  DatabaseQuery
      *
-     * @since   6.2.1
+     * @since  __DEPLOY_VERSION__
      */
     private function createQuery(DatabaseInterface $db): DatabaseQuery
     {
@@ -91,7 +91,7 @@ class TaxonomyTest extends UnitTestCase
      *
      * @return void
      *
-     * @since   6.2.1
+     * @since  __DEPLOY_VERSION__
      */
     public function testRemoveOrphanNodesBindsOnlyCurrentPassValues(): void
     {

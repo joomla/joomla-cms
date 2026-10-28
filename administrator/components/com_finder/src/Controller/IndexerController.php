@@ -272,7 +272,7 @@ class IndexerController extends BaseController
      *
      * @return  integer  The code if it is a HTTP error status, otherwise 500.
      *
-     * @since   6.2.1
+     * @since  __DEPLOY_VERSION__
      */
     public static function getHttpStatus(int $code): int
     {
