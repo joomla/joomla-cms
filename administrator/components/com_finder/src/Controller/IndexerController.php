@@ -294,7 +294,10 @@ class IndexerController extends BaseController
                 // Informational log only
             }
 
-            $app->setHeader('status', $data->getCode());
+            $code = (int) $data->getCode();
+
+            // Exceptions such as database errors carry codes that are not valid HTTP statuses
+            $app->setHeader('status', $code >= 400 && $code < 600 ? $code : 500);
         }
 
         // Create the response object.
