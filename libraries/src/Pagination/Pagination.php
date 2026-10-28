@@ -576,30 +576,19 @@ class Pagination
 
         $selected = $this->viewall ? 0 : $this->limit;
 
-        // Build the select list.
-        if ($this->app->isClient('administrator')) {
-            $html = HTMLHelper::_(
-                'select.genericlist',
-                $limits,
-                $this->prefix . 'limit',
-                'class="form-select" onchange="Joomla.submitform();"',
-                'value',
-                'text',
-                $selected
-            );
-        } else {
-            $html = HTMLHelper::_(
-                'select.genericlist',
-                $limits,
-                $this->prefix . 'limit',
-                'class="form-select" onchange="this.form.submit()"',
-                'value',
-                'text',
-                $selected
-            );
-        }
+        // The list-view script submits the form when the limit changes
+        $this->app->getDocument()->getWebAssetManager()->useScript('list-view');
 
-        return $html;
+        // Build the select list.
+        return HTMLHelper::_(
+            'select.genericlist',
+            $limits,
+            $this->prefix . 'limit',
+            'class="form-select js-grid-submit-on-change"',
+            'value',
+            'text',
+            $selected
+        );
     }
 
     /**
