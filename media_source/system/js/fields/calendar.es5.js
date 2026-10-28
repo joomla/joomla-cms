@@ -157,6 +157,9 @@
 		this._documentClick = function(event) {
 			return self._handleDocumentClick(event);
 		};
+		this._focusOut = function (event) {
+			return self._handleFocusOut(event);
+		};
 
 		// Set it up
 		this.checkInputs();
@@ -233,7 +236,10 @@
 	JoomlaCalendar.prototype.moveCursorBy = function (step) {
 		var date = new Date(this.date);
 		date.setDate(date.getDate() - step);
-		this.setDate(date);
+		if (!date.equalsTo(this.date)) {
+			this.date = date;
+			this.callHandler();
+		}
 	};
 
 	/** Reset select element */
@@ -288,8 +294,8 @@
 		this.hidden = false;
 
 		document.addEventListener("keydown", this._calKeyEvent, true);
-		document.addEventListener("keypress", this._calKeyEvent, true);
 		document.addEventListener("mousedown", this._documentClick, true);
+		document.addEventListener("focusout", this._focusOut, true);
 
 		/** Move the calendar to top position if it doesn't fit below. */
 		var containerTmp = this.element.querySelector('.js-calendar');
@@ -306,8 +312,8 @@
 	/** Method to hide the calendar. */
 	JoomlaCalendar.prototype.hide = function () {
 		document.removeEventListener("keydown", this._calKeyEvent, true);
-		document.removeEventListener("keypress", this._calKeyEvent, true);
 		document.removeEventListener("mousedown", this._documentClick, true);
+		document.removeEventListener("focusout", this._focusOut, true);
 
 		this.dropdownElement.classList.remove('open');
 		this.dropdownElement.setAttribute('hidden', '');
@@ -327,6 +333,17 @@
 			this.hide();
 			return stopCalEvent(ev);
 		}
+	};
+
+	JoomlaCalendar.prototype._handleFocusOut = function (ev) {
+		var relatedTarget = ev.relatedTarget;
+
+		// Focus is still somewhere inside the calendar field.
+		if (relatedTarget && this.element.contains(relatedTarget)) {
+			return;
+		}
+
+		this.hide();
 	};
 
 	/** Method to handle mouse click events (menus, buttons) **/
@@ -511,9 +528,43 @@
 		var self = this,
 			code = ev.code;
 
-		// Get value from input
+		// Tab from the calendar input moves into the time controls.
 		if (ev.target === this.inputField && (code === 'Enter' || code === 'Tab')) {
+			if (code === 'Tab' && !ev.shiftKey && self.params.showsTime) {
+				var hoursEl = this.table.querySelector('.time-hours');
+
+				if (hoursEl) {
+					ev.preventDefault();
+					hoursEl.focus();
+					return;
+				}
+			}
+
 			this.close();
+		}
+
+		// Handle keyboard navigation and focus within the time controls.
+		if (
+			ev.target.matches &&
+			ev.target.matches('.time-hours, .time-minutes')
+		) {
+			// Shift+Tab from Hours returns to the calendar input.
+			if (code === 'Tab' && ev.shiftKey && ev.target.matches('.time-hours')) {
+				ev.preventDefault();
+				this.inputField.focus();
+				return;
+			}
+
+			// Let the time selects handle arrow keys and Tab natively.
+			if (
+				code === 'ArrowUp' ||
+				code === 'ArrowDown' ||
+				code === 'ArrowLeft' ||
+				code === 'ArrowRight' ||
+				code === 'Tab'
+			) {
+				return;
+			}
 		}
 
 		if (self.params.direction === 'rtl') {
@@ -524,23 +575,34 @@
 			}
 		}
 
+		// Select the currently highlighted date.
+		if (code === 'Enter' && self.currentDateEl) {
+			self.cellClick(self.currentDateEl, ev);
+			return;
+		}
+
 		if (ev.shiftKey && code === 'Space') {
 			ev.preventDefault();
 			this.cellClick(self._nav_now, ev);
 			self.close();
 		}
+
 		if (code === 'Escape') {
 			this.close();
 		}
+
 		if (code === 'ArrowUp') {
 			this.moveCursorBy(7);
 		}
+
 		if (code === 'ArrowDown') {
 			this.moveCursorBy(-7);
 		}
+
 		if (code === 'ArrowLeft') {
 			this.moveCursorBy(1);
 		}
+
 		if (code === 'ArrowRight') {
 			this.moveCursorBy(-1);
 		}
@@ -936,7 +998,7 @@
 					// while setMonth() (the Date constructor) expects 0-indexed.
 					// Forgetting either conversion causes an off-by-one day (or month) error.
 					var ndate = Date.localCalToGregorian(date.rawYear, date.rawMonth + 1, date.rawDay);
-	
+
 					// Rebuild the Date atomically (year/month/day in one constructor call) instead of calling
 					// setFullYear()/setMonth()/setDate() in sequence:
 					// mutating month before day meant the OLD day (e.g. 31) could briefly clash with

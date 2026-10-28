@@ -13,6 +13,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Html;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\HTML\Helpers\Date as HtmlDate;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for HtmlDate.
@@ -30,7 +31,7 @@ class HtmlDateTest extends UnitTestCase
      *
      * @since   3.1
      */
-    public function dataTestRelative(): array
+    public static function dataTestRelative(): array
     {
         $now1 = new Date('now');
         usleep(1);
@@ -88,10 +89,10 @@ class HtmlDateTest extends UnitTestCase
      * @return  void
      *
      * @since   3.1
-     * @dataProvider dataTestRelative
      */
+    #[DataProvider('dataTestRelative')]
     public function testRelative($result, $date, $unit = null, $time = null)
     {
-        $this->assertEquals($result, HtmlDate::relative($date, $unit, $time));
+        $this->assertSame($result, HtmlDate::relative($date, $unit, $time));
     }
 }
