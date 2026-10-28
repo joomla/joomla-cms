@@ -265,6 +265,21 @@ class IndexerController extends BaseController
     }
 
     /**
+     * Method to get a valid HTTP error status for an exception code. Exceptions such as database
+     * errors carry codes that are not valid HTTP statuses, e.g. 0, which must not be sent as header.
+     *
+     * @param   integer  $code  The exception code.
+     *
+     * @return  integer  The code if it is a HTTP error status, otherwise 500.
+     *
+     * @since   6.2.1
+     */
+    public static function getHttpStatus(int $code): int
+    {
+        return $code >= 400 && $code < 600 ? $code : 500;
+    }
+
+    /**
      * Method to handle a send a \JSON response. The body parameter
      * can be an \Exception object for when an error has occurred or
      * a CMSObject for a good response.
@@ -294,10 +309,7 @@ class IndexerController extends BaseController
                 // Informational log only
             }
 
-            $code = (int) $data->getCode();
-
-            // Exceptions such as database errors carry codes that are not valid HTTP statuses
-            $app->setHeader('status', $code >= 400 && $code < 600 ? $code : 500);
+            $app->setHeader('status', static::getHttpStatus((int) $data->getCode()));
         }
 
         // Create the response object.
