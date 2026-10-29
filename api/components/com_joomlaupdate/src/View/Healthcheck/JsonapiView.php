@@ -70,7 +70,7 @@ class JsonapiView extends BaseApiView
             'db_type'                  => $db->name,
             'db_version'               => $db->getVersion(),
             'cms_version'              => JVERSION,
-            'server_os'                => php_uname('s') . ' ' . php_uname('r'),
+            'server_os'                => \function_exists('php_uname') ? php_uname('s') . ' ' . php_uname('r') : (getenv('OSTYPE') ?: \PHP_OS),
             'update_requirement_state' => $updateModel->getAutoUpdateRequirementsState(),
         ];
 
