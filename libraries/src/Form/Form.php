@@ -656,7 +656,7 @@ class Form implements CurrentUserInterface
                         $olddom->parentNode->replaceChild($addeddom, $olddom);
                         $loadeddom->parentNode->removeChild($loadeddom);
                     } else {
-                        unset($field);
+                        unset($field[0]);
                     }
                 }
             }

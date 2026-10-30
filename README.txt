@@ -38,7 +38,7 @@ Joomla! CMS™
 
 8- Ready to install Joomla?
 	* Check the minimum requirements here: https://downloads.joomla.org/technical-requirements
-	* How do you install Joomla - https://docs.joomla.org/Special:MyLanguage/J5.x:Installing_Joomla
+	* How do you install Joomla - https://guide.joomla.org/user-manual/getting-started/getting-started-installing-joomla
 	* You could start your Joomla! experience building your site on a local test server.
 	When ready it can be moved to an online hosting account of your choice.
 	See the tutorial: https://docs.joomla.org/Special:MyLanguage/Installing_Joomla_locally
