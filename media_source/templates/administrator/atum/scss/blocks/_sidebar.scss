@@ -19,6 +19,7 @@
     list-style-type: none;
 
     a,
+    button,
     .menu-dashboard,
     .menu-quicktask {
       color: $sidebar-item-color; /* $sidebar-item-color $white */
@@ -31,7 +32,8 @@
       }
     }
 
-    > a {
+    > a,
+    > button {
       position: relative;
       display: flex;
       flex-grow: 1;
@@ -70,8 +72,23 @@
   .sidebar-toggle {
     background: $sidebar-toggle-bg; /* $sidebar-toggle-bg var(--template-bg-dark-60) */
 
-    a {
+    button {
+      display: flex;
+      flex-grow: 1;
+      align-items: center;
+      min-block-size: 40px;
+      padding: 0;
       color: $sidebar-toggle-link; /* $sidebar-toggle-link $white */
+      text-align: start;
+      background: transparent;
+      border: 0;
+
+      &:focus-visible,
+      &.focus-visible {
+        border-radius: $border-radius;
+        outline: auto 2px $white;
+        outline-offset: -1px;
+      }
     }
 
     .sidebar-item-title {

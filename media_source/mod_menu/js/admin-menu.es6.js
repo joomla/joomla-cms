@@ -5,6 +5,7 @@
 
 const wrapper = document.getElementById('wrapper');
 const sidebar = document.getElementById('sidebar-wrapper');
+const menuToggle = document.getElementById('menu-collapse');
 const menuToggleIcon = document.getElementById('menu-collapse-icon');
 
 // Strip server-side mm-show/mm-active, then re-apply after init (no visual flash).
@@ -51,7 +52,6 @@ if (!sidebar) {
 
 if (sidebar && !sidebar.getAttribute('data-hidden')) {
   // Sidebar
-  const menuToggle = document.getElementById('menu-collapse');
 
   // Apply 2nd level collapse
   sidebar.querySelectorAll('.collapse-level-1').forEach((first) => {
@@ -63,26 +63,37 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
     });
   });
 
+  // Keep the button state in sync with the sidebar
+  const setMenuToggleState = (expanded) => {
+    menuToggle.setAttribute('aria-expanded', String(expanded));
+  };
+
+  setMenuToggleState(!wrapper.classList.contains('closed'));
+
   // Toggle menu
-  menuToggle.addEventListener('click', (event) => {
-    event.preventDefault();
-    wrapper.classList.toggle('closed');
-    menuToggleIcon.classList.toggle('icon-toggle-on');
-    menuToggleIcon.classList.toggle('icon-toggle-off');
+  if (menuToggle) {
+    menuToggle.addEventListener('click', () => {
+      wrapper.classList.toggle('closed');
+      menuToggleIcon.classList.toggle('icon-toggle-on');
+      menuToggleIcon.classList.toggle('icon-toggle-off');
 
-    document.querySelectorAll('.main-nav > li').forEach((item) => item.classList.remove('open'));
+      const expanded = !wrapper.classList.contains('closed');
+      setMenuToggleState(expanded);
 
-    const elem = document.querySelector('.child-open');
-    if (elem) {
-      elem.classList.remove('child-open');
-    }
+      document.querySelectorAll('.main-nav > li').forEach((item) => item.classList.remove('open'));
 
-    window.dispatchEvent(new CustomEvent('joomla:menu-toggle', {
-      detail: wrapper.classList.contains('closed') ? 'closed' : 'open',
-      bubbles: true,
-      cancelable: true,
-    }));
-  });
+      const elem = document.querySelector('.child-open');
+      if (elem) {
+        elem.classList.remove('child-open');
+      }
+
+      window.dispatchEvent(new CustomEvent('joomla:menu-toggle', {
+        detail: expanded ? 'open' : 'closed',
+        bubbles: true,
+        cancelable: true,
+      }));
+    });
+  }
 
   // Sidebar Nav
   const mainNav = document.querySelector('ul.main-nav');
@@ -137,6 +148,7 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
         menuToggleIcon.classList.toggle('icon-toggle-off');
         menuToggleIcon.classList.toggle('icon-toggle-on');
       }
+      setMenuToggleState(true);
       mainNav.classList.add('child-open');
 
       if (menuItem.parentNode.classList.contains('main-nav')) {

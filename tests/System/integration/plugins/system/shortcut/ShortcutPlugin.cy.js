@@ -65,15 +65,20 @@ describe('Test that the shortcut system plugin', () => {
 
   it('can toggle menu', () => {
     cy.visit('/administrator/index.php');
-    cy.get('#menu-collapse').contains('Toggle Menu').should('be.visible');
+    cy.get('#menu-collapse')
+      .should('be.visible')
+      .and('have.attr', 'type', 'button')
+      .and('have.attr', 'aria-expanded', 'true');
     cy.get('#wrapper').should('not.have.class', 'closed');
     cy.get('body').type('JM');
 
-    cy.get('#menu-collapse').contains('Toggle Menu').should('not.be.visible');
+    cy.get('#menu-collapse').should('not.be.visible');
     cy.get('#wrapper').should('have.class', 'closed');
     cy.get('body').type('JM');
 
-    cy.get('#menu-collapse').contains('Toggle Menu').should('be.visible');
+    cy.get('#menu-collapse')
+      .should('be.visible')
+      .and('have.attr', 'aria-expanded', 'true');
     cy.get('#wrapper').should('not.have.class', 'closed');
   });
 
