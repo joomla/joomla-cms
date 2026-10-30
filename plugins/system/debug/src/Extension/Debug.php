@@ -343,7 +343,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
 
         $debugBarRenderer = new JavascriptRenderer($this->debugBar, Uri::root(true) . '/media/vendor/debugbar/');
 
-        if ($this->params->get('track_request_history', false)) {
+        if ($this->params->get('track_request_history', false) && !$this->getApplication()->getIdentity()->guest) {
             $openHandlerUrl   = Uri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
             $openHandlerUrl .= '&' . ($formToken ?? Session::getFormToken()) . '=1';
             $debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);

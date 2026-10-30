@@ -68,7 +68,7 @@ class SessionCollector extends AbstractDataCollector
      *
      * @since  4.0.0
      */
-    public function collect($overwrite = false)
+    public function collect($overwrite = false): array
     {
         if ($this->sessionData === null || $overwrite) {
             $this->sessionData  = [];
@@ -98,7 +98,7 @@ class SessionCollector extends AbstractDataCollector
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -111,11 +111,11 @@ class SessionCollector extends AbstractDataCollector
      *
      * @return array
      */
-    public function getWidgets()
+    public function getWidgets(): array
     {
         return [
             'session' => [
-                'icon'    => 'key',
+                'icon'    => 'briefcase',
                 'widget'  => 'PhpDebugBar.Widgets.VariableListWidget',
                 'map'     => $this->name . '.data',
                 'default' => '[]',

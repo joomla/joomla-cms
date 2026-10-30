@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
-use DebugBar\DataCollector\AssetProvider;
-use Joomla\CMS\Uri\Uri;
 use Joomla\Database\Monitor\DebugMonitor;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 use Joomla\Registry\Registry;
@@ -25,7 +23,7 @@ use Joomla\Registry\Registry;
  *
  * @since  4.0.0
  */
-class QueryCollector extends AbstractDataCollector implements AssetProvider
+class QueryCollector extends AbstractDataCollector
 {
     /**
      * Collector name.
@@ -156,21 +154,6 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
     }
 
     /**
-     * Assets for the collector.
-     *
-     * @since  4.0.0
-     *
-     * @return array
-     */
-    public function getAssets(): array
-    {
-        return [
-            'css' => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.min.css',
-            'js'  => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.min.js',
-        ];
-    }
-
-    /**
      * Prepare the executed statements data.
      *
      * @since  4.0.0
@@ -246,7 +229,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
                 'duration_str' => $this->getDataFormatter()->formatDuration($queryTime),
                 'memory_str'   => $this->getDataFormatter()->formatBytes($queryMemory),
                 'caller'       => $callerLocation,
-                'callstack'    => $trace,
+                'backtrace'    => $trace,
                 'explain'      => $explain,
                 'explain_col'  => $explainColumns,
                 'profile'      => $this->profiles[$id] ?? [],

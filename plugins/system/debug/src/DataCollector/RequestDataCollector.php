@@ -30,7 +30,7 @@ class RequestDataCollector extends \DebugBar\DataCollector\RequestDataCollector
      *
      * @return array
      */
-    public function collect()
+    public function collect(): array
     {
         $vars       = ['_GET', '_POST', '_SESSION', '_COOKIE', '_SERVER'];
         $returnData = [];
@@ -54,14 +54,14 @@ class RequestDataCollector extends \DebugBar\DataCollector\RequestDataCollector
                     $value = '***redacted***';
                 });
 
-                if ($this->isHtmlVarDumperUsed()) {
-                    $returnData[$key] = $this->getVarDumper()->renderVar($data);
-                } else {
-                    $returnData[$key] = $this->getDataFormatter()->formatVar($data);
-                }
+                $returnData[$key] = $this->getDataFormatter()->formatVar($data);
             }
         }
 
-        return $returnData;
+        return [
+            'data'    => $returnData,
+            'tooltip' => null,
+            'badge'   => null,
+        ];
     }
 }

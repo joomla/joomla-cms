@@ -39,7 +39,7 @@ export default class PlgDebugModuleBuilder extends DefaultModuleBuilder {
     await super.copy();
 
     // Copy DebugBar assets to vendor folder
-    const pathSrc = 'libraries/vendor/php-debugbar/php-debugbar/src/DebugBar/Resources';
+    const pathSrc = 'libraries/vendor/php-debugbar/php-debugbar/resources';
     const pathMedia = path.dirname(this.targetPath);
     const pathVendor = path.join(pathMedia, this.vendorLocation);
 
@@ -47,13 +47,7 @@ export default class PlgDebugModuleBuilder extends DefaultModuleBuilder {
       throw new Error('DebugBar/Resources not found. Make sure you have run "composer install" first.');
     }
 
-    return fsp.cp(pathSrc, pathVendor, { recursive: true, preserveTimestamps: true }).then(() => {
-      // Remove unused
-      return Promise.all([
-        fsp.rm(path.join(pathVendor, 'vendor/font-awesome'), { recursive: true }),
-        fsp.rm(path.join(pathVendor, 'vendor/jquery'), { recursive: true }),
-      ]);
-    });
+    return fsp.cp(pathSrc, pathVendor, { recursive: true, preserveTimestamps: true });
   }
 
   /**
