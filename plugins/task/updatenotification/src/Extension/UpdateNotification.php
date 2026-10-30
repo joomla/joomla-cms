@@ -94,6 +94,21 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
      */
     private function sendNotification(ExecuteTaskEvent $event): int
     {
+        $app = $this->getApplication();
+
+        if ($app->isClient('cli')) {
+            $liveSite = $app->getInput()->getString('live-site');
+
+            if (!$liveSite) {
+                try {
+                    $this->logTask('The --live-site option is required when running this task via CLI.');
+                } catch (\RuntimeException) {
+                    // Ignore logging failure
+                }
+
+                return Status::KNOCKOUT;
+            }
+        }
         // Load the parameters.
         $specificEmail  = $event->getArgument('params')->email ?? '';
         $forcedLanguage = $event->getArgument('params')->language_override ?? '';
