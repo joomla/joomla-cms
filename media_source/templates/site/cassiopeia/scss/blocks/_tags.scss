@@ -13,3 +13,22 @@
   display: inline-block;
   padding: .5rem .5rem .5rem 0;
 }
+
+// Multi column tags list; column count comes from --tags-columns ($bscolumns)
+.com-tags__list {
+  display: grid;
+  grid-template-columns: repeat(var(--tags-columns, 1), minmax(0, 1fr));
+  gap: 0 1rem;
+
+  > .list-group-item {
+    margin: .125rem 0;
+    border: var(--list-group-border-width) solid var(--list-group-border-color);
+    border-radius: var(--list-group-border-radius);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .com-tags__list {
+    grid-template-columns: 1fr;
+  }
+}

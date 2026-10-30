@@ -47,38 +47,39 @@ $n         = count($this->items);
 ?>
 
 <div class="com-tags__items">
-    <form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
-        <?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
-            <?php if ($this->params->get('filter_field')) : ?>
-                <div class="com-tags-tags__filter btn-group">
-                    <label class="filter-search-lbl visually-hidden" for="filter-search">
-                        <?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>
-                    </label>
-                    <input
-                        type="text"
-                        name="filter-search"
-                        id="filter-search"
-                        value="<?php echo $this->escape($this->state->get('list.filter')); ?>"
-                        class="inputbox"
-                        placeholder="<?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>"
-                    >
-                    <button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
-                    <button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?></button>
-                </div>
-            <?php endif; ?>
-            <?php if ($this->params->get('show_pagination_limit')) : ?>
-                <div class="btn-group float-end">
-                    <label for="limit" class="visually-hidden">
-                        <?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
-                    </label>
-                    <?php echo $this->pagination->getLimitBox(); ?>
-                </div>
-            <?php endif; ?>
-
+    <?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
+        <form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
+            <div class="d-flex">
+                <?php if ($this->params->get('filter_field')) : ?>
+                    <div class="com-tags-tags__filter btn-group">
+                        <label class="filter-search-lbl visually-hidden" for="filter-search">
+                            <?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>
+                        </label>
+                        <input
+                            type="text"
+                            name="filter-search"
+                            id="filter-search"
+                            value="<?php echo $this->escape($this->state->get('list.filter')); ?>"
+                            class="inputbox"
+                            placeholder="<?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>"
+                        >
+                        <button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
+                        <button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?></button>
+                    </div>
+                <?php endif; ?>
+                <?php if ($this->params->get('show_pagination_limit')) : ?>
+                    <div class="btn-group ms-auto">
+                        <label for="limit" class="visually-hidden">
+                            <?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
+                        </label>
+                        <?php echo $this->pagination->getLimitBox(); ?>
+                    </div>
+                <?php endif; ?>
+            </div>
             <input type="hidden" name="limitstart" value="">
             <input type="hidden" name="task" value="">
-        <?php endif; ?>
-    </form>
+        </form>
+    <?php endif; ?>
 
     <?php if (!$this->items || $n === 0) : ?>
         <div class="alert alert-info">
@@ -86,18 +87,15 @@ $n         = count($this->items);
             <?php echo Text::_('COM_TAGS_NO_TAGS'); ?>
         </div>
     <?php else : ?>
+        <div class="com-tags__items">
+        <ul class="com-tags__list tagslist list-group" style="--tags-columns: <?php echo (int) $bscolumns; ?>">
         <?php foreach ($this->items as $i => $item) : ?>
-            <?php if ($n === 1 || $i === 0 || $bscolumns === 1 || $i % $bscolumns === 0) : ?>
-                <ul class="com-tags__category category list-group">
-            <?php endif; ?>
 
             <li class="list-group-item list-group-item-action">
                 <?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
-                    <h3 class="mb-0">
-                        <a href="<?php echo Route::_(RouteHelper::getComponentTagRoute($item->id . ':' . $item->alias, $item->language)); ?>">
-                            <?php echo $this->escape($item->title); ?>
-                        </a>
-                    </h3>
+                    <a href="<?php echo Route::_(RouteHelper::getComponentTagRoute($item->id . ':' . $item->alias, $item->language)); ?>">
+                        <?php echo $this->escape($item->title); ?>
+                    </a>
                 <?php endif; ?>
 
                 <?php if ($this->params->get('all_tags_show_tag_image') && !empty($item->images)) : ?>
@@ -133,12 +131,10 @@ $n         = count($this->items);
                 <?php endif; ?>
             </li>
 
-            <?php if (($i === 0 && $n === 1) || $i === $n - 1 || $bscolumns === 1 || (($i + 1) % $bscolumns === 0)) : ?>
-                </ul>
-            <?php endif; ?>
-
         <?php endforeach; ?>
+        </ul>
     <?php endif; ?>
+    </div>
 
     <?php // Add pagination links ?>
     <?php if (!empty($this->items)) : ?>
