@@ -30,13 +30,13 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(LanguageCode::class, function (Container $container) {
                 $plugin     = new LanguageCode(
                     (array) PluginHelper::getPlugin('system', 'languagecode')
                 );
 
                 return $plugin;
-            }
+            })
         );
     }
 };

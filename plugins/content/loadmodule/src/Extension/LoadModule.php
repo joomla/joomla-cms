@@ -58,6 +58,11 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
      */
     public function onContentPrepare(ContentPrepareEvent $event)
     {
+        if ($this->getApplication()->isClient('api')) {
+            // Skip processing loadmodule/loadmoduleid tags for API
+            return;
+        }
+
         $context = $event->getContext();
         $article = $event->getItem();
 

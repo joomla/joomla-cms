@@ -12,6 +12,8 @@
 
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageFactoryInterface;
+use Joomla\CMS\Mail\MailerFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Database\DatabaseInterface;
@@ -33,16 +35,18 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
-                $plugin     = new TaskNotification(
+            $container->lazy(TaskNotification::class, function (Container $container) {
+                $plugin = new TaskNotification(
                     (array) PluginHelper::getPlugin('system', 'tasknotification')
                 );
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
+                $plugin->setMailerFactory($container->get(MailerFactoryInterface::class));
+                $plugin->setLanguageFactory($container->get(LanguageFactoryInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

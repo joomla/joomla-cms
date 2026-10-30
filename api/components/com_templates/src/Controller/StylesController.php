@@ -10,8 +10,8 @@
 
 namespace Joomla\Component\Templates\Api\Controller;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -91,7 +91,8 @@ class StylesController extends ApiController
                 unset($data['template']);
             }
 
-            $model            = $this->getModel(Inflector::singularize($this->contentType), '', ['ignore_request' => true]);
+            $inflector        = InflectorFactory::create()->build();
+            $model            = $this->getModel($inflector->singularize($this->contentType), '', ['ignore_request' => true]);
             $data['template'] = $model->getItem($this->input->getInt('id'))->template;
         }
 

@@ -13,12 +13,15 @@ namespace Joomla\Component\Config\Administrator\Model;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model\AfterSaveEvent;
+use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Asset;
+use Joomla\CMS\Table\Extension;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -64,9 +67,10 @@ class ComponentModel extends FormModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  mixed  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   3.2
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -89,10 +93,6 @@ class ComponentModel extends FormModel
             false,
             '/config'
         );
-
-        if (empty($form)) {
-            return false;
-        }
 
         $lang = Factory::getLanguage();
         $lang->load($option, JPATH_BASE)
@@ -156,9 +156,10 @@ class ComponentModel extends FormModel
      */
     public function save($data)
     {
-        $table      = Table::getInstance('extension');
+        $table      = new Extension($this->getDatabase());
         $context    = $this->option . '.' . $this->name;
-        PluginHelper::importPlugin('extension');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('extension', null, true, $dispatcher);
 
         // Check super user group.
         if (isset($data['params']) && !$this->getCurrentUser()->authorise('core.admin')) {
@@ -184,10 +185,10 @@ class ComponentModel extends FormModel
             }
 
             $rules = new Rules($data['params']['rules']);
-            $asset = Table::getInstance('asset');
+            $asset = new Asset($this->getDatabase());
 
             if (!$asset->loadByName($data['option'])) {
-                $root = Table::getInstance('asset');
+                $root = new Asset($this->getDatabase());
                 $root->loadByName('root.1');
                 $asset->name  = $data['option'];
                 $asset->title = $data['option'];
@@ -221,14 +222,24 @@ class ComponentModel extends FormModel
             throw new \RuntimeException($table->getError());
         }
 
-        $result = Factory::getApplication()->triggerEvent('onExtensionBeforeSave', [$context, $table, false]);
+        $result = $dispatcher->dispatch('onExtensionBeforeSave', new BeforeSaveEvent('onExtensionBeforeSave', [
+            'context' => $context,
+            'subject' => $table,
+            'isNew'   => false,
+            'data'    => $data,
+        ]))->getArgument('result', []);
 
         // Store the data.
         if (\in_array(false, $result, true) || !$table->store()) {
             throw new \RuntimeException($table->getError());
         }
 
-        Factory::getApplication()->triggerEvent('onExtensionAfterSave', [$context, $table, false]);
+        $dispatcher->dispatch('onExtensionAfterSave', new AfterSaveEvent('onExtensionAfterSave', [
+            'context' => $context,
+            'subject' => $table,
+            'isNew'   => false,
+            'data'    => $data,
+        ]));
 
         // Clean the component cache.
         $this->cleanCache('_system');

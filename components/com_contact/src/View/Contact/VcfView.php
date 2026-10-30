@@ -101,7 +101,11 @@ class VcfView extends AbstractView
 
         $rev = date('c', strtotime($item->modified));
 
-        Factory::getApplication()->setHeader('Content-disposition', 'attachment; filename="' . $card_name . '.vcf"', true);
+        Factory::getApplication()->setHeader(
+            'Content-disposition',
+            'attachment; filename="' . str_replace('"', '', $card_name) . '.vcf"',
+            true
+        );
 
         $vcard   = [];
         $vcard[] = 'BEGIN:VCARD';

@@ -314,10 +314,10 @@ class SysinfoModel extends BaseDatabaseModel
 
         $this->info = [
             'version'                => (new Version())->getLongVersion(),
-            'compatpluginenabled'    => PluginHelper::isEnabled('behaviour', 'compat'),
+            'compatpluginenabled'    => PluginHelper::isEnabled('behaviour', 'compat6'),
             'compatpluginparameters' => $this->getCompatPluginParameters(),
             'phpversion'             => PHP_VERSION,
-            'php'                    => php_uname(),
+            'php'                    => \function_exists('php_uname') ? php_uname() : '',
             'dbserver'               => $db->getServerType(),
             'dbversion'              => $db->getVersion(),
             'dbcollation'            => $db->getCollation(),
@@ -334,7 +334,7 @@ class SysinfoModel extends BaseDatabaseModel
 
     private function getCompatPluginParameters()
     {
-        $record = ExtensionHelper::getExtensionRecord('compat', 'plugin', 0, 'behaviour');
+        $record = ExtensionHelper::getExtensionRecord('compat6', 'plugin', 0, 'behaviour');
 
         if ($record) {
             $params = new Registry($record->params);
@@ -456,7 +456,7 @@ class SysinfoModel extends BaseDatabaseModel
     {
         $installed = [];
         $db        = $this->getDatabase();
-        $query     = $db->getQuery(true)
+        $query     = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__extensions'));
         $db->setQuery($query);

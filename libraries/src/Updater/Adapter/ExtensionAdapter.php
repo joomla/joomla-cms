@@ -13,7 +13,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Update;
 use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Version;
@@ -31,6 +31,15 @@ class ExtensionAdapter extends UpdateAdapter
 {
     protected $currentUpdate;
     protected $latest;
+
+    /**
+     * The updates with security fixes
+     *
+     * @var    array
+     *
+     * @since  6.2.0
+     */
+    protected array $security = [];
 
     /**
      * Start element parser callback.
@@ -55,7 +64,7 @@ class ExtensionAdapter extends UpdateAdapter
 
         switch ($name) {
             case 'UPDATE':
-                $this->currentUpdate                 = Table::getInstance('update');
+                $this->currentUpdate                 = new Update($this->db);
                 $this->currentUpdate->update_site_id = $this->updateSiteId;
                 $this->currentUpdate->detailsurl     = $this->_url;
                 $this->currentUpdate->folder         = '';
@@ -134,7 +143,7 @@ class ExtensionAdapter extends UpdateAdapter
 
                     // Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
                     if (isset($this->currentUpdate->supported_databases)) {
-                        $db           = Factory::getDbo();
+                        $db           = $this->db;
                         $dbType       = strtolower($db->getServerType());
                         $dbVersion    = $db->getVersion();
                         $supportedDbs = $this->currentUpdate->supported_databases;
@@ -219,6 +228,10 @@ class ExtensionAdapter extends UpdateAdapter
                             // We don't have any possible updates yet, assume this is an available update.
                             $this->latest = $this->currentUpdate;
                         }
+
+                        if (isset($this->currentUpdate->security)) {
+                            $this->security[] = $this->currentUpdate;
+                        }
                     }
                 }
                 break;
@@ -263,7 +276,7 @@ class ExtensionAdapter extends UpdateAdapter
      *
      * @param   array  $options  Update options.
      *
-     * @return  array|boolean  Array containing the array of update sites and array of updates. False on failure
+     * @return  array|boolean  Array containing the array of update sites, an array of updates and an array of security updates. False on failure
      *
      * @since   1.7.0
      */
@@ -274,6 +287,14 @@ class ExtensionAdapter extends UpdateAdapter
         if ($response === false) {
             return false;
         }
+
+        /**
+         * Unset the latest update which might have been found for a previous update site, avoid
+         * strange issue reported at https://github.com/joomla/joomla-cms/issues/46066
+         */
+        unset($this->latest);
+
+        $this->security = [];
 
         if (\array_key_exists('minimum_stability', $options)) {
             $this->minimum_stability = $options['minimum_stability'];
@@ -317,7 +338,7 @@ class ExtensionAdapter extends UpdateAdapter
             $updates = [];
         }
 
-        return ['update_sites' => [], 'updates' => $updates];
+        return ['update_sites' => [], 'updates' => $updates, 'security' => $this->security];
     }
 
     /**

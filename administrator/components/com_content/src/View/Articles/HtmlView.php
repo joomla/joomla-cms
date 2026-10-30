@@ -171,7 +171,7 @@ class HtmlView extends BaseHtmlView
 
         // Add form control fields
         $this->filterForm
-            ->addControlField('task', '')
+            ->addControlField('task')
             ->addControlField('boxchecked', '0');
 
         parent::display($tpl);
@@ -186,9 +186,9 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo   = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
-        $user    = $this->getCurrentUser();
-        $toolbar = $this->getDocument()->getToolbar();
+        $canDo    = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
+        $user     = $this->getCurrentUser();
+        $toolbar  = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_CONTENT_ARTICLES_TITLE'), 'copy article');
 
@@ -234,11 +234,9 @@ class HtmlView extends BaseHtmlView
 
                 $childBar->unpublish('articles.unpublish')->listCheck(true);
 
-                $childBar->standardButton('featured', 'JFEATURE', 'articles.featured')
-                    ->listCheck(true);
+                $childBar->standardButton('featured', 'JFEATURE', 'articles.featured')->listCheck(true);
 
-                $childBar->standardButton('unfeatured', 'JUNFEATURE', 'articles.unfeatured')
-                    ->listCheck(true);
+                $childBar->standardButton('unfeatured', 'JUNFEATURE', 'articles.unfeatured')->listCheck(true);
 
                 $childBar->archive('articles.archive')->listCheck(true);
 
