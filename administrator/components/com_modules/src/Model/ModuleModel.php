@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Modules\Administrator\Model;
 
+use Joomla\CMS\Access\Exception\NotAllowedException;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Model\AfterDeleteEvent;
@@ -21,6 +22,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFoundException;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -208,6 +210,12 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
                 $table->published = 0;
 
                 if (!$table->store()) {
+                    if ($this->shouldUseExceptions()) {
+                        $error = $table->getError(null, false);
+
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
                     $this->setError($table->getError());
 
                     return false;
@@ -251,6 +259,10 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
 
                 $db->setQuery($query)->execute();
             } else {
+                if ($this->shouldUseExceptions()) {
+                    throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+                }
+
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 
                 return false;
@@ -297,11 +309,21 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
                 $table->position = $position;
 
                 if (!$table->store()) {
+                    if ($this->shouldUseExceptions()) {
+                        $error = $table->getError(null, false);
+
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
                     $this->setError($table->getError());
 
                     return false;
                 }
             } else {
+                if ($this->shouldUseExceptions()) {
+                    throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+                }
+
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
                 return false;
@@ -665,8 +687,12 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
             $return = $table->load($pk);
 
             // Check for a table object error.
-            if ($return === false && $error = $table->getError()) {
-                $this->setError($error);
+            if ($return === false && $error = $table->getError(null, false)) {
+                if ($this->shouldUseExceptions()) {
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
+                $this->setError($error instanceof \Throwable ? $error->getMessage() : $error);
 
                 return false;
             }
@@ -685,12 +711,20 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
                     try {
                         $extension = $db->loadObject();
                     } catch (\RuntimeException $e) {
+                        if ($this->shouldUseExceptions()) {
+                            throw $e;
+                        }
+
                         $this->setError($e->getMessage());
 
                         return false;
                     }
 
                     if (empty($extension)) {
+                        if ($this->shouldUseExceptions()) {
+                            throw new ResourceNotFoundException(Text::_('COM_MODULES_ERROR_CANNOT_FIND_MODULE'));
+                        }
+
                         $this->setError('COM_MODULES_ERROR_CANNOT_FIND_MODULE');
 
                         return false;
@@ -1016,6 +1050,10 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
         try {
             $db->execute();
         } catch (\RuntimeException $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -1045,6 +1083,10 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
                 try {
                     $db->execute();
                 } catch (\RuntimeException $e) {
+                    if ($this->shouldUseExceptions()) {
+                        throw $e;
+                    }
+
                     $this->setError($e->getMessage());
 
                     return false;
@@ -1066,6 +1108,10 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
                 try {
                     $db->execute();
                 } catch (\RuntimeException $e) {
+                    if ($this->shouldUseExceptions()) {
+                        throw $e;
+                    }
+
                     $this->setError($e->getMessage());
 
                     return false;
