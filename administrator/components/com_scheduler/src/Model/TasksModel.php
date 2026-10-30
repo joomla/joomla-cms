@@ -56,6 +56,7 @@ class TasksModel extends ListModel
                 'type', 'a.type',
                 'type_title', 'j.type_title',
                 'state', 'a.state',
+                'orphaned', 'a.orphaned',
                 'last_exit_code', 'a.last_exit_code',
                 'last_execution', 'a.last_execution',
                 'next_execution', 'a.next_execution',
