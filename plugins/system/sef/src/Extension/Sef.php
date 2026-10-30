@@ -155,11 +155,6 @@ final class Sef extends CMSPlugin implements SubscriberInterface
             $this->enforceTrailingSlash();
         }
 
-        // Enforce adding a suffix with a redirect
-        if ($app->get('sef') && $app->get('sef_suffix') && $this->params->get('enforcesuffix')) {
-            $this->enforceSuffix();
-        }
-
         // Enforce SEF URLs
         if ($this->params->get('strictrouting') && $app->getInput()->getMethod() == 'GET') {
             $this->enforceSEF();
@@ -377,57 +372,6 @@ final class Sef extends CMSPlugin implements SubscriberInterface
 
         // Use the replaced HTML body.
         $app->setBody($buffer);
-    }
-
-    /**
-     * Enforce the URL suffix with a redirect
-     *
-     * @return  void
-     *
-     * @since   5.2.0
-     */
-    public function enforceSuffix()
-    {
-        $origUri = Uri::getInstance();
-        $route   = $origUri->getPath();
-
-        if (str_ends_with($route, 'index.php') || str_ends_with($route, '/')) {
-            // We don't want suffixes when the URL ends in index.php or with a /
-            return;
-        }
-
-        // We don't force a suffix for the language homepage
-        $segments = explode('/', $route);
-        $last     = array_pop($segments);
-        $sefs     = LanguageHelper::getLanguages('sef');
-
-        if ($this->getApplication()->getLanguageFilter() && isset($sefs[$last])) {
-            return;
-        }
-
-        $suffix       = pathinfo($route, PATHINFO_EXTENSION);
-        $nonSEFSuffix = $origUri->getVar('format');
-
-        if ($nonSEFSuffix && $suffix !== $nonSEFSuffix) {
-            // There is a URL query parameter named "format", which isn't the same to the suffix
-            $pathWithoutSuffix = ($suffix !== '') ? substr($route, 0, -(\strlen($suffix) + 1)) : $route;
-
-            $origUri->delVar('format');
-            $origUri->setPath($pathWithoutSuffix . '.' . $nonSEFSuffix);
-            $this->getApplication()->redirect($origUri->toString(), 301);
-        }
-
-        if ($suffix && $suffix == $nonSEFSuffix) {
-            // There is a URL query parameter named "format", which is identical to the suffix
-            $origUri->delVar('format');
-            $this->getApplication()->redirect($origUri->toString(), 301);
-        }
-
-        if (!$suffix) {
-            // We don't have a suffix, so we default to .html at the end
-            $origUri->setPath($route . '.html');
-            $this->getApplication()->redirect($origUri->toString(), 301);
-        }
     }
 
     /**
