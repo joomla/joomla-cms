@@ -53,13 +53,12 @@ $headerIcon = $params->get('header_icon') ? '<span class="' . htmlspecialchars($
         <?php if ($canEdit || $canChange || $headerIcon || $module->showtitle) : ?>
             <div class="card-header">
                 <?php if ($canEdit || $canChange) : ?>
-                    <?php $dropdownPosition = Factory::getLanguage()->isRtl() ? 'start' : 'end'; ?>
                     <div class="module-actions dropdown">
                         <button type="button" data-bs-toggle="dropdown" data-bs-display="static" aria-haspopup="true" aria-expanded="false" class="btn" id="dropdownMenuButton-<?php echo $id; ?>">
                             <span class="icon-cogs" aria-hidden="true"></span>
                             <span class="visually-hidden"><?php echo Text::sprintf('JACTION_EDIT_MODULE', $module->title); ?></span>
                         </button>
-                        <div class="dropdown-menu dropdown-menu-<?php echo $dropdownPosition; ?>" aria-labelledby="dropdownMenuButton-<?php echo $id; ?>">
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton-<?php echo $id; ?>">
                             <?php if ($canEdit) : ?>
                                 <?php $uri = Uri::getInstance(); ?>
                                 <?php $url = Route::_('index.php?option=com_modules&task=module.edit&id=' . $id . '&return=' . base64_encode($uri)); ?>
