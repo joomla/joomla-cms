@@ -10,15 +10,16 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Task;
 
+use Cron\CronExpression;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
-use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Table\TaskTable;
@@ -134,8 +135,11 @@ class Task implements LoggerAwareInterface
     public function __construct(object $record)
     {
         // Workaround because Registry dumps private properties otherwise.
-        $taskOption     = $record->taskOption;
-        $record->params = json_decode($record->params, true);
+        $taskOption = $record->taskOption;
+
+        if (\is_string($record->params)) {
+            $record->params = json_decode($record->params, true);
+        }
 
         $this->taskRegistry = new Registry($record);
 
@@ -245,7 +249,7 @@ class Task implements LoggerAwareInterface
         $this->set('last_exit_code', $this->snapshot['status']);
 
         if ($this->snapshot['status'] !== Status::WILL_RESUME) {
-            $this->set('next_execution', (new ExecRuleHelper($this->taskRegistry->toObject()))->nextExec());
+            $this->set('next_execution', $this->computeNextExecution());
             $this->set('times_executed', $this->get('times_executed') + 1);
         } else {
             /**
@@ -436,7 +440,7 @@ class Task implements LoggerAwareInterface
         $query = $db->createQuery();
 
         $id       = $this->get('id');
-        $nextExec = (new ExecRuleHelper($this->taskRegistry->toObject()))->nextExec(true, true);
+        $nextExec = $this->computeNextExecution(true, true);
 
         $query->update($db->quoteName('#__scheduler_tasks', 't'))
             ->set('t.next_execution = :nextExec')
@@ -554,5 +558,42 @@ class Task implements LoggerAwareInterface
         $id = is_numeric($id) ? ($id + 0) : $id;
 
         return \is_int($id) && $id > 0;
+    }
+
+    /**
+     * Compute the next execution datetime for the task. This method is used once when a task is created or modified,
+     * and each time a task is triggered.
+     *
+     * @param   boolean  $asString  If true, an SQL formatted string is returned.
+     * @param   boolean  $basisNow  If true, the current date-time is used as the basis for projecting the next
+     *                              execution.
+     *
+     * @return ?Date|string  Next due execution.
+     *
+     * @since  __DEPLOY_VERSION__
+     * @throws \Exception
+     */
+    public function computeNextExecution(bool $asString = true, bool $basisNow = false)
+    {
+        $expression = $this->get('cron_rules.exp');
+
+        switch ($this->get('cron_rules.type')) {
+            case 'interval':
+                $lastExec = Factory::getDate($basisNow ? 'now' : $this->get('last_execution'), 'UTC');
+                $interval = new \DateInterval($expression);
+                $nextExec = $lastExec->add($interval);
+                break;
+            case 'cron-expression':
+                $cronExpression = new CronExpression($expression);
+                $nextExec       = $cronExpression->getNextRunDate('now', 0, false, 'UTC');
+                break;
+            default:
+                // 'manual' execution is handled here.
+                $nextExec = null;
+        }
+
+        return ($asString && !empty($nextExec))
+            ? $nextExec->format($this->db->getDateFormat())
+            : $nextExec;
     }
 }
