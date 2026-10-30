@@ -75,20 +75,36 @@ class MailerFactory implements MailerFactoryInterface
         $mailfrom   = $configuration->get('mailfrom');
         $fromname   = $configuration->get('fromname');
         $mailType   = $configuration->get('mailer');
+        $mailsender = $configuration->get('mailsender');
 
-        // Clean the email address
-        $mailfrom = MailHelper::cleanLine($mailfrom);
+        // Configure Sender (return path) when present
+        $mailsender = $mailsender ? MailHelper::cleanLine($mailsender) : false;
 
-        // Set default sender without Reply-to if the mailfrom is a valid address
-        if (MailHelper::isEmailAddress($mailfrom)) {
-            // Wrap in try/catch to catch Exception if it is throwing them
+        if ($mailsender && MailHelper::isEmailAddress($mailsender)) {
             try {
-                // Check for a false return value if exception throwing is disabled
-                if ($mailer->setFrom($mailfrom, MailHelper::cleanLine($fromname), false) === false) {
-                    Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
-                }
+                $setResult = $mailer->setFrom($mailsender);
             } catch (\Exception) {
+                $setResult = false;
+            }
+
+            if (!$setResult) {
                 Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
+            }
+        }
+
+        // Configure From when present
+        $mailfrom = $mailfrom ? MailHelper::cleanLine($mailfrom) : false;
+
+        // Set default From without Reply-to if the mailfrom is a valid address
+        if ($mailfrom && MailHelper::isEmailAddress($mailfrom)) {
+            try {
+                $setResult = $mailer->setFrom($mailfrom, MailHelper::cleanLine($fromname), false);
+            } catch (\Exception) {
+                $setResult = false;
+            }
+
+            if (!$setResult) {
+                Log::add(__METHOD__ . '() could not set the mailfrom data.', Log::WARNING, 'mail');
             }
         }
 
