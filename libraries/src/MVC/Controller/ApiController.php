@@ -422,7 +422,15 @@ class ApiController extends BaseController
             throw new Exception\CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()));
         }
 
-        $this->save($recordId);
+        try {
+            $this->save($recordId);
+        } catch (\Exception $e) {
+            // The save was refused: release the check-out taken above.
+            $model->checkin($recordId);
+
+            throw $e;
+        }
+
         $this->displayItem($recordId);
 
         return $this;
