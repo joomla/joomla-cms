@@ -110,6 +110,21 @@ class HtmlView extends BaseHtmlView
         // Bind data
         if ($this->form && $this->data) {
             $this->form->bind($this->data);
+
+            // Check for parameters provided by $_ENV
+            $fromEnv  = [];
+            $envMap   = Factory::getContainer()->get('config.env-map');
+            $usedEnvs = array_intersect_key($envMap, $_ENV);
+
+            foreach ($usedEnvs as $envName => $fieldName) {
+                // @TODO: Show what exactly values is in use without exposing credentials
+                $fromEnv[] = Text::_($this->form->getFieldAttribute($fieldName, 'label'));
+            }
+
+            if ($fromEnv) {
+                Factory::getApplication()
+                    ->enqueueMessage(Text::sprintf('COM_CONFIG_FIELDS_FROM_ENV', implode(', ', $fromEnv)));
+            }
         }
 
         // Get the params for com_users.

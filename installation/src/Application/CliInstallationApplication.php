@@ -15,6 +15,8 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\EventAware;
 use Joomla\CMS\Application\ExtensionNamespaceMapper;
 use Joomla\CMS\Application\IdentityAware;
+use Joomla\CMS\Console\DotenvDebugCommand;
+use Joomla\CMS\Console\DotenvDumpCommand;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Console\InstallCommand;
@@ -166,6 +168,8 @@ final class CliInstallationApplication extends Application implements CMSApplica
             parent::getDefaultCommands(),
             [
                 new InstallCommand(),
+                new DotenvDebugCommand(),
+                new DotenvDumpCommand(),
             ]
         );
     }

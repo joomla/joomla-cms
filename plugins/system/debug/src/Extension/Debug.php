@@ -179,7 +179,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
         $this->debugLang = $app->get('debug_lang');
 
         // Skip the plugin if debug is off
-        if (!$this->debugLang && !$app->get('debug')) {
+        if (!$this->debugLang && !JDEBUG) {
             return;
         }
 

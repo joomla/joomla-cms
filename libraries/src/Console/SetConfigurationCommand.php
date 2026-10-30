@@ -60,6 +60,14 @@ class SetConfigurationCommand extends AbstractCommand
      */
     private $options;
 
+    /**
+     * The map of environment variables names to configuration names.
+     *
+     * @var array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private $envMap;
 
     /**
      * Return code if configuration is set successfully
@@ -90,6 +98,21 @@ class SetConfigurationCommand extends AbstractCommand
      * @since 4.0.0
      */
     public const DB_VALIDATION_FAILED = 4;
+
+    /**
+     * Command constructor.
+     *
+     * @param   array        $envMap  The map of environment variables names to configuration names.
+     * @param   string|null  $name    The name of the command
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct(array $envMap = [], ?string $name = null)
+    {
+        $this->envMap = $envMap;
+
+        parent::__construct($name);
+    }
 
     /**
      * Configures the IO
@@ -154,14 +177,27 @@ class SetConfigurationCommand extends AbstractCommand
     {
         $config = $this->getInitialConfigurationOptions();
 
-        $configs = $config->toArray();
+        $configs  = $config->toArray();
+        $usedEnvs = array_flip(array_intersect_key($this->envMap, $_ENV));
 
         $valid = true;
         array_walk(
             $this->options,
-            function ($value, $key) use ($configs, &$valid) {
+            function ($value, $key) use ($configs, $usedEnvs, &$valid) {
                 if (!\array_key_exists($key, $configs)) {
                     $this->ioStyle->error("Can't find option *$key* in configuration list");
+                    $valid = false;
+                }
+
+                if (\array_key_exists($key, $usedEnvs)) {
+                    $this->ioStyle->error(
+                        \sprintf(
+                            'The option *%s* is provided by environment variable *%s*, and therefore cannot be changed with *%s* command',
+                            $key,
+                            $usedEnvs[$key],
+                            $this->getName()
+                        )
+                    );
                     $valid = false;
                 }
             }

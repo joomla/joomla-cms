@@ -84,6 +84,7 @@
     "phpmailer/phpmailer": "^6.12.0",
     "psr/link": "~1.1.1",
     "symfony/console": "^7",
+    "symfony/dotenv": "^8.0",
     "symfony/error-handler": "^7",
     "symfony/ldap": "^7",
     "symfony/options-resolver": "^7",

@@ -45,6 +45,20 @@
                <!-- <add name="Cross-Origin-Embedder-Policy" value="require-corp" /> -->
            </customHeaders>
        </httpProtocol>
+       <security>
+           <requestFiltering>
+               <denyUrlSequences>
+                   <!-- Deny access to any URL containing a segment starting with a dot -->
+                   <add sequence="./" />
+                   <add sequence="/." />
+               </denyUrlSequences>
+               <hiddenSegments>
+                 <!-- Deny access to specific dot files and directories -->
+                 <add segment=".env" />
+                 <add segment=".git" />
+               </hiddenSegments>
+           </requestFiltering>
+       </security>
    </system.webServer>
    </location>
 </configuration>
