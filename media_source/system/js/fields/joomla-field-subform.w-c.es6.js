@@ -296,10 +296,12 @@ class JoomlaFieldSubform extends HTMLElement {
             const oldSetId = fieldset.id;
             fieldset.id = idNew;
 
-            const groupLbl = row.querySelector(`label[for="${oldSetId}"]`);
+            const groupLbl = row.querySelector(`label[for="${oldSetId}"], [id="${oldSetId}-lbl"]`);
 
             if (groupLbl) {
-              groupLbl.setAttribute('for', idNew);
+              if (groupLbl.matches('label')) {
+                groupLbl.setAttribute('for', idNew);
+              }
 
               if (groupLbl.id) {
                 groupLbl.setAttribute('id', `${idNew}-lbl`);
@@ -329,10 +331,12 @@ class JoomlaFieldSubform extends HTMLElement {
             const oldSetId = fieldset.id;
             fieldset.id = idNew;
 
-            const groupLbl = row.querySelector(`label[for="${oldSetId}"]`);
+            const groupLbl = row.querySelector(`label[for="${oldSetId}"], [id="${oldSetId}-lbl"]`);
 
             if (groupLbl) {
-              groupLbl.setAttribute('for', idNew);
+              if (groupLbl.matches('label')) {
+                groupLbl.setAttribute('for', idNew);
+              }
 
               if (groupLbl.id) {
                 groupLbl.setAttribute('id', `${idNew}-lbl`);
