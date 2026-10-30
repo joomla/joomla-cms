@@ -40,6 +40,8 @@ body {
   }
 
   &.a11y_contrast {
+    --form-check-input-border: 2px solid var(--body-color);
+
     filter: contrast(115%);
   }
 

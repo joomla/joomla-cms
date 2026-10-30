@@ -155,7 +155,7 @@ $atum-colors: (
 
   form-check-input-checked-bg-image:       url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e"),
   form-check-input-checked-bg-color:       $blue,
-  form-check-input-border:                 var(--border-width) solid var(--template-bg-dark-20),
+  form-check-input-border:                 var(--border-width) solid var(--template-bg-dark-60), // contrast ratio: 6.35 on #fff
 
   form-select-background:                  $form-select-bg $form-select-indicator no-repeat right center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
   form-select-background-rtl:              $form-select-bg $form-select-indicator-rtl no-repeat left center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
