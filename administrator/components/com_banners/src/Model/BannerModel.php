@@ -473,6 +473,6 @@ class BannerModel extends AdminModel implements VersionableModelInterface
      */
     private function canCreateCategory()
     {
-        return $this->getCurrentUser()->authorise('core.create', 'com_banners');
+        return $this->getCurrentUser()->authorise('core.create', 'com_categories');
     }
 }
