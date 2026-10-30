@@ -10,7 +10,9 @@
 
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
+use DebugBar\DataCollector\AssetProvider;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -22,7 +24,7 @@ use Joomla\Plugin\System\Debug\AbstractDataCollector;
  *
  * @since  4.0.0
  */
-class LanguageFilesCollector extends AbstractDataCollector
+class LanguageFilesCollector extends AbstractDataCollector implements AssetProvider
 {
     /**
      * Collector name.
@@ -97,8 +99,8 @@ class LanguageFilesCollector extends AbstractDataCollector
         return [
             'loaded' => [
                 'icon'    => 'file-code',
-                'widget'  => 'PhpDebugBar.Widgets.VariableListWidget',
-                'map'     => $this->name . '.loaded',
+                'widget'  => 'PhpDebugBar.Widgets.languageFilesWidget',
+                'map'     => $this->name,
                 'default' => '{}',
             ],
             'loaded:badge' => [
@@ -108,4 +110,17 @@ class LanguageFilesCollector extends AbstractDataCollector
         ];
     }
 
+    /**
+     * Assets for the collector.
+     *
+     * @return array
+     *
+     * @since  4.0.0
+     */
+    public function getAssets(): array
+    {
+        return [
+            'js' => Uri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.js',
+        ];
+    }
 }
