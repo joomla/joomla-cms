@@ -216,7 +216,7 @@ class QueryCollector extends AbstractDataCollector
             $params = [];
 
             foreach ($boundParams[$id] ?? [] as $key => $param) {
-                $value = \is_object($param) && \property_exists($param, 'value')
+                $value = \is_object($param) && property_exists($param, 'value')
                     ? $param->value
                     : $param;
 
