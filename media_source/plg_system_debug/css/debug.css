@@ -1,19 +1,18 @@
-@charset "UTF-8";
-/*!
+/**
  * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 a.phpdebugbar-restore-btn:after {
+  mask: url("../../system/images/joomla-favicon.svg") center / 20px 20px no-repeat !important;
   background: var(--debugbar-icons) !important;
-  -webkit-mask: url("../../system/images/joomla-favicon.svg?v=5aed7b") center / 20px 20px no-repeat !important;
-  mask: url("../../system/images/joomla-favicon.svg?v=5aed7b") center / 20px 20px no-repeat !important;
 }
 
 a.phpdebugbar-tab.phpdebugbar-tab-settings i:before {
-  content: "";
   font-family: "Font Awesome 6 Free";
   font-size: 12px;
   font-weight: 900;
+  content: "\f1de";
 }
 
 .phpdebugbar-widgets-timeline .phpdebugbar-widgets-measure:hover {
