@@ -75,7 +75,6 @@ abstract class DraggableList
         }
 
         $doc->getWebAssetManager()
-            ->usePreset('dragula')
             ->useScript('joomla.draggable');
 
         // Set static array
