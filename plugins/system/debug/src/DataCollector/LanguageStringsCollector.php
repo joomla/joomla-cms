@@ -10,8 +10,10 @@
 
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
+use DebugBar\DataCollector\AssetProvider;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -23,7 +25,7 @@ use Joomla\Plugin\System\Debug\AbstractDataCollector;
  *
  * @since  4.0.0
  */
-class LanguageStringsCollector extends AbstractDataCollector
+class LanguageStringsCollector extends AbstractDataCollector implements AssetProvider
 {
     /**
      * Collector name.
@@ -73,14 +75,28 @@ class LanguageStringsCollector extends AbstractDataCollector
         return [
             'untranslated' => [
                 'icon'    => 'inbox',
-                'widget'  => 'PhpDebugBar.Widgets.VariableListWidget',
-                'map'     => $this->name . '.data.orphans',
+                'widget'  => 'PhpDebugBar.Widgets.languageStringsWidget',
+                'map'     => $this->name . '.data',
                 'default' => '{}',
             ],
             'untranslated:badge' => [
                 'map'     => $this->name . '.count',
                 'default' => 'null',
             ],
+        ];
+    }
+
+    /**
+     * Assets for the collector.
+     *
+     * @return array
+     *
+     * @since  4.0.0
+     */
+    public function getAssets(): array
+    {
+        return [
+            'js' => Uri::root(true) . '/media/plg_system_debug/widgets/languageStrings/widget.min.js',
         ];
     }
 
