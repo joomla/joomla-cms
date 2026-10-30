@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\System\Debug\Storage;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
@@ -30,21 +31,42 @@ class FileStorage extends \DebugBar\Storage\FileStorage
      * Saves collected data
      *
      * @param   string  $id    The log id
-     * @param   string  $data  The log data
+     * @param   array   $data  The log data
      *
      * @return  void
      *
      * @since  4.0.0
      */
-    public function save($id, $data)
+    public function save(string $id, array $data): void
     {
         if (!file_exists($this->dirname)) {
             Folder::create($this->dirname);
         }
 
-        $dataStr = '<?php die(); ?>#(^-^)#' . json_encode($data);
+        if (!is_dir($this->dirname) || !is_writable($this->dirname)) {
+            Log::add(
+                \sprintf('Unable to write DebugBar request history; directory is not writable: %s', $this->dirname),
+                Log::WARNING,
+                'plg_system_debug'
+            );
 
-        File::write($this->makeFilename($id), $dataStr);
+            return;
+        }
+
+        $dataStr  = json_encode($data, JSON_THROW_ON_ERROR);
+        $fileName = $this->makeFilename($id);
+
+        if (!File::write($fileName, $dataStr)) {
+            Log::add(
+                \sprintf('Unable to write DebugBar request history file: %s', $fileName),
+                Log::WARNING,
+                'plg_system_debug'
+            );
+
+            return;
+        }
+
+        $this->autoPrune();
     }
 
     /**
@@ -56,12 +78,27 @@ class FileStorage extends \DebugBar\Storage\FileStorage
      *
      * @since  4.0.0
      */
-    public function get($id)
+    public function get(string $id): array
     {
-        $dataStr = file_get_contents($this->makeFilename($id));
-        $dataStr = str_replace('<?php die(); ?>#(^-^)#', '', $dataStr);
+        $fileName = $this->makeFilename($id);
 
-        return json_decode($dataStr, true) ?: [];
+        if (!file_exists($fileName)) {
+            return [];
+        }
+
+        $dataStr = file_get_contents($fileName);
+
+        if ($dataStr === false) {
+            throw new \RuntimeException("Unable to read DebugBar data file: $fileName");
+        }
+
+        $data = json_decode($dataStr, true, 512, JSON_THROW_ON_ERROR);
+
+        if (!\is_array($data)) {
+            throw new \UnexpectedValueException("Invalid DebugBar data in file: $fileName");
+        }
+
+        return $data;
     }
 
     /**
@@ -75,51 +112,53 @@ class FileStorage extends \DebugBar\Storage\FileStorage
      *
      * @since 4.0.0
      */
-    public function find(array $filters = [], $max = 20, $offset = 0)
+    public function find(array $filters = [], int $max = 20, int $offset = 0): array
     {
-        // Loop through all .php files and remember the modified time and id.
-        $files = [];
+        if (!is_dir($this->dirname)) {
+            return [];
+        }
 
-        foreach (new \DirectoryIterator($this->dirname) as $file) {
-            if ($file->getExtension() == 'php') {
-                $files[] = [
-                    'time' => $file->getMTime(),
-                    'id'   => $file->getBasename('.php'),
-                ];
+        $ids = [];
+
+        foreach (new \FilesystemIterator($this->dirname, \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::CURRENT_AS_PATHNAME) as $path) {
+            if (\is_string($path) && str_ends_with($path, '.json')) {
+                $ids[] = basename($path, '.json');
             }
         }
 
-        // Sort the files, newest first
-        usort(
-            $files,
-            function ($a, $b) {
-                if ($a['time'] === $b['time']) {
-                    return 0;
-                }
+        sort($ids, SORT_STRING);
+        $ids = array_reverse($ids);
 
-                return $a['time'] < $b['time'] ? 1 : -1;
-            }
-        );
+        $filterUtime = null;
+
+        if ($filters['utime'] ?? false) {
+            $filterUtime = (float) $filters['utime'];
+            unset($filters['utime']);
+        }
 
         // Load the metadata and filter the results.
         $results = [];
         $i       = 0;
 
-        foreach ($files as $file) {
+        foreach ($ids as $id) {
             // When filter is empty, skip loading the offset
-            if ($i++ < $offset && empty($filters)) {
+            if ($i++ < $offset && !$filters) {
                 $results[] = null;
                 continue;
             }
 
-            $data = $this->get($file['id']);
+            $data = $this->get($id);
 
-            if (!$this->isSecureToReturnData($data)) {
+            if (!isset($data['__meta']) || !$this->isSecureToReturnData($data)) {
                 continue;
             }
 
             $meta = $data['__meta'];
             unset($data);
+
+            if ($filterUtime !== null && $meta['utime'] <= $filterUtime) {
+                break;
+            }
 
             if ($this->filter($meta, $filters)) {
                 $results[] = $meta;
@@ -142,9 +181,9 @@ class FileStorage extends \DebugBar\Storage\FileStorage
      *
      * @since 4.0.0
      */
-    public function makeFilename($id)
+    public function makeFilename(string $id): string
     {
-        return $this->dirname . basename($id) . '.php';
+        return $this->dirname . basename($id) . '.json';
     }
 
     /**

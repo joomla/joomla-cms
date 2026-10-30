@@ -74,10 +74,10 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
     {
         return [
             'untranslated' => [
-                'icon'    => 'question-circle',
+                'icon'    => 'inbox',
                 'widget'  => 'PhpDebugBar.Widgets.languageStringsWidget',
                 'map'     => $this->name . '.data',
-                'default' => '',
+                'default' => '{}',
             ],
             'untranslated:badge' => [
                 'map'     => $this->name . '.count',
@@ -87,20 +87,16 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
     }
 
     /**
-     * Returns an array with the following keys:
-     *  - base_path
-     *  - base_url
-     *  - css: an array of filenames
-     *  - js: an array of filenames
+     * Assets for the collector.
+     *
+     * @return array
      *
      * @since  4.0.0
-     * @return array
      */
     public function getAssets(): array
     {
         return [
-            'js'  => Uri::root(true) . '/media/plg_system_debug/widgets/languageStrings/widget.min.js',
-            'css' => Uri::root(true) . '/media/plg_system_debug/widgets/languageStrings/widget.min.css',
+            'js' => Uri::root(true) . '/media/plg_system_debug/widgets/languageStrings/widget.min.js',
         ];
     }
 

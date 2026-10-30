@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
-use DebugBar\DataCollector\AssetProvider;
-use Joomla\CMS\Uri\Uri;
 use Joomla\Database\Monitor\DebugMonitor;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 use Joomla\Registry\Registry;
@@ -25,7 +23,7 @@ use Joomla\Registry\Registry;
  *
  * @since  4.0.0
  */
-class QueryCollector extends AbstractDataCollector implements AssetProvider
+class QueryCollector extends AbstractDataCollector
 {
     /**
      * Collector name.
@@ -156,21 +154,6 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
     }
 
     /**
-     * Assets for the collector.
-     *
-     * @since  4.0.0
-     *
-     * @return array
-     */
-    public function getAssets(): array
-    {
-        return [
-            'css' => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.min.css',
-            'js'  => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.min.js',
-        ];
-    }
-
-    /**
      * Prepare the executed statements data.
      *
      * @since  4.0.0
@@ -214,22 +197,36 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
                     $file  = $stack['file'] ?? '';
                     $line  = $stack['line'] ?? '';
 
-                    $caller   = $this->formatCallerInfo($stack);
+                    $caller   = html_entity_decode($this->formatCallerInfo($stack), ENT_QUOTES | ENT_HTML5, 'UTF-8');
                     $location = $file && $line ? "$file:$line" : 'same';
-
-                    $isCaller = 0;
 
                     if (\Joomla\Database\DatabaseDriver::class === $class && !str_contains($file, 'DatabaseDriver.php')) {
                         $callerLocation = $location;
-                        $isCaller       = 1;
                     }
 
                     if ($collectStacks) {
-                        $trace[] = [\count($stacks[$id]) - $cnt, $isCaller, $caller, $file, $line];
+                        $traceLocation = $file && $line ? $this->formatPath("$file:$line") : 'same';
+                        $trace[]       = "$caller ($traceLocation)";
                     }
 
                     $cnt++;
                 }
+            }
+
+            $params = [];
+
+            foreach ($boundParams[$id] ?? [] as $key => $param) {
+                $value = \is_object($param) && property_exists($param, 'value')
+                    ? $param->value
+                    : $param;
+
+                if (\is_array($value) || \is_object($value)) {
+                    $value = json_encode($value, JSON_INVALID_UTF8_SUBSTITUTE | JSON_PARTIAL_OUTPUT_ON_ERROR);
+                } elseif (\is_resource($value)) {
+                    $value = '[resource]';
+                }
+
+                $params[$key] = $value;
             }
 
             $explain        = $this->explains[$id] ?? [];
@@ -242,11 +239,11 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 
             $statements[] = [
                 'sql'          => $item,
-                'params'       => $boundParams[$id] ?? [],
+                'params'       => $params,
                 'duration_str' => $this->getDataFormatter()->formatDuration($queryTime),
                 'memory_str'   => $this->getDataFormatter()->formatBytes($queryMemory),
                 'caller'       => $callerLocation,
-                'callstack'    => $trace,
+                'backtrace'    => $trace,
                 'explain'      => $explain,
                 'explain_col'  => $explainColumns,
                 'profile'      => $this->profiles[$id] ?? [],
