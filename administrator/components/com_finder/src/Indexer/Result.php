@@ -53,6 +53,15 @@ class Result implements \Serializable
     ];
 
     /**
+     * Associative array with keys of properties and the format in which to
+     * parse them to add to the index
+     *
+     * @var    string[]
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $formats = [];
+
+    /**
      * The indexer will use this data to create taxonomy mapping entries for
      * the item so that it can be filtered by type, label, category,
      * or whatever.
@@ -317,6 +326,18 @@ class Result implements \Serializable
     }
 
     /**
+     * Method to get the formats for all properties.
+     *
+     * @return  array  An array of properties with their formats.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getPropertyFormats()
+    {
+        return $this->formats;
+    }
+
+    /**
      * Method to add a processing instruction for an item property.
      *
      * @param   string  $group     The group to associate the property with.
@@ -326,13 +347,16 @@ class Result implements \Serializable
      *
      * @since   2.5
      */
-    public function addInstruction($group, $property)
+    public function addInstruction($group, $property, $format = 'html')
     {
         // Check if the group exists. We can't add instructions for unknown groups.
         // Check if the property exists in the group.
         if (\array_key_exists($group, $this->instructions) && !\in_array($property, $this->instructions[$group], true)) {
             // Add the property to the group.
             $this->instructions[$group][] = $property;
+
+            // Add the format for the property.
+            $this->formats[$property] = $format;
         }
     }
 
@@ -356,6 +380,7 @@ class Result implements \Serializable
             // If the property was found, remove it.
             if ($key !== false) {
                 unset($this->instructions[$group][$key]);
+                unset($this->formats[$property]);
             }
         }
     }
