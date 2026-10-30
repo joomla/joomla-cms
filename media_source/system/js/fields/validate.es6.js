@@ -61,7 +61,8 @@ class JFormValidator {
 
   markValid(element) {
     // Get a label
-    const label = element.form.querySelector(`label[for="${element.id}"]`);
+    const label = element.form.querySelector(`label[for="${element.id}"]`)
+      || document.getElementById(`${element.id}-lbl`);
     let message;
 
     if (element.classList.contains('required') || element.getAttribute('required')) {
@@ -89,7 +90,8 @@ class JFormValidator {
 
   markInvalid(element, empty) {
     // Get a label
-    const label = element.form.querySelector(`label[for="${element.id}"]`);
+    const label = element.form.querySelector(`label[for="${element.id}"]`)
+      || document.getElementById(`${element.id}-lbl`);
 
     element.classList.remove('form-control-success', 'valid');
     element.classList.add('form-control-danger', 'invalid');
@@ -130,7 +132,8 @@ class JFormValidator {
   removeMarking(element) {
     // Get the associated label
     let message;
-    const label = element.form.querySelector(`label[for="${element.id}"]`);
+    const label = element.form.querySelector(`label[for="${element.id}"]`)
+      || document.getElementById(`${element.id}-lbl`);
 
     if (label) {
       message = label.querySelector('span.form-control-feedback');
