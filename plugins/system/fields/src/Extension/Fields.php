@@ -15,6 +15,7 @@ use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\User;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Event\SubscriberInterface;
@@ -369,10 +370,10 @@ final class Fields extends CMSPlugin implements SubscriberInterface
     /**
      * Performs the display event.
      *
-     * @param   string    $context      The context
+     * @param   string     $context      The context
      * @param   \stdClass  $item         The item
-     * @param   Registry  $params       The params
-     * @param   integer   $displayType  The type
+     * @param   Registry   $params       The params
+     * @param   integer    $displayType  The type
      *
      * @return  string
      *
@@ -405,7 +406,7 @@ final class Fields extends CMSPlugin implements SubscriberInterface
             $params = new Registry($params);
         }
 
-        $fields = FieldsHelper::getFields($context, $item, $displayType);
+        $fields = $item->jcfields;
 
         if ($fields) {
             if ($this->getApplication()->isClient('site') && Multilanguage::isEnabled() && isset($item->language) && $item->language === '*') {
@@ -421,11 +422,18 @@ final class Fields extends CMSPlugin implements SubscriberInterface
             }
         }
 
+        PluginHelper::importPlugin('fields');
+
         if ($fields) {
             foreach ($fields as $key => $field) {
                 $fieldDisplayType = $field->params->get('display', '2');
 
                 if ($fieldDisplayType == $displayType) {
+                    /*
+                    * Event allow plugins to modify the output of the field before it is display
+                    */
+                    $this->getApplication()->triggerEvent('onCustomFieldsBeforeDisplay', [$context, $item, &$field, $displayType, &$params]);
+
                     continue;
                 }
 
@@ -493,6 +501,13 @@ final class Fields extends CMSPlugin implements SubscriberInterface
         foreach ($fields as $key => $field) {
             $item->jcfields[$field->id] = $field;
         }
+
+        PluginHelper::importPlugin('fields');
+
+        /*
+        * Event allow plugins to modify the the fields it is with content prepare
+        */
+        $this->getApplication()->triggerEvent('onCustomFieldsContentPrepare', [$context, $item, &$item->jcfields]);
     }
 
     /**
