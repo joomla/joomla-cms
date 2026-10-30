@@ -16,7 +16,7 @@
 			last="29"
 			step="1"
 			default="14"
-			filter="int"
+			filter="integer"
 			validate="number"
 		/>
 
