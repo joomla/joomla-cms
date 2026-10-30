@@ -43,7 +43,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
             Folder::create($this->dirname);
         }
 
-        if (!\is_dir($this->dirname) || !\is_writable($this->dirname)) {
+        if (!is_dir($this->dirname) || !is_writable($this->dirname)) {
             Log::add(
                 \sprintf('Unable to write DebugBar request history; directory is not writable: %s', $this->dirname),
                 Log::WARNING,
@@ -53,7 +53,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
             return;
         }
 
-        $dataStr = json_encode($data, JSON_THROW_ON_ERROR);
+        $dataStr  = json_encode($data, JSON_THROW_ON_ERROR);
         $fileName = $this->makeFilename($id);
 
         if (!File::write($fileName, $dataStr)) {
@@ -114,20 +114,20 @@ class FileStorage extends \DebugBar\Storage\FileStorage
      */
     public function find(array $filters = [], int $max = 20, int $offset = 0): array
     {
-        if (!\is_dir($this->dirname)) {
+        if (!is_dir($this->dirname)) {
             return [];
         }
 
         $ids = [];
 
         foreach (new \FilesystemIterator($this->dirname, \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::CURRENT_AS_PATHNAME) as $path) {
-            if (\is_string($path) && \str_ends_with($path, '.json')) {
-                $ids[] = \basename($path, '.json');
+            if (\is_string($path) && str_ends_with($path, '.json')) {
+                $ids[] = basename($path, '.json');
             }
         }
 
-        \sort($ids, SORT_STRING);
-        $ids = \array_reverse($ids);
+        sort($ids, SORT_STRING);
+        $ids = array_reverse($ids);
 
         $filterUtime = null;
 
@@ -183,7 +183,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
      */
     public function makeFilename(string $id): string
     {
-        return $this->dirname . \basename($id) . '.json';
+        return $this->dirname . basename($id) . '.json';
     }
 
     /**
