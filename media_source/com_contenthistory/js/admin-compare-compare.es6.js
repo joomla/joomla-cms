@@ -18,22 +18,17 @@
     const fragment = document.createDocumentFragment();
 
     diff.forEach((part) => {
-      let color = '';
+      let tag = 'span';
 
       if (part.added) {
-        color = '#a6f3a6';
+        tag = 'ins';
+      } else if (part.removed) {
+        tag = 'del';
       }
 
-      if (part.removed) {
-        color = '#f8cbcb';
-      }
-
-      // @todo use the tag MARK here not SPAN
-      const span = document.createElement('span');
-      span.style.backgroundColor = color;
-      span.style.borderRadius = '.2rem';
-      span.appendChild(document.createTextNode(decodeHtml(part.value)));
-      fragment.appendChild(span);
+      const element = document.createElement(tag);
+      element.appendChild(document.createTextNode(decodeHtml(part.value)));
+      fragment.appendChild(element);
     });
 
     display.appendChild(fragment);
