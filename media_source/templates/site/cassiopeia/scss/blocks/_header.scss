@@ -150,6 +150,7 @@
         right: 2px;
         left: 0;
         background: $white;
+        opacity: 1;
       }
 
       @include media-breakpoint-down(lg) {
@@ -203,6 +204,7 @@
         right: 0;
         left: 0;
         background: $white;
+        opacity: 1;
       }
 
       > button.mm-toggler-link:hover::before,
