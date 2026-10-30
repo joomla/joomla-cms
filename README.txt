@@ -5,6 +5,9 @@ Joomla! CMS™
 	* Joomla! Official site: https://www.joomla.org
 	* Joomla! 5.4 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_5.4_version_history
 	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/5.4-dev
+	* Release Managers responsible for Joomla! 5.4
+		* Heiko Lübbe @muhme
+		* Richard Fath @richard67
 
 2- What is Joomla?
 	* Joomla! is a Content Management System (CMS) which enables you to build websites and powerful online applications.
@@ -48,6 +51,7 @@ Joomla! CMS™
 
 10- Where can you get support and help?
 	* The Joomla! Documentation: https://docs.joomla.org/Special:MyLanguage/Main_Page
+	* Developer Documentation: https://manual.joomla.org/docs/
 	* FAQ Frequently Asked Questions: https://docs.joomla.org/Special:MyLanguage/Category:FAQ
 	* Find the information you need: https://docs.joomla.org/Special:MyLanguage/Start_here
 	* Find help and other users: https://www.joomla.org/about-joomla/create-and-share.html
