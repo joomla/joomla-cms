@@ -1063,9 +1063,6 @@ class JoomlaInstallerScript
             '/libraries/vendor/symfony/validator/Test/ConstraintValidatorTestCase.php',
             '/libraries/vendor/symfony/var-dumper/Test/VarDumperTestTrait.php',
             // From 6.1.0-alpha3 to 6.1.0-beta1
-            '/media/vendor/tinymce/langs/cy.js',
-            '/media/vendor/tinymce/langs/cy.min.js',
-            '/media/vendor/tinymce/langs/cy.min.js.gz',
             '/media/vendor/tinymce/langs/dv.js',
             '/media/vendor/tinymce/langs/dv.min.js',
             '/media/vendor/tinymce/langs/dv.min.js.gz',
@@ -1287,6 +1284,9 @@ class JoomlaInstallerScript
             '/media/vendor/tinymce/langs/bs.min.js.gz',
             // From 6.2.0-beta1 to 6.2.0-beta2
             '/administrator/components/com_content/src/Service/PreviewTokenService.php',
+            // From 6.2.0-beta2 to 6.2.0-beta3
+            '/media/vendor/tinymce/langs/cy.min.js',
+            '/media/vendor/tinymce/langs/cy.min.js.gz',
         ];
 
         $folders = [

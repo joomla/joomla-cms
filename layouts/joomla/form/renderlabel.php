@@ -24,15 +24,22 @@ extract($displayData);
 $classes = array_filter((array) $classes);
 $id      = $for . '-lbl';
 
+$isGroupedField = isset($field) && (
+    $field instanceof \Joomla\CMS\Form\Field\RadioField
+    || $field instanceof \Joomla\CMS\Form\Field\CheckboxesField
+);
+
+$tag = $isGroupedField ? 'span' : 'label';
+
 if ($required) {
     $classes[] = 'required';
 }
 
 ?>
-<label id="<?php echo $id; ?>" for="<?php echo $for; ?>"<?php if (!empty($classes)) {
+<<?php echo $tag; ?> id="<?php echo $id; ?>"<?php if (!$isGroupedField) : ?> for="<?php echo $for; ?>"<?php endif; ?><?php if (!empty($classes)) {
     echo ' class="' . implode(' ', $classes) . '"';
            } ?>>
     <?php echo $text; ?><?php if ($required) :
         ?><span class="star" aria-hidden="true">&#160;*</span><?php
     endif; ?>
-</label>
+</<?php echo $tag; ?>>
