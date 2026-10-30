@@ -10,6 +10,9 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Exception\DuplicateEntryException;
+use Joomla\CMS\Table\Exception\InvalidHierarchyException;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
@@ -51,6 +54,10 @@ class Usergroup extends Table
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -58,6 +65,10 @@ class Usergroup extends Table
 
         // Validate the title.
         if ((trim($this->title)) == '') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE'));
+            }
+
             $this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE'));
 
             return false;
@@ -65,6 +76,10 @@ class Usergroup extends Table
 
         // The parent_id can not be equal to the current id
         if ($this->id === (int) $this->parent_id) {
+            if ($this->shouldUseExceptions()) {
+                throw new InvalidHierarchyException(Text::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+            }
+
             $this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
 
             return false;
@@ -88,6 +103,10 @@ class Usergroup extends Table
         $db->setQuery($query);
 
         if ($db->loadResult() > 0) {
+            if ($this->shouldUseExceptions()) {
+                throw new DuplicateEntryException(Text::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE_EXISTS'), 'title');
+            }
+
             $this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE_EXISTS'));
 
             return false;
@@ -100,12 +119,20 @@ class Usergroup extends Table
             $table->load($this->id);
 
             if ((!$table->parent_id && $this->parent_id) || ($table->parent_id && !$this->parent_id)) {
+                if ($this->shouldUseExceptions()) {
+                    throw new InvalidHierarchyException(Text::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+                }
+
                 $this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
 
                 return false;
             }
         } elseif (!$this->parent_id) {
             // New entry should always be greater 0
+            if ($this->shouldUseExceptions()) {
+                throw new InvalidHierarchyException(Text::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+            }
+
             $this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
 
             return false;
@@ -117,6 +144,10 @@ class Usergroup extends Table
             $table->load($this->parent_id);
 
             if ($table->id != $this->parent_id) {
+                if ($this->shouldUseExceptions()) {
+                    throw new InvalidHierarchyException(Text::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+                }
+
                 $this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
 
                 return false;

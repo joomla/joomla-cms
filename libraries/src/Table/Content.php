@@ -13,6 +13,8 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Exception\DuplicateEntryException;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\Tag\TaggableTableTrait;
 use Joomla\CMS\User\CurrentUserInterface;
@@ -192,12 +194,20 @@ class Content extends Table implements TaggableTableInterface, CurrentUserInterf
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
         }
 
         if (trim($this->title) == '') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));
+            }
+
             $this->setError(Text::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));
 
             return false;
@@ -215,6 +225,10 @@ class Content extends Table implements TaggableTableInterface, CurrentUserInterf
 
         // Check for a valid category.
         if (!$this->catid = (int) $this->catid) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
+            }
+
             $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
 
             return false;
@@ -355,6 +369,14 @@ class Content extends Table implements TaggableTableInterface, CurrentUserInterf
 
         if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
             // Is the existing article trashed?
+            if ($this->shouldUseExceptions()) {
+                $message = $table->state === -2
+                    ? Text::_('COM_CONTENT_ERROR_UNIQUE_ALIAS_TRASHED')
+                    : Text::_('COM_CONTENT_ERROR_UNIQUE_ALIAS');
+
+                throw new DuplicateEntryException($message, 'alias');
+            }
+
             $this->setError(Text::_('COM_CONTENT_ERROR_UNIQUE_ALIAS'));
 
             if ($table->state === -2) {
