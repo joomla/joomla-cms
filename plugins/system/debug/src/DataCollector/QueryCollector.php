@@ -200,19 +200,33 @@ class QueryCollector extends AbstractDataCollector
                     $caller   = $this->formatCallerInfo($stack);
                     $location = $file && $line ? "$file:$line" : 'same';
 
-                    $isCaller = 0;
-
                     if (\Joomla\Database\DatabaseDriver::class === $class && !str_contains($file, 'DatabaseDriver.php')) {
                         $callerLocation = $location;
-                        $isCaller       = 1;
                     }
 
                     if ($collectStacks) {
-                        $trace[] = [\count($stacks[$id]) - $cnt, $isCaller, $caller, $file, $line];
+                        $traceLocation = $file && $line ? $this->formatPath("$file:$line") : 'same';
+                        $trace[]       = "$caller ($traceLocation)";
                     }
 
                     $cnt++;
                 }
+            }
+
+            $params = [];
+
+            foreach ($boundParams[$id] ?? [] as $key => $param) {
+                $value = \is_object($param) && \property_exists($param, 'value')
+                    ? $param->value
+                    : $param;
+
+                if (\is_array($value) || \is_object($value)) {
+                    $value = json_encode($value, JSON_INVALID_UTF8_SUBSTITUTE | JSON_PARTIAL_OUTPUT_ON_ERROR);
+                } elseif (\is_resource($value)) {
+                    $value = '[resource]';
+                }
+
+                $params[$key] = $value;
             }
 
             $explain        = $this->explains[$id] ?? [];
@@ -225,7 +239,7 @@ class QueryCollector extends AbstractDataCollector
 
             $statements[] = [
                 'sql'          => $item,
-                'params'       => $boundParams[$id] ?? [],
+                'params'       => $params,
                 'duration_str' => $this->getDataFormatter()->formatDuration($queryTime),
                 'memory_str'   => $this->getDataFormatter()->formatBytes($queryMemory),
                 'caller'       => $callerLocation,
