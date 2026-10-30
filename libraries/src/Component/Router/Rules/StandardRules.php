@@ -87,7 +87,18 @@ class StandardRules implements RulesInterface
         foreach ($tempSegments as $segment) {
             // Our current view is nestable. We need to check first if the segment fits to that
             if ($views[$vars['view']]->nestable) {
-                if (\is_callable([$this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id'])) {
+                if (!\is_null($views[$vars['view']]->parseCallback)) {
+                    $key = \call_user_func_array($views[$vars['view']]->parseCallback, [$segment, $vars]);
+
+                    // Did we get a proper key? If not, we need to look in the child-views
+                    if ($key) {
+                        $vars[$views[$vars['view']]->key] = $key;
+
+                        array_shift($segments);
+
+                        continue;
+                    }
+                } elseif (\is_callable([$this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id'])) {
                     $key = \call_user_func_array([$this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id'], [$segment, $vars]);
 
                     // Did we get a proper key? If not, we need to look in the child-views
@@ -121,6 +132,27 @@ class StandardRules implements RulesInterface
 
                             unset($vars[$parent->key]);
                         }
+
+                        break;
+                    }
+                } elseif (!\is_null($view->parseCallback)) {
+                    // Hand the data over to the router specific method and see if there is a content item that fits
+                    $key = \call_user_func_array($view->parseCallback, [$segment, $vars]);
+
+                    if ($key) {
+                        // Found the right view and the right item
+                        $parent       = $views[$vars['view']];
+                        $vars['view'] = $view->name;
+                        $found        = true;
+
+                        if ($view->parent_key && isset($vars[$parent->key])) {
+                            $parent_key              = $vars[$parent->key];
+                            $vars[$view->parent_key] = $parent_key;
+
+                            unset($vars[$parent->key]);
+                        }
+
+                        $vars[$view->key] = $key;
 
                         break;
                     }
