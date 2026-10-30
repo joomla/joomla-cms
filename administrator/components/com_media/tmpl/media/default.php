@@ -45,7 +45,7 @@ $config = [
     'fileBaseUrl'         => Uri::root() . $params->get('file_path', 'files'),
     'fileBaseRelativeUrl' => $params->get('file_path', 'files'),
     'editViewUrl'         => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : '')  . $mediaTypes,
-    'imagesExtensions'    => array_map('trim', explode(',', $params->get('image_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif'))),
+    'imagesExtensions'    => array_map('trim', explode(',', $params->get('image_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,jxl'))),
     'audioExtensions'     => array_map('trim', explode(',', $params->get('audio_extensions', 'mp3,m4a,mp4a,ogg'))),
     'videoExtensions'     => array_map('trim', explode(',', $params->get('video_extensions', 'mp4,mp4v,mpeg,mov,webm'))),
     'documentExtensions'  => array_map('trim', explode(',', $params->get('doc_extensions', 'doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv'))),
