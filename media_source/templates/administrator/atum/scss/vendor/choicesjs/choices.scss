@@ -53,6 +53,7 @@
 }
 
 .choices__list--single {
+  width: 90%;
   padding: 7px 16px 0 4px;
 }
 
@@ -111,6 +112,7 @@
 
 .choices__button_joomla {
   position: relative;
+  flex: 0 0 24px;
   padding: 0 10px;
   color: inherit;
   text-indent: -9999px;
@@ -119,11 +121,15 @@
   border: 0;
   opacity: .5;
   appearance: none;
+  inline-size: 24px;
+  block-size: 24px;
 
   &::before {
     position: absolute;
     inset: 0;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     text-indent: 0;
     content: "\00d7";
@@ -197,8 +203,8 @@
     position: absolute;
     inset-block-start: 50%;
     inset-inline-end: 0;
-    inline-size: 20px;
-    block-size: 20px;
+    inline-size: 24px;
+    block-size: 24px;
     padding: 0;
     margin-block-start: -10px;
     margin-inline-end: 50px;
