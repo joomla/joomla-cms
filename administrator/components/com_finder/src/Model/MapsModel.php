@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Model;
 
+use Joomla\CMS\Access\Exception\NotAllowedException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Model\AfterChangeStateEvent;
 use Joomla\CMS\Event\Model\AfterDeleteEvent;
@@ -107,6 +108,12 @@ class MapsModel extends ListModel
         foreach ($pks as $i => $pk) {
             if (!$table->load($pk)) {
                 // Item is not in the table.
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -129,12 +136,24 @@ class MapsModel extends ListModel
                     )->getArgument('result', []);
 
                     if (\in_array(false, $result, true)) {
+                        if ($this->shouldUseExceptions()) {
+                            $error = $table->getError(null, false);
+
+                            throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                        }
+
                         $this->setError($table->getError());
 
                         return false;
                     }
 
                     if (!$table->delete($pk)) {
+                        if ($this->shouldUseExceptions()) {
+                            $error = $table->getError(null, false);
+
+                            throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                        }
+
                         $this->setError($table->getError());
 
                         return false;
@@ -149,6 +168,14 @@ class MapsModel extends ListModel
                     // Prune items that you can't change.
                     unset($pks[$i]);
                     $error = $this->getError();
+
+                    if ($this->shouldUseExceptions()) {
+                        if ($error) {
+                            throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                        }
+
+                        throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+                    }
 
                     if ($error) {
                         $this->setError($error);
@@ -336,6 +363,11 @@ class MapsModel extends ListModel
             if ($table->load($pk) && !$this->canEditState($table)) {
                 // Prune items that you can't change.
                 unset($pks[$i]);
+
+                if ($this->shouldUseExceptions()) {
+                    throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+                }
+
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 
                 return false;
@@ -344,6 +376,12 @@ class MapsModel extends ListModel
 
         // Attempt to change the state of the records.
         if (!$table->publish($pks, $value, $user->id)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -362,6 +400,12 @@ class MapsModel extends ListModel
         )->getArgument('result', []);
 
         if (\in_array(false, $result, true)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
