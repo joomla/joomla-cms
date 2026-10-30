@@ -1,0 +1,29 @@
+#diff .diff {
+  ins,
+  del {
+    padding: 2px 4px;
+    border-radius: .2rem;
+  }
+
+  ins {
+    color: #000;
+    background-color: #d4fcbc;
+  }
+
+  del {
+    color: #555;
+    background-color: #fbb;
+  }
+}
+
+[data-bs-theme="dark"] #diff .diff {
+  ins {
+    color: #fff;
+    background-color: #266303;
+  }
+
+  del {
+    color: #b3b3b3;
+    background-color: #8f0000;
+  }
+}
