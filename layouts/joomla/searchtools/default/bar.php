@@ -35,15 +35,15 @@ if (empty($filters['filter_search']) || !$searchButton) {
 
 <div class="filter-search-bar btn-group">
     <div class="input-group">
+        <span class="filter-search-bar__label visually-hidden">
+            <?php echo $filters['filter_search']->label; ?>
+        </span>
         <?php echo $filters['filter_search']->input; ?>
         <?php if ($filters['filter_search']->description) : ?>
         <div role="tooltip" id="<?php echo ($filters['filter_search']->id ?: $filters['filter_search']->name) . '-desc'; ?>" class="filter-search-bar__description">
             <?php echo htmlspecialchars(Text::_($filters['filter_search']->description), ENT_COMPAT, 'UTF-8'); ?>
         </div>
         <?php endif; ?>
-        <span class="filter-search-bar__label visually-hidden">
-            <?php echo $filters['filter_search']->label; ?>
-        </span>
         <button type="submit" class="filter-search-bar__button btn btn-primary" aria-label="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>">
             <span class="filter-search-bar__button-icon icon-search" aria-hidden="true"></span>
         </button>
