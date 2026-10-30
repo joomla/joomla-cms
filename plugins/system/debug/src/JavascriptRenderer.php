@@ -50,14 +50,14 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
      */
     public function renderHead(): string
     {
-        $assets                                                   = $this->getAssets(self::RELATIVE_URL);
-        $cssFiles                                                 = $assets['css'];
-        $jsFiles                                                  = $assets['js'];
-        $inlineCss                                                = $assets['inline_css'];
-        $inlineJs                                                 = $assets['inline_js'];
-        $inlineHead                                               = $assets['inline_head'];
-        $html                                                     = '';
-        $doc                                                      = Factory::getApplication()->getDocument();
+        $assets     = $this->getAssets(self::RELATIVE_URL);
+        $cssFiles   = $assets['css'];
+        $jsFiles    = $assets['js'];
+        $inlineCss  = $assets['inline_css'];
+        $inlineJs   = $assets['inline_js'];
+        $inlineHead = $assets['inline_head'];
+        $html       = '';
+        $doc        = Factory::getApplication()->getDocument();
 
         foreach ($cssFiles as $file) {
             $html .= \sprintf('<link rel="stylesheet" type="text/css" href="%s">' . "\n", $file);
