@@ -1,10 +1,10 @@
-beforeEach(() => { cy.doAdministratorLogin(); });
-afterEach(() => {
-  cy.task('queryDB', "DELETE FROM #__banners WHERE name = 'Test banner'");
-  cy.task('queryDB', "DELETE FROM #__contact_details WHERE name = 'Test contact'");
-});
-
 describe('Test that the shortcut system plugin', () => {
+  beforeEach(() => cy.doAdministratorLogin());
+  afterEach(() => {
+    cy.task('queryDB', "DELETE FROM #__banners WHERE name = 'Test banner'");
+    cy.task('queryDB', "DELETE FROM #__contact_details WHERE name = 'Test contact'");
+  });
+
   it('can save (apply) edit form', () => {
     cy.visit('/administrator/index.php?option=com_banners&task=banner.add');
     cy.get('#jform_name').clear().type('Test banner').blur();

@@ -170,7 +170,7 @@ class ArticlesHelper implements DatabaseAwareInterface
 
         switch ($ordering) {
             case 'random':
-                $articles->setState('list.ordering', $this->getDatabase()->getQuery(true)->rand());
+                $articles->setState('list.ordering', $this->getDatabase()->createQuery()->rand());
                 break;
 
             case 'rating_count':
@@ -210,6 +210,11 @@ class ArticlesHelper implements DatabaseAwareInterface
         // Filter archived articles
         if ($params->get('show_archived', 'hide') === 'show') {
             $articles->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
+        }
+
+        // Filter unpublished articles
+        if ($params->get('show_unpublished', 0) === 1 && (($user->authorise('core.edit.state', 'com_content') && $user->authorise('core.edit', 'com_content')) || ($user->authorise('core.edit.state', 'com_content') && $user->authorise('core.edit.own', 'com_content')))) {
+            $articles->setState('filter.published', [ContentComponent::CONDITION_UNPUBLISHED, ContentComponent::CONDITION_PUBLISHED]);
         }
 
         // Check if we include or exclude articles and process data
@@ -336,11 +341,16 @@ class ArticlesHelper implements DatabaseAwareInterface
                     'context' => 'com_content.article',
                     'subject' => $item,
                     'params'  => $item->params,
+                    'page'    => 0,
                 ];
 
-                // Extra content from events
+                // onContentPrepare plugins work on $item->text
+                if (!isset($item->text)) {
+                    $item->text = $item->introtext . ' ' . $item->fulltext;
+                }
 
                 $contentEvents = [
+                    'onContentPrepare'     => new Content\ContentPrepareEvent('onContentPrepare', $contentEventArguments),
                     'afterDisplayTitle'    => new Content\AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
                     'beforeDisplayContent' => new Content\BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
                     'afterDisplayContent'  => new Content\AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
@@ -352,6 +362,7 @@ class ArticlesHelper implements DatabaseAwareInterface
                     $item->event->{$resultKey} = $results ? trim(implode("\n", $results)) : '';
                 }
             } else {
+                $item->event->onContentPrepare     = '';
                 $item->event->afterDisplayTitle    = '';
                 $item->event->beforeDisplayContent = '';
                 $item->event->afterDisplayContent  = '';
@@ -378,6 +389,8 @@ class ArticlesHelper implements DatabaseAwareInterface
             $item->displayDate          = $show_date ? $item->displayDate : '';
             $item->displayHits          = $show_hits ? $item->hits : '';
 
+            $item->introTextTruncated = false;
+
             if ($show_introtext) {
                 $item->displayIntrotext = HTMLHelper::_('content.prepare', $item->introtext, '', 'mod_articles.content');
 
@@ -388,7 +401,9 @@ class ArticlesHelper implements DatabaseAwareInterface
                 }
 
                 if ($introtext_limit != 0) {
-                    $item->displayIntrotext = HTMLHelper::_('string.truncateComplex', $item->displayIntrotext, $introtext_limit);
+                    $truncated                = HTMLHelper::_('string.truncateComplex', $item->displayIntrotext, $introtext_limit);
+                    $item->introTextTruncated = $truncated !== $item->displayIntrotext;
+                    $item->displayIntrotext   = $truncated;
                 }
             }
 

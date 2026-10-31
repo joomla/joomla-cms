@@ -299,7 +299,7 @@ class Users
         }
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('title'))
             ->from($db->quoteName('#__template_styles'))
             ->where($db->quoteName('id') . ' = :id')
@@ -403,7 +403,7 @@ class Users
 
         $db    = Factory::getDbo();
         $lang  = Factory::getLanguage();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('name'))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('element') . ' = :element')

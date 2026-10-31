@@ -23,7 +23,7 @@ use Joomla\Registry\Registry;
  *
  * @since       3.0
  *
- * @deprecated  4.0 will be removed in 6.0
+ * @deprecated  4.0 will be removed in 7.0
  *              Will be removed without replacement
  *              Use choice.js instead
  *              Example:

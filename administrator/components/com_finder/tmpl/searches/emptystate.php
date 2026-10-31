@@ -20,6 +20,8 @@ $displayData = [
     'icon'       => 'icon-search',
     'title'      => Text::_('COM_FINDER_MANAGER_SEARCHES'),
     'content'    => Text::_('COM_FINDER_EMPTYSTATE_SEARCHES_CONTENT'),
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);

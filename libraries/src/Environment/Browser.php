@@ -503,7 +503,7 @@ class Browser
     }
 
     /**
-     * Parses the user agent string and inititializes the object with
+     * Parses the user agent string and initializes the object with
      * all the known features and quirks for the given browser.
      *
      * @param   string  $userAgent  The browser string to parse.

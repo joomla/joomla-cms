@@ -123,7 +123,7 @@ class Scheduler
 
         $app->getLanguage()->load('com_scheduler', JPATH_ADMINISTRATOR);
 
-        $options['text_entry_format'] = '{DATE}	{TIME}	{PRIORITY}	{MESSAGE}';
+        $options['text_entry_format'] = "{DATE}\t{TIME}\t{PRIORITY}\t{MESSAGE}";
         $options['text_file']         = 'joomla_scheduler.php';
         Log::addLogger($options, Log::ALL, $task->logCategory);
 
@@ -344,13 +344,7 @@ class Scheduler
          * We allow the user to run a task if they have the permission or if they created the task & still have the authority
          * to create tasks.
          */
-        if (
-            $user->authorise('core.testrun', 'com_scheduler.task.' . $taskRecord->id)
-            || ($user->id == $taskRecord->created_by && $user->authorise('core.create', 'com_scheduler'))
-        ) {
-            return true;
-        }
-
-        return false;
+        return $user->authorise('core.testrun', 'com_scheduler.task.' . $taskRecord->id)
+            || ($user->id == $taskRecord->created_by && $user->authorise('core.create', 'com_scheduler'));
     }
 }

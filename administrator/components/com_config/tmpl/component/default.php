@@ -25,6 +25,7 @@ Text::script('ERROR');
 Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
+Text::script('SUCCESS');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
@@ -135,10 +136,6 @@ $xml = $this->form->getXml();
             <?php endif; ?>
         </div>
 
-        <input type="hidden" name="id" value="<?php echo $this->component->id; ?>">
-        <input type="hidden" name="component" value="<?php echo $this->component->option; ?>">
-        <input type="hidden" name="return" value="<?php echo $this->return; ?>">
-        <input type="hidden" name="task" value="">
-        <?php echo HTMLHelper::_('form.token'); ?>
+        <?php echo $this->form->renderControlFields(); ?>
     </div>
 </form>

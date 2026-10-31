@@ -70,7 +70,7 @@ class NewsfeedSerializer extends JoomlaSerializer
         $serializer = new JoomlaSerializer('categories');
 
         $resource = (new Resource($model->catid, $serializer))
-            ->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/newfeeds/categories/' . $model->catid));
+            ->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/newsfeeds/categories/' . $model->catid));
 
         return new Relationship($resource);
     }

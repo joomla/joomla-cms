@@ -132,7 +132,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
     <jdoc:include type="scripts" />
 </head>
 
-<body class="site <?php echo $option
+<body id="top" class="site <?php echo $option
     . ' ' . $wrapper
     . ' view-' . $view
     . ($layout ? ' layout-' . $layout : ' no-layout')

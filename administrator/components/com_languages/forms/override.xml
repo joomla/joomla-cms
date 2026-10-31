@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form>
+<form
+	addruleprefix="Joomla\Component\Languages\Administrator\Rule"
+>
 	<fieldset>
 		<field
 			name="key"
@@ -15,6 +17,7 @@
 			label="COM_LANGUAGES_OVERRIDE_FIELD_OVERRIDE_LABEL"
 			cols="50"
 			rows="5"
+			validate="DisallowQuotes"
 			filter="\Joomla\Component\Languages\Administrator\Helper\LanguagesHelper::filterText"
 		/>
 

@@ -30,13 +30,13 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Skipto::class, function (Container $container) {
                 $plugin     = new Skipto(
                     (array) PluginHelper::getPlugin('system', 'skipto')
                 );
 
                 return $plugin;
-            }
+            })
         );
     }
 };

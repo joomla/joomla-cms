@@ -11,14 +11,10 @@
 namespace Joomla\Component\Actionlogs\Administrator\View\Actionlogs;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\MVC\View\ListView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
-use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -29,48 +25,8 @@ use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
  *
  * @since  3.9.0
  */
-class HtmlView extends BaseHtmlView
+class HtmlView extends ListView
 {
-    /**
-     * An array of items.
-     *
-     * @var    array
-     * @since  3.9.0
-     */
-    protected $items;
-
-    /**
-     * The model state
-     *
-     * @var    array
-     * @since  3.9.0
-     */
-    protected $state;
-
-    /**
-     * The pagination object
-     *
-     * @var    Pagination
-     * @since  3.9.0
-     */
-    protected $pagination;
-
-    /**
-     * Form object for search filters
-     *
-     * @var    Form
-     * @since  3.9.0
-     */
-    public $filterForm;
-
-    /**
-     * The active search filters
-     *
-     * @var    array
-     * @since  3.9.0
-     */
-    public $activeFilters;
-
     /**
      * Setting if the IP column should be shown
      *
@@ -88,39 +44,41 @@ class HtmlView extends BaseHtmlView
     protected $dateRelative = false;
 
     /**
-     * Method to display the view.
+     * Constructor
      *
-     * @param   string  $tpl  A template file to load. [optional]
+     * @param   array  $config  An optional associative array of configuration settings.
+     *
+     * @since 6.0.0
+     */
+    public function __construct(array $config)
+    {
+        if (empty($config['option'])) {
+            $config['option'] = 'com_actionlogs';
+        }
+
+        $config['toolbar_title'] = 'COM_ACTIONLOGS_MANAGER_USERLOGS';
+        $config['toolbar_icon']  = 'list-2 actionlog';
+
+        parent::__construct($config);
+    }
+
+    /**
+     * Prepare view data
      *
      * @return  void
      *
-     * @since   3.9.0
-     *
-     * @throws  \Exception
+     * @since 6.0.0
      */
-    public function display($tpl = null)
+    protected function initializeView()
     {
-        /** @var ActionlogsModel $model */
-        $model               = $this->getModel();
-        $this->items         = $model->getItems();
-        $this->state         = $model->getState();
-        $this->pagination    = $model->getPagination();
-        $this->filterForm    = $model->getFilterForm();
-        $this->activeFilters = $model->getActiveFilters();
+        parent::initializeView();
+
         $params              = ComponentHelper::getParams('com_actionlogs');
         $this->showIpColumn  = (bool) $params->get('ip_logging', 0);
         $this->dateRelative  = (bool) $params->get('date_relative', 1);
 
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
-
-        $this->addToolbar();
-
         // Load all actionlog plugins language files
         ActionlogsHelper::loadActionLogPluginsLanguage();
-
-        parent::display($tpl);
     }
 
     /**
@@ -133,6 +91,7 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         ToolbarHelper::title(Text::_('COM_ACTIONLOGS_MANAGER_USERLOGS'), 'icon-list-2');
+
         $toolbar = $this->getDocument()->getToolbar();
 
         $toolbar->standardButton('download', 'COM_ACTIONLOGS_EXPORT_CSV', 'actionlogs.exportSelectedLogs')

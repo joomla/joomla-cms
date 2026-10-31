@@ -114,28 +114,27 @@ if (!$readonly) {
     $url = Route::_($url);
 }
 
-Text::script('JSELECT');
 Text::script('JCLOSE');
-Text::script('JFIELD_MEDIA_LAZY_LABEL');
-Text::script('JFIELD_MEDIA_ALT_LABEL');
-Text::script('JFIELD_MEDIA_ALT_CHECK_LABEL');
 Text::script('JFIELD_MEDIA_ALT_CHECK_DESC_LABEL');
+Text::script('JFIELD_MEDIA_ALT_CHECK_LABEL');
+Text::script('JFIELD_MEDIA_ALT_LABEL');
 Text::script('JFIELD_MEDIA_CLASS_LABEL');
-Text::script('JFIELD_MEDIA_FIGURE_CLASS_LABEL');
-Text::script('JFIELD_MEDIA_FIGURE_CAPTION_LABEL');
-Text::script('JFIELD_MEDIA_LAZY_LABEL');
-Text::script('JFIELD_MEDIA_SUMMARY_LABEL');
-Text::script('JFIELD_MEDIA_EMBED_CHECK_DESC_LABEL');
 Text::script('JFIELD_MEDIA_DOWNLOAD_CHECK_DESC_LABEL');
 Text::script('JFIELD_MEDIA_DOWNLOAD_CHECK_LABEL');
-Text::script('JFIELD_MEDIA_EMBED_CHECK_LABEL');
-Text::script('JFIELD_MEDIA_WIDTH_LABEL');
-Text::script('JFIELD_MEDIA_TITLE_LABEL');
-Text::script('JFIELD_MEDIA_HEIGHT_LABEL');
-Text::script('JFIELD_MEDIA_UNSUPPORTED');
 Text::script('JFIELD_MEDIA_DOWNLOAD_FILE');
+Text::script('JFIELD_MEDIA_EMBED_CHECK_DESC_LABEL');
+Text::script('JFIELD_MEDIA_EMBED_CHECK_LABEL');
+Text::script('JFIELD_MEDIA_FIGURE_CAPTION_LABEL');
+Text::script('JFIELD_MEDIA_FIGURE_CLASS_LABEL');
+Text::script('JFIELD_MEDIA_HEIGHT_LABEL');
+Text::script('JFIELD_MEDIA_LAZY_LABEL');
+Text::script('JFIELD_MEDIA_SUMMARY_LABEL');
+Text::script('JFIELD_MEDIA_TITLE_LABEL');
+Text::script('JFIELD_MEDIA_UNSUPPORTED');
+Text::script('JFIELD_MEDIA_WIDTH_LABEL');
 Text::script('JLIB_APPLICATION_ERROR_SERVER');
 Text::script('JLIB_FORM_MEDIA_PREVIEW_EMPTY', true);
+Text::script('JSELECT');
 
 $doc = Factory::getApplication()->getDocument();
 $wam = $doc->getWebAssetManager();
@@ -155,6 +154,8 @@ if (!$doc->getScriptOptions('media-picker')) {
     ]);
 }
 
+$imagesOnly = count($mediaTypeNames) === 1 && in_array('images', $mediaTypeNames);
+
 ?>
 <joomla-field-media class="field-media-wrapper"
     types="<?php echo $this->escape(implode(',', $mediaTypeNames)); ?>"
@@ -164,7 +165,7 @@ if (!$doc->getScriptOptions('media-picker')) {
     input=".field-media-input"
     button-select=".button-select"
     button-clear=".button-clear"
-    modal-title="<?php echo $this->escape(Text::_('JLIB_FORM_CHANGE_IMAGE')); ?>"
+    modal-title="<?php echo $this->escape(Text::_($imagesOnly ? 'JLIB_FORM_CHANGE_IMAGE' : 'JLIB_FORM_CHANGE_FILE')); ?>"
     preview="static"
     preview-container=".field-media-preview"
     preview-width="<?php echo $previewWidth; ?>"
