@@ -30,6 +30,11 @@
       .mm-collapse {
         background: var(--cassiopeia-color-primary);
       }
+
+      .metismenu-item > a:focus,
+      .metismenu-item > button:focus {
+        outline-color: $white;
+      }
     }
   }
 

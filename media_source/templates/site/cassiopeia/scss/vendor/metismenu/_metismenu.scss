@@ -181,6 +181,15 @@
     }
   }
 
+  // Top-level items sit on the dark header background, which also holds the
+  // topbar and below-top positions. Submenus keep the dark outline.
+  .container-header .metismenu.mod-menu > .metismenu-item {
+    > a:focus,
+    > button:focus {
+      outline-color: $white;
+    }
+  }
+
   .sidebar-right,
   .sidebar-left {
     .metismenu {
