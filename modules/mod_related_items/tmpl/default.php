@@ -25,7 +25,7 @@ if (!$list) {
         <?php if ($showDate) {
             echo HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')) . ' - ';
         } ?>
-        <?php echo $item->title; ?></a>
+        <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?></a>
 </li>
 <?php endforeach; ?>
 </ul>

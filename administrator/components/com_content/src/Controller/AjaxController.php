@@ -10,13 +10,14 @@
 
 namespace Joomla\Component\Content\Administrator\Controller;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Content;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -61,7 +62,7 @@ class AjaxController extends BaseController
             unset($associations[$excludeLang]);
 
             // Add the title to each of the associated records
-            $contentTable = Table::getInstance('Content', '\\Joomla\\CMS\\Table\\');
+            $contentTable = new Content(Factory::getDbo());
 
             foreach ($associations as $association) {
                 $contentTable->load($association->id);

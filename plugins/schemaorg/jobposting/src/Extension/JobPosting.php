@@ -89,6 +89,23 @@ final class JobPosting extends CMSPlugin implements SubscriberInterface
             if (!empty($entry['validThrough'])) {
                 $entry['validThrough'] = $this->prepareDate($entry['validThrough']);
             }
+
+            /**
+             * Search engines only accept TELECOMMUTE as jobLocationType. A remote job is
+             * marked TELECOMMUTE, a hybrid job is marked TELECOMMUTE combined with the
+             * physical jobLocation and an on-site job must not emit a jobLocationType at
+             * all and relies on jobLocation alone.
+             */
+            switch ($entry['jobLocationType'] ?? '') {
+                case 'Telecommute':
+                case 'Hybrid':
+                    $entry['jobLocationType'] = 'TELECOMMUTE';
+                    break;
+
+                case 'Onsite':
+                    unset($entry['jobLocationType']);
+                    break;
+            }
         }
 
         $schema->set('@graph', $graph);

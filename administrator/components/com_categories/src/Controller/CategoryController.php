@@ -269,7 +269,6 @@ class CategoryController extends FormController
             }
 
             $editState = [
-                'id'      => $id,
                 'link'    => $link,
                 'title'   => $model->getItem($id)->title,
                 'type'    => $type,

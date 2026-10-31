@@ -21,10 +21,13 @@ if (!isset($fullPath)) {
     $fullPath = \dirname(__DIR__);
 }
 
+$cache    = rtrim($fullPath, '\\/') . '/build/fido/fido.jwt';
 $filePath = rtrim($fullPath, '\\/') . '/plugins/system/webauthn/fido.jwt';
 
-if (is_file($filePath) && filemtime($filePath) > (time() - 864000)) {
-    echo "The file $filePath already exists and is current; nothing to do.\n";
+if (is_file($cache) && filemtime($cache) > (time() - 864000)) {
+    echo "The file $cache already exists and is current; copy this file to the plugin folder.\n";
+
+    copy($cache, $filePath);
 
     exit(0);
 }
@@ -49,6 +52,10 @@ if ($rawJwt === false) {
 
 echo "Saving JWT file in the plugin directory...\n";
 
-file_put_contents($filePath, $rawJwt);
+file_put_contents($cache, $rawJwt);
 
-echo "File saved: $filePath\n";
+echo "File saved: $cache\n";
+
+copy($cache, $filePath);
+
+echo "File copied: $filePath\n";

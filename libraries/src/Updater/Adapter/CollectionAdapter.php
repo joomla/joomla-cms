@@ -13,7 +13,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Update;
 use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Version;
 
@@ -121,7 +121,7 @@ class CollectionAdapter extends UpdateAdapter
                 }
                 break;
             case 'EXTENSION':
-                $update                 = Table::getInstance('update');
+                $update                 = new Update($this->db);
                 $update->update_site_id = $this->updateSiteId;
 
                 foreach ($this->updatecols as $col) {

@@ -88,7 +88,7 @@
 					description="MOD_MENU_FIELD_FORUMURL_DESC"
 					filter="url"
 					default=""
-					showon="menutype:*"
+					showon="preset:alternate"
 					validate="url"
 				/>
 			</fieldset>

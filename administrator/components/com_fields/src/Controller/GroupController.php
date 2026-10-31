@@ -125,6 +125,20 @@ class GroupController extends FormController
             return parent::allowEdit($data, $key);
         }
 
+        // Get existing record
+        $record = $this->getModel()->getItem($recordId);
+
+        if (empty($record)) {
+            return false;
+        }
+
+        [$recordOption] = explode('.', $record->context);
+
+        // Validate request context and field context match
+        if ($recordOption !== $this->component) {
+            return false;
+        }
+
         // Check edit on the record asset (explicit or inherited)
         if ($user->authorise('core.edit', $this->component . '.fieldgroup.' . $recordId)) {
             return true;
@@ -132,13 +146,6 @@ class GroupController extends FormController
 
         // Check edit own on the record asset (explicit or inherited)
         if ($user->authorise('core.edit.own', $this->component . '.fieldgroup.' . $recordId) || $user->authorise('core.edit.own', $this->component)) {
-            // Existing record already has an owner, get it
-            $record = $this->getModel()->getItem($recordId);
-
-            if (empty($record)) {
-                return false;
-            }
-
             // Grant if current user is owner of the record
             return $user->id == $record->created_by;
         }

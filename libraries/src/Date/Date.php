@@ -12,6 +12,7 @@ namespace Joomla\CMS\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -57,29 +58,6 @@ class Date extends \DateTime
     public static $format = 'Y-m-d H:i:s';
 
     /**
-     * Placeholder for a \DateTimeZone object with GMT as the time zone.
-     *
-     * @var    object
-     * @since  1.7.0
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Will be removed without replacement
-     */
-    protected static $gmt;
-
-    /**
-     * Placeholder for a \DateTimeZone object with the default server
-     * time zone as the time zone.
-     *
-     * @var    object
-     * @since  1.7.0
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Will be removed without replacement
-     */
-    protected static $stz;
-
-    /**
      * The \DateTimeZone object for usage in rending dates as strings.
      *
      * @var    \DateTimeZone
@@ -97,13 +75,6 @@ class Date extends \DateTime
      */
     public function __construct($date = 'now', $tz = null)
     {
-        // Create the base GMT and server time zone objects.
-        if (empty(self::$gmt) || empty(self::$stz)) {
-            // @TODO: This code block stays here only for B/C, can be removed in 5.0
-            self::$gmt = new \DateTimeZone('GMT');
-            self::$stz = new \DateTimeZone(@date_default_timezone_get());
-        }
-
         // If the time zone object is not set, attempt to build it.
         if (!($tz instanceof \DateTimeZone)) {
             if (\is_string($tz)) {
@@ -439,7 +410,7 @@ class Date extends \DateTime
     public function toSql($local = false, ?DatabaseDriver $db = null)
     {
         if ($db === null) {
-            $db = Factory::getDbo();
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
         return $this->format($db->getDateFormat(), $local, false);

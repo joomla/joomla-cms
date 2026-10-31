@@ -243,6 +243,7 @@ class ApplicationController extends BaseController
      * @return  void
      *
      * @since   3.5
+     * @deprecated  6.2  Use the MailController instead.
      */
     public function sendtestmail()
     {

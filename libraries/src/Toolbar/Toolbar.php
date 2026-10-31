@@ -134,7 +134,7 @@ class Toolbar
      *
      * @since       1.5
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the ToolbarFactoryInterface instead
      *              Example:
      *              Factory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar($name)
@@ -147,7 +147,7 @@ class Toolbar
     {
         $toolbar = Factory::getApplication()->getDocument()->getToolbar($name);
 
-        // @todo b/c remove with Joomla 7.0 or removed in 6.0 with this function
+        // @todo b/c remove with Joomla 7.0 or removed in 7.0 with this function
         if (empty(self::$instances[$name])) {
             self::$instances[$name] = $toolbar;
         }
@@ -198,7 +198,7 @@ class Toolbar
 
         @trigger_error(
             \sprintf(
-                '%s::appendButton() should only accept %s instance in Joomla 6.0.',
+                '%s::appendButton() should only accept %s instance in Joomla 7.0.',
                 static::class,
                 ToolbarButton::class
             ),
@@ -275,7 +275,7 @@ class Toolbar
 
         @trigger_error(
             \sprintf(
-                '%s::prependButton() should only accept %s instance in Joomla 6.0.',
+                '%s::prependButton() should only accept %s instance in Joomla 7.0.',
                 static::class,
                 ToolbarButton::class
             ),
@@ -402,14 +402,14 @@ class Toolbar
      *
      * @since       1.5
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              ToolbarButton classes should be autoloaded via namespaces
      */
     public function addButtonPath($path)
     {
         @trigger_error(
             \sprintf(
-                'Registering lookup paths for toolbar buttons is deprecated and will be removed in Joomla 6.0.'
+                'Registering lookup paths for toolbar buttons is deprecated and will be removed in Joomla 7.0.'
                     . ' %1$s objects should be autoloaded or a custom %2$s implementation supporting path lookups provided.',
                 ToolbarButton::class,
                 ToolbarFactoryInterface::class
@@ -439,14 +439,14 @@ class Toolbar
      * @return  array
      *
      * @since   4.0.0
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              ToolbarButton buttons should be autoloaded via namespaces
      */
     public function getButtonPath(): array
     {
         @trigger_error(
             \sprintf(
-                'Lookup paths for %s objects is deprecated and will be removed in Joomla 6.0.',
+                'Lookup paths for %s objects is deprecated and will be removed in Joomla 7.0.',
                 ToolbarButton::class
             ),
             E_USER_DEPRECATED

@@ -31,14 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Joomla::class, function (Container $container) {
                 $plugin     = new Joomla(
                     (array) PluginHelper::getPlugin('extension', 'joomla')
                 );
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

@@ -10,10 +10,13 @@
 
 namespace Joomla\Component\Modules\Administrator\Extension;
 
+use Joomla\CMS\Association\AssociationServiceInterface;
+use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\Component\Modules\Administrator\Service\HTML\Modules;
+use Joomla\Database\DatabaseInterface;
 use Psr\Container\ContainerInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -25,8 +28,9 @@ use Psr\Container\ContainerInterface;
  *
  * @since  4.0.0
  */
-class ModulesComponent extends MVCComponent implements BootableExtensionInterface
+class ModulesComponent extends MVCComponent implements BootableExtensionInterface, AssociationServiceInterface
 {
+    use AssociationServiceTrait;
     use HTMLRegistryAwareTrait;
 
     /**
@@ -44,6 +48,9 @@ class ModulesComponent extends MVCComponent implements BootableExtensionInterfac
      */
     public function boot(ContainerInterface $container)
     {
-        $this->getRegistry()->register('modules', new Modules());
+        $modules = new Modules();
+        $modules->setDatabase($container->get(DatabaseInterface::class));
+
+        $this->getRegistry()->register('modules', $modules);
     }
 }

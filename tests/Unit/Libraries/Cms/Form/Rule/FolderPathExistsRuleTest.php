@@ -2,7 +2,7 @@
 
 /**
  * @package     Joomla.UnitTest
- * @subpackage  Rule
+ * @subpackage  Form
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Form\Rule;
 
 use Joomla\CMS\Form\Rule\FolderPathExistsRule;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for FolderPathExistsRule.
@@ -29,7 +30,7 @@ class FolderPathExistsRuleTest extends UnitTestCase
      *
      * @since   4.0.0
      */
-    public function dataTest(): array
+    public static function dataTest(): array
     {
         $xml = new \SimpleXMLElement('<field
 			name="file_path"
@@ -76,17 +77,17 @@ class FolderPathExistsRuleTest extends UnitTestCase
     /**
      * Tests the FolderPathExistsRule::test method.
      *
-     * @param   string             $expected  The expected test result
+     * @param   bool               $expected  The expected test result
      * @param   \SimpleXMLElement  $element   The SimpleXMLElement object representing the `<field>` tag for the form field object.
-     * @param   mixed              $value     The form field value to validate.
+     * @param   string             $value     The form field value to validate.
      *
      * @return  void
      *
      * @since   4.0.0
-     * @dataProvider dataTest
      */
-    public function testRule($expected, $element, $value)
+    #[DataProvider('dataTest')]
+    public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
     {
-        $this->assertEquals($expected, (new FolderPathExistsRule())->test($element, $value));
+        $this->assertSame($expected, (new FolderPathExistsRule())->test($element, $value));
     }
 }

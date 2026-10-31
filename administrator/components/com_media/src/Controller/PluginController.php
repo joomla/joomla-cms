@@ -59,14 +59,15 @@ class PluginController extends BaseController
             }
 
             // Only import our required plugin, not entire group
-            PluginHelper::importPlugin('filesystem', $pluginName);
+            $dispatcher = $this->getDispatcher();
+            PluginHelper::importPlugin('filesystem', $pluginName, true, $dispatcher);
 
             // Event parameters
             $eventParameters = ['context' => $pluginName, 'input' => $this->input];
             $event           = new OAuthCallbackEvent('onFileSystemOAuthCallback', $eventParameters);
 
             // Get results from event
-            $eventResults = (array) $this->app->triggerEvent('onFileSystemOAuthCallback', $event);
+            $eventResults = (array) $dispatcher->dispatch('onFileSystemOAuthCallback', $event)->getArgument('result', []);
 
             // If event was not triggered in the selected Plugin, raise a warning and fallback to Control Panel
             if (!$eventResults) {

@@ -30,7 +30,7 @@ class AjaxController extends BaseController
     /**
      * Ajax call used when cancelling, skipping or completing a tour.
      * It allows:
-     * - the trigering of before and after events the user state is recorded
+     * - the triggering of before and after events the user state is recorded
      * - the recording of the user behavior in the action logs
      */
     public function fetchUserState()

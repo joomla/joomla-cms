@@ -259,6 +259,18 @@
 				<option value="0">JNO</option>
 				<option value="fontsize">JYES</option>
 			</field>
+			<field
+				name="a11y_shortcut_timeout"
+				type="list"
+				label="COM_USERS_A11Y_SETTINGS_FIELD_SHORTCUT_TIMEOUT"
+				description="COM_USERS_A11Y_SETTINGS_FIELD_SHORTCUT_TIMEOUT_DESC"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+				<option value="2000">COM_USERS_A11Y_SETTINGS_SHORTCUT_TIMEOUT_2000</option>
+				<option value="3000">COM_USERS_A11Y_SETTINGS_SHORTCUT_TIMEOUT_3000</option>
+				<option value="5000">COM_USERS_A11Y_SETTINGS_SHORTCUT_TIMEOUT_5000</option>
+				<option value="10000">COM_USERS_A11Y_SETTINGS_SHORTCUT_TIMEOUT_10000</option>
+			</field>
 		</fieldset>
 
 	</fields>

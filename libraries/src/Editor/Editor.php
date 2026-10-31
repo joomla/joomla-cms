@@ -44,7 +44,7 @@ class Editor implements DispatcherAwareInterface
     protected $_editor = null;
 
     /**
-     * Captcha Provider instance
+     * Editor Provider instance
      *
      * @var    EditorProviderInterface
      * @since  5.0.0
