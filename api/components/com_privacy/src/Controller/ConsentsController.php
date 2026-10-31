@@ -69,7 +69,7 @@ class ConsentsController extends ApiController
      *
      * @return  static  A \JControllerLegacy object to support chaining.
      *
-     * @since   5.4.7
+     * @since   6.1.2
      */
     public function displayList()
     {

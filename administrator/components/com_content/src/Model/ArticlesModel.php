@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Category;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
@@ -76,6 +76,7 @@ class ArticlesModel extends ListModel
                 'rating_count', 'rating',
                 'stage', 'wa.stage_id',
                 'ws.title',
+                'fp.ordering',
             ];
 
             if (Associations::isEnabled()) {
@@ -141,6 +142,7 @@ class ArticlesModel extends ListModel
         // Required content filters for the administrator menu
         $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
         $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
+        $this->getUserStateFromRequest($this->context . '.filter.featured', 'filter_featured');
         $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
         $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
         $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
@@ -176,11 +178,17 @@ class ArticlesModel extends ListModel
         $id .= ':' . $this->getState('filter.search');
         $id .= ':' . serialize($this->getState('filter.access'));
         $id .= ':' . $this->getState('filter.published');
+        $id .= ':' . $this->getState('filter.featured');
         $id .= ':' . serialize($this->getState('filter.category_id'));
         $id .= ':' . serialize($this->getState('filter.author_id'));
         $id .= ':' . $this->getState('filter.language');
         $id .= ':' . serialize($this->getState('filter.tag'));
         $id .= ':' . $this->getState('filter.checked_out');
+        $id .= ':' . $this->getState('filter.date_filtering');
+        $id .= ':' . $this->getState('filter.date_field');
+        $id .= ':' . $this->getState('filter.start_date_range');
+        $id .= ':' . $this->getState('filter.end_date_range');
+        $id .= ':' . $this->getState('filter.relative_date');
 
         return parent::getStoreId($id);
     }
@@ -196,7 +204,7 @@ class ArticlesModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $user  = $this->getCurrentUser();
 
         $params = ComponentHelper::getParams('com_content');
@@ -285,7 +293,7 @@ class ArticlesModel extends ListModel
 
         // Join over the associations.
         if (Associations::isEnabled()) {
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
                 ->from($db->quoteName('#__associations', 'asso1'))
                 ->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
@@ -312,12 +320,19 @@ class ArticlesModel extends ListModel
         }
 
         // Filter by featured.
-        $featured = (string) $this->getState('filter.featured');
+        $featured = $this->getState('filter.featured');
 
-        if (\in_array($featured, ['0','1'])) {
+        $defaultOrdering = 'a.id';
+
+        if (is_numeric($featured) && \in_array($featured, [0, 1])) {
             $featured = (int) $featured;
             $query->where($db->quoteName('a.featured') . ' = :featured')
                 ->bind(':featured', $featured, ParameterType::INTEGER);
+
+            if ($featured) {
+                $query->select($db->quoteName('fp.ordering'));
+                $defaultOrdering = 'fp.ordering';
+            }
         }
 
         // Filter by access level on categories.
@@ -365,7 +380,7 @@ class ArticlesModel extends ListModel
         // Case: Using both categories filter and by level filter
         if (\count($categoryId)) {
             $categoryId       = ArrayHelper::toInteger($categoryId);
-            $categoryTable    = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
+            $categoryTable    = new Category($db);
             $subCatItemsWhere = [];
 
             foreach ($categoryId as $key => $filter_catid) {
@@ -405,7 +420,7 @@ class ArticlesModel extends ListModel
 
             if ($authorId === 0) {
                 // Only show deleted authors' articles
-                $subQuery = $db->getQuery(true)
+                $subQuery = $db->createQuery()
                     ->select($db->quoteName('id'))
                     ->from($db->quoteName('#__users'));
 
@@ -431,7 +446,7 @@ class ArticlesModel extends ListModel
                 $authorId = array_filter($authorId);
 
                 // Subquery for deleted users
-                $subQuery = $db->getQuery(true)
+                $subQuery = $db->createQuery()
                     ->select($db->quoteName('id'))
                     ->from($db->quoteName('#__users'));
 
@@ -519,7 +534,7 @@ class ArticlesModel extends ListModel
                 $includeNone = true;
             }
 
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                 ->from($db->quoteName('#__contentitem_tag_map'))
                 ->where(
@@ -536,7 +551,7 @@ class ArticlesModel extends ListModel
             );
 
             if ($includeNone) {
-                $subQuery2 = $db->getQuery(true)
+                $subQuery2 = $db->createQuery()
                     ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                     ->from($db->quoteName('#__contentitem_tag_map'))
                     ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
@@ -554,7 +569,7 @@ class ArticlesModel extends ListModel
             $tag = (int) $tag;
 
             if ($tag === 0) {
-                $subQuery = $db->getQuery(true)
+                $subQuery = $db->createQuery()
                     ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                     ->from($db->quoteName('#__contentitem_tag_map'))
                     ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
@@ -582,8 +597,74 @@ class ArticlesModel extends ListModel
             }
         }
 
+        // Filter by date after modified date.
+        $modifiedStartDateTime = $this->getState('filter.modified_start');
+
+        if (!empty($modifiedStartDateTime)) {
+            $query->where($db->quoteName('a.modified') . ' >= :startDate')
+                ->bind(':startDate', $modifiedStartDateTime);
+        }
+
+        // Filter by date before modified date.
+        $modifiedEndDateTime = $this->getState('filter.modified_end');
+
+        if (!empty($modifiedEndDateTime)) {
+            $query->where($db->quoteName('a.modified') . ' <= :endDate')
+                ->bind(':endDate', $modifiedEndDateTime);
+        }
+
+        // Filter by Date Range or Relative Date
+        $dateFiltering = $this->getState('filter.date_filtering', 'off');
+        $dateField     = $this->getState('filter.date_field', 'a.created');
+
+        // Validate the date field to prevent SQL injection
+        $validDateFields = ['a.created', 'a.modified', 'a.publish_up'];
+
+        if (!\in_array($dateField, $validDateFields)) {
+            $dateField = 'a.created';
+        }
+
+        switch ($dateFiltering) {
+            case 'range':
+                $startDateRange = $this->getState('filter.start_date_range', '');
+                $endDateRange   = $this->getState('filter.end_date_range', '');
+
+                if ($startDateRange || $endDateRange) {
+                    $query->where($db->quoteName($dateField) . ' IS NOT NULL');
+
+                    if ($startDateRange) {
+                        $query->where($db->quoteName($dateField) . ' >= :startDateRange')
+                            ->bind(':startDateRange', $startDateRange);
+                    }
+
+                    if ($endDateRange) {
+                        $query->where($db->quoteName($dateField) . ' <= :endDateRange')
+                            ->bind(':endDateRange', $endDateRange);
+                    }
+                }
+
+                break;
+
+            case 'relative':
+                $relativeDate = (int) $this->getState('filter.relative_date', 0);
+
+                if ($relativeDate > 0) {
+                    $nowDate = Factory::getDate()->toSql();
+                    $query->where(
+                        $db->quoteName($dateField) . ' IS NOT NULL AND '
+                        . $db->quoteName($dateField) . ' >= ' . $query->dateAdd($db->quote($nowDate), -1 * $relativeDate, 'DAY')
+                    );
+                }
+
+                break;
+
+            case 'off':
+            default:
+                break;
+        }
+
         // Add the list ordering clause.
-        $orderCol  = $this->state->get('list.ordering', 'a.id');
+        $orderCol  = $this->state->get('list.ordering', $defaultOrdering);
         $orderDirn = $this->state->get('list.direction', 'DESC');
 
         if ($orderCol === 'a.ordering' || $orderCol === 'category_title') {
@@ -640,7 +721,7 @@ class ArticlesModel extends ListModel
             if (\count($stage_ids) || \count($workflow_ids)) {
                 Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
 
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
 
                 $query  ->select(
                     [

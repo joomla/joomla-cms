@@ -21,6 +21,7 @@ use Joomla\CMS\User\User;
 use Joomla\Event\Dispatcher;
 use Joomla\Plugin\EditorsXtd\PageBreak\Extension\PageBreak;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for PageBreak editor button plugin
@@ -28,19 +29,17 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  PageBreak
  *
- * @testdox     The PageBreak plugin
- *
  * @since       4.4.0
  */
+#[TestDox('The PageBreak plugin')]
 class PageBreakTest extends UnitTestCase
 {
     /**
-     * @testdox  that the button is properly loaded
-     *
      * @return  void
      *
      * @since   4.4.0
      */
+    #[TestDox('that the button is properly loaded')]
     public function testButton()
     {
         $user = $this->createStub(User::class);
@@ -67,8 +66,8 @@ class PageBreakTest extends UnitTestCase
         $button = $btnsReg->getAll()[0] ?? false;
 
         $this->assertInstanceOf(Button::class, $button);
-        $this->assertEquals('pagebreak', $button->getButtonName());
-        $this->assertEquals('modal', $button->get('action'));
+        $this->assertSame('pagebreak', $button->getButtonName());
+        $this->assertSame('modal', $button->get('action'));
         $this->assertNotEmpty($button->get('link'));
         $this->assertNotEmpty($button->get('text'));
         $this->assertNotEmpty($button->get('icon'));
@@ -76,12 +75,11 @@ class PageBreakTest extends UnitTestCase
     }
 
     /**
-     * @testdox  that the user has not enough permission
-     *
      * @return  void
      *
      * @since   4.4.0
      */
+    #[TestDox('that the user has not enough permission')]
     public function testInvalidPermissions()
     {
         $user = $this->createStub(User::class);
@@ -89,6 +87,7 @@ class PageBreakTest extends UnitTestCase
         $user->method('getAuthorisedCategories')->willReturn([]);
 
         $app = $this->createStub(CMSWebApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
         $app->method('getIdentity')->willReturn($user);
 
         $btnsReg = new ButtonsRegistry();
@@ -109,12 +108,11 @@ class PageBreakTest extends UnitTestCase
     }
 
     /**
-     * @testdox  that the button is not returned when a none web CMS application is used
-     *
      * @return  void
      *
      * @since   4.4.0
      */
+    #[TestDox('that the button is not returned when a none web CMS application is used')]
     public function testInvalidApplication()
     {
         $btnsReg = new ButtonsRegistry();
@@ -126,7 +124,9 @@ class PageBreakTest extends UnitTestCase
 
         $dispatcher = new Dispatcher();
         $plugin     = new PageBreak($dispatcher, ['name' => 'pagebreak', 'type' => 'editors-xtd', 'params' => []]);
-        $plugin->setApplication($this->createStub(CMSApplicationInterface::class));
+        $app        = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
+        $plugin->setApplication($app);
         $plugin->onEditorButtonsSetup($event);
 
         $button = $btnsReg->getAll()[0] ?? false;

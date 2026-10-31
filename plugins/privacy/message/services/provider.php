@@ -32,7 +32,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Message::class, function (Container $container) {
                 $plugin     = new Message(
                     (array) PluginHelper::getPlugin('privacy', 'message')
                 );
@@ -40,7 +40,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

@@ -2,11 +2,11 @@ describe('Install Joomla', () => {
   it('blocks admin password with less than 12 characters', () => {
     cy.task('deleteRelativePath', 'configuration.php');
     cy.visit('/installation/index.php');
-    cy.get('#jform_site_name').clear().type(Cypress.env('sitename'));
+    cy.get('#jform_site_name').clear().type(Cypress.expose('sitename'));
     cy.get('#step1').click();
-    cy.get('#jform_admin_user').clear().type(Cypress.env('name'));
-    cy.get('#jform_admin_username').clear().type(Cypress.env('username'));
-    cy.get('#jform_admin_email').clear().type(Cypress.env('email'));
+    cy.get('#jform_admin_user').clear().type(Cypress.expose('name'));
+    cy.get('#jform_admin_username').clear().type(Cypress.expose('username'));
+    cy.get('#jform_admin_email').clear().type(Cypress.expose('email'));
     cy.get('#jform_admin_password').clear().type('Short1!');
     cy.get('#jform_admin_password').blur();
 
@@ -20,11 +20,11 @@ describe('Install Joomla', () => {
   it('allows admin password with 12 or more characters', () => {
     cy.task('deleteRelativePath', 'configuration.php');
     cy.visit('/installation/index.php');
-    cy.get('#jform_site_name').clear().type(Cypress.env('sitename'));
+    cy.get('#jform_site_name').clear().type(Cypress.expose('sitename'));
     cy.get('#step1').click();
-    cy.get('#jform_admin_user').clear().type(Cypress.env('name'));
-    cy.get('#jform_admin_username').clear().type(Cypress.env('username'));
-    cy.get('#jform_admin_email').clear().type(Cypress.env('email'));
+    cy.get('#jform_admin_user').clear().type(Cypress.expose('name'));
+    cy.get('#jform_admin_username').clear().type(Cypress.expose('username'));
+    cy.get('#jform_admin_email').clear().type(Cypress.expose('email'));
     cy.get('#jform_admin_password').clear().type('ValidPass123!');
     cy.get('#jform_admin_password').blur();
 
@@ -38,11 +38,11 @@ describe('Install Joomla', () => {
   it('blocks admin password with spaces at the beginning', () => {
     cy.task('deleteRelativePath', 'configuration.php');
     cy.visit('/installation/index.php');
-    cy.get('#jform_site_name').clear().type(Cypress.env('sitename'));
+    cy.get('#jform_site_name').clear().type(Cypress.expose('sitename'));
     cy.get('#step1').click();
-    cy.get('#jform_admin_user').clear().type(Cypress.env('name'));
-    cy.get('#jform_admin_username').clear().type(Cypress.env('username'));
-    cy.get('#jform_admin_email').clear().type(Cypress.env('email'));
+    cy.get('#jform_admin_user').clear().type(Cypress.expose('name'));
+    cy.get('#jform_admin_username').clear().type(Cypress.expose('username'));
+    cy.get('#jform_admin_email').clear().type(Cypress.expose('email'));
     cy.get('#jform_admin_password').clear().type(' ValidPass123!');
     cy.get('#jform_admin_password').blur();
 
@@ -56,11 +56,11 @@ describe('Install Joomla', () => {
   it('blocks admin password with spaces at the end', () => {
     cy.task('deleteRelativePath', 'configuration.php');
     cy.visit('/installation/index.php');
-    cy.get('#jform_site_name').clear().type(Cypress.env('sitename'));
+    cy.get('#jform_site_name').clear().type(Cypress.expose('sitename'));
     cy.get('#step1').click();
-    cy.get('#jform_admin_user').clear().type(Cypress.env('name'));
-    cy.get('#jform_admin_username').clear().type(Cypress.env('username'));
-    cy.get('#jform_admin_email').clear().type(Cypress.env('email'));
+    cy.get('#jform_admin_user').clear().type(Cypress.expose('name'));
+    cy.get('#jform_admin_username').clear().type(Cypress.expose('username'));
+    cy.get('#jform_admin_email').clear().type(Cypress.expose('email'));
     cy.get('#jform_admin_password').clear().type('ValidPass123! ');
     cy.get('#jform_admin_password').blur();
 
@@ -74,11 +74,11 @@ describe('Install Joomla', () => {
   it('allows spaces in the middle of admin_password', () => {
     cy.task('deleteRelativePath', 'configuration.php');
     cy.visit('/installation/index.php');
-    cy.get('#jform_site_name').clear().type(Cypress.env('sitename'));
+    cy.get('#jform_site_name').clear().type(Cypress.expose('sitename'));
     cy.get('#step1').click();
-    cy.get('#jform_admin_user').clear().type(Cypress.env('name'));
-    cy.get('#jform_admin_username').clear().type(Cypress.env('username'));
-    cy.get('#jform_admin_email').clear().type(Cypress.env('email'));
+    cy.get('#jform_admin_user').clear().type(Cypress.expose('name'));
+    cy.get('#jform_admin_username').clear().type(Cypress.expose('username'));
+    cy.get('#jform_admin_email').clear().type(Cypress.expose('email'));
     cy.get('#jform_admin_password').clear().type('Valid Pass 123!');
     cy.get('#jform_admin_password').blur();
 
@@ -91,18 +91,18 @@ describe('Install Joomla', () => {
 
   it('Install Joomla', () => {
     const config = {
-      sitename: Cypress.env('sitename'),
-      name: Cypress.env('name'),
-      username: Cypress.env('username'),
-      password: Cypress.env('password'),
-      email: Cypress.env('email'),
-      db_type: Cypress.env('db_type'),
-      db_host: Cypress.env('db_host'),
-      db_port: Cypress.env('db_port'),
-      db_user: Cypress.env('db_user'),
-      db_password: Cypress.env('db_password'),
-      db_name: Cypress.env('db_name'),
-      db_prefix: Cypress.env('db_prefix'),
+      sitename: Cypress.expose('sitename'),
+      name: Cypress.expose('name'),
+      username: Cypress.expose('username'),
+      password: Cypress.expose('password'),
+      email: Cypress.expose('email'),
+      db_type: Cypress.expose('db_type'),
+      db_host: Cypress.expose('db_host'),
+      db_port: Cypress.expose('db_port'),
+      db_user: Cypress.expose('db_user'),
+      db_password: Cypress.expose('db_password'),
+      db_name: Cypress.expose('db_name'),
+      db_prefix: Cypress.expose('db_prefix'),
     };
 
     // If exists, delete PHP configuration file to force a new installation
@@ -110,7 +110,7 @@ describe('Install Joomla', () => {
     cy.installJoomla(config);
 
     // Disable compat plugin
-    cy.db_enableExtension(0, 'plg_behaviour_compat');
+    cy.db_enableExtension(0, 'plg_behaviour_compat6');
 
     cy.doAdministratorLogin(config.username, config.password, false);
     cy.cancelTour();
@@ -121,7 +121,7 @@ describe('Install Joomla', () => {
     // Setup mailing
     cy.config_setParameter('mailonline', true);
     cy.config_setParameter('mailer', 'smtp');
-    cy.config_setParameter('smtphost', Cypress.env('smtp_host'));
-    cy.config_setParameter('smtpport', Cypress.env('smtp_port'));
+    cy.config_setParameter('smtphost', Cypress.expose('smtp_host'));
+    cy.config_setParameter('smtpport', Cypress.expose('smtp_port'));
   });
 });

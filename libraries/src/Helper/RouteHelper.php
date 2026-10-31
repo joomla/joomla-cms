@@ -208,7 +208,7 @@ class RouteHelper
      * Fetches the category route
      *
      * @param   mixed   $catid      Category ID or CategoryNode instance
-     * @param   mixed   $language   Language code
+     * @param   string  $language   Language code
      * @param   string  $extension  Extension to lookup
      *
      * @return  string
@@ -217,7 +217,7 @@ class RouteHelper
      *
      * @throws  \InvalidArgumentException
      */
-    public static function getCategoryRoute($catid, $language = 0, $extension = '')
+    public static function getCategoryRoute($catid, $language = null, $extension = '')
     {
         // Note: $extension is required but has to be an optional argument in the function call due to argument order
         if (empty($extension)) {
@@ -242,7 +242,7 @@ class RouteHelper
                 'category' => [$id],
             ];
 
-            if ($language && $language !== '*' && Multilanguage::isEnabled()) {
+            if (!empty($language) && $language !== '*' && Multilanguage::isEnabled()) {
                 $link .= '&lang=' . $language;
                 $needles['language'] = $language;
             }

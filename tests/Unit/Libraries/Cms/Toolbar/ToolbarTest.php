@@ -51,7 +51,7 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
             ->method('setParent')
             ->with($toolbar);
 
-        $this->assertEquals($button, $toolbar->appendButton($button));
+        $this->assertSame($button, $toolbar->appendButton($button));
     }
 
     /**
@@ -79,7 +79,7 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
     {
         $toolbar = $this->createToolbar();
 
-        $this->assertTrue(\is_array($toolbar->getItems()));
+        $this->assertIsArray($toolbar->getItems());
     }
 
     /**
@@ -92,8 +92,8 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
     public function testGetItemsReturnsButtons()
     {
         $toolbar = $this->createToolbar();
-        $button1 = $this->createMock(ToolbarButton::class);
-        $button2 = $this->createMock(ToolbarButton::class);
+        $button1 = $this->createStub(ToolbarButton::class);
+        $button2 = $this->createStub(ToolbarButton::class);
 
         $toolbar->appendButton($button1);
         $toolbar->appendButton($button2);
@@ -101,8 +101,8 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
         $buttons = $toolbar->getItems();
 
         $this->assertCount(2, $buttons);
-        $this->assertEquals($button1, $buttons[0]);
-        $this->assertEquals($button2, $buttons[1]);
+        $this->assertSame($button1, $buttons[0]);
+        $this->assertSame($button2, $buttons[1]);
     }
 
     /**
@@ -116,16 +116,16 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
     {
         $toolbar = $this->createToolbar();
         $toolbar->setItems([
-            $this->createMock(ToolbarButton::class),
-            $this->createMock(ToolbarButton::class),]);
+            $this->createStub(ToolbarButton::class),
+            $this->createStub(ToolbarButton::class),]);
 
         $button = $this->createMock(ToolbarButton::class);
         $button->expects($this->once())
             ->method('setParent')
             ->with($toolbar);
 
-        $this->assertEquals($button, $toolbar->prependButton($button));
-        $this->assertEquals($button, $toolbar->getItems()[0]);
+        $this->assertSame($button, $toolbar->prependButton($button));
+        $this->assertSame($button, $toolbar->getItems()[0]);
     }
 
     /**
@@ -139,17 +139,16 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
     {
         $toolbar = $this->createToolbar();
         $toolbar->setItems([
-            $this->createMock(ToolbarButton::class),
-            $this->createMock(ToolbarButton::class),]);
+            $this->createStub(ToolbarButton::class),
+            $this->createStub(ToolbarButton::class),]);
 
         $button = ['Separator', 'spacer', 25];
 
         $this->assertTrue($toolbar->prependButton(...$button));
-        $this->assertEquals($button, $toolbar->getItems()[0]);
+        $this->assertSame($button, $toolbar->getItems()[0]);
     }
 
     /**
-     *
      * @return  void
      * @since   4.0.0
      * @throws \Exception
@@ -175,7 +174,7 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
 
         $toolbar = new Toolbar('my-toolbar', $toolbarFactoryMock);
 
-        $this->assertEquals($renderedButton, $toolbar->renderButton($button));
+        $this->assertSame($renderedButton, $toolbar->renderButton($button));
     }
 
     /**
@@ -210,7 +209,7 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
      */
     public function testLoadButtonTypeReturnsButton()
     {
-        $buttonMock         = $this->createMock(ToolbarButton::class);
+        $buttonMock         = $this->createStub(ToolbarButton::class);
         $toolbarFactoryMock = $this->createMock(ToolbarFactoryInterface::class);
         $toolbarFactoryMock
             ->expects($this->once())
@@ -219,7 +218,7 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
 
         $toolbar = new Toolbar('my-toolbar', $toolbarFactoryMock);
 
-        $this->assertEquals($buttonMock, $toolbar->loadButtonType('Separator'));
+        $this->assertSame($buttonMock, $toolbar->loadButtonType('Separator'));
     }
 
     /**
@@ -258,11 +257,11 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
         $toolbar->addButtonPath(['MyTestPath1', 'MyTestPath2']);
         $newValue = $toolbar->getButtonPath();
 
-        $this->assertEquals('MyTestPath2' . DIRECTORY_SEPARATOR, $newValue[0]);
-        $this->assertEquals('MyTestPath1' . DIRECTORY_SEPARATOR, $newValue[1]);
+        $this->assertSame('MyTestPath2' . DIRECTORY_SEPARATOR, $newValue[0]);
+        $this->assertSame('MyTestPath1' . DIRECTORY_SEPARATOR, $newValue[1]);
 
         for ($i = 0; $i < $initialCount; $i++) {
-            $this->assertEquals($initialValue[$i], $newValue[$i + 2]);
+            $this->assertSame($initialValue[$i], $newValue[$i + 2]);
         }
     }
 
@@ -282,10 +281,10 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
         $toolbar->addButtonPath('MyTestPath');
         $newValue = $toolbar->getButtonPath();
 
-        $this->assertEquals('MyTestPath' . DIRECTORY_SEPARATOR, $newValue[0]);
+        $this->assertSame('MyTestPath' . DIRECTORY_SEPARATOR, $newValue[0]);
 
         for ($i = 0; $i < $initialCount; $i++) {
-            $this->assertEquals($initialValue[$i], $newValue[$i + 1]);
+            $this->assertSame($initialValue[$i], $newValue[$i + 1]);
         }
     }
 
@@ -300,7 +299,7 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
      */
     protected function createToolbar($name = 'my-toolbar'): Toolbar
     {
-        $toolbarFactoryMock = $this->createMock(ToolbarFactoryInterface::class);
+        $toolbarFactoryMock = $this->createStub(ToolbarFactoryInterface::class);
 
         return new Toolbar($name, $toolbarFactoryMock);
     }

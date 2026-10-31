@@ -52,7 +52,7 @@ abstract class Access
     public static function level($name, $selected, $attribs = '', $params = true, $id = false)
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('a.id', 'value'),
@@ -241,7 +241,7 @@ abstract class Access
     {
         if (empty(static::$asset_groups)) {
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('a.id', 'value'),
