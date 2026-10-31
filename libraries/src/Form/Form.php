@@ -1466,7 +1466,7 @@ class Form implements CurrentUserInterface
             try {
                 $field->setDatabase($this->getDatabase());
             } catch (DatabaseNotFoundException) {
-                @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
+                @trigger_error('Database must be set, this will not be caught anymore in 7.0.', E_USER_DEPRECATED);
                 $field->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
         }
@@ -1681,7 +1681,7 @@ class Form implements CurrentUserInterface
      *
      * @since   1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the FormFactory service from the container
      *              Example: Factory::getContainer()->get(FormFactoryInterface::class)->createForm($name, $options);
      *

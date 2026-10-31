@@ -9,7 +9,7 @@ describe('Test in frontend that the content component with custom fields', () =>
       value: value,
     });
   };
-  
+
   const visitContentFrontend = () => {
     cy.visit(`/index.php?option=com_content&view=article&id=${article.id}&catid=${article.catid}`);
   };
@@ -18,7 +18,7 @@ describe('Test in frontend that the content component with custom fields', () =>
     return cy.db_createField({
       context: 'com_content.article',
       group_id: fieldGroupId,
-      ...fieldOptions
+      ...fieldOptions,
     }).then((fieldId) => insertFieldValue(fieldId, value));
   };
 
@@ -28,7 +28,7 @@ describe('Test in frontend that the content component with custom fields', () =>
       article = createdArticle;
       return cy.db_createFieldGroup({
         title: 'Test Field Group Frontend',
-        context: 'com_content.article'
+        context: 'com_content.article',
       });
     }).then((id) => {
       fieldGroupId = id;
@@ -44,7 +44,7 @@ describe('Test in frontend that the content component with custom fields', () =>
   it('displays a custom text field value', () => {
     createFieldWithValue(
       { title: 'Test Text Field', name: 'test-text-field-frontend', type: 'text' },
-      'My custom text value'
+      'My custom text value',
     ).then(() => {
       visitContentFrontend();
       cy.contains('My custom text value').should('be.visible');
@@ -54,7 +54,7 @@ describe('Test in frontend that the content component with custom fields', () =>
   it('does not display an unpublished field', () => {
     createFieldWithValue(
       { title: 'Unpublished Field', name: 'unpublished-field-frontend', type: 'text', state: 0 },
-      'This is a secret'
+      'This is a secret',
     ).then(() => {
       visitContentFrontend();
       cy.contains('This is a secret').should('not.exist');
@@ -68,9 +68,9 @@ describe('Test in frontend that the content component with custom fields', () =>
         label: 'Hidden Label Field',
         name: 'hidden-label-field-frontend',
         type: 'text',
-        params: JSON.stringify({ showlabel: "0" })
+        params: JSON.stringify({ showlabel: '0' }),
       },
-      'Value with a hidden label'
+      'Value with a hidden label',
     ).then(() => {
       visitContentFrontend();
       cy.contains('Hidden Label Field').should('not.exist');
@@ -81,9 +81,9 @@ describe('Test in frontend that the content component with custom fields', () =>
   it('applies a custom display class to the field container', () => {
     createFieldWithValue(
       { title: 'Render Class Field', name: 'render-class-field', type: 'text',
-        params: JSON.stringify({ render_class: 'my-custom-class' })
+        params: JSON.stringify({ render_class: 'my-custom-class' }),
       },
-      'This field has a custom class'
+      'This field has a custom class',
     ).then(() => {
       visitContentFrontend();
       cy.get('.my-custom-class')
@@ -95,9 +95,9 @@ describe('Test in frontend that the content component with custom fields', () =>
   it('applies a custom value class to the field value', () => {
     createFieldWithValue(
       { title: 'Render Class Field', name: 'render-class-field', type: 'text',
-        params: JSON.stringify({ value_render_class: 'my-custom-class' })
+        params: JSON.stringify({ value_render_class: 'my-custom-class' }),
       },
-      'This field has a custom class'
+      'This field has a custom class',
     ).then(() => {
       visitContentFrontend();
       cy.get('.my-custom-class')
@@ -109,9 +109,9 @@ describe('Test in frontend that the content component with custom fields', () =>
   it('displays a prefix and suffix around the value', () => {
     createFieldWithValue(
       { title: 'Prefix Suffix Field', name: 'prefix-suffix-field', type: 'text',
-        params: JSON.stringify({ prefix: 'Before...', suffix: '...After' })
+        params: JSON.stringify({ prefix: 'Before...', suffix: '...After' }),
       },
-      'the value'
+      'the value',
     ).then(() => {
       visitContentFrontend();
       cy.contains('Before... the value ...After').should('be.visible');

@@ -82,6 +82,11 @@ class HtmlView extends InstallerViewDefault
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
 
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task')
+            ->addControlField('boxchecked', '0');
+
         // Display the view
         parent::display($tpl);
     }
@@ -114,7 +119,9 @@ class HtmlView extends InstallerViewDefault
             $childBar->unpublish('updatesites.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
 
             if ($canDo->get('core.delete')) {
-                $childBar->delete('updatesites.delete')->listCheck(true);
+                $childBar->delete('updatesites.delete')
+                    ->icon('icon-exclamation-triangle')
+                    ->listCheck(true);
             }
 
             $childBar->checkin('updatesites.checkin')->listCheck(true);

@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\Task\Requests\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Version;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status as TaskStatus;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
@@ -18,6 +19,7 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
 use Joomla\Http\HttpFactory;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -126,8 +128,11 @@ final class Requests extends CMSPlugin implements SubscriberInterface
             $headers = ['Authorization' => $authType . ' ' . $authKey];
         }
 
+        $options = new Registry();
+        $options->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
+
         try {
-            $response = $this->httpFactory->getHttp([])->get($url, $headers, $timeout);
+            $response = $this->httpFactory->getHttp($options)->get($url, $headers, $timeout);
         } catch (\Exception $e) {
             $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_TIMEOUT'));
 

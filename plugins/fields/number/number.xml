@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="fields" method="upgrade">
+	<name>plg_fields_number</name>
+	<author>Joomla! Project</author>
+	<creationDate>2025-03</creationDate>
+	<copyright>(C) 2025 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>6.0.0</version>
+	<description>PLG_FIELDS_NUMBER_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Fields\Number</namespace>
+	<files>
+		<folder>params</folder>
+		<folder plugin="number">services</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_fields_number.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_number.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="min"
+					type="number"
+					label="PLG_FIELDS_NUMBER_PARAMS_MIN_LABEL"
+					description="PLG_FIELDS_NUMBER_PARAMS_MIN_DESC"
+					default="1.0"
+					filter="float"
+				/>
+
+				<field
+					name="max"
+					type="number"
+					label="PLG_FIELDS_NUMBER_PARAMS_MAX_LABEL"
+					description="PLG_FIELDS_NUMBER_PARAMS_MAX_DESC"
+					default="100.0"
+					filter="float"
+				/>
+
+				<field
+					name="step"
+					type="number"
+					label="PLG_FIELDS_NUMBER_PARAMS_STEP_LABEL"
+					default="1.0"
+					filter="float"
+				/>
+
+				<field
+					name="currency"
+					type="radio"
+					label="PLG_FIELDS_NUMBER_PARAMS_CURRENCY_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="symbol"
+					type="text"
+					label="PLG_FIELDS_NUMBER_PARAMS_SYMBOL_LABEL"
+					filter="string"
+					showon="currency:1"
+				/>
+
+				<field
+					name="position"
+					type="list"
+					label="PLG_FIELDS_NUMBER_PARAMS_POSITION_LABEL"
+					default="0"
+					filter="integer"
+					showon="currency:1"
+					>
+					<option value="0">PLG_FIELDS_NUMBER_PARAMS_POSITION_OPTION_BEFORE</option>
+					<option value="1">PLG_FIELDS_NUMBER_PARAMS_POSITION_OPTION_AFTER</option>
+				</field>
+
+				<field
+					name="decimals"
+					type="int"
+					label="PLG_FIELDS_NUMBER_PARAMS_DECIMALS_LABEL"
+					min="0"
+					max="10"
+					default="2"
+					filter="int"
+					showon="currency:1"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

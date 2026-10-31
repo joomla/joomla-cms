@@ -20,7 +20,7 @@ use Joomla\Http\TransportInterface as FrameworkTransportInterface;
  *
  * @since       1.7.3
  *
- * @deprecated  4.0 will be removed in 6.0
+ * @deprecated  4.0 will be removed in 7.0
  *              Implement Joomla\Http\TransportInterface instead
  */
 interface TransportInterface extends FrameworkTransportInterface

@@ -145,7 +145,7 @@ class CategoryField extends ModalSelectField
         if ($value) {
             try {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName('title'))
                     ->from($db->quoteName('#__categories'))
                     ->where($db->quoteName('id') . ' = :value')
