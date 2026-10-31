@@ -6,11 +6,6 @@
   inline-size: auto;
   min-block-size: 43px;
   padding: 8px 1rem;
-
-  // On short viewports a sticky toolbar would cover most of the page, including the focused control
-  @media (max-height: 30rem) {
-    position: relative;
-  }
   color: var(--atum-subhead-color);
   background: var(--atum-subhead-bg);
   background-image: var(--atum-subhead-bg-img);

@@ -73,12 +73,7 @@
     cursor: pointer;
     opacity: 1;
   }
-  // The button sits above the preview and a tall image pushes it past the top of the viewport,
-  // which would cut off the focus indicator, so move it inside the preview
   &:focus-visible {
-    top: .5rem;
-    right: .5rem;
-    z-index: 1;
     opacity: 1;
 
     @include focus-ring(true);

@@ -11,12 +11,6 @@
   border-radius: 0 $border-radius 0 0;
   box-shadow: 0 -1px 0 0  $border-color;
 
-  // The toolbar wraps on small screens, where staying sticky would cover the focused item
-  @media (max-width: 991.98px), (max-height: 30rem) {
-    position: relative;
-    top: auto;
-  }
-
   input {
     padding: .3rem .75rem;
   }

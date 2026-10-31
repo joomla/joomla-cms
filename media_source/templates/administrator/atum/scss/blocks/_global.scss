@@ -94,16 +94,6 @@ legend {
 // Default focus highlighting
 @include focus-indicator-global();
 
-// Stop the sticky toolbar, and the fixed header on small screens, from covering controls that
-// keyboard focus scrolls to
-html {
-  scroll-padding-block-start: 8rem;
-
-  @include media-breakpoint-down(md) {
-    scroll-padding-block-end: 4.5rem;
-  }
-}
-
 // Break up text in cells to prevent overflow
 .break-word {
   word-break: break-all;
