@@ -24,6 +24,11 @@ $this->useCoreUI = true;
 Text::script('ERROR');
 Text::script('JGLOBAL_VALIDATION_FORM_FAILED');
 Text::script('JGLOBAL_ROOT_PARENT');
+Text::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
+Text::script('JLIB_JS_AJAX_ERROR_NO_CONTENT');
+Text::script('JLIB_JS_AJAX_ERROR_OTHER');
+Text::script('JLIB_JS_AJAX_ERROR_PARSE');
+Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 
 $this->getDocument()->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
 

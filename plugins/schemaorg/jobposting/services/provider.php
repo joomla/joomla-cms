@@ -31,7 +31,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(JobPosting::class, function (Container $container) {
                 $plugin = new JobPosting(
                     (array) PluginHelper::getPlugin('schemaorg', 'jobposting')
                 );
@@ -39,7 +39,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

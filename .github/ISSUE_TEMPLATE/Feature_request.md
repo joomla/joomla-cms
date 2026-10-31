@@ -4,12 +4,6 @@ about: Suggest an idea for this project
 
 ---
 
-### Is your feature request related to a problem? Please describe.
+Feature requests should **NOT** be submitted as an issue.
 
-
-
-### Describe the solution you'd like
-
-
-
-### Additional context
+The correct place for a feature request is the Discussion area. More in depth information on the feature request process can be found here: https://github.com/joomla/joomla-cms/discussions/46934

@@ -21,7 +21,7 @@ use Joomla\Component\Joomlaupdate\Api\View\Updates\JsonapiView;
 /**
  * The updates controller
  *
- * @since  5.4.0
+ * @since  6.0.0
  */
 class NotificationController extends BaseController
 {
@@ -29,7 +29,7 @@ class NotificationController extends BaseController
      * The content type of the item.
      *
      * @var    string
-     * @since  5.4.0
+     * @since  6.0.0
      */
     protected $contentType = 'notification';
 
@@ -37,7 +37,7 @@ class NotificationController extends BaseController
      * The default view for the display method.
      *
      * @var string
-     * @since  5.4.0
+     * @since  6.0.0
      */
     protected $default_view = 'notification';
 
@@ -65,7 +65,7 @@ class NotificationController extends BaseController
      *
      * @return NotificationController
      *
-     * @since  5.4.0
+     * @since  6.0.0
      */
     public function success()
     {
@@ -126,7 +126,7 @@ class NotificationController extends BaseController
      *
      * @return  static  A \JControllerLegacy object to support chaining.
      *
-     * @since   5.4.0
+     * @since   6.0.0
      */
     public function displayItem($id = null)
     {
@@ -138,7 +138,7 @@ class NotificationController extends BaseController
      *
      * @return  static  A BaseController object to support chaining.
      *
-     * @since   5.4.0
+     * @since   6.0.0
      */
     public function displayList()
     {
@@ -152,7 +152,7 @@ class NotificationController extends BaseController
      *
      * @return  void
      *
-     * @since   5.4.0
+     * @since   6.0.0
      */
     public function delete($id = null)
     {
@@ -169,7 +169,7 @@ class NotificationController extends BaseController
      *
      * @return  boolean
      *
-     * @since   5.4.0
+     * @since   6.0.0
      */
     protected function allowEdit($data = [], $key = 'id')
     {
@@ -185,7 +185,7 @@ class NotificationController extends BaseController
      *
      * @return  boolean
      *
-     * @since   5.4.0
+     * @since   6.0.0
      */
     protected function allowAdd($data = [])
     {

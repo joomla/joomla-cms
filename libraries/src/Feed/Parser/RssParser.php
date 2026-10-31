@@ -139,7 +139,7 @@ class RssParser extends FeedParser
     {
         // Create a feed link object for the image.
         $image = new FeedLink(
-            (string) $el->url,
+            (string) filter_var($el->url, FILTER_VALIDATE_URL),
             null,
             'logo',
             null,

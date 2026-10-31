@@ -10,8 +10,7 @@
 
 namespace Joomla\Module\Popular\Administrator\Helper;
 
-use Joomla\CMS\Categories\Categories;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Model\ArticlesModel;
@@ -26,8 +25,35 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-abstract class PopularHelper
+class PopularHelper
 {
+    /**
+     * @var CMSApplicationInterface
+     *
+     * @since   6.0.0
+     */
+    protected $app;
+
+    /**
+     * @var Registry
+     *
+     * @since   6.0.0
+     */
+    protected $params;
+
+    /**
+     * Helper class constructor
+     *
+     * @param   array  $config  Parameters we are using
+     *
+     * @since   6.0.0
+     */
+    public function __construct($config)
+    {
+        $this->app    = $config['app'];
+        $this->params = $config['params'];
+    }
+
     /**
      * Get a list of the most popular articles.
      *
@@ -37,14 +63,16 @@ abstract class PopularHelper
      * @return  mixed  An array of articles, or false on error.
      *
      * @throws  \Exception
+     *
+     * @since   6.0.0
      */
-    public static function getList(Registry $params, ArticlesModel $model)
+    public function getArticles(Registry $params, ArticlesModel $model): mixed
     {
-        $user = Factory::getUser();
+        $user = $this->app->getIdentity();
 
         // Set List SELECT
         $model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .
-            ' a.created_by, a.publish_up, a.hits');
+            ' a.created, a.modified, a.publish_up, a.created_by, a.hits');
 
         // Set Ordering filter
         $model->setState('list.ordering', 'a.hits');
@@ -75,6 +103,21 @@ abstract class PopularHelper
         $model->setState('list.start', 0);
         $model->setState('list.limit', $params->get('count', 5));
 
+        // Set date filtering using ArticlesModel's built-in filter
+        $dateFiltering = $params->get('date_filtering', 'off');
+
+        if ($dateFiltering !== 'off') {
+            $model->setState('filter.date_filtering', $dateFiltering);
+            $model->setState('filter.date_field', $params->get('date_field', 'a.created'));
+
+            if ($dateFiltering === 'range') {
+                $model->setState('filter.start_date_range', $params->get('start_date_range', '1000-01-01 00:00:00'));
+                $model->setState('filter.end_date_range', $params->get('end_date_range', '9999-12-31 23:59:59'));
+            } elseif ($dateFiltering === 'relative') {
+                $model->setState('filter.relative_date', (int) $params->get('relative_date', 30));
+            }
+        }
+
         $items = $model->getItems();
 
         if ($error = $model->getError()) {
@@ -102,15 +145,17 @@ abstract class PopularHelper
      * @param   Registry  $params  The module parameters.
      *
      * @return  string  The alternate title for the module.
+     *
+     * @since   6.0.0
      */
-    public static function getTitle($params)
+    public function getModuleTitle(Registry $params): string
     {
         $who   = $params->get('user_id', 0);
         $catid = (int) $params->get('catid', null);
         $title = '';
 
         if ($catid) {
-            $category = Categories::getInstance('Content')->get($catid);
+            $category = $this->app->bootComponent('com_content')->getCategory()->get($catid);
             $title    = Text::_('MOD_POPULAR_UNEXISTING');
 
             if ($category) {

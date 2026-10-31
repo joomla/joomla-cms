@@ -160,7 +160,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
         // Set the configuration file path.
         $file = $this->configFile;
 
-        // Attempt to make the file writeable.
+        // Attempt to make the file writable.
         if (file_exists($file) && Path::isOwner($file) && !Path::setPermissions($file)) {
             $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_SITE_STATUS_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
         }
@@ -180,7 +180,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
             opcache_invalidate($file);
         }
 
-        // Attempt to make the file un-writeable.
+        // Attempt to make the file un-writable.
         if (Path::isOwner($file) && !Path::setPermissions($file, '0444')) {
             $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_SITE_STATUS_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
         }

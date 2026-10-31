@@ -14,8 +14,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 
 $displayData = [
     'textPrefix' => 'COM_BANNERS_TRACKS',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Banners:_Tracks',
+    'helpURL'    => 'https://guide.joomla.org/user-manual/banners/banners-banners',
     'icon'       => 'icon-bookmark banners',
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);

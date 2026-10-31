@@ -10,13 +10,13 @@
 
 defined('_JEXEC') or die;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\String\Inflector;
 
 /** @var \Joomla\Component\Categories\Administrator\View\Categories\HtmlView $this */
 
@@ -38,10 +38,10 @@ $section   = null;
 if (count($parts) > 1) {
     $section = $parts[1];
 
-    $inflector = Inflector::getInstance();
+    $inflector = InflectorFactory::create()->build();
 
-    if (!$inflector->isPlural($section)) {
-        $section = $inflector->toPlural($section);
+    if ($inflector->pluralize($inflector->singularize($section)) !== $section) {
+        $section = $inflector->pluralize($section);
     }
 }
 
@@ -127,7 +127,7 @@ if ($saveOrder && !empty($this->items)) {
                             </tr>
                         </thead>
                         <tbody <?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false" <?php
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true" <?php
                                endif; ?>>
                             <?php foreach ($this->items as $i => $item) : ?>
                                 <?php

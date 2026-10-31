@@ -60,14 +60,14 @@ abstract class RouteHelper
      * Get the category route.
      *
      * @param   integer  $catid     The category ID.
-     * @param   integer  $language  The language code.
+     * @param   string   $language  The language code.
      * @param   string   $layout    The layout value.
      *
      * @return  string  The article route.
      *
      * @since   1.5
      */
-    public static function getCategoryRoute($catid, $language = 0, $layout = null)
+    public static function getCategoryRoute($catid, $language = null, $layout = null)
     {
         if ($catid instanceof CategoryNode) {
             $id = $catid->id;
@@ -81,7 +81,7 @@ abstract class RouteHelper
 
         $link = 'index.php?option=com_content&view=category&id=' . $id;
 
-        if ($language && $language !== '*' && Multilanguage::isEnabled()) {
+        if (!empty($language) && $language !== '*' && Multilanguage::isEnabled()) {
             $link .= '&lang=' . $language;
         }
 

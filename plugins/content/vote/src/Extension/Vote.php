@@ -30,16 +30,6 @@ use Joomla\Event\SubscriberInterface;
 final class Vote extends CMSPlugin implements SubscriberInterface
 {
     /**
-     * @var    \Joomla\CMS\Application\CMSApplication
-     *
-     * @since  3.7.0
-     *
-     * @deprecated 4.4.0 will be removed in 6.0 as it is there only for layout overrides
-     *             Use getApplication() instead
-     */
-    protected $app;
-
-    /**
      * Returns an array of events this subscriber will listen to.
      *
      * @return array

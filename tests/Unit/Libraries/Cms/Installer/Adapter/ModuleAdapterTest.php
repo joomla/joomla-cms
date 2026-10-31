@@ -33,10 +33,11 @@ class ModuleAdapterTest extends UnitTestCase
      */
     protected function setUp(): void
     {
-        $this->moduleAdapter = $this->getMockBuilder(ModuleAdapter::class)
-            ->onlyMethods([])
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->moduleAdapter = new class () extends ModuleAdapter {
+            public function __construct()
+            {
+            }
+        };
 
         parent::setUp();
     }
@@ -78,8 +79,8 @@ class ModuleAdapterTest extends UnitTestCase
 
         $this->assertNotNull($this->moduleAdapter->manifest);
 
-        $this->assertEquals('mod_quickicon', $this->moduleAdapter->getElement());
-        $this->assertEquals('somethingElse', $this->moduleAdapter->getElement('somethingElse'));
+        $this->assertSame('mod_quickicon', $this->moduleAdapter->getElement());
+        $this->assertSame('somethingElse', $this->moduleAdapter->getElement('somethingElse'));
     }
 
     /**
@@ -96,8 +97,8 @@ class ModuleAdapterTest extends UnitTestCase
 
         $this->assertNotNull($this->moduleAdapter->manifest);
 
-        $this->assertEquals('mod_sampledata', $this->moduleAdapter->getElement());
-        $this->assertEquals('somethingElse', $this->moduleAdapter->getElement('somethingElse'));
+        $this->assertSame('mod_sampledata', $this->moduleAdapter->getElement());
+        $this->assertSame('somethingElse', $this->moduleAdapter->getElement('somethingElse'));
     }
 
     /**
@@ -119,7 +120,7 @@ class ModuleAdapterTest extends UnitTestCase
 
         $this->assertNotNull($this->moduleAdapter->manifest);
 
-        $this->assertEquals('mod_quickicon', $this->moduleAdapter->getElement());
-        $this->assertEquals('somethingElse', $this->moduleAdapter->getElement('somethingElse'));
+        $this->assertSame('mod_quickicon', $this->moduleAdapter->getElement());
+        $this->assertSame('somethingElse', $this->moduleAdapter->getElement('somethingElse'));
     }
 }

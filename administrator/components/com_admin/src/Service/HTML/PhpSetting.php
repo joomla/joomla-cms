@@ -48,6 +48,18 @@ class PhpSetting
     }
 
     /**
+     * Method to generate a boolean message for a value
+     *
+     * @param   boolean  $val  is the value set?
+     *
+     * @return  string html code
+     */
+    public function enabled($val)
+    {
+        return Text::_($val ? 'JENABLED' : 'JDISABLED');
+    }
+
+    /**
      * Method to generate a string message for a value
      *
      * @param   string  $val  a php ini value
