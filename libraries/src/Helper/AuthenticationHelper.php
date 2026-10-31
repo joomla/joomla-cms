@@ -31,7 +31,7 @@ abstract class AuthenticationHelper
      *
      * @since   3.6.3
      *
-     * @deprecated  4.2 will be removed in 6.0
+     * @deprecated  4.2 will be removed in 7.0
      *              Will be removed without replacement
      */
     public static function getTwoFactorMethods()

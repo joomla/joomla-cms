@@ -30,9 +30,9 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Fixed::class, function (Container $container) {
                 return new Fixed((array) PluginHelper::getPlugin('multifactorauth', 'fixed'));
-            }
+            })
         );
     }
 };

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metafile client="installation">
-	<name>Norwegian Bokmål (Norway)</name>
-	<version>5.4.10</version>
+	<name>Norwegian bokmål (Norway)</name>
+	<version>6.2.0</version>
 	<creationDate>2026-09</creationDate>
 	<author>Joomla! Project</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
@@ -10,8 +10,8 @@
 		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
-		<name>Norwegian Bokmål (nb-NO)</name>
-		<nativeName>Norsk bokmål (Norge)</nativeName>
+		<name>Norwegian Bokmal (nb-NO)</name>
+		<nativeName>Norwegian bokmål (Norway)</nativeName>
 		<tag>nb-NO</tag>
 		<rtl>0</rtl>
 	</metadata>

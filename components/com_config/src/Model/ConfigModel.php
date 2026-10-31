@@ -14,6 +14,8 @@ namespace Joomla\Component\Config\Site\Model;
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
+use Joomla\CMS\Form\Form;
+
 /**
  * Model for the global configuration
  *
@@ -27,19 +29,13 @@ class ConfigModel extends FormModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  mixed   A Form object on success, false on failure
+     * @return  Form   A Form object
      *
      * @since   3.2
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_config.config', 'config', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_config.config', 'config', ['control' => 'jform', 'load_data' => $loadData]);
     }
 }

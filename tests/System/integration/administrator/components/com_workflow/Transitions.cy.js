@@ -66,7 +66,7 @@ describe('Test in backend that the transitions list', () => {
   });
 
   it('can checkin the transition', () => {
-    cy.db_getUserId(Cypress.env('username')).then((uid) => {
+    cy.db_getUserId(Cypress.expose('username')).then((uid) => {
       cy.db_createWorkflowTransition({ title: 'Test transition', checked_out: uid, checked_out_time: '2025-01-01 00:00:00' });
       cy.reload();
       cy.searchForItem('Test transition');
@@ -99,7 +99,7 @@ describe('Test in backend that the transitions list', () => {
   });
 
   it('can checkin the transition (grid button)', () => {
-    cy.db_getUserId(Cypress.env('username')).then((uid) => {
+    cy.db_getUserId(Cypress.expose('username')).then((uid) => {
       cy.db_createWorkflowTransition({ title: 'Test transition', checked_out: uid, checked_out_time: '2025-01-01 00:00:00' });
       cy.reload();
       cy.searchForItem('Test transition');

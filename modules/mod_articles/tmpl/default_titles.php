@@ -10,6 +10,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+
+$currentDate = Factory::getDate()->format('Y-m-d H:i:s');
+
 ?>
 <ul class="mod-articles mod-list">
     <?php foreach ($items as $item) : ?>
@@ -19,6 +24,18 @@ defined('_JEXEC') or die;
                     <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
                 </span>
             </a>
+
+            <?php if ($item->state == 0) : ?>
+                <span class="badge bg-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
+            <?php endif; ?>
+
+            <?php if ($item->publish_up > $currentDate) : ?>
+                <span class="badge bg-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
+            <?php endif; ?>
+
+            <?php if ($item->publish_down !== null && $item->publish_down < $currentDate) : ?>
+                <span class="badge bg-warning"><?php echo Text::_('JEXPIRED'); ?></span>
+            <?php endif; ?>
         </li>
     <?php endforeach; ?>
 </ul>

@@ -25,8 +25,9 @@ export default defineConfig({
     browser: 'firefox',
     screenshotOnRunFailure: true,
     video: false,
+    allowCypressEnv: false,
   },
-  env: {
+  expose: {
     sitename: 'Joomla CMS Test',
     name: 'jane doe',
     email: 'admin@example.com',

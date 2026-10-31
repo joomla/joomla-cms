@@ -38,11 +38,7 @@ function admin_postinstall_behindproxy_condition()
         return true;
     }
 
-    if (\array_key_exists('HTTP_CLIENT_IP', $_SERVER) && !empty($_SERVER['HTTP_CLIENT_IP'])) {
-        return true;
-    }
-
-    return false;
+    return !empty($_SERVER['HTTP_CLIENT_IP']);
 }
 
 

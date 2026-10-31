@@ -10,11 +10,11 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
+use Joomla\CMS\Event\Extension\AfterUpdateEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\UpdateSite as UpdateSiteTable;
@@ -136,7 +136,7 @@ class UpdatesitesModel extends InstallerModel
         $count = 0;
 
         // Gets the update site names.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['update_site_id', 'name']))
             ->from($db->quoteName('#__update_sites'))
             ->whereIn($db->quoteName('update_site_id'), $ids);
@@ -157,21 +157,21 @@ class UpdatesitesModel extends InstallerModel
             // Delete the update site from all tables.
             try {
                 $id    = (int) $id;
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->delete($db->quoteName('#__update_sites'))
                     ->where($db->quoteName('update_site_id') . ' = :id')
                     ->bind(':id', $id, ParameterType::INTEGER);
                 $db->setQuery($query);
                 $db->execute();
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->delete($db->quoteName('#__update_sites_extensions'))
                     ->where($db->quoteName('update_site_id') . ' = :id')
                     ->bind(':id', $id, ParameterType::INTEGER);
                 $db->setQuery($query);
                 $db->execute();
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->delete($db->quoteName('#__updates'))
                     ->where($db->quoteName('update_site_id') . ' = :id')
                     ->bind(':id', $id, ParameterType::INTEGER);
@@ -210,7 +210,7 @@ class UpdatesitesModel extends InstallerModel
         $db = $this->getDatabase();
 
         // Fetch the Joomla core update sites ids and their extension ids. We search for all except the core joomla extension with update sites.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['use.update_site_id', 'e.extension_id']))
             ->from($db->quoteName('#__update_sites_extensions', 'use'))
             ->join(
@@ -256,7 +256,7 @@ class UpdatesitesModel extends InstallerModel
 
         // Check if Joomla Extension plugin is enabled.
         if (!PluginHelper::isEnabled('extension', 'joomla')) {
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('extension_id'))
                 ->from($db->quoteName('#__extensions'))
                 ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -305,26 +305,26 @@ class UpdatesitesModel extends InstallerModel
         $joomlaUpdateSitesIds = $this->getJoomlaUpdateSitesIds(0);
 
         // First backup any custom extra_query for the sites
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('TRIM(' . $db->quoteName('location') . ') AS ' . $db->quoteName('location') . ', ' . $db->quoteName('extra_query'))
             ->from($db->quoteName('#__update_sites'));
         $db->setQuery($query);
         $backupExtraQuerys = $db->loadAssocList('location');
 
         // Delete from all tables (except joomla core update sites).
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__update_sites'))
             ->whereNotIn($db->quoteName('update_site_id'), $joomlaUpdateSitesIds);
         $db->setQuery($query);
         $db->execute();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__update_sites_extensions'))
             ->whereNotIn($db->quoteName('update_site_id'), $joomlaUpdateSitesIds);
         $db->setQuery($query);
         $db->execute();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__updates'))
             ->whereNotIn($db->quoteName('update_site_id'), $joomlaUpdateSitesIds);
         $db->setQuery($query);
@@ -366,7 +366,7 @@ class UpdatesitesModel extends InstallerModel
                         $pkgName = (string) $manifest->packagename;
                         $type    = (string) $manifest['type'];
 
-                        $query = $db->getQuery(true)
+                        $query = $db->createQuery()
                             ->select($db->quoteName('extension_id'))
                             ->from($db->quoteName('#__extensions'))
                             ->where(
@@ -408,10 +408,17 @@ class UpdatesitesModel extends InstallerModel
                             }
 
                             // Load the extension plugin (if not loaded yet).
-                            PluginHelper::importPlugin('extension', 'joomla');
+                            $dispatcher = $this->getDispatcher();
+                            PluginHelper::importPlugin('extension', 'joomla', true, $dispatcher);
 
                             // Fire the onExtensionAfterUpdate
-                            $app->triggerEvent('onExtensionAfterUpdate', ['installer' => $tmpInstaller, 'eid' => $eid]);
+                            $dispatcher->dispatch(
+                                'onExtensionAfterUpdate',
+                                new AfterUpdateEvent('onExtensionAfterUpdate', [
+                                    'installer' => $tmpInstaller,
+                                    'eid'       => $eid,
+                                ])
+                            );
 
                             $count++;
                         }
@@ -444,8 +451,7 @@ class UpdatesitesModel extends InstallerModel
         array_walk(
             $items,
             static function ($item) {
-                $data              = new CMSObject($item);
-                $item->downloadKey = InstallerHelper::getDownloadKey($data);
+                $item->downloadKey = InstallerHelper::getDownloadKey($item);
             }
         );
 
@@ -491,7 +497,7 @@ class UpdatesitesModel extends InstallerModel
     protected function getListQuery()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 $db->quoteName(
                     [

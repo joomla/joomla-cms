@@ -105,7 +105,7 @@ class PositionsModel extends ListModel
 
                 // Get the database object and a new query object.
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('DISTINCT ' . $db->quoteName('position', 'value'))
                     ->from($db->quoteName('#__modules'))
                     ->where($db->quoteName('client_id') . ' = :clientid')
