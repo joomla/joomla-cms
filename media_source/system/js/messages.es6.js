@@ -123,9 +123,9 @@ Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
         messageWrapper.animate(
           [
             { opacity: 0.3 },
-            { opacity: 1 }
+            { opacity: 1 },
           ],
-          { duration: 250, easing: 'ease-in-out' }
+          { duration: 250, easing: 'ease-in-out' },
         );
       }
     }
