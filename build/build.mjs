@@ -65,7 +65,7 @@ if ('settings' in settings) {
 }
 
 const allowedVersion = () => {
-  if (!semver.satisfies(process.version.substring(1), options.engines.node)) {
+  if (!semver.satisfies(semver.coerce(process.version), options.engines.node)) {
     handleError(
       `Command line tools require Node Version ${options.engines.node} but found ${process.version}`,
       -1,
