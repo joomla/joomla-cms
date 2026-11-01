@@ -21,7 +21,6 @@ export const builders = [
   'com_actionlogs',
   'com_admin',
   'com_associations',
-  'com_banners',
   'com_cache',
   'com_categories',
   'com_config',
