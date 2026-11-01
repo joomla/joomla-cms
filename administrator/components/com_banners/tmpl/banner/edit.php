@@ -20,8 +20,7 @@ use Joomla\CMS\Router\Route;
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
-    ->useScript('form.validate')
-    ->useScript('com_banners.admin-banner-edit');
+    ->useScript('form.validate');
 
 ?>
 
