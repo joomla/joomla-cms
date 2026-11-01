@@ -151,9 +151,11 @@
             signature: arrayToBase64String(
               new Uint8Array(data.response.signature),
             ),
-            userHandle: data.response.userHandle ? arrayToBase64String(
-              new Uint8Array(data.response.userHandle),
-            ) : null,
+            userHandle: data.response.userHandle
+              ? arrayToBase64String(
+                  new Uint8Array(data.response.userHandle),
+                )
+              : null,
           },
         };
 

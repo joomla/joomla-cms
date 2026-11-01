@@ -1,5 +1,8 @@
 <template>
-  <g role="group" :aria-label="sprintf('COM_WORKFLOW_GRAPH_TRANSITION', data?.title, sourceStageTitle, targetStageTitle)">
+  <g
+    role="group"
+    :aria-label="sprintf('COM_WORKFLOW_GRAPH_TRANSITION', data?.title, sourceStageTitle, targetStageTitle)"
+  >
     <path
       :d="edgePath"
       fill="none"
@@ -35,7 +38,6 @@
         @keydown.esc="closeActions"
         @keydown.tab="closeActions"
       >
-
         <div
           v-if="showActions"
           class="position-absolute top-25-px end-20-px h-100 rounded bg-secondary bg-opacity-75 pe-none"
@@ -66,7 +68,10 @@
               @keydown.enter.stop.prevent="handleEdit"
               @keydown.space.prevent.stop="handleEdit"
             >
-              <span class="icon icon-pencil-alt me-1" aria-hidden="true" />
+              <span
+                class="icon icon-pencil-alt me-1"
+                aria-hidden="true"
+              />
               {{ translate('COM_WORKFLOW_GRAPH_EDIT_TRANSITION') }}
             </button>
 
@@ -81,7 +86,10 @@
               @keydown.enter.stop.prevent="handleDelete"
               @keydown.space.prevent.stop="handleDelete"
             >
-              <span class="icon icon-trash me-1" aria-hidden="true" />
+              <span
+                class="icon icon-trash me-1"
+                aria-hidden="true"
+              />
               {{ translate('COM_WORKFLOW_GRAPH_TRASH_TRANSITION') }}
             </button>
           </nav>
@@ -204,7 +212,7 @@ export default {
       return this.edgeData[1] + ((this.data?.isBiDirectional && this.sourceY < this.targetY && this.data?.offsetIndex ? this.data?.offsetIndex : 0) || 0) * this.maxWidth;
     },
     labelY() {
-      return this.edgeData[2] + ((this.data?.isBiDirectional && this.sourceY > this.targetY &&  this.data?.offsetIndex ? this.data?.offsetIndex : 0) || 0) * 75;
+      return this.edgeData[2] + ((this.data?.isBiDirectional && this.sourceY > this.targetY && this.data?.offsetIndex ? this.data?.offsetIndex : 0) || 0) * 75;
     },
     sourceStageTitle() {
       return this.data?.from_stage_title || `JSTAGE ${this.data?.from_stage_id || 'Unknown'}`;

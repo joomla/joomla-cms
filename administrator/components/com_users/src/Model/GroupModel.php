@@ -277,7 +277,7 @@ class GroupModel extends AdminModel
                 if ($allow) {
                     // Fire the before delete event.
                     $beforeDeleteEvent = new UserGroupBeforeDeleteEvent($this->event_before_delete, [
-                        'data'    => $table->getProperties(), // @TODO: Remove data argument in Joomla 6, see UserGroupBeforeDeleteEvent
+                        'data'    => ArrayHelper::fromObject($table, false), // @TODO: Remove data argument in Joomla 6, see UserGroupBeforeDeleteEvent
                         'context' => $context,
                         'subject' => $table,
                     ]);
@@ -297,7 +297,7 @@ class GroupModel extends AdminModel
 
                     // Trigger the after delete event.
                     $dispatcher->dispatch($this->event_after_delete, new UserGroupAfterDeleteEvent($this->event_after_delete, [
-                        'data'           => $table->getProperties(), // @TODO: Remove data argument in Joomla 6, see UserGroupAfterDeleteEvent
+                        'data'           => ArrayHelper::fromObject($table, false), // @TODO: Remove data argument in Joomla 6, see UserGroupAfterDeleteEvent
                         'deletingResult' => true, // @TODO: Remove deletingResult argument in Joomla 6, see UserGroupAfterDeleteEvent
                         'errorMessage'   => $this->getError(), // @TODO: Remove errorMessage argument in Joomla 6, see UserGroupAfterDeleteEvent
                         'context'        => $context,

@@ -321,29 +321,6 @@ abstract class WebApplication extends AbstractWebApplication
     }
 
     /**
-     * Allows the application to load a custom or default session.
-     *
-     * The logic and options for creating this object are adequately generic for default cases
-     * but for many applications it will make sense to override this method and create a session,
-     * if required, based on more specific needs.
-     *
-     * @param   ?Session  $session  An optional session object. If omitted, the session is created.
-     *
-     * @return  WebApplication This method is chainable.
-     *
-     * @since   1.7.3
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              The session should be injected as a service.
-     */
-    public function loadSession(?Session $session = null)
-    {
-        $this->getLogger()->warning(__METHOD__ . '() is deprecated.  Inject the session as a service instead.', ['category' => 'deprecated']);
-
-        return $this;
-    }
-
-    /**
      * After the session has been started we need to populate it with some default values.
      *
      * @param   SessionEvent  $event  Session event being triggered
