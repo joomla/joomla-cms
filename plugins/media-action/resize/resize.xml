@@ -46,7 +46,7 @@
 					type="subform"
 					label="PLG_MEDIA-ACTION_RESIZE_BATCH_FOLDERS_LABEL"
 					description="PLG_MEDIA-ACTION_RESIZE_BATCH_FOLDERS_DESC"
-					layout="joomla.form.field.subform.repeatable-table"
+					layout="joomla.form.field.subform.repeatable-grid"
 					multiple="true"
 					>
 					<form>
