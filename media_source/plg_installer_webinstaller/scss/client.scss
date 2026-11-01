@@ -32,6 +32,7 @@ $extension-types: (
     }
     &.badge-warning {
       background-color: var(--warning);
+      color: var(--template-text-dark);
     }
   }
 
