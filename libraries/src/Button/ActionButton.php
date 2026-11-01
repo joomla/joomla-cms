@@ -191,6 +191,14 @@ class ActionButton
             ]
         );
 
+        /**
+         * A disabled button cannot be used, so do not show its call-to-action text in the tooltip.
+         * Informational text can still be shown by passing it as the `disabled_title` option.
+         */
+        if (!empty($data['options']['disabled']) && (string) $data['options']['tip_title'] !== '') {
+            $data['title'] = $data['options']['disabled_title'] ?? '';
+        }
+
         $data['row']  = $row;
         $data['icon'] = $this->fetchIconClass($data['icon']);
 
