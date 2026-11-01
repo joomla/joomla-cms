@@ -150,45 +150,6 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
     }
 
     /**
-     * Magic method to access properties of the application.
-     *
-     * @param   string  $name  The name of the property.
-     *
-     * @return  mixed   A value if the property name is valid, null otherwise.
-     *
-     * @since       4.0.0
-     *
-     * @deprecated  4.0 will be removed in 7.0
-     *              This is a B/C proxy for deprecated read accesses, use getInput() method instead
-     *              Example:
-     *              $app->getInput();
-     */
-    public function __get($name)
-    {
-        switch ($name) {
-            case 'input':
-                @trigger_error(
-                    'Accessing the input property of the application is deprecated, use the getInput() method instead.',
-                    E_USER_DEPRECATED
-                );
-
-                return $this->getInput();
-
-            default:
-                $trace = debug_backtrace();
-                trigger_error(
-                    \sprintf(
-                        'Undefined property via __get(): %1$s in %2$s on line %3$s',
-                        $name,
-                        $trace[0]['file'],
-                        $trace[0]['line']
-                    ),
-                    E_USER_NOTICE
-                );
-        }
-    }
-
-    /**
      * Method to run the application routines.
      *
      * @return  integer  The exit code for the application

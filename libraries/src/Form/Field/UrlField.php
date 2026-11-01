@@ -13,6 +13,8 @@ namespace Joomla\CMS\Form\Field;
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
+use Joomla\CMS\String\PunycodeHelper;
+
 /**
  * Form Field class for the Joomla Platform.
  * Supports a URL text field
@@ -74,6 +76,10 @@ class UrlField extends TextField
             'maxLength' => $maxLength,
             'inputType' => $inputType,
         ];
+
+        if ($data['value'] !== null) {
+            $data['value'] = htmlspecialchars(PunycodeHelper::urlToUTF8($data['value']), ENT_QUOTES, 'UTF-8');
+        }
 
         return array_merge($data, $extraData);
     }

@@ -3,8 +3,8 @@
  */
 import { pathToFileURL } from 'node:url';
 import path from 'node:path';
-import fsp from "node:fs/promises";
-import fs from "node:fs";
+import fsp from 'node:fs/promises';
+import fs from 'node:fs';
 
 import pkgOptions from '../../package.json' with { type: 'json' };
 import buildSettings from '../../build/build-modules-js/settings.json' with { type: 'json' };
@@ -47,7 +47,7 @@ const copyVendorFiles = async (vendor, packageName, mediaVendorPath) => {
       promises.push(fsp.cp(
         path.join(modulePathRoot, srcFile),
         path.join(modulePathTarget, files[srcFile]),
-        { preserveTimestamps: true, recursive: true }
+        { preserveTimestamps: true, recursive: true },
       ));
     }
   });
@@ -112,8 +112,7 @@ const prepareVendorAssets = async (vendor, packageName) => {
   return entries;
 };
 
-export default class VendorModuleBuilder extends DefaultModuleBuilder
-{
+export default class VendorModuleBuilder extends DefaultModuleBuilder {
   /**
    * Copy all vendor files according to Joomla's specs from build/settings.json
    * And create vendor/joomla.asset.json registry.
@@ -130,7 +129,7 @@ export default class VendorModuleBuilder extends DefaultModuleBuilder
 
     // Prepare target
     if (!fs.existsSync(this.targetPath)) {
-      fs.mkdirSync(this.targetPath, { recursive: true, mode: 0o755});
+      fs.mkdirSync(this.targetPath, { recursive: true, mode: 0o755 });
     }
 
     const promises = [];
@@ -150,7 +149,7 @@ export default class VendorModuleBuilder extends DefaultModuleBuilder
           .then((entries) => {
             if (!entries.length) return;
             assets[vendorName] = entries;
-          })
+          }),
       );
     });
 
@@ -178,7 +177,7 @@ export default class VendorModuleBuilder extends DefaultModuleBuilder
       return fsp.writeFile(
         path.join(this.targetPath, 'joomla.asset.json'),
         JSON.stringify(registry, null, 2),
-        { encoding: 'utf8', mode: 0o644 }
+        { encoding: 'utf8', mode: 0o644 },
       );
     });
   }
@@ -223,12 +222,12 @@ export default class VendorModuleBuilder extends DefaultModuleBuilder
 
               jsFiles.push(handleJSFile(
                 fullSrcPath,
-                fullSrcPath
+                fullSrcPath,
               ));
             });
 
             return Promise.all(jsFiles);
-          })
+          }),
       );
     });
 

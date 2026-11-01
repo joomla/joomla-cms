@@ -17,6 +17,7 @@ use Joomla\CMS\Event\MultiFactor\GetMethod;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
 use Joomla\CMS\Event\MultiFactor\SaveSetup;
 use Joomla\CMS\Event\MultiFactor\Validate;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
@@ -32,6 +33,7 @@ use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
@@ -50,8 +52,10 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  */
 class Email extends CMSPlugin implements SubscriberInterface
 {
+    use DatabaseAwareTrait;
     use UserFactoryAwareTrait;
     use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * Generated OTP length. Constant: 6 numeric digits.
@@ -66,26 +70,6 @@ class Email extends CMSPlugin implements SubscriberInterface
      * @since 4.2.0
      */
     private const SECRET_KEY_LENGTH = 20;
-
-
-    /**
-     * Should I try to detect and register legacy event listeners, i.e. methods which accept unwrapped arguments? While
-     * this maintains a great degree of backwards compatibility to Joomla! 3.x-style plugins it is much slower. You are
-     * advised to implement your plugins using proper Listeners, methods accepting an AbstractEvent as their sole
-     * parameter, for best performance. Also bear in mind that Joomla! 7.0 onwards will only allow proper listeners,
-     * removing support for legacy Listeners.
-     *
-     * @var    boolean
-     * @since  4.2.0
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Implement your plugin methods accepting an AbstractEvent object
-     *              Example:
-     *              onEventTriggerName(AbstractEvent $event) {
-     *                  $context = $event->getArgument(...);
-     *              }
-     */
-    protected $allowLegacyListeners = false;
 
     /**
      * Autoload this plugin's language files
@@ -548,7 +532,13 @@ class Email extends CMSPlugin implements SubscriberInterface
 
         try {
             $jLanguage = $this->getApplication()->getLanguage();
-            $mailer    = new MailTemplate('plg_multifactorauth_email.mail', $jLanguage->getTag());
+            $mailer    = new MailTemplate(
+                'plg_multifactorauth_email.mail',
+                $jLanguage->getTag(),
+                $this->getMailerFactory()->createMailer(),
+                $this->getLanguageFactory(),
+                $this->getDatabase()
+            );
             $mailer->addRecipient($user->email, $user->name);
             $mailer->addTemplateData($replacements);
 

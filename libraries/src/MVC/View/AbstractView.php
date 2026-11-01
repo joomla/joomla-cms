@@ -16,7 +16,6 @@ use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
-use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
@@ -39,10 +38,6 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
     use DispatcherAwareTrait;
     use LanguageAwareTrait;
     use LegacyErrorHandlingTrait;
-    use LegacyPropertyManagementTrait {
-        get as private legacyGet;
-    }
-
 
     /**
      * The active document object
@@ -308,7 +303,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
     {
         if (!$this->dispatcher) {
             @trigger_error(
-                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 7.0', __CLASS__),
                 E_USER_DEPRECATED
             );
 
