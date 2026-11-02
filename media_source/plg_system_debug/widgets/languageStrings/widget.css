@@ -11,7 +11,6 @@ table.phpdebugbar-widgets-languageStrings th {
 }
 
 table.phpdebugbar-widgets-languageStrings table.phpdebugbar-widgets-callstack {
-  display: none;
   width: 100%;
   margin: 10px;
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
