@@ -11,6 +11,35 @@ div.phpdebugbar-widgets-sqlqueries li.phpdebugbar-widgets-list-item.phpdebugbar-
   color: #f00;
 }
 
+div.phpdebugbar-widgets-sqlqueries button.phpdebugbar-widgets-query-detail-toggle {
+  margin-right: 8px;
+  color: var(--debugbar-text-muted);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+}
+
+div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-query-detail {
+  width: 100%;
+  margin: 10px 0;
+  overflow-x: auto;
+  font-family: var(--debugbar-font-mono);
+  border-collapse: collapse;
+}
+
+div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-query-detail caption {
+  padding: 3px;
+  font-weight: bold;
+  text-align: left;
+}
+
+div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-query-detail th,
+div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-query-detail td {
+  padding: 3px;
+  border: 1px solid var(--debugbar-border);
+  text-align: left;
+}
+
 div.phpdebugbar-widgets-sqlqueries span.phpdebugbar-widgets-database,
 div.phpdebugbar-widgets-sqlqueries span.phpdebugbar-widgets-duration,
 div.phpdebugbar-widgets-sqlqueries span.phpdebugbar-widgets-memory,
