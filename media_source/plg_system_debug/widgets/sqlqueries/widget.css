@@ -36,8 +36,8 @@ div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-query-detail captio
 div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-query-detail th,
 div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-query-detail td {
   padding: 3px;
-  border: 1px solid var(--debugbar-border);
   text-align: left;
+  border: 1px solid var(--debugbar-border);
 }
 
 div.phpdebugbar-widgets-sqlqueries span.phpdebugbar-widgets-database,
