@@ -240,21 +240,20 @@ final class Debug extends CMSPlugin implements SubscriberInterface
     {
         // Only if debugging or language debug is enabled.
         if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug() && $this->getApplication()->getDocument() instanceof HtmlDocument) {
-            // Use our own jQuery and fontawesome instead of the debug bar shipped version
             $assetManager = $this->getApplication()->getDocument()->getWebAssetManager();
             $assetManager->registerAndUseStyle(
                 'plg.system.debug',
                 'plg_system_debug/debug.css',
                 [],
                 [],
-                ['fontawesome']
+                []
             );
             $assetManager->registerAndUseScript(
                 'plg.system.debug',
                 'plg_system_debug/debug.min.js',
                 [],
                 ['defer' => true],
-                ['jquery']
+                []
             );
         }
 
