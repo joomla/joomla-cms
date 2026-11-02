@@ -17,6 +17,10 @@ a.phpdebugbar-tab.phpdebugbar-tab-settings i:before {
   mask: var(--debugbar-icon-adjustments-horizontal) center / contain no-repeat;
 }
 
+div.phpdebugbar[data-theme="dark"] .phpdebugbar-settings label {
+  color: var(--debugbar-text);
+}
+
 .phpdebugbar-widgets-timeline .phpdebugbar-widgets-measure:hover {
   background-color: #eee;
 }
