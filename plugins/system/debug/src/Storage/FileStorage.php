@@ -59,7 +59,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
             Folder::create($this->dirname);
         }
 
-        if (!\is_dir($this->dirname) || !\is_writable($this->dirname)) {
+        if (!is_dir($this->dirname) || !is_writable($this->dirname)) {
             Log::add(
                 \sprintf('Unable to write DebugBar request history; directory is not writable: %s', $this->dirname),
                 Log::WARNING,
@@ -69,7 +69,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
             return;
         }
 
-        $dataStr = self::FILE_PREFIX . json_encode($data, JSON_THROW_ON_ERROR);
+        $dataStr  = self::FILE_PREFIX . json_encode($data, JSON_THROW_ON_ERROR);
         $fileName = $this->makeFilename($id);
 
         if (!File::write($fileName, $dataStr)) {
@@ -108,11 +108,11 @@ class FileStorage extends \DebugBar\Storage\FileStorage
             throw new \RuntimeException("Unable to read DebugBar data file: $fileName");
         }
 
-        if (!\str_starts_with($dataStr, self::FILE_PREFIX)) {
+        if (!str_starts_with($dataStr, self::FILE_PREFIX)) {
             throw new \UnexpectedValueException("Invalid DebugBar data file: $fileName");
         }
 
-        $data = json_decode(\substr($dataStr, \strlen(self::FILE_PREFIX)), true, 512, JSON_THROW_ON_ERROR);
+        $data = json_decode(substr($dataStr, \strlen(self::FILE_PREFIX)), true, 512, JSON_THROW_ON_ERROR);
 
         if (!\is_array($data)) {
             throw new \UnexpectedValueException("Invalid DebugBar data in file: $fileName");
@@ -134,20 +134,20 @@ class FileStorage extends \DebugBar\Storage\FileStorage
      */
     public function find(array $filters = [], int $max = 20, int $offset = 0): array
     {
-        if (!\is_dir($this->dirname)) {
+        if (!is_dir($this->dirname)) {
             return [];
         }
 
         $ids = [];
 
         foreach (new \FilesystemIterator($this->dirname, \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::CURRENT_AS_PATHNAME) as $path) {
-            if (\is_string($path) && \str_ends_with($path, '.php')) {
+            if (\is_string($path) && str_ends_with($path, '.php')) {
                 $ids[] = basename($path, '.php');
             }
         }
 
-        \sort($ids, SORT_STRING);
-        $ids = \array_reverse($ids);
+        sort($ids, SORT_STRING);
+        $ids = array_reverse($ids);
 
         $filterUtime = null;
 
@@ -215,13 +215,13 @@ class FileStorage extends \DebugBar\Storage\FileStorage
      */
     public function clear(): void
     {
-        if (!\is_dir($this->dirname)) {
+        if (!is_dir($this->dirname)) {
             return;
         }
 
         foreach (new \FilesystemIterator($this->dirname, \FilesystemIterator::CURRENT_AS_PATHNAME | \FilesystemIterator::SKIP_DOTS) as $path) {
-            if (\is_string($path) && \is_file($path) && \str_ends_with($path, '.php')) {
-                \unlink($path);
+            if (\is_string($path) && is_file($path) && str_ends_with($path, '.php')) {
+                unlink($path);
             }
         }
     }
@@ -237,15 +237,15 @@ class FileStorage extends \DebugBar\Storage\FileStorage
      */
     public function prune(int $hours = 24): void
     {
-        if (!\is_dir($this->dirname)) {
+        if (!is_dir($this->dirname)) {
             return;
         }
 
-        $cutoffTime = \time() - $hours * 3600;
+        $cutoffTime = time() - $hours * 3600;
 
         foreach (new \FilesystemIterator($this->dirname, \FilesystemIterator::CURRENT_AS_FILEINFO | \FilesystemIterator::SKIP_DOTS) as $file) {
-            if ($file->isFile() && \str_ends_with($file->getFilename(), '.php') && $file->getMTime() < $cutoffTime) {
-                \unlink($file->getPathname());
+            if ($file->isFile() && str_ends_with($file->getFilename(), '.php') && $file->getMTime() < $cutoffTime) {
+                unlink($file->getPathname());
             }
         }
     }
@@ -259,35 +259,35 @@ class FileStorage extends \DebugBar\Storage\FileStorage
      */
     private function secureLegacyFiles(): void
     {
-        if (!\is_dir($this->dirname)) {
+        if (!is_dir($this->dirname)) {
             return;
         }
 
         foreach (new \FilesystemIterator($this->dirname, \FilesystemIterator::CURRENT_AS_FILEINFO | \FilesystemIterator::SKIP_DOTS) as $file) {
-            if (!$file->isFile() || !\str_ends_with($file->getFilename(), '.json')) {
+            if (!$file->isFile() || !str_ends_with($file->getFilename(), '.json')) {
                 continue;
             }
 
             $legacyFile = $file->getPathname();
-            $data       = \file_get_contents($legacyFile);
+            $data       = file_get_contents($legacyFile);
 
             if ($data === false) {
                 throw new \RuntimeException("Unable to read legacy DebugBar data file: $legacyFile");
             }
 
-            $secureFile = $this->makeFilename(\basename($file->getFilename(), '.json'));
+            $secureFile = $this->makeFilename(basename($file->getFilename(), '.json'));
 
-            if (\file_exists($secureFile)) {
-                $secureData = \file_get_contents($secureFile);
+            if (file_exists($secureFile)) {
+                $secureData = file_get_contents($secureFile);
 
-                if ($secureData === false || !\str_starts_with($secureData, self::FILE_PREFIX)) {
+                if ($secureData === false || !str_starts_with($secureData, self::FILE_PREFIX)) {
                     throw new \UnexpectedValueException("Invalid secured DebugBar data file: $secureFile");
                 }
             } elseif (!File::write($secureFile, self::FILE_PREFIX . $data)) {
                 throw new \RuntimeException("Unable to secure legacy DebugBar data file: $legacyFile");
             }
 
-            if (!\unlink($legacyFile)) {
+            if (!unlink($legacyFile)) {
                 throw new \RuntimeException("Unable to remove unprotected DebugBar data file: $legacyFile");
             }
         }
