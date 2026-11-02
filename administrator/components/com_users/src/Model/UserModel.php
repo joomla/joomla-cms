@@ -11,6 +11,7 @@
 namespace Joomla\Component\Users\Administrator\Model;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\User\AfterDeleteEvent;
 use Joomla\CMS\Event\User\AfterSaveEvent;
@@ -22,6 +23,7 @@ use Joomla\CMS\Language\LanguageFactoryAwareInterface;
 use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailerFactoryAwareInterface;
 use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
@@ -29,6 +31,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
@@ -661,6 +664,105 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
         }
 
         return true;
+    }
+
+    /**
+     * Method to generate a new password for user records and send it to the users by email.
+     *
+     * @param   array  &$pks           The ids of the users.
+     * @param   bool   $requireReset  Whether the users have to change the new password after logging in.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     *
+     * @throws  NotAllowed        If the current user is not allowed to edit users.
+     * @throws  \RuntimeException  If a user could not be saved.
+     */
+    public function sendNewPassword(array &$pks, bool $requireReset): void
+    {
+        $app            = Factory::getApplication();
+        $my             = $this->getCurrentUser();
+        $iAmSuperAdmin  = $my->authorise('core.admin');
+        $passwordLength = (int) ComponentHelper::getParams('com_users')->get('minimum_length', 12);
+
+        if (!$my->authorise('core.edit', 'com_users')) {
+            throw new NotAllowed(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 403);
+        }
+
+        $app->getLanguage()->load('com_users', JPATH_SITE);
+
+        foreach ($pks as $i => $pk) {
+            if ((int) $pk === (int) $my->id) {
+                unset($pks[$i]);
+                $app->enqueueMessage(Text::_('COM_USERS_USERS_ERROR_CANNOT_SEND_NEW_PASSWORD_SELF'), 'error');
+
+                continue;
+            }
+
+            // Prevent new password from non-super user for super user accounts
+            if (!$iAmSuperAdmin && Access::check($pk, 'core.admin')) {
+                unset($pks[$i]);
+                $app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
+
+                continue;
+            }
+
+            $user = $this->getUserFactory()->loadUserById((int) $pk);
+
+            if ((int) $user->id !== (int) $pk) {
+                unset($pks[$i]);
+
+                continue;
+            }
+
+            $password = UserHelper::genRandomPassword($passwordLength);
+            $data     = ['password' => $password, 'password2' => $password];
+
+            if (!$user->bind($data)) {
+                throw new \RuntimeException($user->getError());
+            }
+
+            // Set after bind(), which clears requireReset whenever a new password is set
+            $user->requireReset = (int) $requireReset;
+
+            if (!$user->save()) {
+                throw new \RuntimeException($user->getError());
+            }
+
+            UserHelper::destroyUserSessions($user->id, true);
+
+            $mailer = new MailTemplate(
+                'com_users.new_credentials',
+                $user->getParam('language', $user->getParam('admin_language', $app->getLanguage()->getTag())),
+                $this->getMailerFactory()->createMailer(),
+                $this->getLanguageFactory(),
+                $this->getDatabase()
+            );
+            $mailer->addTemplateData([
+                'name'     => $user->name,
+                'sitename' => $app->get('sitename'),
+                'url'      => Uri::root(),
+                'username' => $user->username,
+                'password' => $password,
+                'email'    => $user->email,
+            ]);
+            $mailer->addUnsafeTags(['username', 'password', 'name', 'email']);
+            $mailer->addRecipient($user->email, $user->name);
+
+            try {
+                $sent = $mailer->send();
+            } catch (\Exception $exception) {
+                Log::add($exception->getMessage(), Log::WARNING, 'jerror');
+
+                $sent = false;
+            }
+
+            if ($sent !== true) {
+                unset($pks[$i]);
+                $app->enqueueMessage(Text::sprintf('COM_USERS_USERS_ERROR_NEW_PASSWORD_MAIL_FAILED', $user->username), 'warning');
+            }
+        }
     }
 
     /**

@@ -148,6 +148,33 @@ class UsersController extends AdminController
     }
 
     /**
+     * Method to generate a new password for the selected users and send it to them by email.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function sendNewPassword(): void
+    {
+        $this->checkToken();
+
+        $ids = array_filter((array) $this->input->get('cid', [], 'int'));
+
+        if (empty($ids)) {
+            $this->setMessage(Text::_('COM_USERS_USERS_NO_ITEM_SELECTED'), 'warning');
+        } else {
+            try {
+                $this->getModel()->sendNewPassword($ids, $this->input->getBool('requireReset'));
+                $this->setMessage(Text::plural('COM_USERS_N_USERS_NEW_PASSWORD_SENT', \count($ids)));
+            } catch (\Exception $exception) {
+                $this->setMessage($exception->getMessage(), 'error');
+            }
+        }
+
+        $this->setRedirect('index.php?option=com_users&view=users');
+    }
+
+    /**
      * Method to get the number of active users
      *
      * @return  void
