@@ -30,29 +30,3 @@ table.phpdebugbar-widgets-languageStrings table.phpdebugbar-widgets-callstack tb
 table.phpdebugbar-widgets-languageStrings table.phpdebugbar-widgets-callstack th {
   font-weight: bold;
 }
-
-table.phpdebugbar-widgets-languageStrings span.phpdebugbar-widgets-eye,
-table.phpdebugbar-widgets-languageStrings span.phpdebugbar-widgets-eye-dash {
-  margin-left: 8px;
-  color: #888;
-}
-
-table.phpdebugbar-widgets-languageStrings span.phpdebugbar-widgets-eye-dash {
-  color: #000;
-  background-color: #eee;
-}
-
-table.phpdebugbar-widgets-languageStrings span.phpdebugbar-widgets-eye:before,
-table.phpdebugbar-widgets-languageStrings span.phpdebugbar-widgets-eye-dash:before {
-  margin-right: 4px;
-  font-family: "Font Awesome 6 Free";
-  /*font-size: 12px;*/
-}
-
-table.phpdebugbar-widgets-languageStrings span.phpdebugbar-widgets-eye:before {
-  content: "\f06e";
-}
-
-table.phpdebugbar-widgets-languageStrings span.phpdebugbar-widgets-eye-dash:before {
-  content: "\f070";
-}
