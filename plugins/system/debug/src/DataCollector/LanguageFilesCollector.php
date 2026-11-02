@@ -120,7 +120,8 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
     public function getAssets(): array
     {
         return [
-            'js' => Uri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.js',
+            'js'  => Uri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.js',
+            'css' => Uri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.css',
         ];
     }
 }
