@@ -21,13 +21,15 @@ if (empty($images->image_intro)) {
     return;
 }
 
-$imgclass   = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro;
-$layoutAttr = [
-    'src' => $images->image_intro,
-    'alt' => empty($images->image_intro_alt) && empty($images->image_intro_alt_empty) ? false : $images->image_intro_alt,
+$figureClass = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro;
+$imageClass  = empty($images->imgclass_intro) ? $params->get('imgclass_intro') : $images->imgclass_intro;
+$layoutAttr  = [
+    'src'   => $images->image_intro,
+    'alt'   => empty($images->image_intro_alt) && empty($images->image_intro_alt_empty) ? false : $images->image_intro_alt,
+    'class' => $imageClass,
 ];
 ?>
-<figure class="<?php echo $this->escape($imgclass); ?> item-image">
+<figure class="<?php echo $this->escape($figureClass); ?> item-image">
     <?php if ($params->get('link_intro_image') && ($params->get('access-view') || $params->get('show_noauth', '0') == '1')) : ?>
         <a href="<?php echo Route::_(RouteHelper::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)); ?>" title="<?php echo $this->escape($displayData->title); ?>">
             <?php echo LayoutHelper::render('joomla.html.image', $layoutAttr); ?>

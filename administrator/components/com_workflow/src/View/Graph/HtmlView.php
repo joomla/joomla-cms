@@ -27,7 +27,7 @@ use Joomla\Component\Workflow\Administrator\Model\GraphModel;
 /**
  * View class to display the entire workflow graph
  *
- * @since  __DEPLOY_VERSION__
+ * @since  6.1.0
  */
 class HtmlView extends BaseHtmlView
 {
@@ -35,7 +35,7 @@ class HtmlView extends BaseHtmlView
      * The model state
      *
      * @var    object
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     protected $state;
 
@@ -43,7 +43,7 @@ class HtmlView extends BaseHtmlView
      * Items array
      *
      * @var    object
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     protected $item;
 
@@ -51,7 +51,7 @@ class HtmlView extends BaseHtmlView
      * The name of current extension
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     protected $extension;
 
@@ -59,7 +59,7 @@ class HtmlView extends BaseHtmlView
      * The ID of current workflow
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     protected $workflow;
 
@@ -67,7 +67,7 @@ class HtmlView extends BaseHtmlView
      * The section of the current extension
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     protected $section;
 
@@ -78,7 +78,7 @@ class HtmlView extends BaseHtmlView
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     public function display($tpl = null)
     {
@@ -126,7 +126,7 @@ class HtmlView extends BaseHtmlView
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     protected function addToolbar()
     {

@@ -453,7 +453,7 @@ class AdminController extends BaseController
      *
      * @return  string  The redirect URL.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function getRedirectUrlToList(): string
     {

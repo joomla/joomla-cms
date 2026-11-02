@@ -42,7 +42,7 @@ class Modules
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      *
      * @throws \Exception If there is an error on the query
      */

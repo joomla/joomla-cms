@@ -6,7 +6,7 @@
  *
  * @copyright   (C) 2026 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       __DEPLOY_VERSION__
+ * @since       6.1.0
  */
 
 use Joomla\CMS\Language\Text;
@@ -52,6 +52,7 @@ $translationStrings = [
     'COM_WORKFLOW_GRAPH_ERROR_WORKFLOW_NOT_FOUND',
     'COM_WORKFLOW_GRAPH_FIT_VIEW',
     'COM_WORKFLOW_GRAPH_FOCUS_TYPE_CHANGE',
+    'COM_WORKFLOW_GRAPH_FROM_ANY',
     'COM_WORKFLOW_GRAPH_LOADING',
     'COM_WORKFLOW_GRAPH_MINIMAP_HIDE',
     'COM_WORKFLOW_GRAPH_MINIMAP_LABEL',
@@ -68,6 +69,7 @@ $translationStrings = [
     'COM_WORKFLOW_GRAPH_STAGES',
     'COM_WORKFLOW_GRAPH_STAGE_ACTIONS',
     'COM_WORKFLOW_GRAPH_STAGE_COUNT',
+    'COM_WORKFLOW_GRAPH_STAGE_DEFAULT',
     'COM_WORKFLOW_GRAPH_STAGE_DESCRIPTION',
     'COM_WORKFLOW_GRAPH_STAGE_POSITIONS_UPDATED',
     'COM_WORKFLOW_GRAPH_STAGE_REF',
@@ -98,6 +100,8 @@ $translationStrings = [
     'COM_WORKFLOW_GRAPH_WORKFLOWS_EDIT',
     'COM_WORKFLOW_GRAPH_ZOOM_IN',
     'COM_WORKFLOW_GRAPH_ZOOM_OUT',
+    'JNO',
+    'JYES',
 ];
 
 foreach ($translationStrings as $string) {

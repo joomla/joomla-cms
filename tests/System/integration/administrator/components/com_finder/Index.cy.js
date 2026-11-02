@@ -16,6 +16,23 @@ describe('Test in backend that the Smart Search', () => {
     cy.contains('Test article').should('exist');
   });
 
+  it('can index content', () => {
+    // Create a new article
+    cy.visit('/administrator/index.php?option=com_content&task=article.add');
+    cy.get('#jform_title').clear().type('Test article');
+    cy.clickToolbarButton('Save & Close');
+    // Visit the smart search page
+    cy.visit('/administrator/index.php?option=com_finder&view=index');
+    cy.get('#toolbar-indexing-group, #toolbar-index').then(($toolbar) => {
+      if ($toolbar.is('#toolbar-indexing-group')) {
+        // JDEBUG enabled: Index is inside the dropdown
+        cy.get('#toolbar-indexing-group > button').click();
+      }
+    });
+    cy.get('button.button-index').should('be.visible').click();
+    cy.contains('Test article').should('exist');
+  });
+
   it('can purge the index', () => {
     // Visit the smart search page
     cy.visit('/administrator/index.php?option=com_finder&view=index');

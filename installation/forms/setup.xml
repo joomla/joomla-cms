@@ -45,6 +45,7 @@
 			strengthmeter="true"
 			force="on"
 			filter="raw"
+            class="validate-password-strength"
 		/>
 		<field
 			name="admin_email"

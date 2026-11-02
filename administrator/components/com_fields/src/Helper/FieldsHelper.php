@@ -361,6 +361,16 @@ class FieldsHelper
             $form->setFieldAttribute('catid', 'refresh-section', $section);
         }
 
+        /*
+         * Getting the fields
+         * For categories (or any context where no catid can be determined),
+         * pass fieldscatid = 0 so getFields only returns globally unassigned fields,
+         * instead of all fields regardless of category assignment.
+         */
+        if (!$assignedCatids && !isset($data->catid) && !isset($data->fieldscatid)) {
+            $data->fieldscatid = 0;
+        }
+
         // Getting the fields
         $fields = self::getFields($parts[0] . '.' . $parts[1], $data);
 

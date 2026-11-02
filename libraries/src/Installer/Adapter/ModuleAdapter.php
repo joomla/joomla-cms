@@ -55,7 +55,7 @@ class ModuleAdapter extends InstallerAdapter
      * files list.
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      * */
     protected $oldFiles = null;
 
@@ -544,7 +544,7 @@ class ModuleAdapter extends InstallerAdapter
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function setupUpdates()
     {

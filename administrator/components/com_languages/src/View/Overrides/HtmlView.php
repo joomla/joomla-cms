@@ -64,7 +64,7 @@ class HtmlView extends BaseHtmlView
      * Holds overrides indexed by language tag.
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     protected $languageOverrides;
 
@@ -72,7 +72,7 @@ class HtmlView extends BaseHtmlView
      * Holds content languages data keyed by language tag.
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     protected $contentLanguages;
 

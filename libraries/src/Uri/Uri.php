@@ -252,6 +252,11 @@ class Uri extends \Joomla\Uri\Uri
         $base = $uri->toString(['scheme', 'host', 'port', 'path']);
         $host = $uri->toString(['scheme', 'host', 'port']);
 
+        // XSS-Related plausibility checks
+        if (preg_match('/["\' <>]/', $url)) {
+            return false;
+        }
+
         // @see UriTest
         if (
             empty($host) && str_starts_with($uri->path, 'index.php')

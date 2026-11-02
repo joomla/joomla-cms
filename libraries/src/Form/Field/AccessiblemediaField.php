@@ -74,7 +74,7 @@ class AccessiblemediaField extends SubformField
      * Media types like 'images, audios, documents, videos'
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     protected $types;
 
@@ -158,7 +158,7 @@ class AccessiblemediaField extends SubformField
          * most likely within a custom field of type subform
          * and the value is a stdClass with properties
          * imagefile and alt_text. So it is fine.
-        */
+         */
         if (\is_string($value)) {
             json_decode($value);
 
@@ -168,19 +168,24 @@ class AccessiblemediaField extends SubformField
                  * If the value is not empty and is not a valid JSON string,
                  * it is most likely a custom field created in Joomla 3 and
                  * the value is a string that contains the file name.
-                */
+                 */
                 if (is_file(JPATH_ROOT . '/' . $value)) {
                     $value = '{"imagefile":"' . $value . '","alt_text":""}';
                 } else {
                     $value = '';
                 }
             }
-        } elseif (
-            !\is_object($value)
-            || !property_exists($value, 'imagefile')
-            || !property_exists($value, 'alt_text')
-        ) {
+        } elseif (!\is_object($value)) {
             return false;
+        } else {
+            $mediaTypes         = explode(',', (string) ($element['types'] ?? 'images'));
+            $requiredProperties = \in_array('images', $mediaTypes, true) ? ['imagefile', 'alt_text'] : ['file'];
+
+            foreach ($requiredProperties as $property) {
+                if (!property_exists($value, $property)) {
+                    return false;
+                }
+            }
         }
 
         if (!parent::setup($element, $value, $group)) {
@@ -279,7 +284,7 @@ XML;
      *
      * @return  string  The field input markup.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function getInput()
     {
