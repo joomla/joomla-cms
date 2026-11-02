@@ -311,6 +311,11 @@ trait DisplayTrait
         $toolbar1 = (array) $levelParams->get('toolbar1', []);
         $toolbar2 = (array) $levelParams->get('toolbar2', []);
 
+        // Make sure that we load the help plugin if the help menu is enabled
+        if (\in_array('help', $menubar, true)) {
+            $plugins[] = 'help';
+        }
+
         // Make an easy way to check which button is enabled
         $allButtons = array_merge($toolbar1, $toolbar2);
         $allButtons = array_combine($allButtons, $allButtons);
