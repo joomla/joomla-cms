@@ -50,42 +50,9 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
      */
     public function renderHead(): string
     {
-        $assets     = $this->getAssets(self::RELATIVE_URL);
-        $cssFiles   = $assets['css'];
-        $jsFiles    = $assets['js'];
-        $inlineCss  = $assets['inline_css'];
-        $inlineJs   = $assets['inline_js'];
-        $inlineHead = $assets['inline_head'];
-        $html       = '';
-        $doc        = Factory::getApplication()->getDocument();
+        $this->setCspNonce(Factory::getApplication()->getDocument()->cspNonce);
 
-        foreach ($cssFiles as $file) {
-            $html .= \sprintf('<link rel="stylesheet" type="text/css" href="%s">' . "\n", $file);
-        }
-
-        foreach ($inlineCss as $content) {
-            $html .= \sprintf('<style>%s</style>' . "\n", $content);
-        }
-
-        foreach ($jsFiles as $file) {
-            $html .= \sprintf('<script type="text/javascript" src="%s" defer></script>' . "\n", $file);
-        }
-
-        $nonce = '';
-
-        if ($doc->cspNonce) {
-            $nonce = ' nonce="' . $doc->cspNonce . '"';
-        }
-
-        foreach ($inlineJs as $content) {
-            $html .= \sprintf('<script%s>%s</script>' . "\n", $nonce, $content);
-        }
-
-        foreach ($inlineHead as $content) {
-            $html .= $content . "\n";
-        }
-
-        return $html;
+        return parent::renderHead();
     }
 
     /**
