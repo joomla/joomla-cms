@@ -10,6 +10,8 @@
 
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
+use DebugBar\DataCollector\AssetProvider;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Database\Monitor\DebugMonitor;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 use Joomla\Registry\Registry;
@@ -23,7 +25,7 @@ use Joomla\Registry\Registry;
  *
  * @since  4.0.0
  */
-class QueryCollector extends AbstractDataCollector
+class QueryCollector extends AbstractDataCollector implements AssetProvider
 {
     /**
      * Collector name.
@@ -142,7 +144,7 @@ class QueryCollector extends AbstractDataCollector
         return [
             'queries' => [
                 'icon'    => 'database',
-                'widget'  => 'PhpDebugBar.Widgets.SQLQueriesWidget',
+                'widget'  => 'PhpDebugBar.Widgets.JoomlaSQLQueriesWidget',
                 'map'     => $this->name . '.data',
                 'default' => '[]',
             ],
@@ -150,6 +152,21 @@ class QueryCollector extends AbstractDataCollector
                 'map'     => $this->name . '.count',
                 'default' => 'null',
             ],
+        ];
+    }
+
+    /**
+     * Assets for the collector.
+     *
+     * @return array
+     *
+     * @since  4.0.0
+     */
+    public function getAssets(): array
+    {
+        return [
+            'css' => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.min.css',
+            'js'  => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.min.js',
         ];
     }
 
@@ -216,7 +233,7 @@ class QueryCollector extends AbstractDataCollector
             $params = [];
 
             foreach ($boundParams[$id] ?? [] as $key => $param) {
-                $value = \is_object($param) && property_exists($param, 'value')
+                $value = \is_object($param) && \property_exists($param, 'value')
                     ? $param->value
                     : $param;
 
