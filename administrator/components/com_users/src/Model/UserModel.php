@@ -720,14 +720,14 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
             $data     = ['password' => $password, 'password2' => $password];
 
             if (!$user->bind($data)) {
-                throw new \RuntimeException($user->getError());
+                throw new \RuntimeException(Text::sprintf('COM_USERS_USERS_ERROR_NEW_PASSWORD_SAVE_FAILED', $user->username));
             }
 
             // Set after bind(), which clears requireReset whenever a new password is set
             $user->requireReset = (int) $requireReset;
 
             if (!$user->save()) {
-                throw new \RuntimeException($user->getError());
+                throw new \RuntimeException(Text::sprintf('COM_USERS_USERS_ERROR_NEW_PASSWORD_SAVE_FAILED', $user->username));
             }
 
             UserHelper::destroyUserSessions($user->id, true);
