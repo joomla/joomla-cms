@@ -31,7 +31,7 @@ $extension-types: (
       background-color: var(--danger);
     }
     &.badge-warning {
-      color: var(--template-text-dark);
+      color: var(--warning-text);
       background-color: var(--warning);
     }
   }
