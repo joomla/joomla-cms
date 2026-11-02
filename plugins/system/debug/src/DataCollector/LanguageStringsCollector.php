@@ -137,7 +137,7 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
                         $file  = $stack['file'] ?? '';
                         $line  = $stack['line'] ?? '';
 
-                        $caller   = $this->formatCallerInfo($stack);
+                        $caller   = html_entity_decode($this->formatCallerInfo($stack), ENT_QUOTES | ENT_HTML5, 'UTF-8');
                         $location = $file && $line ? "$file:$line" : 'same';
 
                         $isCaller = 0;
