@@ -19,7 +19,7 @@ use Joomla\CMS\Language\Text;
 <div class="p-3">
     <p><?php echo Text::_('COM_USERS_USERS_CONFIRM_SEND_NEW_PASSWORD'); ?></p>
     <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="requireReset" value="1" id="newpassword-require-reset">
+        <input class="form-check-input" type="checkbox" name="requireReset" value="1" id="newpassword-require-reset" checked>
         <label class="form-check-label" for="newpassword-require-reset">
             <?php echo Text::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?>
         </label>
