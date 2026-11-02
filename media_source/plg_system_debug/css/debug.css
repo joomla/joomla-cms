@@ -9,10 +9,13 @@ a.phpdebugbar-restore-btn:after {
 }
 
 a.phpdebugbar-tab.phpdebugbar-tab-settings i:before {
-  font-family: "Font Awesome 6 Free";
-  font-size: 12px;
-  font-weight: 900;
-  content: "\f1de";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  content: "";
+  background-color: currentColor;
+  -webkit-mask: var(--debugbar-icon-adjustments-horizontal) center / contain no-repeat;
+  mask: var(--debugbar-icon-adjustments-horizontal) center / contain no-repeat;
 }
 
 .phpdebugbar-widgets-timeline .phpdebugbar-widgets-measure:hover {
