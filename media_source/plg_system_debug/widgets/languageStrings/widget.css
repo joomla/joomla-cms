@@ -29,3 +29,25 @@ table.phpdebugbar-widgets-languageStrings table.phpdebugbar-widgets-callstack tb
 table.phpdebugbar-widgets-languageStrings table.phpdebugbar-widgets-callstack th {
   font-weight: bold;
 }
+
+div.phpdebugbar[data-theme="dark"] table.phpdebugbar-widgets-languageStrings th {
+  border-color: var(--debugbar-border);
+}
+
+div.phpdebugbar[data-theme="dark"] table.phpdebugbar-widgets-languageStrings a {
+  color: var(--debugbar-link);
+}
+
+div.phpdebugbar[data-theme="dark"] table.phpdebugbar-widgets-languageStrings a:hover {
+  color: var(--debugbar-text);
+}
+
+div.phpdebugbar[data-theme="dark"] table.phpdebugbar-widgets-languageStrings table.phpdebugbar-widgets-callstack tr.caller {
+  color: var(--debugbar-text);
+  background-color: var(--debugbar-background-alt);
+}
+
+div.phpdebugbar[data-theme="dark"] table.phpdebugbar-widgets-languageStrings table.phpdebugbar-widgets-callstack tbody tr:hover {
+  color: var(--debugbar-text);
+  background-color: var(--debugbar-hover);
+}
