@@ -98,7 +98,7 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
         return [
             'js'  => Uri::root(true) . '/media/plg_system_debug/widgets/languageStrings/widget.min.js',
             'css' => Uri::root(true) . '/media/plg_system_debug/widgets/languageStrings/widget.min.css',
-            
+
         ];
     }
 
