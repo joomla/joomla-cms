@@ -10,6 +10,7 @@ class JFormValidator {
     this.handlers = [];
     this.handlers = {};
     this.removeMarking = this.removeMarking.bind(this);
+    document.addEventListener('click', (event) => this.handleInvalidFieldLink(event));
     this.inputEmail = () => {
       const input = document.createElement('input');
       input.setAttribute('type', 'email');
@@ -57,6 +58,149 @@ class JFormValidator {
       enabled: isEnabled,
       exec: func,
     };
+  }
+
+  getFieldLabel(element) {
+    if (element.tagName.toLowerCase() === 'fieldset') {
+      const legend = element.querySelector('legend');
+
+      return legend ? legend.textContent.trim().replace(/\s+/g, ' ') : '';
+    }
+
+    const labels = element.labels ? Array.from(element.labels) : [];
+
+    for (const label of labels) {
+      const labelCopy = label.cloneNode(true);
+
+      labelCopy.querySelectorAll('.star, .form-control-feedback').forEach((item) => {
+        item.remove();
+      });
+
+      const text = labelCopy.textContent.trim().replace(/\s+/g, ' ');
+
+      if (text) {
+        return text;
+      }
+    }
+
+    return '';
+  }
+
+  getInvalidFieldTarget(element) {
+    if (element.tagName.toLowerCase() === 'fieldset') {
+      return element.querySelector('input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled])') || element;
+    }
+
+    return element;
+  }
+
+  updateInvalidTabs(form, invalid) {
+    form.querySelectorAll('joomla-tab-element').forEach((tab) => {
+      const tabButton = Array.from(document.querySelectorAll('button[aria-controls]'))
+        .find((button) => button.getAttribute('aria-controls') === tab.id);
+
+      if (!tabButton) {
+        return;
+      }
+
+      const hasInvalidFields = invalid.some((field) => tab.contains(field));
+
+      tabButton.classList.toggle('text-danger', hasInvalidFields);
+    });
+  }
+
+  ensureElementId(element, index) {
+    if (element.id) {
+      return element.id;
+    }
+
+    let id = `form-validation-target-${index}`;
+    let suffix = 1;
+
+    while (document.getElementById(id)) {
+      id = `form-validation-target-${index}-${suffix}`;
+      suffix += 1;
+    }
+
+    element.id = id;
+
+    return id;
+  }
+
+  escapeHtml(value) {
+    return value.replace(/[&<>"']/g, (character) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;',
+    })[character]);
+  }
+
+  handleInvalidFieldLink(event) {
+    const link = event.target.closest('a.js-validation-error-link');
+
+    if (!link) {
+      return;
+    }
+
+    const target = document.getElementById(link.dataset.targetId);
+
+    if (!target) {
+      return;
+    }
+
+    event.preventDefault();
+
+    const tab = link.dataset.tabId ? document.getElementById(link.dataset.tabId) : null;
+
+    if (tab) {
+      const tabButton = Array.from(document.querySelectorAll('button[aria-controls]'))
+        .find((button) => button.getAttribute('aria-controls') === tab.id);
+
+      if (tabButton) {
+        tabButton.click();
+      }
+    }
+
+    window.requestAnimationFrame(() => {
+      target.focus();
+    });
+  }
+
+  buildInvalidFieldsMessage(invalid) {
+    const invalidFieldsets = invalid.filter(
+      (element) => element.tagName.toLowerCase() === 'fieldset'
+        && this.getFieldLabel(element) !== '',
+    );
+
+    const fields = invalid
+      .filter((element) => !invalidFieldsets.some(
+        (fieldset) => fieldset !== element && fieldset.contains(element),
+      ))
+      .map((element, index) => {
+        const label = this.getFieldLabel(element);
+
+        if (!label) {
+          return null;
+        }
+
+        const target = this.getInvalidFieldTarget(element);
+        const targetId = this.ensureElementId(target, index);
+        const tab = element.closest('joomla-tab-element');
+        const tabName = tab ? tab.getAttribute('name') : '';
+        const fieldLabel = tabName ? `${tabName} → ${label}` : label;
+        const tabAttribute = tab && tab.id ? ` data-tab-id="${this.escapeHtml(tab.id)}"` : '';
+
+        return `<li><a class="js-validation-error-link" href="#${targetId}" data-target-id="${targetId}"${tabAttribute}>${this.escapeHtml(fieldLabel)}</a></li>`;
+      })
+      .filter((field) => field !== null);
+
+    if (!fields.length) {
+      return '';
+    }
+
+    return `<ul>${fields.join('')}</ul>`;
   }
 
   markValid(element) {
@@ -251,6 +395,8 @@ class JFormValidator {
       }
     });
 
+    this.updateInvalidTabs(form, invalid);
+
     // Run custom form validators if present
     if (Object.keys(this.customValidators).length) {
       Object.keys(this.customValidators).forEach((key) => {
@@ -265,6 +411,12 @@ class JFormValidator {
         message = form.getAttribute('data-validation-text');
       } else {
         message = Joomla.Text._('JLIB_FORM_CONTAINS_INVALID_FIELDS');
+      }
+
+      const fieldsMessage = this.buildInvalidFieldsMessage(invalid);
+
+      if (fieldsMessage) {
+        message = `${message} ${fieldsMessage}`;
       }
 
       error = { error: [message] };
