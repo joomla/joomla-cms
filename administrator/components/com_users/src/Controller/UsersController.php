@@ -164,7 +164,7 @@ class UsersController extends AdminController
             $this->setMessage(Text::_('COM_USERS_USERS_NO_ITEM_SELECTED'), 'warning');
         } else {
             try {
-                $this->getModel()->sendNewPassword($ids, $this->input->getBool('requireReset'));
+                $this->getModel()->sendNewPassword($ids, $this->input->getBool('requireReset', false));
                 $this->setMessage(Text::plural('COM_USERS_N_USERS_NEW_PASSWORD_SENT', \count($ids)));
             } catch (\Exception $exception) {
                 $this->setMessage($exception->getMessage(), 'error');
