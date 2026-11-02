@@ -2,12 +2,12 @@
 @charset "UTF-8";
 
 div.phpdebugbar-widgets-sqlqueries .phpdebugbar-widgets-status {
-  color: #555;
-  background: #fafafa;
   padding: 6px;
-  border-bottom: 1px solid #ddd;
   font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
   font-weight: bold;
+  color: #555;
+  background: #fafafa;
+  border-bottom: 1px solid #ddd;
 }
 
 div.phpdebugbar-widgets-sqlqueries li.phpdebugbar-widgets-list-item.phpdebugbar-widgets-error {
@@ -15,31 +15,31 @@ div.phpdebugbar-widgets-sqlqueries li.phpdebugbar-widgets-list-item.phpdebugbar-
 }
 
 div.phpdebugbar-widgets-sqlqueries button.phpdebugbar-widgets-query-detail-toggle {
+  margin-right: 8px;
   color: var(--debugbar-text-muted);
   cursor: pointer;
   background: none;
-  margin-right: 8px;
   border: 0;
 }
 
 div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-query-detail {
   width: 100%;
-  font-family: var(--debugbar-font-mono);
   margin: 10px 0;
-  border-collapse: collapse;
   overflow-x: auto;
+  font-family: var(--debugbar-font-mono);
+  border-collapse: collapse;
 }
 
 div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-query-detail caption {
   padding: 3px;
-  text-align: left;
   font-weight: bold;
+  text-align: left;
 }
 
 div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-query-detail th,
 div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-query-detail td {
-  text-align: left;
   padding: 3px;
+  text-align: left;
   border: 1px solid var(--debugbar-border);
 }
 
@@ -64,9 +64,9 @@ div.phpdebugbar-widgets-sqlqueries a.phpdebugbar-widgets-editor-link {
 div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-params {
   width: 70%;
   margin: 10px 0;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
   border-collapse: collapse;
   border: 1px solid #ddd;
-  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
 }
 
 div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-params td,
@@ -82,12 +82,12 @@ div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-params .phpdebugbar
 
 div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-callstack,
 div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-explain {
+  display: none;
   width: 100%;
   margin: 10px 0;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
   border-collapse: collapse;
   border: 1px solid #ddd;
-  display: none;
-  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
 }
 
 div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-callstack tr.caller {
@@ -130,23 +130,23 @@ div.phpdebugbar-widgets-sqlqueries li.phpdebugbar-widgets-list-item.phpdebugbar-
 }
 
 div.phpdebugbar-widgets-sqlqueries div.phpdebugbar-widgets-toolbar {
+  position: fixed;
+  bottom: 0;
   z-index: 1;
+  display: none;
   width: 100%;
   background: #fff;
-  position: fixed;
-  display: none;
-  bottom: 0;
 }
 
 div.phpdebugbar-widgets-sqlqueries div.phpdebugbar-widgets-toolbar a.phpdebugbar-widgets-filter {
   float: right;
-  color: #fff;
-  background: #7cacd5;
-  margin: 0 2px;
   padding: 2px 4px;
-  border-radius: 4px;
+  margin: 0 2px;
   font-size: 12px;
+  color: #fff;
   text-decoration: none;
+  background: #7cacd5;
+  border-radius: 4px;
 }
 
 div.phpdebugbar-widgets-sqlqueries div.phpdebugbar-widgets-toolbar a.phpdebugbar-widgets-filter.phpdebugbar-widgets-excluded {
