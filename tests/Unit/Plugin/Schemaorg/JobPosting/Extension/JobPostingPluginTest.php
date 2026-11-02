@@ -14,6 +14,7 @@ use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
 use Joomla\Plugin\Schemaorg\JobPosting\Extension\JobPosting;
 use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for JobPosting plugin
@@ -21,10 +22,9 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  JobPosting
  *
- * @testdox     The JobPosting plugin
- *
  * @since       6.2.0
  */
+#[TestDox('The JobPosting plugin')]
 class JobPostingPluginTest extends UnitTestCase
 {
     /**
@@ -54,12 +54,11 @@ class JobPostingPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  maps a telecommute job location type to the TELECOMMUTE value expected by search engines
-     *
      * @return  void
      *
      * @since   6.2.0
      */
+    #[TestDox('maps a telecommute job location type to the TELECOMMUTE value expected by search engines')]
     public function testTelecommuteIsMappedToUppercaseTelecommute()
     {
         $entry = $this->compileGraphEntry([
@@ -72,12 +71,11 @@ class JobPostingPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  maps a hybrid job location type to TELECOMMUTE while keeping the physical job location
-     *
      * @return  void
      *
      * @since   6.2.0
      */
+    #[TestDox('maps a hybrid job location type to TELECOMMUTE while keeping the physical job location')]
     public function testHybridIsMappedToTelecommuteAndKeepsJobLocation()
     {
         $jobLocation = [
@@ -97,12 +95,11 @@ class JobPostingPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  omits the job location type for an on-site job so only the job location is emitted
-     *
      * @return  void
      *
      * @since   6.2.0
      */
+    #[TestDox('omits the job location type for an on-site job so only the job location is emitted')]
     public function testOnsiteJobLocationTypeIsOmitted()
     {
         $jobLocation = [
@@ -122,12 +119,11 @@ class JobPostingPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  leaves an entry without a job location type untouched
-     *
      * @return  void
      *
      * @since   6.2.0
      */
+    #[TestDox('leaves an entry without a job location type untouched')]
     public function testEntryWithoutJobLocationTypeIsUntouched()
     {
         $entry = $this->compileGraphEntry([
@@ -140,12 +136,11 @@ class JobPostingPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  does not touch graph entries of other schema types
-     *
      * @return  void
      *
      * @since   6.2.0
      */
+    #[TestDox('does not touch graph entries of other schema types')]
     public function testOtherSchemaTypesAreUntouched()
     {
         $entry = $this->compileGraphEntry([

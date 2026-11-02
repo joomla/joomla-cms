@@ -288,13 +288,13 @@ class ExtensionAdapter extends UpdateAdapter
             return false;
         }
 
-        $this->security = [];
-
         /**
          * Unset the latest update which might have been found for a previous update site, avoid
          * strange issue reported at https://github.com/joomla/joomla-cms/issues/46066
          */
         unset($this->latest);
+
+        $this->security = [];
 
         if (\array_key_exists('minimum_stability', $options)) {
             $this->minimum_stability = $options['minimum_stability'];
