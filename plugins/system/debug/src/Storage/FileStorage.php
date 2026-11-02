@@ -27,6 +27,22 @@ use Joomla\Filesystem\Folder;
  */
 class FileStorage extends \DebugBar\Storage\FileStorage
 {
+    private const FILE_PREFIX = '<?php die(); ?>#(^-^)#';
+
+    /**
+     * Initializes the storage and secures request files created by older versions.
+     *
+     * @param   string  $dirname  The directory where request data is stored.
+     *
+     * @since  4.0.0
+     */
+    public function __construct(string $dirname)
+    {
+        parent::__construct($dirname);
+
+        $this->secureLegacyFiles();
+    }
+
     /**
      * Saves collected data
      *
@@ -43,7 +59,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
             Folder::create($this->dirname);
         }
 
-        if (!is_dir($this->dirname) || !is_writable($this->dirname)) {
+        if (!\is_dir($this->dirname) || !\is_writable($this->dirname)) {
             Log::add(
                 \sprintf('Unable to write DebugBar request history; directory is not writable: %s', $this->dirname),
                 Log::WARNING,
@@ -53,7 +69,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
             return;
         }
 
-        $dataStr  = json_encode($data, JSON_THROW_ON_ERROR);
+        $dataStr = self::FILE_PREFIX . json_encode($data, JSON_THROW_ON_ERROR);
         $fileName = $this->makeFilename($id);
 
         if (!File::write($fileName, $dataStr)) {
@@ -92,7 +108,11 @@ class FileStorage extends \DebugBar\Storage\FileStorage
             throw new \RuntimeException("Unable to read DebugBar data file: $fileName");
         }
 
-        $data = json_decode($dataStr, true, 512, JSON_THROW_ON_ERROR);
+        if (!\str_starts_with($dataStr, self::FILE_PREFIX)) {
+            throw new \UnexpectedValueException("Invalid DebugBar data file: $fileName");
+        }
+
+        $data = json_decode(\substr($dataStr, \strlen(self::FILE_PREFIX)), true, 512, JSON_THROW_ON_ERROR);
 
         if (!\is_array($data)) {
             throw new \UnexpectedValueException("Invalid DebugBar data in file: $fileName");
@@ -114,20 +134,20 @@ class FileStorage extends \DebugBar\Storage\FileStorage
      */
     public function find(array $filters = [], int $max = 20, int $offset = 0): array
     {
-        if (!is_dir($this->dirname)) {
+        if (!\is_dir($this->dirname)) {
             return [];
         }
 
         $ids = [];
 
         foreach (new \FilesystemIterator($this->dirname, \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::CURRENT_AS_PATHNAME) as $path) {
-            if (\is_string($path) && str_ends_with($path, '.json')) {
-                $ids[] = basename($path, '.json');
+            if (\is_string($path) && \str_ends_with($path, '.php')) {
+                $ids[] = basename($path, '.php');
             }
         }
 
-        sort($ids, SORT_STRING);
-        $ids = array_reverse($ids);
+        \sort($ids, SORT_STRING);
+        $ids = \array_reverse($ids);
 
         $filterUtime = null;
 
@@ -183,7 +203,94 @@ class FileStorage extends \DebugBar\Storage\FileStorage
      */
     public function makeFilename(string $id): string
     {
-        return $this->dirname . basename($id) . '.json';
+        return $this->dirname . basename($id) . '.php';
+    }
+
+    /**
+     * Remove stored request data.
+     *
+     * @return void
+     *
+     * @since  4.0.0
+     */
+    public function clear(): void
+    {
+        if (!\is_dir($this->dirname)) {
+            return;
+        }
+
+        foreach (new \FilesystemIterator($this->dirname, \FilesystemIterator::CURRENT_AS_PATHNAME | \FilesystemIterator::SKIP_DOTS) as $path) {
+            if (\is_string($path) && \is_file($path) && \str_ends_with($path, '.php')) {
+                \unlink($path);
+            }
+        }
+    }
+
+    /**
+     * Remove request data older than the given number of hours.
+     *
+     * @param   int  $hours  The maximum age of stored requests.
+     *
+     * @return  void
+     *
+     * @since  4.0.0
+     */
+    public function prune(int $hours = 24): void
+    {
+        if (!\is_dir($this->dirname)) {
+            return;
+        }
+
+        $cutoffTime = \time() - $hours * 3600;
+
+        foreach (new \FilesystemIterator($this->dirname, \FilesystemIterator::CURRENT_AS_FILEINFO | \FilesystemIterator::SKIP_DOTS) as $file) {
+            if ($file->isFile() && \str_ends_with($file->getFilename(), '.php') && $file->getMTime() < $cutoffTime) {
+                \unlink($file->getPathname());
+            }
+        }
+    }
+
+    /**
+     * Migrate unprotected JSON files from previous versions to PHP-guarded files.
+     *
+     * @return void
+     *
+     * @since  4.0.0
+     */
+    private function secureLegacyFiles(): void
+    {
+        if (!\is_dir($this->dirname)) {
+            return;
+        }
+
+        foreach (new \FilesystemIterator($this->dirname, \FilesystemIterator::CURRENT_AS_FILEINFO | \FilesystemIterator::SKIP_DOTS) as $file) {
+            if (!$file->isFile() || !\str_ends_with($file->getFilename(), '.json')) {
+                continue;
+            }
+
+            $legacyFile = $file->getPathname();
+            $data       = \file_get_contents($legacyFile);
+
+            if ($data === false) {
+                throw new \RuntimeException("Unable to read legacy DebugBar data file: $legacyFile");
+            }
+
+            $secureFile = $this->makeFilename(\basename($file->getFilename(), '.json'));
+
+            if (\file_exists($secureFile)) {
+                $secureData = \file_get_contents($secureFile);
+
+                if ($secureData === false || !\str_starts_with($secureData, self::FILE_PREFIX)) {
+                    throw new \UnexpectedValueException("Invalid secured DebugBar data file: $secureFile");
+                }
+            } elseif (!File::write($secureFile, self::FILE_PREFIX . $data)) {
+                throw new \RuntimeException("Unable to secure legacy DebugBar data file: $legacyFile");
+            }
+
+            if (!\unlink($legacyFile)) {
+                throw new \RuntimeException("Unable to remove unprotected DebugBar data file: $legacyFile");
+            }
+        }
     }
 
     /**
