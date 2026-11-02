@@ -181,6 +181,17 @@ $assoc   = Associations::isEnabled() && $clientId == 0;
                         </td>
                         <?php if ($assoc) : ?>
                             <td class="small d-none d-md-table-cell">
+                                <?php if (!empty($item->association_outdated)) : ?>
+                                    <button type="button"
+                                        class="js-grid-item-action badge bg-warning text-dark border-0"
+                                        data-item-id="cb<?php echo $i; ?>"
+                                        data-item-task="modules.translationuptodate"
+                                        title="<?php echo Text::_('JGLOBAL_ASSOCIATIONS_MARK_UPTODATE'); ?>"
+                                        <?php echo $canChange ? '' : 'disabled'; ?>>
+                                        <span class="icon-exclamation-triangle" aria-hidden="true"></span>
+                                        <?php echo Text::_('JGLOBAL_ASSOCIATIONS_OUTDATED'); ?>
+                                    </button>
+                                <?php endif; ?>
                                 <?php if ($item->association) : ?>
                                     <?php echo HTMLHelper::_('modules.association', $item->id); ?>
                                 <?php endif; ?>

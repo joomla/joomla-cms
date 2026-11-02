@@ -12,6 +12,7 @@ namespace Joomla\Component\Newsfeeds\Administrator\View\Newsfeeds;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -109,6 +110,11 @@ class HtmlView extends BaseHtmlView
         $this->filterForm
             ->addControlField('task')
             ->addControlField('boxchecked', '0');
+
+        if (!Associations::isEnabled()) {
+            unset($this->activeFilters['translation']);
+            $this->filterForm->removeField('translation', 'filter');
+        }
 
         // We don't need toolbar in the modal layout.
         if ($this->getLayout() !== 'modal') {

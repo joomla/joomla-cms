@@ -135,6 +135,12 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
                                 </th>
                                 <td class="small">
                                     <?php echo LayoutHelper::render('joomla.content.language', $item); ?>
+                                    <?php if (!empty($item->association_outdated)) : ?>
+                                        <span class="badge bg-warning text-dark">
+                                            <span class="icon-exclamation-triangle" aria-hidden="true"></span>
+                                            <?php echo Text::_('JGLOBAL_ASSOCIATIONS_OUTDATED'); ?>
+                                        </span>
+                                    <?php endif; ?>
                                 </td>
                                 <td>
                                     <?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout, false); ?>

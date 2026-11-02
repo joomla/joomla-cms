@@ -50,6 +50,7 @@ class AssociationsModel extends ListModel
                 'itemtype',
                 'language',
                 'association',
+                'translation',
                 'menutype',
                 'menutype_title',
                 'level',
@@ -139,6 +140,7 @@ class AssociationsModel extends ListModel
         $id .= ':' . $this->getState('filter.menutype');
         $id .= ':' . $this->getState('filter.access');
         $id .= ':' . $this->getState('filter.level');
+        $id .= ':' . $this->getState('filter.translation');
 
         return parent::getStoreId($id);
     }
@@ -224,6 +226,7 @@ class AssociationsModel extends ListModel
 
         // Join over the associations.
         $query->select('COUNT(' . $db->quoteName('asso2.id') . ') > 1 AS ' . $db->quoteName('association'))
+            ->select($db->quoteName('asso.outdated', 'association_outdated'))
             ->join(
                 'LEFT',
                 $db->quoteName('#__associations', 'asso'),
@@ -245,7 +248,16 @@ class AssociationsModel extends ListModel
             $fields['language'],
             'l.title',
             'l.image',
+            'asso.outdated',
         ];
+
+        $translation = $this->getState('filter.translation');
+
+        if ($translation === 'outdated') {
+            $query->where($db->quoteName('asso.outdated') . ' = 1');
+        } elseif ($translation === 'uptodate') {
+            $query->where($db->quoteName('asso.outdated') . ' = 0');
+        }
 
         // Select author for ACL checks.
         if (!empty($fields['created_user_id'])) {

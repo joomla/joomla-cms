@@ -239,6 +239,42 @@ class AdminController extends BaseController
     }
 
     /**
+     * Method to clear the outdated flag of a list of translations.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function translationUpToDate()
+    {
+        // Check for request forgeries
+        $this->checkToken();
+
+        // Remove zero values resulting from input filter
+        $cid = array_filter((array) $this->input->post->get('cid', [], 'int'));
+
+        if (!$cid) {
+            $this->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), ['category' => 'jerror']);
+        } else {
+            $model = $this->getModel();
+
+            if (!method_exists($model, 'markAssociationsUpToDate')) {
+                throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND'), 404);
+            }
+
+            try {
+                if ($model->markAssociationsUpToDate($cid)) {
+                    $this->setMessage(Text::plural('JGLOBAL_ASSOCIATIONS_N_ITEMS_UPTODATE', \count($cid)));
+                }
+            } catch (\Exception $e) {
+                $this->setMessage($e->getMessage(), 'error');
+            }
+        }
+
+        $this->setRedirect($this->getRedirectUrlToList());
+    }
+
+    /**
      * Changes the order of one or more records.
      *
      * @return  boolean  True on success

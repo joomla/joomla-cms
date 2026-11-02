@@ -50,8 +50,11 @@ class AdministratorService
 
         // Get the associations
         if ($associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $articleid)) {
+            $outdated = [];
+
             foreach ($associations as $tag => $associated) {
-                $associations[$tag] = (int) $associated->id;
+                $outdated[(int) $associated->id] = (int) $associated->outdated;
+                $associations[$tag]              = (int) $associated->id;
             }
 
             // Get the associated menu items
@@ -99,6 +102,12 @@ class AdministratorService
                         $tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
                             . htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
                         $classes = 'badge bg-secondary';
+
+                        if (!empty($outdated[(int) $item->id])) {
+                            $text .= ' <span class="icon-exclamation-triangle text-warning" aria-hidden="true"></span>'
+                                . '<span class="visually-hidden">' . Text::_('JGLOBAL_ASSOCIATIONS_OUTDATED') . '</span>';
+                            $tooltip .= '<br>' . Text::_('JGLOBAL_ASSOCIATIONS_OUTDATED');
+                        }
 
                         $item->link = '<a href="' . $url . '" class="' . $classes . '">' . $text . '</a>'
                             . '<div role="tooltip" id="tip-' . (int) $articleid . '-' . (int) $item->id . '">' . $tooltip . '</div>';

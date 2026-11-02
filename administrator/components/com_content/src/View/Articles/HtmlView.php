@@ -12,6 +12,7 @@ namespace Joomla\Component\Content\Administrator\View\Articles;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -167,6 +168,11 @@ class HtmlView extends BaseHtmlView
             if (Factory::getApplication()->isClient('site')) {
                 $this->pagination->setAdditionalUrlParam(Session::getFormToken(), '1');
             }
+        }
+
+        if (!Associations::isEnabled()) {
+            unset($this->activeFilters['translation']);
+            $this->filterForm->removeField('translation', 'filter');
         }
 
         // Add form control fields
