@@ -14,7 +14,6 @@ a.phpdebugbar-tab.phpdebugbar-tab-settings i:before {
   height: 1em;
   content: "";
   background-color: currentColor;
-  -webkit-mask: var(--debugbar-icon-adjustments-horizontal) center / contain no-repeat;
   mask: var(--debugbar-icon-adjustments-horizontal) center / contain no-repeat;
 }
 
