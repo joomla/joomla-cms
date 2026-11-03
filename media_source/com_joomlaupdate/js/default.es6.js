@@ -62,15 +62,23 @@ Joomla = window.Joomla || {};
         });
       }
     }
-    if (confirmButton && updateCheck && !updateCheck.checked) {
-      confirmButton.classList.add('disabled');
-    }
     if (confirmButton && updateCheck) {
-      updateCheck.addEventListener('change', () => {
-        if (updateCheck.checked) {
-          confirmButton.classList.remove('disabled');
+      const updateConfirmButton = () => {
+        const isDisabled = !updateCheck.checked;
+        confirmButton.classList.toggle('disabled', isDisabled);
+        if (isDisabled) {
+          confirmButton.setAttribute('aria-disabled', 'true');
+          confirmButton.setAttribute('tabindex', '-1');
         } else {
-          confirmButton.classList.add('disabled');
+          confirmButton.removeAttribute('aria-disabled');
+          confirmButton.removeAttribute('tabindex');
+        }
+      };
+      updateConfirmButton();
+      updateCheck.addEventListener('change', updateConfirmButton);
+      confirmButton.addEventListener('click', (event) => {
+        if (!updateCheck.checked) {
+          event.preventDefault();
         }
       });
     }
