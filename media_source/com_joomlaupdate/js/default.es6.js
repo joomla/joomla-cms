@@ -76,11 +76,6 @@ Joomla = window.Joomla || {};
       };
       updateConfirmButton();
       updateCheck.addEventListener('change', updateConfirmButton);
-      confirmButton.addEventListener('click', (event) => {
-        if (!updateCheck.checked) {
-          event.preventDefault();
-        }
-      });
     }
     if (uploadField) {
       uploadField.addEventListener('change', Joomla.installpackageChange);
