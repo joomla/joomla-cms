@@ -30,6 +30,7 @@ extract($displayData, EXTR_OVERWRITE);
  * @var   string  $dropdownItems
  * @var   string  $caretClass
  * @var   string  $toggleSplit
+ * @var   string  $toggleText
  */
 
 $direction = '';
@@ -47,13 +48,13 @@ $wa->useScript('bootstrap.dropdown');
     <?php // If there is a toggle split then render the items. Else render the parent button which has the items in the custom element.  ?>
     <?php if ($toggleSplit ?? true) : ?>
         <div id="<?php echo $id; ?>" class="btn-group dropdown-<?php echo $name ?? ''; ?>" role="group">
+            <?php echo $button; ?>
+
             <button type="button" class="<?php echo $caretClass ?? ''; ?> dropdown-toggle-split"
                 data-bs-toggle="dropdown" data-bs-target=".dropdown-menu" data-bs-display="static" aria-haspopup="true" aria-expanded="false">
-                <span class="visually-hidden"><?php echo Text::_('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
+                <span class="visually-hidden"><?php echo $toggleText ?? Text::_('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
                 <span class="icon-chevron-down" aria-hidden="true"></span>
             </button>
-
-            <?php echo $button; ?>
 
             <?php if (trim($dropdownItems) !== '') : ?>
                 <div class="dropdown-menu <?php echo $direction; ?>">
