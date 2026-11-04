@@ -50,7 +50,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      * @var    Document
      * @since  3.0
      *
-     * @deprecated 4.4.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be made private in 7.0
      *             Use $this->getDocument() instead
      */
     public $document;
@@ -297,7 +297,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      * Get the event dispatcher.
      *
      * The override was made to keep a backward compatibility for legacy component.
-     * TODO: Remove the override in 6.0
+     * TODO: Remove the override ONLY when support of Legacy components will be removed (components without Dispatcher and MVCFactory).
      *
      * @return  DispatcherInterface
      *
@@ -308,7 +308,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
     {
         if (!$this->dispatcher) {
             @trigger_error(
-                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 7.0', __CLASS__),
                 E_USER_DEPRECATED
             );
 
@@ -327,7 +327,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      *
      * @since   4.1.0
      *
-     * @deprecated 4.4 will be removed in 6.0. Use $this->getDispatcher() directly.
+     * @deprecated 4.4 will be removed in 7.0. Use $this->getDispatcher() directly.
      */
     protected function dispatchEvent(EventInterface $event)
     {
@@ -335,7 +335,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
 
         @trigger_error(
             \sprintf(
-                'Method %s is deprecated and will be removed in 6.0. Use getDispatcher()->dispatch() directly.',
+                'Method %s is deprecated and will be removed in 7.0. Use getDispatcher()->dispatch() directly.',
                 __METHOD__
             ),
             E_USER_DEPRECATED

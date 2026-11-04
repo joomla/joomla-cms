@@ -12,13 +12,11 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Users\Site\Model\CaptiveModel;
-use Joomla\Component\Users\Site\View\Captive\HtmlView;
 use Joomla\Utilities\ArrayHelper;
 
 /**
- * @var HtmlView     $this  View object
- * @var CaptiveModel $model The model
+ * @var \Joomla\Component\Users\Site\View\Captive\HtmlView  $this  View object
+ * @var \Joomla\Component\Users\Site\Model\CaptiveModel     $model The model
  */
 $model = $this->getModel();
 

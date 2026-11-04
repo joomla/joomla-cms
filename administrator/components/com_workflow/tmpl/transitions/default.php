@@ -156,11 +156,8 @@ if ($saveOrder) {
                     <?php // load the pagination. ?>
                     <?php echo $this->pagination->getListFooter(); ?>
                 <?php endif; ?>
-                <input type="hidden" name="task" value="">
-                <input type="hidden" name="boxchecked" value="0">
-                <input type="hidden" name="workflow_id" value="<?php echo (int) $this->workflowID ?>">
-                <input type="hidden" name="extension" value="<?php echo $this->escape($this->workflow->extension); ?>">
-                <?php echo HTMLHelper::_('form.token'); ?>
+
+                <?php echo $this->filterForm->renderControlFields(); ?>
             </div>
         </div>
     </div>

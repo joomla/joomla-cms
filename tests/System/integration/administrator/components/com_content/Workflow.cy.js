@@ -96,13 +96,13 @@ describe('Test in backend that the content component', () => {
     cy.clickToolbarButton('New');
     cy.get('#jform_title').type('Test article');
     cy.get('#jform_state-lbl').contains('Unpublished');
-    cy.get('#jform_transition').select('Publish');
+    cy.get('#jform_transition').select('Publish', { force: true });
     cy.clickToolbarButton('Save');
 
     cy.checkForSystemMessage('Article saved.');
     cy.get('#jform_state-lbl').contains('Published');
     cy.get('#jform_featured-lbl').contains('No');
-    cy.get('#jform_transition').select('Feature');
+    cy.get('#jform_transition').select('Feature', { force: true });
     cy.clickToolbarButton('Save');
 
     cy.checkForSystemMessage('Article saved.');

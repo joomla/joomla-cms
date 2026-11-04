@@ -17,16 +17,17 @@ use Joomla\CMS\Authentication\Password\ChainedHandler;
 use Joomla\CMS\Authentication\Password\CheckIfRehashNeededHandlerInterface;
 use Joomla\CMS\Authentication\Password\MD5Handler;
 use Joomla\CMS\Authentication\Password\PHPassHandler;
-use Joomla\CMS\Crypt\Crypt;
+use Joomla\CMS\Event\Model\PrepareDataEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\SessionManager;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Crypt\Crypt;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -61,7 +62,7 @@ abstract class UserHelper
      * @var    integer
      * @since  4.0.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use UserHelper::HASH_ARGON2I instead
      */
     public const HASH_ARGON2I_BC = 2;
@@ -84,7 +85,7 @@ abstract class UserHelper
      * @var    integer
      * @since  4.0.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use UserHelper::HASH_ARGON2ID instead
      */
     public const HASH_ARGON2ID_BC = 3;
@@ -103,7 +104,7 @@ abstract class UserHelper
      * @var    integer
      * @since  4.0.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use UserHelper::HASH_BCRYPT instead
      */
     public const HASH_BCRYPT_BC = 1;
@@ -114,7 +115,7 @@ abstract class UserHelper
      * @var    string
      * @since  4.0.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Support for MD5 hashed passwords will be removed use any of the other hashing methods
      */
     public const HASH_MD5 = 'md5';
@@ -125,7 +126,7 @@ abstract class UserHelper
      * @var    string
      * @since  4.0.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Support for PHPass hashed passwords will be removed use any of the other hashing methods
      */
     public const HASH_PHPASS = 'phpass';
@@ -171,7 +172,7 @@ abstract class UserHelper
         if (!\in_array($groupId, $user->groups)) {
             // Check whether the group exists.
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__usergroups'))
                 ->where($db->quoteName('id') . ' = :groupId')
@@ -197,7 +198,7 @@ abstract class UserHelper
         $temp         = User::getInstance($userId);
         $temp->groups = $user->groups;
 
-        if (Factory::getSession()->getId()) {
+        if (Factory::getApplication()->getSession()->getId()) {
             // Set the group data for the user object in the session.
             $temp = Factory::getUser();
 
@@ -287,7 +288,7 @@ abstract class UserHelper
 
         // Get the titles for the user groups.
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['id', 'title']))
             ->from($db->quoteName('#__usergroups'))
             ->whereIn($db->quoteName('id'), $user->groups);
@@ -306,7 +307,7 @@ abstract class UserHelper
         $temp         = Factory::getUser((int) $userId);
         $temp->groups = $user->groups;
 
-        if (Factory::getSession()->getId()) {
+        if (Factory::getApplication()->getSession()->getId()) {
             // Set the group data for the user object in the session.
             $temp = Factory::getUser();
 
@@ -337,11 +338,17 @@ abstract class UserHelper
         // Get the dispatcher and load the user's plugins.
         PluginHelper::importPlugin('user');
 
-        $data     = new CMSObject();
+        $data     = new \stdClass();
         $data->id = $userId;
 
         // Trigger the data preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareData', ['com_users.profile', &$data]);
+        Factory::getContainer()->get(DispatcherInterface::class)->dispatch(
+            'onContentPrepareData',
+            new PrepareDataEvent('onContentPrepareData', [
+                'context' => 'com_users.profile',
+                'data'    => $data,
+            ])
+        );
 
         return $data;
     }
@@ -360,7 +367,7 @@ abstract class UserHelper
         $db       = Factory::getDbo();
 
         // Let's get the id of the user we want to activate
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('activation') . ' = :activation')
@@ -405,7 +412,7 @@ abstract class UserHelper
     {
         // Initialise some variables
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('username') . ' = :username')
@@ -593,8 +600,10 @@ abstract class UserHelper
      */
     public static function destroyUserSessions($userId, $keepCurrent = false, $clientId = null)
     {
+        $app = Factory::getApplication();
+
         // Destroy all sessions for the user account if able
-        if (!Factory::getApplication()->get('session_metadata', true)) {
+        if (!$app->get('session_metadata', true)) {
             return false;
         }
 
@@ -603,7 +612,7 @@ abstract class UserHelper
         try {
             $userId = (int) $userId;
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('session_id'))
                 ->from($db->quoteName('#__session'))
                 ->where($db->quoteName('userid') . ' = :userid')
@@ -630,7 +639,7 @@ abstract class UserHelper
 
         // If true, removes the current session id from the purge list
         if ($keepCurrent) {
-            $sessionIds = array_diff($sessionIds, [Factory::getSession()->getId()]);
+            $sessionIds = array_diff($sessionIds, [$app->getSession()->getId()]);
         }
 
         // If there aren't any active sessions then there's nothing to do here
@@ -644,7 +653,7 @@ abstract class UserHelper
 
         try {
             $db->setQuery(
-                $db->getQuery(true)
+                $db->createQuery()
                     ->delete($db->quoteName('#__session'))
                     ->whereIn($db->quoteName('session_id'), $sessionIds, ParameterType::LARGE_OBJECT)
             )->execute();

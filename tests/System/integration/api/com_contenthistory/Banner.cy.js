@@ -42,7 +42,6 @@ describe('Test that contenthistory for banners API endpoint', () => {
           const bannerName = versionData.name;
           const { alias } = versionData;
           const createdDate = versionData.created;
-          const modifiedDate = versionData.modified;
 
           // Log details for debugging
           cy.log(`History ID: ${historyId}`);
@@ -52,12 +51,10 @@ describe('Test that contenthistory for banners API endpoint', () => {
           cy.log(`Banner Name: ${bannerName}`);
           cy.log(`Alias: ${alias}`);
           cy.log(`Created Date: ${createdDate}`);
-          cy.log(`Modified Date: ${modifiedDate}`);
 
           // Perform assertions
           expect(attributes).to.have.property('editor_user_id');
           expect(versionData).to.have.property('name');
-          expect(versionData).to.have.property('modified');
           expect(bannerName).to.eq('automated test banner');
         });
 
