@@ -137,23 +137,35 @@ describe('Test that the featuring workflow plugin', () => {
     cy.visit('/administrator/index.php?option=com_content&task=article.add');
     cy.get('#jform_title').clear().type('Article featuring');
     cy.get('#jform_transition').find(':selected').should('contain', 'Stage featuring');
-    cy.get('#jform_transition').select('Transition featuring 1');
+    cy.get('#jform_transition').parents('joomla-field-fancy-select').within(() => {
+      cy.get('.choices__inner').click('top');
+      cy.get('.choices__item').contains('Transition featuring 1').click();
+    });
     cy.get('#jform_featured-lbl').should('contain', 'Featured: No');
     cy.clickToolbarButton('Save');
 
     cy.checkForSystemMessage('Article saved.');
     cy.get('#jform_featured-lbl').should('contain', 'Featured: No');
-    cy.get('#jform_transition').select('Transition featuring 2');
+    cy.get('#jform_transition').parents('joomla-field-fancy-select').within(() => {
+      cy.get('.choices__inner').click('top');
+      cy.get('.choices__item').contains('Transition featuring 2').click();
+    });
     cy.clickToolbarButton('Save');
 
     cy.checkForSystemMessage('Article saved.');
     cy.get('#jform_featured-lbl').should('contain', 'Featured: Yes');
-    cy.get('#jform_transition').select('Transition featuring 3');
+    cy.get('#jform_transition').parents('joomla-field-fancy-select').within(() => {
+      cy.get('.choices__inner').click('top');
+      cy.get('.choices__item').contains('Transition featuring 3').click();
+    });
     cy.clickToolbarButton('Save');
 
     cy.checkForSystemMessage('Article saved.');
     cy.get('#jform_featured-lbl').should('contain', 'Featured: Yes');
-    cy.get('#jform_transition').select('Transition featuring 1');
+    cy.get('#jform_transition').parents('joomla-field-fancy-select').within(() => {
+      cy.get('.choices__inner').click('top');
+      cy.get('.choices__item').contains('Transition featuring 1').click();
+    });
     cy.clickToolbarButton('Save');
 
     cy.checkForSystemMessage('Article saved.');

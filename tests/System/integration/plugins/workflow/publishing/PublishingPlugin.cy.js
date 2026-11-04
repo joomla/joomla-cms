@@ -173,33 +173,51 @@ describe('Test that the publishing workflow plugin', () => {
     cy.visit('/administrator/index.php?option=com_content&task=article.add');
     cy.get('#jform_title').clear().type('Article publishing');
     cy.get('#jform_transition').find(':selected').should('contain', 'Stage publishing');
-    cy.get('#jform_transition').select('Transition publishing 1');
+    cy.get('#jform_transition').parents('joomla-field-fancy-select').within(() => {
+      cy.get('.choices__inner').click('top');
+      cy.get('.choices__item').contains('Transition publishing 1').click();
+    });
     cy.get('#jform_state-lbl').should('contain', 'Status: Unpublished');
     cy.clickToolbarButton('Save');
 
     cy.checkForSystemMessage('Article saved.');
     cy.get('#jform_state-lbl').should('contain', 'Status: Unpublished');
-    cy.get('#jform_transition').select('Transition publishing 2');
+    cy.get('#jform_transition').parents('joomla-field-fancy-select').within(() => {
+      cy.get('.choices__inner').click('top');
+      cy.get('.choices__item').contains('Transition publishing 2').click();
+    });
     cy.clickToolbarButton('Save');
 
     cy.checkForSystemMessage('Article saved.');
     cy.get('#jform_state-lbl').should('contain', 'Status: Published');
-    cy.get('#jform_transition').select('Transition publishing 3');
+    cy.get('#jform_transition').parents('joomla-field-fancy-select').within(() => {
+      cy.get('.choices__inner').click('top');
+      cy.get('.choices__item').contains('Transition publishing 3').click();
+    });
     cy.clickToolbarButton('Save');
 
     cy.checkForSystemMessage('Article saved.');
     cy.get('#jform_state-lbl').should('contain', 'Status: Published');
-    cy.get('#jform_transition').select('Transition publishing 4');
+    cy.get('#jform_transition').parents('joomla-field-fancy-select').within(() => {
+      cy.get('.choices__inner').click('top');
+      cy.get('.choices__item').contains('Transition publishing 4').click();
+    });
     cy.clickToolbarButton('Save');
 
     cy.checkForSystemMessage('Article saved.');
     cy.get('#jform_state-lbl').should('contain', 'Status: Archived');
-    cy.get('#jform_transition').select('Transition publishing 5');
+    cy.get('#jform_transition').parents('joomla-field-fancy-select').within(() => {
+      cy.get('.choices__inner').click('top');
+      cy.get('.choices__item').contains('Transition publishing 5').click();
+    });
     cy.clickToolbarButton('Save');
 
     cy.checkForSystemMessage('Article saved.');
     cy.get('#jform_state-lbl').should('contain', 'Status: Trashed');
-    cy.get('#jform_transition').select('Transition publishing 1');
+    cy.get('#jform_transition').parents('joomla-field-fancy-select').within(() => {
+      cy.get('.choices__inner').click('top');
+      cy.get('.choices__item').contains('Transition publishing 1').click();
+    });
     cy.clickToolbarButton('Save');
 
     cy.checkForSystemMessage('Article saved.');

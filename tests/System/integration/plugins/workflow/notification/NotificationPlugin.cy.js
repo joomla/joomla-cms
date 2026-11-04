@@ -67,7 +67,10 @@ describe('Test that the notification workflow plugin', () => {
     cy.visit('/administrator/index.php?option=com_content&task=article.add');
     cy.get('#jform_title').clear().type('Article notification');
     cy.get('#jform_transition').find(':selected').should('contain', 'Stage notification');
-    cy.get('#jform_transition').select('Transition notification 1');
+    cy.get('#jform_transition').parents('joomla-field-fancy-select').within(() => {
+      cy.get('.choices__inner').click('top');
+      cy.get('.choices__item').contains('Transition notification 1').click();
+    });
     cy.clickToolbarButton('Save');
     cy.checkForSystemMessage('Article saved.');
     cy.checkForSystemMessage('Notifications sent');
@@ -79,7 +82,10 @@ describe('Test that the notification workflow plugin', () => {
       cy.wrap(mails[0].headers.to).should('equal', '"Test user 1" <user1@example.com>');
     });
     cy.task('clearEmails');
-    cy.get('#jform_transition').select('Transition notification 2');
+    cy.get('#jform_transition').parents('joomla-field-fancy-select').within(() => {
+      cy.get('.choices__inner').click('top');
+      cy.get('.choices__item').contains('Transition notification 2').click();
+    });
     cy.clickToolbarButton('Save');
     cy.checkForSystemMessage('Article saved.');
     cy.checkForSystemMessage('Notifications sent');
