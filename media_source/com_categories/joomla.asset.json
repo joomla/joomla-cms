@@ -6,6 +6,19 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
+      "name": "com_categories.admin-categories-modal",
+      "type": "script",
+      "uri": "com_categories/admin-categories-modal.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "deprecated": true,
+      "deprecatedMsg": "Use postMessage() directly or with help of [modal-content-select] asset. To post the modal selection."
+    },
+    {
       "name": "com_categories.shared-categories-accordion",
       "type": "preset",
       "dependencies": [

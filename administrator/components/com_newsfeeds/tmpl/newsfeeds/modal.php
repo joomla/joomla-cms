@@ -23,7 +23,8 @@ use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('core')
-    ->useScript('modal-content-select');
+    ->useScript('modal-content-select')
+    ->useScript('com_newsfeeds.admin-newsfeeds-modal');
 
 $app = Factory::getApplication();
 
@@ -104,6 +105,7 @@ $multilang = Multilanguage::isEnabled();
                         </td>
                         <th scope="row">
                             <?php $attribs = 'data-content-select data-content-type="com_newsfeeds.newsfeed"'
+                                . ' data-function="' . $this->escape($function) . '"'
                                 . ' data-id="' . $item->id . '"'
                                 . ' data-title="' . $this->escape($item->name) . '"'
                                 . ' data-cat-id="' . $this->escape($item->catid) . '"'
@@ -111,8 +113,7 @@ $multilang = Multilanguage::isEnabled();
                                 . ' data-language="' . $this->escape($lang) . '"'
                                 . ' data-html="' . $this->escape($itemHtml) . '"';
                             ?>
-                            <a href="javascript:void(0)" <?php echo $attribs; ?>
-                               onclick="if (window.parent && !window.parent.JoomlaExpectingPostMessage) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape($link); ?>', '<?php echo $this->escape($lang); ?>', null);">
+                            <a class="select-link" href="javascript:void(0)" <?php echo $attribs; ?>>
                             <?php echo $this->escape($item->name); ?></a>
                             <div class="small">
                                 <?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>

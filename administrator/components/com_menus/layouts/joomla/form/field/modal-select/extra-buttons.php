@@ -77,9 +77,10 @@ $callbackFunctionStem = substr("jSelectMenu_" . $id, 0, -$tagLength);
 
 ?>
 
-<button type="button" class="btn btn-primary" <?php echo $value ? '' : 'hidden'; ?>
+<button type="button" class="btn btn-primary js-propagate-association" <?php echo $value ? '' : 'hidden'; ?>
         title="<?php echo $this->escape(Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_TIP')); ?>"
         data-show-when-value="1"
-        onclick="Joomla.propagateAssociation('<?php echo $id; ?>', '<?php echo $callbackFunctionStem; ?>')">
+        data-field-prefix="<?php echo $this->escape($id); ?>"
+        data-callback-prefix="<?php echo $this->escape($callbackFunctionStem); ?>">
     <span class="icon-sync" aria-hidden="true"></span> <?php echo Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_BUTTON'); ?>
 </button>

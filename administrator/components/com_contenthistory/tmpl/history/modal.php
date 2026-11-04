@@ -52,7 +52,7 @@ $wa->useScript('multiselect')
             <thead>
                 <tr>
                     <td class="w-1 text-center">
-                        <input class="form-check-input" type="checkbox" name="checkall-toggle" value="" title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)">
+                        <input class="form-check-input js-grid-item-check-all" type="checkbox" name="checkall-toggle" value="" title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>">
                     </td>
                     <th scope="col" class="w-15">
                         <?php echo Text::_('JDATE'); ?>

@@ -137,6 +137,15 @@ Joomla = window.Joomla || {};
     return false;
   };
 
+  // Propagate button of the association fields
+  document.addEventListener('click', ({ target }) => {
+    const button = target.closest('.js-propagate-association');
+
+    if (button) {
+      Joomla.propagateAssociation(button.dataset.fieldPrefix, button.dataset.callbackPrefix);
+    }
+  });
+
   document.addEventListener('DOMContentLoaded', () => {
     const associationsEditOptions = Joomla.getOptions('system.associations.edit');
     const formControl = associationsEditOptions.formControl || 'jform';
