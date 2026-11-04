@@ -28,6 +28,17 @@
       }
     },
     {
+      "name": "com_users.two-factor-edit",
+      "type": "script",
+      "uri": "com_users/two-factor-edit.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
       "name": "com_users.two-factor-list",
       "type": "script",
       "uri": "com_users/two-factor-list.min.js",

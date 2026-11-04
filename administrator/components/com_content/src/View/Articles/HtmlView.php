@@ -212,18 +212,14 @@ class HtmlView extends BaseHtmlView
                     ->text('COM_CONTENT_RUN_TRANSITIONS')
                     ->buttonClass('text-center py-2 h3');
 
-                $cmd      = "Joomla.submitbutton('articles.runTransition');";
-                $messages = "{error: [Joomla.Text._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
-                $alert    = 'Joomla.renderMessages(' . $messages . ')';
-                $cmd      = 'if (document.adminForm.boxchecked.value == 0) { ' . $alert . ' } else { ' . $cmd . ' }';
-
                 foreach ($this->transitions as $transition) {
                     $transitionValue = (int) ($transition['value'] ?? 0);
 
-                    $childBar->standardButton('transition', $transition['text'])
+                    $childBar->standardButton('transition', $transition['text'], 'articles.runTransition')
                         ->buttonClass('transition-' . $transitionValue)
                         ->icon('icon-project-diagram')
-                        ->onclick('document.adminForm.transition_id.value=' . $transitionValue . ';' . $cmd);
+                        ->listCheck(true)
+                        ->attributes(['data-transition-id' => $transitionValue]);
                 }
 
                 $childBar->separatorButton('transition-separator');
