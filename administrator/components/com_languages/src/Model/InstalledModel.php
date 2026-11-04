@@ -175,7 +175,6 @@ class InstalledModel extends ListModel
         if (\is_null($this->data)) {
             $this->data = [];
 
-            $isCurrentLanguageRtl = Factory::getLanguage()->isRtl();
             $params               = ComponentHelper::getParams('com_languages');
             $installedLanguages   = LanguageHelper::getInstalledLanguages(null, true, true, null, null, null);
 
