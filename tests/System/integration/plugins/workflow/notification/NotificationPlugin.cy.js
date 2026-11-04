@@ -73,9 +73,9 @@ describe('Test that the notification workflow plugin', () => {
     cy.checkForSystemMessage('Notifications sent');
     cy.task('getMails').then((mails) => {
       cy.wrap(mails).should('have.lengthOf', 1);
-      cy.wrap(mails[0].body).should('have.string', `Title: Article notification. Transition "Transition notification 1" performed by ${Cypress.env('name')}. New state: Stage notification.`);
-      cy.wrap(mails[0].headers.subject).should('have.string', `[${Cypress.env('sitename')}] - The status of "Article notification" has been changed`);
-      cy.wrap(mails[0].headers.from).should('equal', `"${Cypress.env('sitename')}" <${Cypress.env('email')}>`);
+      cy.wrap(mails[0].body).should('have.string', `Title: Article notification. Transition "Transition notification 1" performed by ${Cypress.expose('name')}. New state: Stage notification.`);
+      cy.wrap(mails[0].headers.subject).should('have.string', `[${Cypress.expose('sitename')}] - The status of "Article notification" has been changed`);
+      cy.wrap(mails[0].headers.from).should('equal', `"${Cypress.expose('sitename')}" <${Cypress.expose('email')}>`);
       cy.wrap(mails[0].headers.to).should('equal', '"Test user 1" <user1@example.com>');
     });
     cy.task('clearEmails');
@@ -85,9 +85,9 @@ describe('Test that the notification workflow plugin', () => {
     cy.checkForSystemMessage('Notifications sent');
     cy.task('getMails').then((mails) => {
       cy.wrap(mails).should('have.lengthOf', 1);
-      cy.wrap(mails[0].body).should('have.string', `Title: Article notification. Transition "Transition notification 2" performed by ${Cypress.env('name')}. New state: Stage notification.extra notification`);
-      cy.wrap(mails[0].headers.subject).should('have.string', `[${Cypress.env('sitename')}] - The status of "Article notification" has been changed`);
-      cy.wrap(mails[0].headers.from).should('equal', `"${Cypress.env('sitename')}" <${Cypress.env('email')}>`);
+      cy.wrap(mails[0].body).should('have.string', `Title: Article notification. Transition "Transition notification 2" performed by ${Cypress.expose('name')}. New state: Stage notification.extra notification`);
+      cy.wrap(mails[0].headers.subject).should('have.string', `[${Cypress.expose('sitename')}] - The status of "Article notification" has been changed`);
+      cy.wrap(mails[0].headers.from).should('equal', `"${Cypress.expose('sitename')}" <${Cypress.expose('email')}>`);
       cy.wrap(mails[0].headers.to).should('equal', '"Test user 2" <user2@example.com>');
     });
   });
