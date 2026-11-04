@@ -220,7 +220,7 @@ trait DisplayTrait
         $ignore_filter = false;
 
         // Text filtering
-        if ($levelParams->get('use_config_textfilters', 0)) {
+        if ($levelParams->get('use_config_textfilters', 1)) {
             // Use filters from com_config
             $filter            = static::getGlobalFilters($user);
             $ignore_filter     = $filter === false;
@@ -257,8 +257,20 @@ trait DisplayTrait
             'importcss',
             'quickbars',
             'jxtdbuttons',
+            'jfilepicker',
         ];
         $wa->useScript('plg_editors_tinymce.jxtdbuttons');
+        $wa->useScript('plg_editors_tinymce.jfilepicker');
+
+        // The link picker for the native Link dialog (registers the 'file' picker)
+        $wa->useStyle('plg_editors_tinymce.linkpicker');
+        $wa->useScript('plg_editors_tinymce.linkpicker');
+
+        // UI strings for the link picker
+        Text::script('PLG_TINY_LINK_PICKER_TITLE');
+        Text::script('PLG_TINY_LINK_MEDIA');
+        Text::script('JSELECT');
+        Text::script('JCLOSE');
 
         // Allowed elements
         $elements = [
@@ -298,6 +310,11 @@ trait DisplayTrait
         $menubar  = (array) $levelParams->get('menu', []);
         $toolbar1 = (array) $levelParams->get('toolbar1', []);
         $toolbar2 = (array) $levelParams->get('toolbar2', []);
+
+        // Make sure that we load the help plugin if the help menu is enabled
+        if (\in_array('help', $menubar, true)) {
+            $plugins[] = 'help';
+        }
 
         // Make an easy way to check which button is enabled
         $allButtons = array_merge($toolbar1, $toolbar2);
@@ -409,6 +426,13 @@ trait DisplayTrait
             Text::script('PLG_TINY_ABBREVIATION_WARNING_REMOVE');
             Text::script('PLG_TINY_TOOLBAR_BUTTON_ABBREVIATION');
             Text::script('PLG_TINY_TOOLBAR_BUTTON_REMOVE_ABBREVIATION');
+        }
+
+        // Load the readmore plugin?
+        if (!empty($allButtons['readmore'])) {
+            $wa->useScript('plg_editors_tinymce.readmore');
+            $plugins[] = 'readmore';
+            Text::script('PLG_TINY_TOOLBAR_BUTTON_READMORE');
         }
 
         // User custom plugins and buttons
