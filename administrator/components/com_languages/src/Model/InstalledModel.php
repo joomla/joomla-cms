@@ -197,12 +197,6 @@ class InstalledModel extends ListModel
                     $row->published    = $defaultLanguage === $row->language ? 1 : 0;
                     $row->checked_out  = null;
 
-                    // Fix wrongly set parentheses in RTL languages
-                    if ($isCurrentLanguageRtl) {
-                        $row->name       = html_entity_decode($row->name . '&#x200E;', ENT_QUOTES, 'UTF-8');
-                        $row->nativeName = html_entity_decode($row->nativeName . '&#x200E;', ENT_QUOTES, 'UTF-8');
-                    }
-
                     $this->data[] = $row;
                 }
             }
