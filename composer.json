@@ -132,7 +132,6 @@
     "post-install-cmd": [
     "php build/update_fido_cache.php"
     ],
-    "phpcs": "./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .",
     "csfixer": "./libraries/vendor/bin/php-cs-fixer fix -vvv --dry-run --diff"
   }
 }

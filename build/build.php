@@ -150,7 +150,6 @@ function clean_checkout(string $dir)
     run_and_check('rm -rf libraries/vendor/joomla/*/docs');
     run_and_check('rm -rf libraries/vendor/joomla/*/tests');
     run_and_check('rm -rf libraries/vendor/joomla/*/Tests');
-    run_and_check('rm -rf libraries/vendor/joomla/*/ruleset.xml');
 
     // testing sampledata
     run_and_check('rm -rf plugins/sampledata/testing');
@@ -463,7 +462,6 @@ $doNotPackage = [
     'plugins/sampledata/testing/testing.xml',
     'README.md',
     'renovate.json',
-    'ruleset.xml',
     'tests',
 ];
 
