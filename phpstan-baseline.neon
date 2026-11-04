@@ -7396,18 +7396,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: installation/src/Form/Field/Installation/LanguageField.php
-
-		-
-			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Form\\Form\:
 				4\.3 will be removed in 7\.0
 				             Use the FormFactory service from the container
