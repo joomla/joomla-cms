@@ -4,6 +4,17 @@
   color: $white;
 }
 
+// Mirror question mark for Arabic-script languages
+html:lang(ar),
+html:lang(fa),
+html:lang(ur) {
+  .fa-question,
+  .icon-question {
+    display: inline-block;
+    transform: scaleX(-1);
+  }
+}
+
 .tbody-icon {
   padding: 0 3px;
   text-align: center;
