@@ -71,7 +71,7 @@ jobs:
         run: |
           set -e
           if [ "$GITHUB_REPOSITORY" = "joomla/joomla-cms" ]; then
-            ./libraries/vendor/bin/php-cs-fixer fix -vvv --diff --dry-run
+            ./libraries/vendor/bin/php-cs-fixer check -vvv --diff
             exit 0
           fi
           ./libraries/vendor/bin/php-cs-fixer fix -vvv --diff
