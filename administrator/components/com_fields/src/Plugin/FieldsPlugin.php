@@ -165,11 +165,6 @@ abstract class FieldsPlugin extends CMSPlugin
 
             if ($app->getLanguage()->hasKey('PLG_FIELDS_' . $key . '_LABEL')) {
                 $data['label'] = Text::sprintf('PLG_FIELDS_' . $key . '_LABEL', strtolower($key));
-
-                // Fix wrongly set parentheses in RTL languages
-                if ($app->getLanguage()->isRtl()) {
-                    $data['label'] .= '&#x200E;';
-                }
             } else {
                 $data['label'] = $key;
             }
