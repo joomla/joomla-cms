@@ -197,6 +197,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface, 
                         );
                         $mailer->addTemplateData($data);
                         $mailer->addRecipient($row->email);
+                        $mailer->addUnsafeTags(['username', 'name']);
                         $return = $mailer->send();
                     } catch (\Exception $exception) {
                         try {
@@ -239,6 +240,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface, 
             );
             $mailer->addTemplateData($data);
             $mailer->addRecipient($data['email']);
+            $mailer->addUnsafeTags(['username', 'name']);
 
             try {
                 $return = $mailer->send();

@@ -207,6 +207,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                     );
                     $mailer->addTemplateData($templateData);
                     $mailer->addRecipient($receiver->email, $receiver->name);
+                    $mailer->addUnsafeTags(['name']);
 
                     $mailer->send();
                 } catch (MailDisabledException | phpMailerException $exception) {
