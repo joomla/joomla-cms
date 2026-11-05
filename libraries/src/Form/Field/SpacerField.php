@@ -78,7 +78,7 @@ class SpacerField extends FormField
             $class = $this->required ? $class . ' required' : $class;
 
             // Add the opening label tag and main attributes attributes.
-            $label .= '<label id="' . $this->id . '-lbl" class="' . $class . '"';
+            $label .= '<span id="' . $this->id . '-lbl" class="' . $class . '"';
 
             // If a description is specified, use it to build a tooltip.
             if (!empty($this->description)) {
@@ -96,7 +96,7 @@ class SpacerField extends FormField
             }
 
             // Add the label text and closing tag.
-            $label .= '>' . $text . '</label>';
+            $label .= '>' . $text . '</span>';
             $html[] = $label;
         }
 

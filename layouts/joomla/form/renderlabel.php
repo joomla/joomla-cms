@@ -22,17 +22,23 @@ extract($displayData);
  */
 
 $classes = array_filter((array) $classes);
-$id      = $for . '-lbl';
+
+// $labelId is the id of the label element itself (always $for . '-lbl').
+// NOTE: Do not use $id here — $id in $displayData is the input control's id,
+// not the label's own id. Using $id ?? ... would silently reuse the input id
+// because extract() already sets $id to a non-null value for every field.
+$labelId = $for ? $for . '-lbl' : null;
+$tag     = empty($for) ? 'span' : 'label';
 
 if ($required) {
     $classes[] = 'required';
 }
 
 ?>
-<label id="<?php echo $id; ?>" for="<?php echo $for; ?>"<?php if (!empty($classes)) {
+<<?php echo $tag; ?><?php if ($labelId) : ?> id="<?php echo $labelId; ?>"<?php endif; ?><?php if (!empty($for)) : ?> for="<?php echo $for; ?>"<?php endif; ?><?php if (!empty($classes)) {
     echo ' class="' . implode(' ', $classes) . '"';
            } ?>>
     <?php echo $text; ?><?php if ($required) :
         ?><span class="star" aria-hidden="true">&#160;*</span><?php
     endif; ?>
-</label>
+</<?php echo $tag; ?>>
