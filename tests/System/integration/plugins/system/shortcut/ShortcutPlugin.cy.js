@@ -72,14 +72,14 @@ describe('Test that the shortcut system plugin', () => {
     cy.get('#wrapper').should('not.have.class', 'closed');
     cy.get('body').type('JM');
 
-    cy.get('#menu-collapse').should('not.be.visible');
     cy.get('#wrapper').should('have.class', 'closed');
+    cy.get('#menu-collapse').should('have.attr', 'aria-expanded', 'false');
     cy.get('body').type('JM');
 
+    cy.get('#wrapper').should('not.have.class', 'closed');
     cy.get('#menu-collapse')
       .should('be.visible')
       .and('have.attr', 'aria-expanded', 'true');
-    cy.get('#wrapper').should('not.have.class', 'closed');
   });
 
   it('can open dashboard', () => {
