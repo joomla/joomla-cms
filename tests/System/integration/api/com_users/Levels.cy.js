@@ -54,15 +54,7 @@ describe('Test that users access levels API endpoint', () => {
         cy.wrap(patchResponse).its('body').its('data').its('attributes').its('title')
           .should('eq', 'updated automated test level');
         cy.wrap(patchResponse).its('body').its('data').its('attributes').its('rules')
-          .then((rules) => {
-            if (typeof rules === 'string') {
-              const normalized = rules.replace(/\s+/g, '');
-              expect(normalized).to.eq([1, 2]);
-            } else {
-              const nums = rules.map((r) => (typeof r === 'string' ? Number(r) : r));
-              expect(nums).to.deep.equal([1, 2]);
-            }
-          });
+          .should('deep.equal', [1, 2]);
       });
     });
   });
