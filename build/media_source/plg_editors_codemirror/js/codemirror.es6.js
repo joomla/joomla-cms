@@ -140,6 +140,15 @@ const optionsToExtensions = async (options) => {
  */
 async function createFromTextarea(textarea, options) {
   const extensions = [minimalSetup(), await optionsToExtensions(options)];
+
+  // Carry the textarea's label over to the contenteditable that replaces it, so it keeps an accessible name.
+  const label = textarea.labels && textarea.labels[0];
+  const labelText = label && label.textContent.trim();
+  if (label && label.id) {
+    extensions.push(EditorView.contentAttributes.of({ 'aria-labelledby': label.id }));
+  } else if (labelText) {
+    extensions.push(EditorView.contentAttributes.of({ 'aria-label': labelText }));
+  }
   const view = new EditorView({
     doc: textarea.value,
     root: options.root || null,
