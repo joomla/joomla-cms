@@ -61,9 +61,9 @@ class Config implements ServiceProviderInterface
                         }
 
                         $config->set($envMap[$envName], match ($envValue) {
-                            'true', '(true)' => true,
+                            'true', '(true)'   => true,
                             'false', '(false)' => false,
-                            default => $envValue,
+                            default            => $envValue,
                         });
                     }
 

@@ -123,9 +123,9 @@ class BaseInstallationModel extends BaseDatabaseModel
             }
 
             $config[$setupName] = match ($envValue) {
-                'true', '(true)' => true,
+                'true', '(true)'   => true,
                 'false', '(false)' => false,
-                default => $envValue,
+                default            => $envValue,
             };
         }
 
