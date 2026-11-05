@@ -56,6 +56,7 @@ $attr = '';
 $attr .= !empty($class) ? ' class="form-control field-media-input ' . $class . '"' : ' class="form-control field-media-input"';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= $dataAttribute;
+$attr .= $disabled ? ' disabled="disabled"' : '';
 
 // Initialize JavaScript field attributes.
 $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
@@ -97,8 +98,8 @@ if ($showPreview) {
 
     $img = HTMLHelper::_('image', $src, Text::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
 
-    $previewImg      = '<div class="preview_img">' . $img . '</div>';
-    $previewImgEmpty = '<div class="preview_empty"' . ($src ? ' class="hidden"' : '') . '>'
+    $previewImg      = '<div id="' . $id . '_preview_img" style="height:100%"' . ($src ? '' : ' class="hidden"') . '>' . $img . '</div>';
+    $previewImgEmpty = '<div id="' . $id . '_preview_empty"' . ($src ? ' class="hidden"' : '') . '>'
         . Text::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
 
     $showPreview = 'static';
