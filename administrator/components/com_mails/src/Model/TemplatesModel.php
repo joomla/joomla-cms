@@ -156,7 +156,7 @@ class TemplatesModel extends ListModel
         } else {
             // Only show mail template from enabled extensions
             $subQuery = $db->getQuery(true)
-                ->select($db->quoteName('name'))
+                ->select($db->quoteName('element'))
                 ->from($db->quoteName('#__extensions'))
                 ->where($db->quoteName('enabled') . ' = 1');
 
