@@ -15,7 +15,7 @@ describe('Test in backend that the Installer', () => {
     cy.get('input#install_url').type('https://github.com/joomla-extensions/patchtester/releases/download/4.4.0/com_patchtester_4.4.0.zip', { force: true }); // Fill in the input field
     cy.get('button#installbutton_url').click({ force: true });
     // Check if the installation was successful
-    cy.contains('Installation of the component was successful.');
+    cy.contains('Installation of the component was successful.', { timeout: 30000 });
 
     // Uninstall the component
     cy.visit('/administrator/index.php?option=com_installer&view=manage');
@@ -25,6 +25,6 @@ describe('Test in backend that the Installer', () => {
     cy.contains('Uninstall').click();
     cy.clickDialogConfirm(true);
     // Check if the uninstallation was successful
-    cy.contains('Uninstalling the component was successful');
+    cy.contains('Uninstalling the component was successful', { timeout: 30000 });
   });
 });
