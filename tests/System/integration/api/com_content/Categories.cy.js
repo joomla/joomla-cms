@@ -49,17 +49,59 @@ describe('Test that content categories API endpoint', () => {
 
   it('can update a category', () => {
     cy.db_createCategory({ title: 'automated test content category', extension: 'com_content' })
-      .then((id) => cy.api_patch(`/content/categories/${id}`, {
-        title: 'updated automated test content category',
-        description: 'automated test content category description',
-      }))
-      .then((response) => {
-        cy.wrap(response).its('body').its('data').its('attributes')
-          .its('title')
-          .should('include', 'updated automated test content category');
-        cy.wrap(response).its('body').its('data').its('attributes')
-          .its('description')
-          .should('include', 'automated test content category description');
+      .then((id) => {
+        return cy.api_patch(`/content/categories/${id}`, {
+          title: 'updated automated test content category',
+          description: 'automated test content category description',
+        }).then((response) => {
+          expect(response.body.data.attributes.title)
+            .to.include('updated automated test content category');
+
+          expect(response.body.data.attributes.description)
+            .to.include('automated test content category description');
+
+          return cy.wrap(id);
+        });
+      })
+      .then((id) => {
+        return cy.task('queryDB', `SELECT id FROM #__categories WHERE id = ${id}`)
+          .then((rows) => {
+            expect(rows).to.have.length(1);
+            return id;
+          });
+      })
+      .then((id) => {
+        return cy.task(
+          'queryDB',
+          `SELECT id FROM #__assets WHERE name = 'com_content.category.${id}'`,
+        );
+      })
+      .then((rows) => {
+        expect(rows).to.have.length(1);
       });
+  });
+
+  it('can delete a category', () => {
+    cy.api_post('/content/categories', {
+      title: 'automated test content category',
+      parent_id: 1,
+      extension: 'com_content',
+      published: -2,
+    })
+      .then((response) => response.body.data.id)
+      .then((id) => cy.api_delete(`/content/categories/${id}`).then((response) => {
+        expect(response.status).to.equal(204);
+        return id;
+      }))
+      .then((id) => cy.task('queryDB', `SELECT id FROM #__categories WHERE id = ${id}`)
+        .then((rows) => {
+          expect(rows).to.have.length(0);
+          return id;
+        }))
+      .then((id) => cy.task(
+        'queryDB',
+        `SELECT id FROM #__assets WHERE name = 'com_content.category.${id}'`,
+      ))
+      .then((rows) => expect(rows).to.have.length(0));
   });
 });
