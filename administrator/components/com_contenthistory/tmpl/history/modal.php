@@ -19,7 +19,7 @@ use Joomla\CMS\Session\Session;
 
 Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
-$hash           = $this->state->get('sha1_hash');
+$hash           = $this->currentVersionHash;
 $formUrl        = 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id=' . $this->state->get('item_id') . '&' . Session::getFormToken() . '=1';
 
 Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION', true);

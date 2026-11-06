@@ -1,0 +1,108 @@
+// Modal
+
+.jviewport-height {
+  &10 {
+    block-size: 10vh;
+  }
+
+  &20 {
+    block-size: 20vh;
+  }
+
+  &30 {
+    block-size: 30vh;
+  }
+
+  &40 {
+    block-size: 40vh;
+  }
+
+  &50 {
+    block-size: 50vh;
+  }
+
+  &60 {
+    block-size: 60vh;
+  }
+
+  &70 {
+    block-size: 70vh;
+  }
+
+  &80 {
+    block-size: 80vh;
+  }
+
+  &90 {
+    block-size: 90vh;
+  }
+
+  &100 {
+    block-size: 100vh;
+  }
+}
+
+[class*=jviewport-height] iframe {
+  block-size: 100%;
+}
+
+.modal-dialog.jviewport-width {
+  &10 {
+    inline-size: 10vw;
+  }
+
+  &20 {
+    inline-size: 20vw;
+    max-inline-size: none;
+  }
+
+  &30 {
+    inline-size: 30vw;
+    max-inline-size: none;
+  }
+
+  &40 {
+    inline-size: 40vw;
+    max-inline-size: none;
+  }
+
+  &50 {
+    inline-size: 50vw;
+    max-inline-size: none;
+  }
+
+  &60 {
+    inline-size: 60vw;
+    max-inline-size: none;
+  }
+
+  &70 {
+    inline-size: 70vw;
+    max-inline-size: none;
+  }
+
+  &80 {
+    inline-size: 80vw;
+    max-inline-size: none;
+  }
+
+  &90 {
+    inline-size: 90vw;
+    max-inline-size: none;
+  }
+
+  &100 {
+    inline-size: 100vw;
+    max-inline-size: none;
+  }
+}
+
+.modal-dialog {
+  @include media-breakpoint-down(md) {
+    margin: 1.75rem auto;
+  }
+
+  .modal-body {
+    padding: 0;
+  }
+}

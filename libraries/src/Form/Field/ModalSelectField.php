@@ -272,7 +272,7 @@ class ModalSelectField extends FormField
         if ($this->value && $this->sql_title_table && $this->sql_title_column && $this->sql_title_key) {
             try {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName($this->sql_title_column))
                     ->from($db->quoteName($this->sql_title_table))
                     ->where($db->quoteName($this->sql_title_key) . ' = :value')

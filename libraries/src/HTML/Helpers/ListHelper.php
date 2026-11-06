@@ -179,7 +179,7 @@ abstract class ListHelper
     public static function users($name, $active, $nouser = 0, $javascript = null, $order = 'name')
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('u.id', 'value'),

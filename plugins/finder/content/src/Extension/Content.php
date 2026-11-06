@@ -381,7 +381,7 @@ final class Content extends Adapter implements SubscriberInterface
         $db = $this->getDatabase();
 
         // Check if we can use the supplied SQL query.
-        $query = $query instanceof QueryInterface ? $query : $db->getQuery(true)
+        $query = $query instanceof QueryInterface ? $query : $db->createQuery()
             ->select('a.id, a.title, a.alias, a.introtext AS summary, a.fulltext AS body')
             ->select('a.images')
             ->select('a.state, a.catid, a.created AS start_date, a.created_by')
