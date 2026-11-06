@@ -49,6 +49,13 @@ $noUser    = true;
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <div class="controls">
+                <?php echo LayoutHelper::render('joomla.html.batch.secondarycategory', ['extension' => 'com_contact']); ?>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="btn-toolbar p-3">
     <joomla-toolbar-button task="contact.batch" class="ms-auto">
