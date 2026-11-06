@@ -30,7 +30,8 @@ Text::script('SUCCESS');
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('form.validate')
-    ->useScript('keepalive');
+    ->useScript('keepalive')
+    ->useScript('com_config.unsaved-changes');
 
 if ($this->fieldsets) {
     HTMLHelper::_('bootstrap.framework');
