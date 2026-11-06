@@ -20,6 +20,11 @@ jobs:
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        id: cache-webauthn
+        with:
+          path: plugins/system/webauthn/fido.jwt
+          key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - name: Install PHP dependencies
         if: steps.cache-php.outputs.cache-hit != 'true'
         run: |
@@ -45,11 +50,18 @@ jobs:
             node_modules
             media
             installation/template/css
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**', 'installation/template/scss/**') }}
+            installation/template/images
+            installation/template/js
+            installation/template/scss
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/build.mjs', 'build/build-modules-js/**', 'media_source/**') }}
       - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: plugins/system/webauthn/fido.jwt
+          key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - name: Build assets
         if: steps.cache-assets.outputs.cache-hit != 'true'
         run: npm ci
@@ -65,18 +77,24 @@ jobs:
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: plugins/system/webauthn/fido.jwt
+          key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - name: Check PHP code style
-        env:
-          PHP_CS_FIXER_IGNORE_ENV: true
         run: |
           set -e
+          if [ "$GITHUB_REPOSITORY" = "joomla/joomla-cms" ]; then
+            ./libraries/vendor/bin/php-cs-fixer check -vvv --diff
+            exit 0
+          fi
           ./libraries/vendor/bin/php-cs-fixer fix -vvv --diff
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          if [ "$GITHUB_EVENT_NAME" = "push" ] && [ "$GITHUB_REPOSITORY" != "joomla/joomla-cms" ] && ! git diff --quiet; then
+          if [ "$GITHUB_EVENT_NAME" = "push" ] && ! git diff --quiet; then
             git config user.name  "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add --all
-            git commit -m "Fix code style issues [skip ci]"
+            git commit -m "Fix code style issues"
             git push origin "HEAD:${{ github.head_ref || github.ref_name }}"
           fi
 
@@ -99,7 +117,10 @@ jobs:
             node_modules
             media
             installation/template/css
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**', 'installation/template/scss/**') }}
+            installation/template/images
+            installation/template/js
+            installation/template/scss
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/build.mjs', 'build/build-modules-js/**', 'media_source/**') }}
       - name: Check code style
         run: npm run ${{ matrix.check }}
 
@@ -114,6 +135,10 @@ jobs:
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: plugins/system/webauthn/fido.jwt
+          key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - name: Run PHPstan
         run: |
           set -e
@@ -124,7 +149,7 @@ jobs:
             git config user.name  "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add phpstan-baseline.neon
-            git commit -m "Updated PHPStan baseline [skip ci]"
+            git commit -m "Updated PHPStan baseline"
             git push origin "HEAD:${{ github.head_ref || github.ref_name }}"
           fi
 
@@ -135,13 +160,17 @@ jobs:
     needs: [code-style-php]
     strategy:
       matrix:
-        php_version: ['8.1', '8.2', '8.3', '8.4', '8.5']
+        php_version: ['8.3', '8.4', '8.5']
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: libraries/vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: plugins/system/webauthn/fido.jwt
+          key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - name: Run Unit tests
         run: ./libraries/vendor/bin/phpunit --testsuite Unit
 
@@ -152,7 +181,7 @@ jobs:
     needs: [code-style-php]
     strategy:
       matrix:
-        php_version: ['8.1', '8.2', '8.3', '8.4', '8.5']
+        php_version: ['8.3', '8.4', '8.5']
         config:
           - my_version: '9'
             engine: 'mysqli'
@@ -191,7 +220,11 @@ jobs:
       - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: libraries/vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: plugins/system/webauthn/fido.jwt
+          key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - name: Run Integration tests
         env:
           JTEST_DB_ENGINE: ${{ matrix.config.engine }}
@@ -234,14 +267,19 @@ jobs:
     needs: [code-style-php]
     strategy:
       matrix:
-        php_version: ['8.1', '8.2', '8.3', '8.4', '8.5']
+        php_version: ['8.3', '8.4', '8.5']
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         id: cache-php-windows
         with:
           path: libraries/vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        id: cache-webauthn-windows
+        with:
+          path: plugins/system/webauthn/fido.jwt
+          key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - name: Setup PHP
         uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # v2.37.1
         with:
@@ -260,13 +298,17 @@ jobs:
     needs: [code-style-php]
     strategy:
       matrix:
-        php_version: ['8.1', '8.2', '8.3', '8.4', '8.5']
+        php_version: ['8.3', '8.4', '8.5']
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: libraries/vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: plugins/system/webauthn/fido.jwt
+          key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - uses: shogo82148/actions-setup-mysql@c80f44ab210a360ef966c5b9f48a2ae21123b533 # v1.51.0
         with:
           mysql-version: "mariadb-10.4"
@@ -304,7 +346,10 @@ jobs:
             node_modules
             media
             installation/template/css
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**', 'installation/template/scss/**') }}
+            installation/template/images
+            installation/template/js
+            installation/template/scss
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/build.mjs', 'build/build-modules-js/**', 'media_source/**') }}
       - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         id: cache-cypress
         with:
@@ -337,7 +382,7 @@ jobs:
             db_engine: mysqli
             db_host: mysql
             my_version: '8.4'
-          - php_version: '8.1'
+          - php_version: '8.3'
             test_group: cmysql
             db_engine: mysqli
             db_host: mysql
@@ -347,12 +392,12 @@ jobs:
             db_engine: mysqli
             db_host: maria
             maria_version: '12.0'
-          - php_version: '8.1'
+          - php_version: '8.3'
             test_group: cmaria
             db_engine: mysqli
             db_host: maria
             maria_version: '10.4'
-          - php_version: '8.1'
+          - php_version: '8.3'
             test_group: cpostgres
             db_engine: pgsql
             db_host: postgres
@@ -372,11 +417,18 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
       - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
+          path: plugins/system/webauthn/fido.jwt
+          key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
           path: |
             node_modules
             media
             installation/template/css
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**', 'installation/template/scss/**') }}
+            installation/template/images
+            installation/template/js
+            installation/template/scss
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/build.mjs', 'build/build-modules-js/**', 'media_source/**') }}
       - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: |

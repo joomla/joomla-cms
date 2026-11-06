@@ -81,9 +81,12 @@ trait KnownButtons
             'language' => ['label' => 'Language'],
 
             // Buttons from the plugins
+            'abbr'           => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_ABBREVIATION'), 'plugin' => 'abbr'],
+            'abbr_remove'    => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_REMOVE_ABBREVIATION'), 'plugin' => 'abbr'],
             'accordion'      => ['label' => 'Accordion', 'plugin' => 'accordion'],
             'anchor'         => ['label' => 'Anchor', 'plugin' => 'anchor'],
             'hr'             => ['label' => 'Horizontal line'],
+            'readmore'       => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_READMORE'), 'plugin' => 'readmore'],
             'ltr'            => ['label' => 'Left to right', 'plugin' => 'directionality'],
             'rtl'            => ['label' => 'Right to left', 'plugin' => 'directionality'],
             'code'           => ['label' => 'Source code', 'plugin' => 'code'],
@@ -96,7 +99,6 @@ trait KnownButtons
             'emoticons'      => ['label' => 'Emoticons', 'plugin' => 'emoticons'],
             'media'          => ['label' => 'Insert/edit video', 'plugin' => 'media'],
             'image'          => ['label' => 'Insert/edit image', 'plugin' => 'image'],
-            'pagebreak'      => ['label' => 'Page break', 'plugin' => 'pagebreak'],
             'print'          => ['label' => 'Print'],
             'preview'        => ['label' => 'Preview', 'plugin' => 'preview'],
             'fullscreen'     => ['label' => 'Fullscreen', 'plugin' => 'fullscreen'],
@@ -104,6 +106,7 @@ trait KnownButtons
             'searchreplace'  => ['label' => 'Find and replace', 'plugin' => 'searchreplace'],
             'insertdatetime' => ['label' => 'Insert date/time', 'plugin' => 'insertdatetime'],
             'help'           => ['label' => 'Help', 'plugin' => 'help'],
-        ];
+
+            ];
     }
 }

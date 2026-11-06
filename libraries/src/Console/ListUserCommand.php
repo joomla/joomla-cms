@@ -76,13 +76,13 @@ class ListUserCommand extends AbstractCommand
         $this->configureIO($input, $output);
         $this->ioStyle->title('List Users');
 
-        $groupsQuery = $db->getQuery(true)
+        $groupsQuery = $db->createQuery()
             ->select($db->quoteName(['title', 'id']))
             ->from($db->quoteName('#__usergroups'));
 
         $groups = $db->setQuery($groupsQuery)->loadAssocList('id', 'title');
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select($db->quoteName(['u.id', 'u.username', 'u.name', 'u.email', 'u.block']))
             ->select($query->groupConcat($query->castAs('CHAR', $db->quoteName('g.group_id'))) . ' AS ' . $db->quoteName('groups'))
             ->innerJoin($db->quoteName('#__user_usergroup_map', 'g'), $db->quoteName('g.user_id') . ' = ' . $db->quoteName('u.id'))

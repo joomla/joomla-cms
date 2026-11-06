@@ -264,7 +264,7 @@ abstract class Mfa
 
         /** @var DatabaseInterface $db */
         $db    = Factory::getContainer()->get(DatabaseInterface::class);
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__user_mfa'))
             ->where($db->quoteName('user_id') . ' = :user_id')
@@ -320,8 +320,7 @@ abstract class Mfa
     }
 
     /**
-     * Could the user still need to complete a Multi-factor Authentication step after their
-     * password login?
+     * Could the user still owe a Multi-factor Authentication step after their password login?
      *
      * This is a conservative check used to decide whether issuing a persistent credential
      * (e.g. a Remember Me cookie) must be deferred until the login is fully complete. It
@@ -334,7 +333,7 @@ abstract class Mfa
      * @return  boolean
      * @throws  \Exception
      *
-     * @since   5.4.9
+     * @since   6.1.4
      */
     public static function userMayNeedMfaGate(User $user): bool
     {
