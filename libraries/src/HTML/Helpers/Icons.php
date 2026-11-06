@@ -25,7 +25,7 @@ use Joomla\CMS\Layout\FileLayout;
 abstract class Icons
 {
     /**
-     * Method to generate html code for a list of buttons
+     * Method to generate html code for an array of buttons
      *
      * @param   array  $buttons  Array of buttons
      *
@@ -49,7 +49,7 @@ abstract class Icons
     }
 
     /**
-     * Method to generate html code for a list of buttons
+     * Method to generate html code for a button
      *
      * @param   array  $button  Button properties
      *

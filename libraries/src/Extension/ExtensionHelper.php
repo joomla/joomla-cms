@@ -109,6 +109,7 @@ class ExtensionHelper
         ['module', 'mod_feed', '', 1],
         ['module', 'mod_frontend', '', 1],
         ['module', 'mod_guidedtours', '', 1],
+        ['module', 'mod_healthcheck', '', 1],
         ['module', 'mod_latest', '', 1],
         ['module', 'mod_latestactions', '', 1],
         ['module', 'mod_logged', '', 1],
@@ -242,6 +243,9 @@ class ExtensionHelper
         ['plugin', 'content', 'finder', 0],
         ['plugin', 'newsfeeds', 'finder', 0],
         ['plugin', 'tags', 'finder', 0],
+
+        // Core plugin extensions - healthcheck
+        ['plugin', 'usermaintenance', 'healthcheck', 0],
 
         // Core plugin extensions - installer
         ['plugin', 'folderinstaller', 'installer', 0],
