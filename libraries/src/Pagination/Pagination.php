@@ -434,7 +434,9 @@ class Pagination
         }
 
         if ($this->total > $this->limit) {
-            $list['responsive'] = $this->getResponsiveData(true);
+            if ($this->supportsResponsive()) {
+                $list['responsive'] = $this->getResponsiveData(true);
+            }
 
             return $this->_list_render($list);
         }
@@ -512,7 +514,9 @@ class Pagination
             $list['end']['active'] = $data->end->base !== null;
             $list['end']['data']   = $data->end;
 
-            $list['responsive'] = $this->getResponsiveData(false);
+            if ($this->supportsResponsive()) {
+                $list['responsive'] = $this->getResponsiveData(false);
+            }
         }
 
         return $list;
@@ -838,6 +842,27 @@ class Pagination
         );
 
         return $page;
+    }
+
+    /**
+     * Whether this pagination can provide responsive data.
+     *
+     * The responsive items are built by buildPageObject(). A subclass that overrides how links or items are built
+     * gets the classic list instead, so its overrides keep applying to every page link.
+     *
+     * @return  bool
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function supportsResponsive(): bool
+    {
+        foreach (['_buildDataObject', '_item_active', '_item_inactive'] as $method) {
+            if ((new \ReflectionMethod($this, $method))->getDeclaringClass()->getName() !== self::class) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
