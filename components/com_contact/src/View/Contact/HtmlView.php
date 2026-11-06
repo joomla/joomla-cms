@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Contact\Site\View\Contact;
 
-use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Event\Content\AfterDisplayEvent;
 use Joomla\CMS\Event\Content\AfterTitleEvent;
 use Joomla\CMS\Event\Content\BeforeDisplayEvent;
@@ -442,7 +441,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
             }
 
             $path     = [['title' => $this->item->name, 'link' => '']];
-            $category = Categories::getInstance('Contact')->get($this->item->catid);
+            $category = $app->bootComponent('com_contact')->getCategory()->get($this->item->catid);
 
             while ($category !== null && $category->id != $id && $category->id !== 'root') {
                 $path[]   = ['title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language)];

@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Helper;
 
-use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -92,7 +91,7 @@ class RouteHelper
         }
 
         if ($catid > 1) {
-            $categories = Categories::getInstance($name);
+            $categories = Factory::getApplication()->bootComponent($name)->getCategory();
 
             if ($categories) {
                 $category = $categories->get((int) $catid);
@@ -230,7 +229,7 @@ class RouteHelper
         } else {
             $extensionName = ucfirst(substr($extension, 4));
             $id            = (int) $catid;
-            $category      = Categories::getInstance($extensionName)->get($id);
+            $category      = Factory::getApplication()->bootComponent($extensionName)->getCategory()->get($id);
         }
 
         if ($id < 1) {
