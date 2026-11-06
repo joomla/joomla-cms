@@ -88,7 +88,7 @@
 					min="0"
 					max="10"
 					default="2"
-					filter="int"
+					filter="integer"
 					showon="currency:1"
 				/>
 			</fieldset>
