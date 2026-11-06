@@ -337,7 +337,7 @@ class UpdateCoreCommand extends AbstractCommand
 
                 $updatemodel->purge();
                 Log::add(
-                    Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_COMPLETE', \JVERSION),
+                    Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_COMPLETE', $updateInformation['latest']),
                     Log::INFO,
                     'Update'
                 );
