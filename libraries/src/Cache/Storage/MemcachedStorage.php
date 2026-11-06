@@ -68,7 +68,7 @@ class MemcachedStorage extends CacheStorage
 
         $app = Factory::getApplication();
 
-        $this->_compress = $app->get('memcached_compress', false) ? \Memcached::OPT_COMPRESSION : 0;
+        $this->_compress    = $app->get('memcached_compress', false) ? \Memcached::OPT_COMPRESSION : 0;
         $this->_indexShards = max(1, (int) $app->get('memcached_index_shards', 16));
 
         if (static::$_db === null) {
