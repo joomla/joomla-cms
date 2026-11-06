@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e31b602fc66bf014073619c06d6a22d2",
+    "content-hash": "356ad6ce646492dcb911c62f85bdedaf",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -2788,8 +2788,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-25T20:20:41+00:00",
-            "published-time": "2026-10-25T20:21:17+00:00"
+            "time": "2026-10-25T20:20:41+00:00"
         },
         {
             "name": "php-tuf/php-tuf",
@@ -3973,8 +3972,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-05T06:23:12+00:00",
-            "published-time": "2026-06-27T21:46:34+00:00"
+            "time": "2026-06-05T06:23:12+00:00"
         },
         {
             "name": "symfony/error-handler",
@@ -5412,8 +5410,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-25T21:04:04+00:00",
-            "published-time": "2026-10-28T18:20:00+00:00"
+            "time": "2026-10-25T21:04:04+00:00"
         },
         {
             "name": "symfony/web-link",
@@ -9682,5 +9679,5 @@
     "platform-overrides": {
         "php": "8.3.0"
     },
-    "plugin-api-version": "2.11.0"
+    "plugin-api-version": "2.9.0"
 }
