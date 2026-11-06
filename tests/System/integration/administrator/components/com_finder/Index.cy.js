@@ -3,17 +3,34 @@ describe('Test in backend that the Smart Search', () => {
     cy.doAdministratorLogin();
   });
   afterEach(() => {
-    cy.task('queryDB', "DELETE FROM #__content WHERE title = 'Test article'");
+    cy.task('queryDB', "DELETE FROM #__finder_links WHERE title IN ('Test article', 'Cafe Stereo', 'Café Stereo')");
+    cy.task('queryDB', "DELETE FROM #__content WHERE title IN ('Test article', 'Cafe Stereo', 'Café Stereo')");
   });
 
   it('can index an article', () => {
-    // Create a new article
-    cy.visit('/administrator/index.php?option=com_content&task=article.add');
-    cy.get('#jform_title').clear().type('Test article');
-    cy.clickToolbarButton('Save & Close');
-    // Visit the smart search page
+    cy.db_createArticle({ title: 'Test article', alias: 'test-article' });
+    cy.exec(`php ${Cypress.expose('cmsPath')}/cli/joomla.php finder:index`)
+      .its('code')
+      .should('equal', 0);
+
     cy.visit('/administrator/index.php?option=com_finder&view=index');
     cy.contains('Test article').should('exist');
+  });
+
+  it('can index articles with duplicate normalized terms', () => {
+    cy.db_createArticle({ title: 'Café Stereo', alias: 'cafe-stereo-accent' });
+    cy.db_createArticle({ title: 'Cafe Stereo', alias: 'cafe-stereo-no-accent' });
+
+    cy.exec(`php ${Cypress.expose('cmsPath')}/cli/joomla.php finder:index`)
+      .then(({ code, stdout, stderr }) => {
+        expect(code).to.equal(0);
+        expect(stdout).to.contain('Total Processing Time');
+        expect(stderr).to.equal('');
+      });
+
+    cy.task('queryDB', "SELECT COUNT(*) AS count FROM #__finder_links WHERE title IN ('Café Stereo', 'Cafe Stereo')").then((rows) => {
+      expect(Number(rows[0].count)).to.equal(2);
+    });
   });
 
   it('can index content', () => {
