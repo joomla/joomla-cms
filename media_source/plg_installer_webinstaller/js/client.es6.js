@@ -101,6 +101,9 @@ class WebInstaller {
 
           const jedContainer = document.getElementById('jed-container');
           jedContainer.innerHTML = Joomla.sanitizeHtml(response.data.html, allowList);
+          if (webInstallerOptions.view === 'extension') {
+            window.scrollTo(0, 0);
+          }
 
           document.getElementById('com-apps-searchbox').addEventListener('keydown', ({ code }) => {
             if (code === 'Enter') {
