@@ -27,8 +27,10 @@ function emptyStorage() {
 */
 function fetchTourState(tid, sid, context) {
   const fetchUrl = 'index.php?option=com_guidedtours&task=ajax.fetchUserState&format=json';
+  // The endpoint persists user state, so the request must carry the CSRF token.
+  const token = Joomla.getOptions('com_guidedtours.token', '');
   Joomla.request({
-    url: `${fetchUrl}&tid=${tid}&sid=${sid}&context=${context}`,
+    url: `${fetchUrl}&${token}=1&tid=${tid}&sid=${sid}&context=${context}`,
     method: 'GET',
     perform: true,
     onSuccess: (response) => {

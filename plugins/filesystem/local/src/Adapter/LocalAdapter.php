@@ -873,7 +873,14 @@ class LocalAdapter implements AdapterInterface
             throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 500);
         }
 
-        $can = $helper->canUpload(['name' => $name, 'size' => \strlen($mediaContent), 'tmp_name' => $tmpFile], 'com_media');
+        /*
+         * Pass the normalised name so the size, MIME and executable-extension
+         * checks still run without re-validating the existing filename, which may
+         * contain non-ASCII characters preserved from earlier uploads.
+         */
+        $safeName = File::makeSafe($name) ?: $name;
+
+        $can = $helper->canUpload(['name' => $safeName, 'size' => \strlen($mediaContent), 'tmp_name' => $tmpFile], 'com_media');
 
         try {
             File::delete($tmpFile);

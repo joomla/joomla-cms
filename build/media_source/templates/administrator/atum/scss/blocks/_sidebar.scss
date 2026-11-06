@@ -206,7 +206,8 @@
     max-width: 3rem;
   }
 
-  .main-nav a:hover .sidebar-item-title {
+  .main-nav a:hover .sidebar-item-title,
+  .sidebar-toggle:hover .sidebar-item-title {
     position: absolute;
     inset-inline-start: 100%;
     display: flex;

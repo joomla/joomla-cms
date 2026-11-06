@@ -56,4 +56,48 @@ class LevelsController extends ApiController
 
         return $data;
     }
+
+    /**
+     * Method to check if it's allowed to delete a record
+     *
+     * @return  boolean
+     *
+     * @since   5.4.9
+     */
+    protected function allowDelete(): bool
+    {
+        // Overrides the default behavior to check the core.admin permission.
+        return $this->app->getIdentity()->authorise('core.admin', $this->option);
+    }
+
+    /**
+     * Method to check if you can add a new record.
+     *
+     * @param   array  $data  An array of input data.
+     *
+     * @return  boolean
+     *
+     * @since   5.4.9
+     */
+    protected function allowAdd($data = [])
+    {
+        // Overrides the default behavior to check the core.admin permission.
+        return $this->app->getIdentity()->authorise('core.admin', $this->option);
+    }
+
+    /**
+     * Method to check if you can edit an existing record.
+     *
+     * @param   array   $data  An array of input data.
+     * @param   string  $key   The name of the key for the primary key; default is id.
+     *
+     * @return  boolean
+     *
+     * @since   5.4.9
+     */
+    protected function allowEdit($data = [], $key = 'id')
+    {
+        // Overrides the default behavior to check the core.admin permission.
+        return $this->app->getIdentity()->authorise('core.admin', $this->option);
+    }
 }

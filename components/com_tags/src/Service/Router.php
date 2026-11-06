@@ -250,6 +250,18 @@ class Router extends RouterBase
                 unset($query['id']);
             }
 
+            // Strip 'types' from the URL if they match the menu item's own configured types
+            if (isset($query['types'], $menuItem->query['types'])) {
+                $queryTypes = ArrayHelper::toInteger((array) $query['types']);
+                $menuTypes  = ArrayHelper::toInteger((array) $menuItem->query['types']);
+                sort($queryTypes);
+                sort($menuTypes);
+
+                if ($queryTypes === $menuTypes) {
+                    unset($query['types']);
+                }
+            }
+
             unset($query['view']);
         } else {
             if (isset($query['view'])) {

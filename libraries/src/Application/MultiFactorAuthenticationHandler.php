@@ -9,11 +9,13 @@
 
 namespace Joomla\CMS\Application;
 
+use Joomla\CMS\Authentication\RememberMe;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Encrypt\Aes;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\User as UserTable;
 use Joomla\CMS\Uri\Uri;
@@ -21,6 +23,7 @@ use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -158,6 +161,30 @@ trait MultiFactorAuthenticationHandler
             if (!$this->isMultiFactorAuthenticationPage()) {
                 $url = Route::_('index.php?option=com_users&view=methods', false);
                 $this->redirect($url, 307);
+            }
+        }
+
+        /**
+         * Consume a deferred Remember Me request now that the captive MFA page turned out not to
+         * apply (no viable MFA records or the user's groups are exempt from MFA) and no mandatory
+         * MFA setup is pending. The cookie is minted here because the cookie authentication plugin
+         * intentionally defers it while an MFA step might still be outstanding.
+         */
+        if (
+            $session->get('com_users.remember_deferred', 0)
+            && $session->get('com_users.mfa_checked', 0) == 1
+        ) {
+            $session->set('com_users.remember_deferred', 0);
+
+            $plugin = PluginHelper::getPlugin('authentication', 'cookie');
+
+            if ($plugin && $this->isClient('site')) {
+                RememberMe::createOrUpdateCookie(
+                    $user,
+                    $this,
+                    Factory::getContainer()->get(DatabaseInterface::class),
+                    new Registry($plugin->params ?? '')
+                );
             }
         }
 

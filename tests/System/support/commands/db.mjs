@@ -113,6 +113,9 @@ Cypress.Commands.add('db_createArticle', (articleData) => {
     metadata: '',
   };
 
+  const tags = articleData.tags ?? [];
+  delete articleData.tags;
+
   const article = { ...defaultArticleOptions, ...articleData };
 
   return getDefaultCategoryId('com_content')
@@ -128,6 +131,9 @@ Cypress.Commands.add('db_createArticle', (articleData) => {
       if (article.featured === 1) {
         await cy.task('queryDB', `INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('${article.id}', '1')`);
       }
+      tags.forEach(async (tag) => {
+        await cy.task('queryDB', `INSERT INTO #__contentitem_tag_map (type_alias, core_content_id, content_item_id, tag_id, tag_date, type_id) VALUES ('com_content.article', '0', '${article.id}', '${tag}', '2026-08-29 11:00:00', '1')`);
+      });
       await cy.task('queryDB', `INSERT INTO #__workflow_associations (item_id, stage_id, extension) VALUES (${article.id}, 1, 'com_content.article')`);
 
       return article;
@@ -504,6 +510,11 @@ Cypress.Commands.add('db_createMenuItem', (menuItemData) => {
     defaultMenuItemOptions.rgt = myrgt[0].rgt + 1;
 
     const menuItem = { ...defaultMenuItemOptions, ...menuItemData };
+    ['params'].forEach((key) => {
+      if (typeof menuItem[key] === 'object') {
+        menuItem[key] = JSON.stringify(menuItem[key]);
+      }
+    });
     // Extract the component from the link
     const component = (new URLSearchParams(menuItem.link.replace('index.php', ''))).get('option');
     return cy.task('queryDB', `SELECT extension_id FROM #__extensions WHERE name = '${component}'`).then((id) => {
@@ -670,6 +681,103 @@ Cypress.Commands.add('db_createSchedulerTask', (taskData) => {
       task.id = info.insertId;
 
       return task;
+    });
+});
+
+/**
+ * Creates a workflow in the database with the given data. The workflow contains some default values when
+ * not all required fields are passed in the given data. The data of the inserted workflow is returned.
+ *
+ * @param {Object} workflowData The workflow data to insert
+ *
+ * @returns Object
+ */
+Cypress.Commands.add('db_createWorkflow', (workflowData) => {
+  const defaultWorkflowOptions = {
+    published: 1,
+    title: 'test workflow',
+    description: '',
+    extension: 'com_content.article',
+    default: 0,
+    created: '2026-01-15 18:00:00',
+    modified: '2026-01-15 18:00:00',
+  };
+  const workflow = { ...defaultWorkflowOptions, ...workflowData };
+
+  return cy.task('queryDB', createInsertQuery('workflows', workflow))
+    .then((info) => {
+      workflow.id = info.insertId;
+
+      if (workflow.default === 1) {
+        return cy.task('queryDB', `UPDATE #__workflows SET \`default\` = 0 WHERE id <> '${workflow.id}'`)
+          .then(() => workflow);
+      }
+
+      return workflow;
+    });
+});
+
+/**
+ * Creates a stage of a workflow in the database with the given data. The stage contains some default values when
+ * not all required fields are passed in the given data. The data of the inserted stage is returned.
+ *
+ * @param {Object} stageData The stage data to insert
+ *
+ * @returns Object
+ */
+Cypress.Commands.add('db_createWorkflowStage', (stageData) => {
+  const defaultStageOptions = {
+    workflow_id: 1,
+    published: 1,
+    title: '',
+    description: '',
+    default: 0,
+  };
+  const stage = { ...defaultStageOptions, ...stageData };
+
+  return cy.task('queryDB', createInsertQuery('workflow_stages', stage))
+    .then((info) => {
+      stage.id = info.insertId;
+
+      if (stage.default === 1) {
+        return cy.task('queryDB', `UPDATE #__workflow_stages SET \`default\` = 0 WHERE id <> '${stage.id}' AND workflow_id = '${stage.workflow_id}'`)
+          .then(() => stage);
+      }
+
+      return stage;
+    });
+});
+
+/**
+ * Creates a transition of a workflow in the database with the given data. The transition contains some default values when
+ * not all required fields are passed in the given data. The data of the inserted transition is returned.
+ *
+ * @param {Object} transitionData The transition data to insert
+ *
+ * @returns Object
+ */
+Cypress.Commands.add('db_createWorkflowTransition', (transitionData) => {
+  const defaultTransitionOptions = {
+    workflow_id: 1,
+    published: 1,
+    title: '',
+    description: '',
+    from_stage_id: -1,
+    to_stage_id: 1,
+    options: '{}',
+  };
+  const transition = { ...defaultTransitionOptions, ...transitionData };
+  ['options'].forEach((key) => {
+    if (typeof transition[key] === 'object') {
+      transition[key] = JSON.stringify(transition[key]);
+    }
+  });
+
+  return cy.task('queryDB', createInsertQuery('workflow_transitions', transition))
+    .then((info) => {
+      transition.id = info.insertId;
+
+      return transition;
     });
 });
 

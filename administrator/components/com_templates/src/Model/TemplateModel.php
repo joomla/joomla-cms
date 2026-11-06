@@ -181,16 +181,23 @@ class TemplateModel extends FormModel
 
         $template = $this->getTemplate();
 
-        $query->from($db->quoteName('#__template_overrides', 'a'));
+        $query->from($db->quoteName('#__template_overrides', 'a'))
+            ->join(
+                'INNER',
+                $db->quoteName('#__extensions', 'e')
+                . ' ON ' . $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('a.extension_id')
+            )
+            ->where($db->quoteName('e.enabled') . ' = 1')
+            ->where($db->quoteName('e.type') . ' = ' . $db->quote('template'));
 
         if (!$all) {
             $teid = (int) $template->extension_id;
-            $query->where($db->quoteName('extension_id') . ' = :teid')
+            $query->where($db->quoteName('a.extension_id') . ' = :teid')
                 ->bind(':teid', $teid, ParameterType::INTEGER);
         }
 
         if ($state) {
-            $query->where($db->quoteName('state') . ' = 0');
+            $query->where($db->quoteName('a.state') . ' = 0');
         }
 
         $query->order($db->quoteName('a.modified_date') . ' DESC');
@@ -1831,27 +1838,26 @@ class TemplateModel extends FormModel
     public function extractArchive($file)
     {
         if ($this->getTemplate()) {
-            $app          = Factory::getApplication();
-            $relPath      = base64_decode($file);
-            $explodeArray = explode('/', $relPath);
-            $fileName     = end($explodeArray);
-            $path         = $this->getBasePath() . base64_decode($file);
+            $app             = Factory::getApplication();
+            $basePath        = $this->getBasePath();
+            $archiveFilePath = Path::check($basePath . base64_decode($file), $basePath);
+            $extractPath     = \dirname($archiveFilePath);
 
-            if (file_exists(Path::check($path . '/' . $fileName))) {
+            if (file_exists($archiveFilePath)) {
                 $zip = new \ZipArchive();
 
-                if ($zip->open(Path::clean($path . '/' . $fileName)) === true) {
+                if ($zip->open($archiveFilePath) === true) {
                     for ($i = 0; $i < $zip->numFiles; $i++) {
                         $entry = $zip->getNameIndex($i);
 
-                        if (file_exists(Path::clean($path . '/' . $entry))) {
+                        if (file_exists(Path::check($extractPath . '/' . $entry, $extractPath))) {
                             $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_EXISTS'), 'error');
 
                             return false;
                         }
                     }
 
-                    $zip->extractTo($path);
+                    $zip->extractTo($extractPath);
 
                     return true;
                 }

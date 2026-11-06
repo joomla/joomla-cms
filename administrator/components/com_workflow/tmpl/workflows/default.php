@@ -61,7 +61,7 @@ $userId = $user->id;
             <div id="j-main-container" class="j-main-container">
                 <?php
                     // Search tools bar
-                    echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['selectorFieldName' => 'extension']]);
+                    echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['selectorFieldName' => 'extension', 'fieldsToPreserveOnClear' => ['extension']]]);
                 ?>
                 <?php if (empty($this->workflows)) : ?>
                     <div class="alert alert-info">
@@ -69,7 +69,7 @@ $userId = $user->id;
                         <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
-                    <table class="table">
+                    <table class="table" id="workflowList">
                         <caption class="visually-hidden">
                             <?php echo Text::_('COM_WORKFLOW_WORKFLOWS_TABLE_CAPTION'); ?>,
                             <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
