@@ -27,6 +27,8 @@ Text::script('NOTICE');
 Text::script('MESSAGE');
 Text::script('SUCCESS');
 Text::script('COM_CONFIG_UNSAVED_CHANGES_CONFIRM');
+Text::script('COM_CONFIG_UNSAVED_CHANGES_PROCEED');
+Text::script('JCANCEL');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();

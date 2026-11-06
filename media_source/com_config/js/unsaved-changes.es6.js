@@ -69,13 +69,35 @@ import JoomlaDialog from 'joomla.dialog';
 
     pendingNavigation = link.href;
 
-    const discard = await JoomlaDialog.confirm(
-      Joomla.Text._(
-        'COM_CONFIG_UNSAVED_CHANGES_CONFIRM',
-        'You have made changes that have not been saved. If you continue, your changes will be lost.',
-      ),
-      Joomla.Text._('WARNING', 'Warning'),
-    );
+    const discard = await new Promise((resolve) => {
+      const dialog = new JoomlaDialog({
+        className: 'joomla-dialog-confirm',
+        textHeader: Joomla.Text._('WARNING'),
+        popupContent: Joomla.Text._('COM_CONFIG_UNSAVED_CHANGES_CONFIRM'),
+        popupButtons: [
+          {
+            label: Joomla.Text._('COM_CONFIG_UNSAVED_CHANGES_PROCEED'),
+            className: 'button button-success btn btn-success',
+            onClick: () => {
+              resolve(true);
+              dialog.close();
+            },
+          },
+          {
+            label: Joomla.Text._('JCANCEL'),
+            className: 'button button-secondary btn btn-secondary',
+            onClick: () => {
+              resolve(false);
+              dialog.close();
+            },
+          },
+        ],
+      });
+
+      dialog.addEventListener('joomla-dialog:close', () => resolve(false));
+      Joomla.Modal.setCurrent(dialog);
+      dialog.show();
+    });
 
     const destination = pendingNavigation;
     pendingNavigation = null;
