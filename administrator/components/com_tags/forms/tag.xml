@@ -123,6 +123,7 @@
 		label="JFIELD_ACCESS_LABEL"
 		filter="UINT"
 		validate="options"
+		layout="joomla.form.field.list-fancy-select"
 	/>
 
 	<field
