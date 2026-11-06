@@ -119,4 +119,8 @@ export default {
   sortBy: storedState && storedState.sortBy ? storedState.sortBy : 'name',
   // The sorting direction
   sortDirection: storedState && storedState.sortDirection ? storedState.sortDirection : 'asc',
+  // Active uploads, [{name: fileName, progress: 0}]
+  activeUploads: [],
+  // Upload progress, from 0 to 100
+  uploadProgress: 0,
 };

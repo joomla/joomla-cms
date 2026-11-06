@@ -8,6 +8,15 @@
       v-if="isLoading"
       class="media-loader"
     />
+    <div
+      v-if="isUploading"
+      class="media-upload-progress"
+    >
+      <div
+        class="progress-bar"
+        :style="{ 'width': uploadProgress + '%' }"
+      />
+    </div>
     <div class="media-view-icons">
       <input
         ref="mediaToolbarSelectAll"
@@ -168,6 +177,13 @@ export default {
     },
     isLoading() {
       return this.$store.state.isLoading;
+    },
+    isUploading() {
+      return this.$store.state.activeUploads.length > 0;
+    },
+    uploadProgress() {
+      // Use extra 2 for initial visibility
+      return Math.max(this.$store.state.uploadProgress, 2);
     },
     atLeastOneItemSelected() {
       return this.$store.state.selectedItems.length > 0;

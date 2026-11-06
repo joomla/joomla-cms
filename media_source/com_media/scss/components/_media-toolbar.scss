@@ -80,3 +80,17 @@
     right: 0;
   }
 }
+
+.media-upload-progress {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+
+  .progress-bar {
+    width: 0;
+    height: 5px;
+    background-image: $toolbar-loader-color;
+    transition: width .3s ease;
+  }
+}
