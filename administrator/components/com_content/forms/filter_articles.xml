@@ -30,8 +30,10 @@
 			class="js-select-submit-on-change"
 			activeonly="true"
 			extension="com_content.article"
+			default=""
 			>
 			<option value="">JOPTION_SELECT_STAGE</option>
+			<option value="0">JNONE_FILTER</option>
 		</field>
 
 		<field
