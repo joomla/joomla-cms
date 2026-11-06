@@ -51,6 +51,6 @@ class BaseInstallationModel extends BaseDatabaseModel
      */
     public function getOptions()
     {
-        return Factory::getSession()->get('setup.options', []);
+        return Factory::getApplication()->getSession()->get('setup.options', []);
     }
 }

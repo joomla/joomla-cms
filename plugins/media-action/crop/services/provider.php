@@ -31,14 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Crop::class, function (Container $container) {
                 $plugin     = new Crop(
                     (array) PluginHelper::getPlugin('media-action', 'crop')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

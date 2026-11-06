@@ -72,7 +72,7 @@ trait EventAware
      *
      * This is a legacy method, implementing old-style (Joomla! 3.x) plugin calls. It's best to go directly through the
      * Dispatcher and handle the returned EventInterface object instead of going through this method. This method is
-     * deprecated and will be removed in Joomla! 5.x.
+     * deprecated and will be removed in Joomla! 7.0.
      *
      * This method will only return the 'result' argument of the event
      *

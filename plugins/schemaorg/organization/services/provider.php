@@ -31,14 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Organization::class, function (Container $container) {
                 $plugin = new Organization(
                     (array) PluginHelper::getPlugin('schemaorg', 'organization')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

@@ -15,13 +15,15 @@ namespace Joomla\CMS\Updater\Adapter;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Http\HttpFactory;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Tuf as MetadataTable;
+use Joomla\CMS\Table\Update;
 use Joomla\CMS\TUF\TufFetcher;
 use Joomla\CMS\Updater\ConstraintChecker;
 use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Updater\Updater;
+use Joomla\CMS\Version;
+use Joomla\Http\HttpFactory;
+use Joomla\Registry\Registry;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tuf\Exception\MetadataException;
 
@@ -51,7 +53,7 @@ class TufAdapter extends UpdateAdapter
 
         if ($targets) {
             foreach ($targets as $target) {
-                $updateTable                 = Table::getInstance('update');
+                $updateTable                 = new Update($this->db);
                 $updateTable->update_site_id = $options['update_site_id'];
 
                 $updateTable->bind($target);
@@ -80,7 +82,10 @@ class TufAdapter extends UpdateAdapter
         $metadataTable = new MetadataTable($this->db);
         $metadataTable->load(['update_site_id' => $options['update_site_id']]);
 
-        $tufFetcher = new TufFetcher($metadataTable, $options['location'], $this->db, (new HttpFactory())->getHttp(), Factory::getApplication());
+        $httpOptions = new Registry();
+        $httpOptions->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
+
+        $tufFetcher = new TufFetcher($metadataTable, $options['location'], $this->db, (new HttpFactory())->getHttp($httpOptions), Factory::getApplication());
         $metaData   = $tufFetcher->getValidUpdate();
 
         $metaData = json_decode((string) $metaData, true);
