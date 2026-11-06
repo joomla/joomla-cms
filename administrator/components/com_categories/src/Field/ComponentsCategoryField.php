@@ -47,7 +47,7 @@ class ComponentsCategoryField extends ListField
         $db      = $this->getDatabase();
         $options = [];
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select('DISTINCT ' . $db->quoteName('extension'))
             ->from($db->quoteName('#__categories'))
             ->where($db->quoteName('extension') . ' != ' . $db->quote('system'));

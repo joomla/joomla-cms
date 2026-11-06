@@ -31,14 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Imagelist::class, function (Container $container) {
                 $plugin     = new Imagelist(
                     (array) PluginHelper::getPlugin('fields', 'imagelist')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

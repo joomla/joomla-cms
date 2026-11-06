@@ -32,7 +32,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(SessionGC::class, function (Container $container) {
                 $plugin = new SessionGC(
                     (array) PluginHelper::getPlugin('task', 'sessiongc'),
                     $container->get(MetadataManager::class)
@@ -40,7 +40,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };
