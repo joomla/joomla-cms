@@ -432,6 +432,7 @@ class UpdateCoreCommand extends AbstractCommand
         }
 
         Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $file), Log::INFO, 'Update');
+        
         $tmpPath       = $this->getApplication()->get('tmp_path');
         $updatePackage = $tmpPath . '/' . $file;
 
