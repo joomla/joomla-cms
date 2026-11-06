@@ -30,11 +30,11 @@ Text::script('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING_ERROR');
     </div>
 </div>
 
-<fieldset class="form-group hidden" id="uploadform-web"<?php echo $dir; ?>>
+<div class="form-group hidden" id="uploadform-web"<?php echo $dir; ?>>
     <dl>
         <dt id="uploadform-web-name-label"><?php echo Text::_('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_NAME'); ?></dt>
         <dd id="uploadform-web-name"></dd>
         <dt><?php echo Text::_('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_URL'); ?></dt>
         <dd id="uploadform-web-url"></dd>
     </dl>
-</fieldset>
+</div>
