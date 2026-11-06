@@ -30,7 +30,7 @@ $wa->useScript('keepalive')
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="adminForm" id="adminForm" aria-labelledby="caption">
     <div id="j-main-container" class="j-main-container">
         <?php // Search tools bar ?>
         <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
@@ -42,9 +42,9 @@ $wa->useScript('keepalive')
         <?php else : ?>
             <table class="table" id="logsList">
                 <caption class="visually-hidden">
-                    <?php echo Text::_('COM_ACTIONLOGS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                    <span id="caption"><?php echo Text::_('COM_ACTIONLOGS_TABLE_CAPTION'); ?></span>,
+                    <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+                    <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
                 <thead>
                     <tr>
@@ -121,7 +121,7 @@ $wa->useScript('keepalive')
         <?php echo $this->filterForm->renderControlFields(); ?>
     </div>
 </form>
-<form role="presentation" class="d-none" action="<?php echo Route::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="exportForm" id="exportForm">
+<form class="d-none" action="<?php echo Route::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="exportForm" id="exportForm">
     <input type="hidden" name="task" value="" />
     <input type="hidden" name="cids" value="" />
     <?php echo HTMLHelper::_('form.token'); ?>
