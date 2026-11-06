@@ -6,6 +6,16 @@
   color: var(--body-color) !important;
 }
 
+// Cancel icon: >= 3:1 against the header (WCAG 1.4.11)
+.shepherd-has-title .shepherd-content .shepherd-cancel-icon {
+  color: var(--gray-600) !important;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--body-color) !important;
+  }
+}
+
 @if $enable-dark-mode {
   @include color-mode(dark) {
     .shepherd-element, .shepherd-arrow:before {
