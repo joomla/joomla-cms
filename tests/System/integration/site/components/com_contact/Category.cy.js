@@ -43,4 +43,15 @@ describe('Test in frontend that the contact category view', () => {
         cy.get('#adminForm').should('exist');
       });
   });
+
+  it('applies the robots metadata of the category to the category page', () => {
+    cy.db_createContact({ name: 'automated test contact 1' })
+      .then((contact) => cy.task('queryDB', `UPDATE #__categories SET metadata = '{"robots":"noindex, follow"}' WHERE id = ${contact.catid}`)
+        .then(() => {
+          cy.visit(`/index.php?option=com_contact&view=category&id=${contact.catid}`);
+
+          cy.get('head meta[name="robots"]').should('have.attr', 'content', 'noindex, follow');
+        })
+        .then(() => cy.task('queryDB', `UPDATE #__categories SET metadata = '' WHERE id = ${contact.catid}`)));
+  });
 });
