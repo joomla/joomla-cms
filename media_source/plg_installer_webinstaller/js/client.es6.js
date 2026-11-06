@@ -31,7 +31,6 @@ class WebInstaller {
   initialise() {
     webInstallerOptions.loaded = 1;
 
-
     this.loadweb(`${webInstallerOptions.options.base_url}index.php?format=json&option=com_apps&view=dashboard`);
 
     this.clickforlinks();
@@ -351,11 +350,6 @@ class WebInstaller {
 
     let dialog;
 
-    const closeDialog = () => {
-      Joomla.Modal.setCurrent(null);
-      dialog.destroy();
-    };
-
     dialog = new JoomlaDialog({
       className: 'joomla-dialog-confirm',
       textHeader: Joomla.Text._('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM'),
@@ -366,6 +360,7 @@ class WebInstaller {
           className: 'button button-success btn btn-success',
           onClick: () => {
             dialog.close();
+
             if (webInstallerOptions.options.installFrom === 4) {
               this.submitButtonUrl();
             } else {
@@ -378,6 +373,7 @@ class WebInstaller {
           className: 'button button-secondary btn btn-secondary',
           onClick: () => {
             dialog.close();
+
             if (webInstallerOptions.list && document.querySelector('.list-view')) {
               document.querySelector('.list-view').click();
             }
@@ -386,7 +382,11 @@ class WebInstaller {
       ],
     });
 
-    dialog.addEventListener('joomla-dialog:close', closeDialog);
+    dialog.addEventListener('joomla-dialog:close', () => {
+      Joomla.Modal.setCurrent(null);
+      dialog.destroy();
+    });
+
     Joomla.Modal.setCurrent(dialog);
     dialog.show();
 
