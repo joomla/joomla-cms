@@ -10,9 +10,6 @@
 
 \defined('_JEXEC') or die;
 
-// Ensure sensible default for JDEBUG is set.
-const JDEBUG = false;
-
 // Check if a configuration file already exists.
 if (
     file_exists(JPATH_CONFIGURATION . '/configuration.php')
@@ -25,6 +22,9 @@ if (
 
 // Import the Joomla Platform.
 require_once JPATH_LIBRARIES . '/bootstrap.php';
+
+// Ensure sensible default for JDEBUG is set.
+\define('JDEBUG', ($_ENV['JOOMLA_DEBUG'] ?? '') === '1');
 
 // If debug mode enabled, set new Exception handler with debug enabled.
 if (JDEBUG) {
