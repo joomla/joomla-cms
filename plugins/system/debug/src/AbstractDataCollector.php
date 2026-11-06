@@ -12,6 +12,7 @@ namespace Joomla\Plugin\System\Debug;
 
 use DebugBar\DataCollector\DataCollector;
 use DebugBar\DataCollector\Renderable;
+use DebugBar\DataFormatter\DataFormatterInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -36,10 +37,10 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
     /**
      * The default formatter.
      *
-     * @var   DataFormatter
+     * @var   ?DataFormatterInterface
      * @since 4.0.0
      */
-    public static $defaultDataFormatter;
+    public static ?DataFormatterInterface $defaultDataFormatter = null;
 
     /**
      * AbstractDataCollector constructor.
@@ -61,11 +62,11 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
      */
     public function getDataFormatter(): DataFormatter
     {
-        if ($this->dataFormater === null) {
-            $this->dataFormater = self::getDefaultDataFormatter();
+        if ($this->dataFormatter === null) {
+            $this->dataFormatter = self::getDefaultDataFormatter();
         }
 
-        return $this->dataFormater;
+        return $this->dataFormatter;
     }
 
     /**

@@ -1,7 +1,6 @@
-(function ($) {
-
+(function () {
     var csscls = PhpDebugBar.utils.makecsscls('phpdebugbar-widgets-')
-    var InfoWidget = PhpDebugBar.Widgets.InfoWidget = PhpDebugBar.Widget.extend({
+    PhpDebugBar.Widgets.InfoWidget = PhpDebugBar.Widget.extend({
 
         tagName: 'table',
 
@@ -9,46 +8,49 @@
 
         render: function () {
             this.bindAttr('data', function (data) {
-                this.$el.empty()
-                var tr
+                this.el.replaceChildren()
 
-                tr = $('<tr />')
-                    .append($('<td />').text('Joomla! Version'))
-                    .append($('<td />').text(data.joomlaVersion))
-                this.$el.append(tr)
+                var addRow = function (label, value) {
+                    var row = document.createElement('tr')
+                    var heading = document.createElement('td')
+                    var content = document.createElement('td')
 
-                tr = $('<tr />')
-                    .append($('<td />').text('PHP Version'))
-                    .append($('<td />').text(data.phpVersion))
-                this.$el.append(tr)
+                    heading.textContent = label
+                    content.textContent = value == null ? '' : value
+                    row.append(heading, content)
+                    this.el.append(row)
+                }.bind(this)
 
-                tr = $('<tr />')
-                    .append($('<td />').text('Identity'))
-                    .append($('<td />').text(data.identity.type))
-                this.$el.append(tr)
+                addRow('Joomla! Version', data.joomlaVersion)
+                addRow('PHP Version', data.phpVersion)
+                addRow('Identity', data.identity.type)
+                addRow('Response', data.response.status_code)
+                addRow('Template', data.template.template)
 
-                tr = $('<tr />')
-                    .append($('<td />').text('Response'))
-                    .append($('<td />').text(data.response.status_code))
-                this.$el.append(tr)
+                var row = document.createElement('tr')
+                var label = document.createElement('td')
+                var details = document.createElement('td')
+                var list = document.createElement('dl')
 
-                tr = $('<tr />')
-                    .append($('<td />').text('Template'))
-                    .append($('<td />').text(data.template.template))
-                this.$el.append(tr)
+                label.textContent = 'Database'
+                ;[
+                    ['Server', data.database.dbserver],
+                    ['Version', data.database.dbversion],
+                    ['Collation', data.database.dbcollation],
+                    ['Conn Collation', data.database.dbconnectioncollation]
+                ].forEach(function (item) {
+                    var term = document.createElement('dt')
+                    var description = document.createElement('dd')
 
-                tr = $('<tr />')
-                    .append($('<td />').text('Database'))
-                    .append($('<td />').html(
-                        '<dl>'
-                        + '<dt>Server</dt><dd>' + data.database.dbserver + '</dd>'
-                        + '<dt>Version</dt><dd>' + data.database.dbversion + '</dd>'
-                        + '<dt>Collation</dt><dd>' + data.database.dbcollation + '</dd>'
-                        + '<dt>Conn Collation</dt><dd>' + data.database.dbconnectioncollation + '</dd>'
-                        + '</dl>'
-                    ))
-                this.$el.append(tr)
+                    term.textContent = item[0]
+                    description.textContent = item[1] == null ? '' : item[1]
+                    list.append(term, description)
+                })
+
+                details.append(list)
+                row.append(label, details)
+                this.el.append(row)
             })
         }
     })
-})(PhpDebugBar.$)
+})()

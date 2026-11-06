@@ -74,10 +74,10 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
     {
         return [
             'untranslated' => [
-                'icon'    => 'question-circle',
+                'icon'    => 'inbox',
                 'widget'  => 'PhpDebugBar.Widgets.languageStringsWidget',
                 'map'     => $this->name . '.data',
-                'default' => '',
+                'default' => '{}',
             ],
             'untranslated:badge' => [
                 'map'     => $this->name . '.count',
@@ -87,20 +87,18 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
     }
 
     /**
-     * Returns an array with the following keys:
-     *  - base_path
-     *  - base_url
-     *  - css: an array of filenames
-     *  - js: an array of filenames
+     * Assets for the collector.
+     *
+     * @return array
      *
      * @since  4.0.0
-     * @return array
      */
     public function getAssets(): array
     {
         return [
             'js'  => Uri::root(true) . '/media/plg_system_debug/widgets/languageStrings/widget.min.js',
             'css' => Uri::root(true) . '/media/plg_system_debug/widgets/languageStrings/widget.min.css',
+
         ];
     }
 
@@ -139,7 +137,7 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
                         $file  = $stack['file'] ?? '';
                         $line  = $stack['line'] ?? '';
 
-                        $caller   = $this->formatCallerInfo($stack);
+                        $caller   = html_entity_decode($this->formatCallerInfo($stack), ENT_QUOTES | ENT_HTML5, 'UTF-8');
                         $location = $file && $line ? "$file:$line" : 'same';
 
                         $isCaller = 0;
