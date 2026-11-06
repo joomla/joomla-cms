@@ -82,6 +82,8 @@
 			<option value="a.email DESC">COM_USERS_HEADING_EMAIL_DESC</option>
 			<option value="a.lastvisitDate ASC">COM_USERS_HEADING_LAST_VISIT_DATE_ASC</option>
 			<option value="a.lastvisitDate DESC">COM_USERS_HEADING_LAST_VISIT_DATE_DESC</option>
+			<option value="a.previousvisitDate ASC">COM_USERS_HEADING_PREVIOUS_VISIT_DATE_ASC</option>
+			<option value="a.previousvisitDate DESC">COM_USERS_HEADING_PREVIOUS_VISIT_DATE_DESC</option>
 			<option value="a.registerDate ASC">COM_USERS_HEADING_REGISTRATION_DATE_ASC</option>
 			<option value="a.registerDate DESC">COM_USERS_HEADING_REGISTRATION_DATE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
