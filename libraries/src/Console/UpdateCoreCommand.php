@@ -341,6 +341,7 @@ class UpdateCoreCommand extends AbstractCommand
                     Log::INFO,
                     'Update'
                 );
+                );
 
                 return true;
             }
