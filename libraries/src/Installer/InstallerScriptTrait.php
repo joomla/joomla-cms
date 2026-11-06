@@ -222,7 +222,7 @@ trait InstallerScriptTrait
      */
     protected function getOldManifest(InstallerAdapter $adapter): ?\SimpleXMLElement
     {
-        $manifestPath = $adapter->getParent()->getPath('extension_root') . '/' .  \basename($adapter->getParent()->getPath('manifest'));
+        $manifestPath = $adapter->getParent()->getPath('extension_root') . '/' .  basename($adapter->getParent()->getPath('manifest'));
 
         return is_file($manifestPath) ? $adapter->getParent()->isManifest($manifestPath) : null;
     }
