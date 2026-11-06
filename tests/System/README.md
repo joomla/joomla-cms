@@ -183,6 +183,7 @@ The Joomla System Tests come with some convenient [Cypress Tasks](https://docs.c
 - **startMailServer** – Starts the smtp-tester SMTP server
 - **getMails** – Get received mails from smtp-tester
 - **clearEmails** – Clear all smtp-tester received mails
+- **executeCli** – Executes a CLI command
 
 The following code in a test executes the writing file task with parameters:
 ```JavaScript

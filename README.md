@@ -1,21 +1,22 @@
 Joomla! CMS™
 ============
 
+## The Joomla! 6.3 branch is under heavy development and not all links in this document are available yet
+
 ## Build Status
 
 | Actions                                                                                                                                         | PHP                                                                           | Node                                                                                 | npm                                                                              |
 |-------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
-| [![Build Status](https://github.com/joomla/joomla-cms/actions/workflows/ci.yml/badge.svg?branch=6.2-dev)](https://github.com/joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V8.3.0-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V20.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v10.1.0-green)](https://nodejs.org/en/) |
+| [![Build Status](https://github.com/joomla/joomla-cms/actions/workflows/ci.yml/badge.svg?branch=6.3-dev)](https://github.com/joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V8.3.0-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V20.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v10.1.0-green)](https://nodejs.org/en/) |
 
 ## Overview
 
 * This is the source of Joomla! 6.x.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 6.2 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_6.2_version_history).
-* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/6.2-dev).
-* Release Managers responsible for Joomla! 6.2
-  * Viviana Menzel @drmenzelit
-  * Martin Kopp @MacJoom
+* Joomla! 6.3 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_6.3_version_history).
+* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/6.3-dev).
+* Release Managers responsible for Joomla! 6.3
+  * tbd
 
 ## What is Joomla?
 
@@ -48,9 +49,9 @@ git clone https://github.com/joomla/joomla-cms.git
 ```bash
 cd joomla-cms
 ```
-- Go to the 6.2-dev branch:
+- Go to the 6.3-dev branch:
 ```bash
-git checkout 6.2-dev
+git checkout 6.3-dev
 ```
 - Install all the needed composer packages:
 ```bash
