@@ -32,6 +32,8 @@ $function  = $app->getInput()->getCmd('function', 'jSelectNewsfeed');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $multilang = Multilanguage::isEnabled();
+
+$userId = $this->getCurrentUser()->id;
 ?>
 <div class="container-popup">
 
@@ -105,12 +107,16 @@ $multilang = Multilanguage::isEnabled();
                         <th scope="row">
                             <?php $attribs = 'data-content-select data-content-type="com_newsfeeds.newsfeed"'
                                 . ' data-id="' . $item->id . '"'
+                                . ' data-checked-out="' . ((int) (!empty($item->checked_out) && $item->checked_out != $userId)) . '"'
                                 . ' data-title="' . $this->escape($item->name) . '"'
                                 . ' data-cat-id="' . $this->escape($item->catid) . '"'
                                 . ' data-uri="' . $this->escape($link) . '"'
                                 . ' data-language="' . $this->escape($lang) . '"'
                                 . ' data-html="' . $this->escape($itemHtml) . '"';
                             ?>
+                            <?php if ($item->checked_out) : ?>
+                                <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, '', false); ?>
+                            <?php endif; ?>
                             <a href="javascript:void(0)" <?php echo $attribs; ?>
                                onclick="if (window.parent && !window.parent.JoomlaExpectingPostMessage) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape($link); ?>', '<?php echo $this->escape($lang); ?>', null);">
                             <?php echo $this->escape($item->name); ?></a>

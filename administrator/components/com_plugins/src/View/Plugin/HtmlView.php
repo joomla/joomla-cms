@@ -150,13 +150,14 @@ class HtmlView extends BaseHtmlView
      */
     protected function addModalToolbar()
     {
-        $canDo   = ContentHelper::getActions('com_plugins');
-        $toolbar = $this->getDocument()->getToolbar();
+        $canDo      = ContentHelper::getActions('com_plugins');
+        $toolbar    = $this->getDocument()->getToolbar();
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $this->getCurrentUser()->id);
 
         ToolbarHelper::title(Text::sprintf('COM_PLUGINS_MANAGER_PLUGIN', Text::_($this->item->name)), 'plug plugin');
 
         // If not checked out, can save the item.
-        if ($canDo->get('core.edit')) {
+        if (!$checkedOut && $canDo->get('core.edit')) {
             $toolbar->apply('plugin.apply');
 
             $toolbar->save('plugin.save');

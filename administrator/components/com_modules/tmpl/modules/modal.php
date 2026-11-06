@@ -35,6 +35,8 @@ $link      = 'index.php?option=com_modules&view=modules&layout=modal&tmpl=compon
 if (!empty($editor)) {
     $link .= '&editor=' . $editor;
 }
+
+$userId = $this->getCurrentUser()->id;
 ?>
 <div class="container-popup">
     <form action="<?php echo Route::_($link); ?>" method="post" name="adminForm" id="adminForm">
@@ -87,6 +89,7 @@ if (!empty($editor)) {
                 foreach ($this->items as $i => $item) :
                     $attrs = 'data-content-select data-content-type="com_modules.module"'
                         . ' data-id="' . $item->id . '"'
+                        . ' data-checked-out="' . ((int) (!empty($item->checked_out) && $item->checked_out != $userId)) . '"'
                         . ' data-title="' . $this->escape($item->title) . '"'
                         . ' data-position="' . $this->escape($item->position) . '"'
                         . ' data-module-element="' . $this->escape($item->module) . '"'
@@ -106,6 +109,9 @@ if (!empty($editor)) {
                         </span>
                     </td>
                     <th scope="row" class="has-context">
+                        <?php if ($item->checked_out) : ?>
+                            <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, '', false); ?>
+                        <?php endif; ?>
                         <button type="button" class="js-module-insert btn btn-sm btn-success w-100" <?php echo $attrs1; ?>>
                             <?php echo $this->escape($item->title); ?>
                         </button>
