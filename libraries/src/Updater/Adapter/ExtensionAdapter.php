@@ -118,7 +118,8 @@ class ExtensionAdapter extends UpdateAdapter
 
                 // Check that the product matches and that the version matches (optionally a regexp)
                 if (
-                    $product == $this->currentUpdate->targetplatform['NAME']
+                    !empty($this->currentUpdate->targetplatform)
+                    && $product == $this->currentUpdate->targetplatform['NAME']
                     && preg_match('/^' . $this->currentUpdate->targetplatform['VERSION'] . '/', JVERSION)
                 ) {
                     // Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
