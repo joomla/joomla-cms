@@ -19,7 +19,7 @@
  *
  * @since       1.6
  *
- * @deprecated  4.3 will be removed in 6.0
+ * @deprecated  4.3 will be removed in 7.0
  *              Use \Joomla\Component\Contact\Administrator\Helper\ContactHelper instead
  */
 class ContactHelper extends \Joomla\Component\Contact\Administrator\Helper\ContactHelper

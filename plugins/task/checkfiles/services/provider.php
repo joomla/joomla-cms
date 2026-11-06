@@ -31,7 +31,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Checkfiles::class, function (Container $container) {
                 $plugin = new Checkfiles(
                     (array) PluginHelper::getPlugin('task', 'checkfiles'),
                     JPATH_ROOT . '/images/'
@@ -39,7 +39,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };
