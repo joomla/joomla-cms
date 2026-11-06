@@ -23,12 +23,24 @@
 
   .mod-menu {
     position: relative;
+
+    // Submenu toggles otherwise use the link colour, which has low contrast on
+    // the dark footer. Their focus outline uses currentColor, so it follows.
+    button {
+      color: currentColor;
+    }
   }
 
   @if $metismenu==true {
     .metismenu.mod-menu {
       .mm-collapse {
+        color: $white;
         background: var(--cassiopeia-color-primary);
+      }
+
+      .metismenu-item > a:focus,
+      .metismenu-item > button:focus {
+        outline-color: $white;
       }
     }
   }
