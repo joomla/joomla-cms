@@ -140,6 +140,12 @@ class HistoryModel extends ListModel
 
                 if ($this->canEdit($table)) {
                     if (!$table->delete($pk)) {
+                        if ($this->shouldUseExceptions()) {
+                            $error = $table->getError(null, false);
+
+                            throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                        }
+
                         $this->setError($table->getError());
 
                         return false;
@@ -168,6 +174,12 @@ class HistoryModel extends ListModel
                     return false;
                 }
             } else {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -247,6 +259,12 @@ class HistoryModel extends ListModel
                     $table->keep_forever = $table->keep_forever ? 0 : 1;
 
                     if (!$table->store()) {
+                        if ($this->shouldUseExceptions()) {
+                            $error = $table->getError(null, false);
+
+                            throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                        }
+
                         $this->setError($table->getError());
 
                         return false;
@@ -275,6 +293,12 @@ class HistoryModel extends ListModel
                     return false;
                 }
             } else {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;

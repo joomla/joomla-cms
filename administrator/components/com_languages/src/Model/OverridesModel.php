@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Languages\Administrator\Model;
 
+use Joomla\CMS\Access\Exception\NotAllowedException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -247,6 +248,10 @@ class OverridesModel extends ListModel
     {
         // Check permissions first.
         if (!$this->getCurrentUser()->authorise('core.delete', 'com_languages')) {
+            if ($this->shouldUseExceptions()) {
+                throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+            }
+
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
             return false;
