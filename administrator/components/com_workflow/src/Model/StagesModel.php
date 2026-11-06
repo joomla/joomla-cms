@@ -251,7 +251,7 @@ class StagesModel extends ListModel
                 // Format the position as a text which can later converted to json
                 $point  = '{"x":' . $x . ', "y":' . $y . '}';
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->update($db->quoteName('#__workflow_stages'))
                     ->set($db->quoteName('position') . ' = :position')
                     ->where($db->quoteName('id') . ' = :id')
