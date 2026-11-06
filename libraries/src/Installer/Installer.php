@@ -2526,15 +2526,36 @@ class Installer implements DatabaseAwareInterface
     /**
      * Set an adapter by name
      *
-     * @param   string                   $name     Adapter name
-     * @param   InstallerAdapter|string  $adapter  Adapter object or class name
+     * @param   string                        $name     Adapter name
+     * @param   InstallerAdapter|string|null  $adapter  Adapter object or class name
      *
      * @return  boolean  True if successful
      *
      * @since   6.0.0
      */
-    public function setAdapter($name, $adapter)
+    public function setAdapter($name, $adapter = null)
     {
+        $name = strtolower($name);
+
+        // This fallback is required because Joomla 5's UpdateModel::finaliseUpgrade()
+        // still runs in memory during a 5 -> 6 CLI upgrade and calls setAdapter()
+        // with a single argument.
+        if ($adapter === null) {
+            if (isset($this->adapters[$name])) {
+                return true;
+            }
+
+            $class = rtrim($this->classprefix, '\\') . '\\' . ucfirst($name) . 'Adapter';
+
+            if (class_exists($class)) {
+                $this->adapters[$name] = $class;
+
+                return true;
+            }
+
+            return false;
+        }
+
         if (\is_object($adapter)) {
             $this->adapters[$name] = $adapter;
 
