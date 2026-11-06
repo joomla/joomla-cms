@@ -90,6 +90,14 @@ final class EditorNoneProvider extends AbstractEditorProvider
         $author   = $params['author'] ?? 0;
         $readonly = !empty($params['readonly']) ? ' readonly disabled' : '';
 
+        if (!$width && !$col) {
+            $width = '100%';
+        }
+
+        if (!$height && !$row) {
+            $height = '500px';
+        }
+
         if (!$id) {
             $id = $name;
         }

@@ -14,10 +14,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Users\Administrator\View\Method\HtmlView;
 use Joomla\Utilities\ArrayHelper;
 
-/** @var  HtmlView  $this */
+/** @var  \Joomla\Component\Users\Administrator\View\Method\HtmlView  $this */
 
 $cancelURL = Route::_('index.php?option=com_users&task=methods.display&user_id=' . $this->user->id);
 

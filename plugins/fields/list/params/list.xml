@@ -26,11 +26,11 @@
 				name="options"
 				type="subform"
 				label="PLG_FIELDS_LIST_PARAMS_OPTIONS_LABEL"
-				layout="joomla.form.field.subform.repeatable-table"
+				layout="joomla.form.field.subform.repeatable-grid"
 				icon="list"
 				multiple="true"
 				>
-				<form hidden="true" name="list_templates_modal" repeat="true">
+				<form>
 					<field
 						name="name"
 						type="text"
