@@ -16,6 +16,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\View\ListView;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -168,8 +169,10 @@ class HtmlView extends ListView
         $canCreate = $canDo->get('core.create');
 
         if ($canCreate) {
-            $this->getDocument()->getToolbar()->standardButton('new', 'JTOOLBAR_NEW')
-                ->onclick("location.href='index.php?option=com_modules&amp;view=select&amp;client_id=" . $this->clientId . "'");
+            $this->getDocument()->getToolbar()->linkButton('new', 'JTOOLBAR_NEW')
+                ->url(Route::_('index.php?option=com_modules&view=select&client_id=' . (int) $this->clientId))
+                ->buttonClass('btn btn-success')
+                ->icon('icon-new');
         }
 
         // Prevent showing default add button

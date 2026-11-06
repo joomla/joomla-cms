@@ -8,6 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
@@ -27,6 +28,8 @@ extract($displayData, EXTR_OVERWRITE);
  * @var   array   $options
  */
 
+Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('list-view');
+
 $disabled = empty($options['transitions']) || !empty($options['disabled']);
 $id = $options['id'];
 $tipTitle = $options['tip_title'];
@@ -35,12 +38,9 @@ $checkboxName = $options['checkbox_name'];
 $task = $options['task'];
 
 ?>
-<button type="button" class="tbody-icon data-state-<?php echo $this->escape($value ?? ''); ?>"
+<button type="button" class="js-grid-button-transition-action tbody-icon data-state-<?php echo $this->escape($value ?? ''); ?>"
         aria-labelledby="<?php echo $id; ?>"
         <?php echo $disabled ? 'disabled' : ''; ?>
-        <?php if (!$disabled) : ?>
-            onclick="Joomla.toggleAllNextElements(this, 'd-none')"
-        <?php endif; ?>
     >
     <span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
 </button>
@@ -67,9 +67,11 @@ $task = $options['task'];
             $attribs = [
                 'id'        => 'transition-select_' . (int) $row ?? '',
                 'list.attr' => [
-                    'class'    => 'form-select form-select-sm w-auto',
-                    'onchange' => "this.form.transition_id.value=this.value;Joomla.listItemTask('" . $checkboxName . $this->escape($row ?? '') . "', '" . $task . "')"]
-                ];
+                    'class'          => 'js-grid-item-transition-action form-select form-select-sm w-auto',
+                    'data-item-id'   => $this->escape($checkboxName . ($row ?? '')),
+                    'data-item-task' => $this->escape($task),
+                ],
+            ];
 
             echo HTMLHelper::_('select.genericlist', $transitions, '', $attribs);
             ?>

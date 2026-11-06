@@ -62,4 +62,10 @@
 // @todo use directly the Joomla.finderIndexer() instead of the Indexer()!!!
 document.addEventListener('DOMContentLoaded', () => {
   window.Indexer = Joomla.finderIndexer();
+
+  const indexButton = document.getElementById('toolbar-index');
+
+  if (indexButton) {
+    indexButton.addEventListener('click', () => Joomla.debugIndexing());
+  }
 });

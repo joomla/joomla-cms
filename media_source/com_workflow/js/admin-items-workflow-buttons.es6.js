@@ -42,6 +42,17 @@ Joomla.toggleAllNextElements = (element, className) => {
       return;
     }
 
+    // Set the transition to run before the toolbar button submits the list form. This listens in the
+    // capture phase: joomla-toolbar-button submits from its own click listener on the inner button.
+    dropDownBtn.addEventListener('click', ({ target }) => {
+      const button = target.closest('[data-transition-id]');
+      const form = document.getElementById('adminForm');
+
+      if (button && form && form.transition_id) {
+        form.transition_id.value = button.dataset.transitionId;
+      }
+    }, true);
+
     const headline = dropDownBtn.querySelector('.button-transition-headline');
     const separator = dropDownBtn.querySelector('.button-transition-separator');
     const itemList = document.querySelector('table.itemList');
