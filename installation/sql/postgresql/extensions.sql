@@ -255,6 +255,7 @@ CREATE TABLE IF NOT EXISTS "#__finder_links" (
   "published" smallint DEFAULT 1 NOT NULL,
   "state" integer DEFAULT 1 NOT NULL,
   "access" integer DEFAULT 0 NOT NULL,
+  "cat_access" integer DEFAULT 1 NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "publish_start_date" timestamp without time zone,
   "publish_end_date" timestamp without time zone,
@@ -271,8 +272,8 @@ CREATE INDEX "#__finder_links_idx_title" on "#__finder_links" ("title");
 CREATE INDEX "#__finder_links_idx_md5" on "#__finder_links" ("md5sum");
 CREATE INDEX "#__finder_links_idx_language" on "#__finder_links" ("language");
 CREATE INDEX "#__finder_links_idx_url" on "#__finder_links" (substr(url,0,76));
-CREATE INDEX "#__finder_links_idx_published_list" on "#__finder_links" ("published", "state", "access", "publish_start_date", "publish_end_date", "list_price");
-CREATE INDEX "#__finder_links_idx_published_sale" on "#__finder_links" ("published", "state", "access", "publish_start_date", "publish_end_date", "sale_price");
+CREATE INDEX "#__finder_links_idx_published_list" on "#__finder_links" ("published", "state", "access", "cat_access", "publish_start_date", "publish_end_date", "list_price");
+CREATE INDEX "#__finder_links_idx_published_sale" on "#__finder_links" ("published", "state", "access", "cat_access", "publish_start_date", "publish_end_date", "sale_price");
 
 --
 -- Table structure for table `#__finder_links_terms`
