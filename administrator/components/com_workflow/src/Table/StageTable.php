@@ -14,6 +14,8 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Asset;
+use Joomla\CMS\Table\Exception\ValidationException;
+use Joomla\CMS\Table\Exception\WorkflowStateException;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
@@ -116,12 +118,20 @@ class StageTable extends Table
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
         }
 
         if (trim($this->title) === '') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_STATE'));
+            }
+
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_STATE'));
 
             return false;
@@ -129,6 +139,10 @@ class StageTable extends Table
 
         if (!empty($this->default)) {
             if ((int) $this->published !== 1) {
+                if ($this->shouldUseExceptions()) {
+                    throw new WorkflowStateException(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
+                }
+
                 $this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
 
                 return false;
@@ -155,6 +169,10 @@ class StageTable extends Table
                 $this->default = '1';
             } elseif ($id === $this->id) {
                 // This stage is the default, but someone has tried to disable it => not allowed
+                if ($this->shouldUseExceptions()) {
+                    throw new WorkflowStateException(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'));
+                }
+
                 $this->setError(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'));
 
                 return false;
