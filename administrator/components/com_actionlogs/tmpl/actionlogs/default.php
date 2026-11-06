@@ -30,7 +30,7 @@ $wa->useScript('keepalive')
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="adminForm" id="adminForm" aria-labelledby="caption">
+<form action="<?php echo Route::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="adminForm" id="adminForm">
     <div id="j-main-container" class="j-main-container">
         <?php // Search tools bar ?>
         <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
@@ -42,9 +42,9 @@ $wa->useScript('keepalive')
         <?php else : ?>
             <table class="table" id="logsList">
                 <caption class="visually-hidden">
-                    <span id="caption"><?php echo Text::_('COM_ACTIONLOGS_TABLE_CAPTION'); ?></span>,
-                    <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                    <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                    <?php echo Text::_('COM_ACTIONLOGS_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
                 <thead>
                     <tr>
