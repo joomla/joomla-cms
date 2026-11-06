@@ -486,7 +486,11 @@ final class Debug extends CMSPlugin implements SubscriberInterface
             }
         }
 
-        if ($this->params->get('query_explains') && \in_array($db->getServerType(), ['mysql', 'postgresql'], true)) {
+        if (
+            $this->queryMonitor
+            && $this->params->get('query_explains')
+            && \in_array($db->getServerType(), ['mysql', 'postgresql'], true)
+        ) {
             $logs        = $this->queryMonitor->getLogs();
             $boundParams = $this->queryMonitor->getBoundParams();
 

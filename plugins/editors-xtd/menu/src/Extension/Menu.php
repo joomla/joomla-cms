@@ -104,6 +104,16 @@ final class Menu extends CMSPlugin implements SubscriberInterface
                 ]
             );
 
+            // Register as a link source for editors that offer a link picker (e.g. TinyMCE)
+            $this->getApplication()->getDocument()->addScriptOptions('editor-link-providers', [
+                $this->_name => [
+                    'title'  => Text::_('PLG_EDITORS-XTD_MENU_BUTTON_MENU'),
+                    'icon'   => 'list',
+                    'src'    => 'index.php?option=com_menus&view=items&layout=modal&tmpl=component',
+                    'select' => 'content',
+                ],
+            ], true);
+
             return $button;
         }
     }

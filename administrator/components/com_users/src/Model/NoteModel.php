@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Administrator\Model;
 
+use Joomla\CMS\Event\Model\PrepareDataEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -69,13 +70,17 @@ class NoteModel extends AdminModel implements VersionableModelInterface
         $result = parent::getItem($pk);
 
         // Get the dispatcher and load the content plugins.
-        PluginHelper::importPlugin('content');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
         // Load the user plugins for backward compatibility (v3.3.3 and earlier).
-        PluginHelper::importPlugin('user');
+        PluginHelper::importPlugin('user', null, true, $dispatcher);
 
         // Trigger the data preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareData', ['com_users.note', $result]);
+        $dispatcher->dispatch('onContentPrepareData', new PrepareDataEvent('onContentPrepareData', [
+            'context' => 'com_users.note',
+            'data'    => $result,
+        ]));
 
         return $result;
     }
