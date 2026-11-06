@@ -362,9 +362,9 @@ class WebInstaller {
             dialog.close();
 
             if (webInstallerOptions.options.installFrom === 4) {
-              this.submitButtonUrl();
+              instance.submitButtonUrl();
             } else {
-              this.submitButtonWeb();
+              instance.submitButtonWeb();
             }
           },
         },
@@ -385,6 +385,7 @@ class WebInstaller {
     dialog.addEventListener('joomla-dialog:close', () => {
       Joomla.Modal.setCurrent(null);
       dialog.destroy();
+      confirmation.classList.add('hidden');
     });
 
     Joomla.Modal.setCurrent(dialog);
