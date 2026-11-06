@@ -27,8 +27,10 @@ function emptyStorage() {
 */
 function fetchTourState(tid, sid, context) {
   const fetchUrl = 'index.php?option=com_guidedtours&task=ajax.fetchUserState&format=json';
+  // The endpoint persists user state, so the request must carry the CSRF token.
+  const token = Joomla.getOptions('com_guidedtours.token', '');
   Joomla.request({
-    url: `${fetchUrl}&tid=${tid}&sid=${sid}&context=${context}`,
+    url: `${fetchUrl}&${token}=1&tid=${tid}&sid=${sid}&context=${context}`,
     method: 'GET',
     perform: true,
     onSuccess: (response) => {
@@ -221,7 +223,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
                 (target.hasAttribute('required') || (this.options.params.required || 0))
                 && (
                   (target.tagName.toLowerCase() === 'input' && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(target.type))
-                    || target.tagName.toLowerCase() === 'textarea'
+                  || target.tagName.toLowerCase() === 'textarea'
                 )
               ) {
                 if ((this.options.params.requiredvalue || '') !== '') {
@@ -677,7 +679,7 @@ document.querySelector('body').addEventListener('click', (event) => {
   // Click button but missing data-id
   if (
     (!event.target.hasAttribute('data-id') || event.target.getAttribute('data-id') <= 0)
-  && (!event.target.hasAttribute('data-gt-uid') || event.target.getAttribute('data-gt-uid') === '')
+    && (!event.target.hasAttribute('data-gt-uid') || event.target.getAttribute('data-gt-uid') === '')
   ) {
     Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR')] });
     return;

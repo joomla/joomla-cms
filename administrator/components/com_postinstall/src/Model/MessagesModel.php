@@ -742,7 +742,7 @@ class MessagesModel extends BaseDatabaseModel
      *
      * @return  CacheController
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     private function getPostinstallMessagesCache(): CacheController
     {

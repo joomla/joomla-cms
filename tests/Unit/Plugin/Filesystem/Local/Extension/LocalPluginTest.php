@@ -17,6 +17,7 @@ use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 use Joomla\Plugin\Filesystem\Local\Extension\Local;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for Local plugin
@@ -24,33 +25,30 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  Local
  *
- * @testdox     The Local plugin
- *
  * @since       4.3.0
  */
+#[TestDox('The Local plugin')]
 class LocalPluginTest extends UnitTestCase
 {
     /**
-     * @testdox  has the correct id
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('has the correct id')]
     public function testID()
     {
         $plugin = new Local(['name' => 'test'], __DIR__);
 
-        $this->assertEquals('test', $plugin->getID());
+        $this->assertSame('test', $plugin->getID());
     }
 
     /**
-     * @testdox  has the correct display name
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('has the correct display name')]
     public function testDisplayName()
     {
         $language = $this->createStub(Language::class);
@@ -62,16 +60,15 @@ class LocalPluginTest extends UnitTestCase
         $plugin = new Local([], __DIR__);
         $plugin->setApplication($app);
 
-        $this->assertEquals('test', $plugin->getDisplayName());
+        $this->assertSame('test', $plugin->getDisplayName());
     }
 
     /**
-     * @testdox  can setup providers
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can setup providers')]
     public function testSetupProviders()
     {
         $manager = new ProviderManager();
@@ -82,17 +79,16 @@ class LocalPluginTest extends UnitTestCase
         $plugin = new Local(['name' => 'test'], __DIR__);
         $plugin->onSetupProviders($event);
 
-        $this->assertEquals(['test' => $plugin], $manager->getProviders());
-        $this->assertEquals($plugin, $manager->getProvider('test'));
+        $this->assertSame(['test' => $plugin], $manager->getProviders());
+        $this->assertSame($plugin, $manager->getProvider('test'));
     }
 
     /**
-     * @testdox  can deliver adapters
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can deliver adapters')]
     public function testAdapters()
     {
         $app = $this->createStub(CMSApplicationInterface::class);
@@ -104,16 +100,15 @@ class LocalPluginTest extends UnitTestCase
         $adapters = $plugin->getAdapters();
 
         $this->assertCount(1, $adapters);
-        $this->assertEquals('tests', $adapters['tests']->getAdapterName());
+        $this->assertSame('tests', $adapters['tests']->getAdapterName());
     }
 
     /**
-     * @testdox  throws an Exception when an invalid directory
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('throws an Exception when an invalid directory')]
     public function testAdaptersInvalidDirectory()
     {
         $this->expectException(\InvalidArgumentException::class);

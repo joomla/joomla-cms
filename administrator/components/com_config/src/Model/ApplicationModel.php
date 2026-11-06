@@ -18,6 +18,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterSaveConfigurationEvent;
 use Joomla\CMS\Event\Application\BeforeSaveConfigurationEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
@@ -49,9 +51,10 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  *
  * @since  3.2
  */
-class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
+class ApplicationModel extends FormModel implements MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
     use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * Array of protected password fields from the configuration.php
@@ -59,7 +62,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
      * @var    array
      * @since  3.9.23
      */
-    private $protectedConfigurationFields = ['password', 'secret', 'smtppass', 'redis_server_auth', 'session_redis_server_auth'];
+    private $protectedConfigurationFields = ['password', 'secret', 'smtppass', 'smtp_oauth2_client_secret', 'smtp_oauth2_refresh_token', 'redis_server_auth', 'session_redis_server_auth'];
 
     /**
      * Method to get a form object.
@@ -340,8 +343,8 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             return false;
         }
 
-        // Check if we can set the Force SSL option
-        if ((int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) $app->get('force_ssl', '0')) {
+        // Check if we can set the Force SSL option unless we are in CLI mode, in which case we skip this check
+        if (!$app->isClient('cli') && (int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) $app->get('force_ssl', '0')) {
             try {
                 // Make an HTTPS request to check if the site is available in HTTPS.
                 $host    = Uri::getInstance()->getHost();
@@ -622,7 +625,9 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         // Clean the cache if disabled but previously enabled or changing cache handlers; these operations use the `$prev` data already in memory
         if ((!$data['caching'] && $prev['caching']) || $data['cache_handler'] !== $prev['cache_handler']) {
             try {
-                Factory::getCache()->clean();
+                $this->getCacheControllerFactory()
+                    ->createCacheController('callback', ['defaultgroup' => ''])
+                    ->clean();
             } catch (CacheConnectingException) {
                 try {
                     Log::add(Text::_('COM_CONFIG_ERROR_CACHE_CONNECTION_FAILED'), Log::WARNING, 'jerror');
@@ -741,7 +746,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         // Overwrite webservices cors settings
         $app->set('cors', $data['cors'] ?? 0);
         $app->set('cors_allow_origin', $data['cors_allow_origin'] ?? '*');
-        $app->set('cors_allow_headers', $data['cors_allow_headers'] ?? 'Content-Type,X-Joomla-Token');
+        $app->set('cors_allow_headers', $data['cors_allow_headers'] ?? 'Content-Type,X-Joomla-Token,Authorization');
         $app->set('cors_allow_methods', $data['cors_allow_methods'] ?? '');
 
         // Clear cache of com_config component.
@@ -1202,6 +1207,14 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $config->set('mailer', $input->get('mailer'));
         $config->set('mailonline', $input->get('mailonline'));
 
+        // We do not load the current oauth2 information since this information needs to be already saved after authorization
+        $config->set('smtp_oauth2_client_id', $app->get('smtp_oauth2_client_id', ''));
+        $config->set('smtp_oauth2_client_secret', $app->get('smtp_oauth2_client_secret', ''));
+        $config->set('smtp_oauth2_scope', $app->get('smtp_oauth2_scope', ''));
+        $config->set('smtp_oauth2_authorize_url', $app->get('smtp_oauth2_authorize_url', ''));
+        $config->set('smtp_oauth2_token_url', $app->get('smtp_oauth2_token_url', ''));
+        $config->set('smtp_oauth2_refresh_token', $app->get('smtp_oauth2_refresh_token', ''));
+
         // Use smtppass only if it was submitted
         if ($smtppass !== null) {
             $config->set('smtppass', $smtppass);
@@ -1210,7 +1223,13 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $mail = $this->getMailerFactory()->createMailer($config);
 
         // Prepare email and try to send it
-        $mailer = new MailTemplate('com_config.test_mail', $user->getParam('language', $app->get('language')), $mail);
+        $mailer = new MailTemplate(
+            'com_config.test_mail',
+            $user->getParam('language', $app->get('language')),
+            $mail,
+            $this->getLanguageFactory(),
+            $this->getDatabase()
+        );
         $mailer->addTemplateData(
             [
                 // Replace the occurrences of "@" and "|" in the site name
@@ -1219,7 +1238,6 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             ]
         );
         $mailer->addRecipient($user->email, $user->name);
-
 
         try {
             $mailSent = $mailer->send();

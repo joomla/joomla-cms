@@ -83,7 +83,7 @@ trait WorkflowBehaviorTrait
         if (method_exists($this, 'getDatabase')) {
             $db = $this->getDatabase();
         } else {
-            @trigger_error('From 6.0 implementing the getDatabase method will be mandatory.', E_USER_DEPRECATED);
+            @trigger_error('From 7.0 implementing the getDatabase method will be mandatory.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseDriver::class);
         }
 
@@ -229,6 +229,8 @@ trait WorkflowBehaviorTrait
 
         if (!$user->authorise('core.admin', $this->option)) {
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EXECUTE_TRANSITION'));
+
+            return false;
         }
 
         // Get workflow stage information
