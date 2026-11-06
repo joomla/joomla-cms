@@ -104,7 +104,7 @@ describe('Test in backend that the media manager', () => {
       }))
       .then((response) => {
         expect(response.status).to.eq(500);
-        cy.readFile('images/powered.php').should('not.exist');
+        cy.readFile(`${Cypress.expose('cmsPath')}/images/powered.php`).should('not.exist');
       });
   });
 
