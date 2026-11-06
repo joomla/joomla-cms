@@ -8,21 +8,13 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
-
-/**
- * Set the platform root path as a constant if necessary.
- *
- * @deprecated 4.4.0 will be removed in 6.0
- *             Use defined('_JEXEC') or die; to detect if the CMS is loaded correctly
- **/
-defined('JPATH_PLATFORM') or define('JPATH_PLATFORM', __DIR__);
+\defined('_JEXEC') or die;
 
 // Detect the native operating system type.
 $os = strtoupper(substr(PHP_OS, 0, 3));
 
-defined('IS_WIN') or define('IS_WIN', ($os === 'WIN'));
-defined('IS_UNIX') or define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')));
+\defined('IS_WIN') or \define('IS_WIN', ($os === 'WIN'));
+\defined('IS_UNIX') or \define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')));
 
 // Import the library loader if necessary.
 if (!class_exists('JLoader')) {
@@ -63,10 +55,10 @@ if (error_reporting() & E_USER_DEPRECATED) {
 }
 
 // Define the Joomla version if not already defined.
-defined('JVERSION') or define('JVERSION', (new \Joomla\CMS\Version())->getShortVersion());
+\defined('JVERSION') or \define('JVERSION', (new \Joomla\CMS\Version())->getShortVersion());
 
 // Set up the message queue logger for web requests
-if (array_key_exists('REQUEST_METHOD', $_SERVER)) {
+if (\array_key_exists('REQUEST_METHOD', $_SERVER)) {
     \Joomla\CMS\Log\Log::addLogger(['logger' => 'messagequeue'], \Joomla\CMS\Log\Log::ALL, ['jerror']);
 }
 

@@ -177,9 +177,10 @@ $statusModules = $renderModules ? LayoutHelper::render('status', ['modules' => '
             </section>
         </div>
 
-        <div id="sidebar-wrapper" class="sidebar-wrapper">
+        <aside id="sidebar-wrapper" class="sidebar-wrapper" aria-labelledby="sidebar-section-heading">
+            <h2 id="sidebar-section-heading" class="visually-hidden"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_HEADING'); ?></h2>
             <div id="main-brand" class="main-brand">
-                <h1><?php echo $app->get('sitename'); ?></h1>
+                <p class="h1"><?php echo $app->get('sitename'); ?></p>
                 <a href="<?php echo Uri::root(); ?>"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_VIEW_WEBSITE'); ?></a>
             </div>
             <div id="sidebar">
@@ -187,7 +188,7 @@ $statusModules = $renderModules ? LayoutHelper::render('status', ['modules' => '
                     <jdoc:include type="modules" name="sidebar" style="body" />
                 <?php endif; ?>
             </div>
-        </div>
+        </aside>
     </div>
     <?php if ($renderModules) : ?>
         <jdoc:include type="modules" name="debug" style="none" />

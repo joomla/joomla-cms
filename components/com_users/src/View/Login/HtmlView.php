@@ -66,17 +66,6 @@ class HtmlView extends BaseHtmlView
     protected $pageclass_sfx = '';
 
     /**
-     * No longer used
-     *
-     * @var    boolean
-     * @since  4.0.0
-     *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Will be removed without replacement
-     */
-    protected $tfa = false;
-
-    /**
      * Additional buttons to show on the login page
      *
      * @var    array
@@ -119,6 +108,12 @@ class HtmlView extends BaseHtmlView
 
         // Escape strings for HTML output
         $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
+
+        // Add form control fields
+        $return = $this->form->getValue('return', '', $this->params->get('login_redirect_url', $this->params->get('login_redirect_menuitem', '')));
+
+        $this->form
+            ->addControlField('return', base64_encode($return));
 
         $this->prepareDocument();
 

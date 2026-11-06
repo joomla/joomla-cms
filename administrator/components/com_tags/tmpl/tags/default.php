@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -17,7 +18,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\String\Inflector;
 
 /** @var \Joomla\Component\Tags\Administrator\View\Tags\HtmlView $this */
 
@@ -40,10 +40,10 @@ $mode      = false;
 
 if (count($parts) > 1) {
     $section = $parts[1];
-    $inflector = Inflector::getInstance();
+    $inflector = InflectorFactory::create()->build();
 
-    if (!$inflector->isPlural($section)) {
-        $section = $inflector->toPlural($section);
+    if ($inflector->pluralize($inflector->singularize($section)) !== $section) {
+        $section = $inflector->pluralize($section);
     }
 }
 
@@ -263,8 +263,6 @@ if ($saveOrder && !empty($this->items)) {
             <?php endif; ?>
         <?php endif; ?>
 
-        <input type="hidden" name="task" value="">
-        <input type="hidden" name="boxchecked" value="0">
-        <?php echo HTMLHelper::_('form.token'); ?>
+        <?php echo $this->filterForm->renderControlFields(); ?>
     </div>
 </form>
