@@ -69,6 +69,7 @@ if ($meter) {
 
 $wa->useScript('field.passwordview');
 
+Text::script('JFIELD_PASSWORD_CHARACTERS_ENTERED');
 Text::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 Text::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
 Text::script('JFIELD_PASSWORD_SPACES_IN_PASSWORD');
@@ -107,7 +108,7 @@ $attributes = [
     $dataAttribute,
 ];
 
-if ($rules) {
+if ($rules || $meter) {
     $requirements = [];
 
     if ($minLength) {
@@ -129,6 +130,16 @@ if ($rules) {
     if ($minLowercase) {
         $requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_LOWERCASE', $minLowercase);
     }
+}
+
+if ($meter) {
+    $passwordRequirements = html_entity_decode(
+        strip_tags(Text::sprintf('JFIELD_PASSWORD_RULES_MINIMUM_REQUIREMENTS', implode(', ', $requirements))),
+        ENT_QUOTES | ENT_HTML5,
+        'UTF-8'
+    );
+
+    $attributes[] = 'data-password-requirements="' . htmlspecialchars($passwordRequirements, ENT_QUOTES, 'UTF-8') . '"';
 }
 ?>
 <?php if ($rules) : ?>
