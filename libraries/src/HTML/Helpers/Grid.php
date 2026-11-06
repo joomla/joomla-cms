@@ -89,9 +89,23 @@ abstract class Grid
      */
     public static function checkall($name = 'checkall-toggle', $action = 'Joomla.checkAll(this)')
     {
-        Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('core');
+        $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
-        return '<input class="form-check-input" autocomplete="off" type="checkbox" name="' . $name . '" value="" title="' . Text::_('JGLOBAL_CHECK_ALL') . '" onclick="' . $action . '">';
+        // The default action is handled by the list-view script, a custom action stays an inline handler
+        if ($action === 'Joomla.checkAll(this)') {
+            $wa->useScript('list-view');
+
+            $class  = ' js-grid-item-check-all';
+            $action = '';
+        } else {
+            $wa->useScript('core');
+
+            $class  = '';
+            $action = ' onclick="' . $action . '"';
+        }
+
+        return '<input class="form-check-input' . $class . '" autocomplete="off" type="checkbox" name="' . $name . '" value="" title="'
+            . Text::_('JGLOBAL_CHECK_ALL') . '"' . $action . '>';
     }
 
     /**
@@ -206,12 +220,14 @@ abstract class Grid
             $state['T'] = Text::_($trashed);
         }
 
+        Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('list-view');
+
         return HTMLHelper::_(
             'select.genericlist',
             $state,
             'filter_state',
             [
-                'list.attr'   => 'class="form-select" size="1" onchange="Joomla.submitform();"',
+                'list.attr'   => 'class="form-select js-grid-submit-on-change" size="1"',
                 'list.select' => $filterState,
                 'option.key'  => null,
             ]

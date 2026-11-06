@@ -53,16 +53,15 @@ if ($icon !== null) {
 }
 
 if ($displayData['active']) {
-    if ($item->base > 0) {
-        $limit = 'limitstart.value=' . $item->base;
-    } else {
-        $limit = 'limitstart.value=0';
-    }
-
-    $class = 'active';
+    $class     = 'active';
+    $linkClass = '';
 
     if ($app->isClient('administrator')) {
-        $link = 'href="#" onclick="document.adminForm.' . $item->prefix . $limit . '; Joomla.submitform();return false;"';
+        // The list-view script sets the limitstart field and submits the form
+        $app->getDocument()->getWebAssetManager()->useScript('list-view');
+
+        $link      = 'href="#" data-limitstart-field="' . htmlspecialchars($item->prefix, ENT_COMPAT, 'UTF-8') . 'limitstart" data-limitstart="' . (int) $item->base . '"';
+        $linkClass = ' js-grid-pagination-link';
     } elseif ($app->isClient('site')) {
         $link = 'href="' . $item->link . '"';
     }
@@ -73,7 +72,7 @@ if ($displayData['active']) {
 ?>
 <?php if ($displayData['active']) : ?>
     <li class="page-item">
-        <a aria-label="<?php echo $aria; ?>" <?php echo $link; ?> class="page-link">
+        <a aria-label="<?php echo $aria; ?>" <?php echo $link; ?> class="page-link<?php echo $linkClass; ?>">
             <?php echo $display; ?>
         </a>
     </li>
