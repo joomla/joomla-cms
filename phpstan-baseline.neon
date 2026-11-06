@@ -7589,22 +7589,22 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method __construct\(\) of class Joomla\\CMS\\Encrypt\\Aes\:
-				4\.3 \$strength will be removed in 7\.0$#
+				#^Access to deprecated static property \$document of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 7\.0
+				              Use the document service in the DI container or get from the application object
+				              Example\:
+				              Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
 			'''
-			identifier: method.deprecated
+			identifier: staticProperty.deprecated
 			count: 1
 			path: libraries/src/Application/AdministratorApplication.php
 
 		-
 			message: '''
-				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the document service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
+				#^Call to deprecated method __construct\(\) of class Joomla\\CMS\\Encrypt\\Aes\:
+				4\.3 \$strength will be removed in 7\.0$#
 			'''
-			identifier: staticMethod.deprecated
+			identifier: method.deprecated
 			count: 1
 			path: libraries/src/Application/AdministratorApplication.php
 
@@ -7620,13 +7620,13 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
+				#^Access to deprecated static property \$document of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
-				             Use the document service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
+				              Use the document service in the DI container or get from the application object
+				              Example\:
+				              Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
 			'''
-			identifier: staticMethod.deprecated
+			identifier: staticProperty.deprecated
 			count: 1
 			path: libraries/src/Application/ApiApplication.php
 
@@ -7639,6 +7639,18 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: libraries/src/Application/ApiApplication.php
+
+		-
+			message: '''
+				#^Access to deprecated static property \$document of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 7\.0
+				              Use the document service in the DI container or get from the application object
+				              Example\:
+				              Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
+			'''
+			identifier: staticProperty.deprecated
+			count: 1
+			path: libraries/src/Application/CMSApplication.php
 
 		-
 			message: '''
