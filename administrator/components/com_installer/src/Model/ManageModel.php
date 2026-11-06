@@ -263,20 +263,20 @@ class ManageModel extends InstallerModel
                 // Build an array of extensions that failed to uninstall
                 if ($result === false) {
                     // There was an error in uninstalling the package
-                    $msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
+                    $msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype, $row->name);
 
                     continue;
                 }
 
                 // Package uninstalled successfully
-                $msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype);
+                $msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype, $row->name);
                 $result = true;
 
                 continue;
             }
 
             // There was an error in uninstalling the package
-            $msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
+            $msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype, $row->name);
         }
 
         $msg = implode('<br>', $msgs);
@@ -306,7 +306,7 @@ class ManageModel extends InstallerModel
     protected function getListQuery()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->select('2*protected+(1-protected)*enabled AS status')
             ->from('#__extensions')
@@ -395,7 +395,7 @@ class ManageModel extends InstallerModel
         // Get the changelog URL
         $eid   = (int) $eid;
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 $db->quoteName(
                     [
