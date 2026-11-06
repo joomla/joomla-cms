@@ -13,6 +13,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Form\Filter;
 use Joomla\CMS\Form\Filter\UrlFilter;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for UrlFilter.
@@ -73,14 +74,14 @@ class UrlFilterTest extends UnitTestCase
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function dataRelativeUrl(): array
+    public static function dataRelativeUrl(): array
     {
         return [
             'host only'          => ['www.example.com', 'http://www.example.com'],
             'host and path'      => ['www.example.com/blog/post', 'http://www.example.com/blog/post'],
             'host and port'      => ['www.example.com:8080/blog', 'http://www.example.com:8080/blog'],
             'host and query'     => ['www.example.com?option=com_content', 'http://www.example.com?option=com_content'],
-            'host in upper case' => ['WWW.EXAMPLE.COM/blog', 'http://WWW.EXAMPLE.COM/blog'],
+            'host in upper case' => ['WWW.EXAMPLE.COM/blog', 'http://www.example.com/blog'],
             'other host prefix'  => ['www.example.com.evil.org/page', '/joomla/www.example.com.evil.org/page'],
             'relative path'      => ['blog/post', '/joomla/blog/post'],
             'absolute path'      => ['/blog/post', '/blog/post'],
@@ -97,9 +98,8 @@ class UrlFilterTest extends UnitTestCase
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
-     *
-     * @dataProvider  dataRelativeUrl
      */
+    #[DataProvider('dataRelativeUrl')]
     public function testRelativeUrl(string $value, string $expected): void
     {
         $element = new \SimpleXMLElement('<field name="url" type="url" relative="true" />');
