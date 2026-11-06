@@ -48,6 +48,18 @@
       "attributes": {
         "type": "module"
       }
+    },
+    {
+      "name": "com_config.unsaved-changes",
+      "type": "script",
+      "uri": "com_config/unsaved-changes.min.js",
+      "dependencies": [
+        "core",
+        "joomla.dialog"
+      ],
+      "attributes": {
+        "type": "module"
+      }
     }
   ]
 }
