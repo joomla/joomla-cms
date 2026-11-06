@@ -56,6 +56,7 @@ class Filter
         // Get the configuration options.
         $filterId    = $options['filter_id'] ?? null;
         $activeNodes = \array_key_exists('selected_nodes', $options) ? $options['selected_nodes'] : [];
+        $activeUser  = !empty($options['active_user_only']);
         $classSuffix = \array_key_exists('class_suffix', $options) ? $options['class_suffix'] : '';
 
         // Load the predefined filter if specified.
@@ -170,6 +171,25 @@ class Filter
                 'accordion-' . $bk
             );
 
+            if ($bv->title === 'Author') {
+                Factory::getApplication()->getDocument()->getWebAssetManager()->useStyle('switcher');
+
+                $html .= '<div class="d-flex align-items-center mb-3">';
+                $html .= '<label class="form-label fw-bold me-3 mb-0" for="active_user_only_yes">';
+                $html .= Text::_('COM_FINDER_ACTIVE_USER_ONLY');
+                $html .= '</label>';
+                $html .= '<fieldset id="active_user_only" class="switcher">';
+                $html .= '<legend class="visually-hidden">' . Text::_('COM_FINDER_ACTIVE_USER_ONLY') . '</legend>';
+                $html .= '<input type="radio" id="active_user_only_no" name="active_user_only" value="0"' . (!$activeUser ? ' checked' : '') . '>';
+                $html .= '<label for="active_user_only_no">' . Text::_('JNO') . '</label>';
+                $html .= '<input type="radio" id="active_user_only_yes" name="active_user_only" value="1"' . ($activeUser ? ' checked' : '') . '>';
+                $html .= '<label for="active_user_only_yes">' . Text::_('JYES') . '</label>';
+                $html .= '<span class="toggle-outside"><span class="toggle-inside"></span></span>';
+                $html .= '</fieldset>';
+                $html .= '</div>';
+                $html .= '<div id="author-checkboxes-wrapper">';
+            }
+
             // Populate the toggle button.
             $html .= '<button class="btn btn-secondary js-filter" type="button" data-id="tax-' . $bk . '"><span class="icon-square" aria-hidden="true"></span> '
                 . Text::_('JGLOBAL_SELECTION_INVERT') . '</button><hr>';
@@ -185,6 +205,10 @@ class Filter
                 $html .= '<input type="checkbox" class="form-check-input selector filter-node' . $classSuffix
                     . ' tax-' . $bk . '" value="' . $nk . '" name="t[]"' . $checked . '> ' . str_repeat('&mdash;', $nv->level - 2) . $nv->title;
                 $html .= '</label>';
+                $html .= '</div>';
+            }
+
+            if ($bv->title === 'Author') {
                 $html .= '</div>';
             }
 

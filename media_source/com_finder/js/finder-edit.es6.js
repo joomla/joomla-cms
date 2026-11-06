@@ -29,6 +29,19 @@ Joomla = window.Joomla || {};
       });
     });
 
+    const authorRadios = document.querySelectorAll('input[name="active_user_only"]');
+    const authorCheckboxes = document.getElementById('author-checkboxes-wrapper');
+
+    if (authorRadios.length && authorCheckboxes) {
+      const updateAuthorCheckboxes = () => {
+        const activeUserOnly = document.querySelector('input[name="active_user_only"]:checked');
+        authorCheckboxes.classList.toggle('d-none', activeUserOnly && activeUserOnly.value === '1');
+      };
+
+      authorRadios.forEach((radio) => radio.addEventListener('change', updateAuthorCheckboxes));
+      updateAuthorCheckboxes();
+    }
+
     // Expand/collapse
     const expandAccordion = document.getElementById('expandAccordion');
     if (expandAccordion) {
