@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Form\Field;
 
 use Joomla\CMS\Form\Field\UrlField;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for UrlField.
@@ -85,8 +86,8 @@ class UrlFieldTest extends UnitTestCase
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
-     * @dataProvider dataSetupRelative
      */
+    #[DataProvider('dataSetupRelative')]
     public function testSetupRelative(bool $expected, string $xml): void
     {
         $field   = new UrlField();
@@ -103,7 +104,7 @@ class UrlFieldTest extends UnitTestCase
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function dataSetupRelative(): array
+    public static function dataSetupRelative(): array
     {
         return [
             'default'          => [false, '<field name="my_url" type="url" />'],

@@ -13,6 +13,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Form\Filter;
 use Joomla\CMS\Form\Filter\UrlFilter;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for UrlFilter.
@@ -62,7 +63,7 @@ class UrlFilterTest extends UnitTestCase
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function dataFilter(): array
+    public static function dataFilter(): array
     {
         $xmlUrl                   = new \SimpleXMLElement('<field name="test" type="url" />');
         $xmlUrlRelative           = new \SimpleXMLElement('<field name="test" type="url" relative="true" />');
@@ -94,8 +95,8 @@ class UrlFilterTest extends UnitTestCase
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
-     * @dataProvider dataFilter
      */
+    #[DataProvider('dataFilter')]
     public function testFilter($expected, \SimpleXMLElement $element, string $value): void
     {
         $filter = new UrlFilter();
