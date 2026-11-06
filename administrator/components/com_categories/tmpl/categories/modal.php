@@ -30,7 +30,8 @@ if ($app->isClient('site')) {
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('core')
-    ->useScript('modal-content-select');
+    ->useScript('modal-content-select')
+    ->useScript('com_categories.admin-categories-modal');
 
 $extension = $this->escape($this->state->get('filter.extension'));
 // @todo: Use of Function is deprecated and should be removed in 7.0. It stays only for backward compatibility.
@@ -107,6 +108,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                             </td>
                             <th scope="row">
                                 <?php $attribs = 'data-content-select data-content-type="' . $extension . '.category"'
+                                    . ' data-function="' . $this->escape($function) . '"'
                                     . ' data-id="' . $item->id . '"'
                                     . ' data-title="' . $this->escape($item->title) . '"'
                                     . ' data-uri="' . $this->escape($link) . '"'
@@ -114,7 +116,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     . ' data-html="' . $this->escape($itemHtml) . '"';
                                 ?>
                                 <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
-                                <a href="javascript:void(0)" <?php echo $attribs; ?> onclick="if (window.parent && !window.parent.JoomlaExpectingPostMessage) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', null, '<?php echo $this->escape(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
+                                <a class="select-link" href="javascript:void(0)" <?php echo $attribs; ?>>
                                     <?php echo $this->escape($item->title); ?></a>
                                 <div class="small" title="<?php echo $this->escape($item->path); ?>">
                                     <?php if (empty($item->note)) : ?>

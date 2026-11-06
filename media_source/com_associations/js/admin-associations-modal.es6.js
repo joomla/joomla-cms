@@ -12,7 +12,10 @@ Joomla = window.Joomla || {};
     const links = [].slice.call(document.querySelectorAll('.select-link'));
 
     links.forEach((item) => {
-      item.addEventListener('click', ({ target }) => {
+      item.addEventListener('click', (event) => {
+        const { target } = event;
+
+        event.preventDefault();
         targetAssociation.src = `${targetAssociation.getAttribute('data-editurl')}&task=${targetAssociation.getAttribute('data-item')}.edit&id=${parseInt(target.getAttribute('data-id'), 10)}`;
         window.parent.Joomla.Modal.getCurrent().close();
       });
