@@ -1,0 +1,69 @@
+// Responsive pagination
+//
+// The page items carry show-at-<breakpoint> classes (see Joomla\CMS\Pagination\PaginationWindow).
+// Container queries on the pagination's own width decide which of them are visible.
+// The widths include the 1rem margin on both sides of the pagination toolbar.
+
+$pagination-container-breakpoints: (
+  narrow: (null, 23.875rem),
+  small: (23.875rem, 28.25rem),
+  medium: (28.25rem, 33.25rem),
+  large: (33.25rem, 39.5rem),
+  xlarge: (39.5rem, null)
+);
+
+// Only hide pages when the page items carry the visibility classes: an override of the
+// joomla.pagination.link layout may not output them, and then every page stays visible.
+$pagination-responsive: ".pagination--responsive:has(.page-item:not(.ellipsis)[class*=\"show-at-\"])";
+
+.pagination__wrapper:has(.pagination--responsive) {
+  container: pagination / inline-size;
+}
+
+.pagination--responsive {
+  flex-wrap: nowrap;
+
+  .ellipsis {
+    pointer-events: none;
+    user-select: none;
+
+    .page-link {
+      min-inline-size: auto;
+      padding-inline: .25em;
+    }
+  }
+}
+
+#{$pagination-responsive} {
+  .page-item {
+    display: none;
+  }
+
+  .page-item:first-child,
+  .page-item:last-child,
+  .page-item--first,
+  .page-item--last {
+    display: flex;
+  }
+}
+
+@each $name, $range in $pagination-container-breakpoints {
+  $min: nth($range, 1);
+  $max: nth($range, 2);
+  $query: "";
+
+  @if $min == null {
+    $query: "(width < #{$max})";
+  } @else if $max == null {
+    $query: "(width >= #{$min})";
+  } @else {
+    $query: "(width >= #{$min}) and (width < #{$max})";
+  }
+
+  @container pagination #{$query} {
+    // !important also beats Bootstrap's [hidden] { display: none !important; } on ellipses
+    #{$pagination-responsive} .show-at-#{$name} {
+      display: flex !important;
+    }
+  }
+}
