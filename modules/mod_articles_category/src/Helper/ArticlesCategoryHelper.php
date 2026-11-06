@@ -373,7 +373,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      */
     public static function truncate($html, $maxLength = 0)
     {
-        $baseLength = \strlen($html);
+        $baseLength = StringHelper::strlen($html);
 
         // First get the plain text string. This is the rendered text we want to end up with.
         $ptString = HTMLHelper::_('string.truncate', $html, $maxLength, true, false);
@@ -391,7 +391,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
             }
 
             // Get the number of html tag characters in the first $maxlength characters
-            $diffLength = \strlen($ptString) - \strlen($htmlStringToPtString);
+            $diffLength = StringHelper::strlen($ptString) - StringHelper::strlen($htmlStringToPtString);
 
             // Set new $maxlength that adjusts for the html tags
             $maxLength += $diffLength;
