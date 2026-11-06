@@ -93,6 +93,12 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 
         // Check for a table object error.
         if ($return === false && $table->getError()) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;

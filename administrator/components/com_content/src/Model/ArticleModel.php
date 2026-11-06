@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Administrator\Model;
 
+use Joomla\CMS\Access\Exception\NotAllowedException;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\Model\AfterSaveEvent;
@@ -21,8 +22,10 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFoundException;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Model\Exception\BatchOperationException;
 use Joomla\CMS\MVC\Model\WorkflowBehaviorTrait;
 use Joomla\CMS\MVC\Model\WorkflowModelInterface;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -229,6 +232,10 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
         // Parent exists so we proceed
         foreach ($pks as $pk) {
             if (!$this->user->authorise('core.edit', $contexts[$pk])) {
+                if ($this->shouldUseExceptions()) {
+                    throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+                }
+
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
                 return false;
@@ -236,14 +243,22 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
 
             // Check that the row actually exists
             if (!$this->table->load($pk)) {
-                if ($error = $this->table->getError()) {
+                if ($error = $this->table->getError(null, false)) {
                     // Fatal error
-                    $this->setError($error);
+                    if ($this->shouldUseExceptions()) {
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
+                    $this->setError($error instanceof \Throwable ? $error->getMessage() : $error);
 
                     return false;
                 }
 
                 // Not fatal error
+                if ($this->shouldUseExceptions()) {
+                    throw new ResourceNotFoundException(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                }
+
                 $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
                 continue;
             }
@@ -270,6 +285,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
 
             // Check the row.
             if (!$this->table->check()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $this->table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($this->table->getError());
 
                 return false;
@@ -277,6 +298,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
 
             // Store the row.
             if (!$this->table->store()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $this->table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($this->table->getError());
 
                 return false;
@@ -713,6 +740,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
 
             // Create new category.
             if (!$categoryModel->save($category)) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $categoryModel->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($categoryModel->getError());
 
                 return false;
@@ -857,6 +890,10 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
         }
 
         if (empty($pks)) {
+            if ($this->shouldUseExceptions()) {
+                throw new BatchOperationException(Text::_('COM_CONTENT_NO_ITEM_SELECTED'));
+            }
+
             $this->setError(Text::_('COM_CONTENT_NO_ITEM_SELECTED'));
 
             return false;
@@ -880,6 +917,10 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
         );
 
         if ($eventResult->getArgument('abort', false)) {
+            if ($this->shouldUseExceptions()) {
+                throw new \RuntimeException(Text::_($eventResult->getArgument('abortReason')));
+            }
+
             $this->setError(Text::_($eventResult->getArgument('abortReason')));
 
             return false;
@@ -962,6 +1003,10 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
                 }
             }
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
