@@ -16,6 +16,7 @@ use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Mail\MailerFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Plugin\Multifactorauth\Email\Extension\Email;
@@ -37,6 +38,7 @@ return new class () implements ServiceProviderInterface {
             $container->lazy(Email::class, function (Container $container) {
                 $plugin = new Email((array) PluginHelper::getPlugin('multifactorauth', 'email'));
                 $plugin->setApplication(Factory::getApplication());
+                $plugin->setDatabase($container->get(DatabaseInterface::class));
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
                 $plugin->setMailerFactory($container->get(MailerFactoryInterface::class));
                 $plugin->setLanguageFactory($container->get(LanguageFactoryInterface::class));

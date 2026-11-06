@@ -33,8 +33,9 @@ describe('Test that the task notification system plugin', () => {
         expect(interception.response.body.message).to.eq(null);
         expect(interception.response.body.success).to.eq(true);
       });
-      cy.get('joomla-dialog[type="inline"]').should('be.visible');
-      cy.get('joomla-dialog[type="inline"]').within(() => {
+      cy.get('joomla-dialog[type="inline"] dialog').as('dialogContent');
+      cy.get('@dialogContent').should('be.visible');
+      cy.get('@dialogContent').within(() => {
         cy.get('header.joomla-dialog-header').should('contain', `Run Task (ID: ${task.id})`);
         cy.get('div.scheduler-status').should('contain', 'Status: Completed');
       });
@@ -68,8 +69,9 @@ describe('Test that the task notification system plugin', () => {
         expect(interception.response.body.message).to.eq(null);
         expect(interception.response.body.success).to.eq(true);
       });
-      cy.get('joomla-dialog[type="inline"]').should('be.visible');
-      cy.get('joomla-dialog[type="inline"]').within(() => {
+      cy.get('joomla-dialog[type="inline"] dialog').as('dialogContent');
+      cy.get('@dialogContent').should('be.visible');
+      cy.get('@dialogContent').within(() => {
         cy.get('header.joomla-dialog-header').should('contain', `Run Task (ID: ${task.id})`);
         cy.get('div.scheduler-status').should('contain', 'Status: Completed');
       });

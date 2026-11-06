@@ -11,6 +11,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Mail;
 
 use Joomla\CMS\Mail\MailHelper;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for JMailHelper.
@@ -29,7 +30,7 @@ class MailHelperTest extends UnitTestCase
      *
      * @since   3.0.0
      */
-    public function dataCleanLine(): array
+    public static function dataCleanLine(): array
     {
         return [
             ["test\n\nme\r\r", 'testme'],
@@ -47,12 +48,11 @@ class MailHelperTest extends UnitTestCase
      * @return  void
      *
      * @since   3.0.0
-     *
-     * @dataProvider  dataCleanLine
      */
+    #[DataProvider('dataCleanLine')]
     public function testCleanLine($input, $expected)
     {
-        $this->assertEquals($expected, MailHelper::cleanLine($input));
+        $this->assertSame($expected, MailHelper::cleanLine($input));
     }
 
     /**
@@ -62,7 +62,7 @@ class MailHelperTest extends UnitTestCase
      *
      * @since   3.0.0
      */
-    public function dataCleanText(): array
+    public static function dataCleanText(): array
     {
         return [
             ["test\nme", "test\nme"],
@@ -109,12 +109,11 @@ class MailHelperTest extends UnitTestCase
      * @return  void
      *
      * @since   3.0.0
-     *
-     * @dataProvider  dataCleanText
      */
+    #[DataProvider('dataCleanText')]
     public function testCleanText($input, $expected)
     {
-        $this->assertEquals($expected, MailHelper::cleanText($input));
+        $this->assertSame($expected, MailHelper::cleanText($input));
     }
 
     /**
@@ -124,7 +123,7 @@ class MailHelperTest extends UnitTestCase
      *
      * @since   3.0.0
      */
-    public function dataCleanBody(): array
+    public static function dataCleanBody(): array
     {
         return [
             ["testFrom: Foobar me", "test me"],
@@ -152,12 +151,11 @@ class MailHelperTest extends UnitTestCase
      * @return  void
      *
      * @since   3.0.0
-     *
-     * @dataProvider  dataCleanBody
      */
+    #[DataProvider('dataCleanBody')]
     public function testCleanBody($input, $expected)
     {
-        $this->assertEquals($expected, MailHelper::cleanBody($input));
+        $this->assertSame($expected, MailHelper::cleanBody($input));
     }
 
     /**
@@ -167,7 +165,7 @@ class MailHelperTest extends UnitTestCase
      *
      * @since   3.0.0
      */
-    public function dataCleanSubject(): array
+    public static function dataCleanSubject(): array
     {
         return [
             ["testFrom: Foobar me", "test me"],
@@ -193,12 +191,11 @@ class MailHelperTest extends UnitTestCase
      * @return  void
      *
      * @since   3.0.0
-     *
-     * @dataProvider  dataCleanSubject
      */
+    #[DataProvider('dataCleanSubject')]
     public function testCleanSubject($input, $expected)
     {
-        $this->assertEquals($expected, MailHelper::cleanSubject($input));
+        $this->assertSame($expected, MailHelper::cleanSubject($input));
     }
 
     /**
@@ -208,7 +205,7 @@ class MailHelperTest extends UnitTestCase
      *
      * @since   3.0.0
      */
-    public function dataCleanAddress(): array
+    public static function dataCleanAddress(): array
     {
         return [
             ["testme", "testme"],
@@ -228,12 +225,11 @@ class MailHelperTest extends UnitTestCase
      * @return  void
      *
      * @since   3.0.0
-     *
-     * @dataProvider  dataCleanAddress
      */
+    #[DataProvider('dataCleanAddress')]
     public function testCleanAddress($input, $expected)
     {
-        $this->assertEquals($expected, MailHelper::cleanAddress($input));
+        $this->assertSame($expected, MailHelper::cleanAddress($input));
     }
 
     /**
@@ -243,7 +239,7 @@ class MailHelperTest extends UnitTestCase
      *
      * @since   3.0.0
      */
-    public function dataIsEmailAddress(): array
+    public static function dataIsEmailAddress(): array
     {
         return [
             ["joe", false],
@@ -279,11 +275,10 @@ class MailHelperTest extends UnitTestCase
      * @return  void
      *
      * @since   3.0.0
-     *
-     * @dataProvider  dataIsEmailAddress
      */
+    #[DataProvider('dataIsEmailAddress')]
     public function testIsEmailAddress($input, $expected)
     {
-        $this->assertEquals($expected, MailHelper::isEmailAddress($input));
+        $this->assertSame($expected, MailHelper::isEmailAddress($input));
     }
 }
