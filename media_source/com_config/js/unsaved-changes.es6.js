@@ -72,9 +72,9 @@ import JoomlaDialog from 'joomla.dialog';
     const discard = await JoomlaDialog.confirm(
       Joomla.Text._(
         'COM_CONFIG_UNSAVED_CHANGES_CONFIRM',
-        'You have made changes that have not been saved. If you continue, your changes will be lost.'
+        'You have made changes that have not been saved. If you continue, your changes will be lost.',
       ),
-      Joomla.Text._('WARNING', 'Warning')
+      Joomla.Text._('WARNING', 'Warning'),
     );
 
     const destination = pendingNavigation;
