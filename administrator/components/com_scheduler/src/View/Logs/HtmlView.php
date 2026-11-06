@@ -10,13 +10,13 @@
 
 namespace Joomla\Component\Scheduler\Administrator\View\Logs;
 
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Registry\Registry;
 
@@ -93,6 +93,11 @@ class HtmlView extends BaseHtmlView
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
 
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task')
+            ->addControlField('boxchecked', '0');
+
         $this->addToolbar();
         parent::display($tpl);
     }
@@ -106,8 +111,10 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar(): void
     {
-        $canDo   = ContentHelper::getActions('com_scheduler');
-        $toolbar = Toolbar::getInstance();
+        /** @var HtmlDocument $document */
+        $document = $this->getDocument();
+        $canDo    = ContentHelper::getActions('com_scheduler');
+        $toolbar  = $document->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_SCHEDULER_FIELDSET_EXEC_HIST'), 'list');
 

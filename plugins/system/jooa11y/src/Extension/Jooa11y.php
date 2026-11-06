@@ -15,6 +15,8 @@ use Joomla\CMS\Event\Application\BeforeCompileHeadEvent;
 use Joomla\CMS\Event\PageCache\SetCachingEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
@@ -27,8 +29,10 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since  4.1.0
  */
-final class Jooa11y extends CMSPlugin implements SubscriberInterface
+final class Jooa11y extends CMSPlugin implements SubscriberInterface, DispatcherAwareInterface
 {
+    use DispatcherAwareTrait;
+
     /**
      * Subscribe to certain events
      *

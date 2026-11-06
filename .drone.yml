@@ -5,6 +5,13 @@ name: package
 steps:
   - name: packager
     image: joomlaprojects/docker-images:packager
+    volumes:
+      - name: composer-cache
+        path: /tmp/composer-cache
+      - name: npm-cache
+        path: /tmp/npm-cache
+      - name: fido-cache
+        path: /drone/src/build/fido/
     environment:
       HTTP_ROOT: "https://artifacts.joomla.org/drone"
       DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
@@ -36,6 +43,17 @@ steps:
       - rclone copy ./upload/ package:$package_root/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/downloads/$DRONE_BUILD_NUMBER
       - /bin/add_github_status.sh "Download" "Prebuilt packages are available for download." "https://artifacts.joomla.org/drone/${DRONE_REPO}/${DRONE_BRANCH}/${DRONE_PULL_REQUEST}/downloads/${DRONE_BUILD_NUMBER}"
 
+volumes:
+  - name: composer-cache
+    host:
+      path: /tmp/composer-cache
+  - name: fido-cache
+    host:
+      path: /tmp/fido-cache
+  - name: npm-cache
+    host:
+      path: /tmp/npm-cache
+
 trigger:
   repo:
     - joomla/joomla-cms
@@ -47,6 +65,13 @@ name: nightly_build
 steps:
   - name: prepare
     image: joomlaprojects/docker-images:packager
+    volumes:
+      - name: composer-cache
+        path: /tmp/composer-cache
+      - name: npm-cache
+        path: /tmp/npm-cache
+      - name: fido-cache
+        path: /drone/src/build/fido/
     commands:
       - composer --version
       - mkdir -p transfer
@@ -92,6 +117,17 @@ steps:
       status:
         - failure
 
+volumes:
+  - name: composer-cache
+    host:
+      path: /tmp/composer-cache
+  - name: fido-cache
+    host:
+      path: /tmp/fido-cache
+  - name: npm-cache
+    host:
+      path: /tmp/npm-cache
+
 trigger:
   event:
     - cron
@@ -101,6 +137,6 @@ trigger:
 
 ---
 kind: signature
-hmac: b62009a5a3a1303955cdf02e0d38850e7065febe2e8b06731f6c740a89dfd6e9
+hmac: b35a8a70b20200d91799b8251df1cae7313c8ca78bd2ccc889c29fb10940d5c8
 
 ...

@@ -58,7 +58,7 @@ class RawView extends BaseHtmlView
         $app = Factory::getApplication();
         $app->setHeader(
             'Content-disposition',
-            'attachment; filename="' . $basename . '.' . $fileType . '"; creation-date="' . Factory::getDate()->toRFC822() . '"',
+            'attachment; filename="' . str_replace('"', '', $basename) . '.' . $fileType . '"; creation-date="' . Factory::getDate()->toRFC822() . '"',
             true
         );
         echo $content;

@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\Fields\Media\Extension;
 
 use Joomla\CMS\Event\CustomFields\BeforePrepareFieldEvent;
+use Joomla\CMS\Event\Model\PrepareDataEvent;
 use Joomla\CMS\Form\Form;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
 use Joomla\Event\SubscriberInterface;
@@ -36,8 +37,40 @@ final class Media extends FieldsPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return array_merge(parent::getSubscribedEvents(), [
+            'onContentPrepareData'             => 'prepareContentData',
             'onCustomFieldsBeforePrepareField' => 'beforePrepareField',
         ]);
+    }
+
+    /**
+     * Unset the fieldparams[types] parameter because the default value from the
+     * XML form get not overridden on field reload
+     *
+     * @param   PrepareDataEvent $event  The event instance.
+     *
+     * @return  void
+     * @since  6.1.0
+     */
+    public function prepareContentData(PrepareDataEvent $event)
+    {
+        $context = $event->getContext();
+        $data    = $event->getData();
+
+        if ($context !== 'com_fields.field') {
+            return;
+        }
+
+        if (!empty($data->type) && $data->type !== 'media') {
+            return;
+        }
+
+        if (\is_array($data)) {
+            unset($data['fieldparams']['types']);
+        } elseif (\is_object($data)) {
+            unset($data->fieldparams['types']);
+        }
+
+        $event->updateData($data);
     }
 
     /**
