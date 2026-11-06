@@ -14,8 +14,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-HTMLHelper::_('behavior.formvalidator');
-
 $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
 
 /** @var \Joomla\CMS\Installation\View\Remove\HtmlView $this */
@@ -139,6 +137,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
         </div>
     </fieldset>
 
+    <?php if (empty($this->autoUpdatesDisabled)) : ?>
     <fieldset id="automatedUpdates" class="j-install-step active">
         <legend class="j-install-step-header">
             <?php echo Text::_('INSTL_AUTOMATED_UPDATES'); ?>
@@ -151,6 +150,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
             </button>
         </div>
     </fieldset>
+    <?php endif; ?>
 
     <div id="installRecommended" class="j-install-step active">
         <div class="j-install-step-form">

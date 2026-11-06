@@ -69,8 +69,16 @@ class OptionsRule extends FormRule
                 $options[] = $opt->value;
             }
         } else {
+            // Handle direct <option> children
             foreach ($element->option as $opt) {
-                $options[] = $opt->attributes()->value;
+                $options[] = (string) $opt->attributes()->value;
+            }
+
+            // Handle <group> children for groupedlist fields
+            foreach ($element->group as $groupNode) {
+                foreach ($groupNode->option as $opt) {
+                    $options[] = (string) $opt->attributes()->value;
+                }
             }
         }
 

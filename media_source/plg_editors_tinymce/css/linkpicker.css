@@ -1,0 +1,50 @@
+/**
+ * @copyright  (C) 2026 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+.editor-link-picker {
+  display: flex;
+  block-size: 100%;
+  min-block-size: 60vh;
+}
+
+.editor-link-picker-nav {
+  flex: 0 0 220px;
+  overflow: auto;
+  border-inline-end: 1px solid var(--border-color, #dee2e6);
+}
+
+.editor-link-picker-frame {
+  position: relative;
+  flex: 1 1 auto;
+}
+
+.editor-link-picker-frame iframe {
+  inline-size: 100%;
+  block-size: 100%;
+  border: 0;
+}
+
+.editor-link-picker-item {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+  inline-size: 100%;
+  padding: .5rem .75rem;
+  text-align: start;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+}
+
+/* Translucent grays read on both light and dark backgrounds */
+.editor-link-picker-item:hover,
+.editor-link-picker-item:focus-visible {
+  background: rgba(127, 127, 127, .15);
+}
+
+.editor-link-picker-item.active {
+  font-weight: 600;
+  background: rgba(127, 127, 127, .25);
+}

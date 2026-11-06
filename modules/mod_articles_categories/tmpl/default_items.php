@@ -25,7 +25,7 @@ foreach ($list as $item) : ?>
         echo ' class="active"';
        } ?>>
         <a href="<?php echo Route::_(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>">
-        <?php echo $item->title; ?>
+        <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
             <?php if ($params->get('numitems')) : ?>
                 (<?php echo $item->numitems; ?>)
             <?php endif; ?>

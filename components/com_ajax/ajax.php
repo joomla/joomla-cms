@@ -14,10 +14,11 @@ use Joomla\CMS\Event\Plugin\AjaxEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\Attribute\AllowUnauthorizedAdministratorAccess;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\String\StringableInterface;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
 
 /*
  * References
@@ -34,6 +35,30 @@ $app->allowCache(false);
 
 // Prevent the api url from being indexed
 $app->setHeader('X-Robots-Tag', 'noindex, nofollow');
+
+$unauthorizedAdministratorAccessCheck = ($app->isClient('administrator') && $app->getIdentity()->guest);
+
+/**
+ * Validate the presence of the AllowUnauthorizedAdministratorAccess attribute on the method being called.
+ *
+ * @param $classOrObject
+ * @param $method
+ *
+ * @return void
+ * @throws \RuntimeException
+ */
+
+$verifyUnauthorizedAdministratorAccessCheck = function ($classOrObject, $method): void {
+    $reflection = new ReflectionMethod($classOrObject, $method);
+
+    foreach ($reflection->getAttributes() as $attribute) {
+        if ($attribute->getName() === AllowUnauthorizedAdministratorAccess::class) {
+            return;
+        }
+    }
+
+    throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'));
+};
 
 // JInput object
 $input = $app->getInput();
@@ -58,7 +83,7 @@ if (!$format) {
      *
      */
     $module   = $input->get('module');
-    $table    = Table::getInstance('extension');
+    $table    = new Extension(Factory::getDbo());
     $moduleId = $table->find(['type' => 'module', 'element' => 'mod_' . $module]);
 
     if ($moduleId && $table->load($moduleId) && $table->enabled) {
@@ -87,13 +112,23 @@ if (!$format) {
         $moduleInstance = $app->bootModule('mod_' . $module, $app->getName());
 
         if ($moduleInstance instanceof \Joomla\CMS\Helper\HelperFactoryInterface && $helper = $moduleInstance->getHelper(substr($class, 3))) {
-            $results = method_exists($helper, $method . 'Ajax') ? $helper->{$method . 'Ajax'}() : null;
+            if (method_exists($helper, $method . 'Ajax')) {
+                if ($unauthorizedAdministratorAccessCheck) {
+                    $verifyUnauthorizedAdministratorAccessCheck($helper, $method . 'Ajax');
+                }
+
+                $results = $helper->{$method . 'Ajax'}();
+            }
         }
 
         if ($results === null && is_file($helperFile)) {
             JLoader::register($class, $helperFile);
 
             if (method_exists($class, $method . 'Ajax')) {
+                if ($unauthorizedAdministratorAccessCheck) {
+                    $verifyUnauthorizedAdministratorAccessCheck($class, $method . 'Ajax');
+                }
+
                 // Load language file for module
                 $basePath = JPATH_BASE;
                 $lang     = Factory::getLanguage();
@@ -134,6 +169,12 @@ if (!$format) {
 
         PluginHelper::importPlugin($group, null, true, $dispatcher);
 
+        if ($unauthorizedAdministratorAccessCheck) {
+            foreach ($dispatcher->getListeners($eventName) as $event) {
+                $verifyUnauthorizedAdministratorAccessCheck($event[0], $event[1]);
+            }
+        }
+
         $results = $dispatcher->dispatch($eventName, new AjaxEvent($eventName, ['subject' => $app]))->getArgument('result', []);
     } catch (Throwable $e) {
         $results = $e;
@@ -148,7 +189,7 @@ if (!$format) {
      *
      */
     $template   = $input->get('template');
-    $table      = Table::getInstance('extension');
+    $table      = new Extension(Factory::getDbo());
     $templateId = $table->find(['type' => 'template', 'element' => $template]);
 
     if ($templateId && $table->load($templateId) && $table->enabled) {
@@ -179,6 +220,10 @@ if (!$format) {
             JLoader::register($class, $helperFile);
 
             if (method_exists($class, $method . 'Ajax')) {
+                if ($unauthorizedAdministratorAccessCheck) {
+                    $verifyUnauthorizedAdministratorAccessCheck($class, $method . 'Ajax');
+                }
+
                 // Load language file for template
                 $lang = Factory::getLanguage();
                 $lang->load('tpl_' . $template, $basePath)

@@ -33,7 +33,13 @@ use Joomla\CMS\Router\Route;
             <?php if ($this->params->get('filter_field') !== 'hide') : ?>
             <div class="mb-2">
                 <label class="filter-search-lbl visually-hidden" for="filter-search"><?php echo Text::_('COM_CONTENT_TITLE_FILTER_LABEL') . '&#160;'; ?></label>
-                <input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->filter); ?>" class="inputbox col-md-2" onchange="document.getElementById('adminForm').submit();" placeholder="<?php echo Text::_('COM_CONTENT_TITLE_FILTER_LABEL'); ?>">
+                <input type="text" 
+                    name="filter-search" 
+                    id="filter-search" 
+                    value="<?php echo $this->escape($this->filter); ?>" 
+                    class="inputbox col-md-2" 
+                    placeholder="<?php echo Text::_('COM_CONTENT_TITLE_FILTER_LABEL'); ?>"
+                >
             </div>
             <?php endif; ?>
 
