@@ -83,7 +83,7 @@ Using a simple classification keeps the project **stable**, **transparent**, and
 
 | Type of change | What it means | Target branch                                                                     |
 |---|---|-----------------------------------------------------------------------------------|
-| **Bug / Patch release** | The change fixes an actual error. The software crashes, produces the wrong result, or behaves contrary to its specification. It can be resolved without large‑scale refactoring or new functionality. | **[6.2-dev](https://github.com/joomla/joomla-cms/tree/6.2-dev)** (6.2-dev) **\*** |
+| **Bug / Patch release** | The change fixes an actual error. The software crashes, produces the wrong result, or behaves contrary to its specification. It can be resolved without large‑scale refactoring or new functionality. | **[6.2-dev](https://github.com/joomla/joomla-cms/tree/6.2-dev)** **\*** |
 | **Feature / Minor release** | Anything that isn’t a strict bug – new behavior, refactoring, performance improvements, enhancements, UI tweaks, etc. These changes are bundled together for the next minor version. | **[6.3-dev](https://github.com/joomla/joomla-cms/tree/6.3-dev)**                  |
 
 **\*** All bugs that already exist in version 5.4.x or 6.1.x or 6.2.x should be fixed in `6.2-dev`. Only bugs that are introduced for the first time in version 6.3.x should target the [`6.3-dev`](https://github.com/joomla/joomla-cms/tree/6.3-dev) branch.
