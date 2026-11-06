@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Utilities\ArrayHelper;
 
 /** @var  \Joomla\Component\Users\Site\View\Method\HtmlView  $this */
 
@@ -148,7 +147,7 @@ $hideSubmit   = !$this->renderOptions['show_submit'] && !$this->isEditExisting
                     $attributes['class'] .= ' form-control';
                 }
                 ?>
-                <input <?php echo ArrayHelper::toString($attributes) ?>>
+                <input <?php echo HTMLHelper::_('html.attributes', $attributes) ?>>
 
                 <p class="form-text" id="com-users-method-code-help">
                     <?php echo $this->escape($this->renderOptions['placeholder']) ?>
