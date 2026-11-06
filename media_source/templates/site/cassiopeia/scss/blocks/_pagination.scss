@@ -16,6 +16,9 @@ $pagination-container-breakpoints: (
 $pagination-responsive: ".pagination--responsive:has(.page-item:not(.ellipsis)[class*=\"show-at-\"])";
 
 .pagination__wrapper:has(> .pagination--responsive) {
+  // Fill the available row when a wrapper is a flex container: inline-size containment gives the
+  // pagination no width of its own, so as a flex item it would otherwise collapse to zero.
+  flex-grow: 1;
   container: pagination / inline-size;
 }
 
