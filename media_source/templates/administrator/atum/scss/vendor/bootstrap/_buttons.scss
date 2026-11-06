@@ -1,7 +1,13 @@
 // Buttons
 
 .btn {
+  // Variants only set the shadow colour, so this applies the focus indicator to all of them
+  --btn-focus-box-shadow: #{$focus-indicator-ring};
   transition: none;
+}
+
+.navbar-toggler:focus-visible {
+  @include focus-ring();
 }
 
 @include media-breakpoint-down(sm) {

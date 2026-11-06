@@ -39,9 +39,9 @@
       background-color: var(--bg-color);
       transition: all .25s ease;
 
+      // The quick icon groups clip overflow, so draw the indicator inside the control
       &:focus-visible {
-        border: 1px solid var(--link-color);
-        outline: 0;
+        @include focus-ring(true);
       }
 
       .quickicon-icon {
@@ -153,9 +153,9 @@
         color: $quickicon-linkadd-color;
       }
 
+      // The quick icon groups clip overflow, so draw the indicator inside the control
       &:focus-visible {
-        border: 1px solid var(--link-color);
-        outline: 0;
+        @include focus-ring(true);
       }
 
       &:hover,

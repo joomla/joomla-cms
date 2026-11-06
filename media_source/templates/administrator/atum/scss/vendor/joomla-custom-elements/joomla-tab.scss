@@ -48,8 +48,15 @@ joomla-tab {
         border-start-start-radius: .25rem;
       }
 
+      // Tabs sit edge to edge, so draw the indicator inside each one, above the active bar
       &:focus-visible {
         z-index: 1;
+
+        @include focus-ring(true);
+
+        &::after {
+          z-index: -1;
+        }
       }
 
       &[aria-selected=true],
@@ -145,6 +152,11 @@ joomla-tab[orientation=vertical] {
     border-radius: 0;
     box-shadow: none;
 
+    // Long tab labels overflow the list, which would clip the focus indicator
+    &:has(> button:focus-visible) {
+      overflow: visible;
+    }
+
     @include media-breakpoint-down(lg) {
       flex: 0 0 100%;
       max-inline-size: 100%;
@@ -172,6 +184,17 @@ joomla-tab[orientation=vertical] {
       border-block-start: 1px solid transparent;
       border-block-end: $joomla-tab-vert-border-bottom; // 1px solid $gray-300;
       box-shadow: none;
+
+      // Draw the indicator inside each tab, above the active bar
+      &:focus-visible {
+        z-index: 1;
+
+        @include focus-ring(true);
+
+        &::after {
+          z-index: -1;
+        }
+      }
 
       &[aria-selected=true],
       &:focus,

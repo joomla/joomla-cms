@@ -3,6 +3,10 @@
 .mod-finder__search.input-group {
   flex-wrap: nowrap;
   .awesomplete {
+    // The wrapper stops Bootstrap's input group from raising the focused input above the button
+    &:focus-within {
+      z-index: 5;
+    }
     input {
       @include border-end-radius(0);
     }

@@ -2,6 +2,12 @@
 
 .list-group-item {
   background-color: $list-group-bg;
+
+  // Keep the focus indicator above the neighbouring items
+  &:focus-visible {
+    position: relative;
+    z-index: 2;
+  }
 }
 
 .list-unstyled .list-unstyled {

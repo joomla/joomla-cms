@@ -110,6 +110,12 @@
   }
 }
 
+// These controls sit in the corner of a clipped tile, so draw the indicator inside them
+.media-browser-select:focus-visible,
+.media-browser-actions button:focus-visible {
+  @include focus-ring(true);
+}
+
 .media-browser-actions {
   position: absolute;
   top: 4px;
