@@ -28,35 +28,6 @@ use Joomla\Database\DatabaseDriver;
 class ChecksModel extends BaseInstallationModel
 {
     /**
-     * Checks the availability of the parse_ini_file and parse_ini_string functions.
-     *
-     * @return  boolean  True if the method exists.
-     *
-     * @since   3.1
-     */
-    public function getIniParserAvailability()
-    {
-        $disabled_functions = \ini_get('disable_functions');
-
-        if (!empty($disabled_functions)) {
-            // Attempt to detect them in the PHP INI disable_functions variable.
-            $disabled_functions           = explode(',', trim($disabled_functions));
-            $number_of_disabled_functions = \count($disabled_functions);
-
-            for ($i = 0, $l = $number_of_disabled_functions; $i < $l; $i++) {
-                $disabled_functions[$i] = trim($disabled_functions[$i]);
-            }
-
-            $result = !\in_array('parse_ini_string', $disabled_functions);
-        } else {
-            // Attempt to detect their existence; even pure PHP implementation of them will trigger a positive response, though.
-            $result = \function_exists('parse_ini_string');
-        }
-
-        return $result;
-    }
-
-    /**
      * Gets PHP options.
      *
      * @return  array  Array of PHP config options
@@ -100,13 +71,6 @@ class ChecksModel extends BaseInstallationModel
             $option->notice = $option->state ? null : Text::_('INSTL_NOTICE_MBLANG_NOTDEFAULT');
             $options[]      = $option;
         }
-
-        // Check for a missing native parse_ini_file implementation.
-        $option         = new \stdClass();
-        $option->label  = Text::_('INSTL_PARSE_INI_FILE_AVAILABLE');
-        $option->state  = $this->getIniParserAvailability();
-        $option->notice = $option->state ? null : Text::_('INSTL_NOTICE_PARSE_INI_FILE_AVAILABLE');
-        $options[]      = $option;
 
         // Check for missing native json_encode / json_decode support.
         $option         = new \stdClass();
