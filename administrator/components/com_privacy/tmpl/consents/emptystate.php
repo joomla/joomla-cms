@@ -17,6 +17,8 @@ $displayData = [
     'formURL'    => 'index.php?option=com_privacy&view=consents',
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Privacy:_Consents',
     'icon'       => 'icon-lock',
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);

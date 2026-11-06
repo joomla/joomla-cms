@@ -48,6 +48,7 @@ class GroupsController extends ApiController
      * @return  void
      *
      * @since   5.4.6
+     * @since   6.1.1
      */
     public function delete($id = null)
     {
@@ -65,9 +66,9 @@ class GroupsController extends ApiController
      *
      * @return  boolean
      *
-     * @since   5.4.6
+     * @since   6.1.1
      */
-    public function allowAdd($data = [])
+    protected function allowAdd($data = [])
     {
         // Overrides the default behavior to check the core.admin permission.
         return $this->app->getIdentity()->authorise('core.admin', $this->option);
@@ -81,9 +82,9 @@ class GroupsController extends ApiController
      *
      * @return  boolean
      *
-     * @since   5.4.6
+     * @since   6.1.1
      */
-    public function allowEdit($data = [], $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         // Overrides the default behavior to check the core.admin permission.
         return $this->app->getIdentity()->authorise('core.admin', $this->option);

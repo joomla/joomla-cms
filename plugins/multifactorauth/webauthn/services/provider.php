@@ -32,13 +32,13 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Webauthn::class, function (Container $container) {
                 $plugin = new Webauthn((array) PluginHelper::getPlugin('multifactorauth', 'webauthn'));
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

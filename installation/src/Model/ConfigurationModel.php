@@ -99,7 +99,7 @@ class ConfigurationModel extends BaseInstallationModel
             }
         }
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('extension_id')
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('name') . ' = ' . $db->quote('files_joomla'));
@@ -140,7 +140,7 @@ class ConfigurationModel extends BaseInstallationModel
             $return = false;
         }
 
-        // This is needed because the installer loads the extension table in constructor, needs to be refactored in 5.0
+        // This is needed because the installer loads the extension table in constructor, needs to be refactored in 7.0
         // It doesn't honor the DatabaseAware interface
         Factory::getContainer()->set('\Joomla\CMS\Table\Extension', new \Joomla\CMS\Table\Extension($db));
 
@@ -235,7 +235,7 @@ class ConfigurationModel extends BaseInstallationModel
      */
     protected static function generateRandUserId()
     {
-        $session    = Factory::getSession();
+        $session    = Factory::getApplication()->getSession();
         $randUserId = $session->get('randUserId');
 
         if (empty($randUserId)) {
@@ -258,7 +258,7 @@ class ConfigurationModel extends BaseInstallationModel
     {
         self::$userId = 0;
 
-        Factory::getSession()->set('randUserId', self::$userId);
+        Factory::getApplication()->getSession()->set('randUserId', self::$userId);
     }
 
     /**
@@ -287,7 +287,7 @@ class ConfigurationModel extends BaseInstallationModel
 
         foreach ($updatesArray as $table => $fields) {
             foreach ($fields as $field) {
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->update($db->quoteName($table))
                     ->set($db->quoteName($field) . ' = ' . $db->quote($userId))
                     ->where($db->quoteName($field) . ' != 0')
@@ -407,7 +407,7 @@ class ConfigurationModel extends BaseInstallationModel
         $registry->set('cors', false);
         $registry->set('cors_allow_origin', '*');
         $registry->set('cors_allow_methods', '');
-        $registry->set('cors_allow_headers', 'Content-Type,X-Joomla-Token');
+        $registry->set('cors_allow_headers', 'Content-Type,X-Joomla-Token,Authorization');
 
         // Mail settings.
         $registry->set('mailonline', true);
@@ -475,7 +475,7 @@ class ConfigurationModel extends BaseInstallationModel
         }
 
         // Get the session
-        $session = Factory::getSession();
+        $session = Factory::getApplication()->getSession();
 
         if ($canWrite) {
             file_put_contents($path, $buffer);
@@ -509,7 +509,7 @@ class ConfigurationModel extends BaseInstallationModel
         date_default_timezone_set('UTC');
         $installdate = date('Y-m-d H:i:s');
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('id') . ' = ' . $db->quote($userId));
@@ -570,7 +570,7 @@ class ConfigurationModel extends BaseInstallationModel
 
             // Synch the sequence if pgsql
             if (($db->getServerType() === 'postgresql') && (!$result)) {
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('MAX(' . $db->quoteName('id') . ') + 1 AS ' . $db->quoteName('id'))
                     ->from($db->quoteName('#__users'));
                 $db->setQuery($query);
