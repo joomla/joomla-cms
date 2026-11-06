@@ -85,8 +85,10 @@ class CompareModel extends ListModel
         $user = $this->getCurrentUser();
 
         // Access check
-        if (!$user->authorise('core.edit', $table1->item_id) && !$this->canEdit($table1)) {
-            throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+        foreach ([$table1, $table2] as $table) {
+            if (!$user->authorise('core.edit', $table->item_id) && !$this->canEdit($table)) {
+                throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            }
         }
 
         $nullDate = $this->getDatabase()->getNullDate();

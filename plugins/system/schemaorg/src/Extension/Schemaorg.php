@@ -97,7 +97,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         if ($itemId > 0) {
             $db = $this->getDatabase();
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('*')
                 ->from($db->quoteName('#__schemaorg'))
                 ->where($db->quoteName('itemId') . '= :itemId')
@@ -203,7 +203,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         $app     = $this->getApplication();
         $db      = $this->getDatabase();
 
-        if (!$app->isClient('administrator') || !$this->isSupported($context)) {
+        if (!$app->isClient('administrator') && !$app->isClient('api') || !$this->isSupported($context)) {
             return;
         }
 
@@ -214,7 +214,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
             return;
         }
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select('*')
             ->from($db->quoteName('#__schemaorg'))
@@ -321,14 +321,21 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         $siteSchema['url'] = $domain;
 
         // Image
-        $image = $this->params->get('image') ? HTMLHelper::_('cleanimageUrl', $this->params->get('image')) : false;
+        $image = $this->params->get('image') ? HTMLHelper::_('cleanImageUrl', $this->params->get('image')) : false;
 
         if ($image !== false) {
+            $logoUrl = $image->url;
+
+            // Ensure absolute URL for schema logo
+            if (!preg_match('#^(https?:)?//#i', $logoUrl)) {
+                $logoUrl = Uri::root() . ltrim($logoUrl, '/');
+            }
+
             $siteSchema['logo'] = [
                 '@type'      => 'ImageObject',
                 '@id'        => $domain . '#/schema/ImageObject/logo',
-                'url'        => $image->url,
-                'contentUrl' => $image->url,
+                'url'        => $logoUrl,
+                'contentUrl' => $logoUrl,
                 'width'      => $image->attributes['width'] ?? 0,
                 'height'     => $image->attributes['height'] ?? 0,
             ];
@@ -418,7 +425,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         if ($itemId > 0) {
             // Load the table data from the database
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('*')
                 ->from($db->quoteName('#__schemaorg'))
                 ->where($db->quoteName('itemId') . ' = :itemId')
@@ -468,7 +475,14 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         $schema->set('@graph', $data);
 
         $prettyPrint  = JDEBUG ? JSON_PRETTY_PRINT : 0;
-        $schemaString = $schema->toString('JSON', ['bitmask' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | $prettyPrint]);
+        $bitmask      = JSON_UNESCAPED_SLASHES
+            | JSON_HEX_TAG
+            | JSON_HEX_AMP
+            | JSON_HEX_APOS
+            | JSON_HEX_QUOT
+            | JSON_UNESCAPED_UNICODE
+            | $prettyPrint;
+        $schemaString = $schema->toString('JSON', ['bitmask' => $bitmask]);
 
         if ($schemaString !== '{}') {
             $wa->addInlineScript($schemaString, ['name' => 'inline.schemaorg'], ['type' => 'application/ld+json']);
@@ -597,7 +611,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
     public function deleteSchemaOrg($itemId, $context)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->delete($db->quoteName('#__schemaorg'))
             ->where($db->quoteName('itemId') . '= :itemId')

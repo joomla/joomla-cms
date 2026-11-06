@@ -133,7 +133,7 @@ class TagField extends ListField
         $isRemoteSearch = $this->isRemoteSearch();
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('a.id', 'value'),
@@ -181,7 +181,7 @@ class TagField extends ListField
         // Preload only active values and 30 most used tags or fill up
         if ($isRemoteSearch) {
             // Load the most $prefillLimit used tags
-            $topQuery = $db->getQuery(true)
+            $topQuery = $db->createQuery()
                 ->select($db->quoteName('tag_id'))
                 ->from($db->quoteName('#__contentitem_tag_map'))
                 ->group($db->quoteName('tag_id'))
