@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Toolbar\Button;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarButton;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -65,6 +66,7 @@ class DropdownButton extends AbstractGroupButton
 
                 $options['button']        = $button->render();
                 $options['caretClass']    = $options['toggleButtonClass'] ?? $button->getButtonClass();
+                $options['toggleText']    = Text::sprintf('JTOOLBAR_SPLIT_TOGGLE_OPTIONS', Text::_($button->getText()));
                 $options['dropdownItems'] = $childToolbar->render(['is_child' => true]);
             } else {
                 $options['dropdownItems'] = $childToolbar->render(['is_child' => true]);
