@@ -1,5 +1,12 @@
 // com_users
 
+// Default-method star: darker gold in light mode for >= 3:1 non-text contrast (WCAG 1.4.11)
+@include color-mode(light) {
+  .com_users #com-users-methods-list-method-default-badge-small {
+    color: #b07a00 !important;
+  }
+}
+
 .com_users {
 
   &.view-debuggroup,
