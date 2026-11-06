@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="webservices" method="upgrade">
+	<name>plg_webservices_guidedtours</name>
+	<author>Joomla! Project</author>
+	<creationDate>2024-11</creationDate>
+	<copyright>(C) 2024 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>PLG_WEBSERVICES_GUIDED_TOURS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\WebServices\GuidedTours</namespace>
+	<files>
+		<folder plugin="content">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_webservices_guidedtours.ini</language>
+		<language tag="en-GB">language/en-GB/plg_webservices_guidedtours.sys.ini</language>
+	</languages>
+</extension>
