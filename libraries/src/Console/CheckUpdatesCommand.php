@@ -60,7 +60,7 @@ class CheckUpdatesCommand extends AbstractCommand
         // Purge the table before checking
         $model->purge();
 
-        $model->findUpdates();
+        $model->findUpdates($model->getExtensionIdsForUpdateCheck());
 
         $extensions = $model->getItems();
 
