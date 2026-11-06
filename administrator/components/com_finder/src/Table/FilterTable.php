@@ -13,6 +13,7 @@ namespace Joomla\Component\Finder\Administrator\Table;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Exception\DuplicateEntryException;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
@@ -79,6 +80,10 @@ class FilterTable extends Table implements CurrentUserInterface
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -163,6 +168,10 @@ class FilterTable extends Table implements CurrentUserInterface
         $table = new self($this->getDatabase(), $this->getDispatcher());
 
         if ($table->load(['alias' => $this->alias]) && ($table->filter_id != $this->filter_id || $this->filter_id == 0)) {
+            if ($this->shouldUseExceptions()) {
+                throw new DuplicateEntryException(Text::_('COM_FINDER_FILTER_ERROR_UNIQUE_ALIAS'), 'alias');
+            }
+
             $this->setError(Text::_('COM_FINDER_FILTER_ERROR_UNIQUE_ALIAS'));
 
             return false;

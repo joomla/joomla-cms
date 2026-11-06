@@ -14,6 +14,8 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Table\Exception\DuplicateEntryException;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\Tag\TaggableTableTrait;
@@ -79,6 +81,10 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -86,6 +92,10 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
 
         // Check for valid name.
         if (trim($this->name) == '') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_NEWSFEEDS_WARNING_PROVIDE_VALID_NAME'));
+            }
+
             $this->setError(Text::_('COM_NEWSFEEDS_WARNING_PROVIDE_VALID_NAME'));
 
             return false;
@@ -103,6 +113,10 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
 
         // Check for a valid category.
         if (!$this->catid = (int) $this->catid) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
+            }
+
             $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
 
             return false;
@@ -110,6 +124,10 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
 
         // Check the publish down date is not earlier than publish up.
         if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+            }
+
             $this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 
             return false;
@@ -181,6 +199,14 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
 
         if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
             // Is the existing newsfeed trashed?
+            if ($this->shouldUseExceptions()) {
+                $message = $table->published === -2
+                    ? Text::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS_TRASHED')
+                    : Text::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS');
+
+                throw new DuplicateEntryException($message, 'alias');
+            }
+
             $this->setError(Text::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS'));
 
             if ($table->published === -2) {

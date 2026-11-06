@@ -15,6 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Table\Exception\DuplicateEntryException;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\Tag\TaggableTableTrait;
@@ -124,6 +126,14 @@ class ContactTable extends Table implements TaggableTableInterface, CurrentUserI
 
         if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
             // Is the existing contact trashed?
+            if ($this->shouldUseExceptions()) {
+                $message = $table->published === -2
+                    ? Text::_('COM_CONTACT_ERROR_UNIQUE_ALIAS_TRASHED')
+                    : Text::_('COM_CONTACT_ERROR_UNIQUE_ALIAS');
+
+                throw new DuplicateEntryException($message, 'alias');
+            }
+
             $this->setError(Text::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
 
             if ($table->published === -2) {
@@ -149,6 +159,10 @@ class ContactTable extends Table implements TaggableTableInterface, CurrentUserI
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -157,6 +171,10 @@ class ContactTable extends Table implements TaggableTableInterface, CurrentUserI
         $this->default_con = (int) $this->default_con;
 
         if ($this->webpage !== null && InputFilter::checkAttribute(['href', $this->webpage])) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
+            }
+
             $this->setError(Text::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
 
             return false;
@@ -164,6 +182,10 @@ class ContactTable extends Table implements TaggableTableInterface, CurrentUserI
 
         // Check for valid name
         if (trim($this->name) == '') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));
+            }
+
             $this->setError(Text::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));
 
             return false;
@@ -174,6 +196,10 @@ class ContactTable extends Table implements TaggableTableInterface, CurrentUserI
 
         // Check for a valid category.
         if (!$this->catid = (int) $this->catid) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
+            }
+
             $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
 
             return false;
@@ -186,6 +212,10 @@ class ContactTable extends Table implements TaggableTableInterface, CurrentUserI
 
         // Check the publish down date is not earlier than publish up.
         if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+            }
+
             $this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 
             return false;
