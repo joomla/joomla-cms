@@ -63,7 +63,7 @@ final class PaginationWindow
 
             // Shift the window inside the middle pages, keeping its size
             if ($start < $low) {
-                $end  += $low - $start;
+                $end += $low - $start;
                 $start = $low;
             }
 
