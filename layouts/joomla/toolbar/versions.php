@@ -39,8 +39,7 @@ $url = 'index.php?' . http_build_query([
     'tmpl'                  => 'component',
     'item_id'               => $itemId,
     Session::getFormToken() => 1,
-]);
-
+], '', '&');
 
 $dialogOptions = [
     'popupType'  => 'iframe',
