@@ -18,6 +18,8 @@ namespace Joomla\Component\Content\Administrator\Controller;
  * Featured content controller class.
  *
  * @since  1.6
+ *
+ * @deprecated  __DEPLOY_VERSION__ will be removed in 8.0 without replacement
  */
 class FeaturedController extends ArticlesController
 {
