@@ -148,6 +148,7 @@ class ArticlesModel extends ListModel
         $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
         $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
         $this->getUserStateFromRequest($this->context . '.filter.checked_out', 'filter_checked_out', '');
+        $this->getUserStateFromRequest($this->context . '.filter.tag_mode', 'filter_tag_mode', 'any');
 
         // List state information.
         parent::populateState($ordering, $direction);
@@ -534,36 +535,62 @@ class ArticlesModel extends ListModel
                 $includeNone = true;
             }
 
-            $subQuery = $db->createQuery()
-                ->select('DISTINCT ' . $db->quoteName('content_item_id'))
-                ->from($db->quoteName('#__contentitem_tag_map'))
-                ->where(
-                    [
-                        $db->quoteName('tag_id') . ' IN (' . implode(',', $query->bindArray($tag)) . ')',
-                        $db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'),
-                    ]
-                );
+            $tagMode = $this->getState('filter.tag_mode', 'any');
 
-            $query->join(
-                $includeNone ? 'LEFT' : 'INNER',
-                '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
-                $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-            );
+            if ($tagMode === 'all') {
+                // AND logic: article must have ALL tags
+                $boundValues = [];
 
-            if ($includeNone) {
-                $subQuery2 = $db->createQuery()
+                foreach ($tag as $index => $tagId) {
+                    $aliasName           = 'tagmap_' . $index;
+                    $paramName           = ':tagid_' . $index;
+                    $boundValues[$index] = (int) $tagId;
+
+                    $query->join(
+                        'INNER',
+                        $db->quoteName('#__contentitem_tag_map', $aliasName),
+                        $db->quoteName($aliasName . '.content_item_id') . ' = ' . $db->quoteName('a.id')
+                            . ' AND ' . $db->quoteName($aliasName . '.tag_id') . ' = ' . $paramName
+                            . ' AND ' . $db->quoteName($aliasName . '.type_alias') . ' = ' . $db->quote('com_content.article')
+                    )
+                    ->bind($paramName, $boundValues[$index], ParameterType::INTEGER);
+                }
+            } else {
+                // OR logic: article must have AT LEAST ONE of the selected tags.
+                $tagIds = implode(',', $tag);
+
+                $subQuery = $db->createQuery()
                     ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                     ->from($db->quoteName('#__contentitem_tag_map'))
-                    ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
+                    ->where(
+                        [
+                            $db->quoteName('tag_id') . ' IN (' . $tagIds . ')',
+                            $db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'),
+                        ]
+                    );
+
                 $query->join(
-                    'LEFT',
-                    '(' . $subQuery2 . ') AS ' . $db->quoteName('tagmap2'),
-                    $db->quoteName('tagmap2.content_item_id') . ' = ' . $db->quoteName('a.id')
-                )
-                ->where(
-                    '(' . $db->quoteName('tagmap.content_item_id') . ' IS NOT NULL OR '
-                    . $db->quoteName('tagmap2.content_item_id') . ' IS NULL)'
+                    $includeNone ? 'LEFT' : 'INNER',
+                    '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
+                    $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
                 );
+
+                if ($includeNone) {
+                    $subQuery2 = $db->createQuery()
+                        ->select('DISTINCT ' . $db->quoteName('content_item_id'))
+                        ->from($db->quoteName('#__contentitem_tag_map'))
+                        ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
+
+                    $query->join(
+                        'LEFT',
+                        '(' . $subQuery2 . ') AS ' . $db->quoteName('tagmap2'),
+                        $db->quoteName('tagmap2.content_item_id') . ' = ' . $db->quoteName('a.id')
+                    )
+                    ->where(
+                        '(' . $db->quoteName('tagmap.content_item_id') . ' IS NOT NULL OR '
+                            . $db->quoteName('tagmap2.content_item_id') . ' IS NULL)'
+                    );
+                }
             }
         } elseif (is_numeric($tag)) {
             $tag = (int) $tag;
@@ -723,7 +750,7 @@ class ArticlesModel extends ListModel
 
                 $query = $db->createQuery();
 
-                $query  ->select(
+                $query->select(
                     [
                         $db->quoteName('t.id', 'value'),
                         $db->quoteName('t.title', 'text'),
