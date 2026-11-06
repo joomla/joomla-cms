@@ -46,5 +46,9 @@ $tipTitle = $options['tip_title'];
     <span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
 </button>
 <div id="<?php echo $id; ?>" role="tooltip">
-    <?php echo HTMLHelper::_('tooltipText', $tipTitle ?: $title, $title, 0, false); ?>
+    <?php if (empty($title)) : ?>
+        <?php echo HTMLHelper::_('tooltipText', $tipTitle, $tipTitle, 0, false); ?>
+    <?php else : ?>
+        <?php echo HTMLHelper::_('tooltipText', $tipTitle ?: $title, $title, 0, false); ?>
+    <?php endif; ?>
 </div>

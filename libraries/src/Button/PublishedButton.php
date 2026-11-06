@@ -71,11 +71,16 @@ class PublishedButton extends ActionButton
             // Create special titles for published items
             if ($value === 1) {
                 // Create tip text, only we have publish up or down settings
-                $tips = [];
+                $tips     = [];
+                $disabled = !empty($options['disabled']) || $this->getOption('disabled');
 
                 if ($publishUp) {
                     $tips[] = Text::sprintf('JLIB_HTML_PUBLISHED_START', HTMLHelper::_('date', $publishUp, Text::_('DATE_FORMAT_LC5'), 'UTC'));
-                    $tips[] = Text::_('JLIB_HTML_PUBLISHED_UNPUBLISH');
+
+                    // Only show the call-to-action when the user can actually change the state
+                    if (!$disabled) {
+                        $tips[] = Text::_('JLIB_HTML_PUBLISHED_UNPUBLISH');
+                    }
                 }
 
                 if ($publishDown) {
@@ -85,6 +90,9 @@ class PublishedButton extends ActionButton
                 $tip = empty($tips) ? false : implode('<br>', $tips);
 
                 $default['title'] = $tip;
+
+                // Keep the informational dates in the tooltip when the button is disabled
+                $options['disabled_title'] = $tip;
 
                 $options['tip_title'] = Text::_('JLIB_HTML_PUBLISHED_ITEM');
 
