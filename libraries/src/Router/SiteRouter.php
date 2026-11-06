@@ -603,4 +603,37 @@ class SiteRouter extends Router
 
         return false;
     }
+
+    /**
+     * Set a menu to the router
+     *
+     * @param AbstractMenu  $menu
+     * @param boolean       $clearCache
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function setMenu(AbstractMenu $menu, $clearCache = true): void
+    {
+        $this->menu = $menu;
+
+        if ($clearCache) {
+            $this->clearCache();
+        }
+    }
+
+    /**
+     * Clear the router cache
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function clearCache(): void
+    {
+        $this->componentRouters = [];
+
+        parent::clearCache();
+    }
 }
