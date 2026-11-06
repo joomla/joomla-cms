@@ -12,6 +12,17 @@
 				type="hidden"
 				default="0"
 			/>
+			<field
+				name="catid"
+				type="modal_category"
+				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
+				addfieldprefix="Joomla\Component\Categories\Administrator\Field"
+				extension="com_content"
+				select="true"
+				new="true"
+				edit="true"
+				clear="true"
+			/>
 		</fields>
 	</fieldset>
 </metadata>
