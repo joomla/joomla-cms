@@ -96,7 +96,20 @@
 
           <div class="d-flex justify-content-around align-items-center p-1 pe-1 z-1 position-relative">
             <span
-              class="h4 d-block card-title text-white fw-semibold text-truncate ms-4"
+              v-if="data?.automated"
+              class="icon icon-clock text-white ms-4 me-1"
+              :title="translate('COM_WORKFLOW_GRAPH_TRANSITION_AUTOMATED')"
+              aria-hidden="true"
+            />
+            <span
+              v-if="data?.automated"
+              class="visually-hidden"
+            >
+              {{ translate('COM_WORKFLOW_GRAPH_TRANSITION_AUTOMATED') }}
+            </span>
+            <span
+              class="h4 d-block card-title text-white fw-semibold text-truncate"
+              :class="{ 'ms-4': !data?.automated }"
               :title="translate(data?.title)"
             >
               {{ translate(data?.title) }}
@@ -298,7 +311,8 @@ export default {
       this.$nextTick(() => {
         if (this.$refs.textMeasurer) {
           const measuredWidth = this.$refs.textMeasurer.offsetWidth;
-          this.maxWidth = Math.min(measuredWidth + 50, 300);
+          const iconAllowance = this.data?.automated ? 20 : 0;
+          this.maxWidth = Math.min(measuredWidth + 50 + iconAllowance, 300);
         }
       });
     },

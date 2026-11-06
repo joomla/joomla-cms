@@ -331,6 +331,7 @@ class ExtensionHelper
         ['plugin', 'sessiongc', 'task', 0],
         ['plugin', 'sitestatus', 'task', 0],
         ['plugin', 'updatenotification', 'task', 0],
+        ['plugin', 'workflowtransition', 'task', 0],
 
         // Core plugin extensions - user
         ['plugin', 'contactcreator', 'user', 0],
@@ -360,6 +361,7 @@ class ExtensionHelper
         ['plugin', 'users', 'webservices', 0],
 
         // Core plugin extensions - workflow
+        ['plugin', 'automation', 'workflow', 0],
         ['plugin', 'featuring', 'workflow', 0],
         ['plugin', 'notification', 'workflow', 0],
         ['plugin', 'publishing', 'workflow', 0],

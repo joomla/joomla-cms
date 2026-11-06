@@ -135,6 +135,12 @@ if ($saveOrder) {
                                             <?php echo $this->escape(Text::_($item->title)); ?>
                                             <div class="small"><?php echo $this->escape(Text::_($item->description)); ?></div>
                                         <?php endif; ?>
+                                        <?php if ($item->automated) : ?>
+                                            <span class="tbody-icon jgrid" tabindex="0" aria-labelledby="automated<?php echo (int) $item->id; ?>-desc">
+                                                <span class="icon-clock" aria-hidden="true"></span>
+                                            </span>
+                                            <div role="tooltip" id="automated<?php echo (int) $item->id; ?>-desc"><?php echo Text::_('COM_WORKFLOW_GRAPH_TRANSITION_AUTOMATED'); ?></div>
+                                        <?php endif; ?>
                                     </th>
                                     <td class="nowrap">
                                         <?php if ($item->from_stage_id < 0) : ?>
