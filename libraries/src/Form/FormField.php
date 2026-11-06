@@ -981,7 +981,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         $dataAttribute  = '';
         $dataAttributes = $this->getDataAttributes();
 
-        if (!empty($this->validationtext) && !isset($dataAttributes['data-validation-text'])) {
+        if (!empty($this->validationtext) && empty($dataAttributes['data-validation-text'])) {
             $dataAttributes['data-validation-text'] = Text::_($this->validationtext);
         }
 
