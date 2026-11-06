@@ -101,8 +101,12 @@ final class MetadataManager
     {
         $exists = $this->checkSessionRecordExists($session->getId());
 
-        // Only touch the database if the record does not already exist
-        if ($exists !== self::$sessionRecordExists) {
+        /*
+         * Only touch the database if the record does not already exist and its
+         * state could be determined. When the state is unknown it is safer to
+         * do nothing and let createOrUpdateRecord() reconcile the record later.
+         */
+        if ($exists !== self::$sessionRecordDoesNotExist) {
             return;
         }
 
