@@ -52,7 +52,7 @@ abstract class Category
         if (!isset(static::$items[$hash])) {
             $config = (array) $config;
             $db     = Factory::getDbo();
-            $user   = Factory::getUser();
+            $user   = Factory::getApplication()->getIdentity();
 
             $query = $db->createQuery()
                 ->select(
