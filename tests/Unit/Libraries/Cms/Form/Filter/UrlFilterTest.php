@@ -64,23 +64,23 @@ class UrlFilterTest extends UnitTestCase
      */
     public function dataFilter(): array
     {
-        $xmlUrl = new \SimpleXMLElement('<field name="test" type="url" />');
-        $xmlUrlRelative = new \SimpleXMLElement('<field name="test" type="url" relative="true" />');
-        $xmlUrlRelativeNumeric = new \SimpleXMLElement('<field name="test" type="url" relative="1" />');
-        $xmlUrlRelativeKeyword = new \SimpleXMLElement('<field name="test" type="url" relative="relative" />');
-        $xmlUrlNotRelative = new \SimpleXMLElement('<field name="test" type="url" relative="false" />');
+        $xmlUrl                   = new \SimpleXMLElement('<field name="test" type="url" />');
+        $xmlUrlRelative           = new \SimpleXMLElement('<field name="test" type="url" relative="true" />');
+        $xmlUrlRelativeNumeric    = new \SimpleXMLElement('<field name="test" type="url" relative="1" />');
+        $xmlUrlRelativeKeyword    = new \SimpleXMLElement('<field name="test" type="url" relative="relative" />');
+        $xmlUrlNotRelative        = new \SimpleXMLElement('<field name="test" type="url" relative="false" />');
         $xmlUrlNotRelativeNumeric = new \SimpleXMLElement('<field name="test" type="url" relative="0" />');
 
         return [
-            'empty value'                  => [false, $xmlUrl, ''],
-            'external url with scheme'     => ['https://example.com', $xmlUrl, 'https://example.com'],
-            'external url relative=false'  => ['https://example.com', $xmlUrlNotRelative, 'https://example.com'],
-            'no scheme default'            => ['http://example.com', $xmlUrl, 'example.com'],
-            'no scheme relative=false'     => ['http://example.com', $xmlUrlNotRelative, 'example.com'],
-            'no scheme relative=0'         => ['http://example.com', $xmlUrlNotRelativeNumeric, 'example.com'],
-            'relative path relative=true'  => ['/relative/path', $xmlUrlRelative, '/relative/path'],
-            'relative path relative=1'     => ['/relative/path', $xmlUrlRelativeNumeric, '/relative/path'],
-            'relative path relative=name'  => ['/relative/path', $xmlUrlRelativeKeyword, '/relative/path'],
+            'empty value'                 => [false, $xmlUrl, ''],
+            'external url with scheme'    => ['https://example.com', $xmlUrl, 'https://example.com'],
+            'external url relative=false' => ['https://example.com', $xmlUrlNotRelative, 'https://example.com'],
+            'no scheme default'           => ['http://example.com', $xmlUrl, 'example.com'],
+            'no scheme relative=false'    => ['http://example.com', $xmlUrlNotRelative, 'example.com'],
+            'no scheme relative=0'        => ['http://example.com', $xmlUrlNotRelativeNumeric, 'example.com'],
+            'relative path relative=true' => ['/relative/path', $xmlUrlRelative, '/relative/path'],
+            'relative path relative=1'    => ['/relative/path', $xmlUrlRelativeNumeric, '/relative/path'],
+            'relative path relative=name' => ['/relative/path', $xmlUrlRelativeKeyword, '/relative/path'],
         ];
     }
 

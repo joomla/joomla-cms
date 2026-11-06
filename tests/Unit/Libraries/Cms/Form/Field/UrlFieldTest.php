@@ -106,12 +106,12 @@ class UrlFieldTest extends UnitTestCase
     public function dataSetupRelative(): array
     {
         return [
-            'default'            => [false, '<field name="my_url" type="url" />'],
-            'relative_true'      => [true, '<field name="my_url" type="url" relative="true" />'],
-            'relative_false'     => [false, '<field name="my_url" type="url" relative="false" />'],
-            'relative_1'         => [true, '<field name="my_url" type="url" relative="1" />'],
-            'relative_0'         => [false, '<field name="my_url" type="url" relative="0" />'],
-            'relative_keyword'   => [true, '<field name="my_url" type="url" relative="relative" />'],
+            'default'          => [false, '<field name="my_url" type="url" />'],
+            'relative_true'    => [true, '<field name="my_url" type="url" relative="true" />'],
+            'relative_false'   => [false, '<field name="my_url" type="url" relative="false" />'],
+            'relative_1'       => [true, '<field name="my_url" type="url" relative="1" />'],
+            'relative_0'       => [false, '<field name="my_url" type="url" relative="0" />'],
+            'relative_keyword' => [true, '<field name="my_url" type="url" relative="relative" />'],
         ];
     }
 }
