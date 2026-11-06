@@ -352,7 +352,7 @@ class FieldModel extends AdminModel
             try {
                 $rule->setDatabase($this->getDatabase());
             } catch (DatabaseNotFoundException) {
-                @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
+                @trigger_error('Database must be set, this will not be caught anymore in 7.0.', E_USER_DEPRECATED);
                 $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
         }
@@ -997,9 +997,11 @@ class FieldModel extends AdminModel
     public function validate($form, $data, $group = null)
     {
         // Check if the values are unique. This should only apply for list, checkboxes and radio custom field types
-        if (\in_array($data['type'], ['list', 'checkboxes', 'radio'])
+        if (
+            \in_array($data['type'], ['list', 'checkboxes', 'radio'])
             && !empty($data['fieldparams']['options'])
-            && \is_array($data['fieldparams']['options'])) {
+            && \is_array($data['fieldparams']['options'])
+        ) {
             $tmpValues = [];
             foreach ($data['fieldparams']['options'] as $option) {
                 $tmpValues[] = $option['value'];

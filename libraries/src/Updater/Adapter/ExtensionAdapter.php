@@ -37,7 +37,7 @@ class ExtensionAdapter extends UpdateAdapter
      *
      * @var    array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  6.2.0
      */
     protected array $security = [];
 

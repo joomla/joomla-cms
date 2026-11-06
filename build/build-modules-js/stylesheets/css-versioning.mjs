@@ -1,15 +1,11 @@
 import { createHash } from 'node:crypto';
-import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { existsSync, readFileSync } from 'node:fs';
-import { dirname, extname, resolve } from 'node:path';
-import { transform, composeVisitors } from 'lightningcss';
-import { Timer } from '../utils/timer.mjs';
+import { dirname, resolve } from 'node:path';
 
-const RootPath = process.cwd();
 const skipExternal = true;
 const variable = 'v';
 
-function version(urlString, fromFile) {
+function version(urlString, fromFile, withHash) {
   // Skip external URLs
   if (skipExternal && (urlString.startsWith('http') || urlString.startsWith('//'))) {
     return `${urlString}`;
@@ -25,6 +21,10 @@ function version(urlString, fromFile) {
   // Skip URLs with existing query
   if (urlString.includes('?')) {
     return `${urlString}`;
+  }
+
+  if (withHash) {
+    return `${urlString}?${variable}=${withHash}`;
   }
 
   if (fromFile && existsSync(resolve(`${dirname(fromFile)}/${urlString}`))) {
@@ -50,93 +50,15 @@ const urlVersioning = (fromFile) => ({
 });
 
 /**
- * Non-destructive fallback: only rewrite url() values via plain text replacement
- * and leave the rest of the CSS untouched. Used when lightningcss cannot parse
- * the file because vendor CSS (TinyMCE, Bootstrap, FontAwesome, …) ships modern
- * CSS syntax that the parser does not yet understand.
- *
- * @param {String} content - the raw css content
- * @param {String} fromFile - the filepath for the css file
- * @returns {String} - the css content with versioned url() values
+ * @param {withHash: String} - the filepath for the css file
+ * @returns {import('lightningcss').Visitor} - A visitor that replaces the url
  */
-const versionUrlsTextually = (content, fromFile) => content.replace(
-  /url\(\s*("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|[^)'"\s]+)\s*\)/gi,
-  (match, raw) => {
-    let quote = '';
-    let urlValue = raw;
-    if ((urlValue.startsWith('"') && urlValue.endsWith('"'))
-        || (urlValue.startsWith("'") && urlValue.endsWith("'"))) {
-      quote = urlValue[0];
-      urlValue = urlValue.slice(1, -1);
-    }
+const urlVersioning2 = (withHash) => ({
+  /**
+   * @param {import('lightningcss').Url} url - The url object to transform
+   * @returns {import('lightningcss').Url} - The transformed url object
+   */
+  Url: (url) => ({ ...url, url: version(url.url, false, withHash) }),
+});
 
-    return `url(${quote}${version(urlValue, fromFile)}${quote})`;
-  },
-);
-
-/**
- * Adds a hash to the url() parts of the static css
- *
- * @param file
- * @returns {Promise<void>}
- */
-const fixVersion = async (file) => {
-  const originalContent = await readFile(file, { encoding: 'utf8' });
-
-  try {
-    let content = originalContent;
-    // To preserve the licence the comment needs to start at the beginning of the file
-    const replaceUTF8String = file.endsWith('.min.css') ? '@charset "UTF-8";' : '@charset "UTF-8";\n';
-    content = content.startsWith(replaceUTF8String) ? content.replace(replaceUTF8String, '') : content;
-
-    // Preserve a leading license comment (/** ... */)
-    const firstLine = content.split(/\r?\n/)[0] || '';
-    if (firstLine.includes('/*') && !firstLine.includes('/*!')) {
-      const endCommentIdx = content.indexOf('*/');
-      if (endCommentIdx !== -1
-          && (content.substring(0, endCommentIdx).includes('license')
-          || content.substring(0, endCommentIdx).includes('copyright'))
-      ) {
-        content = firstLine.includes('/**') ? content.replace('/**', '/*!') : content.replace('/*', '/*!');
-      }
-    }
-
-    const { code } = transform({
-      code: Buffer.from(content),
-      minify: file.endsWith('.min.css'),
-      visitor: composeVisitors([urlVersioning(file)]),
-    });
-    await writeFile(file, `@charset "UTF-8";${file.endsWith('.min.css') ? '' : '\n'}${code}`, {
-      encoding: 'utf8',
-      mode: 0o644,
-    });
-  } catch (error) {
-    // lightningcss could not parse the file (e.g. modern vendor CSS syntax).
-    // Fall back to a non-destructive, text-only url() rewrite that leaves the
-    // rest of the CSS – including any syntax the parser rejected – untouched.
-    console.log(`Could not parse ${file} (${error.message}). Falling back to text-based url() versioning.`);
-
-    await writeFile(file, versionUrlsTextually(originalContent, file), {
-      encoding: 'utf8',
-      mode: 0o644,
-    });
-  }
-};
-
-/**
- * Loop the media folder and add version to all url() entries in all the css files
- *
- * @returns {Promise<void>}
- */
-const cssVersioningVendor = async () => {
-  const bench = new Timer('Versioning');
-
-  const cssFiles = (await readdir(`${RootPath}/media/vendor`, { withFileTypes: true, recursive: true }))
-    .filter((file) => (!file.isDirectory() && extname(file.name) === '.css'))
-    .map((file) => `${file.parentPath}/${file.name}`);
-
-  Promise.all(cssFiles.map((file) => fixVersion(file)))
-    .then(() => bench.stop());
-};
-
-export { urlVersioning, cssVersioningVendor };
+export { urlVersioning, urlVersioning2 };
