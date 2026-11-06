@@ -187,7 +187,15 @@ class WebInstaller {
             this.processLinkClick(element.getAttribute('data-url'));
           });
 
+          element.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+              event.preventDefault();
+              this.processLinkClick(element.getAttribute('data-url'));
+            }
+          });
           element.setAttribute('href', '#');
+          element.setAttribute('tabindex', '0');
+          element.setAttribute('role', 'link');
         });
       }
 
