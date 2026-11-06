@@ -859,8 +859,8 @@ class Pagination
             $clickable = $page->base !== null;
 
             return [
-                'active'  => $clickable,
-                'data'    => $render
+                'active' => $clickable,
+                'data'   => $render
                     ? LayoutHelper::render('joomla.pagination.link', ['data' => $page, 'active' => $clickable, 'classes' => $classes])
                     : $page,
                 'classes' => $classes,
