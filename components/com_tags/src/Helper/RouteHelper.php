@@ -79,26 +79,6 @@ class RouteHelper extends CMSRouteHelper
     /**
      * Tries to load the router for the component and calls it. Otherwise calls getRoute.
      *
-     * @param   integer  $id        The ID of the tag
-     *
-     * @return  string  URL link to pass to the router
-     *
-     * @since      3.1
-     * @throws     \Exception
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Use RouteHelper::getComponentTagRoute() instead
-     */
-    public static function getTagRoute($id)
-    {
-        @trigger_error('This function is replaced by the getComponentTagRoute()', E_USER_DEPRECATED);
-
-        return self::getComponentTagRoute($id);
-    }
-
-    /**
-     * Tries to load the router for the component and calls it. Otherwise calls getRoute.
-     *
      * @param   string   $id        The ID of the tag in the format TAG_ID:TAG_ALIAS
      * @param   string   $language  The language of the tag
      *
@@ -131,25 +111,6 @@ class RouteHelper extends CMSRouteHelper
         }
 
         return $link;
-    }
-
-    /**
-     * Tries to load the router for the tags view.
-     *
-     * @return  string  URL link to pass to the router
-     *
-     * @since      3.7
-     * @throws     \Exception
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Use RouteHelper::getComponentTagsRoute() instead
-     *
-     */
-    public static function getTagsRoute()
-    {
-        @trigger_error('This function is replaced by the getComponentTagsRoute()', E_USER_DEPRECATED);
-
-        return self::getComponentTagsRoute();
     }
 
     /**
