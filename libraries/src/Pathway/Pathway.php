@@ -9,9 +9,6 @@
 
 namespace Joomla\CMS\Pathway;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -40,45 +37,6 @@ class Pathway
      * @since  4.0.0
      */
     protected $count = 0;
-
-    /**
-     * Pathway instances container.
-     *
-     * @var    Pathway[]
-     * @since  1.7
-     */
-    protected static $instances = [];
-
-    /**
-     * Returns a Pathway object
-     *
-     * @param   string  $client  The name of the client
-     *
-     * @return  Pathway  A Pathway object.
-     *
-     * @since       1.5
-     * @throws      \RuntimeException
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Get the instance from the application
-     *              Example:
-     *              $app->getPathway()
-     */
-    public static function getInstance($client)
-    {
-        if (empty(self::$instances[$client])) {
-            // Create a Pathway object
-            $name = ucfirst($client) . 'Pathway';
-
-            if (!Factory::getContainer()->has($name)) {
-                throw new \RuntimeException(Text::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $client), 500);
-            }
-
-            self::$instances[$client] = Factory::getContainer()->get($name);
-        }
-
-        return self::$instances[$client];
-    }
 
     /**
      * Return the Pathway items array
