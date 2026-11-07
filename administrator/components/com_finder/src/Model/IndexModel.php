@@ -11,10 +11,10 @@
 namespace Joomla\Component\Finder\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Finder\IndexAfterPurgeEvent;
 use Joomla\CMS\Event\Model\AfterChangeStateEvent;
 use Joomla\CMS\Event\Model\AfterDeleteEvent;
 use Joomla\CMS\Event\Model\BeforeDeleteEvent;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -392,8 +392,13 @@ class IndexModel extends ListModel
         $db->truncateTable('#__finder_tokens_aggregate');
 
         // Include the finder plugins for the on purge events.
-        PluginHelper::importPlugin('finder');
-        Factory::getApplication()->triggerEvent($this->event_after_purge);
+        $dispatcher = $this->getDispatcher();
+
+        PluginHelper::importPlugin('finder', null, true, $dispatcher);
+        $dispatcher->dispatch(
+            $this->event_after_purge,
+            new IndexAfterPurgeEvent($this->event_after_purge)
+        );
 
         return true;
     }

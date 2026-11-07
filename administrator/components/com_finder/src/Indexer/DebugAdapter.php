@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
+use Joomla\CMS\Event\Finder\IndexAfterDeleteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -17,6 +18,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\QueryInterface;
+use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Utilities\ArrayHelper;
 
@@ -28,9 +30,10 @@ use Joomla\Utilities\ArrayHelper;
  * @since  5.0.0
  * @internal
  */
-abstract class DebugAdapter extends CMSPlugin
+abstract class DebugAdapter extends CMSPlugin implements DispatcherAwareInterface
 {
     use DatabaseAwareTrait;
+    use AdapterDispatcherTrait;
 
     /**
      * The context is somewhat arbitrary but it must be unique or there will be
@@ -166,7 +169,7 @@ abstract class DebugAdapter extends CMSPlugin
         }
 
         // Get the indexer object
-        $this->indexer = new Indexer($this->getDatabase());
+        $this->indexer = new Indexer($this->getDatabase(), $this->dispatcher);
     }
 
     /**
@@ -420,7 +423,10 @@ abstract class DebugAdapter extends CMSPlugin
 
         // Check the items.
         if (empty($items)) {
-            $this->getApplication()->triggerEvent('onFinderIndexAfterDelete', [$id]);
+            $this->getEventDispatcher()->dispatch(
+                'onFinderIndexAfterDelete',
+                new IndexAfterDeleteEvent('onFinderIndexAfterDelete', ['itemId' => (int) $id])
+            );
 
             return true;
         }

@@ -241,7 +241,7 @@ class IndexerController extends BaseController
 
         try {
             // Optimize the index
-            $indexer = new Indexer();
+            $indexer = new Indexer(null, $this->getDispatcher());
             $indexer->optimize();
 
             // Get the indexer state.
