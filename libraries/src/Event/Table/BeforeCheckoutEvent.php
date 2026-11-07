@@ -55,16 +55,12 @@ class BeforeCheckoutEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated 4.4.0 will be removed in 7.0
+     * @deprecated 4.4.0 will be removed in 8.0
      *                Use counterpart with onSet prefix
      */
     protected function setUserId($value)
     {
-        if (!is_numeric($value) || empty($value)) {
-            throw new \BadMethodCallException("Argument 'userId' of event {$this->name} must be an integer");
-        }
-
-        return (int) $value;
+        return $this->onSetUserId($value);
     }
 
     /**
@@ -80,6 +76,10 @@ class BeforeCheckoutEvent extends AbstractEvent
      */
     protected function onSetUserId($value)
     {
-        return $this->setUserId($value);
+        if (!is_numeric($value) || empty($value)) {
+            throw new \BadMethodCallException("Argument 'userId' of event {$this->name} must be an integer");
+        }
+
+        return (int) $value;
     }
 }

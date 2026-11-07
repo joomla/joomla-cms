@@ -55,16 +55,12 @@ class Captive extends AbstractImmutableEvent implements ResultAwareInterface
      * @return  MfaTable
      * @since   4.2.0
      *
-     * @deprecated 4.4.0 will be removed in 7.0
+     * @deprecated 4.4.0 will be removed in 8.0
      *                Use counterpart with onSet prefix
      */
     public function setRecord(MfaTable $value): MfaTable
     {
-        if (empty($value)) {
-            throw new \DomainException(\sprintf('Argument \'record\' of event %s must be a MfaTable object.', $this->name));
-        }
-
-        return $value;
+        return $this->onSetRecord($value);
     }
 
     /**
@@ -77,6 +73,10 @@ class Captive extends AbstractImmutableEvent implements ResultAwareInterface
      */
     protected function onSetRecord(MfaTable $value): MfaTable
     {
-        return $this->setRecord($value);
+        if (empty($value)) {
+            throw new \DomainException(\sprintf('Argument \'record\' of event %s must be a MfaTable object.', $this->name));
+        }
+
+        return $value;
     }
 }

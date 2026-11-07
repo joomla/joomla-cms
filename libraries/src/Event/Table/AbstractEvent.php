@@ -49,16 +49,12 @@ abstract class AbstractEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException  If the argument is not of the expected type.
      *
-     * @deprecated 4.4.0 will be removed in 7.0
+     * @deprecated 4.4.0 will be removed in 8.0
      *                Use counterpart with onSet prefix
      */
     protected function setSubject($value)
     {
-        if (!\is_object($value) || !($value instanceof TableInterface)) {
-            throw new \BadMethodCallException("Argument 'subject' of event {$this->name} is not of the expected type");
-        }
-
-        return $value;
+        return $this->onSetSubject($value);
     }
 
     /**
@@ -74,6 +70,10 @@ abstract class AbstractEvent extends AbstractImmutableEvent
      */
     protected function onSetSubject($value): TableInterface
     {
-        return $this->setSubject($value);
+        if (!\is_object($value) || !($value instanceof TableInterface)) {
+            throw new \BadMethodCallException("Argument 'subject' of event {$this->name} is not of the expected type");
+        }
+
+        return $value;
     }
 }
