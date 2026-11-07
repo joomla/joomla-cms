@@ -65,7 +65,8 @@ class ConfigurationModel extends BaseInstallationModel
                 $options->db_name,
                 $options->db_prefix,
                 true,
-                DatabaseHelper::getEncryptionSettings($options)
+                DatabaseHelper::getEncryptionSettings($options),
+                $this->getDispatcher()
             );
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
