@@ -61,7 +61,7 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
         return $dispatcher->dispatch(
             'onPrivacyCheckPrivacyPolicyPublished',
             new CheckPrivacyPolicyPublishedEvent('onPrivacyCheckPrivacyPolicyPublished', [
-                'subject' => &$policy, // @todo: Remove reference in Joomla 6, see CheckPrivacyPolicyPublishedEvent::__constructor()
+                'subject' => $policy,
             ])
         )->getArgument('subject', $policy);
     }

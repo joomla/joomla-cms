@@ -127,7 +127,7 @@ class MenutypesModel extends BaseDatabaseModel
 
         // Allow a system plugin to insert dynamic menu types to the list shown in menus:
         return $this->getDispatcher()->dispatch('onAfterGetMenuTypeOptions', new AfterGetMenuTypeOptionsEvent('onAfterGetMenuTypeOptions', [
-            'items'   => &$list, // @todo: Remove reference in Joomla 6, see AfterGetMenuTypeOptionsEvent::__constructor()
+            'items'   => $list,
             'subject' => $this,
         ]))->getArgument('items', $list);
     }

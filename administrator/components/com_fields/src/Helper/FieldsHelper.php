@@ -240,7 +240,7 @@ class FieldsHelper
                         'context' => $context,
                         'item'    => $item,
                         'subject' => $field,
-                        'value'   => &$value, // @todo: Remove reference in Joomla 6, see AfterPrepareFieldEvent::__constructor()
+                        'value'   => $value,
                     ]);
                     $dispatcher->dispatch('onCustomFieldsAfterPrepareField', $eventAfter);
                     $value = $eventAfter->getValue();
