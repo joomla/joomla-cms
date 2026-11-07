@@ -144,9 +144,10 @@ class ConfigurationModel extends BaseInstallationModel
         // It doesn't honor the DatabaseAware interface
         Factory::getContainer()->set('\Joomla\CMS\Table\Extension', new \Joomla\CMS\Table\Extension($db));
 
-        $installer = Installer::getInstance();
-
         foreach ($extensions as $extension) {
+            $installer = new Installer();
+            $installer->setDatabase($db);
+
             if (!$installer->refreshManifestCache($extension->extension_id)) {
                 Factory::getApplication()->enqueueMessage(
                     Text::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name),

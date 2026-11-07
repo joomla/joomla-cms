@@ -146,7 +146,11 @@ class DiscoverModel extends InstallerModel
     {
         // Purge the list of discovered extensions and fetch them again.
         $this->purge();
-        $results = Installer::getInstance()->discover();
+
+        $installer = new Installer();
+        $installer->setDatabase($this->getDatabase());
+
+        $results = $installer->discover();
 
         // Get all templates, including discovered ones
         $db    = $this->getDatabase();

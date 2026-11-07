@@ -153,7 +153,10 @@ class UpdateController extends BaseController
         $model = $this->getModel('Update');
 
         try {
-            $model->finaliseUpgrade();
+            // Check for captured output messages in the installer
+            if ($msg = $model->finaliseUpgrade()) {
+                $this->app->setUserState('com_joomlaupdate.installer_message', $msg);
+            }
         } catch (\Throwable $e) {
             $model->collectError('finaliseUpgrade', $e);
         }
@@ -172,12 +175,6 @@ class UpdateController extends BaseController
 
             $this->app->setUserState('com_joomlaupdate.update_finished_with_error', true);
             $this->app->setUserState('com_joomlaupdate.update_errors', $errors);
-        }
-
-        // Check for captured output messages in the installer
-        $msg = Installer::getInstance()->get('extension_message');
-        if ($msg) {
-            $this->app->setUserState('com_joomlaupdate.installer_message', $msg);
         }
 
         $url = 'index.php?option=com_joomlaupdate&task=update.cleanup&' . Session::getFormToken() . '=1';

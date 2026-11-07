@@ -162,6 +162,7 @@ class InstallCommand extends AbstractCommand
 
         /** @var \Joomla\CMS\Installation\Model\ConfigurationModel $configurationModel */
         $configurationModel = $app->getMVCFactory()->createModel('Configuration', 'Installation');
+        $configurationModel->setDatabase($db);
 
         // Attempt to setup the configuration.
         $this->ioStyle->write('Writing configuration.php and additional setup ...');

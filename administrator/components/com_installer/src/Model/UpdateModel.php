@@ -458,7 +458,9 @@ class UpdateModel extends ListModel
         }
 
         // Get an installer instance
-        $installer = Installer::getInstance();
+        $installer = new Installer();
+        $installer->setDatabase($this->getDatabase());
+
         $update->set('type', $package['type']);
 
         // Check the package
