@@ -16,7 +16,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\CMS\Table\ContentHistory;
-use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper;
 
@@ -52,10 +51,8 @@ class PreviewModel extends ItemModel
             return false;
         }
 
-        $user = $this->getCurrentUser();
-
         // Access check
-        if (!$user->authorise('core.edit', $table->item_id) && !$this->canEdit($table)) {
+        if (!$this->canEdit($table)) {
             throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
@@ -134,13 +131,10 @@ class PreviewModel extends ItemModel
 
             // Finally try session (this catches edit.own case too)
             if (!$result) {
-                /** @var ContentType $contentTypeTable */
-                $contentTypeTable = $this->getTable('ContentType');
-
                 $typeAlias        = explode('.', $record->item_id);
                 $id               = array_pop($typeAlias);
                 $typeAlias        = implode('.', $typeAlias);
-                $typeEditables    = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
+                $typeEditables    = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $typeAlias) . '.id');
                 $result           = \in_array((int) $id, $typeEditables);
             }
         }

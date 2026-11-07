@@ -368,6 +368,7 @@ final class PageBreak extends CMSPlugin implements SubscriberInterface
             }
         }
 
+        $lang = $this->getApplication()->getLanguage();
         $path = PluginHelper::getLayoutPath('content', 'pagebreak', 'navigation');
         ob_start();
         include $path;

@@ -11,7 +11,6 @@
 namespace Joomla\Module\Finder\Site\Helper;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
@@ -85,51 +84,5 @@ class FinderHelper implements DatabaseAwareInterface
 
         // Instantiate a query object.
         return new Query($options, $this->getDatabase());
-    }
-
-    /**
-     * Method to get hidden input fields for a get form so that control variables
-     * are not lost upon form submission.
-     *
-     * @param   string   $route      The route to the page. [optional]
-     * @param   integer  $paramItem  The menu item ID. (@since 3.1) [optional]
-     *
-     * @return  string  A string of hidden input form fields
-     *
-     * @since   2.5
-     *
-     * @deprecated 5.4.0 will be removed in 7.0
-     *             Use the non-static method getFields
-     *             Example: Factory::getApplication()->bootModule('mod_finder', 'site')
-     *                          ->getHelper('FinderHelper')
-     *                          ->getHiddenFields($route, $paramItem)
-     */
-    public static function getGetFields($route = null, $paramItem = 0)
-    {
-        return (new self())->getHiddenFields($route);
-    }
-
-    /**
-     * Get Smart Search query object.
-     *
-     * @param   \Joomla\Registry\Registry  $params  Module parameters.
-     *
-     * @return  Query object
-     *
-     * @since   2.5
-     *
-     * @deprecated 5.4.0 will be removed in 7.0
-     *             Use the non-static method getSearchQuery
-     *             Example: Factory::getApplication()->bootModule('mod_finder', 'site')
-     *                          ->getHelper('FinderHelper')
-     *                          ->getSearchQuery($params, Factory::getApplication())
-     */
-    public static function getQuery($params)
-    {
-        $app = Factory::getApplication();
-
-        return $app->bootModule('mod_finder', 'site')
-                   ->getHelper('FinderHelper')
-                   ->getSearchQuery($params, $app);
     }
 }

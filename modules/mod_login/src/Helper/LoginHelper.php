@@ -11,7 +11,6 @@
 namespace Joomla\Module\Login\Site\Helper;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
@@ -105,60 +104,5 @@ class LoginHelper
         }
 
         return $regLink;
-    }
-
-    /**
-     * Retrieve the URL where the user should be returned after logging in
-     *
-     * @param   Registry  $params  module parameters
-     * @param   string    $type    return type
-     *
-     * @return  string
-     *
-     * @deprecated 5.4.0 will be removed in 7.0
-     *             Use the non-static method getReturnUrlString
-     *             Example: Factory::getApplication()->bootModule('mod_login', 'site')
-     *                          ->getHelper('LoginHelper')
-     *                          ->getReturnUrlString($params, $type, Factory::getApplication())
-     */
-    public static function getReturnUrl($params, $type)
-    {
-        return (new self())->getReturnUrlString($params, $type, Factory::getApplication());
-    }
-
-    /**
-     * Returns the current users type
-     *
-     * @return     string
-     *
-     * @deprecated 5.4.0 will be removed in 7.0
-     *             Use the non-static method getUserType
-     *             Example: Factory::getApplication()->bootModule('mod_login', 'site')
-     *                          ->getHelper('LoginHelper')
-     *                          ->getUserType(Factory::getApplication())
-     */
-    public static function getType()
-    {
-        $user = Factory::getApplication()->getIdentity();
-
-        return (new self())->getUserType($user);
-    }
-
-    /**
-     * Retrieve the URL for the registration page
-     *
-     * @param      Registry  $params  module parameters
-     *
-     * @return     string
-     *
-     * @deprecated 5.4.0 will be removed in 7.0
-     *             Use the non-static method getRegistrationUrlString
-     *             Example: Factory::getApplication()->bootModule('mod_login', 'site')
-     *                          ->getHelper('LoginHelper')
-     *                          ->getRegistrationUrlString($params, Factory::getApplication())
-     */
-    public static function getRegistrationUrl($params)
-    {
-        return (new self())->getRegistrationUrlString($params, Factory::getApplication());
     }
 }

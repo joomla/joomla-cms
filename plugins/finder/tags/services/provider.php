@@ -34,10 +34,10 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             $container->lazy(Tags::class, function (Container $container) {
                 $plugin     = new Tags(
-                    (array) PluginHelper::getPlugin('finder', 'tags')
+                    (array) PluginHelper::getPlugin('finder', 'tags'),
+                    $container->get(DatabaseInterface::class)
                 );
                 $plugin->setApplication(Factory::getApplication());
-                $plugin->setDatabase($container->get(DatabaseInterface::class));
 
                 return $plugin;
             })

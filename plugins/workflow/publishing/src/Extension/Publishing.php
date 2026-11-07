@@ -16,6 +16,7 @@ use Joomla\CMS\Event\Table\BeforeStoreEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\DatabaseModelInterface;
@@ -24,6 +25,7 @@ use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
@@ -282,11 +284,14 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
          */
         $this->getApplication()->set('plgWorkflowPublishing.' . $context, $pks);
 
-        $result = $this->getApplication()->triggerEvent('onContentBeforeChangeState', [
-            $context,
-            $pks,
-            $value,
-            ]);
+        $result = Factory::getContainer()->get(DispatcherInterface::class)->dispatch(
+            'onContentBeforeChangeState',
+            new Model\BeforeChangeStateEvent('onContentBeforeChangeState', [
+                'context' => $context,
+                'subject' => $pks,
+                'value'   => $value,
+            ])
+        )->getArgument('result', []);
 
         // Release allowed pks, the job is done
         $this->getApplication()->set('plgWorkflowPublishing.' . $context, []);

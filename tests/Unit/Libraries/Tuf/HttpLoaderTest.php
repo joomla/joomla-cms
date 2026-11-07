@@ -37,7 +37,7 @@ class HttpLoaderTest extends UnitTestCase
      */
     public function testLoaderQueriesCorrectUrl()
     {
-        $responseBody = $this->createMock(Stream::class);
+        $responseBody = $this->createStub(Stream::class);
 
         $object = new HttpLoader(
             self::REPOPATHMOCK,
@@ -54,7 +54,7 @@ class HttpLoaderTest extends UnitTestCase
      */
     public function testLoaderForwardsReturnedBodyFromHttpClient()
     {
-        $responseBody = $this->createMock(Stream::class);
+        $responseBody = $this->createStub(Stream::class);
 
         $object = new HttpLoader(
             self::REPOPATHMOCK,
@@ -76,7 +76,7 @@ class HttpLoaderTest extends UnitTestCase
     {
         $this->expectException(RepoFileNotFound::class);
 
-        $responseBody = $this->createMock(Stream::class);
+        $responseBody = $this->createStub(Stream::class);
 
         $object = new HttpLoader(
             self::REPOPATHMOCK,

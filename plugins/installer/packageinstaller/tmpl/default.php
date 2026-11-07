@@ -14,7 +14,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Filesystem\Helper as FilesystemHelper;
 
-/** @var \Joomla\Plugin\Installer\Package\Extension\PackageInstaller $this */
+/**
+ * @var \Joomla\Plugin\Installer\Package\Extension\PackageInstaller $this
+ * @var \Joomla\CMS\Application\CMSWebApplicationInterface          $app
+ */
 
 HTMLHelper::_('form.csrf');
 
@@ -23,7 +26,7 @@ Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_UNKNOWN');
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_EMPTY');
 Text::script('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG');
 
-$this->getApplication()->getDocument()->getWebAssetManager()
+$app->getDocument()->getWebAssetManager()
     ->registerAndUseScript(
         'plg_installer_packageinstaller.packageinstaller',
         'plg_installer_packageinstaller/packageinstaller.js',
@@ -32,7 +35,7 @@ $this->getApplication()->getDocument()->getWebAssetManager()
         ['core']
     );
 
-$return = $this->getApplication()->getInput()->getBase64('return');
+$return = $app->getInput()->getBase64('return');
 $maxSizeBytes = FilesystemHelper::getFileUploadMaxSize();
 $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
 ?>

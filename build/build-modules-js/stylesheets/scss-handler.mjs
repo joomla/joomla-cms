@@ -15,7 +15,7 @@ import { handleAndStoreCSSContent } from './css-handler.mjs';
 export const handleSCSSFile = async (srcPath, targetPath, silent = false) => {
   return compileAsync(srcPath, {
     quietDeps: true,
-    silenceDeprecations: silent ? ['if-function', 'import', 'global-builtin', 'color-functions'] : []
+    silenceDeprecations: silent ? ['if-function', 'import', 'global-builtin', 'color-functions'] : [],
   })
     .then(({ css: content }) => {
       return handleAndStoreCSSContent(targetPath, content);

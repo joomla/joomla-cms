@@ -12,9 +12,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-/** @var \Joomla\Plugin\Installer\Url\Extension\UrlInstaller $this */
+/**
+ * @var \Joomla\Plugin\Installer\Url\Extension\UrlInstaller $this
+ * @var \Joomla\CMS\Application\CMSWebApplicationInterface  $app
+ */
 
-$this->getApplication()->getDocument()->getWebAssetManager()
+$app->getDocument()->getWebAssetManager()
     ->registerAndUseScript('plg_installer_urlinstaller.urlinstaller', 'plg_installer_urlinstaller/urlinstaller.js', [], ['defer' => true], ['core']);
 ?>
 <legend><?php echo Text::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?></legend>

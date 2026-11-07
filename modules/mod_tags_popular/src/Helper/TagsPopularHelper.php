@@ -123,6 +123,14 @@ class TagsPopularHelper implements DatabaseAwareInterface
                 '(' . $db->quoteName('c.core_access') . ' IN (' . implode(',', $query->bindArray($groups)) . ')'
                     . ' OR ' . $db->quoteName('c.core_access') . ' = 0)'
             )
+            ->extendWhere(
+                'AND',
+                [
+                    $db->quoteName('c.core_catid') . ' = 0',
+                    $db->quoteName('cat.access') . ' IN (' . implode(',', $query->bindArray($groups)) . ')',
+                ],
+                'OR'
+            )
             ->where(
                 '(' . $db->quoteName('c.core_publish_up') . ' IS NULL'
                     . ' OR ' . $db->quoteName('c.core_publish_up') . ' = :nullDate2'
@@ -192,25 +200,5 @@ class TagsPopularHelper implements DatabaseAwareInterface
         }
 
         return $results;
-    }
-
-    /**
-     * Get list of popular tags
-     *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters
-     *
-     * @return  mixed
-     *
-     * @since   3.1
-     *
-     * @deprecated 5.1.0 will be removed in 7.0
-     *             Use the non-static method getTags
-     *             Example: Factory::getApplication()->bootModule('mod_tags_popular', 'site')
-     *                          ->getHelper('TagsPopularHelper')
-     *                          ->getTags($params)
-     */
-    public static function getList(&$params)
-    {
-        return (new self())->getTags($params);
     }
 }

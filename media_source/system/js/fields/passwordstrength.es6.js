@@ -108,6 +108,12 @@ class PasswordStrength {
     const i = meter.getAttribute('id').replace(/^\D+/g, '');
     const label = element.parentNode.parentNode.querySelector(`#password-${i}`);
 
+    if (element.value !== element.value.trim()) {
+      label.innerText = Joomla.Text._('JFIELD_PASSWORD_SPACES_IN_PASSWORD');
+      meter.value = 0;
+      return;
+    }
+
     if (label) {
       if (score === 100) {
         label.innerText = Joomla.Text._('JFIELD_PASSWORD_INDICATE_COMPLETE');
@@ -162,6 +168,10 @@ class PasswordStrength {
     // Set a handler for the validation script
     if (fields[0]) {
       document.formvalidator.setHandler('password-strength', (value) => {
+        if (value !== value.trim()) {
+          return false;
+        }
+
         const strengthElements = document.querySelectorAll('.js-password-strength');
         const minLength = strengthElements[0].getAttribute('data-min-length');
         const minIntegers = strengthElements[0].getAttribute('data-min-integers');
@@ -177,12 +187,7 @@ class PasswordStrength {
           length: minLength || 12,
         });
 
-        const score = strength.getScore(value);
-        if (score === 100) {
-          return true;
-        }
-
-        return false;
+        return strength.getScore(value) === 100;
       });
     }
   });

@@ -67,13 +67,13 @@ use Joomla\CMS\Layout\LayoutHelper;
                     <?php echo Text::_('MOD_ARTICLES_CATEGORY_REGISTER_TO_READ_MORE'); ?>
                 <?php elseif ($item->alternative_readmore) : ?>
                     <?php echo $item->alternative_readmore; ?>
-                    <?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit'), false); ?>
+                    <?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit'), true, false); ?>
                         <?php if ($params->get('show_readmore_title', 0)) : ?>
-                            <?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit'), false); ?>
+                            <?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit'), true, false); ?>
                         <?php endif; ?>
                 <?php elseif ($params->get('show_readmore_title', 0)) : ?>
                     <?php echo Text::_('MOD_ARTICLES_CATEGORY_READ_MORE'); ?>
-                    <?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit'), false); ?>
+                    <?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit'), true, false); ?>
                 <?php else : ?>
                     <?php echo Text::_('MOD_ARTICLES_CATEGORY_READ_MORE_TITLE'); ?>
                 <?php endif; ?>

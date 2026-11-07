@@ -11,6 +11,10 @@
 namespace Joomla\Component\Contact\Site\View\Contact;
 
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Event\Content\AfterDisplayEvent;
+use Joomla\CMS\Event\Content\AfterTitleEvent;
+use Joomla\CMS\Event\Content\BeforeDisplayEvent;
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -312,7 +316,8 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         }
 
         // Process the content plugins.
-        PluginHelper::importPlugin('content');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
         $offset = $state->get('list.offset');
 
         // Fix for where some plugins require a text attribute
@@ -322,18 +327,29 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
             $item->text = $item->misc;
         }
 
-        $app->triggerEvent('onContentPrepare', ['com_contact.contact', &$item, &$item->params, $offset]);
+        $contentEventArguments = [
+            'context' => 'com_contact.contact',
+            'subject' => $item,
+            'params'  => $item->params,
+            'page'    => $offset,
+        ];
+
+        $dispatcher->dispatch('onContentPrepare', new ContentPrepareEvent('onContentPrepare', $contentEventArguments));
 
         // Store the events for later
-        $item->event                    = new \stdClass();
-        $results                        = $app->triggerEvent('onContentAfterTitle', ['com_contact.contact', &$item, &$item->params, $offset]);
-        $item->event->afterDisplayTitle = trim(implode("\n", $results));
+        $item->event = new \stdClass();
 
-        $results                           = $app->triggerEvent('onContentBeforeDisplay', ['com_contact.contact', &$item, &$item->params, $offset]);
-        $item->event->beforeDisplayContent = trim(implode("\n", $results));
+        $contentEvents = [
+            'afterDisplayTitle'    => new AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
+            'beforeDisplayContent' => new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
+            'afterDisplayContent'  => new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
+        ];
 
-        $results                          = $app->triggerEvent('onContentAfterDisplay', ['com_contact.contact', &$item, &$item->params, $offset]);
-        $item->event->afterDisplayContent = trim(implode("\n", $results));
+        foreach ($contentEvents as $resultKey => $event) {
+            $results = $dispatcher->dispatch($event->getName(), $event)->getArgument('result', []);
+
+            $item->event->{$resultKey} = trim(implode("\n", $results));
+        }
 
         if (!empty($item->text)) {
             $item->misc = $item->text;
@@ -343,7 +359,12 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
 
         if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = $this->getUserFactory()->loadUserById($item->user_id)) {
             $contactUser->text = '';
-            $app->triggerEvent('onContentPrepare', ['com_users.user', &$contactUser, &$item->params, 0]);
+            $dispatcher->dispatch('onContentPrepare', new ContentPrepareEvent('onContentPrepare', [
+                'context' => 'com_users.user',
+                'subject' => $contactUser,
+                'params'  => $item->params,
+                'page'    => 0,
+            ]));
 
             if (!isset($contactUser->jcfields)) {
                 $contactUser->jcfields = [];

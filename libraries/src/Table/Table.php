@@ -25,6 +25,7 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Filesystem\Path;
 use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -42,7 +43,6 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     use DispatcherAwareTrait;
     use DatabaseAwareTrait;
     use LegacyErrorHandlingTrait;
-
 
     /**
      * Include paths for searching for Table classes.
@@ -331,7 +331,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             /*
             * If unable to find the class file in the Table include paths. Return false.
             * The warning JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND has been removed in 3.6.3.
-            * In 6.0 an Exception (type to be determined) will be thrown.
+            * in 7.0 an Exception (type to be determined) will be thrown.
             * For more info see https://github.com/joomla/joomla-cms/issues/11570
             */
 
@@ -726,7 +726,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         }
 
         // Bind the source value, excluding the ignored fields.
-        foreach ($this->getProperties() as $k => $v) {
+        foreach (ArrayHelper::fromObject($this, false) as $k => $v) {
             // Only process fields not in the ignore array.
             if (!\in_array($k, $ignore)) {
                 if (\array_key_exists($k, $src)) {
@@ -814,7 +814,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName($this->_tbl));
-        $fields = array_keys($this->getProperties());
+        $fields = array_keys(ArrayHelper::fromObject($this, false));
 
         foreach ($keys as $field => $value) {
             // Check that $field is in the table.
