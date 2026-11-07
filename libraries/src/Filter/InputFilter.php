@@ -34,8 +34,8 @@ class InputFilter extends BaseInputFilter
      * @since 4.0.0
      */
     public const FORBIDDEN_FILE_EXTENSIONS = [
-        'php', 'phps', 'pht', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7', 'asp',
-        'php8', 'phar', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py', 'aspx',
+        'asp', 'aspx', 'cgi', 'fcgi', 'inc', 'jar', 'java', 'phar', 'php', 'php3', 'php4', 'php5', 'php6', 'php7',
+        'php8', 'php9', 'phps', 'pht', 'phtml', 'pl', 'py', 'sht', 'shtm', 'shtml', 'stm',
     ];
 
     /**
@@ -152,8 +152,11 @@ class InputFilter extends BaseInputFilter
 
         if (preg_match_all($pattern, $text, $matches)) {
             foreach ($matches[0] as $match) {
-                $match  = (string) str_replace(['?', '"'], '', $match);
-                $text   = (string) str_replace($match, PunycodeHelper::emailToPunycode($match), $text);
+                try {
+                    $match = (string) str_replace(['?', '"'], '', $match);
+                    $text  = (string) str_replace($match, PunycodeHelper::emailToPunycode($match), $text);
+                } catch (\Exception) {
+                }
             }
         }
 
@@ -498,7 +501,7 @@ class InputFilter extends BaseInputFilter
      *
      * @return  array  Filtered array of attribute pairs
      *
-     * @since 5.4.2
+     * @since 6.0.2
      */
     protected function cleanAttributes(array $attrSet)
     {

@@ -134,29 +134,31 @@ HTMLHelper::_('bootstrap.dropdown');
     <div id="wrapper" class="wrapper flex-grow-1">
         <div class="container-fluid container-main">
             <section id="content" class="content h-100">
-                <div class="login_message">
-                    <jdoc:include type="message" />
-                </div>
-                <main class="d-flex justify-content-center align-items-center h-100">
+                <main class="d-flex flex-column justify-content-center align-items-center h-100">
+                    <div class="login_message w-100">
+                        <jdoc:include type="message" />
+                    </div>
                     <div class="login">
                         <div class="main-brand logo text-center">
                             <?php echo HTMLHelper::_('image', $loginLogo, $loginLogoAlt, ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                         </div>
+                        <h1 class="visually-hidden"><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h1>
                         <jdoc:include type="component" />
                     </div>
                 </main>
             </section>
         </div>
 
-        <div id="sidebar-wrapper" class="sidebar-wrapper px-3 pb-3">
+        <aside id="sidebar-wrapper" class="sidebar-wrapper px-3 pb-3" aria-labelledby="sidebar-section-heading">
+            <h2 id="sidebar-section-heading" class="visually-hidden"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_HEADING'); ?></h2>
             <div id="main-brand" class="main-brand">
-                <h1><?php echo $app->get('sitename'); ?></h1>
-                <h2><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h2>
+                <p class="h1"><?php echo $app->get('sitename'); ?></p>
+                <p class="h2"><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></p>
             </div>
             <div id="sidebar">
                 <jdoc:include type="modules" name="sidebar" style="body" />
             </div>
-        </div>
+        </aside>
     </div>
     <jdoc:include type="modules" name="debug" style="none" />
 </body>

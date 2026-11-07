@@ -29,9 +29,9 @@ $target = empty($target) ? '' : 'target="' . $target . '"';
 ?>
 <joomla-toolbar-button class="<?php echo $margin; ?>">
     <a
-        id="<?php echo $id; ?>"
-        class="<?php echo $btnClass; ?>"
-        href="<?php echo $url; ?>"
+        id="<?php echo htmlspecialchars($id, ENT_QUOTES, 'UTF-8', false); ?>"
+        class="<?php echo htmlspecialchars($btnClass, ENT_QUOTES, 'UTF-8', false); ?>"
+        href="<?php echo htmlspecialchars($url, ENT_QUOTES, 'UTF-8', false); ?>"
         <?php echo $target; ?>
         <?php echo $htmlAttributes; ?>>
         <span class="<?php echo $class; ?> icon-fw" aria-hidden="true"></span>

@@ -150,7 +150,7 @@ class PopupButton extends ToolbarButton
         }
 
         @trigger_error(
-            'Use of BS Modal is deprecated in Joomla\CMS\Toolbar\Button\PopupButton, and will be removed in 6.0',
+            'Use of BS Modal is deprecated in Joomla\CMS\Toolbar\Button\PopupButton, and will be removed in 7.0',
             E_USER_DEPRECATED
         );
 

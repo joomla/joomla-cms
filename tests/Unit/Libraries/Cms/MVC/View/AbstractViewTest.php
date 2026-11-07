@@ -16,6 +16,7 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for \Joomla\CMS\MVC\View\AbstractView
@@ -23,19 +24,17 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  MVC
  *
- * @testdox     The AbstractView
- *
  * @since       4.2.0
  */
+#[TestDox('The AbstractView')]
 class AbstractViewTest extends UnitTestCase
 {
     /**
-     * @testdox  gets the injected name
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('gets the injected name')]
     public function testGetInjectedName()
     {
         $view = new class (['name' => 'unit test']) extends AbstractView {
@@ -44,16 +43,15 @@ class AbstractViewTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals('unit test', $view->getName());
+        $this->assertSame('unit test', $view->getName());
     }
 
     /**
-     * @testdox  compiles its own name
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('compiles its own name')]
     public function testGetCompiledName()
     {
         $view = new class () extends AbstractView {
@@ -66,12 +64,11 @@ class AbstractViewTest extends UnitTestCase
     }
 
     /**
-     * @testdox  has the injected option
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('has the injected option')]
     public function testInjectedOption()
     {
         $view = new class (['option' => 'unit test']) extends AbstractView {
@@ -85,16 +82,15 @@ class AbstractViewTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals('unit test', $view->getOption());
+        $this->assertSame('unit test', $view->getOption());
     }
 
     /**
-     * @testdox  can set a model and get it by name
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can set a model and get it by name')]
     public function testSetGetModel()
     {
         $model = new class (['name' => 'unit test']) extends BaseModel {
@@ -107,16 +103,15 @@ class AbstractViewTest extends UnitTestCase
         };
         $view->setModel($model, false);
 
-        $this->assertEquals($model, $view->getModel('unit test'));
+        $this->assertSame($model, $view->getModel('unit test'));
     }
 
     /**
-     * @testdox  can set a default model and get it with no name
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can set a default model and get it with no name')]
     public function testSetGetDefaultModel()
     {
         $model = new class (['name' => 'unit']) extends BaseModel {
@@ -129,16 +124,15 @@ class AbstractViewTest extends UnitTestCase
         };
         $view->setModel($model, true);
 
-        $this->assertEquals($model, $view->getModel());
+        $this->assertSame($model, $view->getModel());
     }
 
     /**
-     * @testdox  can get data
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can get data')]
     public function testGetData()
     {
         $view = new class () extends AbstractView {
@@ -148,16 +142,15 @@ class AbstractViewTest extends UnitTestCase
         };
         $view->set('unit', 'test');
 
-        $this->assertEquals('test', $view->get('unit', ''));
+        $this->assertSame('test', $view->get('unit', ''));
     }
 
     /**
-     * @testdox  can get data
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can get data')]
     public function testGetDefaultData()
     {
         $view = new class () extends AbstractView {
@@ -166,16 +159,15 @@ class AbstractViewTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals('test', $view->get('unit', 'test'));
+        $this->assertSame('test', $view->get('unit', 'test'));
     }
 
     /**
-     * @testdox  can get data from model
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can get data from model')]
     public function testGetDataFromModel()
     {
         $model = new class (['name' => 'test']) extends BaseModel {
@@ -192,16 +184,15 @@ class AbstractViewTest extends UnitTestCase
         };
         $view->setModel($model, false);
 
-        $this->assertEquals('test', $view->get('unit', 'test'));
+        $this->assertSame('test', $view->get('unit', 'test'));
     }
 
     /**
-     * @testdox  can get data from default model
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can get data from default model')]
     public function testGetDataFromDefaultModel()
     {
         $model = new class (['name' => 'test']) extends BaseModel {
@@ -218,21 +209,20 @@ class AbstractViewTest extends UnitTestCase
         };
         $view->setModel($model, true);
 
-        $this->assertEquals('test', $view->get('unit'));
+        $this->assertSame('test', $view->get('unit'));
     }
 
     /**
-     * @testdox  can dispatch an event
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can dispatch an event')]
     public function testDispatchEvent()
     {
         $event      = new Event('test');
         $dispatcher = $this->createMock(DispatcherInterface::class);
-        $dispatcher->expects($this->once())->method('dispatch')->with($this->equalTo('test'), $this->equalTo($event));
+        $dispatcher->expects($this->once())->method('dispatch')->with('test', $event);
 
         $view = new class () extends AbstractView {
             public function dispatchEvent(EventInterface $event)
