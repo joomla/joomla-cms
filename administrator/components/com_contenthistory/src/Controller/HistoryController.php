@@ -59,20 +59,6 @@ class HistoryController extends AdminController
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);
 
-        if (empty($cid)) {
-            $this->app->enqueueMessage(Text::_('COM_CONTENTHISTORY_NO_ITEM_SELECTED'), 'warning');
-        } else {
-            // Get the model.
-            $model = $this->getModel();
-
-            // Toggle keep forever status of the selected items.
-            if ($model->keep($cid)) {
-                $this->setMessage(Text::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', \count($cid)));
-            } else {
-                $this->setMessage($model->getError(), 'error');
-            }
-        }
-
         $this->setRedirect(
             Route::_(
                 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id='
@@ -80,6 +66,25 @@ class HistoryController extends AdminController
                 false
             )
         );
+
+        if (empty($cid)) {
+            $this->app->enqueueMessage(Text::_('COM_CONTENTHISTORY_NO_ITEM_SELECTED'), 'warning');
+        } else {
+            // Get the model.
+            $model = $this->getModel();
+            $model->setUseExceptions(true);
+
+            // Toggle keep forever status of the selected items.
+            try {
+                $return = $model->keep($cid);
+            } catch (\Exception $e) {
+                $this->setMessage($e->getMessage(), 'error');
+
+                return;
+            }
+
+            $this->setMessage(Text::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', \count($cid)));
+        }
     }
 
     /**

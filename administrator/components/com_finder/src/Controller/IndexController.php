@@ -88,11 +88,12 @@ class IndexController extends AdminController
 
         /** @var \Joomla\Component\Finder\Administrator\Model\IndexModel $model */
         $model = $this->getModel('Index', 'Administrator');
+        $model->setUseExceptions(true);
 
         // Attempt to purge the index.
-        $return = $model->purge();
-
-        if (!$return) {
+        try {
+            $model->purge();
+        } catch (\Exception $e) {
             $message = Text::_('COM_FINDER_INDEX_PURGE_FAILED', $model->getError());
             $this->setRedirect('index.php?option=com_finder&view=index', $message);
 

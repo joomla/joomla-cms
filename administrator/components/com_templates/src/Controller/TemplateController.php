@@ -108,11 +108,12 @@ class TemplateController extends BaseController
         } else {
             /* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
             $model = $this->getModel();
+            $model->setUseExceptions(true);
 
             // Change the state of the records.
-            if (!$model->publish($ids, $value, $id)) {
-                $this->setMessage(implode('<br>', $model->getErrors()), 'warning');
-            } else {
+            try {
+                $model->publish($ids, $value, $id);
+
                 if ($value === 1) {
                     $ntext = 'COM_TEMPLATES_N_OVERRIDE_CHECKED';
                 } elseif ($value === 0) {
@@ -122,6 +123,8 @@ class TemplateController extends BaseController
                 }
 
                 $this->setMessage(Text::plural($ntext, \count($ids)));
+            } catch (\Exception $e) {
+                $this->setMessage($e->getMessage(), 'warning');
             }
         }
 
@@ -274,6 +277,7 @@ class TemplateController extends BaseController
 
         /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
         $model        = $this->getModel();
+        $model->setUseExceptions(true);
         $fileName     = (string) $this->input->getCmd('file', '');
         $explodeArray = explode(':', str_replace('//', '/', base64_decode($fileName)));
 
@@ -304,10 +308,10 @@ class TemplateController extends BaseController
         }
 
         // Validate the posted data.
-        $form = $model->getForm();
-
-        if (!$form) {
-            $this->setMessage($model->getError(), 'error');
+        try {
+            $form = $model->getForm();
+        } catch (\Exception $e) {
+            $this->setMessage($e->getMessage(), 'error');
 
             return;
         }
@@ -336,9 +340,11 @@ class TemplateController extends BaseController
         }
 
         // Attempt to save the data.
-        if (!$model->save($data)) {
+        try {
+            $model->save($data);
+        } catch (\Exception $e) {
             // Redirect back to the edit screen.
-            $this->setMessage(Text::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'warning');
+            $this->setMessage(Text::sprintf('JERROR_SAVE_FAILED', $e->getMessage()), 'warning');
             $url = 'index.php?option=com_templates&view=template&id=' . $model->getState('extension.id') . '&file=' . $fileName . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
 

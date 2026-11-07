@@ -76,6 +76,7 @@ class OverrideController extends FormController
 
         $app     = $this->app;
         $model   = $this->getModel();
+        $model->setUseExceptions(true);
         $data    = $this->input->post->get('jform', [], 'array');
         $context = "$this->option.edit.$this->context";
         $task    = $this->getTask();
@@ -92,10 +93,10 @@ class OverrideController extends FormController
         }
 
         // Validate the posted data.
-        $form = $model->getForm($data, false);
-
-        if (!$form) {
-            $app->enqueueMessage($model->getError(), 'error');
+        try {
+            $form = $model->getForm($data, false);
+        } catch (\Exception $e) {
+            $app->enqueueMessage($e->getMessage(), 'error');
 
             return;
         }
@@ -129,12 +130,14 @@ class OverrideController extends FormController
         }
 
         // Attempt to save the data.
-        if (!$model->save($validData)) {
+        try {
+            $model->save($validData);
+        } catch (\Exception $e) {
             // Save the data in the session.
             $app->setUserState($context . '.data', $validData);
 
             // Redirect back to the edit screen.
-            $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
+            $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $e->getMessage()), 'error');
             $this->setRedirect(
                 Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, 'id'), false)
             );

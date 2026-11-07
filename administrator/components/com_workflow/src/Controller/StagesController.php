@@ -163,15 +163,18 @@ class StagesController extends AdminController
         } else {
             // Get the model.
             $model = $this->getModel();
+            $model->setUseExceptions(true);
 
             // Make sure the item ids are integers
             $id = reset($cid);
 
             // Publish the items.
-            if (!$model->setDefault($id, $value)) {
-                $this->setMessage($model->getError(), 'warning');
-            } else {
+            try {
+                $model->setDefault($id, $value);
+
                 $this->setMessage(Text::_('COM_WORKFLOW_STAGE_SET_DEFAULT'));
+            } catch (\Exception $e) {
+                $this->setMessage($e->getMessage(), 'warning');
             }
         }
 

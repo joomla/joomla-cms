@@ -40,8 +40,11 @@ class InstalledController extends BaseController
 
         $cid   = (string) $this->input->get('cid', '', 'string');
         $model = $this->getModel('installed');
+        $model->setUseExceptions(true);
 
-        if ($model->publish($cid)) {
+        try {
+            $model->publish($cid);
+
             // Switching to the new administrator language for the message
             if ($model->getState('client_id') == 1) {
                 $language          = Factory::getLanguage();
@@ -58,8 +61,8 @@ class InstalledController extends BaseController
                 $msg  = Text::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
                 $type = 'message';
             }
-        } else {
-            $msg  = $model->getError();
+        } catch (\Exception $e) {
+            $msg  = $e->getMessage();
             $type = 'error';
         }
 
@@ -79,6 +82,7 @@ class InstalledController extends BaseController
 
         $cid   = (string) $this->input->get('cid', '', 'string');
         $model = $this->getModel('installed');
+        $model->setUseExceptions(true);
 
         // Fetching the language name from the langmetadata.xml or xx-XX.xml respectively.
         $file = JPATH_ADMINISTRATOR . '/language/' . $cid . '/langmetadata.xml';
@@ -89,7 +93,9 @@ class InstalledController extends BaseController
 
         $info = LanguageHelper::parseXMLLanguageFile($file);
 
-        if ($model->switchAdminLanguage($cid)) {
+        try {
+            $model->switchAdminLanguage($cid);
+
             // Switching to the new language for the message
             $languageName      = $info['nativeName'];
             $language          = Factory::getLanguage();
@@ -100,8 +106,8 @@ class InstalledController extends BaseController
 
             $msg  = Text::sprintf('COM_LANGUAGES_MSG_SWITCH_ADMIN_LANGUAGE_SUCCESS', $languageName);
             $type = 'message';
-        } else {
-            $msg  = $model->getError();
+        } catch (\Exception $e) {
+            $msg  = $e->getMessage();
             $type = 'error';
         }
 

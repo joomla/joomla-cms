@@ -73,6 +73,8 @@ class MenusController extends AdminController
         // Remove zero values resulting from input filter
         $cids = array_filter($cids);
 
+        $this->setRedirect('index.php?option=com_menus&view=menus');
+
         if (empty($cids)) {
             $this->setMessage(Text::_('COM_MENUS_NO_MENUS_SELECTED'), 'warning');
         } else {
@@ -89,16 +91,19 @@ class MenusController extends AdminController
                 // Get the model.
                 /** @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
                 $model = $this->getModel();
+                $model->setUseExceptions(true);
 
                 // Remove the items.
-                if (!$model->delete($cids)) {
-                    $this->setMessage($model->getError(), 'error');
-                } else {
-                    $this->setMessage(Text::plural('COM_MENUS_N_MENUS_DELETED', \count($cids)));
+                try {
+                    $model->delete($cids);
+                } catch (\Exception $e) {
+                    $this->setMessage($e->getMessage(), 'error');
+
+                    return;
                 }
+
+                $this->setMessage(Text::plural('COM_MENUS_N_MENUS_DELETED', \count($cids)));
             }
         }
-
-        $this->setRedirect('index.php?option=com_menus&view=menus');
     }
 }

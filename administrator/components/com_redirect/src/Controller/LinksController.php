@@ -50,12 +50,15 @@ class LinksController extends AdminController
 
             // Get the model.
             $model = $this->getModel();
+            $model->setUseExceptions(true);
 
             // Remove the items.
-            if (!$model->activate($ids, $newUrl, $comment)) {
-                $this->app->enqueueMessage($model->getError(), 'warning');
-            } else {
+            try {
+                $model->activate($ids, $newUrl, $comment);
+
                 $this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_UPDATED', \count($ids)));
+            } catch (\Exception $e) {
+                $this->app->enqueueMessage($e->getMessage(), 'warning');
             }
         }
 
@@ -87,12 +90,15 @@ class LinksController extends AdminController
 
             // Get the model.
             $model = $this->getModel();
+            $model->setUseExceptions(true);
 
             // Remove the items.
-            if (!$model->duplicateUrls($ids, $newUrl, $comment)) {
-                $this->app->enqueueMessage($model->getError(), 'warning');
-            } else {
+            try {
+                $model->duplicateUrls($ids, $newUrl, $comment);
+
                 $this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_UPDATED', \count($ids)));
+            } catch (\Exception $e) {
+                $this->app->enqueueMessage($e->getMessage(), 'warning');
             }
         }
 

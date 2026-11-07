@@ -137,14 +137,15 @@ class WorkflowsController extends AdminController
         } else {
             // Get the model.
             $model = $this->getModel();
+            $model->setUseExceptions(true);
 
             // Make sure the item ids are integers
             $id = reset($cid);
 
             // Publish the items.
-            if (!$model->setDefault($id, $value)) {
-                $this->setMessage($model->getError(), 'warning');
-            } else {
+            try {
+                $model->setDefault($id, $value);
+
                 if ($value === 1) {
                     $ntext = 'COM_WORKFLOW_SET_DEFAULT';
                 } else {
@@ -152,6 +153,8 @@ class WorkflowsController extends AdminController
                 }
 
                 $this->setMessage(Text::_($ntext, \count($cid)));
+            } catch (\Exception $e) {
+                $this->setMessage($e->getMessage(), 'warning');
             }
         }
 

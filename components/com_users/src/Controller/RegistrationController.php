@@ -59,6 +59,7 @@ class RegistrationController extends BaseController implements UserFactoryAwareI
 
         /** @var \Joomla\Component\Users\Site\Model\RegistrationModel $model */
         $model = $this->getModel('Registration', 'Site');
+        $model->setUseExceptions(true);
         $token = $input->getAlnum('token');
 
         // Check that the token is in a valid format.
@@ -102,12 +103,11 @@ class RegistrationController extends BaseController implements UserFactoryAwareI
         }
 
         // Attempt to activate the user.
-        $return = $model->activate($token);
-
-        // Check for errors.
-        if ($return === false) {
+        try {
+            $return = $model->activate($token);
+        } catch (\Exception $e) {
             // Redirect back to the home page.
-            $this->setMessage(Text::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'error');
+            $this->setMessage(Text::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $e->getMessage()), 'error');
             $this->setRedirect('index.php');
 
             return false;
@@ -157,16 +157,13 @@ class RegistrationController extends BaseController implements UserFactoryAwareI
 
         /** @var \Joomla\Component\Users\Site\Model\RegistrationModel $model */
         $model = $this->getModel('Registration', 'Site');
+        $model->setUseExceptions(true);
 
         // Get the user data.
         $requestData = $this->input->post->get('jform', [], 'array');
 
         // Validate the posted data.
         $form = $model->getForm();
-
-        if (!$form) {
-            throw new \Exception($model->getError(), 500);
-        }
 
         $data = $model->validate($form, $requestData);
 
@@ -217,15 +214,14 @@ class RegistrationController extends BaseController implements UserFactoryAwareI
         }
 
         // Attempt to save the data.
-        $return = $model->register($data);
-
-        // Check for errors.
-        if ($return === false) {
+        try {
+            $return = $model->register($data);
+        } catch (\Exception $e) {
             // Save the data in the session.
             $app->setUserState('com_users.registration.data', $data);
 
             // Redirect back to the edit screen.
-            $this->setMessage($model->getError(), 'error');
+            $this->setMessage($e->getMessage(), 'error');
             $this->setRedirect(Route::_('index.php?option=com_users&view=registration', false));
 
             return false;

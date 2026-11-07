@@ -50,6 +50,7 @@ class StyleController extends FormController
 
         if ($this->app->getDocument()->getType() === 'json') {
             $model   = $this->getModel('Style', 'Administrator');
+            $model->setUseExceptions(true);
             $table   = $model->getTable();
             $data    = $this->input->post->get('params', [], 'array');
             $checkin = $table->hasField('checked_out');
@@ -76,10 +77,10 @@ class StyleController extends FormController
 
             // Validate the posted data.
             // Sometimes the form needs some posted data, such as for plugins and modules.
-            $form = $model->getForm($data, false);
-
-            if (!$form) {
-                $this->app->enqueueMessage($model->getError(), 'error');
+            try {
+                $form = $model->getForm($data, false);
+            } catch (\Exception $e) {
+                $this->app->enqueueMessage($e->getMessage(), 'error');
 
                 return false;
             }
@@ -111,22 +112,28 @@ class StyleController extends FormController
             }
 
             // Attempt to save the data.
-            if (!$model->save($validData)) {
+            try {
+                $model->save($validData);
+            } catch (\Exception $e) {
                 // Save the data in the session.
                 $this->app->setUserState($context . '.data', $validData);
 
-                $this->app->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
+                $this->app->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $e->getMessage()), 'error');
 
                 return false;
             }
 
             // Save succeeded, so check-in the record.
-            if ($checkin && $model->checkin($validData[$key]) === false) {
+            try {
+                if ($checkin) {
+                    $model->checkin($validData[$key]);
+                }
+            } catch (\Exception $e) {
                 // Save the data in the session.
                 $this->app->setUserState($context . '.data', $validData);
 
                 // Check-in failed, so go back to the record and display a notice.
-                $this->app->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
+                $this->app->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $e->getMessage()), 'error');
 
                 return false;
             }

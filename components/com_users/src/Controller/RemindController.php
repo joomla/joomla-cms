@@ -39,19 +39,22 @@ class RemindController extends BaseController
 
         /** @var \Joomla\Component\Users\Site\Model\RemindModel $model */
         $model = $this->getModel('Remind', 'Site');
+        $model->setUseExceptions(true);
         $data  = $this->input->post->get('jform', [], 'array');
 
         // Submit the password reset request.
-        $return = $model->processRemindRequest($data);
+        try {
+            $model->processRemindRequest($data);
+        } catch (\Exception $e) {
+            // Check for a hard error.
+            if (JDEBUG) {
+                // The request failed.
+                // Go back to the request form.
+                $message = Text::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $e->getMessage());
+                $this->setRedirect(Route::_('index.php?option=com_users&view=remind', false), $message, 'notice');
 
-        // Check for a hard error.
-        if (!$return && JDEBUG) {
-            // The request failed.
-            // Go back to the request form.
-            $message = Text::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
-            $this->setRedirect(Route::_('index.php?option=com_users&view=remind', false), $message, 'notice');
-
-            return false;
+                return false;
+            }
         }
 
         // To not expose if the user exists or not we send a generic message.

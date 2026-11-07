@@ -97,6 +97,7 @@ class OverridesController extends ApiController
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
         }
 
+        $model->setUseExceptions(true);
         $model->setState('filter.language', $this->input->post->get('lang_code'));
         $model->setState('filter.client', $this->input->post->get('app'));
 
@@ -135,8 +136,10 @@ class OverridesController extends ApiController
             $validData['tags'] = [];
         }
 
-        if (!$model->save($validData)) {
-            throw new Exception\Save(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
+        try {
+            $model->save($validData);
+        } catch (\Exception $e) {
+            throw new Exception\Save(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $e->getMessage()));
         }
 
         return $validData['key'];

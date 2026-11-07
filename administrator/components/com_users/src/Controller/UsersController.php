@@ -97,16 +97,19 @@ class UsersController extends AdminController
         } else {
             // Get the model.
             $model = $this->getModel();
+            $model->setUseExceptions(true);
 
             // Change the state of the records.
-            if (!$model->block($ids, $value)) {
-                $this->setMessage($model->getError(), 'error');
-            } else {
+            try {
+                $model->block($ids, $value);
+
                 if ($value == 1) {
                     $this->setMessage(Text::plural('COM_USERS_N_USERS_BLOCKED', \count($ids)));
                 } elseif ($value == 0) {
                     $this->setMessage(Text::plural('COM_USERS_N_USERS_UNBLOCKED', \count($ids)));
                 }
+            } catch (\Exception $e) {
+                $this->setMessage($e->getMessage(), 'error');
             }
         }
 
@@ -135,12 +138,15 @@ class UsersController extends AdminController
         } else {
             // Get the model.
             $model = $this->getModel();
+            $model->setUseExceptions(true);
 
             // Change the state of the records.
-            if (!$model->activate($ids)) {
-                $this->setMessage($model->getError(), 'error');
-            } else {
+            try {
+                $model->activate($ids);
+
                 $this->setMessage(Text::plural('COM_USERS_N_USERS_ACTIVATED', \count($ids)));
+            } catch (\Exception $e) {
+                $this->setMessage($e->getMessage(), 'error');
             }
         }
 

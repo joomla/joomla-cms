@@ -115,6 +115,7 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
         }
 
+        $model->setUseExceptions(true);
         $model->setState('filter.published', 1);
 
         $data    = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
@@ -137,10 +138,6 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
 
         // Validate the posted data.
         $form = $model->getForm();
-
-        if (!$form) {
-            throw new \RuntimeException($model->getError(), 500);
-        }
 
         if (!$model->validate($form, $data)) {
             $errors   = $model->getErrors();

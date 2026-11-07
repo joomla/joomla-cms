@@ -84,11 +84,8 @@ class MenuController extends FormController
         // Get the model and attempt to validate the posted data.
         /** @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
         $model = $this->getModel('Menu', '', ['ignore_request' => false]);
+        $model->setUseExceptions(true);
         $form  = $model->getForm();
-
-        if (!$form) {
-            throw new \Exception($model->getError(), 500);
-        }
 
         $validData = $model->validate($form, $data);
 
@@ -122,12 +119,14 @@ class MenuController extends FormController
         }
 
         // Attempt to save the data.
-        if (!$model->save($validData)) {
+        try {
+            $model->save($validData);
+        } catch (\Exception $e) {
             // Save the data in the session.
             $app->setUserState($context . '.data', $validData);
 
             // Redirect back to the edit screen.
-            $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
+            $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $e->getMessage()), 'error');
             $this->setRedirect(Route::_('index.php?option=com_menus&view=menu&layout=edit' . $this->getRedirectToItemAppend($recordId), false));
 
             return false;

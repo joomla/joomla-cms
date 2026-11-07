@@ -72,6 +72,7 @@ class ComponentController extends FormController
 
         /** @var \Joomla\Component\Config\Administrator\Model\ComponentModel $model */
         $model = $this->getModel('Component', 'Administrator');
+        $model->setUseExceptions(true);
         $model->setState('component.option', $option);
         $form  = $model->getForm();
 
@@ -99,17 +100,16 @@ class ComponentController extends FormController
         }
 
         // Validate the posted data.
-        $return = $model->validate($form, $data);
-
-        // Check for validation errors.
-        if ($return === false) {
+        try {
+            $return = $model->validate($form, $data);
+        } catch (\Exception $e) {
             // Save the data in the session.
             $this->app->setUserState($context . '.data', $data);
 
             // Redirect back to the edit screen.
             $this->setRedirect(
                 Route::_('index.php?option=com_config&view=component&component=' . $option . $redirect, false),
-                $model->getError(),
+                $e->getMessage(),
                 'error'
             );
 
