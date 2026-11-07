@@ -102,6 +102,14 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
     ];
 
     /**
+     * An array of cached items.
+     *
+     * @var    array
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $_cache;
+
+    /**
      * Constructor.
      *
      * @param   array                 $config   An optional associative array of configuration settings.
@@ -524,7 +532,8 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
      */
     public function &getClient()
     {
-        return $this->_client;
+        $client = null;
+        return $client;
     }
 
     /**

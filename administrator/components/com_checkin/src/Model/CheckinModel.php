@@ -27,6 +27,14 @@ use Joomla\CMS\MVC\Model\ListModel;
 class CheckinModel extends ListModel
 {
     /**
+     * List of items
+     *
+     * @var    array
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $items;
+
+    /**
      * Count of the total items checked out
      *
      * @var  integer

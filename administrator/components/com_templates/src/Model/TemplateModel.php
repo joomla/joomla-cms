@@ -65,6 +65,22 @@ class TemplateModel extends FormModel
     protected $mediaElement = null;
 
     /**
+     * Array of all overridden core files.
+     *
+     * @var    string[]
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $coreFileList = [];
+
+    /**
+     * Array of allowed file formats
+     *
+     * @var    string[]
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $allowedFormats;
+
+    /**
      * Internal method to get file properties.
      *
      * @param   string  $path  The base path.

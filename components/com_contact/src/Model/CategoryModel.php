@@ -64,6 +64,20 @@ class CategoryModel extends ListModel
     protected $_parent;
 
     /**
+     * Left sibling category of the current one
+     *
+     * @var    CategoryNode|null
+     */
+    protected $_leftsibling;
+
+    /**
+     * Right sibling category of the current one
+     *
+     * @var    CategoryNode|null
+     */
+    protected $_rightsibling;
+
+    /**
      * The category that applies.
      *
      * @var    object

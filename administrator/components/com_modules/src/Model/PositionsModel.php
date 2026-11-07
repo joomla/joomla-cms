@@ -31,6 +31,22 @@ use Joomla\Filesystem\Path;
 class PositionsModel extends ListModel
 {
     /**
+     * List of positions.
+     *
+     * @var    object[]
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $items;
+
+    /**
+     * Total amount of positions.
+     *
+     * @var    integer
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $total;
+
+    /**
      * Constructor.
      *
      * @param   array                 $config   An optional associative array of configuration settings.

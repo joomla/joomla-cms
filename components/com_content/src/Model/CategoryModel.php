@@ -69,6 +69,20 @@ class CategoryModel extends ListModel
     protected $_parent = null;
 
     /**
+     * Left sibling category of the current one
+     *
+     * @var    CategoryNode|null
+     */
+    protected $_leftsibling;
+
+    /**
+     * Right sibling category of the current one
+     *
+     * @var    CategoryNode|null
+     */
+    protected $_rightsibling;
+
+    /**
      * Model context string.
      *
      * @var  string
@@ -88,6 +102,13 @@ class CategoryModel extends ListModel
      * @var  array
      */
     protected $_categories = null;
+
+    /**
+     * Pagination object.
+     *
+     * @var  Pagination
+     */
+    protected $_pagination = null;
 
     /**
      * @param   array                 $config   An optional associative array of configuration settings.

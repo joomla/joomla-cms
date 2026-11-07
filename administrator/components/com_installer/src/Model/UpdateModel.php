@@ -38,6 +38,14 @@ use Joomla\Utilities\ArrayHelper;
 class UpdateModel extends ListModel
 {
     /**
+     * Messages from installer to return to user
+     *
+     * @var  string
+     * @since   __DEPLOY_VERSION__
+     */
+    public $_message;
+
+    /**
      * Constructor.
      *
      * @param   array                 $config   An optional associative array of configuration settings.
@@ -496,9 +504,6 @@ class UpdateModel extends ListModel
             );
             $result = true;
         }
-
-        // Quick change
-        $this->type = $package['type'];
 
         $this->setState('name', $installer->get('name'));
         $this->setState('result', $result);
