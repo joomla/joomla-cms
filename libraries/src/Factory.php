@@ -26,7 +26,6 @@ use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
-use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -54,19 +53,6 @@ abstract class Factory
      * @since  1.7.0
      */
     public static $cache = null;
-
-    /**
-     * Global configuration object
-     *
-     * @var         \JConfig
-     * @since       1.7.0
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Use the configuration object within the application
-     *              Example:
-     *              Factory::getApplication()->getConfig();
-     */
-    public static $config = null;
 
     /**
      * Global container object
@@ -159,62 +145,6 @@ abstract class Factory
         }
 
         return self::$application;
-    }
-
-    /**
-     * Get a configuration object
-     *
-     * Returns the global {@link \JConfig} object, only creating it if it doesn't already exist.
-     *
-     * @param   string  $file       The path to the configuration file
-     * @param   string  $type       The type of the configuration file
-     * @param   string  $namespace  The namespace of the configuration file
-     *
-     * @return  Registry
-     *
-     * @see         Registry
-     * @since       1.7.0
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Use the configuration object within the application
-     *              Example:
-     *              Factory::getApplication()->getConfig();
-     */
-    public static function getConfig($file = null, $type = 'PHP', $namespace = '')
-    {
-        if (!\defined('COMPAT_JOOMLA_7')) {
-            throw new \BadMethodCallException(\sprintf(
-                '%1$s() is only available in compatibility mode (compatibility plugin enabled). The configuration object should be read from the application.',
-                __METHOD__
-            ));
-        }
-
-        @trigger_error(
-            \sprintf(
-                '%s() is deprecated. The configuration object should be read from the application.',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        /**
-         * If there is an application object, fetch the configuration from there.
-         * Check it's not null because LanguagesModel can make it null and if it's null
-         * we would want to re-init it from configuration.php.
-         */
-        if (self::$application && self::$application->getConfig() !== null) {
-            return self::$application->getConfig();
-        }
-
-        if (!self::$config) {
-            if ($file === null) {
-                $file = JPATH_CONFIGURATION . '/configuration.php';
-            }
-
-            self::$config = self::createConfig($file, $type, $namespace);
-        }
-
-        return self::$config;
     }
 
     /**
@@ -570,57 +500,6 @@ abstract class Factory
         $date = clone self::$dates[$classname][$key];
 
         return $date;
-    }
-
-    /**
-     * Create a configuration object
-     *
-     * @param   string  $file       The path to the configuration file.
-     * @param   string  $type       The type of the configuration file.
-     * @param   string  $namespace  The namespace of the configuration file.
-     *
-     * @return  Registry
-     *
-     * @see         Registry
-     * @since       1.7.0
-     *
-     * @deprecated  4.0 will be removed in 7.0
-     *              Use the configuration object within the application.
-     *              Example: Factory::getApplication()->getConfig();
-     */
-    protected static function createConfig($file, $type = 'PHP', $namespace = '')
-    {
-        @trigger_error(
-            \sprintf(
-                '%s() is deprecated. The configuration object should be read from the application.',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        if (is_file($file)) {
-            include_once $file;
-        }
-
-        // Create the registry with a default namespace of config
-        $registry = new Registry();
-
-        // Sanitize the namespace.
-        $namespace = ucfirst((string) preg_replace('/[^A-Z_]/i', '', $namespace));
-
-        // Build the config name.
-        $name = 'JConfig' . $namespace;
-
-        // Handle the PHP configuration type.
-        if ($type === 'PHP' && class_exists($name)) {
-            // Create the JConfig object
-            $config = new $name();
-
-            // Load the configuration values into the registry
-            $registry->loadObject($config);
-        }
-
-        return $registry;
     }
 
     /**

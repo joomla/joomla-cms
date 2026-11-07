@@ -121,8 +121,6 @@ final class CliInstallationApplication extends Application implements CMSApplica
         // Store the debug value to config based on the JDEBUG flag.
         $this->config->set('debug', JDEBUG);
 
-        // Register the config to Factory.
-        Factory::$config   = $this->config;
         Factory::$language = $language;
     }
 
