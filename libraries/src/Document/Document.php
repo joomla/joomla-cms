@@ -335,12 +335,15 @@ class Document
      * Returns the global Document object, only creating it
      * if it doesn't already exist.
      *
+     * Only available when compatibility plugin enabled.
+     *
      * @param   string  $type        The document type to instantiate
      * @param   array   $attributes  Array of attributes
      *
      * @return  static  The document object.
      *
      * @since       1.7.0
+     * @throws      \BadMethodCallException  When the compatibility mode is not enabled
      *
      * @deprecated  4.3 will be removed in 7.0
      *              Use the \Joomla\CMS\Document\FactoryInterface instead
@@ -348,6 +351,14 @@ class Document
      */
     public static function getInstance($type = 'html', $attributes = [])
     {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            throw new \BadMethodCallException(\sprintf(
+                '%1$s() is only available in compatibility mode (compatibility plugin enabled). Load the document from the application via %2$s::getApplication()->getDocument().',
+                __METHOD__,
+                CmsFactory::class
+            ));
+        }
+
         $signature = serialize([$type, $attributes]);
 
         if (empty(self::$instances[$signature])) {
@@ -495,6 +506,8 @@ class Document
     /**
      * Adds a linked script to the page
      *
+     * Only available in compatibility mode (compatibility plugin enabled).
+     *
      * @param   string  $url      URL to the linked script.
      * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9', 'preload' => array('preload'))
      * @param   array   $attribs  Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
@@ -502,6 +515,7 @@ class Document
      * @return  Document instance of $this to allow chaining
      *
      * @since   1.7.0
+     * @throws  \BadMethodCallException  When the compatibility mode is not enabled
      *
      * @deprecated  4.3 will be removed in 7.0
      *              Use WebAssetManager
@@ -509,6 +523,13 @@ class Document
      */
     public function addScript($url, $options = [], $attribs = [])
     {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            throw new \BadMethodCallException(\sprintf(
+                '%1$s() is only available in compatibility mode (compatibility plugin enabled). Register and use the script with the web asset manager: $wa->registerAndUseScript().',
+                __METHOD__
+            ));
+        }
+
         // Default value for type.
         if (!isset($attribs['type']) && !isset($attribs['mime'])) {
             $attribs['type'] = 'text/javascript';
@@ -523,12 +544,15 @@ class Document
     /**
      * Adds a script to the page
      *
+     * Only available in compatibility mode (compatibility plugin enabled).
+     *
      * @param   string  $content  Script
      * @param   string  $type     Scripting mime (defaults to 'text/javascript')
      *
      * @return  Document instance of $this to allow chaining
      *
      * @since   1.7.0
+     * @throws  \BadMethodCallException  When the compatibility mode is not enabled
      *
      * @deprecated  4.3 will be removed in 7.0
      *              Use WebAssetManager
@@ -536,6 +560,13 @@ class Document
      */
     public function addScriptDeclaration($content, $type = 'text/javascript')
     {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            throw new \BadMethodCallException(\sprintf(
+                '%1$s() is only available in compatibility mode (compatibility plugin enabled). Add the inline script with the web asset manager: $wa->addInlineScript().',
+                __METHOD__
+            ));
+        }
+
         $type = strtolower($type);
 
         if (empty($this->_script[$type])) {
@@ -594,6 +625,8 @@ class Document
     /**
      * Adds a linked stylesheet to the page
      *
+     * Only available in compatibility mode (compatibility plugin enabled).
+     *
      * @param   string  $url      URL to the linked style sheet
      * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9', 'preload' => array('preload'))
      * @param   array   $attribs  Array of attributes. Example: array('id' => 'stylesheet', 'data-test' => 1)
@@ -601,6 +634,7 @@ class Document
      * @return  Document instance of $this to allow chaining
      *
      * @since   1.7.0
+     * @throws  \BadMethodCallException  When the compatibility mode is not enabled
      *
      * @deprecated  4.3 will be removed in 7.0
      *              Use WebAssetManager
@@ -608,6 +642,13 @@ class Document
      */
     public function addStyleSheet($url, $options = [], $attribs = [])
     {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            throw new \BadMethodCallException(\sprintf(
+                '%1$s() is only available in compatibility mode (compatibility plugin enabled). Register and use the stylesheet with the web asset manager: $wa->registerAndUseStyle().',
+                __METHOD__
+            ));
+        }
+
         // Default value for type.
         if (!isset($attribs['type']) && !isset($attribs['mime'])) {
             $attribs['type'] = 'text/css';
@@ -627,12 +668,15 @@ class Document
     /**
      * Adds a stylesheet declaration to the page
      *
+     * Only available in compatibility mode (compatibility plugin enabled).
+     *
      * @param   string  $content  Style declarations
      * @param   string  $type     Type of stylesheet (defaults to 'text/css')
      *
      * @return  Document instance of $this to allow chaining
      *
      * @since   1.7.0
+     * @throws  \BadMethodCallException  When the compatibility mode is not enabled
      *
      * @deprecated  4.3 will be removed in 7.0
      *              Use WebAssetManager
@@ -640,6 +684,13 @@ class Document
      */
     public function addStyleDeclaration($content, $type = 'text/css')
     {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            throw new \BadMethodCallException(\sprintf(
+                '%1$s() is only available in compatibility mode (compatibility plugin enabled). Add the inline style with the web asset manager: $wa->addInlineStyle().',
+                __METHOD__
+            ));
+        }
+
         if ($content === null) {
             return $this;
         }
