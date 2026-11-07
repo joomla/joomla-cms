@@ -13,6 +13,12 @@
   &:hover,
   &:focus-visible {
     color: var(--body-color) !important;
+
+    // Non-colour cue: the colour change alone is subtle
+    &::before {
+      text-decoration: underline;
+      text-underline-offset: .2em;
+    }
   }
 }
 
