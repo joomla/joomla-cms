@@ -48,16 +48,6 @@ class ComponentRecord
     protected $params;
 
     /**
-     * The extension namespace
-     *
-     * @var    string
-     * @since  4.0.0
-     *
-     * @deprecated  5.3.0 will be removed in 7.0 as it was never used
-     */
-    public $namespace;
-
-    /**
      * Indicates if this component is enabled
      *
      * @var    integer
@@ -85,55 +75,6 @@ class ComponentRecord
         foreach ((array) $data as $key => $value) {
             $this->$key = $value;
         }
-    }
-
-    /**
-     * Method to get certain otherwise inaccessible properties from the form field object.
-     *
-     * @param   string  $name  The property name for which to get the value.
-     *
-     * @return  mixed  The property value or null.
-     *
-     * @since   3.7.0
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Access the item parameters through the `getParams()` method
-     *              Example:
-     *              $componentRecord->getParams();
-     */
-    public function __get($name)
-    {
-        if ($name === 'params') {
-            return $this->getParams();
-        }
-
-        return $this->$name;
-    }
-
-    /**
-     * Method to set certain otherwise inaccessible properties of the form field object.
-     *
-     * @param   string  $name   The property name for which to set the value.
-     * @param   mixed   $value  The value of the property.
-     *
-     * @return  void
-     *
-     * @since   3.7.0
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Set the item parameters through the `setParams()` method
-     *              Example:
-     *              $componentRecord->setParams($value);
-     */
-    public function __set($name, $value)
-    {
-        if ($name === 'params') {
-            $this->setParams($value);
-
-            return;
-        }
-
-        $this->$name = $value;
     }
 
     /**
