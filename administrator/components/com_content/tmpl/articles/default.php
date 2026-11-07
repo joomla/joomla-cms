@@ -53,8 +53,16 @@ if (strpos($listOrder, 'publish_up') !== false) {
 
 if ($saveOrder && !empty($this->items)) {
     $controller = $featured === '1' ? 'featured' : 'articles';
-    $saveOrderingUrl = 'index.php?option=com_content&task=' . $controller . '.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-    HTMLHelper::_('draggablelist.draggable');
+    $saveOrderingUrl = 'index.php?option=com_content&task=' . $controller . '.reorderAjax&format=json';
+    $dndAttributes   = [
+        'class'                  => 'js-draggable',
+        'data-dnd-item-selector' => 'tr',
+        'data-dnd-url'           => $saveOrderingUrl,
+        'data-dnd-direction'     => strtolower($listDirn),
+        'data-dnd-nested'        => $featured === '1' ? 'false' : 'true'
+    ];
+
+    $wa->useScript('joomla.dnd');
 }
 
 $workflow_enabled  = ComponentHelper::getParams('com_content')->get('workflow_enabled');
@@ -154,9 +162,7 @@ $assoc = Associations::isEnabled();
                                 </th>
                             </tr>
                         </thead>
-                        <tbody<?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"<?php echo $featured === '1' ? '' : ' data-nested="true"'; ?><?php
-                              endif; ?>>
+                        <tbody<?php echo $saveOrder && isset($dndAttributes) ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                         <?php foreach ($this->items as $i => $item) :
                             $item->max_ordering = 0;
                             $ordering             = ($listOrder == 'fp.ordering');
@@ -212,7 +218,7 @@ $assoc = Associations::isEnabled();
                                     }
                                     ?>
                                     <span class="sortable-handler<?php echo $iconClass ?>">
-                                        <span class="icon-ellipsis-v" aria-hidden="true"></span>
+                                        <span class="fa fa-2x fa-bars" aria-hidden="true"></span>
                                     </span>
                                     <?php if ($canChange && $saveOrder) : ?>
                                         <input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
