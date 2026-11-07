@@ -160,16 +160,24 @@ foreach ($list as $pr) {
         $title = substr($title, strpos($title, ']') + 1);
     }
 
-    $newTitle = '[' . $branch . '] ' . trim($title);
+    $title = trim($title);
+
+    if (!str_starts_with($title, '[')) {
+        $title = ' ' . $title;
+    }
+
+    $newTitle = '[' . $branch . ']' . $title;
 
     if ($newTitle === $pr['title']) {
         continue;
     }
 
+    $newTitleEscaped = escapeShellArg($newTitle);
+
     echo 'OLD: ' . trim($pr['title']) ."\n";
     echo 'NEW: ' . $newTitle ."\n";
 
-    $cmd    = $gh . ' pr edit ' . $pr['url'] . ' --title "' . str_replace('"', '\"', $newTitle) . '"';
+    $cmd    = $gh . ' pr edit ' . $pr['url'] . ' --title ' . $newTitleEscaped;
     $output = [];
     if (!$tryRun) {
         exec($cmd, $output, $result);
