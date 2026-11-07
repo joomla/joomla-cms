@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Config\Site\Model;
 
+use Joomla\CMS\Event\Model\PrepareDataEvent;
+use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -199,10 +201,14 @@ abstract class FormModel extends BaseForm
     protected function preprocessData($context, &$data, $group = 'content')
     {
         // Get the dispatcher and load the users plugins.
-        PluginHelper::importPlugin('content');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
         // Trigger the data preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareData', [$context, $data]);
+        $dispatcher->dispatch('onContentPrepareData', new PrepareDataEvent('onContentPrepareData', [
+            'context' => $context,
+            'data'    => $data,
+        ]));
     }
 
     /**
@@ -221,10 +227,14 @@ abstract class FormModel extends BaseForm
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
         // Import the appropriate plugin group.
-        PluginHelper::importPlugin($group);
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin($group, null, true, $dispatcher);
 
         // Trigger the form preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareForm', [$form, $data]);
+        $dispatcher->dispatch('onContentPrepareForm', new PrepareFormEvent('onContentPrepareForm', [
+            'subject' => $form,
+            'data'    => $data,
+        ]));
     }
 
     /**

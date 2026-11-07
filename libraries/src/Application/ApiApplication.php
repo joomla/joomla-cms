@@ -172,21 +172,59 @@ final class ApiApplication extends CMSApplication
         if ($forceCORS) {
             /**
              * Enable CORS (Cross-origin resource sharing)
-             * Obtain allowed CORS origin from Global Settings.
-             * Set to * (=all) if not set.
+             * Obtain allowed CORS origin(s) from Global Settings.
+             * Set to * (=all) if not set. A comma-separated list of exact
+             * origins is supported, e.g. "https://a.example.com,https://b.example.com".
              */
             $allowedOrigin = $this->get('cors_allow_origin', '*');
-            $this->setHeader('Access-Control-Allow-Origin', $allowedOrigin, true);
-            $this->setHeader('Access-Control-Allow-Headers', 'Authorization');
+            $requestOrigin = $this->input->server->get('HTTP_ORIGIN', null, 'raw');
 
-            if ($this->input->server->getString('HTTP_ORIGIN', null) !== null) {
-                $this->setHeader('Access-Control-Allow-Origin', $this->input->server->getString('HTTP_ORIGIN'), true);
+            if ($allowedOrigin !== '*') {
+                $this->setHeader('Vary', 'Origin', false);
+            }
+
+            if ($allowedOrigin === '*') {
+                /**
+                 * Wildcard configuration: echo back "*". Credentials must never
+                 * be allowed alongside a wildcard origin (browsers reject
+                 * credentialed responses with Access-Control-Allow-Origin: *
+                 * anyway, per the Fetch/CORS specification).
+                 */
+                $this->setHeader('Access-Control-Allow-Origin', '*', true);
+            } elseif ($requestOrigin !== null && $this->isOriginAllowed($requestOrigin, $allowedOrigin)) {
+                /**
+                 * Only reflect the request's Origin header back if it is
+                 * present in the configured whitelist. This is what makes it
+                 * safe to also allow credentials (cookies / HTTP auth) for
+                 * this specific, validated origin.
+                 */
+                $this->setHeader('Access-Control-Allow-Origin', $requestOrigin, true);
                 $this->setHeader('Access-Control-Allow-Credentials', 'true', true);
             }
         }
 
         // Parent function can be overridden later on for debugging.
         parent::respond();
+    }
+
+    /**
+     * Checks whether a request's Origin header matches an entry in the
+     * configured CORS origin whitelist.
+     *
+     * @param   string  $requestOrigin   The Origin header sent by the browser.
+     * @param   string  $allowedOrigins  The configured cors_allow_origin value; a single
+     *                                   origin, or a comma-separated list of origins.
+     *
+     * @return  boolean  True if the request origin is present in the whitelist.
+     *
+     * @since   5.4.8
+     * @since   6.1.3
+     */
+    private function isOriginAllowed(string $requestOrigin, string $allowedOrigins): bool
+    {
+        $whitelist = array_map('trim', explode(',', $allowedOrigins));
+
+        return \in_array($requestOrigin, $whitelist, true);
     }
 
     /**
@@ -330,7 +368,7 @@ final class ApiApplication extends CMSApplication
         );
 
         /**
-         * Obtain allowed CORS origin from Global Settings.
+         * Obtain allowed CORS origin(s) from Global Settings.
          * Set to * (=all) if not set.
          */
         $allowedOrigin = $this->get('cors_allow_origin', '*');
@@ -339,7 +377,7 @@ final class ApiApplication extends CMSApplication
          * Obtain allowed CORS headers from Global Settings.
          * Set to sensible default if not set.
          */
-        $allowedHeaders = $this->get('cors_allow_headers', 'Content-Type,X-Joomla-Token');
+        $allowedHeaders = $this->get('cors_allow_headers', 'Content-Type,X-Joomla-Token,Authorization');
 
         /**
          * Obtain allowed CORS methods from Global Settings.
@@ -347,10 +385,30 @@ final class ApiApplication extends CMSApplication
          */
         $allowedMethods = $this->get('cors_allow_methods', implode(',', $matchingRoutesMethods));
 
+        // Obtain the current request ORIGIN from the respective HTTP header
+        $requestOrigin = $this->input->server->get('HTTP_ORIGIN', null, 'raw');
+
         // No use to go through the regular route handling hassle,
         // so let's simply output the headers and exit.
         $this->setHeader('status', '204');
-        $this->setHeader('Access-Control-Allow-Origin', $allowedOrigin);
+
+        if ($allowedOrigin !== '*') {
+            // Set regardless of the outcome so shared caches partition on Origin.
+            $this->setHeader('Vary', 'Origin', false);
+        }
+
+        if ($allowedOrigin === '*') {
+            $this->setHeader('Access-Control-Allow-Origin', '*');
+        } elseif ($requestOrigin !== null && $this->isOriginAllowed($requestOrigin, $allowedOrigin)) {
+            $this->setHeader('Access-Control-Allow-Origin', $requestOrigin);
+            $this->setHeader('Access-Control-Allow-Credentials', 'true');
+        } else {
+            // Invalid cors origin requested, respond early without CORS header
+            $this->setHeader('status', 403, true);
+            $this->sendHeaders();
+            $this->close();
+        }
+
         $this->setHeader('Access-Control-Allow-Headers', $allowedHeaders);
         $this->setHeader('Access-Control-Allow-Methods', $allowedMethods);
         $this->sendHeaders();
@@ -413,5 +471,30 @@ final class ApiApplication extends CMSApplication
             'onAfterDispatch',
             new AfterDispatchEvent('onAfterDispatch', ['subject' => $this])
         );
+    }
+
+    /**
+     * Gets current template data
+     *
+     * This overrides the parent to skip the template validity check to prevent InvalidArgumentException being thrown
+     * when getTemplate() is called in the API application
+     *
+     * @param   boolean  $params  An optional associative array of configuration settings
+     *
+     * @return  string|\stdClass  The name of the template if the params argument is false. The template object if the params argument is true.
+     *
+     * @since   6.1.1
+     */
+    public function getTemplate($params = false)
+    {
+        if (!\is_object($this->template)) {
+            $this->initialiseTemplate();
+        }
+
+        if ($params) {
+            return $this->template;
+        }
+
+        return $this->template->template;
     }
 }

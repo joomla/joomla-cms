@@ -48,7 +48,7 @@ class Aes
      *
      * @param   string          $key      The encryption key (password). It can be a raw key (16 bytes) or a passphrase.
      * @param   int             $strength Bit strength (128, 192 or 256) – ALWAYS USE 128 BITS. THIS PARAMETER IS DEPRECATED.
-     * @param   string          $mode     Encryption mode. Can be ebc or cbc. We recommend using cbc.
+     * @param   string          $mode     Encryption mode. Can be ecb or cbc. We recommend using cbc.
      * @param   string          $priority Priority which adapter we should try first
      *
      * @deprecated  4.3 $strength will be removed in 7.0

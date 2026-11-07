@@ -172,6 +172,8 @@ class UserController extends FormController
      */
     public function active(): void
     {
+        $this->checkToken();
+
         // Get the ID of the user
         $userId = $this->input->getString('userid', '');
 
