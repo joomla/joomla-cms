@@ -16,10 +16,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\RouterBase;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Menu\AbstractMenu;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
-use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -51,16 +49,6 @@ class Router extends RouterBase
     protected $lookup = [];
 
     /**
-     * System - SEF Plugin parameters
-     *
-     * @var   Registry
-     * @since 5.2.0
-     * @deprecated  5.2.0 will be removed in 7.0
-     *              without replacement
-     */
-    private $sefparams;
-
-    /**
      * Tags Component router constructor
      *
      * @param   SiteApplication            $app              The application object
@@ -76,17 +64,8 @@ class Router extends RouterBase
 
         parent::__construct($app, $menu);
 
-        $sefPlugin       = PluginHelper::getPlugin('system', 'sef');
-
-        if ($sefPlugin) {
-            $this->sefparams = new Registry($sefPlugin->params);
-        } else {
-            $this->sefparams = new Registry();
-        }
-
         $this->buildLookup();
     }
-
 
     /**
      * Preprocess com_tags URLs
@@ -183,18 +162,6 @@ class Router extends RouterBase
                         $query['Itemid'] = $this->lookup[$language]['tags'][0];
                         break;
                     }
-                }
-            }
-        }
-
-        // TODO: Remove this whole block in 7.0 as it is a bug
-        if (!$this->sefparams->get('strictrouting', 0)) {
-            // If not found, return language specific home link
-            if (!isset($query['Itemid'])) {
-                $default = $this->menu->getDefault($lang);
-
-                if (!empty($default->id)) {
-                    $query['Itemid'] = $default->id;
                 }
             }
         }
