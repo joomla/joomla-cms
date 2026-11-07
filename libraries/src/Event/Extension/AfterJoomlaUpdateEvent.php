@@ -21,16 +21,6 @@ namespace Joomla\CMS\Event\Extension;
 class AfterJoomlaUpdateEvent extends AbstractJoomlaUpdateEvent
 {
     /**
-     * The argument names, in order expected by legacy plugins.
-     *
-     * @var array
-     *
-     * @since  5.2.0
-     * @deprecated 5.2.0 will be removed in 7.0
-     */
-    protected $legacyArgumentsOrder = ['oldVersion'];
-
-    /**
      * Pre-setter for the oldVersion argument.
      *
      * @param   ?string  $value  The value to set

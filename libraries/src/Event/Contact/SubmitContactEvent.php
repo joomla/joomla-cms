@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Event\Contact;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
-use Joomla\CMS\Event\ReshapeArgumentsAware;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,18 +22,6 @@ use Joomla\CMS\Event\ReshapeArgumentsAware;
  */
 class SubmitContactEvent extends AbstractImmutableEvent
 {
-    use ReshapeArgumentsAware;
-
-    /**
-     * The argument names, in order expected by legacy plugins.
-     *
-     * @var array
-     *
-     * @since  5.0.0
-     * @deprecated 5.0 will be removed in 7.0
-     */
-    protected $legacyArgumentsOrder = ['subject', 'data'];
-
     /**
      * Constructor.
      *
@@ -47,12 +34,7 @@ class SubmitContactEvent extends AbstractImmutableEvent
      */
     public function __construct($name, array $arguments = [])
     {
-        // Reshape the arguments array to preserve b/c with legacy listeners
-        if ($this->legacyArgumentsOrder) {
-            parent::__construct($name, $this->reshapeArguments($arguments, $this->legacyArgumentsOrder));
-        } else {
-            parent::__construct($name, $arguments);
-        }
+        parent::__construct($name, $arguments);
 
         if (!\array_key_exists('subject', $this->arguments)) {
             throw new \BadMethodCallException("Argument 'subject' of event {$name} is required but has not been provided");
@@ -62,13 +44,10 @@ class SubmitContactEvent extends AbstractImmutableEvent
             throw new \BadMethodCallException("Argument 'data' of event {$name} is required but has not been provided");
         }
 
-        // For backward compatibility make sure the content is referenced
-        // @todo: Remove in Joomla 7
-        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 7
         if (key($arguments) === 0) {
-            $this->arguments['data'] = &$arguments[1];
+            $this->arguments['data'] = $arguments[1];
         } elseif (\array_key_exists('data', $arguments)) {
-            $this->arguments['data'] = &$arguments['data'];
+            $this->arguments['data'] = $arguments['data'];
         }
     }
 

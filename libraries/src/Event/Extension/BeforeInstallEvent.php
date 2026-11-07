@@ -21,16 +21,6 @@ namespace Joomla\CMS\Event\Extension;
 class BeforeInstallEvent extends AbstractExtensionEvent
 {
     /**
-     * The argument names, in order expected by legacy plugins.
-     *
-     * @var array
-     *
-     * @since  5.0.0
-     * @deprecated 5.0 will be removed in 7.0
-     */
-    protected $legacyArgumentsOrder = ['method', 'type', 'manifest', 'extension'];
-
-    /**
      * Constructor.
      *
      * @param   string  $name       The event name.

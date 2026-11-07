@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Event\Menu;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
-use Joomla\CMS\Event\ReshapeArgumentsAware;
 use Joomla\CMS\MVC\Model\BaseModel;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -24,18 +23,6 @@ use Joomla\CMS\MVC\Model\BaseModel;
  */
 class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
 {
-    use ReshapeArgumentsAware;
-
-    /**
-     * The argument names, in order expected by legacy plugins.
-     *
-     * @var array
-     *
-     * @since  5.0.0
-     * @deprecated 5.0 will be removed in 7.0
-     */
-    protected $legacyArgumentsOrder = ['items', 'subject'];
-
     /**
      * Constructor.
      *
@@ -48,12 +35,7 @@ class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
      */
     public function __construct($name, array $arguments = [])
     {
-        // Reshape the arguments array to preserve b/c with legacy listeners
-        if ($this->legacyArgumentsOrder) {
-            parent::__construct($name, $this->reshapeArguments($arguments, $this->legacyArgumentsOrder));
-        } else {
-            parent::__construct($name, $arguments);
-        }
+        parent::__construct($name, $arguments);
 
         if (!\array_key_exists('items', $this->arguments)) {
             throw new \BadMethodCallException("Argument 'items' of event {$name} is required but has not been provided");
@@ -63,13 +45,10 @@ class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
             throw new \BadMethodCallException("Argument 'subject' of event {$name} is required but has not been provided");
         }
 
-        // For backward compatibility make sure the content is referenced
-        // @todo: Remove in Joomla 7
-        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 7
         if (key($arguments) === 0) {
-            $this->arguments['items'] = &$arguments[0];
+            $this->arguments['items'] = $arguments[0];
         } elseif (\array_key_exists('items', $arguments)) {
-            $this->arguments['items'] = &$arguments['items'];
+            $this->arguments['items'] = $arguments['items'];
         }
     }
 

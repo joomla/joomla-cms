@@ -21,16 +21,6 @@ namespace Joomla\CMS\Event\CustomFields;
 abstract class AbstractPrepareFieldEvent extends CustomFieldsEvent
 {
     /**
-     * The argument names, in order expected by legacy plugins.
-     *
-     * @var array
-     *
-     * @since  5.0.0
-     * @deprecated 5.0 will be removed in 7.0
-     */
-    protected $legacyArgumentsOrder = ['context', 'item', 'subject'];
-
-    /**
      * Constructor.
      *
      * @param   string  $name       The event name.

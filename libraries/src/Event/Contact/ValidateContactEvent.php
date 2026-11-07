@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Event\Contact;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
-use Joomla\CMS\Event\ReshapeArgumentsAware;
 use Joomla\CMS\Event\Result\ResultAware;
 use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\CMS\Event\Result\ResultTypeMixedAware;
@@ -28,17 +27,6 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
 {
     use ResultAware;
     use ResultTypeMixedAware;
-    use ReshapeArgumentsAware;
-
-    /**
-     * The argument names, in order expected by legacy plugins.
-     *
-     * @var array
-     *
-     * @since  5.0.0
-     * @deprecated 5.0 will be removed in 7.0
-     */
-    protected $legacyArgumentsOrder = ['subject', 'data'];
 
     /**
      * Constructor.
@@ -52,12 +40,7 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
      */
     public function __construct($name, array $arguments = [])
     {
-        // Reshape the arguments array to preserve b/c with legacy listeners
-        if ($this->legacyArgumentsOrder) {
-            parent::__construct($name, $this->reshapeArguments($arguments, $this->legacyArgumentsOrder));
-        } else {
-            parent::__construct($name, $arguments);
-        }
+        parent::__construct($name, $arguments);
 
         if (!\array_key_exists('subject', $this->arguments)) {
             throw new \BadMethodCallException("Argument 'subject' of event {$name} is required but has not been provided");
@@ -67,13 +50,10 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
             throw new \BadMethodCallException("Argument 'data' of event {$name} is required but has not been provided");
         }
 
-        // For backward compatibility make sure the content is referenced
-        // @todo: Remove in Joomla 7
-        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 7
         if (key($arguments) === 0) {
-            $this->arguments['data'] = &$arguments[1];
+            $this->arguments['data'] = $arguments[1];
         } elseif (\array_key_exists('data', $arguments)) {
-            $this->arguments['data'] = &$arguments['data'];
+            $this->arguments['data'] = $arguments['data'];
         }
     }
 
