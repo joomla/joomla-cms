@@ -142,6 +142,11 @@ class PositionsModel extends ListModel
                     $xml = simplexml_load_file($path);
 
                     if (isset($xml->positions[0])) {
+                        if (!empty($xml->parent)) {
+                            $lang->load('tpl_' . (string) $xml->parent . '.sys', $client->path)
+                            || $lang->load('tpl_' . (string) $xml->parent . '.sys', $client->path . '/templates/' . (string) $xml->parent);
+                        }
+
                         $lang->load('tpl_' . $template->element . '.sys', $client->path)
                         || $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element);
 
@@ -150,12 +155,17 @@ class PositionsModel extends ListModel
                             $label = (string) $position;
 
                             if (!$value) {
-                                $value    = $label;
-                                $label    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_' . $template->element . '_POSITION_' . $value);
-                                $altlabel = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'COM_MODULES_POSITION_' . $value);
+                                $value       = $label;
+                                $label       = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_' . $template->element . '_POSITION_' . $value);
+                                $parentlabel = !empty($xml->parent) ? preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_' . (string) $xml->parent . '_POSITION_' . $value) : '';
+                                $altlabel    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'COM_MODULES_POSITION_' . $value);
 
-                                if (!$lang->hasKey($label) && $lang->hasKey($altlabel)) {
-                                    $label = $altlabel;
+                                if (!$lang->hasKey($label)) {
+                                    if ($parentlabel && $lang->hasKey($parentlabel)) {
+                                        $label = $parentlabel;
+                                    } elseif ($lang->hasKey($altlabel)) {
+                                        $label = $altlabel;
+                                    }
                                 }
                             }
 
