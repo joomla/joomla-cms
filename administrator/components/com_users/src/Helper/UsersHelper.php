@@ -15,7 +15,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -28,13 +27,6 @@ use Joomla\CMS\Object\CMSObject;
  */
 class UsersHelper extends ContentHelper
 {
-    /**
-     * @var    CMSObject  A cache for the available actions.
-     * @since  1.6
-     * @deprecated 5.3 will be removed in 7.0 without replacement
-     */
-    protected static $actions;
-
     /**
      * Get a list of filter options for the blocked state of a user.
      *

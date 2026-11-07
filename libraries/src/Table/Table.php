@@ -15,7 +15,6 @@ use Joomla\CMS\Event\Checkin\AfterCheckinEvent as GlobalAfterCheckinEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
-use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
@@ -44,7 +43,6 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     use DispatcherAwareTrait;
     use DatabaseAwareTrait;
     use LegacyErrorHandlingTrait;
-    use LegacyPropertyManagementTrait;
 
     /**
      * Include paths for searching for Table classes.

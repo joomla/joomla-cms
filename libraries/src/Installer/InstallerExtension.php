@@ -13,7 +13,6 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
-use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -27,7 +26,6 @@ use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 class InstallerExtension
 {
     use LegacyErrorHandlingTrait;
-    use LegacyPropertyManagementTrait;
 
     /**
      * Client ID of the extension
