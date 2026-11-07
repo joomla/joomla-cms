@@ -12,7 +12,10 @@ namespace Joomla\Component\Tags\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Event\Model\AfterSaveEvent;
+use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
@@ -320,7 +323,8 @@ class TagModel extends AdminModel implements VersionableModelInterface
         $isNew = true;
 
         // Include the plugins for the save events.
-        PluginHelper::importPlugin($this->events_map['save']);
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin($this->events_map['save'], null, true, $dispatcher);
 
         // Allow an exception to be thrown.
         try {
@@ -328,13 +332,6 @@ class TagModel extends AdminModel implements VersionableModelInterface
             if ($pk > 0) {
                 $table->load($pk);
                 $isNew = false;
-            }
-
-            // Bind the data.
-            if (!$table->bind($data)) {
-                $this->setError($table->getError());
-
-                return false;
             }
 
             // Set the new parent id if parent id not matched OR while New/Save as Copy .
@@ -352,9 +349,41 @@ class TagModel extends AdminModel implements VersionableModelInterface
                     $data['title']   = $title;
                     $data['alias']   = $alias;
                 } elseif ($data['alias'] == $origTable->alias) {
-                    $data['alias']     = '';
-                    $data['published'] = 0;
+                    $data['alias'] = '';
                 }
+
+                $data['published'] = 0;
+            }
+
+            // Automatic handling of alias for empty fields
+            if (\in_array($input->get('task'), ['apply', 'save', 'save2new']) && (!isset($data['id']) || (int) $data['id'] == 0)) {
+                if (empty($data['alias'])) {
+                    if (Factory::getApplication()->get('unicodeslugs') == 1) {
+                        $data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['title']);
+                    } else {
+                        $data['alias'] = OutputFilter::stringURLSafe($data['title']);
+                    }
+
+                    $tagTable = $this->getTable();
+
+                    if ($tagTable->load(['alias' => $data['alias'], 'parent_id' => $data['parent_id']])) {
+                        $msg = Text::_('COM_TAGS_SAVE_WARNING');
+                    }
+
+                    [$title, $alias] = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
+                    $data['alias']   = $alias;
+
+                    if (isset($msg)) {
+                        Factory::getApplication()->enqueueMessage($msg, 'warning');
+                    }
+                }
+            }
+
+            // Bind the data.
+            if (!$table->bind($data)) {
+                $this->setError($table->getError());
+
+                return false;
             }
 
             // Prepare the row for saving
@@ -368,7 +397,12 @@ class TagModel extends AdminModel implements VersionableModelInterface
             }
 
             // Trigger the before save event.
-            $result = $app->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data]);
+            $result = $dispatcher->dispatch($this->event_before_save, new BeforeSaveEvent($this->event_before_save, [
+                'context' => $context,
+                'subject' => $table,
+                'isNew'   => $isNew,
+                'data'    => $data,
+            ]))->getArgument('result', []);
 
             if (\in_array(false, $result, true)) {
                 $this->setError($table->getError());
@@ -387,7 +421,26 @@ class TagModel extends AdminModel implements VersionableModelInterface
             $this->cleanCache();
 
             // Trigger the after save event.
-            $app->triggerEvent($this->event_after_save, [$context, $table, $isNew, $data]);
+            $dispatcher->dispatch($this->event_after_save, new AfterSaveEvent($this->event_after_save, [
+                'context' => $context,
+                'subject' => $table,
+                'isNew'   => $isNew,
+                'data'    => $data,
+            ]));
+
+            // Rebuild the path for the tag:
+            if (!$table->rebuildPath($table->id)) {
+                $this->setError($table->getError());
+
+                return false;
+            }
+
+            // Rebuild the paths of the tag's children:
+            if (!$table->rebuild($table->id, $table->lft, $table->level, $table->path)) {
+                $this->setError($table->getError());
+
+                return false;
+            }
         } catch (\Exception $e) {
             $this->setError($e->getMessage());
 
@@ -494,20 +547,6 @@ class TagModel extends AdminModel implements VersionableModelInterface
 
         if ($app->getInput()->get('task') == 'editAssociations') {
             return $this->redirectToAssociations($data);
-        }
-
-        // Rebuild the path for the tag:
-        if (!$table->rebuildPath($this->getState($this->getName() . '.id'))) {
-            $this->setError($table->getError());
-
-            return false;
-        }
-
-        // Rebuild the paths of the tag's children:
-        if (!$table->rebuild($table->id, $table->lft, $table->level, $table->path)) {
-            $this->setError($table->getError());
-
-            return false;
         }
 
         // Save version history.
@@ -704,6 +743,13 @@ class TagModel extends AdminModel implements VersionableModelInterface
                 continue;
             }
 
+            // Check that the user is allowed to access the item
+            if (!$this->user->authorise('core.edit', $contexts[$pk])) {
+                $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
+                return false;
+            }
+
             // Copy is a bit tricky, because we also need to copy the children
             $query = $db->getQuery(true)
                 ->select($db->quoteName('id'))
@@ -752,7 +798,7 @@ class TagModel extends AdminModel implements VersionableModelInterface
             $table->alias    = $alias;
 
             // Unpublish because we are making a copy
-            $this->table->published = 0;
+            $table->published = 0;
 
             // Check the row.
             if (!$table->check()) {

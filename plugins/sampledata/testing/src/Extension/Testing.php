@@ -121,7 +121,7 @@ final class Testing extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        if (!ComponentHelper::isEnabled('com_tags')) {
+        if (!ComponentHelper::isEnabled('com_tags') || !$this->getApplication()->getIdentity()->authorise('core.edit', 'com_tags')) {
             $response            = [];
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 1, 'com_tags');
@@ -223,7 +223,7 @@ final class Testing extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        if (!ComponentHelper::isEnabled('com_banners')) {
+        if (!ComponentHelper::isEnabled('com_banners') || !$this->getApplication()->getIdentity()->authorise('core.edit', 'com_banners')) {
             $response            = [];
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 2, 'com_banners');
@@ -393,7 +393,7 @@ final class Testing extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        if (!ComponentHelper::isEnabled('com_content')) {
+        if (!ComponentHelper::isEnabled('com_content') || !$this->getApplication()->getIdentity()->authorise('core.edit', 'com_content')) {
             $response            = [];
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 3, 'com_content');
@@ -620,7 +620,7 @@ final class Testing extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        if (!ComponentHelper::isEnabled('com_content')) {
+        if (!ComponentHelper::isEnabled('com_content') || !$this->getApplication()->getIdentity()->authorise('core.edit', 'com_content')) {
             $response            = [];
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 4, 'com_content');
@@ -1046,7 +1046,7 @@ final class Testing extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        if (!ComponentHelper::isEnabled('com_contact')) {
+        if (!ComponentHelper::isEnabled('com_contact') || !$this->getApplication()->getIdentity()->authorise('core.edit', 'com_contact')) {
             $response            = [];
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 5, 'com_contact');
@@ -1381,7 +1381,7 @@ final class Testing extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        if (!ComponentHelper::isEnabled('com_newsfeeds')) {
+        if (!ComponentHelper::isEnabled('com_newsfeeds') || !$this->getApplication()->getIdentity()->authorise('core.edit', 'com_newsfeeds')) {
             $response            = [];
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 6, 'com_newsfeed');
@@ -1504,7 +1504,7 @@ final class Testing extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        if (!ComponentHelper::isEnabled('com_menus')) {
+        if (!ComponentHelper::isEnabled('com_menus') || !$this->getApplication()->getIdentity()->authorise('core.edit', 'com_menus')) {
             $response            = [];
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 7, 'com_menus');
@@ -3306,7 +3306,7 @@ final class Testing extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        if (!ComponentHelper::isEnabled('com_modules')) {
+        if (!ComponentHelper::isEnabled('com_modules') || !$this->getApplication()->getIdentity()->authorise('core.edit', 'com_modules')) {
             $response            = [];
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 8, 'com_modules');
