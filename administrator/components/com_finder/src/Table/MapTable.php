@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Nested;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -72,7 +73,7 @@ class MapTable extends Nested
         $this->alias = ApplicationHelper::stringURLSafe($this->title, $this->language);
 
         if (trim($this->alias) == '') {
-            $this->alias = md5(serialize($this->getProperties()));
+            $this->alias = md5(serialize(ArrayHelper::fromObject($this, false)));
         }
 
         return true;

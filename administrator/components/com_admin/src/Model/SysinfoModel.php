@@ -314,10 +314,10 @@ class SysinfoModel extends BaseDatabaseModel
 
         $this->info = [
             'version'                => (new Version())->getLongVersion(),
-            'compatpluginenabled'    => PluginHelper::isEnabled('behaviour', 'compat6'),
+            'compatpluginenabled'    => PluginHelper::isEnabled('behaviour', 'compat' . Version::MAJOR_VERSION),
             'compatpluginparameters' => $this->getCompatPluginParameters(),
             'phpversion'             => PHP_VERSION,
-            'php'                    => php_uname(),
+            'php'                    => \function_exists('php_uname') ? php_uname() : '',
             'dbserver'               => $db->getServerType(),
             'dbversion'              => $db->getVersion(),
             'dbcollation'            => $db->getCollation(),
@@ -334,7 +334,7 @@ class SysinfoModel extends BaseDatabaseModel
 
     private function getCompatPluginParameters()
     {
-        $record = ExtensionHelper::getExtensionRecord('compat6', 'plugin', 0, 'behaviour');
+        $record = ExtensionHelper::getExtensionRecord('compat' . Version::MAJOR_VERSION, 'plugin', 0, 'behaviour');
 
         if ($record) {
             $params = new Registry($record->params);

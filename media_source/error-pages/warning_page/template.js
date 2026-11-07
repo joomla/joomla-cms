@@ -1,6 +1,6 @@
 var errorLocale = window.errorLocale || null;
 
-(function(document, errorLocale) {
+(function (document, errorLocale) {
   'use strict';
 
   if (errorLocale) {
@@ -9,9 +9,9 @@ var errorLocale = window.errorLocale || null;
     var helpLink = document.getElementById('linkHelp');
 
     // Create links for all the languages
-    Object.keys(errorLocale).forEach(function(key) {
+    Object.keys(errorLocale).forEach(function (key) {
       var sel = document.getElementById('translatedLanguagesSelect'),
-          opt = document.createElement('option');
+        opt = document.createElement('option');
       opt.text = errorLocale[key].language;
       opt.value = key;
 
@@ -19,7 +19,7 @@ var errorLocale = window.errorLocale || null;
         opt.setAttribute('selected', 'selected');
       }
 
-      document.getElementById('translatedLanguagesSelect').addEventListener('change', function(e) {
+      document.getElementById('translatedLanguagesSelect').addEventListener('change', function (e) {
         var ref = e.target.value;
 
         if (!ref) {
@@ -40,11 +40,11 @@ var errorLocale = window.errorLocale || null;
         }
       });
 
-      sel.appendChild(opt)
+      sel.appendChild(opt);
     });
 
     // Select language based on Browser's language
-    Object.keys(errorLocale).forEach(function(key) {
+    Object.keys(errorLocale).forEach(function (key) {
       if (navigator.language === key) {
         // Remove the selected property
         document.querySelector('#translatedLanguagesSelect option[value="en-GB"]').removeAttribute('selected');

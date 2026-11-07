@@ -60,8 +60,8 @@ if (!empty($groupByFieldset)) {
 
     $sublayout = 'section-byfieldsets';
 } else {
-    $fields = $tmpl->getGroup('');
-    $th_width = 92 / count($fields);
+    $fields   = $tmpl->getGroup('');
+    $th_width = empty($fields) ? 0 : 92 / count($fields);
     foreach ($fields as $field) {
         $table_head .= '<th scope="col" style="width:' . $th_width . '%">' . strip_tags($field->label);
 
