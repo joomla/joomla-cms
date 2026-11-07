@@ -11,12 +11,12 @@
 namespace Joomla\Tests\Unit\Plugin\Task\Requests\Extension;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Http\Http;
 use Joomla\CMS\Language\Language;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Filesystem\Folder;
+use Joomla\Http\Http;
 use Joomla\Http\HttpFactory;
 use Joomla\Http\Response;
 use Joomla\Http\TransportInterface;
