@@ -101,7 +101,7 @@ class WebInstaller {
 
           const jedContainer = document.getElementById('jed-container');
           jedContainer.innerHTML = Joomla.sanitizeHtml(response.data.html, allowList);
-          if (webInstallerOptions.view === 'extension') {
+          if (webInstallerOptions.view === 'extension' || webInstallerOptions.view === 'category') {
             window.scrollTo(0, 0);
           }
 
