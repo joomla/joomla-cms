@@ -100,6 +100,7 @@
 			rows="3"
 			cols="30"
 			filter="raw"
+			showon="type:1"
 		/>
 
 		<field
@@ -307,6 +308,7 @@
 				label="COM_BANNERS_FIELD_IMAGE_LABEL"
 				directory="banners"
 				hide_none="1"
+				showon="type:0"
 			/>
 
 			<field
@@ -314,6 +316,7 @@
 				type="number"
 				label="COM_BANNERS_FIELD_WIDTH_LABEL"
 				class="validate-numeric"
+				showon="type:0"
 			/>
 
 			<field
@@ -321,12 +324,14 @@
 				type="number"
 				label="COM_BANNERS_FIELD_HEIGHT_LABEL"
 				class="validate-numeric"
+				showon="type:0"
 			/>
 
 			<field
 				name="alt"
 				type="text"
 				label="COM_BANNERS_FIELD_ALT_LABEL"
+				showon="type:0"
 			/>
 		</fieldset>
 	</fields>

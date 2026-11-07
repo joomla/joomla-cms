@@ -469,10 +469,16 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/postgresql/6.2.0-2026-08-10.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/6.2.0-2026-09-15.sql',
             '/libraries/src/Encrypt/AES/Mcrypt.php',
+            '/media/com_banners/js/admin-banner-edit.js',
+            '/media/com_banners/js/admin-banner-edit.min.js',
+            '/media/com_banners/js/admin-banner-edit.min.js.gz',
+            '/media/com_banners/joomla.asset.json',
         ];
 
         $folders = [
             // From 6.x to 7.0
+            '/media/com_banners/js',
+            '/media/com_banners',
         ];
 
         $status['files_checked']   = $files;
