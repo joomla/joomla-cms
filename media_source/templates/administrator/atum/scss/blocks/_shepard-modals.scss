@@ -6,9 +6,9 @@
   color: var(--body-color) !important;
 }
 
-// Cancel icon: >= 3:1 against the header (WCAG 1.4.11)
+// Cancel label (text) and icon: >= 4.5:1 against the header (WCAG 1.4.3, 1.4.11)
 .shepherd-has-title .shepherd-content .shepherd-cancel-icon {
-  color: var(--gray-600) !important;
+  color: var(--gray-700) !important;
 
   &:hover,
   &:focus-visible {
