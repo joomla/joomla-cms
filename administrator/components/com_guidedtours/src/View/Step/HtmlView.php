@@ -101,6 +101,7 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = empty($this->item->id);
+        $toolbar    = $this->getDocument()->getToolbar();
 
         $canDo = ContentHelper::getActions('com_guidedtours');
 
@@ -111,7 +112,7 @@ class HtmlView extends BaseHtmlView
         if ($isNew) {
             // For new records, check the create permission.
             if ($canDo->get('core.create')) {
-                ToolbarHelper::apply('step.apply');
+                $toolbar->apply('step.apply');
                 $toolbarButtons = [['save', 'step.save'], ['save2new', 'step.save2new']];
             }
 
@@ -120,7 +121,7 @@ class HtmlView extends BaseHtmlView
                 'btn-success'
             );
 
-            ToolbarHelper::cancel(
+            $toolbar->cancel(
                 'step.cancel'
             );
         } else {
@@ -128,7 +129,7 @@ class HtmlView extends BaseHtmlView
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
             if ($itemEditable) {
-                ToolbarHelper::apply('step.apply');
+                $toolbar->apply('step.apply');
                 $toolbarButtons = [['save', 'step.save']];
 
                 // We can save this record, but check the create permission to see if we can return to make a new one.
@@ -142,20 +143,20 @@ class HtmlView extends BaseHtmlView
                     'btn-success'
                 );
 
-                ToolbarHelper::cancel(
+                $toolbar->cancel(
                     'step.cancel',
                     'JTOOLBAR_CLOSE'
                 );
             }
         }
 
-        ToolbarHelper::divider();
+        $toolbar->divider();
         $inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] === 'show';
         $targetClass = (string) $this->form->getXml()->config->inlinehelp['targetclass'] ?: 'hide-aware-inline-help';
 
         if ($inlinehelp) {
-            ToolbarHelper::inlinehelp($targetClass);
+            $toolbar->inlinehelp($targetClass);
         }
-        ToolbarHelper::help('Guided_Tours:_New_or_Edit_Step');
+        $toolbar->help('Guided_Tours:_New_or_Edit_Step');
     }
 }

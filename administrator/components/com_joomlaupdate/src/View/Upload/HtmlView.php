@@ -109,12 +109,14 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
+        $toolbar = $this->getDocument()->getToolbar();
+
         // Set the toolbar information.
         ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'sync install');
 
         $arrow = $this->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
-        ToolbarHelper::link('index.php?option=com_joomlaupdate&' . ($this->getLayout() == 'captive' ? 'view=upload' : ''), 'JTOOLBAR_BACK', $arrow);
-        ToolbarHelper::divider();
-        ToolbarHelper::help('Joomla_Update');
+        $toolbar->link('index.php?option=com_joomlaupdate&' . ($this->getLayout() == 'captive' ? 'view=upload' : ''), 'JTOOLBAR_BACK', $arrow);
+        $toolbar->divider();
+        $toolbar->help('Joomla_Update');
     }
 }
