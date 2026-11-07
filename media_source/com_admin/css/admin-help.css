@@ -1,0 +1,81 @@
+@charset "UTF-8";
+#help-sidebar {
+  min-width: 18rem;
+}
+
+#help-index.main-nav, #help-index ul {
+  padding-left: 0;
+  background-color: var(--sidebarwrapper-bg);
+  inline-size: 18rem;
+  max-inline-size: 18rem;
+}
+
+#help-index ul .mm-show {
+  background-color: var(--main-nav-ul-bg);
+}
+
+#helpmenu .has-arrow .item-title {
+  margin-inline-end: auto;
+}
+
+#helpmenu .has-arrow:after {
+  display: flex;
+}
+
+.closed #helpmenu li, .closed #helpmenu a:hover {
+  max-inline-size: 18rem;
+}
+
+#help-index.sidebar-wrapper .item > a {
+  align-items: baseline;
+  padding-top: 8px;
+  padding-bottom: 2px;
+}
+
+#help-index.sidebar-wrapper .item-level-1 > a {
+  padding-inline-start: .5rem;
+}
+
+#help-index.sidebar-wrapper .item-level-1 > a:not(.has-arrow) {
+  padding-inline-end: .5rem;
+}
+
+#help-index.sidebar-wrapper .item-level-2 > a {
+  padding-inline-start: 1rem;
+}
+
+#help-index.sidebar-wrapper .item-level-2 > a:not(.has-arrow) {
+  padding-inline-end: .5rem;
+}
+
+#help-index.sidebar-wrapper .item-level-3 > a {
+  padding-inline-start: 1.5rem;
+}
+
+#help-index.sidebar-wrapper .item-level-3 > a:not(.has-arrow) {
+  padding-inline-end: .5rem;
+}
+
+#help-index a.active {
+  background-color: var(--sidebar-item-bg-hvr);
+}
+
+.helpmenu .mm-collapse {
+  display: none;
+}
+
+.helpmenu .mm-collapse.mm-show {
+  display: block;
+}
+
+#help-index .sidebar-wrapper .item a:hover {
+  color: var(--sidebar-item-color-hvr);
+  text-decoration: none;
+  background-color: var(--sidebar-item-bg-hvr);
+}
+
+#help-index h2 {
+  padding: .75rem 0 .25rem .75rem;
+  font-weight: 400;
+  color: var(--sidebar-item-color);
+}

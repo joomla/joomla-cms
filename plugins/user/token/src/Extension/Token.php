@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\User\Token\Extension;
 
-use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Event\Model\PrepareDataEvent;
 use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Event\User\AfterDeleteEvent;
@@ -19,6 +18,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\UserFactoryAwareTrait;
+use Joomla\Crypt\Crypt;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\SubscriberInterface;
@@ -29,9 +29,9 @@ use Joomla\Utilities\ArrayHelper;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * An example custom terms and conditions plugin.
+ * Token authentication for the API application
  *
- * @since  3.9.0
+ * @since  4.0.0
  */
 final class Token extends CMSPlugin implements SubscriberInterface
 {

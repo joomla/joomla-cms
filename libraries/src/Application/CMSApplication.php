@@ -570,7 +570,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         }
 
         if ($this->menuFactory === null) {
-            @trigger_error('Menu factory must be set in 5.0', E_USER_DEPRECATED);
+            @trigger_error('Menu factory must be set in 7.0', E_USER_DEPRECATED);
             $this->menuFactory = $this->getContainer()->get(MenuFactoryInterface::class);
         }
 
@@ -1271,40 +1271,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $session = $this->getSession();
 
         return $session::checkToken($method);
-    }
-
-    /**
-     * No longer used
-     *
-     * @return  boolean
-     *
-     * @since   4.0.0
-     *
-     * @throws \Exception
-     *
-     * @deprecated  4.2 will be removed in 7.0
-     *              Will be removed without replacements
-     */
-    protected function isTwoFactorAuthenticationRequired(): bool
-    {
-        return false;
-    }
-
-    /**
-     * No longer used
-     *
-     * @return  boolean
-     *
-     * @since   4.0.0
-     *
-     * @throws \Exception
-     *
-     * @deprecated  4.2 will be removed in 7.0
-     *              Will be removed without replacements
-     */
-    private function hasUserConfiguredTwoFactorAuthentication(): bool
-    {
-        return false;
     }
 
     /**

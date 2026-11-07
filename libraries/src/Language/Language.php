@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Language;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\Language\Language as BaseLanguage;
 use Joomla\String\StringHelper;
@@ -41,6 +42,22 @@ class Language extends BaseLanguage
     protected $strings = [];
 
     /**
+     * Cached fallback chains, keyed by language tag.
+     *
+     * @var    array
+     * @since  6.2.0
+     */
+    protected $fallbackChains = [];
+
+    /**
+     * Cached admin fallback overrides (language tag => fallback tag), or null until first read.
+     *
+     * @var    array|null
+     * @since  6.2.0
+     */
+    protected $fallbackOverrides = null;
+
+    /**
      * Name of the transliterator function for this language.
      *
      * @var    callable
@@ -55,46 +72,6 @@ class Language extends BaseLanguage
      * @since  1.7.0
      */
     protected $pluralSuffixesCallback = null;
-
-    /**
-     * Name of the ignoredSearchWordsCallback function for this language.
-     *
-     * @var    callable
-     * @since  1.7.0
-     *
-     * @deprecated  4.4 will be removed in 7.0 without replacement
-     */
-    protected $ignoredSearchWordsCallback = null;
-
-    /**
-     * Name of the lowerLimitSearchWordCallback function for this language.
-     *
-     * @var    callable
-     * @since  1.7.0
-     *
-     * @deprecated  4.4 will be removed in 7.0 without replacement
-     */
-    protected $lowerLimitSearchWordCallback = null;
-
-    /**
-     * Name of the upperLimitSearchWordCallback function for this language.
-     *
-     * @var    callable
-     * @since  1.7.0
-     *
-     * @deprecated  4.4 will be removed in 7.0 without replacement
-     */
-    protected $upperLimitSearchWordCallback = null;
-
-    /**
-     * Name of the searchDisplayedCharactersNumberCallback function for this language.
-     *
-     * @var    callable
-     * @since  1.7.0
-     *
-     * @deprecated  4.4 will be removed in 7.0 without replacement
-     */
-    protected $searchDisplayedCharactersNumberCallback = null;
 
     /**
      * Constructor activating the default information of the language.
@@ -172,22 +149,6 @@ class Language extends BaseLanguage
 
             if (method_exists($class, 'getPluralSuffixes')) {
                 $this->pluralSuffixesCallback = [$class, 'getPluralSuffixes'];
-            }
-
-            if (method_exists($class, 'getIgnoredSearchWords')) {
-                $this->ignoredSearchWordsCallback = [$class, 'getIgnoredSearchWords'];
-            }
-
-            if (method_exists($class, 'getLowerLimitSearchWord')) {
-                $this->lowerLimitSearchWordCallback = [$class, 'getLowerLimitSearchWord'];
-            }
-
-            if (method_exists($class, 'getUpperLimitSearchWord')) {
-                $this->upperLimitSearchWordCallback = [$class, 'getUpperLimitSearchWord'];
-            }
-
-            if (method_exists($class, 'getSearchDisplayedCharactersNumber')) {
-                $this->searchDisplayedCharactersNumberCallback = [$class, 'getSearchDisplayedCharactersNumber'];
             }
         }
 
@@ -400,210 +361,6 @@ class Language extends BaseLanguage
     }
 
     /**
-     * Returns an array of ignored search words
-     *
-     * @return  array  The array of ignored search words.
-     *
-     * @since   1.7.0
-     *
-     * @deprecated  4.4 will be removed in 7.0 without replacement
-     */
-    public function getIgnoredSearchWords()
-    {
-        if ($this->ignoredSearchWordsCallback !== null) {
-            return \call_user_func($this->ignoredSearchWordsCallback);
-        }
-
-        return [];
-    }
-
-    /**
-     * Getter for ignoredSearchWordsCallback function.
-     *
-     * @return  callable  Function name or the actual function.
-     *
-     * @since   1.7.0
-     *
-     * @deprecated  4.4 will be removed in 7.0 without replacement
-     */
-    public function getIgnoredSearchWordsCallback()
-    {
-        return $this->ignoredSearchWordsCallback;
-    }
-
-    /**
-     * Setter for the ignoredSearchWordsCallback function
-     *
-     * @param   callable  $function  Function name or actual function.
-     *
-     * @return  callable  The previous function.
-     *
-     * @since   1.7.0
-     *
-     * @deprecated  4.4 will be removed in 7.0 without replacement
-     */
-    public function setIgnoredSearchWordsCallback(callable $function)
-    {
-        $previous                         = $this->ignoredSearchWordsCallback;
-        $this->ignoredSearchWordsCallback = $function;
-
-        return $previous;
-    }
-
-    /**
-     * Returns a lower limit integer for length of search words
-     *
-     * @return  integer  The lower limit integer for length of search words (3 if no value was set for a specific language).
-     *
-     * @since   1.7.0
-     *
-     * @deprecated  4.4 will be removed in 7.0 without replacement
-     */
-    public function getLowerLimitSearchWord()
-    {
-        if ($this->lowerLimitSearchWordCallback !== null) {
-            return \call_user_func($this->lowerLimitSearchWordCallback);
-        }
-
-        return 3;
-    }
-
-    /**
-     * Getter for lowerLimitSearchWordCallback function
-     *
-     * @return  callable  Function name or the actual function.
-     *
-     * @since   1.7.0
-     *
-     * @deprecated  4.4 will be removed in 7.0 without replacement
-     */
-    public function getLowerLimitSearchWordCallback()
-    {
-        return $this->lowerLimitSearchWordCallback;
-    }
-
-    /**
-     * Setter for the lowerLimitSearchWordCallback function.
-     *
-     * @param   callable  $function  Function name or actual function.
-     *
-     * @return  callable  The previous function.
-     *
-     * @since   1.7.0
-     *
-     * @deprecated  4.4 will be removed in 7.0 without replacement
-     */
-    public function setLowerLimitSearchWordCallback(callable $function)
-    {
-        $previous                           = $this->lowerLimitSearchWordCallback;
-        $this->lowerLimitSearchWordCallback = $function;
-
-        return $previous;
-    }
-
-    /**
-     * Returns an upper limit integer for length of search words
-     *
-     * @return  integer  The upper limit integer for length of search words (200 if no value was set or if default value is < 200).
-     *
-     * @since   1.7.0
-     *
-     * @deprecated  4.4 will be removed in 7.0 without replacement
-     */
-    public function getUpperLimitSearchWord()
-    {
-        if ($this->upperLimitSearchWordCallback !== null && \call_user_func($this->upperLimitSearchWordCallback) > 200) {
-            return \call_user_func($this->upperLimitSearchWordCallback);
-        }
-
-        return 200;
-    }
-
-    /**
-     * Getter for upperLimitSearchWordCallback function
-     *
-     * @return  callable  Function name or the actual function.
-     *
-     * @since   1.7.0
-     *
-     * @deprecated  4.4 will be removed in 7.0 without replacement
-     */
-    public function getUpperLimitSearchWordCallback()
-    {
-        return $this->upperLimitSearchWordCallback;
-    }
-
-    /**
-     * Setter for the upperLimitSearchWordCallback function
-     *
-     * @param   callable  $function  Function name or the actual function.
-     *
-     * @return  callable  The previous function.
-     *
-     * @since   1.7.0
-     *
-     * @deprecated  4.4 will be removed in 7.0 without replacement
-     */
-    public function setUpperLimitSearchWordCallback(callable $function)
-    {
-        $previous                           = $this->upperLimitSearchWordCallback;
-        $this->upperLimitSearchWordCallback = $function;
-
-        return $previous;
-    }
-
-    /**
-     * Returns the number of characters displayed in search results.
-     *
-     * @return  integer  The number of characters displayed (200 if no value was set for a specific language).
-     *
-     * @since   1.7.0
-     *
-     * @deprecated  4.4 will be removed in 7.0 without replacement
-     */
-    public function getSearchDisplayedCharactersNumber()
-    {
-        if ($this->searchDisplayedCharactersNumberCallback !== null) {
-            return \call_user_func($this->searchDisplayedCharactersNumberCallback);
-        }
-
-        return 200;
-    }
-
-    /**
-     * Getter for searchDisplayedCharactersNumberCallback function
-     *
-     * @return  callable  Function name or the actual function.
-     *
-     * @since   1.7.0
-     *
-     * @deprecated  4.4 will be removed in 7.0 without replacement
-     */
-    public function getSearchDisplayedCharactersNumberCallback()
-    {
-        return $this->searchDisplayedCharactersNumberCallback;
-    }
-
-    /**
-     * Setter for the searchDisplayedCharactersNumberCallback function.
-     *
-     * @param   callable  $function  Function name or the actual function.
-     *
-     * @return  callable  The previous function.
-     *
-     * @since   1.7.0
-     *
-     * @deprecated  4.4 will be removed in 7.0 without replacement
-     */
-    public function setSearchDisplayedCharactersNumberCallback(callable $function)
-    {
-        $previous                                      = $this->searchDisplayedCharactersNumberCallback;
-        $this->searchDisplayedCharactersNumberCallback = $function;
-
-        return $previous;
-    }
-
-    /**
      * Loads a single language file and appends the results to the existing strings
      *
      * @param   string   $extension  The extension for which a language file should be loaded.
@@ -627,6 +384,13 @@ class Language extends BaseLanguage
         // with $default set to true
         if (!$this->debug && ($lang != $this->default) && $default) {
             $this->load($extension, $basePath, $this->default, false, true);
+        }
+
+        // Load the fallback chain next, weakest first, so missing strings are filled per key.
+        if (!$this->debug) {
+            foreach (array_reverse($this->getFallbackChain($lang)) as $fallbackLang) {
+                $this->load($extension, $basePath, $fallbackLang, $reload, false);
+            }
         }
 
         $path = LanguageHelper::getLanguagePath($basePath, $lang);
@@ -659,6 +423,86 @@ class Language extends BaseLanguage
         }
 
         return false;
+    }
+
+    /**
+     * Resolves the ordered fallback chain for a language tag, strongest first.
+     *
+     * The fallback of a tag is taken from the com_languages override, else from the optional
+     * <fallback> element of its langmetadata.xml. The chain stops at a language without a fallback,
+     * the site default, or a cycle, and excludes both the requested language and the site default.
+     *
+     * @param   string  $lang  The language tag to resolve the fallback chain for.
+     *
+     * @return  string[]  Ordered list of fallback language tags, strongest first.
+     *
+     * @since   6.2.0
+     */
+    protected function getFallbackChain($lang)
+    {
+        if (isset($this->fallbackChains[$lang])) {
+            return $this->fallbackChains[$lang];
+        }
+
+        $chain     = [];
+        $seen      = [$lang => true];
+        $next      = $lang;
+        $overrides = $this->getFallbackOverrides();
+
+        while (true) {
+            if (isset($overrides[$next])) {
+                $fallback = $overrides[$next];
+            } else {
+                $metadata = ($next === $this->lang ? $this->metadata : LanguageHelper::getMetadata($next)) ?: [];
+                $fallback = $metadata['fallback'] ?? '';
+            }
+
+            if ($fallback === '' || $fallback === $this->default || isset($seen[$fallback])) {
+                break;
+            }
+
+            $chain[]         = $fallback;
+            $seen[$fallback] = true;
+            $next            = $fallback;
+        }
+
+        $this->fallbackChains[$lang] = $chain;
+
+        return $chain;
+    }
+
+    /**
+     * Reads and caches the administrator fallback overrides (tag => fallback) from the
+     * com_languages options. Returns an empty map when the component parameters are not yet available.
+     *
+     * @return  array  Map of language tag => fallback tag.
+     *
+     * @since   6.2.0
+     */
+    protected function getFallbackOverrides()
+    {
+        if ($this->fallbackOverrides !== null) {
+            return $this->fallbackOverrides;
+        }
+
+        $this->fallbackOverrides = [];
+
+        try {
+            $overrides = ComponentHelper::getParams('com_languages')->get('fallback_overrides');
+        } catch (\Throwable $e) {
+            return $this->fallbackOverrides;
+        }
+
+        foreach ((array) $overrides as $override) {
+            $tag      = trim((string) ($override->tag ?? ''));
+            $fallback = trim((string) ($override->fallback ?? ''));
+
+            if ($tag !== '' && $fallback !== '') {
+                $this->fallbackOverrides[$tag] = $fallback;
+            }
+        }
+
+        return $this->fallbackOverrides;
     }
 
     /**
@@ -709,6 +553,11 @@ class Language extends BaseLanguage
     {
         try {
             $strings = LanguageHelper::parseIniFile($fileName, $this->debug);
+
+            // Parser Errors detected
+            if ($this->debug && is_file($fileName)) {
+                $this->debugFile($fileName);
+            }
         } catch (\RuntimeException $e) {
             $strings = [];
 

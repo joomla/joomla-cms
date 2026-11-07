@@ -79,6 +79,7 @@
 								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_URL_LABEL"
 								filter="url"
 								validate="url"
+								schemes="http,https"
 							/>
 
 							<field

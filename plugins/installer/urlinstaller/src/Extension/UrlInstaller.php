@@ -52,9 +52,10 @@ final class UrlInstaller extends CMSPlugin implements SubscriberInterface
         // Load language files
         $this->loadLanguage();
 
-        $tab            = [];
-        $tab['name']    = 'url';
-        $tab['label']   = $this->getApplication()->getLanguage()->_('PLG_INSTALLER_URLINSTALLER_TEXT');
+        $app          = $this->getApplication();
+        $tab          = [];
+        $tab['name']  = 'url';
+        $tab['label'] = $app->getLanguage()->_('PLG_INSTALLER_URLINSTALLER_TEXT');
 
         // Render the input
         ob_start();

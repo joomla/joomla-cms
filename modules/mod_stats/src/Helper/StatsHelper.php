@@ -11,7 +11,6 @@
 namespace Joomla\Module\Stats\Site\Helper;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -58,7 +57,7 @@ class StatsHelper implements DatabaseAwareInterface
         if ($serverinfo) {
             $rows[$i]        = new \stdClass();
             $rows[$i]->title = Text::_('MOD_STATS_OS');
-            $rows[$i]->data  = substr(php_uname(), 0, 7);
+            $rows[$i]->data  = \function_exists('php_uname') ? substr(php_uname(), 0, 7) : '';
             $i++;
 
             $rows[$i]        = new \stdClass();
@@ -165,23 +164,5 @@ class StatsHelper implements DatabaseAwareInterface
         }
 
         return $rows;
-    }
-
-    /**
-     * Get list of stats
-     *
-     * @param   Registry  &$params  module parameters
-     *
-     * @return  array
-     *
-     * @deprecated 5.2.0 will be removed in 7.0
-     *             Use the non-static method getStats
-     *             Example: Factory::getApplication()->bootModule('mod_stats', 'site')
-     *                          ->getHelper('StatsHelper')
-     *                          ->getStats($params, Factory::getApplication())
-     */
-    public static function &getList(Registry &$params)
-    {
-        return (new self())->getStats($params, Factory::getApplication());
     }
 }

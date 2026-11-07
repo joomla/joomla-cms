@@ -99,6 +99,7 @@
 			label="JGLOBAL_ORDER_DIRECTION_LABEL"
 			layout="joomla.form.field.radio.switcher"
 			default="ASC"
+			validate="options"
 			>
 			<option value="ASC">JGLOBAL_ORDER_ASCENDING</option>
 			<option value="DESC">JGLOBAL_ORDER_DESCENDING</option>
@@ -262,6 +263,7 @@
 			label="JGLOBAL_ORDER_DIRECTION_LABEL"
 			layout="joomla.form.field.radio.switcher"
 			default="ASC"
+			validate="options"
 			>
 			<option value="ASC">JGLOBAL_ORDER_ASCENDING</option>
 			<option value="DESC">JGLOBAL_ORDER_DESCENDING</option>

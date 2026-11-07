@@ -110,6 +110,12 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
 
         // Pass the return URL to the view
         $returnURL  = $this->input->getBase64('returnurl');
+
+        // Validate and - if necessary - reset the return url
+        if (empty($returnURL) || !Uri::isInternal(base64_decode($returnURL))) {
+            $returnURL = base64_encode(Uri::base());
+        }
+
         $viewLayout = $this->input->get('layout', 'default', 'string');
         $view       = $this->getView('Method', 'html');
         $view->setLayout($viewLayout);
@@ -159,6 +165,12 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
 
         // Pass the return URL to the view
         $returnURL  = $this->input->getBase64('returnurl');
+
+        // Validate and - if necessary - reset the return url
+        if (empty($returnURL) || !Uri::isInternal(base64_decode($returnURL))) {
+            $returnURL = base64_encode(Uri::base());
+        }
+
         $viewLayout = $this->input->get('layout', 'default', 'string');
         $view       = $this->getView('Method', 'html');
         $view->setLayout($viewLayout);

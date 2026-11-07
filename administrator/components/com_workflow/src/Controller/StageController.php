@@ -78,7 +78,7 @@ class StageController extends FormController
 
         // If extension is not set try to get it from input or throw an exception
         if (empty($this->extension)) {
-            $extension = $this->input->getCmd('extension');
+            $extension = $this->input->getCmd('extension', '');
 
             $parts = explode('.', $extension);
 
@@ -155,7 +155,6 @@ class StageController extends FormController
     protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
     {
         $append = parent::getRedirectToItemAppend($recordId);
-
         $append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '');
 
         return $append;

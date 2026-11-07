@@ -200,6 +200,14 @@ abstract class Factory
      */
     public static function getSession(array $options = [])
     {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            throw new \BadMethodCallException(\sprintf(
+                '%1$s() is only available in compatibility mode (compatibility plugin enabled). Load the session from the dependency injection container or via %2$s::getApplication()->getSession().',
+                __METHOD__,
+                __CLASS__
+            ));
+        }
+
         @trigger_error(
             \sprintf(
                 '%1$s() is deprecated. Load the session from the dependency injection container or via %2$s::getApplication()->getSession().',
@@ -423,6 +431,21 @@ abstract class Factory
      */
     public static function getMailer()
     {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            throw new \BadMethodCallException(\sprintf(
+                '%1$s() is only available in compatibility mode (compatibility plugin enabled). Load the mailer from the dependency injection container.',
+                __METHOD__
+            ));
+        }
+
+        @trigger_error(
+            \sprintf(
+                '%1$s() is deprecated. Load the mailer from the dependency injection container.',
+                __METHOD__
+            ),
+            E_USER_DEPRECATED
+        );
+
         if (!self::$mailer) {
             self::$mailer = self::createMailer();
         }
@@ -625,7 +648,7 @@ abstract class Factory
             E_USER_DEPRECATED
         );
 
-        $conf   = self::getApplication();
+        $conf   = self::getApplication()->getConfig();
         $locale = $conf->get('language');
         $debug  = $conf->get('debug_lang');
         $lang   = self::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);

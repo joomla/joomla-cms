@@ -79,8 +79,9 @@ class FeedView extends AbstractView
                 $description = '<p>' . HTMLHelper::_('image', $obj->image_intro, $obj->image_intro_alt) . '</p>';
             }
 
-            $description .= ($params->get('feed_summary', 0) ? $row->introtext . $row->fulltext : $row->introtext);
-            $author      = $row->created_by_alias ?: $row->author;
+            $description .= $row->params->get('show_intro', 1) ? $row->introtext : '';
+            $description .= $params->get('feed_summary', 0) ? $row->fulltext : '';
+            $author       = $row->created_by_alias ?: $row->author;
 
             // Load individual item creator class
             $item           = new FeedItem();

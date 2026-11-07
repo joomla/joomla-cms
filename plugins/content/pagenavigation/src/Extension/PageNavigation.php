@@ -249,6 +249,10 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
                 // Get the path for the layout file
                 $path = PluginHelper::getLayoutPath('content', 'pagenavigation');
 
+                // Set the language for the layout file
+                $this->loadLanguage();
+                $lang = $this->getApplication()->getLanguage();
+
                 // Render the pagenav
                 ob_start();
                 include $path;
