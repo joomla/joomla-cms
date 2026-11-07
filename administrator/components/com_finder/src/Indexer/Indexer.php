@@ -114,17 +114,12 @@ class Indexer
     /**
      * Indexer constructor.
      *
-     * @param  ?DatabaseInterface  $db  The database
+     * @param  DatabaseInterface  $db  The database
      *
      * @since  3.8.0
      */
-    public function __construct(?DatabaseInterface $db = null)
+    public function __construct(DatabaseInterface $db)
     {
-        if ($db === null) {
-            @trigger_error('Database will be mandatory in 7.0.', E_USER_DEPRECATED);
-            $db = Factory::getContainer()->get(DatabaseInterface::class);
-        }
-
         $this->db = $db;
 
         // Set up query template for addTokensToDb
