@@ -156,29 +156,6 @@ class Language extends BaseLanguage
     }
 
     /**
-     * Returns a language object.
-     *
-     * @param   string   $lang   The language to use.
-     * @param   boolean  $debug  The debug mode.
-     *
-     * @return  Language  The Language object.
-     *
-     * @since       1.7.0
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Use the language factory instead
-     *              Example: Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($lang, $debug);
-     */
-    public static function getInstance($lang, $debug = false)
-    {
-        if (!isset(self::$languages[$lang . $debug])) {
-            self::$languages[$lang . $debug] = Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($lang, $debug);
-        }
-
-        return self::$languages[$lang . $debug];
-    }
-
-    /**
      * Translate function, mimics the php gettext (alias _) function.
      *
      * The function checks if $jsSafe is true, then if $interpretBackslashes is true.
