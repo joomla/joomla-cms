@@ -30,6 +30,8 @@ if (!Uri::isInternal($value)) {
 
 if ($fieldParams->get('show_url', 0)) {
     $text = htmlspecialchars($value);
+} elseif ($name = $fieldParams->get('show_name', '')) {
+    $text = $name;
 }
 
 echo sprintf(

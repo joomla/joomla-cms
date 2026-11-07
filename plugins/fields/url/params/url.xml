@@ -41,6 +41,13 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+
+			<field
+				name="show_name"
+				type="text"
+				label="PLG_FIELDS_URL_PARAMS_SHOW_NAME_LABEL"
+				showon="show_url:0"
+			 />
 		</fieldset>
 	</fields>
 </form>
