@@ -733,11 +733,19 @@ abstract class HTMLHelper
 
         // Get the relative file name when requested
         if ($returnPath !== -1) {
+            // Decode spaces for filesystem lookup
+            $lookupPath = str_replace('%20', ' ', $path);
+
             // Search for relative file names
-            $includes = static::includeRelativeFiles('images', $path, $relative, false, false);
+            $includes = static::includeRelativeFiles('images', $lookupPath, $relative, false, false);
 
             // Grab the first found path and if none exists default to null
             $path = \count($includes) ? $includes[0] : null;
+
+            // Encode spaces for the URL
+            if ($path !== null) {
+                $path = str_replace(' ', '%20', $path);
+            }
         }
 
         // Compile the file name
