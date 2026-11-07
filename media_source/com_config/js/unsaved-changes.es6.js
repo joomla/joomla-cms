@@ -7,7 +7,7 @@ import JoomlaDialog from 'joomla.dialog';
 (() => {
   'use strict';
 
-  const form = document.getElementById('component-form');
+  const form = document.querySelector('#application-form, #component-form');
   const navigation = form?.querySelector('.sidebar-nav');
 
   if (!form || !navigation) {
