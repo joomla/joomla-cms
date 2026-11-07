@@ -13,6 +13,7 @@ use Joomla\CMS\Cache\CacheStorage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -446,6 +447,9 @@ class FileStorage extends CacheStorage
         $name = $this->_getCacheId($id, $group);
         $dir  = $this->_root . '/' . $group;
 
+        // Prevent traversals
+        Path::check($dir, $this->_root);
+
         // If the folder doesn't exist try to create it
         if (!is_dir($dir)) {
             // Make sure the index file is there
@@ -482,10 +486,10 @@ class FileStorage extends CacheStorage
 
         $path = $this->_cleanPath($path);
 
-        // Check to make sure path is inside cache folder, we do not want to delete Joomla root!
-        $pos = strpos($path, $this->_cleanPath($this->_root));
-
-        if ($pos === false || $pos > 0) {
+        // Use Path::check to resolve .. and verify containment
+        try {
+            $path = Path::check($path, $this->_root);
+        } catch (\Joomla\Filesystem\Exception\FilesystemException $e) {
             Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', __METHOD__, $path), Log::WARNING, 'jerror');
 
             return false;
@@ -556,10 +560,7 @@ class FileStorage extends CacheStorage
             return $this->_root;
         }
 
-        // Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
-        $path = preg_replace('#[/\\\\]+#', $ds, $path);
-
-        return $path;
+        return Path::check($path, $this->_root);
     }
 
     /**
