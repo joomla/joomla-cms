@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -321,8 +322,9 @@ class BaseControllerTest extends UnitTestCase
         };
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createView')->willReturn($view);
-        $app = $this->createStub(CMSApplicationInterface::class);
+        $app = $this->createStub(CMSWebApplicationInterface::class);
         $app->method('getName')->willReturn('Test');
+        $app->method('getDocument')->willReturn($this->createStub(HtmlDocument::class));
 
         $controller = new class (['base_path' => __DIR__], $mvcFactory, $app, new Input()) extends BaseController {
         };
@@ -341,8 +343,11 @@ class BaseControllerTest extends UnitTestCase
         $mvcFactory = $this->createMock(LegacyFactory::class);
         $mvcFactory->expects($this->once())->method('createView')->with('Unit', 'TestView')
             ->willReturn($this->createStub(AbstractView::class));
+        $app = $this->createStub(CMSWebApplicationInterface::class);
+        $app->method('getName')->willReturn('Test');
+        $app->method('getDocument')->willReturn($this->createStub(HtmlDocument::class));
 
-        $controller = new class (['name' => 'Test', 'base_path' => __DIR__], $mvcFactory, $this->createStub(CMSApplicationInterface::class), new Input()) extends BaseController {
+        $controller = new class (['name' => 'Test', 'base_path' => __DIR__], $mvcFactory, $app, new Input()) extends BaseController {
         };
         $controller->getView('Unit');
     }
@@ -389,9 +394,10 @@ class BaseControllerTest extends UnitTestCase
         $mvcFactory->method('createView')->willReturn($view);
 
         $user = new User();
-        $app  = $this->createStub(CMSApplicationInterface::class);
+        $app  = $this->createStub(CMSWebApplicationInterface::class);
         $app->method('getName')->willReturn('Test');
         $app->method('getIdentity')->willReturn($user);
+        $app->method('getDocument')->willReturn($this->createStub(HtmlDocument::class));
 
         $controller = new class (['base_path' => __DIR__], $mvcFactory, $app, new Input()) extends BaseController {
         };
