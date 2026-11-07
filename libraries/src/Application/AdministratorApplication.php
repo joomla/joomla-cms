@@ -219,10 +219,10 @@ class AdministratorApplication extends CMSApplication
      *
      * @since      3.2
      *
-     * @deprecated  4.3 will be removed in 7.0
+     * @deprecated  4.3 will be removed in 8.0
+     *              Only available with the Behaviour - Backward Compatibility 7 plugin enabled.
      *              Inject the router or load it from the dependency injection container
-     *              Example:
-     *              Factory::getContainer()->get(AdministratorRouter::class);
+     *              Example: Factory::getContainer()->get(\Joomla\CMS\Router\AdministratorRouter::class);
      */
     public static function getRouter($name = 'administrator', array $options = [])
     {

@@ -421,12 +421,28 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
      *
      * @throws     \InvalidArgumentException
      *
-     * @deprecated  4.3 will be removed in 7.0
+     * @deprecated  4.3 will be removed in 8.0
+     *              Only available with the Behaviour - Backward Compatibility 7 plugin enabled.
      *              Inject the router or load it from the dependency injection container
-     *              Example: Factory::getContainer()->get(ApiRouter::class);
+     *              Example: Factory::getContainer()->get(\Joomla\CMS\Router\ApiRouter::class);
      */
     public static function getRouter($name = null, array $options = [])
     {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            throw new \BadMethodCallException(\sprintf(
+                '%s() is only available in compatibility mode (compatibility plugin enabled). Inject the router or load it from the dependency injection container.',
+                __METHOD__
+            ));
+        }
+
+        @trigger_error(
+            \sprintf(
+                '%s() is deprecated. Inject the router or load it from the dependency injection container.',
+                __METHOD__
+            ),
+            E_USER_DEPRECATED
+        );
+
         if (empty($name)) {
             throw new \InvalidArgumentException('A router name must be set in console application.');
         }

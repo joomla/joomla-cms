@@ -20,7 +20,9 @@ use Joomla\CMS\Component\Router\Rules\MenuRules;
 use Joomla\CMS\Component\Router\Rules\NomenuRules;
 use Joomla\CMS\Component\Router\Rules\PreprocessRules;
 use Joomla\CMS\Component\Router\Rules\StandardRules;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\Router\SiteRouter;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
@@ -188,7 +190,7 @@ class Router extends RouterView
                     // We haven't found a matching category, but maybe we turned off IDs?
                     foreach ($category->getChildren() as $child) {
                         if ($child->id == (int) $segment) {
-                            $this->app->getRouter()->setTainted();
+                            Factory::getContainer()->get(SiteRouter::class)->setTainted();
 
                             return $child->id;
                         }
@@ -197,7 +199,7 @@ class Router extends RouterView
                     foreach ($category->getChildren() as $child) {
                         if ($child->id == (int) $segment) {
                             if ($child->id . '-' . $child->alias != $segment) {
-                                $this->app->getRouter()->setTainted();
+                                Factory::getContainer()->get(SiteRouter::class)->setTainted();
                             }
 
                             return $child->id;
@@ -254,7 +256,7 @@ class Router extends RouterView
                 return $id;
             }
 
-            $this->app->getRouter()->setTainted();
+            Factory::getContainer()->get(SiteRouter::class)->setTainted();
         }
 
         $id = (int) $segment;
@@ -269,7 +271,7 @@ class Router extends RouterView
             $alias = $this->db->loadResult();
 
             if ($alias && $id . '-' . $alias != $segment) {
-                $this->app->getRouter()->setTainted();
+                Factory::getContainer()->get(SiteRouter::class)->setTainted();
             }
         }
 

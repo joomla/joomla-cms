@@ -12,7 +12,6 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\SessionAwareWebApplicationInterface;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Menu\AbstractMenu;
-use Joomla\CMS\Router\Router;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -45,22 +44,6 @@ interface CMSWebApplicationInterface extends SessionAwareWebApplicationInterface
      * @since   4.0.0
      */
     public function getMenu($name = null, $options = []);
-
-    /**
-     * Returns the application Router object.
-     *
-     * @param   string  $name     The name of the application.
-     * @param   array   $options  An optional associative array of configuration settings.
-     *
-     * @return  Router
-     *
-     * @since      4.0.0
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Inject the router or load it from the dependency injection container
-     *              Example: Factory::getContainer()->get($name);
-     */
-    public static function getRouter($name = null, array $options = []);
 
     /**
      * Gets a user state.
