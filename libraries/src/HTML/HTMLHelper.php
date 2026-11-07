@@ -90,7 +90,7 @@ abstract class HTMLHelper
 
         if (\count($parts) === 3) {
             @trigger_error(
-                'Support for a three segment service key is deprecated and will be removed in Joomla 6.0, use the service registry instead',
+                'Support for a three segment service key is deprecated and will be removed in Joomla 7.0, use the service registry instead',
                 E_USER_DEPRECATED
             );
         }
@@ -166,7 +166,7 @@ abstract class HTMLHelper
                     throw new \InvalidArgumentException(\sprintf('%s not found.', $className), 500);
                 }
 
-                // @deprecated with 5.0 remove with 6.0 or 7.0 (depends on other relevant code)
+                // @deprecated with 5.0 remove with 7.0 (depends on other relevant code)
                 $className = 'JHtml' . ucfirst($file);
 
                 \JLoader::register($className, $path);
@@ -321,8 +321,10 @@ abstract class HTMLHelper
     public static function link($url, $text, $attribs = null)
     {
         if (\is_array($attribs)) {
-            $attribs = ArrayHelper::toString($attribs);
+            $attribs = ArrayHelper::toString(self::escapeAttributesArray($attribs));
         }
+
+        $url = htmlspecialchars((string) $url, ENT_QUOTES, 'UTF-8', false);
 
         return '<a href="' . $url . '" ' . $attribs . '>' . $text . '</a>';
     }
@@ -342,8 +344,11 @@ abstract class HTMLHelper
     public static function iframe($url, $name, $attribs = null, $noFrames = '')
     {
         if (\is_array($attribs)) {
-            $attribs = ArrayHelper::toString($attribs);
+            $attribs = ArrayHelper::toString(self::escapeAttributesArray($attribs));
         }
+
+        $url  = htmlspecialchars((string) $url, ENT_QUOTES, 'UTF-8', false);
+        $name = htmlspecialchars((string) $name, ENT_QUOTES, 'UTF-8', false);
 
         return '<iframe src="' . $url . '" ' . $attribs . ' name="' . $name . '">' . $noFrames . '</iframe>';
     }
@@ -1202,7 +1207,7 @@ abstract class HTMLHelper
     public static function addIncludePath($path = '')
     {
         @trigger_error(
-            'Support for registering lookup paths is deprecated and will be removed in Joomla 6.0, use the service registry instead',
+            'Support for registering lookup paths is deprecated and will be removed in Joomla 7.0, use the service registry instead',
             E_USER_DEPRECATED
         );
 
@@ -1270,6 +1275,36 @@ abstract class HTMLHelper
 
         // On windows devices we need to replace "\" with "/" otherwise some browsers will not load the asset
         return str_replace(DIRECTORY_SEPARATOR, '/', $relativeFilePath);
+    }
+
+    /**
+     * Method that escapes attribute names and values of an array of HTML attributes
+     * This method does not remove potentially dangerous attribute names or values, it's escaping only!
+     *
+     * @param   array  $attributes  The associative array of attributes, potentially nested
+     *
+     * @return  array  The escaped array, potentially nested
+     *
+     * @since   6.1.4
+     */
+    protected static function escapeAttributesArray(array $attributes): array
+    {
+        foreach ($attributes as $attributeName => $attributeValue) {
+            // Skip invalid attribute names
+            if (!preg_match('/^[a-zA-Z][a-zA-Z0-9_:.-]*$/', (string) $attributeName)) {
+                unset($attributes[$attributeName]);
+                continue;
+            }
+
+            if (\is_array($attributeValue)) {
+                $attributes[$attributeName] = self::escapeAttributesArray($attributeValue);
+                continue;
+            }
+
+            $attributes[$attributeName] = htmlspecialchars((string) $attributeValue, ENT_QUOTES, 'UTF-8', false);
+        }
+
+        return $attributes;
     }
 
     /**

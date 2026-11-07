@@ -10,6 +10,9 @@
  * @link       http://www.phpunit.de/manual/current/en/installation.html
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
+
 // phpcs:disable PSR1.Files.SideEffects
 
 \define('_JEXEC', 1);
@@ -111,3 +114,6 @@ $extensionPsr4Loader->load();
 
 // Define the Joomla version if not already defined.
 \defined('JVERSION') or \define('JVERSION', (new \Joomla\CMS\Version())->getShortVersion());
+
+// Mocking here the language as it requires an application for config access
+Factory::$language = new Language();

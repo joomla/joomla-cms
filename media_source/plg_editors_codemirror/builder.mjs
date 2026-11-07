@@ -3,8 +3,8 @@
  */
 
 import path from 'node:path';
-import fsp from "node:fs/promises";
-import fs from "node:fs";
+import fsp from 'node:fs/promises';
+import fs from 'node:fs';
 import { createRequire } from 'node:module';
 import DefaultModuleBuilder from '../../build/build-modules-js/builder/default-module-builder.mjs';
 import { resolvePackageFile, getPackagesUnderScope } from '../../build/build-modules-js/utils/resolve-package.mjs';
@@ -84,7 +84,7 @@ const compileCodemirror = async (basePath, targetPath) => {
   });
 
   // Copy/Compile the modules
-  modules.forEach(([ module, destPath ]) => {
+  modules.forEach(([module, destPath]) => {
     tasks.push(handleMJSFile(module, destPath));
   });
 
@@ -93,8 +93,7 @@ const compileCodemirror = async (basePath, targetPath) => {
   });
 };
 
-export default class CodemirrorModuleBuilder extends DefaultModuleBuilder
-{
+export default class CodemirrorModuleBuilder extends DefaultModuleBuilder {
   /**
    * Remove files associated with the builder
    * @returns { Promise }
