@@ -501,14 +501,18 @@ class PluginAdapter extends InstallerAdapter
                 $this->extension->enabled = 1;
             }
 
-            if (!$this->extension->store()) {
+            try {
+                $this->extension->store();
+            } catch (\Exception $e) {
                 // Install failed, roll back changes
                 throw new \RuntimeException(
                     Text::sprintf(
                         'JLIB_INSTALLER_ABORT_PLG_INSTALL_ROLLBACK',
                         Text::_('JLIB_INSTALLER_' . $this->route),
-                        $this->extension->getError()
-                    )
+                        $e->getMessage(),
+                    ),
+                    0,
+                    $e
                 );
             }
 

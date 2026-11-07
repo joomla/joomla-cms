@@ -56,6 +56,7 @@ class LibraryAdapter extends InstallerAdapter
                 // Clear the cached data
                 $this->currentExtensionId = null;
                 $this->extension          = new Extension($this->getDatabase());
+                $this->extension->setUseExceptions(true);
 
                 // From this point we'll consider this an update
                 $this->setRoute('update');
@@ -423,13 +424,17 @@ class LibraryAdapter extends InstallerAdapter
         // Update the manifest cache for the entry
         $this->extension->manifest_cache = $this->parent->generateManifestCache();
 
-        if (!$this->extension->store()) {
+        try {
+            $this->extension->store();
+        } catch (\Exception $e) {
             // Install failed, roll back changes
             throw new \RuntimeException(
                 Text::sprintf(
                     'JLIB_INSTALLER_ABORT_LIB_INSTALL_ROLLBACK',
-                    $this->extension->getError()
-                )
+                    $e->getMessage(),
+                ),
+                0,
+                $e
             );
         }
 

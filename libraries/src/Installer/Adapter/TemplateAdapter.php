@@ -588,14 +588,18 @@ class TemplateAdapter extends InstallerAdapter
 
         $this->extension->changelogurl = $this->changelogurl;
 
-        if (!$this->extension->store()) {
+        try {
+            $this->extension->store();
+        } catch (\Exception $e) {
             // Install failed, roll back changes
             throw new \RuntimeException(
                 Text::sprintf(
                     'JLIB_INSTALLER_ABORT_ROLLBACK',
                     Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
-                    $this->extension->getError()
-                )
+                    $e->getMessage(),
+                ),
+                0,
+                $e
             );
         }
     }
