@@ -11,9 +11,12 @@
 namespace Joomla\Component\Tags\Administrator\Helper;
 
 use Joomla\CMS\Association\AssociationExtensionHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Table;
+use Joomla\Component\Tags\Administrator\Table\TagTable;
 use Joomla\Component\Tags\Site\Helper\AssociationHelper;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -119,7 +122,7 @@ class AssociationsHelper extends AssociationExtensionHelper
 
         switch ($typeName) {
             case 'tag':
-                $table = Table::getInstance('TagTable', 'Joomla\\Component\\Tags\\Administrator\\Table\\');
+                $table = new TagTable(Factory::getContainer()->get(DatabaseInterface::class));
                 break;
         }
 

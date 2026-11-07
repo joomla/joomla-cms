@@ -104,7 +104,7 @@ abstract class AssociationHelper
         $return = [];
 
         if ($associations = self::getAssociations($id, 'article')) {
-            $levels    = Factory::getUser()->getAuthorisedViewLevels();
+            $levels    = Factory::getApplication()->getIdentity()->getAuthorisedViewLevels();
             $languages = LanguageHelper::getLanguages();
 
             foreach ($languages as $language) {

@@ -16,6 +16,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -51,8 +52,8 @@ class AdministratorService
             }
 
             // Get the associated contact items
-            $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $db    = Factory::getContainer()->get(DatabaseInterface::class);
+            $query = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('c.id'),

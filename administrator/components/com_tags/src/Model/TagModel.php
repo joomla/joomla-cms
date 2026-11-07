@@ -475,9 +475,9 @@ class TagModel extends AdminModel implements VersionableModelInterface
             }
 
             // Get associationskey for edited item
-            $db    = $this->getDbo();
+            $db    = $this->getDatabase();
             $id    = (int) $table->$key;
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('key'))
                 ->from($db->quoteName('#__associations'))
                 ->where($db->quoteName('context') . ' = :context')
@@ -489,7 +489,7 @@ class TagModel extends AdminModel implements VersionableModelInterface
 
             if ($associations || $oldKey !== null) {
                 // Deleting old associations for the associated items
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->delete($db->quoteName('#__associations'))
                     ->where($db->quoteName('context') . ' = :context')
                     ->bind(':context', $this->associationsContext);
@@ -518,7 +518,7 @@ class TagModel extends AdminModel implements VersionableModelInterface
             if (\count($associations) > 1) {
                 // Adding new association for these items
                 $key   = md5(json_encode($associations));
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->insert($db->quoteName('#__associations'))
                     ->columns(
                         [
