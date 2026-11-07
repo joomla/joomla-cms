@@ -24,4 +24,4 @@ export const dirname = (path) => {
   if (end === -1) return hasRoot ? '/' : '.';
   if (hasRoot && end === 1) return '//';
   return path.slice(0, end);
-}
+};

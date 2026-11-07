@@ -20,7 +20,6 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -95,10 +94,7 @@ final class POWCaptchaProvider implements CaptchaProviderInterface
                 'UTF-8'
             ),
             'challengeurl' => Route::_(
-                \sprintf(
-                    "index.php?option=com_ajax&plugin=powcaptcha&group=captcha&format=raw&%s=1",
-                    Session::getFormToken()
-                ),
+                'index.php?option=com_ajax&plugin=powcaptcha&group=captcha&format=raw',
                 false,
                 false,
                 true
@@ -114,7 +110,7 @@ final class POWCaptchaProvider implements CaptchaProviderInterface
     /**
      * Verify the users answer
      *
-     * @param   null|string  $code  Answer provided by user. Not needed for the Recaptcha implementation
+     * @param   null|string  $code  Answer provided by user.
      *
      * @return  bool  True if the answer is correct, false otherwise
      *
@@ -123,6 +119,10 @@ final class POWCaptchaProvider implements CaptchaProviderInterface
     public function checkAnswer(?string $code = null): bool
     {
         if (!$this->application instanceof CMSWebApplicationInterface) {
+            return false;
+        }
+
+        if (empty($code)) {
             return false;
         }
 

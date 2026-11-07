@@ -41,7 +41,7 @@ class ExtensionDiscoverCommandTest extends \PHPUnit\Framework\TestCase
      */
     public function testProcessDiscoverReturnIsInt()
     {
-        $command = $this->createMock(ExtensionDiscoverCommand::class);
+        $command = $this->createStub(ExtensionDiscoverCommand::class);
 
         $countOfDiscoveredExtensions = $command->processDiscover();
 

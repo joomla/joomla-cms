@@ -36,7 +36,7 @@ export default {
 
   /**
    * Delete a stage from the workflow.
-   * @param commit 
+   * @param commit
    * @param dispatch
    * @param state
    * @param id - The ID of the stage to delete
@@ -54,7 +54,7 @@ export default {
 
       if (
         state.stages.length <= 1
-          || state.stages.find((s) => s.id.toString() === id).default
+        || state.stages.find((s) => s.id.toString() === id).default
       ) {
         notifications.error('COM_WORKFLOW_GRAPH_ERROR_STAGE_DEFAULT_CANT_DELETED');
         return;
@@ -113,7 +113,6 @@ export default {
   updateStagePosition({ commit }, { id, x, y }) {
     commit('UPDATE_STAGE_POSITION', { id, x, y });
   },
-
 
   /**
    * Update the position of a stage in the workflow via API in database.
