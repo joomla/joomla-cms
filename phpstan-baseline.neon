@@ -7073,18 +7073,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to deprecated static property \$config of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the configuration object within the application
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getConfig\(\);$#
-			'''
-			identifier: staticProperty.deprecated
-			count: 1
-			path: installation/src/Application/CliInstallationApplication.php
-
-		-
-			message: '''
 				#^Access to deprecated static property \$language of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
@@ -7105,18 +7093,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: installation/src/Application/CliInstallationApplication.php
-
-		-
-			message: '''
-				#^Access to deprecated static property \$config of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the configuration object within the application
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getConfig\(\);$#
-			'''
-			identifier: staticProperty.deprecated
-			count: 1
-			path: installation/src/Application/InstallationApplication.php
 
 		-
 			message: '''
