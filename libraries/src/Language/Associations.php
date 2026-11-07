@@ -149,7 +149,7 @@ class Associations
                 // Group by id
                 foreach ($items as $item) {
                     // Do not return itself as result
-                    if ((int) $item->{$pk} !== $id) {
+                    if ((int) $item->{$pk} !== (int) $item->pk) {
                         $multilanguageAssociations[$queryKey][$item->pk][$item->language] = $item;
                     }
                 }
@@ -163,7 +163,7 @@ class Associations
                 if ($items) {
                     foreach ($items as $tag => $item) {
                         // Do not return itself as result
-                        if ((int) $item->{$pk} !== $id) {
+                        if ((int) $item->{$pk} !== (int) $id) {
                             $multilanguageAssociations[$queryKey][$tag] = $item;
                         }
                     }

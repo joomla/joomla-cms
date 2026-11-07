@@ -203,7 +203,7 @@ class TagTable extends Nested implements CurrentUserInterface
         // Verify that the alias is unique
         $table = new static($this->getDatabase());
 
-        if ($table->load(['alias' => $this->alias]) && ($table->id != $this->id || $this->id == 0)) {
+        if ($table->load(['alias' => $this->alias, 'parent_id' => (int) $this->parent_id]) && ($table->id != $this->id || $this->id == 0)) {
             if ($this->shouldUseExceptions()) {
                 $message = $table->published === -2
                     ? Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS_TRASHED')

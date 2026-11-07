@@ -375,7 +375,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface, Mail
                 $linkMode,
                 true
             );
-            $subject  = html_entity_decode($table->subject, ENT_COMPAT, 'UTF-8');
+            $subject  = strip_tags(html_entity_decode($table->subject, ENT_COMPAT, 'UTF-8'));
             $message  = strip_tags(html_entity_decode($table->message, ENT_COMPAT, 'UTF-8'));
 
             // Send the email
@@ -383,7 +383,8 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface, Mail
                 'com_messages.new_message',
                 $lang->getTag(),
                 $this->getMailerFactory()->createMailer(),
-                $this->getLanguageFactory()
+                $this->getLanguageFactory(),
+                $this->getDatabase()
             );
             $data   = [
                 'subject'   => $subject,
@@ -398,6 +399,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface, Mail
             $mailer->addTemplateData($data);
             $mailer->setReplyTo($fromUser->email, $fromUser->name);
             $mailer->addRecipient($toUser->email, $toUser->name);
+            $mailer->addUnsafeTags(['fromname']);
 
             try {
                 $mailer->send();
