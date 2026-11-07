@@ -19,7 +19,8 @@ use Joomla\CMS\Router\Route;
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
-    ->useScript('form.validate');
+    ->useScript('form.validate')
+    ->useScript('com_config.unsaved-changes');
 
 // Load JS message titles
 Text::script('ERROR');
@@ -27,6 +28,9 @@ Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
 Text::script('SUCCESS');
+Text::script('COM_CONFIG_UNSAVED_CHANGES_CONFIRM');
+Text::script('COM_CONFIG_UNSAVED_CHANGES_PROCEED');
+Text::script('JCANCEL');
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="main-card form-validate">
