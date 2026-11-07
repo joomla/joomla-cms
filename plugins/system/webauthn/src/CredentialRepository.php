@@ -540,7 +540,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             return $credential;
         }
 
-        $aes = new Aes($key, 256);
+        $aes = new Aes($key);
 
         return $aes->encryptString($credential);
     }
@@ -567,7 +567,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             return $credential;
         }
 
-        $aes = new Aes($key, 256);
+        $aes = new Aes($key);
 
         return $aes->decryptString($credential);
     }
