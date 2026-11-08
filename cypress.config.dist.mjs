@@ -7,8 +7,6 @@ export default defineConfig({
   screenshotsFolder: 'tests/System/output/screenshots',
   viewportHeight: 1000,
   viewportWidth: 1200,
-  // Preserve Joomla's iframe detection and parent-window communication.
-  modifyObstructiveCode: false,
   e2e: {
     setupNodeEvents(on, config) {
       setupPlugins(on, config);

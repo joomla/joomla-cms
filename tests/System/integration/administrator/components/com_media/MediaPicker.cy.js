@@ -7,6 +7,12 @@ describe('Test in backend that the media picker', () => {
   const mediaFixturesFolder = `${fixturesFolder.replace(projectRoot, '').replace(/^\//, '')}/com_media`;
 
   beforeEach(() => {
+    cy.intercept('GET', '**/com_media/js/media-manager*.js*', (request) => {
+      request.continue((response) => {
+        // Preserve the iframe check without Cypress rewriting parent.location to self.location.
+        response.body = response.body.replaceAll('window.parent.location', 'window.parent["location"]');
+      });
+    });
     cy.doAdministratorLogin();
     cy.task('writeRelativeFile', { path: `${testDirectory}/folder-a/dummy.txt`, content: '1' });
     cy.task('writeRelativeFile', { path: `${testDirectory}/folder-b/dummy.txt`, content: '1' });
