@@ -43,10 +43,13 @@ export default {
     /* Upload files */
     upload(e) {
       e.preventDefault();
-      const { files } = e.target;
+      const files = Array.from(e.target.files);
+
+      // Reset the input, so choosing the same file again fires a change event
+      e.target.value = '';
 
       // Loop through array of files and upload each file
-      Array.from(files).forEach((file) => {
+      files.forEach((file) => {
         // Create a new file reader instance
         const reader = new FileReader();
 
