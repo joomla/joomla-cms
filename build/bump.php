@@ -57,8 +57,6 @@ $languageXmlFiles = [
 
 $languagePackXmlFile = '/administrator/manifests/packages/pkg_en-GB.xml';
 
-$antJobFile = '/build.xml';
-
 $packageJsonFiles = [
     '/package.json',
     '/package-lock.json',
@@ -162,7 +160,7 @@ $version = [
     'build'      => '',
     'reldate'    => $date->format('j-F-Y'),
     'reltime'    => $date->format('H:i'),
-    'reltz'      => 'GMT',
+    'reltz'      => 'UTC',
     'credate'    => $date->format('Y-m'),
 ];
 
@@ -241,13 +239,6 @@ if (file_exists($rootPath . $languagePackXmlFile)) {
     $fileContents = preg_replace('#<version>[^<]*</version>#', '<version>' . $version['release'] . '.1</version>', $fileContents);
     $fileContents = preg_replace('#<creationDate>[^<]*</creationDate>#', '<creationDate>' . $version['credate'] . '</creationDate>', $fileContents);
     file_put_contents($rootPath . $languagePackXmlFile, $fileContents);
-}
-
-// Updates the version for the `phpdoc` task in the Ant job file.
-if (file_exists($rootPath . $antJobFile)) {
-    $fileContents = file_get_contents($rootPath . $antJobFile);
-    $fileContents = preg_replace('#<arg value="Joomla! CMS [^ ]* API" />#', '<arg value="Joomla! CMS ' . $version['main'] . ' API" />', $fileContents);
-    file_put_contents($rootPath . $antJobFile, $fileContents);
 }
 
 // Updates the version in the package.json file.

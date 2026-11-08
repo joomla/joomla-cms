@@ -165,7 +165,7 @@ final class UserPlugin extends PrivacyPlugin implements SubscriberInterface
         $domain = $this->createDomain('user_notes', 'joomla_user_notes_data');
         $db     = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__user_notes'))
             ->where($db->quoteName('user_id') . ' = :userid')
@@ -199,7 +199,7 @@ final class UserPlugin extends PrivacyPlugin implements SubscriberInterface
         $domain = $this->createDomain('user_profile', 'joomla_user_profile_data');
         $db     = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__user_profiles'))
             ->where($db->quoteName('user_id') . ' = :userid')

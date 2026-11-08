@@ -27,13 +27,13 @@ abstract class RouteHelper
     /**
      * getNewsfeedRoute
      *
-     * @param   int  $id        menu itemid
-     * @param   int  $catid     category id
-     * @param   int  $language  language
+     * @param   int     $id        menu itemid
+     * @param   int     $catid     category id
+     * @param   string  $language  language
      *
      * @return string
      */
-    public static function getNewsfeedRoute($id, $catid, $language = 0)
+    public static function getNewsfeedRoute($id, $catid, $language = null)
     {
         // Create the link
         $link = 'index.php?option=com_newsfeeds&view=newsfeed&id=' . $id;
@@ -42,7 +42,7 @@ abstract class RouteHelper
             $link .= '&catid=' . $catid;
         }
 
-        if ($language && $language !== '*' && Multilanguage::isEnabled()) {
+        if (!empty($language) && $language !== '*' && Multilanguage::isEnabled()) {
             $link .= '&lang=' . $language;
         }
 
@@ -52,12 +52,12 @@ abstract class RouteHelper
     /**
      * getCategoryRoute
      *
-     * @param   int  $catid     category id
-     * @param   int  $language  language
+     * @param   int     $catid     category id
+     * @param   string  $language  language
      *
      * @return string
      */
-    public static function getCategoryRoute($catid, $language = 0)
+    public static function getCategoryRoute($catid, $language = null)
     {
         if ($catid instanceof CategoryNode) {
             $id = $catid->id;
@@ -71,7 +71,7 @@ abstract class RouteHelper
             // Create the link
             $link = 'index.php?option=com_newsfeeds&view=category&id=' . $id;
 
-            if ($language && $language !== '*' && Multilanguage::isEnabled()) {
+            if (!empty($language) && $language !== '*' && Multilanguage::isEnabled()) {
                 $link .= '&lang=' . $language;
             }
         }
