@@ -157,4 +157,82 @@ class MeterFieldTest extends \PHPUnit\Framework\TestCase
 
         return $reflection->invoke($field);
     }
+
+    /**
+     * Tests setup method with equal min and max attributes.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function testSetupWithEqualMinMaxAttributes()
+    {
+        $field   = new MeterField();
+        $element = new \SimpleXMLElement('<field name="testmeter" min="10" max="10" />');
+
+        $this->assertTrue($field->setup($element, 10, null));
+        $this->assertSame(10, $field->__get('min'));
+        $this->assertSame(10, $field->__get('max'));
+    }
+
+    /**
+     * Tests that the meter layout renders without DivisionByZeroError when min and max are equal.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function testLayoutRenderWithEqualBounds()
+    {
+        $field   = new MeterField();
+        $element = new \SimpleXMLElement('<field name="testmeter" min="10" max="10" />');
+
+        $field->setup($element, 10, null);
+
+        $layoutData = $this->callGetLayoutData($field);
+        $html       = $this->renderLayout($layoutData);
+
+        $this->assertStringContainsString('aria-valuemin="10"', $html);
+        $this->assertStringContainsString('aria-valuemax="10"', $html);
+        $this->assertStringContainsString('style="width:0%;"', $html);
+    }
+
+    /**
+     * Tests that the meter layout renders without DivisionByZeroError when max is zero.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function testLayoutRenderWithMaxZero()
+    {
+        $field   = new MeterField();
+        $element = new \SimpleXMLElement('<field name="testmeter" max="0" />');
+
+        $field->setup($element, 0, null);
+
+        $layoutData = $this->callGetLayoutData($field);
+        $html       = $this->renderLayout($layoutData);
+
+        $this->assertStringContainsString('aria-valuemin="0"', $html);
+        $this->assertStringContainsString('aria-valuemax="0"', $html);
+        $this->assertStringContainsString('style="width:0%;"', $html);
+    }
+
+    /**
+     * Helper to render the meter field layout.
+     *
+     * @param   array  $displayData  Layout display data
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function renderLayout(array $displayData): string
+    {
+        ob_start();
+        include JPATH_ROOT . '/layouts/joomla/form/field/meter.php';
+
+        return ob_get_clean();
+    }
 }

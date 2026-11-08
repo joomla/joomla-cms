@@ -72,7 +72,7 @@ $attributes = [
     $dataAttribute,
 ];
 
-$value = ((float) ($value - $min) * 100) / ($max - $min);
+$value = $max > $min ? ((float) ($value - $min) * 100) / ($max - $min) : 0;
 ?>
 <div class="progress">
     <div
