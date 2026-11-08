@@ -19,7 +19,7 @@ describe('Test in backend that the user access level list', () => {
   it('can open the access level form', () => {
     cy.clickToolbarButton('New');
 
-    cy.contains('Level Details');
+    cy.contains('User Groups With Viewing Access');
   });
 
   it('can delete the test level', () => {

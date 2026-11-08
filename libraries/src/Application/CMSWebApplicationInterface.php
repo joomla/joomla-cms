@@ -56,7 +56,7 @@ interface CMSWebApplicationInterface extends SessionAwareWebApplicationInterface
      *
      * @since      4.0.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Inject the router or load it from the dependency injection container
      *              Example: Factory::getContainer()->get($name);
      */

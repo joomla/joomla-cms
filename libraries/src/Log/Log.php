@@ -330,7 +330,7 @@ class Log
                 } else {
                     @trigger_error(
                         \sprintf(
-                            'Attempting to automatically resolve loggers to the %s namespace is deprecated as of 4.0 and will be removed in 5.0.'
+                            'Attempting to automatically resolve loggers to the %s namespace is deprecated as of 4.0 and will be removed in 7.0.'
                             . ' Use the logger registry instead.',
                             __NAMESPACE__
                         ),

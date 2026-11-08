@@ -29,6 +29,8 @@ return new class () implements ServiceProviderInterface {
      */
     public function register(Container $container): void
     {
+        // The logout plugin is a special case which does not use the lazy loading because it
+        // uses the constructor to delete a cookie
         $container->set(
             PluginInterface::class,
             function (Container $container) {

@@ -173,6 +173,7 @@
 								label="PLG_SCHEMAORG_EVENT_FIELD_URL_LABEL"
 								filter="url"
 								validate="url"
+								schemes="http,https"
 							/>
 
 							<field
