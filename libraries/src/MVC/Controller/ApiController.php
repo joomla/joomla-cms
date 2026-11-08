@@ -339,6 +339,18 @@ class ApiController extends BaseController
                 echo new JsonResponse($body);
                 $this->app->close();
             }
+
+            // The delete was refused without an error (e.g. vetoed by a plugin), so it must not be reported as success
+            $this->app->setHeader('status', 409, true);
+            $this->app->setHeader('Content-Type', 'application/json');
+            $this->app->sendHeaders();
+            $body = [
+                'status'  => 'Conflict',
+                'code'    => 409,
+                'message' => Text::_('JLIB_APPLICATION_ERROR_DELETE'),
+            ];
+            echo new JsonResponse($body);
+            $this->app->close();
         }
 
         // If the model has set a 404 status code in the session, we return a 404 http status codee
@@ -458,6 +470,9 @@ class ApiController extends BaseController
         $checkin    = property_exists($table, $table->getColumnAlias('checked_out'));
         $data[$key] = $recordKey;
 
+        // Stored values of the fields which are not in the PATCH request
+        $storedValues = [];
+
         if ($this->input->getMethod() === 'PATCH') {
             if ($recordKey && $table->load($recordKey)) {
                 $fields = $table->getFields();
@@ -467,7 +482,8 @@ class ApiController extends BaseController
                         continue;
                     }
 
-                    $data[$field->Field] = $table->{$field->Field};
+                    $data[$field->Field]         = $table->{$field->Field};
+                    $storedValues[$field->Field] = $table->{$field->Field};
                 }
             }
         }
@@ -505,6 +521,17 @@ class ApiController extends BaseController
             }
 
             throw new InvalidParameterException(implode("\n", $messages));
+        }
+
+        // Stored values are already in UTC, so don't let the SERVER_UTC / USER_UTC form filter convert them a second time
+        foreach ($storedValues as $field => $value) {
+            if (!\array_key_exists($field, $validData)) {
+                continue;
+            }
+
+            if (\in_array(strtoupper($form->getFieldAttribute($field, 'filter', '')), ['SERVER_UTC', 'USER_UTC'], true)) {
+                $validData[$field] = $value;
+            }
         }
 
         if (!isset($validData['tags'])) {
