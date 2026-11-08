@@ -281,7 +281,7 @@ class CssMenu implements DatabaseAwareInterface
         $language   = $this->application->getLanguage();
         $dispatcher = $this->application->getDispatcher();
 
-        $noSeparator = true;
+        $noSeparator = false;
         $children    = $parent->getChildren();
 
         /**
