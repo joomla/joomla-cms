@@ -347,10 +347,11 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
 
         if (isset($data['metaTags'])) {
             foreach ($data['metaTags'] as $type1 => $data1) {
-                $booldog = $type1 === 'http-equiv';
+                // Preserve legacy array handling for name and http-equiv metadata.
+                $attribute = \in_array($type1, ['name', 'http-equiv'], true) ? $type1 === 'http-equiv' : $type1;
 
                 foreach ($data1 as $name2 => $data2) {
-                    $this->setMetaData($name2, $data2, $booldog);
+                    $this->setMetaData($name2, $data2, $attribute);
                 }
             }
         }
