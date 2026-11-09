@@ -149,7 +149,7 @@
       &:hover::after {
         right: 2px;
         left: 0;
-        background: $white;
+        background: currentColor;
         opacity: 1;
       }
 
@@ -203,7 +203,7 @@
       &.active > button::before {
         right: 0;
         left: 0;
-        background: $white;
+        background: currentColor;
         opacity: 1;
       }
 

@@ -40,7 +40,7 @@
 
       .metismenu-item > a:focus,
       .metismenu-item > button:focus {
-        outline-color: $white;
+        outline-color: currentColor;
       }
     }
   }

@@ -8,9 +8,20 @@
   .mod-menu {
     color: var(--headercolor);
   }
+  .navbar-toggler {
+    color: var(--headercolor);
+    border-color: var(--headercolor);
+  }
 }
-.container-header .metismenu > li > a:hover::after, .container-header .metismenu > li > button:hover::before, .container-header .metismenu > li.active > a::after, .container-header .metismenu > li.active > button::before {
-  background: color-mix(in srgb, currentColor, #fff 25%);
+.container-topbar,
+.container-below-top {
+  color: var(--headercolor);
+  a:not(.btn):hover,
+  a:not(.btn):focus,
+  .btn-link:hover,
+  .btn-link:focus {
+    color: var(--headercolor);
+  }
 }
 a:focus-visible,
 .metismenu.mod-menu .metismenu-item > a:focus,
@@ -68,6 +79,16 @@ a:focus-visible,
   background-image: none;
   a {
     color: var(--footercolor);
+  }
+  a:not(.btn):hover,
+  a:not(.btn):focus,
+  .btn-link:hover,
+  .btn-link:focus {
+    color: var(--footercolor);
+  }
+  .metismenu.mod-menu .mm-collapse {
+    color: var(--footercolor);
+    background: var(--footerbg);
   }
 }
 .offline-card .header {
