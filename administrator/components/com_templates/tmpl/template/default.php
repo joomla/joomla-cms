@@ -82,7 +82,7 @@ if ($this->type == 'font') {
             </div>
         <?php endif; ?>
     </div>
-    <div class="row mt-2">
+    <div class="row mt-2" dir="ltr">
         <div id="treeholder" class="col-md-3 tree-holder">
             <div class="mt-2 mb-2">
                 <ul class="directory-tree treeselect">
