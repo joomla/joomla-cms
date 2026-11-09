@@ -90,6 +90,11 @@ class ProfileController extends BaseController
         $user   = $this->app->getIdentity();
         $userId = (int) $user->id;
 
+        // Only allow logged in Users
+        if ($user->guest) {
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+        }
+
         // Get the user data.
         $requestData = $app->getInput()->post->get('jform', [], 'array');
 
