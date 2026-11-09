@@ -416,6 +416,12 @@ class ApiController extends BaseController
             throw new NotAllowed('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED', 403);
         }
 
+        // A check-out this user already holds is not this request's to release.
+        $checkedOutField   = $table->getColumnAlias('checked_out');
+        $alreadyCheckedOut = $table->hasField('checked_out')
+            && $table->load($recordId)
+            && (int) $table->$checkedOutField > 0;
+
         // Attempt to check-out the new record for editing and redirect.
         if ($table->hasField('checked_out') && !$model->checkout($recordId)) {
             // Check-out failed, display a notice but allow the user to see the record.
@@ -425,8 +431,10 @@ class ApiController extends BaseController
         try {
             $this->save($recordId);
         } catch (\Exception $e) {
-            // The save was refused: release the check-out taken above.
-            $model->checkin($recordId);
+            // The save was refused: release the check-out if this request took it.
+            if (!$alreadyCheckedOut) {
+                $model->checkin($recordId);
+            }
 
             throw $e;
         }
