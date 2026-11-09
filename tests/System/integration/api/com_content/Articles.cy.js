@@ -152,7 +152,7 @@ describe('Test that content API endpoint', () => {
         },
         body: {
           // Flat payload missing mandatory required fields like title and category
-          title: 'Malformed Test Article',
+          title: 'Missing mandatory required fields',
         },
         failOnStatusCode: false,
       })
@@ -197,23 +197,42 @@ describe('Test that content API endpoint', () => {
 
   it('should successfully fetch articles and verify their category relationships', () => {
     let categoryId;
+    let articleId;
 
     cy.api_post('/content/categories', { title: 'automated test content category', parent_id: 1, extension: 'com_content' })
       .then((response) => {
         categoryId = response.body.data.id;
-        return cy.db_createArticle({ title: 'automated test article', catid: Number(categoryId) });
+        return cy.api_post('/content/articles', {
+          title: 'automated test article',
+          alias: 'automated-test-article',
+          catid: categoryId,
+          introtext: '',
+          fulltext: '',
+          state: 1,
+          access: 1,
+          language: '*',
+          created: '2023-01-01 20:00:00',
+          modified: '2023-01-01 20:00:00',
+          images: '',
+          urls: '',
+          attribs: '',
+          metadesc: '',
+          metadata: '',
+        });
       })
-      .then(() => {
-        return cy.api_get('/content/articles');
+      .then((articleResponse) => {
+        articleId = articleResponse.body.data.id;
+        return cy.api_get(`/content/articles/${articleId}`);
       })
       .then((response) => {
-        cy.wrap(response).its('body').its('data').should('be.an', 'array').and('have.length.at.least', 1);
-        cy.wrap(response).its('body').its('data').its('0').its('attributes').its('title')
+        cy.wrap(response).its('body').its('data').should('be.an', 'object');
+
+        cy.wrap(response).its('body').its('data').its('attributes').its('title')
           .should('include', 'automated test article');
 
         // Validate the relational linkage matches the created category ID
-        cy.wrap(response).its('body').its('data').its('0').its('relationships').its('category').its('data').its('id')
-          .should('equal', categoryId);
+        cy.wrap(response).its('body').its('data').its('relationships').its('category').its('data').its('id')
+          .should('equal', String(categoryId));
       });
   });
 });
