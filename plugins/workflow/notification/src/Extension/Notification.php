@@ -189,7 +189,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
 
         $transitionName = $model_transition->getItem($transition->id)->title;
 
-        $hasGetItem = method_exists($model, 'getItem');
+        $hasGetItem     = method_exists($model, 'getItem');
         $messageCreated = false;
 
         foreach ($pks as $pk) {
