@@ -17,6 +17,10 @@ $item    = $displayData['data'];
 $display = $item->text;
 $app = Factory::getApplication();
 
+// Optional extra classes for the list item, e.g. responsive visibility classes
+$extraClass = trim($displayData['classes'] ?? '');
+$extraClass = $extraClass !== '' ? ' ' . htmlspecialchars($extraClass, ENT_QUOTES, 'UTF-8') : '';
+
 switch ((string) $item->text) {
     // Check for "Start" item
     case Text::_('JLIB_HTML_START'):
@@ -72,18 +76,18 @@ if ($displayData['active']) {
 
 ?>
 <?php if ($displayData['active']) : ?>
-    <li class="page-item">
+    <li class="page-item<?php echo $extraClass; ?>">
         <a aria-label="<?php echo $aria; ?>" <?php echo $link; ?> class="page-link">
             <?php echo $display; ?>
         </a>
     </li>
 <?php elseif (isset($item->active) && $item->active) : ?>
     <?php $aria = Text::sprintf('JLIB_HTML_PAGE_CURRENT', strtolower($item->text)); ?>
-    <li class="<?php echo $class; ?> page-item">
+    <li class="<?php echo $class; ?> page-item<?php echo $extraClass; ?>">
         <a aria-current="true" aria-label="<?php echo $aria; ?>" href="#" class="page-link"><?php echo $display; ?></a>
     </li>
 <?php else : ?>
-    <li class="<?php echo $class; ?> page-item">
+    <li class="<?php echo $class; ?> page-item<?php echo $extraClass; ?>">
         <span class="page-link" aria-hidden="true"><?php echo $display; ?></span>
     </li>
 <?php endif; ?>

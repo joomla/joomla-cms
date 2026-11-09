@@ -434,6 +434,10 @@ class Pagination
         }
 
         if ($this->total > $this->limit) {
+            if ($this->supportsResponsive()) {
+                $list['responsive'] = $this->getResponsiveData(true);
+            }
+
             return $this->_list_render($list);
         }
 
@@ -509,6 +513,10 @@ class Pagination
 
             $list['end']['active'] = $data->end->base !== null;
             $list['end']['data']   = $data->end;
+
+            if ($this->supportsResponsive()) {
+                $list['responsive'] = $this->getResponsiveData(false);
+            }
         }
 
         return $list;
@@ -804,5 +812,105 @@ class Pagination
         }
 
         return $data;
+    }
+
+    /**
+     * Create the pagination object for a single page number.
+     *
+     * @param   int  $number  The page number
+     *
+     * @return  PaginationObject
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function buildPageObject(int $number): PaginationObject
+    {
+        $page = new PaginationObject($number, $this->prefix);
+
+        if ($number === $this->pagesCurrent && !$this->viewall) {
+            $page->active = true;
+
+            return $page;
+        }
+
+        $params = http_build_query($this->additionalUrlParams);
+        $offset = ($number - 1) * $this->limit;
+
+        $page->base = $offset;
+        $page->link = Route::_(
+            'index.php?' . $params . '&' . $this->prefix . 'limitstart=' . ($offset === 0 && $this->hideEmptyLimitstart ? '' : $offset)
+        );
+
+        return $page;
+    }
+
+    /**
+     * Whether this pagination can provide responsive data.
+     *
+     * The responsive items are built by buildPageObject(). A subclass that overrides how links or items are built
+     * gets the classic list instead, so its overrides keep applying to every page link.
+     *
+     * @return  bool
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function supportsResponsive(): bool
+    {
+        foreach (['_buildDataObject', '_item_active', '_item_inactive'] as $method) {
+            if ((new \ReflectionMethod($this, $method))->getDeclaringClass()->getName() !== self::class) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Get the data for a responsive pagination: the first and the last page as page numbers, the middle pages
+     * with the breakpoints where they are visible, and the ellipses.
+     *
+     * @param   bool  $render  True to render the items with the joomla.pagination.link layout,
+     *                         false to return the pagination objects.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getResponsiveData(bool $render): array
+    {
+        $window = PaginationWindow::calculate($this->pagesCurrent, $this->pagesTotal);
+
+        $item = static function (PaginationObject $page, string $classes) use ($render): array {
+            $clickable = $page->base !== null;
+
+            return [
+                'active' => $clickable,
+                'data'   => $render
+                    ? LayoutHelper::render('joomla.pagination.link', ['data' => $page, 'active' => $clickable, 'classes' => $classes])
+                    : $page,
+                'classes' => $classes,
+            ];
+        };
+
+        // An ellipsis that is not needed at the widest breakpoint is hidden unless the template's CSS shows it
+        $ellipsis = static fn (array $breakpoints): ?array => $breakpoints
+            ? ['classes' => PaginationWindow::classes($breakpoints), 'hidden' => !\in_array('xlarge', $breakpoints, true)]
+            : null;
+
+        $pages = [];
+
+        foreach ($window['pages'] as $number => $breakpoints) {
+            $pages[$number] = $item($this->buildPageObject($number), PaginationWindow::classes($breakpoints));
+        }
+
+        return [
+            'current'       => $this->pagesCurrent,
+            'total'         => $this->pagesTotal,
+            'first'         => $item($this->buildPageObject(1), 'page-item--first'),
+            'last'          => $item($this->buildPageObject($this->pagesTotal), 'page-item--last'),
+            'pages'         => $pages,
+            'ellipsisStart' => $ellipsis($window['ellipsisStart']),
+            'ellipsisEnd'   => $ellipsis($window['ellipsisEnd']),
+        ];
     }
 }

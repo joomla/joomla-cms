@@ -38,6 +38,21 @@ if (!empty($pages['pages'])) {
     }
 }
 
+$responsive = $pages['responsive'] ?? null;
+
+if ($responsive) {
+    $currentPage = (int) $responsive['current'];
+}
+
+$renderEllipsis = static function (?array $ellipsis): string {
+    if ($ellipsis === null) {
+        return '';
+    }
+
+    return '<li class="page-item ellipsis ' . $ellipsis['classes'] . '"' . ($ellipsis['hidden'] ? ' hidden' : '')
+        . ' aria-hidden="true"><span class="page-link">&hellip;</span></li>';
+};
+
 if ($currentPage >= $step) {
     if ($currentPage % $step === 0) {
         $range = ceil($currentPage / $step) + 1;
@@ -66,7 +81,19 @@ $last  = $last > $total ? $total : $last;
                 </div>
             <?php endif; ?>
 
-            <?php if ($showPagesLinks && !empty($pages)) : ?>
+            <?php if ($showPagesLinks && $responsive) : ?>
+                <ul class="pagination pagination--responsive ms-auto me-0">
+                    <?php echo LayoutHelper::render('joomla.pagination.link', $pages['previous']); ?>
+                    <?php echo LayoutHelper::render('joomla.pagination.link', $responsive['first']); ?>
+                    <?php echo $renderEllipsis($responsive['ellipsisStart']); ?>
+                    <?php foreach ($responsive['pages'] as $page) : ?>
+                        <?php echo LayoutHelper::render('joomla.pagination.link', $page); ?>
+                    <?php endforeach; ?>
+                    <?php echo $renderEllipsis($responsive['ellipsisEnd']); ?>
+                    <?php echo LayoutHelper::render('joomla.pagination.link', $responsive['last']); ?>
+                    <?php echo LayoutHelper::render('joomla.pagination.link', $pages['next']); ?>
+                </ul>
+            <?php elseif ($showPagesLinks && !empty($pages)) : ?>
                 <ul class="pagination ms-auto me-0">
                     <?php echo LayoutHelper::render('joomla.pagination.link', $pages['start']); ?>
                     <?php echo LayoutHelper::render('joomla.pagination.link', $pages['previous']); ?>
