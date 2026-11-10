@@ -339,6 +339,18 @@ class ApiController extends BaseController
                 echo new JsonResponse($body);
                 $this->app->close();
             }
+
+            // The delete was refused without an error (e.g. vetoed by a plugin), so it must not be reported as success
+            $this->app->setHeader('status', 409, true);
+            $this->app->setHeader('Content-Type', 'application/json');
+            $this->app->sendHeaders();
+            $body = [
+                'status'  => 'Conflict',
+                'code'    => 409,
+                'message' => Text::_('JLIB_APPLICATION_ERROR_DELETE'),
+            ];
+            echo new JsonResponse($body);
+            $this->app->close();
         }
 
         // If the model has set a 404 status code in the session, we return a 404 http status codee
