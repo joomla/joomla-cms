@@ -7,9 +7,10 @@
 // category is selected, for a parent that does not listen for postMessage().
 // @todo: Remove in 7.0 together with the "function" request variable.
 document.addEventListener('click', (event) => {
-  const link = event.target.closest('.select-link[data-function]');
+  const link = event.target.closest('.select-link');
+  const { function: functionName } = Joomla.getOptions('categories-modal', {});
 
-  if (!link || window.parent.JoomlaExpectingPostMessage || typeof window.parent[link.dataset.function] !== 'function') {
+  if (!link || window.parent.JoomlaExpectingPostMessage || typeof window.parent[functionName] !== 'function') {
     return;
   }
 
@@ -17,5 +18,5 @@ document.addEventListener('click', (event) => {
 
   const { id, title, uri, language } = link.dataset;
 
-  window.parent[link.dataset.function](id, title, null, uri, language, null);
+  window.parent[functionName](id, title, null, uri, language, null);
 });

@@ -33,6 +33,9 @@ $function  = $app->getInput()->getCmd('function', 'jSelectNewsfeed');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $multilang = Multilanguage::isEnabled();
+
+// The legacy callback, for a parent that does not listen for postMessage(): see admin-newsfeeds-modal.js
+$this->getDocument()->addScriptOptions('newsfeeds-modal', ['function' => $function]);
 ?>
 <div class="container-popup">
 
@@ -105,7 +108,6 @@ $multilang = Multilanguage::isEnabled();
                         </td>
                         <th scope="row">
                             <?php $attribs = 'data-content-select data-content-type="com_newsfeeds.newsfeed"'
-                                . ' data-function="' . $this->escape($function) . '"'
                                 . ' data-id="' . $item->id . '"'
                                 . ' data-title="' . $this->escape($item->name) . '"'
                                 . ' data-cat-id="' . $this->escape($item->catid) . '"'

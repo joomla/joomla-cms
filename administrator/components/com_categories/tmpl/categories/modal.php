@@ -38,6 +38,9 @@ $extension = $this->escape($this->state->get('filter.extension'));
 $function  = $app->getInput()->getCmd('function', 'jSelectCategory');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+
+// The legacy callback, for a parent that does not listen for postMessage(): see admin-categories-modal.js
+$this->getDocument()->addScriptOptions('categories-modal', ['function' => $function]);
 ?>
 <div class="container-popup">
 
@@ -108,7 +111,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                             </td>
                             <th scope="row">
                                 <?php $attribs = 'data-content-select data-content-type="' . $extension . '.category"'
-                                    . ' data-function="' . $this->escape($function) . '"'
                                     . ' data-id="' . $item->id . '"'
                                     . ' data-title="' . $this->escape($item->title) . '"'
                                     . ' data-uri="' . $this->escape($link) . '"'
