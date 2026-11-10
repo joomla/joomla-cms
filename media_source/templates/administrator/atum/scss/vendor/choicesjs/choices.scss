@@ -143,6 +143,11 @@
   &:focus {
     outline: none;
   }
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: -2px;
+  }
 }
 
 .choices[data-type*="select-one"],
@@ -231,6 +236,11 @@
   .choices__input {
     padding: .35rem 0;
   }
+}
+
+// The search input is placed before the selected items, show it on its own line above them
+.choices[data-type*="select-multiple"] .choices__inner > .choices__input--cloned {
+  display: block;
 }
 
 .choices__heading {
