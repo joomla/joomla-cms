@@ -7,18 +7,16 @@
 // news feed is selected, for a parent that does not listen for postMessage().
 // @todo: Remove in 7.0 together with the "function" request variable.
 document.addEventListener('click', (event) => {
-  const link = event.target.closest('.select-link');
+  const button = event.target.closest('.select-link');
   const { function: functionName } = Joomla.getOptions('newsfeeds-modal', {});
 
-  if (!link || window.parent.JoomlaExpectingPostMessage || typeof window.parent[functionName] !== 'function') {
+  if (!button || window.parent.JoomlaExpectingPostMessage || typeof window.parent[functionName] !== 'function') {
     return;
   }
 
-  event.preventDefault();
-
   const {
     id, title, catId, uri, language,
-  } = link.dataset;
+  } = button.dataset;
 
   window.parent[functionName](id, title, catId, null, uri, language, null);
 });

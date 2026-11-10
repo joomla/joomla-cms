@@ -118,8 +118,8 @@ $this->getDocument()->addScriptOptions('categories-modal', ['function' => $funct
                                     . ' data-html="' . $this->escape($itemHtml) . '"';
                                 ?>
                                 <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
-                                <a class="select-link" href="javascript:void(0)" <?php echo $attribs; ?>>
-                                    <?php echo $this->escape($item->title); ?></a>
+                                <button type="button" class="btn btn-link p-0 text-start align-baseline text-decoration-underline select-link" <?php echo $attribs; ?>>
+                                    <?php echo $this->escape($item->title); ?></button>
                                 <div class="small" title="<?php echo $this->escape($item->path); ?>">
                                     <?php if (empty($item->note)) : ?>
                                         <?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>

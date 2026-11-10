@@ -115,8 +115,8 @@ $this->getDocument()->addScriptOptions('newsfeeds-modal', ['function' => $functi
                                 . ' data-language="' . $this->escape($lang) . '"'
                                 . ' data-html="' . $this->escape($itemHtml) . '"';
                             ?>
-                            <a class="select-link" href="javascript:void(0)" <?php echo $attribs; ?>>
-                            <?php echo $this->escape($item->name); ?></a>
+                            <button type="button" class="btn btn-link p-0 text-start align-baseline text-decoration-underline select-link" <?php echo $attribs; ?>>
+                            <?php echo $this->escape($item->name); ?></button>
                             <div class="small">
                                 <?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
                             </div>
