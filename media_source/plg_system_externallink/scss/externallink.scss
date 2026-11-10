@@ -5,17 +5,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
- .plg-system-externallink-nobreak {
+.plg-system-externallink-nobreak {
   white-space: nowrap;
 }
 
 .plg-system-externallink-icon {
   display: inline-block;
-  margin-inline-start: 0.2em;
-  vertical-align: -0.08em;
+  margin-inline-start: .2em;
+  vertical-align: -.08em;
 
   svg {
     display: inline-block;
-    vertical-align: 0.1em;
+    vertical-align: .1em;
   }
 }
