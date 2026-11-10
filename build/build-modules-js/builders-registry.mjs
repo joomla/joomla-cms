@@ -81,6 +81,7 @@ export const builders = [
   'plg_quickicon_overridecheck',
   'plg_quickicon_privacycheck',
   'plg_system_debug',
+  'plg_system_externallink',
   'plg_system_guidedtours',
   'plg_system_jooa11y',
   'plg_system_schedulerunner',

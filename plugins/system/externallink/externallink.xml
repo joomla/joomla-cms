@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade">
+	<name>PLG_SYSTEM_EXTERNALLINK</name>
+	<author>Joomla! Project</author>
+	<creationDate>2026-11</creationDate>
+	<copyright>(C) 2026 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+	<description>PLG_SYSTEM_EXTERNALLINK_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\Externallink</namespace>
+	<files>
+		<folder plugin="externallink">services</folder>
+		<folder>src</folder>
+	</files>
+	<media destination="plg_system_externallink" folder="media">
+		<folder>css</folder>
+		<folder>js</folder>
+	</media>
+	<languages folder="admin">
+		<language tag="en-GB">language/en-GB/plg_system_externallink.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_externallink.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="enable_frontend"
+					type="radio"
+					label="PLG_SYSTEM_EXTERNALLINK_FIELD_ENABLE_FRONTEND_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
