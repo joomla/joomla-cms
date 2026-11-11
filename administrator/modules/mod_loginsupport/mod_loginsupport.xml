@@ -36,7 +36,7 @@
 					type="url"
 					label="MOD_LOGINSUPPORT_FIELD_DOCUMENTATION_URL_LABEL"
 					filter="url"
-					default="https://docs.joomla.org/"
+					default="https://guide.joomla.org/"
 				/>
 
 				<field
