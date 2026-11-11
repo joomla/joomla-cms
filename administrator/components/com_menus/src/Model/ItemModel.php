@@ -1551,12 +1551,12 @@ class ItemModel extends AdminModel
             }
         }
 
-        $needsInheritanceRefresh = $isNew
-            || (int) $table->parent_id !== $originalParentId
-            || (string) $table->menutype !== $originalMenuType;
+        // A new item, or one moved to another parent or menu, can fall under other inheriting menu items.
+        $parentChanged   = (int) $table->parent_id !== $originalParentId;
+        $menuTypeChanged = (string) $table->menutype !== $originalMenuType;
 
         if ((int) $table->client_id === 0) {
-            $this->refreshInheritedModules((int) $table->id, $needsInheritanceRefresh);
+            $this->refreshInheritedModules((int) $table->id, $isNew || $parentChanged || $menuTypeChanged);
         }
 
         $this->setState('item.id', $table->id);
