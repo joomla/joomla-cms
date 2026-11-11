@@ -30,6 +30,8 @@ final class Externallink extends CMSPlugin implements SubscriberInterface
      * Returns the events this plugin subscribes to.
      *
      * @return  array<string, string>
+     *
+     * @since  __DEPLOY_VERSION__
      */
     public static function getSubscribedEvents(): array
     {
