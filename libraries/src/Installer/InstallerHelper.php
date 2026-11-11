@@ -171,9 +171,7 @@ abstract class InstallerHelper
         $diskFull = false;
 
         if (disk_free_space(\dirname($extractdir)) < $fileSize) {
-
             if (!$alwaysReturnArray) {
-
                 return false;
             }
 
