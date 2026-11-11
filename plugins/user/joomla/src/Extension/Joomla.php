@@ -18,8 +18,10 @@ use Joomla\CMS\Event\User\AfterSaveEvent;
 use Joomla\CMS\Event\User\LoginEvent;
 use Joomla\CMS\Event\User\LogoutEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
@@ -45,6 +47,8 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -132,7 +136,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
         try {
             $db->setQuery(
-                $db->getQuery(true)
+                $db->createQuery()
                     ->delete($db->quoteName('#__messages'))
                     ->where($db->quoteName('user_id_from') . ' = :userId')
                     ->bind(':userId', $userId, ParameterType::INTEGER)
@@ -143,7 +147,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
         // Delete Multi-factor Authentication user profile records
         $profileKey = 'mfa.%';
-        $query      = $db->getQuery(true)
+        $query      = $db->createQuery()
             ->delete($db->quoteName('#__user_profiles'))
             ->where($db->quoteName('user_id') . ' = :userId')
             ->where($db->quoteName('profile_key') . ' LIKE :profileKey')
@@ -157,7 +161,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         }
 
         // Delete Multi-factor Authentication records
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__user_mfa'))
             ->where($db->quoteName('user_id') . ' = :userId')
             ->bind(':userId', $userId, ParameterType::INTEGER);
@@ -240,7 +244,13 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             'email'    => $user['email'],
         ];
 
-        $mailer = new MailTemplate('plg_user_joomla.mail', $userLocale);
+        $mailer = new MailTemplate(
+            'plg_user_joomla.mail',
+            $userLocale,
+            $this->getMailerFactory()->createMailer(),
+            $this->getLanguageFactory(),
+            $this->getDatabase()
+        );
         $mailer->addTemplateData($data);
         $mailer->addUnsafeTags(['username', 'password', 'name', 'email']);
         $mailer->addRecipient($user['email'], $user['name']);
@@ -348,7 +358,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         $db = $this->getDatabase();
 
         // Purge the old session
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__session'))
             ->where($db->quoteName('session_id') . ' = :sessionid')
             ->bind(':sessionid', $oldSessionId);
@@ -393,7 +403,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         $options  = $event->getOptions();
 
         $my      = $this->getApplication()->getIdentity();
-        $session = Factory::getSession();
+        $session = $this->getApplication()->getSession();
 
         $userid = (int) $user['id'];
 

@@ -52,7 +52,8 @@ if (!empty($groupByFieldset)) {
         $table_head .= '<th scope="col">' . Text::_($fieldset->label);
 
         if ($fieldset->description) {
-            $table_head .= '<span class="icon-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-th-' . $fieldId . '-' . $k . '">' . Text::_($fieldset->description) . '</div>';
+            $tipId = 'tip-th-' . $fieldId . '-' . $k;
+            $table_head .= '<span class="icon-info-circle" aria-labelledby="' . $tipId . '" tabindex="0"></span><div role="tooltip" id="' . $tipId . '">' . Text::_($fieldset->description) . '</div>';
         }
 
         $table_head .= '</th>';
@@ -66,7 +67,8 @@ if (!empty($groupByFieldset)) {
         $table_head .= '<th scope="col" style="width:' . $th_width . '%">' . strip_tags($field->label);
 
         if ($field->description) {
-            $table_head .= '<span class="icon-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-' . $field->id . '">' . Text::_($field->description) . '</div>';
+            $tipId = 'tip-' . $field->id;
+            $table_head .= '<span class="icon-info-circle" aria-labelledby="' . $tipId . '" tabindex="0"></span><div role="tooltip" id="' . $tipId . '">' . Text::_($field->description) . '</div>';
         }
 
         $table_head .= '</th>';
@@ -82,12 +84,12 @@ if (!empty($groupByFieldset)) {
 ?>
 
 <div class="subform-repeatable-wrapper subform-table-layout subform-table-sublayout-<?php echo $sublayout; ?>">
-    <joomla-field-subform class="subform-repeatable<?php echo $class; ?>" name="<?php echo $name; ?>"
+    <joomla-field-subform class="subform-repeatable<?php echo $class; ?> subform-repeatable-table" name="<?php echo $name; ?>"
         button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
         repeatable-element=".subform-repeatable-group"
         rows-container="tbody.subform-repeatable-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
         <div class="table-responsive">
-            <table class="table" id="subfieldList_<?php echo $fieldId; ?>">
+            <table class="table table-bordered" id="subfieldList_<?php echo $fieldId; ?>">
                 <caption class="visually-hidden">
                     <?php echo Text::_('JGLOBAL_REPEATABLE_FIELDS_TABLE_CAPTION'); ?>
                 </caption>

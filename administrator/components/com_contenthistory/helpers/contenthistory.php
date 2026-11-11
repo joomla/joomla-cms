@@ -19,7 +19,7 @@
  *
  * @since       3.2
  *
- * @deprecated  4.3 will be removed in 6.0
+ * @deprecated  4.3 will be removed in 7.0
  *              Use \Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper instead
  */
 class ContenthistoryHelper extends \Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper

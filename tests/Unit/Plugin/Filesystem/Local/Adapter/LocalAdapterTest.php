@@ -20,6 +20,7 @@ use Joomla\Filesystem\File;
 use Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter;
 use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for the Local filesystem adapter.
@@ -27,17 +28,16 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  Local
  *
- * @testdox     The Local adapter
- *
- * @since       5.4.9
+ * @since       6.2.0
  */
+#[TestDox('The Local adapter')]
 class LocalAdapterTest extends UnitTestCase
 {
     /**
      * Absolute path of the throw-away media root used by a single test.
      *
      * @var    string
-     * @since  5.4.9
+     * @since  6.2.0
      */
     private $workDir;
 
@@ -48,7 +48,7 @@ class LocalAdapterTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   5.4.9
+     * @since   6.2.0
      */
     protected function setUp(): void
     {
@@ -73,7 +73,7 @@ class LocalAdapterTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   5.4.9
+     * @since   6.2.0
      */
     protected function tearDown(): void
     {
@@ -101,7 +101,7 @@ class LocalAdapterTest extends UnitTestCase
      *
      * @return  string
      *
-     * @since   5.4.9
+     * @since   6.2.0
      */
     private function jpegBytes(array $rgb): string
     {
@@ -186,8 +186,9 @@ class LocalAdapterTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   5.4.9
+     * @since   6.2.0
      */
+    #[TestDox('saves an edited file back to its original non-ASCII name')]
     public function testUpdateFileSavesBackToNonAsciiName()
     {
         $name = 'erik_schön.jpg';
@@ -206,8 +207,6 @@ class LocalAdapterTest extends UnitTestCase
     }
 
     /**
-     * @testdox  never touches a pre-existing file that already has the safe name
-     *
      * Answers @brianteeman's review question: the "safe" name derived in
      * checkContent() is only handed to canUpload() as a validation string. It
      * is never used to name a file on disk (the probe file uses uniqid(), the
@@ -216,8 +215,9 @@ class LocalAdapterTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   5.4.9
+     * @since   6.2.0
      */
+    #[TestDox('never touches a pre-existing file that already has the safe name')]
     public function testUpdateFileDoesNotTouchExistingSafeNamedNeighbour()
     {
         $name     = 'erik_schön.jpg';

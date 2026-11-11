@@ -74,7 +74,7 @@ class RelatedItemsHelper implements DatabaseAwareInterface
 
         $now      = Factory::getDate()->toSql();
         $related  = [];
-        $query    = $db->getQuery(true);
+        $query    = $db->createQuery();
 
         if ($id) {
             // Select the meta keywords from the item
@@ -186,7 +186,7 @@ class RelatedItemsHelper implements DatabaseAwareInterface
      *
      * @since   1.6
      *
-     * @deprecated  4.4.0  will be removed in 6.0
+     * @deprecated  4.4.0  will be removed in 7.0
      *              Use the non-static method getRelatedArticles
      *              Example: Factory::getApplication()->bootModule('mod_related_items', 'site')
      *                           ->getHelper('RelatedItemsHelper')

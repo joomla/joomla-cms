@@ -104,7 +104,7 @@ $this->useCoreUI = true;
 
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
     </div>
-    <input type="hidden" name="task" value="">
     <?php echo $this->form->getInput('tour_id'); ?>
-    <?php echo HTMLHelper::_('form.token'); ?>
+
+    <?php echo $this->form->renderControlFields(); ?>
 </form>

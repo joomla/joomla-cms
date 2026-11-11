@@ -46,7 +46,7 @@ class LevelsController extends ApiController
      *
      * @return  array
      *
-     * @since   5.4.7
+     * @since   6.2.0
      */
     protected function preprocessSaveData(array $data): array
     {
@@ -62,7 +62,7 @@ class LevelsController extends ApiController
      *
      * @return  boolean
      *
-     * @since   5.4.9
+     * @since   6.1.4
      */
     protected function allowDelete(): bool
     {
@@ -77,7 +77,7 @@ class LevelsController extends ApiController
      *
      * @return  boolean
      *
-     * @since   5.4.9
+     * @since   6.1.4
      */
     protected function allowAdd($data = [])
     {
@@ -93,7 +93,7 @@ class LevelsController extends ApiController
      *
      * @return  boolean
      *
-     * @since   5.4.9
+     * @since   6.1.4
      */
     protected function allowEdit($data = [], $key = 'id')
     {

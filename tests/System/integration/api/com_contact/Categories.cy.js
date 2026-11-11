@@ -8,6 +8,20 @@ describe('Test that contact categories API endpoint', () => {
       .then((response) => cy.api_responseContains(response, 'title', 'automated test contact category'));
   });
 
+  it('can deliver a list of published categories', () => {
+    cy.db_createCategory({ title: 'automated test contact category', extension: 'com_contact', published: 1 })
+      .then((id) => cy.db_createContact({ name: 'automated test contact', catid: id }))
+      .then(() => cy.api_get('/contacts/categories?filter[state]=1'))
+      .then((response) => cy.api_responseContains(response, 'title', 'automated test contact category'));
+  });
+
+  it('can deliver a list of unpublished categories', () => {
+    cy.db_createCategory({ title: 'automated test contact category', extension: 'com_contact', published: 0 })
+      .then((id) => cy.db_createContact({ name: 'automated test contact', catid: id }))
+      .then(() => cy.api_get('/contacts/categories?filter[state]=0'))
+      .then((response) => cy.api_responseContains(response, 'title', 'automated test contact category'));
+  });
+
   it('can deliver a single category', () => {
     cy.db_createCategory({ title: 'automated test contact category', extension: 'com_contact' })
       .then((id) => cy.api_get(`/contacts/categories/${id}`))

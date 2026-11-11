@@ -90,7 +90,7 @@ class DiscoverModel extends InstallerModel
     protected function getListQuery()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('state') . ' = -1');
@@ -150,7 +150,7 @@ class DiscoverModel extends InstallerModel
 
         // Get all templates, including discovered ones
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['extension_id', 'element', 'folder', 'client_id', 'type']))
             ->from($db->quoteName('#__extensions'));
         $db->setQuery($query);
@@ -253,7 +253,7 @@ class DiscoverModel extends InstallerModel
     public function purge()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__extensions'))
             ->where($db->quoteName('state') . ' = -1');
         $db->setQuery($query);
@@ -297,7 +297,7 @@ class DiscoverModel extends InstallerModel
     public function checkExtensions()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('state') . ' = -1');

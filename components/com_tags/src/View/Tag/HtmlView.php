@@ -10,6 +10,10 @@
 
 namespace Joomla\Component\Tags\Site\View\Tag;
 
+use Joomla\CMS\Event\Content\AfterDisplayEvent;
+use Joomla\CMS\Event\Content\AfterTitleEvent;
+use Joomla\CMS\Event\Content\BeforeDisplayEvent;
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\MenuItem;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -187,7 +191,8 @@ class HtmlView extends BaseHtmlView
             $itemElement->metadata = new Registry($itemElement->metadata);
         }
 
-        PluginHelper::importPlugin('content');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
         foreach ($this->items as $itemElement) {
             $itemElement->event = new \stdClass();
@@ -197,25 +202,29 @@ class HtmlView extends BaseHtmlView
 
             $itemElement->core_params = new Registry($itemElement->core_params);
 
-            $app->triggerEvent('onContentPrepare', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
+            $contentEventArguments = [
+                'context' => 'com_tags.tag',
+                'subject' => $itemElement,
+                'params'  => $itemElement->core_params,
+                'page'    => 0,
+            ];
 
-            $results = $app->triggerEvent(
-                'onContentAfterTitle',
-                ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]
+            $dispatcher->dispatch(
+                'onContentPrepare',
+                new ContentPrepareEvent('onContentPrepare', $contentEventArguments)
             );
-            $itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
 
-            $results = $app->triggerEvent(
-                'onContentBeforeDisplay',
-                ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]
-            );
-            $itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
+            $contentEvents = [
+                'afterDisplayTitle'    => new AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
+                'beforeDisplayContent' => new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
+                'afterDisplayContent'  => new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
+            ];
 
-            $results = $app->triggerEvent(
-                'onContentAfterDisplay',
-                ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]
-            );
-            $itemElement->event->afterDisplayContent = trim(implode("\n", $results));
+            foreach ($contentEvents as $resultKey => $event) {
+                $results = $dispatcher->dispatch($event->getName(), $event)->getArgument('result', []);
+
+                $itemElement->event->{$resultKey} = trim(implode("\n", $results));
+            }
 
             // Write the results back into the body
             if (!empty($itemElement->core_body)) {
