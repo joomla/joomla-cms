@@ -16,12 +16,18 @@ use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Document\RawDocument;
 use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\Attributes\UsesMethod;
 
 /**
  * Test class for Document.
  *
  * @since   4.0.0
  */
+#[CoversMethod(Document::class, 'loadRenderer')]
+#[UsesMethod(Document::class, 'setType')]
 class DocumentTest extends UnitTestCase
 {
     /**
@@ -31,7 +37,7 @@ class DocumentTest extends UnitTestCase
      *
      * @since   4.0.0
      */
-    public function constructData(): array
+    public static function constructData(): array
     {
         return [
             [
@@ -82,30 +88,28 @@ class DocumentTest extends UnitTestCase
      * @param   array  $options  Options array to inject
      * @param   array  $expects  Expected data values
      *
-     * @dataProvider constructData
-     *
      * @return void
      * @since   4.0.0
      */
+    #[DataProvider('constructData')]
     public function testInjectingOptionsIntoTheObjectConstructor($options, $expects)
     {
         $document = $this->createDocument($options);
 
-        $this->assertEquals($expects['lineend'], $document->_getLineEnd());
-        $this->assertEquals($expects['charset'], $document->getCharset());
-        $this->assertEquals($expects['language'], $document->getLanguage());
-        $this->assertEquals($expects['direction'], $document->getDirection());
-        $this->assertEquals($expects['tab'], $document->_getTab());
-        $this->assertEquals($expects['link'], $document->getLink());
-        $this->assertEquals($expects['base'], $document->getBase());
+        $this->assertSame($expects['lineend'], $document->_getLineEnd());
+        $this->assertSame($expects['charset'], $document->getCharset());
+        $this->assertSame($expects['language'], $document->getLanguage());
+        $this->assertSame($expects['direction'], $document->getDirection());
+        $this->assertSame($expects['tab'], $document->_getTab());
+        $this->assertSame($expects['link'], $document->getLink());
+        $this->assertSame($expects['base'], $document->getBase());
     }
 
     /**
-     * @testdox  Test retrieving an instance of JDocumentHtml
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test retrieving an instance of JDocumentHtml')]
     public function testRetrievingAnInstanceOfTheHtmlDocument()
     {
         $this->assertInstanceOf(
@@ -115,11 +119,10 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test retrieving non-existing JDocument type returns a JDocumentRaw instance
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test retrieving non-existing JDocument type returns a JDocumentRaw instance')]
     public function testRetrievingANonExistentTypeFetchesARawDocument()
     {
         $type = 'does-not-exist';
@@ -127,15 +130,14 @@ class DocumentTest extends UnitTestCase
         $document = Document::getInstance($type, $this->getDocumentDependencyMocks());
 
         $this->assertInstanceOf(RawDocument::class, $document);
-        $this->assertEquals($type, $document->getType());
+        $this->assertSame($type, $document->getType());
     }
 
     /**
-     * @testdox  Test that setType returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that setType returns an instance of $this')]
     public function testEnsureSetTypeReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -144,22 +146,20 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test the default return for getType is null
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test the default return for getType is null')]
     public function testTheDefaultReturnForGetTypeIsNull()
     {
         $this->assertNull($this->createDocument()->getType());
     }
 
     /**
-     * @testdox  Test that setBuffer returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that setBuffer returns an instance of $this')]
     public function testEnsureSetBufferReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -171,23 +171,20 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test the default return for getBuffer is null
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test the default return for getBuffer is null')]
     public function testTheDefaultReturnForGetBufferIsNull()
     {
         $this->assertNull($this->createDocument()->getBuffer());
     }
 
     /**
-     * @testdox  Test that setMetadata with the 'generator' param returns an instance of $this
-     *
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox("Test that setMetadata with the 'generator' param returns an instance of \$this")]
     public function testEnsureSetMetadataForGeneratorReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -196,22 +193,20 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test the default return for getMetaData with 'generator' param
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox("Test the default return for getMetaData with 'generator' param")]
     public function testTheDefaultReturnForGetMetaDataWithGenerator()
     {
         $this->assertSame('Joomla! - Open Source Content Management', $this->createDocument()->getMetaData('generator'));
     }
 
     /**
-     * @testdox  Test that setMetadata with the 'description' param returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox("Test that setMetadata with the 'description' param returns an instance of \$this")]
     public function testEnsureSetMetadataForDescriptionReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -220,22 +215,20 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test the default return for getMetaData with 'description' param
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox("Test the default return for getMetaData with 'description' param")]
     public function testTheDefaultReturnForGetMetaDataWithDescription()
     {
         $this->assertEmpty($this->createDocument()->getMetaData('description'));
     }
 
     /**
-     * @testdox  Test that setMetadata with a custom param returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that setMetadata with a custom param returns an instance of $this')]
     public function testEnsureSetMetadataForCustomParamsReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -244,11 +237,10 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test the return for getMetaData with a custom param and HTTP-Equiv flag true with data not set to HTTP-Equiv
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test the return for getMetaData with a custom param and HTTP-Equiv flag true with data not set to HTTP-Equiv')]
     public function testTheReturnForGetMetaDataWithCustomParamAndHttpEquivTrueAndDataNotSet()
     {
         $document = $this->createDocument();
@@ -259,11 +251,10 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test the return for getMetaData with a custom param and HTTP-Equiv flag true with data set to HTTP-Equiv
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test the return for getMetaData with a custom param and HTTP-Equiv flag true with data set to HTTP-Equiv')]
     public function testTheReturnForGetMetaDataWithCustomParamAndHttpEquivTrueAndDataSet()
     {
         $document = $this->createDocument();
@@ -274,11 +265,10 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test the return for getMetaData with a custom param and HTTP-Equiv flag false with data set to HTTP-Equiv
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test the return for getMetaData with a custom param and HTTP-Equiv flag false with data set to HTTP-Equiv')]
     public function testTheReturnForGetMetaDataWithCustomParamAndHttpEquivFalseAndDataNotSet()
     {
         $document = $this->createDocument();
@@ -289,11 +279,10 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test the return for getMetaData with a custom param and HTTP-Equiv flag false with data not set to HTTP-Equiv
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test the return for getMetaData with a custom param and HTTP-Equiv flag false with data not set to HTTP-Equiv')]
     public function testTheReturnForGetMetaDataWithCustomParamAndHttpEquivFalseAndDataSet()
     {
         $document = $this->createDocument();
@@ -304,11 +293,10 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test that addScript returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that addScript returns an instance of $this')]
     public function testEnsureAddScriptReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -317,11 +305,10 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test that addScriptDeclaration returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that addScriptDeclaration returns an instance of $this')]
     public function testEnsureAddScriptDeclarationReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -330,11 +317,10 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test that calling addScriptDeclaration twice returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that calling addScriptDeclaration twice returns an instance of $this')]
     public function testEnsureTwoAddScriptDeclarationCallsReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -344,11 +330,10 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test that addStyleSheet returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that addStyleSheet returns an instance of $this')]
     public function testEnsureAddStylesheetReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -357,11 +342,10 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test that addStyleDeclaration returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that addStyleDeclaration returns an instance of $this')]
     public function testEnsureAddStyleDeclarationReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -370,11 +354,10 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test that calling addStyleDeclaration twice returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that calling addStyleDeclaration twice returns an instance of $this')]
     public function testEnsureTwoAddStyleDeclarationCallsReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -384,11 +367,10 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test that setCharset returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that setCharset returns an instance of $this')]
     public function testEnsureSetCharsetReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -397,22 +379,20 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test the default return for getCharset
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test the default return for getCharset')]
     public function testTheDefaultReturnForGetCharset()
     {
         $this->assertSame('utf-8', $this->createDocument()->getCharset());
     }
 
     /**
-     * @testdox  Test that setLanguage returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that setLanguage returns an instance of $this')]
     public function testEnsureSetLanguageReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -421,22 +401,20 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test the default return for getLanguage
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test the default return for getLanguage')]
     public function testTheDefaultReturnForGetLanguage()
     {
         $this->assertSame('en-gb', $this->createDocument()->getLanguage());
     }
 
     /**
-     * @testdox  Test that setDirection returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that setDirection returns an instance of $this')]
     public function testEnsureSetDirectionReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -445,22 +423,20 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test the default return for getDirection
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test the default return for getDirection')]
     public function testTheDefaultReturnForGetDirection()
     {
         $this->assertSame('ltr', $this->createDocument()->getDirection());
     }
 
     /**
-     * @testdox  Test that setTitle returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that setTitle returns an instance of $this')]
     public function testEnsureSetTitleReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -469,22 +445,20 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test the default return for getTitle
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test the default return for getTitle')]
     public function testTheDefaultReturnForGetTitle()
     {
         $this->assertEmpty($this->createDocument()->getTitle());
     }
 
     /**
-     * @testdox  Test that setBase returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that setBase returns an instance of $this')]
     public function testEnsureSetBaseReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -493,22 +467,20 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test the default return for getBase
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test the default return for getBase')]
     public function testTheDefaultReturnForGetBase()
     {
         $this->assertEmpty($this->createDocument()->getBase());
     }
 
     /**
-     * @testdox  Test that setDescription returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that setDescription returns an instance of $this')]
     public function testEnsureSetDescriptionReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -517,22 +489,20 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test the default return for getDescription
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test the default return for getDescription')]
     public function testTheDefaultReturnForGetDescription()
     {
         $this->assertEmpty($this->createDocument()->getDescription());
     }
 
     /**
-     * @testdox  Test that setLink returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that setLink returns an instance of $this')]
     public function testEnsureSetLinkReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -541,22 +511,20 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test the default return for getLink
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test the default return for getLink')]
     public function testTheDefaultReturnForGetLink()
     {
         $this->assertEmpty($this->createDocument()->getLink());
     }
 
     /**
-     * @testdox  Test that setGenerator returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that setGenerator returns an instance of $this')]
     public function testEnsureSetGeneratorReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -565,22 +533,20 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test the default return for getGenerator
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test the default return for getGenerator')]
     public function testTheDefaultReturnForGetGenerator()
     {
         $this->assertSame('Joomla! - Open Source Content Management', $this->createDocument()->getGenerator());
     }
 
     /**
-     * @testdox  Test that setModifiedDate returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that setModifiedDate returns an instance of $this')]
     public function testEnsureSetModifiedDateReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -589,22 +555,20 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test the default return for getModifiedDate
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test the default return for getModifiedDate')]
     public function testTheDefaultReturnForGetModifiedDate()
     {
         $this->assertEmpty($this->createDocument()->getModifiedDate());
     }
 
     /**
-     * @testdox  Test that setMimeEncoding returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that setMimeEncoding returns an instance of $this')]
     public function testEnsureSetMimeEncodingReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -613,22 +577,20 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test the default return for getMimeEncoding
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test the default return for getMimeEncoding')]
     public function testTheDefaultReturnForGetMimeEncoding()
     {
         $this->assertEmpty($this->createDocument()->getMimeEncoding());
     }
 
     /**
-     * @testdox  Test that setLineEnd with param 'win' returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox("Test that setLineEnd with param 'win' returns an instance of \$this")]
     public function testEnsureSetLineEndWinReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -637,11 +599,10 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test that setLineEnd with param 'unix' returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox("Test that setLineEnd with param 'unix' returns an instance of \$this")]
     public function testEnsureSetLineEndUnixReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -650,11 +611,10 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test that setLineEnd with param 'mac' returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox("Test that setLineEnd with param 'mac' returns an instance of \$this")]
     public function testEnsureSetLineEndMacReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -663,11 +623,10 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test that setLineEnd with a custom param returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that setLineEnd with a custom param returns an instance of $this')]
     public function testEnsureSetLineEndCustomReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -676,22 +635,20 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test the default return for _getLineEnd
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test the default return for _getLineEnd')]
     public function testTheDefaultReturnForGetLineEnd()
     {
         $this->assertSame("\12", $this->createDocument()->_getLineEnd());
     }
 
     /**
-     * @testdox  Test that setTab with a custom param returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that setTab with a custom param returns an instance of $this')]
     public function testEnsureSetTabReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -700,28 +657,24 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test the default return for _getTab
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test the default return for _getTab')]
     public function testTheDefaultReturnForGetTab()
     {
         $this->assertSame("\11", $this->createDocument()->_getTab());
     }
 
     /**
-     * @testdox  Test that loadRenderer returns the intended object
-     *
-     * @covers   JDocument::loadRenderer
-     * @uses     JDocument::setType
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that loadRenderer returns the intended object')]
     public function testEnsureLoadRendererReturnsCorrectObjectFromFactory()
     {
-        $documentDependencyMocks = $this->getDocumentDependencyMocks();
+        $documentDependencyMocks            = $this->getDocumentDependencyMocks();
+        $documentDependencyMocks['factory'] = $this->createMock(FactoryInterface::class);
         $documentDependencyMocks['factory']
             ->expects($this->once())
             ->method('createRenderer');
@@ -732,11 +685,10 @@ class DocumentTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test that parse returns an instance of $this
-     *
      * @return void
      * @since   4.0.0
      */
+    #[TestDox('Test that parse returns an instance of $this')]
     public function testEnsureParseReturnsThisObject()
     {
         $document = $this->createDocument();
@@ -772,8 +724,8 @@ class DocumentTest extends UnitTestCase
     protected function getDocumentDependencyMocks(): array
     {
         return [
-            'factory'         => $this->createMock(FactoryInterface::class),
-            'webAssetManager' => $this->createMock(WebAssetManager::class),
+            'factory'         => $this->createStub(FactoryInterface::class),
+            'webAssetManager' => $this->createStub(WebAssetManager::class),
         ];
     }
 }

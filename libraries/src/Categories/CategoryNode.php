@@ -498,7 +498,7 @@ class CategoryNode implements NodeInterface
      *
      * @return  bool  True if a visible child should be displayed.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     public function hasVisibleChildren(array $groups, bool $showEmptyCategories): bool
     {

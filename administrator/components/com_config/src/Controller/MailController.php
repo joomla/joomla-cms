@@ -26,7 +26,7 @@ use Joomla\OAuth2\Client;
 /**
  * Mail Controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  6.2.0
  */
 class MailController extends BaseController
 {
@@ -35,7 +35,7 @@ class MailController extends BaseController
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     public function oauth2auth(): void
     {
@@ -84,7 +84,7 @@ class MailController extends BaseController
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     public function oauth2callback(): void
     {
@@ -235,7 +235,7 @@ class MailController extends BaseController
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     public function oauth2checktoken(): void
     {
@@ -314,7 +314,7 @@ class MailController extends BaseController
      *
      * @return  Client
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     private function createOAuth2Client(array  $providerConfig, string $state = ''): Client
     {
@@ -349,7 +349,7 @@ class MailController extends BaseController
      *
      * @return  array<string, string>
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     private function resolveProviderConfig(): array
     {
@@ -370,7 +370,7 @@ class MailController extends BaseController
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     public function sendtestmail()
     {

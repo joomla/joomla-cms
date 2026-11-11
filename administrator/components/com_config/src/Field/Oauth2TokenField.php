@@ -20,7 +20,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Renders OAuth2 token actions for Global Configuration mail settings.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  6.2.0
  */
 class Oauth2TokenField extends FormField
 {
@@ -28,7 +28,7 @@ class Oauth2TokenField extends FormField
      * The form field type.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.2.0
      */
     protected $type = 'Oauth2Token';
 
@@ -36,7 +36,7 @@ class Oauth2TokenField extends FormField
      * The layout to render.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.2.0
      */
     protected $layout = 'joomla.form.field.oauth2token';
 
@@ -45,7 +45,7 @@ class Oauth2TokenField extends FormField
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     protected function getInput()
     {

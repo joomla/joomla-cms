@@ -475,6 +475,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
         );
         $mailer->addTemplateData($data);
         $mailer->addRecipient($user->email, $user->name);
+        $mailer->addUnsafeTags(['username', 'name']);
 
         // Try to send the password reset request email.
         try {

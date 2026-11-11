@@ -321,8 +321,10 @@ abstract class HTMLHelper
     public static function link($url, $text, $attribs = null)
     {
         if (\is_array($attribs)) {
-            $attribs = ArrayHelper::toString($attribs);
+            $attribs = ArrayHelper::toString(self::escapeAttributesArray($attribs));
         }
+
+        $url = htmlspecialchars((string) $url, ENT_QUOTES, 'UTF-8', false);
 
         return '<a href="' . $url . '" ' . $attribs . '>' . $text . '</a>';
     }
@@ -342,8 +344,11 @@ abstract class HTMLHelper
     public static function iframe($url, $name, $attribs = null, $noFrames = '')
     {
         if (\is_array($attribs)) {
-            $attribs = ArrayHelper::toString($attribs);
+            $attribs = ArrayHelper::toString(self::escapeAttributesArray($attribs));
         }
+
+        $url  = htmlspecialchars((string) $url, ENT_QUOTES, 'UTF-8', false);
+        $name = htmlspecialchars((string) $name, ENT_QUOTES, 'UTF-8', false);
 
         return '<iframe src="' . $url . '" ' . $attribs . ' name="' . $name . '">' . $noFrames . '</iframe>';
     }
@@ -728,11 +733,19 @@ abstract class HTMLHelper
 
         // Get the relative file name when requested
         if ($returnPath !== -1) {
+            // Decode spaces for filesystem lookup
+            $lookupPath = str_replace('%20', ' ', $path);
+
             // Search for relative file names
-            $includes = static::includeRelativeFiles('images', $path, $relative, false, false);
+            $includes = static::includeRelativeFiles('images', $lookupPath, $relative, false, false);
 
             // Grab the first found path and if none exists default to null
             $path = \count($includes) ? $includes[0] : null;
+
+            // Encode spaces for the URL
+            if ($path !== null) {
+                $path = str_replace(' ', '%20', $path);
+            }
         }
 
         // Compile the file name
@@ -1270,6 +1283,36 @@ abstract class HTMLHelper
 
         // On windows devices we need to replace "\" with "/" otherwise some browsers will not load the asset
         return str_replace(DIRECTORY_SEPARATOR, '/', $relativeFilePath);
+    }
+
+    /**
+     * Method that escapes attribute names and values of an array of HTML attributes
+     * This method does not remove potentially dangerous attribute names or values, it's escaping only!
+     *
+     * @param   array  $attributes  The associative array of attributes, potentially nested
+     *
+     * @return  array  The escaped array, potentially nested
+     *
+     * @since   6.1.4
+     */
+    protected static function escapeAttributesArray(array $attributes): array
+    {
+        foreach ($attributes as $attributeName => $attributeValue) {
+            // Skip invalid attribute names
+            if (!preg_match('/^[a-zA-Z][a-zA-Z0-9_:.-]*$/', (string) $attributeName)) {
+                unset($attributes[$attributeName]);
+                continue;
+            }
+
+            if (\is_array($attributeValue)) {
+                $attributes[$attributeName] = self::escapeAttributesArray($attributeValue);
+                continue;
+            }
+
+            $attributes[$attributeName] = htmlspecialchars((string) $attributeValue, ENT_QUOTES, 'UTF-8', false);
+        }
+
+        return $attributes;
     }
 
     /**
