@@ -64,6 +64,3 @@ if (\array_key_exists('REQUEST_METHOD', $_SERVER)) {
 
 // Register the Crypto lib
 JLoader::register('Crypto', JPATH_LIBRARIES . '/php-encryption/Crypto.php');
-
-// Register the PasswordHash library.
-JLoader::register('PasswordHash', JPATH_LIBRARIES . '/phpass/PasswordHash.php');

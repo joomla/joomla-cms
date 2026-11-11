@@ -80,7 +80,6 @@ $directoryLoopExcludeDirectories = [
     '/build/tmp/',
     '/libraries/vendor/',
     '/libraries/php-encryption/',
-    '/libraries/phpass/',
 ];
 
 $directoryLoopExcludeFiles = [];
