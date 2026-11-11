@@ -128,9 +128,13 @@ if ($inheritEnabled) {
                                         <?php endif; ?>
                                     </label>
                                     <?php if ($inheritEnabled) : ?>
-                                        <?php if ($isParent && $link->level != 0 && !$uselessMenuItem) : ?>
+                                        <?php
+                                        // Only a menu item with children can pass a module on, so a stored value is only kept where the dropdown is shown.
+                                        $hasInheritControl = $isParent && $link->level != 0 && !$uselessMenuItem;
+                                        $inheritValue      = $hasInheritControl ? (int) ($this->item->inherit[$link->value] ?? 0) : 0;
+                                        ?>
+                                        <?php if ($hasInheritControl) : ?>
                                             <?php
-                                            $inheritValue = (int) ($this->item->inherit[$link->value] ?? 0);
                                             $inheritId    = 'jform_inherit' . (int) $link->value;
                                             $inheritTitle = strip_tags($link->text);
                                             ?>
@@ -150,7 +154,7 @@ if ($inheritEnabled) {
                                             </span>
                                         <?php endif; ?>
                                         <span class="module-inherit-lock-badge badge bg-info d-none"></span>
-                                        <input type="hidden" name="jform[inherit][<?php echo (int) $link->value; ?>]" value="<?php echo (int) ($this->item->inherit[$link->value] ?? 0); ?>">
+                                        <input type="hidden" name="jform[inherit][<?php echo (int) $link->value; ?>]" value="<?php echo $inheritValue; ?>">
                                     <?php endif; ?>
                                 </div>
                             <?php

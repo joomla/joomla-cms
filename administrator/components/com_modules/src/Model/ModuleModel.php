@@ -1036,17 +1036,12 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
             // Variable is numeric, but could be a string.
             $assignment = (int) $assignment;
 
+            $data['inherit'] = $this->cleanInheritData((array) ($data['inherit'] ?? []));
+
             // Detect whether the user has set inheritance on any menu item.
             // The UI locks the source checkbox when inheritance is on, so the
             // checkbox does not submit and $data['assigned'] may not contain it.
-            $hasInheritSources = false;
-
-            foreach ((array) ($data['inherit'] ?? []) as $inheritValue) {
-                if ((int) $inheritValue > 0) {
-                    $hasInheritSources = true;
-                    break;
-                }
-            }
+            $hasInheritSources = (bool) array_filter($data['inherit']);
 
             // Logic check: if no module excluded then convert to display on all.
             if ($assignment == -1 && empty($data['assigned']) && !$hasInheritSources) {
@@ -1199,6 +1194,55 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
     protected function cleanCache($group = null)
     {
         parent::cleanCache('com_modules');
+    }
+
+    /**
+     * Clean the posted inheritance values.
+     *
+     * Only the values 0, 1 and 2 are valid. A value above 0 is only kept for menu items
+     * which have children, as the assignment tab only shows the dropdown for those, so a
+     * stale value can't force an assignment back in once the children are gone.
+     *
+     * @param   array  $inherit  The posted inherit values, keyed by menu item ID.
+     *
+     * @return  array  The cleaned values, keyed by menu item ID.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function cleanInheritData(array $inherit): array
+    {
+        $cleaned = [];
+
+        foreach ($inherit as $menuId => $value) {
+            $menuId = (int) $menuId;
+            $value  = (int) $value;
+
+            if ($menuId > 0 && \in_array($value, [0, 1, 2], true)) {
+                $cleaned[$menuId] = $value;
+            }
+        }
+
+        $sourceIds = array_keys(array_filter($cleaned));
+
+        if (!$sourceIds) {
+            return $cleaned;
+        }
+
+        // Keep the sources which have at least one child that isn't trashed.
+        $db    = $this->getDatabase();
+        $query = $db->createQuery()
+            ->select('DISTINCT ' . $db->quoteName('parent_id'))
+            ->from($db->quoteName('#__menu'))
+            ->whereIn($db->quoteName('parent_id'), $sourceIds)
+            ->where($db->quoteName('published') . ' != -2');
+        $db->setQuery($query);
+        $parentIds = ArrayHelper::toInteger((array) $db->loadColumn());
+
+        foreach (array_diff($sourceIds, $parentIds) as $menuId) {
+            $cleaned[$menuId] = 0;
+        }
+
+        return $cleaned;
     }
 
     /**
