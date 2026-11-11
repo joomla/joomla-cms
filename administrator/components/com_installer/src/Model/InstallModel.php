@@ -206,7 +206,12 @@ class InstallModel extends BaseDatabaseModel
                 InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
             }
 
-            $app->enqueueMessage(Text::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'), 'error');
+            if (isset($package['diskfull']) && $package['diskfull'] === true) {
+                $app->enqueueMessage(Text::_('JLIB_INSTALLER_ABORT_DISK_FULL'), 'error');
+
+            } else {
+                $app->enqueueMessage(Text::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'), 'error');
+            }
 
             return false;
         }

@@ -167,32 +167,46 @@ abstract class InstallerHelper
         $extractdir  = Path::clean(\dirname($packageFilename) . '/' . $tmpdir);
         $archivename = Path::clean($archivename);
 
-        // Do the unpacking of the archive
-        try {
-            $archive = new Archive(['tmp_path' => Factory::getApplication()->get('tmp_path')]);
-            $extract = $archive->extract($archivename, $extractdir);
-        } catch (\Exception) {
-            if ($alwaysReturnArray) {
-                return [
-                    'extractdir'  => null,
-                    'packagefile' => $archivename,
-                    'type'        => false,
-                ];
+        $fileSize = filesize($archivename);
+        $diskFull = false;
+
+        if (disk_free_space(\dirname($extractdir)) < $fileSize) {
+
+            if (!$alwaysReturnArray) {
+
+                return false;
             }
 
-            return false;
+            $diskFull = true;
         }
+        // Do the unpacking of the archive
+        if (!$diskFull) {
+            try {
+                $archive = new Archive(['tmp_path' => Factory::getApplication()->get('tmp_path')]);
+                $extract = $archive->extract($archivename, $extractdir);
+            } catch (\Exception) {
+                if ($alwaysReturnArray) {
+                    return [
+                        'extractdir'  => null,
+                        'packagefile' => $archivename,
+                        'type'        => false,
+                        'diskfull'    => $diskFull
+                    ];
+                }
 
-        if (!$extract) {
-            if ($alwaysReturnArray) {
-                return [
-                    'extractdir'  => null,
-                    'packagefile' => $archivename,
-                    'type'        => false,
-                ];
+                return false;
             }
+            if (!$extract) {
+                if ($alwaysReturnArray) {
+                    return [
+                        'extractdir'  => null,
+                        'packagefile' => $archivename,
+                        'type'        => false,
+                    ];
+                }
 
-            return false;
+                return false;
+            }
         }
 
         /*
