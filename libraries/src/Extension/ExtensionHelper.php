@@ -102,7 +102,6 @@ class ExtensionHelper
 
         // Core library extensions
         ['library', 'joomla', '', 0],
-        ['library', 'phpass', '', 0],
 
         // Core module extensions - administrator
         ['module', 'mod_custom', '', 1],

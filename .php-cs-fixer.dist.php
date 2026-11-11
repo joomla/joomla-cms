@@ -45,7 +45,6 @@ $finder = (new Finder())
         'build/psr12',
         'node_modules',
         'libraries/php-encryption',
-        'libraries/phpass',
     ])
     ->notPath([
         'configuration.php',
