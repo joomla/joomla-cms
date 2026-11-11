@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="plugin" group="system" method="upgrade">
-	<name>PLG_SYSTEM_EXTERNALLINK</name>
+	<name>plg_system_externallink</name>
 	<author>Joomla! Project</author>
 	<creationDate>2026-11</creationDate>
 	<copyright>(C) 2026 Open Source Matters, Inc.</copyright>
