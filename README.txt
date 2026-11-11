@@ -9,7 +9,8 @@ The Joomla! 6.3 branch is under heavy development and not all links in this docu
 	* Joomla! 6.3 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_6.3_version_history
 	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/6.3-dev
 	* Release Managers responsible for Joomla! 6.3
-		* tbd
+		* Roland Dalmulder
+		* Tom van der Laan
 
 2- What is Joomla?
 	* Joomla! is a Content Management System (CMS) which enables you to build websites and powerful online applications.
