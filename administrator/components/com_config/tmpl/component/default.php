@@ -75,7 +75,7 @@ $xml = $this->form->getXml();
                     <?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
 
                     <?php if (!$isGrandchild && $hasParent) : ?>
-                        <fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-menu options-form">
+                        <fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-menu options-form"<?php echo $dataShowOn; ?>>
                             <legend><?php echo Text::_($fieldSet->label); ?></legend>
                             <div class="form-grid">
                     <?php elseif (!$hasParent) : ?>
@@ -94,7 +94,7 @@ $xml = $this->form->getXml();
                         <?php $opentab = 1; ?>
 
                         <?php if (!$hasChildren) : ?>
-                        <fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-menu options-form">
+                        <fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-menu options-form"<?php echo $dataShowOn; ?>>
                             <legend><?php echo Text::_($fieldSet->label); ?></legend>
                             <div class="form-grid">
                             <?php $opentab = 2; ?>
