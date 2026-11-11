@@ -85,6 +85,7 @@ class HtmlView extends BaseHtmlView
      * The System - SEF plugin ID.
      *
      * @var integer
+     *
      * @since __DEPLOY_VERSION__
      */
     public $sefPluginId;
