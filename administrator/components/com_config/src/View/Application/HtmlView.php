@@ -106,9 +106,9 @@ class HtmlView extends BaseHtmlView
             $model = $this->getModel();
 
             // Load Form and Data
-            $this->form = $model->getForm();
-            $this->data = $model->getData();
-            $this->user = $this->getCurrentUser();
+            $this->form        = $model->getForm();
+            $this->data        = $model->getData();
+            $this->user        = $this->getCurrentUser();
             $this->sefPluginId = $model->getSefPluginId();
         } catch (\Exception $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
