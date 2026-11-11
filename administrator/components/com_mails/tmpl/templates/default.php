@@ -101,7 +101,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
                                 <td class="d-none d-md-table-cell">
                                     <?php echo Text::_($component . '_MAIL_' . $sub_id . '_DESC'); ?>
                                 </td>
-                                <td class="d-none d-md-table-cell text-break">
+                                <td class="d-none d-md-table-cell text-break" dir="ltr">
                                     <?php echo $item->template_id; ?>
                                 </td>
                             </tr>
