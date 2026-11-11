@@ -267,6 +267,36 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface,
     }
 
     /**
+     * Get the ID of the System - SEF plugin.
+     *
+     * @return integer The plugin extension ID.
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function getSefPluginId(): int
+    {
+        $db = $this->getDatabase();
+
+        $type    = 'plugin';
+        $folder  = 'system';
+        $element = 'sef';
+
+        $query = $db->createQuery()
+            ->select($db->quoteName('extension_id'))
+            ->from($db->quoteName('#__extensions'))
+            ->where($db->quoteName('type') . ' = :type')
+            ->where($db->quoteName('folder') . ' = :folder')
+            ->where($db->quoteName('element') . ' = :element')
+            ->bind(':type', $type, ParameterType::STRING)
+            ->bind(':folder', $folder, ParameterType::STRING)
+            ->bind(':element', $element, ParameterType::STRING);
+
+        $db->setQuery($query);
+
+        return (int) $db->loadResult();
+    }
+
+    /**
      * Method to save the configuration data.
      *
      * @param   array  $data  An array containing all global config data.
