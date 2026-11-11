@@ -188,7 +188,7 @@ abstract class InstallerHelper
                         'extractdir'  => null,
                         'packagefile' => $archivename,
                         'type'        => false,
-                        'diskfull'    => $diskFull
+                        'diskfull'    => $diskFull,
                     ];
                 }
 
