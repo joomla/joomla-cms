@@ -1015,8 +1015,30 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
         // Reload Table
         $table->load($id);
 
+        $db = $this->getDatabase();
+
+        // Keep the inheritance of assigned menu items when the request doesn't carry it,
+        // e.g. a save through the API or with inheritance switched off.
+        if (!$isNew && !\array_key_exists('inherit', $data) && !empty($data['assigned'])) {
+            $assigned = array_flip(ArrayHelper::toInteger((array) $data['assigned']));
+            $query    = $db->createQuery()
+                ->select($db->quoteName(['menuid', 'inherit']))
+                ->from($db->quoteName('#__modules_menu'))
+                ->where($db->quoteName('moduleid') . ' = :moduleid')
+                ->where($db->quoteName('inherit') . ' > 0')
+                ->bind(':moduleid', $id, ParameterType::INTEGER);
+            $db->setQuery($query);
+
+            foreach ($db->loadObjectList() as $row) {
+                $menuId = abs((int) $row->menuid);
+
+                if (isset($assigned[$menuId])) {
+                    $data['inherit'][$menuId] = (int) $row->inherit;
+                }
+            }
+        }
+
         // Delete old module to menu item associations
-        $db    = $this->getDatabase();
         $query = $db->createQuery()
             ->delete($db->quoteName('#__modules_menu'))
             ->where($db->quoteName('moduleid') . ' = :moduleid')
