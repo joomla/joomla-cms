@@ -12,7 +12,6 @@ namespace Joomla\Component\Menus\Administrator\Table;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Menu;
-use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -37,15 +36,15 @@ class MenuTable extends Menu
      */
     public function delete($pk = null, $children = false)
     {
+        $pk     = (int) ($pk ?? $this->{$this->getKeyName()});
         $return = parent::delete($pk, $children);
 
-        if ($return) {
-            // Delete key from the #__modules_menu table
+        if ($return && $pk > 0) {
+            // Delete the key from the #__modules_menu table, as assignment and as exclusion
             $db    = $this->getDatabase();
             $query = $db->createQuery()
                 ->delete($db->quoteName('#__modules_menu'))
-                ->where($db->quoteName('menuid') . ' = :pk')
-                ->bind(':pk', $pk, ParameterType::INTEGER);
+                ->whereIn($db->quoteName('menuid'), [$pk, -$pk]);
             $db->setQuery($query);
             $db->execute();
         }
