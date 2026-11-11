@@ -42,6 +42,12 @@ final class Externallink extends CMSPlugin implements SubscriberInterface
 
     /**
      * Load the assets on the administrator and, optionally, site client.
+     *
+     * @param   BeforeCompileHeadEvent  $event  The event object
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
      */
     public function onBeforeCompileHead(BeforeCompileHeadEvent $event): void
     {
