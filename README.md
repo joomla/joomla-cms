@@ -16,7 +16,8 @@ Joomla! CMS™
 * Joomla! 6.3 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_6.3_version_history).
 * Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/6.3-dev).
 * Release Managers responsible for Joomla! 6.3
-  * tbd
+  * Roland Dalmulder
+  * Tom van der Laan
 
 ## What is Joomla?
 
