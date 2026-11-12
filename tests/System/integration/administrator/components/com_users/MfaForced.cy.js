@@ -44,6 +44,7 @@ describe('Test in backend that forced MFA', () => {
               })
               .then(() => {
                 cy.visit('/administrator/index.php?option=com_config&view=component&component=com_users');
+                cy.get('#configTabs div[role="tablist"] button[aria-controls="multifactorauth"]').click();
                 cy.get('#jform_params_forceMFAUserGroups').should('be.disabled');
                 cy.contains('.alert-danger', 'There are no active Multi-factor Authentication methods').should('exist');
 
