@@ -113,6 +113,8 @@ describe('Test in backend that the user form', () => {
       cy.get('input[name="jform[groups][]"][value="2"]')
         .should('be.checked');
 
+      // Return to the administrator dashboard before logging out.
+      cy.visit('/administrator/index.php');
       cy.doAdministratorLogout();
     });
   });
