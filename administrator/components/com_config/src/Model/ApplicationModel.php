@@ -17,6 +17,7 @@ use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterSaveConfigurationEvent;
 use Joomla\CMS\Event\Application\BeforeSaveConfigurationEvent;
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageFactoryAwareInterface;
 use Joomla\CMS\Language\LanguageFactoryAwareTrait;
@@ -275,25 +276,10 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface,
      */
     public function getSefPluginId(): int
     {
-        $db = $this->getDatabase();
+        $sefPlugin = ExtensionHelper::getExtensionRecord('sef', 'plugin', 0, 'system');
+        $this->sefPluginId = $sefPlugin ? (int) $sefPlugin->extension_id : 0;
 
-        $type    = 'plugin';
-        $folder  = 'system';
-        $element = 'sef';
-
-        $query = $db->createQuery()
-            ->select($db->quoteName('extension_id'))
-            ->from($db->quoteName('#__extensions'))
-            ->where($db->quoteName('type') . ' = :type')
-            ->where($db->quoteName('folder') . ' = :folder')
-            ->where($db->quoteName('element') . ' = :element')
-            ->bind(':type', $type, ParameterType::STRING)
-            ->bind(':folder', $folder, ParameterType::STRING)
-            ->bind(':element', $element, ParameterType::STRING);
-
-        $db->setQuery($query);
-
-        return (int) $db->loadResult();
+        return $this->sefPluginId;
     }
 
     /**
