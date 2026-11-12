@@ -55,7 +55,7 @@ final class Image extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $button = $this->onDisplay($event->getEditorId(), $event->getAsset(), $event->getAuthor());
+        $button = $this->getButton($event->getEditorId(), $event->getAsset(), $event->getAuthor());
 
         if ($button) {
             $event->getButtonsRegistry()->add($button);
@@ -63,17 +63,17 @@ final class Image extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Display the button.
+     * Prepare the button
      *
-     * @param   string   $name    The name of the button to display.
-     * @param   string   $asset   The name of the asset being edited.
-     * @param   integer  $author  The id of the author owning the asset being edited.
+     * @param   string   $name    The name of the button to add
+     * @param   string   $asset   The name of the asset being edited
+     * @param   integer  $author  The id of the author owning the asset being edited
      *
-     * @return  Button|false
+     * @return  ?Button  The button options as Button object, null if ACL check fails
      *
-     * @since   1.5
+     * @since   __DEPLOY_VERSION__
      */
-    public function onDisplay($name, $asset, $author)
+    private function getButton(string $name, $asset, int $author): ?Button
     {
         $doc       = $this->getApplication()->getDocument();
         $user      = $this->getApplication()->getIdentity();
@@ -219,6 +219,6 @@ final class Image extends CMSPlugin implements SubscriberInterface
             );
         }
 
-        return false;
+        return null;
     }
 }

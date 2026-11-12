@@ -15,11 +15,10 @@ use Joomla\CMS\Router\Route;
 
 /**
  * @var \Joomla\Plugin\Content\PageBreak\Extension\PageBreak  $this
+ * @var \Joomla\CMS\Language\Language                         $lang   The language object
  * @var array                                                 $links  Array with keys 'previous' and 'next' with non-SEO links to the previous and next pages
  * @var integer                                               $page   The page number
  */
-
-$lang = $this->getApplication()->getLanguage();
 ?>
 <ul class="pagination">
     <li class="previous page-item">

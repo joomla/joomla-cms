@@ -1,22 +1,24 @@
 Joomla! CMS™
 ============
 
-## The Joomla! 6.3 branch is under heavy development and not all links in this document are available yet
+## The Joomla! 7.0 branch is under heavy development and not all links in this document are available yet
 
 ## Build Status
 
 | Actions                                                                                                                                         | PHP                                                                           | Node                                                                                 | npm                                                                              |
 |-------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
-| [![Build Status](https://github.com/joomla/joomla-cms/actions/workflows/ci.yml/badge.svg?branch=6.3-dev)](https://github.com/joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V8.3.0-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V20.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v10.1.0-green)](https://nodejs.org/en/) |
+
+| [![Build Status](https://github.com/joomla/joomla-cms/actions/workflows/ci.yml/badge.svg?branch=7.0-dev)](https://github.com/joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V8.6.0-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V20.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v10.1.0-green)](https://nodejs.org/en/) |
 
 ## Overview
 
-* This is the source of Joomla! 6.x.
+* This is the source of Joomla! 7.x.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 6.3 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_6.3_version_history).
-* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/6.3-dev).
-* Release Managers responsible for Joomla! 6.3
-  * tbd
+* Joomla! 7.0 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_7.0_version_history).
+* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/7.0-dev).
+* Release Managers responsible for Joomla! 7.0
+  * Harald Leithner @HLeithner
+  * Stefan Wendhausen @tecpromotion
 
 ## What is Joomla?
 
@@ -49,9 +51,9 @@ git clone https://github.com/joomla/joomla-cms.git
 ```bash
 cd joomla-cms
 ```
-- Go to the 6.3-dev branch:
+- Go to the 7.0-dev branch:
 ```bash
-git checkout 6.3-dev
+git checkout 7.0-dev
 ```
 - Install all the needed composer packages:
 ```bash
@@ -81,12 +83,12 @@ and it will be regenerated on the next call to Joomla.
 
 Using a simple classification keeps the project **stable**, **transparent**, and **easy** for everyone to contribute.
 
-| Type of change | What it means | Target branch                                                                                                                       |
-|---|---|-------------------------------------------------------------------------------------------------------------------------------------|
-| **Bug / Patch release** | The change fixes an actual error. The software crashes, produces the wrong result, or behaves contrary to its specification. It can be resolved without large‑scale refactoring or new functionality. | **[6.2-dev](https://github.com/joomla/joomla-cms/tree/6.2-dev)** **\*** |
-| **Feature / Minor release** | Anything that isn’t a strict bug – new behavior, refactoring, performance improvements, enhancements, UI tweaks, etc. These changes are bundled together for the next minor version. | **[6.3-dev](https://github.com/joomla/joomla-cms/tree/6.3-dev)**                                                                    |
+| Type of change | What it means | Target branch                                                                     |
+|---|---|-----------------------------------------------------------------------------------|
+| **Bug / Patch release** | The change fixes an actual error. The software crashes, produces the wrong result, or behaves contrary to its specification. It can be resolved without large‑scale refactoring or new functionality. | **[6.2-dev](https://github.com/joomla/joomla-cms/tree/6.2-dev)** |
+| **Feature / Minor release** | Anything that isn’t a strict bug – new behavior, refactoring, performance improvements, enhancements, UI tweaks, etc. These changes are bundled together for the next minor version. | **[6.3-dev](https://github.com/joomla/joomla-cms/tree/6.3-dev)**                  |
 
-**\*** All bugs that already exist in version 5.4.x or 6.1.x or 6.2.x should be fixed in `6.2-dev`.
+**\*** All bugs that already exist in version 6.2.x should be fixed in `6.2-dev`. Only bugs that are introduced for the first time in version 6.3.x should target the `6.3-dev` branch.
 
 A member of the maintainer or bug squad team confirms the classification and sets the appropriate labels when a PR is opened. If a PR is opened in the wrong branch, a maintainer will simply ask you to retarget it to the proper branch.
 

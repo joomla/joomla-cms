@@ -295,17 +295,6 @@ Joomla.Text = {
 };
 
 /**
- * For B/C we still support Joomla.JText
- *
- * @type {{}}
- *
- * @deprecated   4.0 will be removed in 7.0
- *               Example: Joomla.Text._('...');
- *                        Joomla.Text.load(...);
- */
-Joomla.JText = Joomla.Text;
-
-/**
  * Generic submit form
  *
  * @param  {String}  task      The given task

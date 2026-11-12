@@ -129,7 +129,7 @@ class LanguageModel extends AdminModel
             $table->access = (int) Factory::getApplication()->get('access');
         }
 
-        $properties = $table->getProperties(1);
+        $properties = ArrayHelper::fromObject($table, false);
         $value      = ArrayHelper::toObject($properties);
 
         return $value;

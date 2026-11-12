@@ -15,9 +15,11 @@ use Joomla\CMS\Router\Route;
 
 /**
  * @var \Joomla\Plugin\Content\PageNavigation\Extension\PageNavigation  $this
+ * @var \Joomla\CMS\Language\Language                                   $lang
+ * @var array                                                           $rows
+ * @var \stdClass                                                       $row
+ * @var integer                                                         $location
  */
-$this->loadLanguage();
-$lang = $this->getLanguage();
 ?>
 
 <nav class="pagenavigation" aria-label="<?php echo Text::_('PLG_PAGENAVIGATION_ARIA_LABEL'); ?>">

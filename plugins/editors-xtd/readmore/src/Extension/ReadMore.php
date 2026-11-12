@@ -54,22 +54,19 @@ final class ReadMore extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $button = $this->onDisplay($event->getEditorId());
-        $subject->add($button);
+        $subject->add($this->getButton($event->getEditorId()));
     }
 
     /**
-     * Readmore button
+     * Prepare the button
      *
      * @param   string  $name  The name of the button to add
      *
      * @return  Button  The button options as Button object
      *
-     * @since   1.5
-     *
-     * @deprecated  5.0 Use onEditorButtonsSetup event instead, will be removed in 7.0
+     * @since   __DEPLOY_VERSION__
      */
-    public function onDisplay($name)
+    private function getButton(string $name): Button
     {
         /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
         $wa = $this->getApplication()->getDocument()->getWebAssetManager();
@@ -100,6 +97,7 @@ final class ReadMore extends CMSPlugin implements SubscriberInterface
                 'name' => $this->_type . '_' . $this->_name,
             ]
         );
+
         return $button;
     }
 }

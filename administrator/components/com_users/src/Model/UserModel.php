@@ -353,7 +353,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
                     $dispatcher->dispatch(
                         $this->event_before_delete,
                         new BeforeDeleteEvent($this->event_before_delete, [
-                            'subject' => $table->getProperties(),
+                            'subject' => ArrayHelper::fromObject($table, false),
                         ])
                     );
 
@@ -423,7 +423,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
                 unset($pks[$i]);
                 Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'), 'error');
             } elseif ($table->load($pk)) {
-                $old   = $table->getProperties();
+                $old   = ArrayHelper::fromObject($table, false);
                 $allow = $user->authorise('core.edit.state', 'com_users');
 
                 // Don't allow non-super-admin to delete a super admin
@@ -457,7 +457,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
                             new BeforeSaveEvent($this->event_before_save, [
                                 'subject' => $old,
                                 'isNew'   => false,
-                                'data'    => $table->getProperties(),
+                                'data'    => ArrayHelper::fromObject($table, false),
                             ])
                         )->getArgument('result', []);
 
@@ -479,7 +479,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
 
                         // Trigger the after save event
                         $dispatcher->dispatch($this->event_after_save, new AfterSaveEvent($this->event_after_save, [
-                            'subject'      => $table->getProperties(),
+                            'subject'      => ArrayHelper::fromObject($table, false),
                             'isNew'        => false,
                             'savingResult' => true,
                             'errorMessage' => null,
@@ -586,7 +586,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
         // Activate and send the notification email
         foreach ($pks as $i => $pk) {
             if ($table->load($pk)) {
-                $prevUserData = $table->getProperties();
+                $prevUserData = ArrayHelper::fromObject($table, false);
                 $allow        = $user->authorise('core.edit.state', 'com_users');
 
                 // Don't allow non-super-admin to edit the active status of a super admin
@@ -618,7 +618,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
                             new BeforeSaveEvent($this->event_before_save, [
                                 'subject' => $prevUserData,
                                 'isNew'   => false,
-                                'data'    => $table->getProperties(),
+                                'data'    => ArrayHelper::fromObject($table, false),
                             ])
                         )->getArgument('result', []);
 
@@ -637,7 +637,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
 
                         // Fire the after save event
                         $dispatcher->dispatch($this->event_after_save, new AfterSaveEvent($this->event_after_save, [
-                            'subject'      => $table->getProperties(),
+                            'subject'      => ArrayHelper::fromObject($table, false),
                             'isNew'        => false,
                             'savingResult' => true,
                             'errorMessage' => null,
@@ -1025,191 +1025,5 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
         }
 
         return $result;
-    }
-
-    /**
-     * No longer used
-     *
-     * @param   integer  $userId  Ignored
-     *
-     * @return  \stdClass
-     *
-     * @since   3.2
-     *
-     * @deprecated   4.2 will be removed in 7.0.
-     *               Will be removed without replacement
-     */
-    public function getOtpConfig($userId = null)
-    {
-        @trigger_error(
-            \sprintf(
-                '%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Mfa::getUserMfaRecords() instead.',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        // Return the configuration object
-        return (object) [
-            'method' => 'none',
-            'config' => [],
-            'otep'   => [],
-        ];
-    }
-
-    /**
-     * No longer used
-     *
-     * @param   integer    $userId     Ignored
-     * @param   \stdClass  $otpConfig  Ignored
-     *
-     * @return  boolean  True on success
-     *
-     * @since   3.2
-     *
-     * @deprecated   4.2 will be removed in 7.0.
-     *               Will be removed without replacement
-     */
-    public function setOtpConfig($userId, $otpConfig)
-    {
-        @trigger_error(
-            \sprintf(
-                '%s() is deprecated. Multi-factor Authentication actions are handled by plugins in the multifactorauth folder.',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        return true;
-    }
-
-    /**
-     * No longer used
-     *
-     * @return  string
-     *
-     * @since   3.2
-     *
-     * @deprecated   4.2 will be removed in 7.0.
-     *               Use \Joomla\CMS\Factory::getApplication()->get('secret') instead'
-     */
-    public function getOtpConfigEncryptionKey()
-    {
-        @trigger_error(
-            \sprintf(
-                '%s() is deprecated. Use \Joomla\CMS\Factory::getApplication()->get(\'secret\') instead',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        return Factory::getApplication()->get('secret');
-    }
-
-    /**
-     * No longer used
-     *
-     * @param   integer  $userId  Ignored
-     *
-     * @return  array  Empty array
-     *
-     * @since   3.2
-     * @throws  \Exception
-     *
-     * @deprecated   4.2 will be removed in 7.0.
-     *               Will be removed without replacement
-     */
-    public function getTwofactorform($userId = null)
-    {
-        @trigger_error(
-            \sprintf(
-                '%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Mfa::getConfigurationInterface()',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        return [];
-    }
-
-    /**
-     * No longer used
-     *
-     * @param   integer  $userId  Ignored
-     * @param   integer  $count   Ignored
-     *
-     * @return  array  Empty array
-     *
-     * @since   3.2
-     *
-     * @deprecated   4.2 will be removed in 7.0
-     *               Will be removed without replacement
-     */
-    public function generateOteps($userId, $count = 10)
-    {
-        @trigger_error(
-            \sprintf(
-                '%s() is deprecated. See \Joomla\Component\Users\Administrator\Model\BackupcodesModel::saveBackupCodes()',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        return [];
-    }
-
-    /**
-     * No longer used. Always returns true.
-     *
-     * @param   integer  $userId     Ignored
-     * @param   string   $secretKey  Ignored
-     * @param   array    $options    Ignored
-     *
-     * @return  boolean  Always true
-     *
-     * @since   3.2
-     * @throws  \Exception
-     *
-     * @deprecated   4.2 will be removed in 7.0
-     *               Will be removed without replacement
-     */
-    public function isValidSecretKey($userId, $secretKey, $options = [])
-    {
-        @trigger_error(
-            \sprintf(
-                '%s() is deprecated. Multi-factor Authentication actions are handled by plugins in the multifactorauth folder.',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        return true;
-    }
-
-    /**
-     * No longer used
-     *
-     * @param   integer  $userId     Ignored
-     * @param   string   $otep       Ignored
-     * @param   object   $otpConfig  Ignored
-     *
-     * @return  boolean  Always true
-     *
-     * @since   3.2
-     *
-     * @deprecated   4.2 will be removed in 7.0
-     *               Will be removed without replacement
-     */
-    public function isValidOtep($userId, $otep, $otpConfig = null)
-    {
-        @trigger_error(
-            \sprintf(
-                '%s() is deprecated. Multi-factor Authentication actions are handled by plugins in the multifactorauth folder.',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        return true;
     }
 }

@@ -41,16 +41,6 @@ abstract class FieldsPlugin extends CMSPlugin
     protected $autoloadLanguage = true;
 
     /**
-     * Application object.
-     *
-     * @var    \Joomla\CMS\Application\CMSApplication
-     * @since  4.0.0
-     *
-     * @deprecated  5.4.0 will be removed in 7.0 use $this->getApplication() instead
-     */
-    protected $app;
-
-    /**
      * Returns an array of events this subscriber will listen to.
      *
      * @return  array
@@ -140,7 +130,7 @@ abstract class FieldsPlugin extends CMSPlugin
             return $types_cache[$this->_type . $this->_name];
         }
 
-        $app   = $this->getApplication() ?: $this->app;
+        $app   = $this->getApplication();
         $types = [];
 
         // The root of the plugin

@@ -210,7 +210,11 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
             ],
         ];
 
-        $this->object->set('_jsonEncode', ['params']);
+        $reflection          = new \ReflectionClass($this->object);
+        $reflection_property = $reflection->getProperty('_jsonEncode');
+        $reflection_property->setAccessible(true);
+
+        $reflection_property->setValue($this->object, ['params']);
 
         $this->object->bind($data);
 

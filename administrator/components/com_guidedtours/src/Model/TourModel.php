@@ -221,7 +221,7 @@ class TourModel extends AdminModel
         }
 
         // Convert to an object before adding other data.
-        $properties = $table->getProperties(1);
+        $properties = ArrayHelper::fromObject($table, false);
         $item       = ArrayHelper::toObject($properties);
 
         if (property_exists($item, 'params')) {

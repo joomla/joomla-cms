@@ -46,10 +46,10 @@ class VcfView extends AbstractView
     public function display($tpl = null)
     {
         /** @var ContactModel $model */
-        $model      = $this->getModel();
-        $app        = Factory::getApplication();
-        $user       = $app->getIdentity();
-        $item       = $model->getItem();
+        $model = $this->getModel();
+        $app   = Factory::getApplication();
+        $user  = $app->getIdentity();
+        $item  = $model->getItem();
 
         // Check for errors.
         if (\count($errors = $model->getErrors())) {

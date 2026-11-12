@@ -707,7 +707,7 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
             }
 
             // Convert to an object before adding other data.
-            $properties        = $table->getProperties(1);
+            $properties        = ArrayHelper::fromObject($table, false);
             $this->_cache[$pk] = ArrayHelper::toObject($properties);
 
             // Convert the params field to an array.

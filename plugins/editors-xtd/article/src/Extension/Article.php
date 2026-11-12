@@ -57,7 +57,7 @@ final class Article extends CMSPlugin implements SubscriberInterface
 
         $this->loadLanguage();
 
-        $button = $this->onDisplay($event->getEditorId());
+        $button = $this->getButton($event->getEditorId());
 
         if ($button) {
             $subject->add($button);
@@ -65,19 +65,17 @@ final class Article extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Display the button
+     * Prepare the button
      *
      * @param   string  $name  The name of the button to add
      *
-     * @return  Button|void  The button options as Button object, void if ACL check fails.
+     * @return  ?Button  The button options as Button object, null if ACL check fails
      *
-     * @since   1.5
-     *
-     * @deprecated  5.0 Use onEditorButtonsSetup event instead, will be removed in 7.0
+     * @since   __DEPLOY_VERSION__
      */
-    public function onDisplay($name)
+    private function getButton(string $name): ?Button
     {
-        $user  = $this->getApplication()->getIdentity();
+        $user = $this->getApplication()->getIdentity();
 
         // Can create in any category (component permission) or at least in one category
         $canCreateRecords = $user->authorise('core.create', 'com_content')
@@ -90,7 +88,7 @@ final class Article extends CMSPlugin implements SubscriberInterface
         // This ACL check is probably a double-check (form view already performed checks)
         $hasAccess = $canCreateRecords || $isEditingRecords;
         if (!$hasAccess) {
-            return;
+            return null;
         }
 
         $link = 'index.php?option=com_content&view=articles&layout=modal&tmpl=component&'
