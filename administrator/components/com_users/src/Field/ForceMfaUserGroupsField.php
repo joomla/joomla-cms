@@ -23,7 +23,7 @@ use Joomla\Registry\Registry;
 /**
  * User group selector for enforcing Multi-factor Authentication.
  *
- * @since  6.2.2
+ * @since  __DEPLOY_VERSION__
  */
 class ForceMfaUserGroupsField extends UsergrouplistField
 {
@@ -31,7 +31,7 @@ class ForceMfaUserGroupsField extends UsergrouplistField
      * The form field type.
      *
      * @var  string
-     * @since 6.2.2
+     * @since __DEPLOY_VERSION__
      */
     protected $type = 'ForceMfaUserGroups';
 
@@ -39,7 +39,7 @@ class ForceMfaUserGroupsField extends UsergrouplistField
      * Whether an MFA method is currently available.
      *
      * @var  boolean
-     * @since 6.2.2
+     * @since __DEPLOY_VERSION__
      */
     private $hasActiveMfaMethods = false;
 
@@ -86,7 +86,7 @@ class ForceMfaUserGroupsField extends UsergrouplistField
      *
      * @return  string[]
      *
-     * @since   6.2.2
+     * @since   __DEPLOY_VERSION__
      */
     private function normalizeGroupIds($value): array
     {
