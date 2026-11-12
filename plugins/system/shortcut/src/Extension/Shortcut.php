@@ -110,7 +110,11 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface, Dispatche
             ['hotkeysjs', 'joomla.dialog']
         );
 
-        $timeout = $this->params->get('timeout', 2000);
+        $timeout = $app->getIdentity()->getParam('a11y_shortcut_timeout');
+
+        if (!is_numeric($timeout)) {
+            $timeout = $this->params->get('timeout', 2000);
+        }
 
         $document->addScriptOptions('plg_system_shortcut.shortcuts', $shortcuts);
         $document->addScriptOptions('plg_system_shortcut.timeout', $timeout);

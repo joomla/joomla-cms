@@ -222,7 +222,8 @@ class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
                 'com_privacy.userdataexport',
                 $app->getLanguage()->getTag(),
                 $this->getMailerFactory()->createMailer(),
-                $this->getLanguageFactory()
+                $this->getLanguageFactory(),
+                $this->getDatabase()
             );
 
             $templateData = [
