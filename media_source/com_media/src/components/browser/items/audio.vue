@@ -24,7 +24,7 @@
           v-if="!thumbURL"
           class="file-icon"
         >
-          <span class="fas fa-file-audio" />
+          <span class="icon-file-audio" />
         </div>
       </div>
     </div>

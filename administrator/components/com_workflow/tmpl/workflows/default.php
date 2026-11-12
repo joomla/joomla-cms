@@ -180,7 +180,7 @@ $userId = $user->id;
                                 </td>
                                 <td class="text-center btns d-none d-md-table-cell">
                                     <a class="btn btn-primary px-2 py-1" href="<?php echo $graph; ?>" aria-describedby="tip-graph<?php echo $i; ?>">
-                                        <span class="fa fa-diagram-project" aria-hidden="true"></span>
+                                        <span class="icon-diagram-project" aria-hidden="true"></span>
                                     </a>
                                     <div role="tooltip" id="tip-graph<?php echo $i; ?>">
                                         <?php echo Text::_('COM_WORKFLOW_GRAPH'); ?>

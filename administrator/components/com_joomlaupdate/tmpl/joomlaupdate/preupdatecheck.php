@@ -51,7 +51,7 @@ Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 $compatibilityTypes = [
     'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS' => [
         'class' => 'info',
-        'icon'  => 'hourglass fa-spin',
+        'icon'  => 'hourglass icon-spin',
         'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS_NOTES',
         'group' => 0,
     ],
@@ -118,7 +118,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                         <?php break; ?>
                     <?php endif; ?>
                 <?php endforeach; ?>
-                <span class="fa fa-<?php echo $labelClass == 'danger' ? 'times' : 'check'; ?> fa-fw py-1 bg-white text-<?php echo $labelClass; ?>" aria-hidden="true"></span>
+                <span class="icon-<?php echo $labelClass == 'danger' ? 'times' : 'check'; ?> icon-fw py-1 bg-white text-<?php echo $labelClass; ?>" aria-hidden="true"></span>
             </button>
             <button class="nav-link d-flex justify-content-between align-items-center" id="joomlaupdate-precheck-recommended-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-recommended-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-recommended-content" aria-selected="false">
                 <?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_RECOMMENDED_SETTINGS'); ?>
@@ -129,12 +129,12 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                         <?php break; ?>
                     <?php endif; ?>
                 <?php endforeach; ?>
-                <span class="fa fa-<?php echo $labelClass == 'warning' ? 'exclamation-triangle' : 'check'; ?> fa-fw py-1 bg-white text-<?php echo $labelClass; ?>" aria-hidden="true"></span>
+                <span class="icon-<?php echo $labelClass == 'warning' ? 'exclamation-triangle' : 'check'; ?> icon-fw py-1 bg-white text-<?php echo $labelClass; ?>" aria-hidden="true"></span>
             </button>
             <button class="nav-link d-flex justify-content-between align-items-center" id="joomlaupdate-precheck-extensions-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-extensions-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-extensions-content" aria-selected="false">
                 <?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_EXTENSIONS'); ?>
                 <?php $labelClass = 'success'; ?>
-                <span class="fa fa-spinner fa-spin fa-fw py-1" aria-hidden="true"></span>
+                <span class="icon-spinner icon-spin icon-fw py-1" aria-hidden="true"></span>
             </button>
         </div>
 
@@ -259,7 +259,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                     <?php foreach ($compatibilityTypes as $compatibilityType => $data) : ?>
                     <div class="<?php echo $data['group'] > 0 ? 'hidden' : ''; ?> compatibilityTable" id="compatibilityTable<?php echo (int) $data['group']; ?>">
                         <h4 class="text-<?php echo $data['class']; ?> align-items-center">
-                            <span class="fa fa-<?php echo $data['icon']; ?> me-2"></span>
+                            <span class="icon-<?php echo $data['icon']; ?> me-2"></span>
                             <?php echo Text::_($compatibilityType); ?>
                             <?php if ($data['group'] > 0) : ?>
                                 <button type="button" class="btn btn-primary btn-sm ms-3 compatibilitytoggle" data-state="closed">

@@ -27,7 +27,7 @@ $headingLevel = 2;
     <?php endif; ?>
     <div id="com-users-methods-list-instructions" class="alert alert-info">
         <h<?php echo $headingLevel ?> class="alert-heading">
-            <span class="fa fa-shield-alt" aria-hidden="true"></span>
+            <span class="icon-shield-alt" aria-hidden="true"></span>
             <?php echo Text::_('COM_USERS_MFA_FIRSTTIME_INSTRUCTIONS_HEAD'); ?>
         </h<?php echo $headingLevel ?>>
         <p>
