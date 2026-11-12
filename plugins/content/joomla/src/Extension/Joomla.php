@@ -370,7 +370,12 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             $additionalSchemas = $cache->get(function ($id) use ($component, $baseId) {
                 $model = $component->createModel('Article', 'Site');
 
-                $article = $model->getItem($id);
+                try {
+                    $article = $model->getItem($id);
+                } catch (\Exception) {
+                    // The article is not available (e.g. on the error page for a 404), so there is no schema to add
+                    return;
+                }
 
                 if (empty($article->id)) {
                     return;
@@ -599,7 +604,12 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             $additionalSchema = $cache->get(function ($id, $viewLevels) use ($component, $baseId) {
                 $model = $component->createModel('Contact', 'Site');
 
-                $contact = $model->getItem($id);
+                try {
+                    $contact = $model->getItem($id);
+                } catch (\Exception) {
+                    // The contact is not available (e.g. on the error page for a 404), so there is no schema to add
+                    return;
+                }
 
                 if (empty($contact->id)) {
                     return;
