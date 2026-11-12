@@ -44,12 +44,20 @@ describe('Test that content categories API endpoint', () => {
         cy.wrap(response).its('body').its('data').its('attributes')
           .its('description')
           .should('include', 'automated test content category description');
+        // Extract the ID and delete the category
+        const categoryId = response.body.data.id;
+        cy.api_patch(`/content/categories/${categoryId}`, {
+          published: -2,
+        });
+        cy.api_delete(`/content/categories/${categoryId}`);
       });
   });
 
   it('can update a category', () => {
+    let categoryId;
     cy.db_createCategory({ title: 'automated test content category', extension: 'com_content' })
       .then((id) => {
+        categoryId = id;
         return cy.api_patch(`/content/categories/${id}`, {
           title: 'updated automated test content category',
           description: 'automated test content category description',
@@ -78,6 +86,10 @@ describe('Test that content categories API endpoint', () => {
       })
       .then((rows) => {
         expect(rows).to.have.length(1);
+        cy.api_patch(`/content/categories/${categoryId}`, {
+          published: -2,
+        });
+        cy.api_delete(`/content/categories/${categoryId}`);
       });
   });
 
@@ -106,10 +118,18 @@ describe('Test that content categories API endpoint', () => {
   });
 
   it('cannot delete a trashed category which still has articles', () => {
+    let categoryId;
+    let articleId;
     cy.api_post('/content/categories', { title: 'automated test content category', parent_id: 1, extension: 'com_content' })
-      .then((response) => response.body.data.id)
+      .then((response) => {
+        categoryId = response.body.data.id;
+        return categoryId;
+      })
       .then((id) => cy.api_patch(`/content/categories/${id}`, { published: -2 })
         .then(() => cy.db_createArticle({ title: 'automated test article', catid: Number(id) }))
+        .then((article) => {          
+          articleId = article.id;
+        })
         .then(() => cy.api_getBearerToken())
         .then((token) => cy.request({
           method: 'DELETE',
@@ -122,6 +142,18 @@ describe('Test that content categories API endpoint', () => {
           expect(response.body.messages.error[0]).to.include('Delete not allowed for category automated test content category');
         })
         .then(() => cy.task('queryDB', `SELECT id FROM #__categories WHERE id = ${id}`))
-        .then((rows) => expect(rows).to.have.length(1)));
+        .then((rows) => expect(rows).to.have.length(1)))
+      .then(() => {
+        // Cleanup: Remove the article and category directly from the database
+        if (articleId) {
+          cy.task('queryDB', `DELETE FROM #__content WHERE id = ${articleId}`);
+        }
+        if (categoryId) {
+          cy.api_patch(`/content/categories/${categoryId}`, {
+            published: -2,
+          });
+          cy.api_delete(`/content/categories/${categoryId}`);
+        }
+      });
   });
 });
