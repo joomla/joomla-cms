@@ -191,10 +191,36 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_users.edit.user.data', []);
+        $app  = Factory::getApplication();
+        $data = $app->getUserState('com_users.edit.user.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
+
+            // Pre-select the group if one was selected in Users Manager.
+            if (empty($data->id)) {
+                $filters = (array) $app->getUserState('com_users.users.default.filter');
+                $groupId = (int) ($filters['group_id'] ?? 0);
+
+                if ($groupId) {
+                    $groups = $this->getGroups();
+
+                    if ($groups !== null) {
+                        $groupIds = array_map('intval', array_column($groups, 'id'));
+
+                        // Only use the selected group if the current user can assign it.
+                        if (
+                            \in_array($groupId, $groupIds, true)
+                            && (
+                                $this->getCurrentUser()->authorise('core.admin')
+                                || !Access::checkGroup($groupId, 'core.admin')
+                            )
+                        ) {
+                            $data->groups = [$groupId];
+                        }
+                    }
+                }
+            }
         }
 
         $this->preprocessData('com_users.profile', $data, 'user');
