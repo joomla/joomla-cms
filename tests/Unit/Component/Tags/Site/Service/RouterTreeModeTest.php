@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Menu\MenuItem;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Tests for the URLs the com_tags router builds and parses in the tree mode.
@@ -27,7 +28,7 @@ class RouterTreeModeTest extends UnitTestCase
     use StructuredTagsRouterFixtureTrait;
 
     /**
-     * Set up the static state the router depends on.
+     * Skip the test while the mode is not part of the branch, and set up the state the router needs.
      *
      * @return  void
      *
@@ -35,6 +36,8 @@ class RouterTreeModeTest extends UnitTestCase
      */
     protected function setUp(): void
     {
+        $this->skipWithoutTagModes();
+
         parent::setUp();
 
         $this->setUpStructuredState();
@@ -83,12 +86,11 @@ class RouterTreeModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The path of a tag is shortened by the path of the tag the menu item points at
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The path of a tag is shortened by the path of the tag the menu item points at')]
     public function testPathIsShortenedByTheMenuItemPath()
     {
         $router = $this->createTreeRouter();
@@ -100,12 +102,11 @@ class RouterTreeModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A menu item further up the tree leaves the rest of the path in the URL
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A menu item further up the tree leaves the rest of the path in the URL')]
     public function testPathKeepsEverythingBelowTheMenuItemTag()
     {
         $router = $this->createTreeRouter();
@@ -117,12 +118,11 @@ class RouterTreeModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Without a menu item on a tag the URL carries the full path
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('Without a menu item on a tag the URL carries the full path')]
     public function testFullPathIsUsedWithoutAMatchingMenuItem()
     {
         $router = $this->createTreeRouter();
@@ -133,12 +133,11 @@ class RouterTreeModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Additional tags become filters in "id:alias" form, ordered by tag id
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('Additional tags become filters in "id:alias" form, ordered by tag id')]
     public function testAdditionalTagsBecomeOrderedFilters()
     {
         $router = $this->createTreeRouter();
@@ -152,12 +151,11 @@ class RouterTreeModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Filters that are not ordered by tag id taint the URL
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('Filters that are not ordered by tag id taint the URL')]
     public function testUnorderedFiltersAreTainted()
     {
         $router   = $this->createTreeRouter(21, ['13:europe', '11:travel']);
@@ -170,12 +168,11 @@ class RouterTreeModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A filter whose alias does not match its id taints the URL and the id decides
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A filter whose alias does not match its id taints the URL and the id decides')]
     public function testFilterWithAWrongAliasIsTaintedAndTheIdWins()
     {
         $router   = $this->createTreeRouter(21, ['11:wrong-alias']);
@@ -188,12 +185,11 @@ class RouterTreeModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A filter whose id names no tag produces a 404
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A filter whose id names no tag produces a 404')]
     public function testFilterWithAnUnknownIdProducesA404()
     {
         $router   = $this->createTreeRouter(21, ['999:ghost']);
@@ -205,12 +201,11 @@ class RouterTreeModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A tag that is both in the path and in a filter taints the URL
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A tag that is both in the path and in a filter taints the URL')]
     public function testDuplicateBetweenPathAndFilterIsTainted()
     {
         $router   = $this->createTreeRouter(21, ['7:football']);
@@ -227,12 +222,11 @@ class RouterTreeModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A filter that names a descendant of the path tag is not a duplicate
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A filter that names a descendant of the path tag is not a duplicate')]
     public function testDescendantFilterIsNotADuplicate()
     {
         $router   = $this->createTreeRouter(20, ['7:football']);
@@ -245,12 +239,11 @@ class RouterTreeModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A segment that completes no path is handed back and produces a 404
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A segment that completes no path is handed back and produces a 404')]
     public function testSegmentThatCompletesNoPathIsHandedBack()
     {
         $router   = $this->createTreeRouter(20);
@@ -264,12 +257,11 @@ class RouterTreeModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A path that skips a level does not resolve
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A path that skips a level does not resolve')]
     public function testPathThatSkipsALevelDoesNotResolve()
     {
         $router   = $this->createTreeRouter(20);
@@ -282,12 +274,11 @@ class RouterTreeModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A path resolves to the tag it spells out and never to a tag of the same last alias
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A path resolves to the tag it spells out and never to a tag of the same last alias')]
     public function testPathResolvesToTheTagItSpellsOut()
     {
         // A second "football" below "travel", so the last segment alone would be ambiguous.
@@ -308,12 +299,11 @@ class RouterTreeModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The tag with the lowest id goes into the path when several are descendants
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The tag with the lowest id goes into the path when several are descendants')]
     public function testLowestIdWinsThePathAmongSeveralDescendants()
     {
         $router = $this->createTreeRouter();
@@ -327,12 +317,11 @@ class RouterTreeModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The path stays empty when no requested tag lives below the menu item tag
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The path stays empty when no requested tag lives below the menu item tag')]
     public function testPathStaysEmptyWithoutADescendant()
     {
         $router = $this->createTreeRouter();
@@ -346,12 +335,11 @@ class RouterTreeModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Building and parsing a tree URL with filters returns the same set of tags
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('Building and parsing a tree URL with filters returns the same set of tags')]
     public function testRoundTripPreservesTheSetOfTags()
     {
         $router = $this->createTreeRouter();
@@ -372,12 +360,11 @@ class RouterTreeModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A menu item that carries a tag which was not requested does not shorten the path
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A menu item that carries a tag which was not requested does not shorten the path')]
     public function testMenuItemCarryingAnUnrequestedTagDoesNotAbsorbIt()
     {
         $menuItem = $this->createTagsMenuItem(22, ['view' => 'tag', 'id' => [3, 11]]);
@@ -393,12 +380,11 @@ class RouterTreeModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Without a com_tags menu item the view is the first segment
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('Without a com_tags menu item the view is the first segment')]
     public function testWithoutAMenuItemTheViewIsTheFirstSegment()
     {
         $router = $this->createStructuredRouter(TagsHelper::MODE_TREE, [], new MenuItem(['id' => 1, 'query' => ['option' => 'com_content']]));

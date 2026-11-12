@@ -13,6 +13,7 @@ namespace Joomla\Tests\Unit\Component\Tags\Site\Service;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Tests for the URLs the com_tags router builds and parses in the flat mode.
@@ -26,7 +27,7 @@ class RouterFlatModeTest extends UnitTestCase
     use StructuredTagsRouterFixtureTrait;
 
     /**
-     * Set up the static state the router depends on.
+     * Skip the test while the mode is not part of the branch, and set up the state the router needs.
      *
      * @return  void
      *
@@ -34,6 +35,8 @@ class RouterFlatModeTest extends UnitTestCase
      */
     protected function setUp(): void
     {
+        $this->skipWithoutTagModes();
+
         parent::setUp();
 
         $this->setUpStructuredState();
@@ -76,12 +79,11 @@ class RouterFlatModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The segments of a multi tag URL are ordered by tag id
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The segments of a multi tag URL are ordered by tag id')]
     public function testSegmentsAreOrderedByTagId()
     {
         $router = $this->createRouterWithTagList();
@@ -93,12 +95,11 @@ class RouterFlatModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A URL whose segments are not ordered by tag id is tainted
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A URL whose segments are not ordered by tag id is tainted')]
     public function testWrongSegmentOrderIsTainted()
     {
         $router   = $this->createRouterWithTagList(true);
@@ -111,12 +112,11 @@ class RouterFlatModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A URL that addresses a tag twice is tainted
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A URL that addresses a tag twice is tainted')]
     public function testDuplicateSegmentsAreTainted()
     {
         $router   = $this->createRouterWithTagList(true);
@@ -129,12 +129,11 @@ class RouterFlatModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A URL that repeats a tag behind a second one is tainted
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A URL that repeats a tag behind a second one is tainted')]
     public function testDuplicateBehindAnotherTagIsTainted()
     {
         $router   = $this->createRouterWithTagList(true);
@@ -147,12 +146,11 @@ class RouterFlatModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  An ordered URL without duplicates is not tainted
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('An ordered URL without duplicates is not tainted')]
     public function testCanonicalUrlIsNotTainted()
     {
         $router   = $this->createRouterWithTagList(true);
@@ -164,12 +162,11 @@ class RouterFlatModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A segment that names no tag is handed back and produces a 404
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A segment that names no tag is handed back and produces a 404')]
     public function testUnknownAliasIsHandedBack()
     {
         $router   = $this->createRouterWithTagList(true);
@@ -186,12 +183,11 @@ class RouterFlatModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A lone segment that names no tag produces no variables at all
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A lone segment that names no tag produces no variables at all')]
     public function testLoneUnknownAliasProducesNoVariables()
     {
         $router   = $this->createRouterWithTagList(true);
@@ -202,12 +198,11 @@ class RouterFlatModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The alias of a nested tag is not routable even though the tag exists
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The alias of a nested tag is not routable even though the tag exists')]
     public function testNestedTagAliasIsNotRoutable()
     {
         $router   = $this->createRouterWithTagList(true);
@@ -219,12 +214,11 @@ class RouterFlatModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A segment resolves to the root level tag and never to a nested tag of the same alias
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A segment resolves to the root level tag and never to a nested tag of the same alias')]
     public function testASharedAliasAlwaysResolvesToTheRootLevelTag()
     {
         // Legacy data may carry a nested tag with the alias of a root level tag. Only the latter routes.
@@ -248,12 +242,11 @@ class RouterFlatModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A nested tag falls back to the id query parameter so that the link stays functional
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A nested tag falls back to the id query parameter so that the link stays functional')]
     public function testNestedTagFallsBackToTheQueryParameter()
     {
         $router = $this->createRouterWithTagList();
@@ -266,12 +259,11 @@ class RouterFlatModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A set that mixes a root level and a nested tag keeps every tag in the URL
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A set that mixes a root level and a nested tag keeps every tag in the URL')]
     public function testMixedSetKeepsEveryTag()
     {
         $tagsMenuItem = $this->createTagsMenuItem(5, ['view' => 'tags']);
@@ -288,12 +280,11 @@ class RouterFlatModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Building and parsing a multi tag URL returns the same set of tags
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('Building and parsing a multi tag URL returns the same set of tags')]
     public function testRoundTripPreservesTheSetOfTags()
     {
         $tagsMenuItem = $this->createTagsMenuItem(5, ['view' => 'tags']);
@@ -309,12 +300,11 @@ class RouterFlatModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The tags of the menu item are not repeated in the URL
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The tags of the menu item are not repeated in the URL')]
     public function testMenuItemTagsAreNotRepeated()
     {
         $tagMenuItem = $this->createTagsMenuItem(6, ['view' => 'tag', 'id' => [3]]);
@@ -331,12 +321,11 @@ class RouterFlatModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A menu item whose tags were not all requested absorbs nothing
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A menu item whose tags were not all requested absorbs nothing')]
     public function testMenuItemCarryingAnUnrequestedTagAbsorbsNothing()
     {
         $tagMenuItem = $this->createTagsMenuItem(6, ['view' => 'tag', 'id' => [3, 11]]);
@@ -349,12 +338,11 @@ class RouterFlatModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A tag that the URL carries as a filter is added to the tags of the segments
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A tag that the URL carries as a filter is added to the tags of the segments')]
     public function testQueryFiltersAreAddedToTheSegments()
     {
         $router   = $this->createRouterWithTagList(true, ['7:football']);
@@ -365,12 +353,11 @@ class RouterFlatModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A filter whose id names no tag produces a 404
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A filter whose id names no tag produces a 404')]
     public function testFilterWithAnUnknownIdProducesA404()
     {
         $router   = $this->createRouterWithTagList(true, ['999:does-not-exist']);

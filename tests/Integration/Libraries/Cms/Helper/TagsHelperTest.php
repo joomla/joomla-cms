@@ -25,6 +25,7 @@ use Joomla\Session\SessionInterface;
 use Joomla\Tests\Integration\DBTestInterface;
 use Joomla\Tests\Integration\DBTestTrait;
 use Joomla\Tests\Integration\IntegrationTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Characterization tests for the parts of the tags helper that decide which tags belong to an item.
@@ -272,12 +273,11 @@ class TagsHelperTest extends IntegrationTestCase implements DBTestInterface
     }
 
     /**
-     * @testdox  getTagTreeArray returns a tag together with all of its descendants
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('getTagTreeArray returns a tag together with all of its descendants')]
     public function testGetTagTreeArrayReturnsTheWholeSubtree()
     {
         $helper = new TagsHelper();
@@ -289,12 +289,11 @@ class TagsHelperTest extends IntegrationTestCase implements DBTestInterface
     }
 
     /**
-     * @testdox  getTagTreeArray returns only the tag itself when it has no children
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('getTagTreeArray returns only the tag itself when it has no children')]
     public function testGetTagTreeArrayOfALeafReturnsOnlyTheLeaf()
     {
         $helper = new TagsHelper();
@@ -306,12 +305,11 @@ class TagsHelperTest extends IntegrationTestCase implements DBTestInterface
     }
 
     /**
-     * @testdox  getTagTreeArray appends to the array it is handed rather than replacing it
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('getTagTreeArray appends to the array it is handed rather than replacing it')]
     public function testGetTagTreeArrayAppendsToTheGivenArray()
     {
         $helper = new TagsHelper();
@@ -332,12 +330,11 @@ class TagsHelperTest extends IntegrationTestCase implements DBTestInterface
     }
 
     /**
-     * @testdox  getItemTags returns only the tags assigned to the item and never the ancestors
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('getItemTags returns only the tags assigned to the item and never the ancestors')]
     public function testGetItemTagsDoesNotIncludeAncestorTags()
     {
         // The article is tagged with the child tag only.
@@ -354,12 +351,11 @@ class TagsHelperTest extends IntegrationTestCase implements DBTestInterface
     }
 
     /**
-     * @testdox  getItemTags returns every directly assigned tag
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('getItemTags returns every directly assigned tag')]
     public function testGetItemTagsReturnsEveryAssignedTag()
     {
         $this->tagItem(500, $this->footballId);
@@ -375,12 +371,11 @@ class TagsHelperTest extends IntegrationTestCase implements DBTestInterface
     }
 
     /**
-     * @testdox  getItemTags ignores an unpublished tag
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('getItemTags ignores an unpublished tag')]
     public function testGetItemTagsIgnoresUnpublishedTags()
     {
         $this->tagItem(500, $this->footballId);
@@ -397,12 +392,11 @@ class TagsHelperTest extends IntegrationTestCase implements DBTestInterface
     }
 
     /**
-     * @testdox  createTagsFromField creates a tag for every #new# entry as a child of the root tag
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('createTagsFromField creates a tag for every #new# entry as a child of the root tag')]
     public function testCreateTagsFromFieldCreatesNewTagsBelowTheRoot()
     {
         $helper = new TagsHelper();
@@ -432,12 +426,11 @@ class TagsHelperTest extends IntegrationTestCase implements DBTestInterface
     }
 
     /**
-     * @testdox  createTagsFromField reuses an existing tag when the title already exists
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('createTagsFromField reuses an existing tag when the title already exists')]
     public function testCreateTagsFromFieldReusesAnExistingTitle()
     {
         $helper = new TagsHelper();
@@ -451,12 +444,11 @@ class TagsHelperTest extends IntegrationTestCase implements DBTestInterface
     }
 
     /**
-     * @testdox  createTagsFromField answers with nothing for an empty field
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('createTagsFromField answers with nothing for an empty field')]
     public function testCreateTagsFromFieldReturnsNothingForAnEmptyField()
     {
         $helper = new TagsHelper();
@@ -467,12 +459,11 @@ class TagsHelperTest extends IntegrationTestCase implements DBTestInterface
     }
 
     /**
-     * @testdox  postStore does nothing when there are no tags and nothing changed
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('postStore does nothing when there are no tags and nothing changed')]
     public function testPostStoreIsANoOpWithoutTags()
     {
         $table             = new TagTable($this->getDBDriver(), new Dispatcher());
@@ -487,12 +478,11 @@ class TagsHelperTest extends IntegrationTestCase implements DBTestInterface
     }
 
     /**
-     * @testdox  postStoreProcess forwards to postStore and is deprecated
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('postStoreProcess forwards to postStore and is deprecated')]
     public function testPostStoreProcessForwardsToPostStore()
     {
         $table             = new TagTable($this->getDBDriver(), new Dispatcher());
@@ -527,12 +517,11 @@ class TagsHelperTest extends IntegrationTestCase implements DBTestInterface
     }
 
     /**
-     * @testdox  getTagItemsQuery joins the categories table and lets uncategorised items through
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('getTagItemsQuery joins the categories table and lets uncategorised items through')]
     public function testGetTagItemsQueryJoinsCategories()
     {
         $helper = new TagsHelper();

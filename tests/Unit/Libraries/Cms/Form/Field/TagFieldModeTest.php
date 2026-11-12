@@ -16,9 +16,11 @@ use Joomla\CMS\Component\ComponentRecord;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\TagField;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Tests for the way the tagging mode decides how a tag form field presents the tags.
@@ -110,6 +112,23 @@ class TagFieldModeTest extends UnitTestCase
     }
 
     /**
+     * Skip the running test while the mode of the tagging system is not part of the branch.
+     *
+     * The mode constants of the helper are the marker of that feature, so they are what the tests that
+     * describe the flat and the tree mode ask for before they run.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function skipWithoutTagModes(): void
+    {
+        if (!\defined(TagsHelper::class . '::MODE_FLAT')) {
+            $this->markTestSkipped('The mode of the tagging system is not part of this branch.');
+        }
+    }
+
+    /**
      * Seed the com_tags parameters.
      *
      * @param   array  $params  The com_tags parameters
@@ -185,14 +204,15 @@ class TagFieldModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  In tree mode the labels are indented by one dash per level
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('In tree mode the labels are indented by one dash per level')]
     public function testTreeModeIndentsTheLabels()
     {
+        $this->skipWithoutTagModes();
+
         $options = $this->getOptions(
             '<field name="tags" type="tag" remote-search="0" />',
             ['mode' => 'tree', 'tag_field_ajax_mode' => 1]
@@ -205,14 +225,15 @@ class TagFieldModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  In tree mode every option still carries the level of its tag
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('In tree mode every option still carries the level of its tag')]
     public function testTreeModeOptionsCarryTheLevel()
     {
+        $this->skipWithoutTagModes();
+
         $options = $this->getOptions(
             '<field name="tags" type="tag" remote-search="0" />',
             ['mode' => 'tree', 'tag_field_ajax_mode' => 1]
@@ -225,14 +246,15 @@ class TagFieldModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  In flat mode the labels are not indented
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('In flat mode the labels are not indented')]
     public function testFlatModeDoesNotIndentTheLabels()
     {
+        $this->skipWithoutTagModes();
+
         $options = $this->getOptions(
             '<field name="tags" type="tag" remote-search="0" />',
             ['mode' => 'flat', 'tag_field_ajax_mode' => 0]
@@ -244,14 +266,15 @@ class TagFieldModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The mode overrules the nested mode attribute of the form field
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The mode overrules the nested mode attribute of the form field')]
     public function testModeOverrulesTheFieldAttribute()
     {
+        $this->skipWithoutTagModes();
+
         $this->setComponentParams(['mode' => 'flat', 'tag_field_ajax_mode' => 0]);
         $field = new TagField();
         $field->setup(new \SimpleXMLElement('<field name="tags" type="tag" mode="nested" />'), null);
@@ -266,12 +289,11 @@ class TagFieldModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Without the mode parameter the form field decides as it always did
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('Without the mode parameter the form field decides as it always did')]
     public function testMixedModeLeavesTheDecisionToTheField()
     {
         $this->setComponentParams(['tag_field_ajax_mode' => 0]);

@@ -19,6 +19,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Characterization tests for the option list the tag form field builds.
@@ -187,12 +188,11 @@ class TagFieldTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The option list carries no indentation but rewrites the label to the path of titles
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The option list carries no indentation but rewrites the label to the path of titles')]
     public function testOptionsAreNotIndentedButCarryTheTitlePath()
     {
         // remote-search is switched off so the whole list is loaded rather than the 30 most used tags.
@@ -217,12 +217,11 @@ class TagFieldTest extends UnitTestCase
     }
 
     /**
-     * @testdox  In nested mode the labels are indented by one dash per level
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('In nested mode the labels are indented by one dash per level')]
     public function testNestedModeIndentsTheLabels()
     {
         $options = $this->getOptions(
@@ -242,12 +241,11 @@ class TagFieldTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Every option keeps the level of its tag
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('Every option keeps the level of its tag')]
     public function testOptionsKeepTheTagLevel()
     {
         $options = $this->getOptions(
@@ -259,12 +257,11 @@ class TagFieldTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The options are returned in nested set order and not alphabetically
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The options are returned in nested set order and not alphabetically')]
     public function testOptionsAreOrderedByTheNestedSet()
     {
         $options = $this->getOptions(
@@ -280,12 +277,11 @@ class TagFieldTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The com_tags configuration decides whether the field is nested when the element is silent
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The com_tags configuration decides whether the field is nested when the element is silent')]
     public function testConfigurationDecidesTheNestedMode()
     {
         $this->setComponentParams(['tag_field_ajax_mode' => 0]);

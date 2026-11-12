@@ -11,6 +11,7 @@
 namespace Joomla\Tests\Unit\Component\Tags\Site\Service;
 
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Characterization tests for the URL segments the com_tags router builds and parses.
@@ -56,12 +57,11 @@ class RouterSegmentsTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A single tag is routed to a segment built from its alias, never from its path
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A single tag is routed to a segment built from its alias, never from its path')]
     public function testSingleTagSegmentUsesTheAliasAndNotThePath()
     {
         $tagsMenuItem = $this->createTagsMenuItem(5, ['view' => 'tags']);
@@ -80,12 +80,11 @@ class RouterSegmentsTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Two tags that share an alias under different parents produce the same segment
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('Two tags that share an alias under different parents produce the same segment')]
     public function testTagsWithTheSameAliasUnderDifferentParentsShareASegment()
     {
         $tagsMenuItem = $this->createTagsMenuItem(5, ['view' => 'tags']);
@@ -108,12 +107,11 @@ class RouterSegmentsTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Several tags are routed to one segment per tag
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('Several tags are routed to one segment per tag')]
     public function testSeveralTagsProduceOneSegmentEach()
     {
         $tagsMenuItem = $this->createTagsMenuItem(5, ['view' => 'tags']);
@@ -125,12 +123,11 @@ class RouterSegmentsTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Several tags parse back into a list of ids
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('Several tags parse back into a list of ids')]
     public function testSeveralSegmentsParseIntoAListOfIds()
     {
         $tagsMenuItem = $this->createTagsMenuItem(5, ['view' => 'tags']);
@@ -144,12 +141,11 @@ class RouterSegmentsTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Building and parsing a multi tag URL returns the same set of tags
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('Building and parsing a multi tag URL returns the same set of tags')]
     public function testRoundTripPreservesTheSetOfTags()
     {
         $tagsMenuItem = $this->createTagsMenuItem(5, ['view' => 'tags']);
@@ -170,12 +166,11 @@ class RouterSegmentsTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A single tag survives a build and parse round trip
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A single tag survives a build and parse round trip')]
     public function testRoundTripOfASingleNestedTag()
     {
         $tagsMenuItem = $this->createTagsMenuItem(5, ['view' => 'tags']);
@@ -189,12 +184,11 @@ class RouterSegmentsTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A segment whose alias is unknown is left in place and produces no variables
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A segment whose alias is unknown is left in place and produces no variables')]
     public function testUnknownAliasIsLeftForTheApplication()
     {
         $tagsMenuItem = $this->createTagsMenuItem(5, ['view' => 'tags']);
@@ -212,12 +206,11 @@ class RouterSegmentsTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Parsing stops at the first unknown alias but keeps the tags found before it
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('Parsing stops at the first unknown alias but keeps the tags found before it')]
     public function testParsingStopsAtTheFirstUnknownAlias()
     {
         $tagsMenuItem = $this->createTagsMenuItem(5, ['view' => 'tags']);
@@ -235,12 +228,11 @@ class RouterSegmentsTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Numeric segments are taken as tag ids without any database lookup
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('Numeric segments are taken as tag ids without any database lookup')]
     public function testNumericSegmentsAreTakenAsIds()
     {
         $tagsMenuItem = $this->createTagsMenuItem(5, ['view' => 'tags']);
@@ -257,12 +249,11 @@ class RouterSegmentsTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A comma separated segment is taken as one list of ids and ends the parsing
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A comma separated segment is taken as one list of ids and ends the parsing')]
     public function testCommaSeparatedSegmentIsTakenAsOneListOfIds()
     {
         $tagsMenuItem = $this->createTagsMenuItem(5, ['view' => 'tags']);
@@ -280,12 +271,11 @@ class RouterSegmentsTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A numeric segment after a matched alias is no longer read as an id
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A numeric segment after a matched alias is no longer read as an id')]
     public function testNumericSegmentAfterAnAliasIsNotConsumed()
     {
         $tagsMenuItem = $this->createTagsMenuItem(5, ['view' => 'tags']);
@@ -304,12 +294,11 @@ class RouterSegmentsTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Without a com_tags menu item the first segment is taken as the view
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('Without a com_tags menu item the first segment is taken as the view')]
     public function testWithoutAMenuItemTheFirstSegmentIsTheView()
     {
         $router = $this->createRouter($this->createMenuStub(), $this->createTagDatabaseStub());
@@ -321,12 +310,11 @@ class RouterSegmentsTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Without a com_tags menu item a lone view segment produces only the view
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('Without a com_tags menu item a lone view segment produces only the view')]
     public function testWithoutAMenuItemALoneViewSegmentProducesOnlyTheView()
     {
         $router = $this->createRouter($this->createMenuStub(), $this->createTagDatabaseStub());
@@ -338,12 +326,11 @@ class RouterSegmentsTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Without a menu item the view and every tag are pushed into the segments
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('Without a menu item the view and every tag are pushed into the segments')]
     public function testWithoutAMenuItemTheViewIsPartOfTheSegments()
     {
         $router = $this->createRouter($this->createMenuStub(), $this->createTagDatabaseStub());
@@ -356,12 +343,11 @@ class RouterSegmentsTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A tag menu item that addresses exactly the requested tags produces no segments
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A tag menu item that addresses exactly the requested tags produces no segments')]
     public function testMenuItemMatchingTheRequestedTagsExactlyProducesNoSegments()
     {
         $tagMenuItem = $this->createTagsMenuItem(6, ['view' => 'tag', 'id' => [7, 9]]);
@@ -374,12 +360,11 @@ class RouterSegmentsTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A tag menu item that addresses a different set of tags repeats every tag in the URL
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A tag menu item that addresses a different set of tags repeats every tag in the URL')]
     public function testMenuItemAddressingADifferentSetOfTagsRepeatsEveryTag()
     {
         $tagMenuItem = $this->createTagsMenuItem(6, ['view' => 'tag', 'id' => [7]]);
@@ -396,12 +381,11 @@ class RouterSegmentsTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A tag menu item is the base for parsing further tags out of the URL
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A tag menu item is the base for parsing further tags out of the URL')]
     public function testTagMenuItemSeedsTheParsedTagList()
     {
         $tagMenuItem = $this->createTagsMenuItem(6, ['view' => 'tag', 'id' => [7]]);

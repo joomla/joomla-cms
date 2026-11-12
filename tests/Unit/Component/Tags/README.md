@@ -118,3 +118,13 @@ The com_tags router assembles its menu item lookup inside its constructor, which
 application, the component table and the plugin table. The unit tests therefore build the router without
 invoking the constructor and inject its collaborators by reflection, see `TagsRouterFixtureTrait`. That
 keeps the tests free of a database and, more importantly, required no change to the router itself.
+
+## The tests for the mode of the tagging system
+
+`RouterFlatModeTest`, `RouterTreeModeTest`, `RouterModeMenuSelectionTest`, `TagFieldModeTest` and the
+`TagMode` cypress specs describe the `mode` parameter of com_tags, which is not part of this branch.
+They skip themselves as long as `TagsHelper::MODE_FLAT` is undefined and start running by themselves
+once the mode lands, so a green run that reports them as skipped is the expected result here.
+
+`RouterDefaultModeTest` is the exception: it describes a site without the parameter and with it set
+to "mixed", which is the behaviour of this branch, so it runs.

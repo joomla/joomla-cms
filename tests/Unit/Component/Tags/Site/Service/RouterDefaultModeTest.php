@@ -11,6 +11,8 @@
 namespace Joomla\Tests\Unit\Component\Tags\Site\Service;
 
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Tests that a site which never touched the mode parameter routes exactly as it did before.
@@ -95,16 +97,14 @@ class RouterDefaultModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A nested tag is addressed by its bare alias
-     *
-     * @dataProvider  waysToBeMixed
-     *
      * @param   ?string  $mode  The value of the mode parameter, or null to leave it out
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A nested tag is addressed by its bare alias')]
+    #[DataProvider('waysToBeMixed')]
     public function testNestedTagIsAddressedByItsAlias(?string $mode)
     {
         $router = $this->createDefaultRouter($mode);
@@ -116,16 +116,14 @@ class RouterDefaultModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The alias of a nested tag resolves, unlike in the flat mode
-     *
-     * @dataProvider  waysToBeMixed
-     *
      * @param   ?string  $mode  The value of the mode parameter, or null to leave it out
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The alias of a nested tag resolves, unlike in the flat mode')]
+    #[DataProvider('waysToBeMixed')]
     public function testNestedTagAliasResolves(?string $mode)
     {
         $router   = $this->createDefaultRouter($mode, true);
@@ -135,16 +133,14 @@ class RouterDefaultModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A numeric segment is still taken as a tag id
-     *
-     * @dataProvider  waysToBeMixed
-     *
      * @param   ?string  $mode  The value of the mode parameter, or null to leave it out
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A numeric segment is still taken as a tag id')]
+    #[DataProvider('waysToBeMixed')]
     public function testNumericSegmentIsStillAnId(?string $mode)
     {
         $router   = $this->createDefaultRouter($mode, true);
@@ -154,16 +150,14 @@ class RouterDefaultModeTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The tags keep the order they were requested in
-     *
-     * @dataProvider  waysToBeMixed
-     *
      * @param   ?string  $mode  The value of the mode parameter, or null to leave it out
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The tags keep the order they were requested in')]
+    #[DataProvider('waysToBeMixed')]
     public function testTagsKeepTheRequestedOrder(?string $mode)
     {
         $router = $this->createDefaultRouter($mode);

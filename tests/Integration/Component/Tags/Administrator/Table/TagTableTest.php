@@ -18,6 +18,7 @@ use Joomla\Event\Dispatcher;
 use Joomla\Tests\Integration\DBTestInterface;
 use Joomla\Tests\Integration\DBTestTrait;
 use Joomla\Tests\Integration\IntegrationTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Characterization tests for the nesting and alias handling of the tag table.
@@ -197,12 +198,11 @@ class TagTableTest extends IntegrationTestCase implements DBTestInterface
     }
 
     /**
-     * @testdox  A tag can be stored under any parent, however deeply nested
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A tag can be stored under any parent, however deeply nested')]
     public function testTagCanBeStoredUnderAnArbitraryParent()
     {
         $first  = $this->storeTag('First', 'first');
@@ -223,12 +223,11 @@ class TagTableTest extends IntegrationTestCase implements DBTestInterface
     }
 
     /**
-     * @testdox  Two sibling tags may not share an alias
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('Two sibling tags may not share an alias')]
     public function testSiblingsMayNotShareAnAlias()
     {
         $this->storeTag('News', 'news');
@@ -240,12 +239,11 @@ class TagTableTest extends IntegrationTestCase implements DBTestInterface
     }
 
     /**
-     * @testdox  The alias uniqueness check is global and is not scoped to the siblings of a tag
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The alias uniqueness check is global and is not scoped to the siblings of a tag')]
     public function testAliasUniquenessIsGlobalAndNotScopedToSiblings()
     {
         $sport   = $this->storeTag('Sport', 'sport');
@@ -274,12 +272,11 @@ class TagTableTest extends IntegrationTestCase implements DBTestInterface
     }
 
     /**
-     * @testdox  Storing a tag does not compose its path
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('Storing a tag does not compose its path')]
     public function testStoreDoesNotComposeThePath()
     {
         $parent = $this->storeTag('Sport', 'sport');
@@ -294,12 +291,11 @@ class TagTableTest extends IntegrationTestCase implements DBTestInterface
     }
 
     /**
-     * @testdox  The path is composed from the aliases of all ancestors
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The path is composed from the aliases of all ancestors')]
     public function testPathIsComposedFromTheAncestorAliases()
     {
         $sport    = $this->storeTag('Sport', 'sport');
@@ -317,12 +313,11 @@ class TagTableTest extends IntegrationTestCase implements DBTestInterface
     }
 
     /**
-     * @testdox  Renaming the alias of a parent updates the paths of all its descendants
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('Renaming the alias of a parent updates the paths of all its descendants')]
     public function testRenamingAParentAliasUpdatesTheDescendantPaths()
     {
         $sport    = $this->storeTag('Sport', 'sport');
@@ -347,12 +342,11 @@ class TagTableTest extends IntegrationTestCase implements DBTestInterface
     }
 
     /**
-     * @testdox  An empty alias falls back to the title
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('An empty alias falls back to the title')]
     public function testEmptyAliasFallsBackToTheTitle()
     {
         $table = $this->makeTag('Winter Sport', '');

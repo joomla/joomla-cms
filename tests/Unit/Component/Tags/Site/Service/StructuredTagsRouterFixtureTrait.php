@@ -427,4 +427,33 @@ trait StructuredTagsRouterFixtureTrait
     {
         return [TagsHelper::MODE_MIXED, TagsHelper::MODE_FLAT, TagsHelper::MODE_TREE];
     }
+
+    /**
+     * Whether the branch under test knows the mode of the tagging system.
+     *
+     * The mode constants of the helper are the marker of that feature, so they are what the tests that
+     * describe the flat and the tree mode ask for before they run.
+     *
+     * @return  boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected static function tagModesAreAvailable(): bool
+    {
+        return \defined(TagsHelper::class . '::MODE_FLAT');
+    }
+
+    /**
+     * Skip the running test while the mode of the tagging system is not part of the branch.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function skipWithoutTagModes(): void
+    {
+        if (!static::tagModesAreAvailable()) {
+            $this->markTestSkipped('The mode of the tagging system is not part of this branch.');
+        }
+    }
 }

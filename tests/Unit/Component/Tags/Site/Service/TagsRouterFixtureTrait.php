@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\ComponentRecord;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Menu\MenuItem;
 use Joomla\Component\Tags\Site\Service\Router;
@@ -78,10 +79,19 @@ trait TagsRouterFixtureTrait
     private $originalApplication;
 
     /**
+     * The value Multilanguage::$enabled had before the test replaced it.
+     *
+     * @var    boolean
+     * @since  __DEPLOY_VERSION__
+     */
+    private $originalMultilanguage;
+
+    /**
      * Seed the static state the router touches indirectly.
      *
-     * Multilanguage::isEnabled() asks the application whether it is a site application, so an application
-     * has to be present even though these tests are monolingual.
+     * Multilanguage::isEnabled() asks the application whether it is a site application, and only falls
+     * back to a database query when it is not, so the application has to answer that it is one even
+     * though these tests are monolingual.
      *
      * @return  void
      *
@@ -95,7 +105,10 @@ trait TagsRouterFixtureTrait
         $components->setValue(null, ['com_tags' => new ComponentRecord(['id' => 42, 'option' => 'com_tags', 'enabled' => 1])]);
 
         $this->originalApplication = Factory::$application;
-        Factory::$application      = $this->createStub(CMSWebApplicationInterface::class);
+        Factory::$application      = $this->createSiteApplicationDouble();
+
+        $this->originalMultilanguage = Multilanguage::$enabled;
+        Multilanguage::$enabled      = false;
     }
 
     /**
@@ -111,7 +124,44 @@ trait TagsRouterFixtureTrait
         $components->setAccessible(true);
         $components->setValue(null, $this->originalComponents);
 
-        Factory::$application = $this->originalApplication;
+        Factory::$application   = $this->originalApplication;
+        Multilanguage::$enabled = $this->originalMultilanguage;
+    }
+
+    /**
+     * Build a stand in for the site application that Factory hands out.
+     *
+     * SiteApplication is final, so it cannot be doubled by the mock builder. Multilanguage::isEnabled()
+     * is the only caller that reaches for the global application here, and it only asks for the client
+     * and the language filter, so a small double answers everything it needs.
+     *
+     * @return  object
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function createSiteApplicationDouble()
+    {
+        return new class () {
+            /**
+             * @param   string  $identifier  The client to check for
+             *
+             * @return  boolean
+             */
+            public function isClient($identifier)
+            {
+                return $identifier === 'site';
+            }
+
+            /**
+             * Answering false keeps Multilanguage::isEnabled() away from the database.
+             *
+             * @return  boolean
+             */
+            public function getLanguageFilter()
+            {
+                return false;
+            }
+        };
     }
 
     /**

@@ -11,6 +11,7 @@
 namespace Joomla\Tests\Unit\Component\Tags\Site\Service;
 
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Characterization tests for the menu item the com_tags router picks for a given set of tags.
@@ -79,12 +80,11 @@ class RouterMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The single matching menu item is selected
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The single matching menu item is selected')]
     public function testSingleMatchingMenuItemIsSelected()
     {
         $tagMenuItem = $this->createTagsMenuItem(20, ['view' => 'tag', 'id' => [7]]);
@@ -95,12 +95,11 @@ class RouterMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A menu item is matched regardless of the order the tags are requested in
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A menu item is matched regardless of the order the tags are requested in')]
     public function testMenuItemIsMatchedIndependentlyOfTheTagOrder()
     {
         $tagMenuItem = $this->createTagsMenuItem(20, ['view' => 'tag', 'id' => [9, 7]]);
@@ -111,12 +110,11 @@ class RouterMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A single tag menu item is selected for a wider request whatever its match type is
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A single tag menu item is selected for a wider request whatever its match type is')]
     public function testSingleTagMenuItemIsSelectedForASupersetWhateverItsMatchType()
     {
         $tagsMenuItem = $this->createTagsMenuItem(30, ['view' => 'tags']);
@@ -138,12 +136,11 @@ class RouterMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A multi tag menu item in "all" mode is not selected for a partially overlapping request
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A multi tag menu item in "all" mode is not selected for a partially overlapping request')]
     public function testMultiTagMenuItemInAllModeIsNotSelectedForAPartialOverlap()
     {
         // The menu item shows tags 7 and 12 and only registers the combination key "7,12".
@@ -156,12 +153,11 @@ class RouterMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The menu item carrying the exact tag combination wins over a less specific one
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The menu item carrying the exact tag combination wins over a less specific one')]
     public function testExactCombinationWinsOverASingleTagMenuItem()
     {
         $singleTagMenuItem = $this->createTagsMenuItem(20, ['view' => 'tag', 'id' => [7]], ['return_any_or_all' => 1]);
@@ -174,12 +170,11 @@ class RouterMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  When two "any" menu items carry the same tag the one registered last wins
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('When two "any" menu items carry the same tag the one registered last wins')]
     public function testLastRegisteredMenuItemWinsForASharedTag()
     {
         $firstMenuItem  = $this->createTagsMenuItem(20, ['view' => 'tag', 'id' => [7]], ['return_any_or_all' => 1]);
@@ -197,12 +192,11 @@ class RouterMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  An "any" menu item is selected although it carries a tag that was not requested
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('An "any" menu item is selected although it carries a tag that was not requested')]
     public function testMenuItemIsSelectedAlthoughItsTagsAreNotASubsetOfTheRequest()
     {
         // The menu item shows tags 7 and 12, the request asks for tags 7 and 9.
@@ -219,12 +213,11 @@ class RouterMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A menu item whose tags do not overlap the request at all is not selected
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A menu item whose tags do not overlap the request at all is not selected')]
     public function testMenuItemWithoutAnyOverlapIsNotSelected()
     {
         $tagMenuItem  = $this->createTagsMenuItem(20, ['view' => 'tag', 'id' => [11, 12]], ['return_any_or_all' => 1]);
@@ -236,12 +229,11 @@ class RouterMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The generic list of all tags is the fallback when no tag menu item matches
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The generic list of all tags is the fallback when no tag menu item matches')]
     public function testGenericTagsMenuItemIsUsedAsFallback()
     {
         $tagsMenuItem = $this->createTagsMenuItem(30, ['view' => 'tags']);
@@ -253,12 +245,11 @@ class RouterMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The site default menu item is used when nothing matches and strict routing is off
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The site default menu item is used when nothing matches and strict routing is off')]
     public function testDefaultMenuItemIsUsedWhenNothingMatches()
     {
         $query = $this->preprocessTagRequest([], [7]);
@@ -271,12 +262,11 @@ class RouterMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  No menu item is selected when nothing matches and strict routing is on
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('No menu item is selected when nothing matches and strict routing is on')]
     public function testNoMenuItemIsSelectedUnderStrictRouting()
     {
         $query = $this->preprocessTagRequest([], [7], ['strictrouting' => 1]);
@@ -285,12 +275,11 @@ class RouterMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  An explicitly supplied Itemid is never replaced
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('An explicitly supplied Itemid is never replaced')]
     public function testExplicitItemidIsKept()
     {
         $tagMenuItem = $this->createTagsMenuItem(20, ['view' => 'tag', 'id' => [7]]);
@@ -303,12 +292,11 @@ class RouterMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A tags view menu item is selected by its parent tag
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A tags view menu item is selected by its parent tag')]
     public function testTagsViewMenuItemIsSelectedByParentId()
     {
         $rootTagsMenuItem   = $this->createTagsMenuItem(30, ['view' => 'tags']);
@@ -326,12 +314,11 @@ class RouterMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A tags view menu item also covers the descendants of its parent tag
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A tags view menu item also covers the descendants of its parent tag')]
     public function testTagsViewMenuItemCoversDescendantsOfItsParentTag()
     {
         // Tag 11 is a child of tag 7.
@@ -353,12 +340,11 @@ class RouterMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A tags view request without a matching parent falls back to the generic list
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A tags view request without a matching parent falls back to the generic list')]
     public function testTagsViewFallsBackToTheGenericList()
     {
         $rootTagsMenuItem   = $this->createTagsMenuItem(30, ['view' => 'tags']);
@@ -376,12 +362,11 @@ class RouterMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The lookup table registers tag menu items by their exact combination
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The lookup table registers tag menu items by their exact combination')]
     public function testLookupRegistersTagMenuItemsByTheirExactCombination()
     {
         $allModeMenuItem = $this->createTagsMenuItem(20, ['view' => 'tag', 'id' => [9, 7]], ['return_any_or_all' => 0]);

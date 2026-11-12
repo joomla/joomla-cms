@@ -12,6 +12,8 @@ namespace Joomla\Tests\Unit\Component\Tags\Site\Service;
 
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Tests for the menu item the com_tags router picks in the flat and the tree mode.
@@ -38,7 +40,7 @@ class RouterModeMenuSelectionTest extends UnitTestCase
     use StructuredTagsRouterFixtureTrait;
 
     /**
-     * Set up the static state the router depends on.
+     * Skip the test while the mode is not part of the branch, and set up the state the router needs.
      *
      * @return  void
      *
@@ -46,6 +48,8 @@ class RouterModeMenuSelectionTest extends UnitTestCase
      */
     protected function setUp(): void
     {
+        $this->skipWithoutTagModes();
+
         parent::setUp();
 
         $this->setUpStructuredState();
@@ -74,6 +78,11 @@ class RouterModeMenuSelectionTest extends UnitTestCase
      */
     public static function structuredModes(): array
     {
+        // A data provider is read before setUp() can skip the test, so it may not touch the constants.
+        if (!self::tagModesAreAvailable()) {
+            return ['no mode' => ['']];
+        }
+
         return [
             'flat mode' => [TagsHelper::MODE_FLAT],
             'tree mode' => [TagsHelper::MODE_TREE],
@@ -117,16 +126,14 @@ class RouterModeMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The menu item carrying exactly the requested tag is selected
-     *
-     * @dataProvider  structuredModes
-     *
      * @param   string  $mode  The mode the site runs in
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The menu item carrying exactly the requested tag is selected')]
+    #[DataProvider('structuredModes')]
     public function testSingleTagMenuItemIsSelected(string $mode)
     {
         $this->assertSame(41, $this->selectMenuItem($mode, [3]));
@@ -134,16 +141,14 @@ class RouterModeMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The menu item carrying the most of the requested tags wins
-     *
-     * @dataProvider  structuredModes
-     *
      * @param   string  $mode  The mode the site runs in
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The menu item carrying the most of the requested tags wins')]
+    #[DataProvider('structuredModes')]
     public function testMenuItemWithTheMostTagsWins(string $mode)
     {
         // Menu items 41, 42 and 43 are all subsets of the request, 43 carries the most tags.
@@ -151,32 +156,28 @@ class RouterModeMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The menu item with the most tags is used even when further tags were requested
-     *
-     * @dataProvider  structuredModes
-     *
      * @param   string  $mode  The mode the site runs in
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The menu item with the most tags is used even when further tags were requested')]
+    #[DataProvider('structuredModes')]
     public function testMenuItemIsUsedForAWiderRequest(string $mode)
     {
         $this->assertSame(43, $this->selectMenuItem($mode, [3, 5, 13]));
     }
 
     /**
-     * @testdox  A menu item whose tags are not a subset of the request is not selected
-     *
-     * @dataProvider  structuredModes
-     *
      * @param   string  $mode  The mode the site runs in
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A menu item whose tags are not a subset of the request is not selected')]
+    #[DataProvider('structuredModes')]
     public function testNonSubsetMenuItemIsNotSelected(string $mode)
     {
         // Menu item 43 also carries "sport", which was not requested, so menu item 41 is used.
@@ -184,32 +185,28 @@ class RouterModeMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The generic list of all tags is the fallback when no menu item is a subset
-     *
-     * @dataProvider  structuredModes
-     *
      * @param   string  $mode  The mode the site runs in
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The generic list of all tags is the fallback when no menu item is a subset')]
+    #[DataProvider('structuredModes')]
     public function testGenericTagsMenuItemIsTheFallback(string $mode)
     {
         $this->assertSame(30, $this->selectMenuItem($mode, [13]));
     }
 
     /**
-     * @testdox  The menu item with the lowest id wins when two carry the same tags
-     *
-     * @dataProvider  structuredModes
-     *
      * @param   string  $mode  The mode the site runs in
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The menu item with the lowest id wins when two carry the same tags')]
+    #[DataProvider('structuredModes')]
     public function testLowestIdWinsATie(string $mode)
     {
         $menuItems = [
@@ -223,16 +220,14 @@ class RouterModeMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  A menu item that no longer exists falls back to the next best candidate
-     *
-     * @dataProvider  structuredModes
-     *
      * @param   string  $mode  The mode the site runs in
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('A menu item that no longer exists falls back to the next best candidate')]
+    #[DataProvider('structuredModes')]
     public function testFallbackToTheNextBestCandidate(string $mode)
     {
         // An unpublished menu item never reaches the router, so it is simply not in the list.
@@ -247,16 +242,14 @@ class RouterModeMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The order the tags are requested in does not change the menu item
-     *
-     * @dataProvider  structuredModes
-     *
      * @param   string  $mode  The mode the site runs in
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The order the tags are requested in does not change the menu item')]
+    #[DataProvider('structuredModes')]
     public function testTagOrderDoesNotMatter(string $mode)
     {
         $this->assertSame(43, $this->selectMenuItem($mode, [5, 3]));
@@ -264,16 +257,14 @@ class RouterModeMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  An explicitly supplied Itemid is never replaced
-     *
-     * @dataProvider  structuredModes
-     *
      * @param   string  $mode  The mode the site runs in
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('An explicitly supplied Itemid is never replaced')]
+    #[DataProvider('structuredModes')]
     public function testExplicitItemidIsKept(string $mode)
     {
         $router = $this->createStructuredRouter($mode, $this->defaultMenuItems());
@@ -282,16 +273,14 @@ class RouterModeMenuSelectionTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The list of all tags is still selected through its parent tag
-     *
-     * @dataProvider  structuredModes
-     *
      * @param   string  $mode  The mode the site runs in
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
+    #[TestDox('The list of all tags is still selected through its parent tag')]
+    #[DataProvider('structuredModes')]
     public function testTagsViewIsUnaffectedByTheMode(string $mode)
     {
         $router = $this->createStructuredRouter(
