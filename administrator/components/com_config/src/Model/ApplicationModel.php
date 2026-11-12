@@ -276,7 +276,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface,
      */
     public function getSefPluginId(): int
     {
-        $sefPlugin = ExtensionHelper::getExtensionRecord('sef', 'plugin', 0, 'system');
+        $sefPlugin         = ExtensionHelper::getExtensionRecord('sef', 'plugin', 0, 'system');
         $this->sefPluginId = $sefPlugin ? (int) $sefPlugin->extension_id : 0;
 
         return $this->sefPluginId;
