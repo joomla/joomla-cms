@@ -133,7 +133,13 @@ abstract class InstallerHelper
         $body = (string) $response->getBody();
 
         // Write buffer to file
-        File::write($target, $body);
+        $res = File::write($target, $body);
+
+        if (!$res) {
+            Log::add(Text::sprintf('JLIB_INSTALLER_ABORT_DISK_FULL'), Log::WARNING, 'jerror');
+
+            return false;
+        }
 
         // Bump the max execution time because not using built in php zip libs are slow
         if (\function_exists('set_time_limit')) {
@@ -167,44 +173,34 @@ abstract class InstallerHelper
         $extractdir  = Path::clean(\dirname($packageFilename) . '/' . $tmpdir);
         $archivename = Path::clean($archivename);
 
-        $fileSize = filesize($archivename);
-        $diskFull = false;
-
-        if (disk_free_space(\dirname($extractdir)) < $fileSize) {
-            if (!$alwaysReturnArray) {
-                return false;
-            }
-
-            $diskFull = true;
-        }
         // Do the unpacking of the archive
-        if (!$diskFull) {
-            try {
-                $archive = new Archive(['tmp_path' => Factory::getApplication()->get('tmp_path')]);
-                $extract = $archive->extract($archivename, $extractdir);
-            } catch (\Exception) {
-                if ($alwaysReturnArray) {
-                    return [
-                        'extractdir'  => null,
-                        'packagefile' => $archivename,
-                        'type'        => false,
-                        'diskfull'    => $diskFull,
-                    ];
-                }
-
-                return false;
+        try {
+            $archive = new Archive(['tmp_path' => Factory::getApplication()->get('tmp_path')]);
+            $extract = $archive->extract($archivename, $extractdir);
+        } catch (\Exception $exception) {
+            $msg = $exception->getMessage();
+            if ($alwaysReturnArray) {
+                return [
+                    'extractdir'  => null,
+                    'packagefile' => $archivename,
+                    'type'        => false,
+                    'diskfull'    => (strpos($msg, 'Unable to write') !== false || strpos($msg, 'Unable to create') !== false),
+                ];
             }
-            if (!$extract) {
-                if ($alwaysReturnArray) {
-                    return [
-                        'extractdir'  => null,
-                        'packagefile' => $archivename,
-                        'type'        => false,
-                    ];
-                }
 
-                return false;
+            return false;
+        }
+
+        if (!$extract) {
+            if ($alwaysReturnArray) {
+                return [
+                    'extractdir'  => null,
+                    'packagefile' => $archivename,
+                    'type'        => false,
+                ];
             }
+
+            return false;
         }
 
         /*
