@@ -138,7 +138,7 @@ $popupOptions = json_encode([
     <div class="flex-shrink-0">
         <div class="align-center text-center btns">
             <button type="button" class="btn btn-primary px-3 py-2" data-joomla-dialog="<?php echo htmlspecialchars($popupOptions, ENT_QUOTES, 'UTF-8'); ?>">
-                <span class="fa fa-diagram-project" aria-hidden="true"></span> <?php echo Text::_('COM_WORKFLOW_GRAPH_VIEW'); ?>
+                <span class="icon-diagram-project" aria-hidden="true"></span> <?php echo Text::_('COM_WORKFLOW_GRAPH_VIEW'); ?>
             </button>
         </div>
     </div>

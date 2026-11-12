@@ -45,7 +45,7 @@
         @click="showSortOptions()"
       >
         <span
-          class="fas fa-sort-amount-down-alt"
+          class="icon-sort-amount-down"
           aria-hidden="true"
         />
       </button>

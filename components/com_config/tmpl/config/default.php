@@ -37,7 +37,7 @@ $wa->useScript('keepalive')
 
     <div class="mb-2 d-flex">
         <button type="button" class="btn btn-sm btn-outline-info button-inlinehelp ms-auto">
-            <span class="fa fa-question-circle" aria-hidden="true"></span>
+            <span class="icon-question-circle" aria-hidden="true"></span>
             <?php echo Text::_('JINLINEHELP') ?>
         </button>
     </div>

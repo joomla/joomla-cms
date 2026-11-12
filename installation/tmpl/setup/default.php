@@ -126,7 +126,7 @@ $wa->useScript('joomla.dialog-autocreate');
     </form>
     <form action="index.php" method="post" id="languageForm" class="lang-select">
         <div class="d-flex align-items-center">
-            <span class="fas fa-globe me-1" aria-hidden="true"></span>
+            <span class="icon-globe me-1" aria-hidden="true"></span>
             <?php
                 $dataAttribs = [
                     'textHeader'      => Text::_('INSTL_SELECT_INSTALL_LANG'),
@@ -136,7 +136,7 @@ $wa->useScript('joomla.dialog-autocreate');
 
                 $text = '<span class="ms-1 fw-bold" id="languageForm-current"></span>';
 
-                $text .= '<button type="button" data-joomla-dialog="' . htmlspecialchars(json_encode($dataAttribs)) . '" aria-label="' . Text::_('INSTL_CHANGE_INSTALL_LANG') . '" class="btn btn-primary btn-sm ms-2"><span class="fas fa-repeat fa-fw me-2" aria-hidden="true"></span>' . Text::_('INSTL_CHANGE_INSTALL_LANG_SHORT') . '</button>';
+                $text .= '<button type="button" data-joomla-dialog="' . htmlspecialchars(json_encode($dataAttribs)) . '" aria-label="' . Text::_('INSTL_CHANGE_INSTALL_LANG') . '" class="btn btn-primary btn-sm ms-2"><span class="icon-repeat icon-fw me-2" aria-hidden="true"></span>' . Text::_('INSTL_CHANGE_INSTALL_LANG_SHORT') . '</button>';
 
                 echo Text::sprintf('INSTL_SELECTED_INSTALL_LANGUAGE', $text);
                 ?>

@@ -211,8 +211,8 @@ if ($this->hasDueTasks === true) {
                             <?php endif; ?>
                             <?php if ($item->locked) : ?>
                                 <?php echo HTMLHelper::_('jgrid.action', $i, 'unlock', ['enabled' => $canChange, 'prefix' => 'tasks.',
-                                    'active_class' => 'none fa fa-running border-dark text-body',
-                                    'inactive_class' => 'none fa fa-running', 'tip' => true, 'translate' => false,
+                                    'active_class' => 'none icon-running border-dark text-body',
+                                    'inactive_class' => 'none icon-running', 'tip' => true, 'translate' => false,
                                     'active_title' => Text::sprintf('COM_SCHEDULER_RUNNING_SINCE', HTMLHelper::_('date', $item->locked, 'DATE_FORMAT_LC5')),
                                     'inactive_title' => Text::sprintf('COM_SCHEDULER_RUNNING_SINCE', HTMLHelper::_('date', $item->locked, 'DATE_FORMAT_LC5')),
                                     ]); ?>
@@ -270,7 +270,7 @@ if ($this->hasDueTasks === true) {
                                         data-scheduler-run
                                         data-id="<?php echo (int) $item->id; ?>" data-title="<?php echo htmlspecialchars($item->title); ?>"
                                         data-url="<?php echo Route::_('index.php?option=com_ajax&format=json&plugin=RunSchedulerTest&group=system&id=' . (int) $item->id); ?>">
-                                    <span class="fa fa-play fa-sm me-2"></span>
+                                    <span class="icon-play icon-sm me-2"></span>
                                     <?php echo Text::_('COM_SCHEDULER_TEST_RUN'); ?>
                                 </button>
                             </div>

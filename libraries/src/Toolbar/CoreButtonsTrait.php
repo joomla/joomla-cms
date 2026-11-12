@@ -139,7 +139,7 @@ trait CoreButtonsTrait
     {
         return $this->inlinehelpButton('inlinehelp')
             ->targetclass($class)
-            ->icon('fa fa-question-circle');
+            ->icon('icon-question-circle');
     }
 
     /**
