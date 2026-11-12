@@ -21,6 +21,7 @@ describe('Test in backend that forced MFA', () => {
 
   it('does not block login when no MFA method is enabled', () => {
     cy.doAdministratorLogin();
+    cy.visit('/administrator/index.php?option=com_cpanel');
     cy.db_getUserId().then((userId) => cy.task('queryDB', `SELECT group_id FROM #__user_usergroup_map WHERE user_id = '${userId}'`))
       .then((groups) => {
         expect(groups.length).to.be.greaterThan(0);
