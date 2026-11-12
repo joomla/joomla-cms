@@ -36,11 +36,22 @@ describe('Test in backend that forced MFA', () => {
                 originalComUsersParams = rows[0].params;
                 const params = JSON.parse(originalComUsersParams);
 
-                params.forceMFAUserGroups = groups.map((group) => Number(group.group_id));
+                params.forceMFAUserGroups = [];
                 const updatedParams = JSON.stringify(params).replace(/'/g, "''");
 
                 return cy.task('queryDB', `UPDATE #__extensions SET params = '${updatedParams}' WHERE name = 'com_users'`)
                   .then(() => cy.task('queryDB', "UPDATE #__extensions SET enabled = '0' WHERE folder = 'multifactorauth'"));
+              })
+              .then(() => {
+                cy.visit('/administrator/index.php?option=com_config&view=component&component=com_users');
+                cy.get('#jform_params_forceMFAUserGroups').should('be.disabled');
+                cy.contains('.alert-danger', 'There are no active Multi-factor Authentication methods').should('exist');
+
+                const params = JSON.parse(originalComUsersParams);
+                params.forceMFAUserGroups = groups.map((group) => Number(group.group_id));
+                const updatedParams = JSON.stringify(params).replace(/'/g, "''");
+
+                return cy.task('queryDB', `UPDATE #__extensions SET params = '${updatedParams}' WHERE name = 'com_users'`);
               });
           });
       })
