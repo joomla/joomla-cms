@@ -92,6 +92,7 @@ class GroupsController extends ApiController
      *
      * @return  boolean
      *
+     * @since   5.4.7
      * @since   6.1.2
      */
     protected function allowAdd($data = [])
@@ -116,6 +117,7 @@ class GroupsController extends ApiController
      *
      * @return  boolean
      *
+     * @since   5.4.7
      * @since   6.1.2
      */
     protected function allowEdit($data = [], $key = 'parent_id')
@@ -175,6 +177,7 @@ class GroupsController extends ApiController
      *
      * @return  boolean
      *
+     * @since   5.4.8
      * @since   6.1.3
      */
     protected function allowDelete(): bool
