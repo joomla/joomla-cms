@@ -972,7 +972,7 @@ class Query
                     $token = Helper::tokenize($terms[$i], $lang, true);
 
                     // At this point we can only have 0 or 1 tokens in the array, since we are asking for a phrase-token
-                    if (!count($token)) {
+                    if (!\count($token)) {
                         continue;
                     }
 
