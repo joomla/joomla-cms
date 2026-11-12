@@ -146,7 +146,7 @@ Joomla = window.Joomla || {};
 
   PreUpdateChecker.cleanup = (status) => {
     // Set the icon in the nav-tab
-    const infoIcon = document.querySelector('#joomlaupdate-precheck-extensions-tab .fa-spinner');
+    const infoIcon = document.querySelector('#joomlaupdate-precheck-extensions-tab .icon-spinner');
 
     let iconColor = 'success';
     let iconClass = 'check';
@@ -163,8 +163,8 @@ Joomla = window.Joomla || {};
       default:
     }
     if (infoIcon) {
-      infoIcon.classList.remove('fa-spinner', 'fa-spin');
-      infoIcon.classList.add(`fa-${iconClass}`, `text-${iconColor}`, 'bg-white');
+      infoIcon.classList.remove('icon-spinner', 'icon-spin');
+      infoIcon.classList.add(`icon-${iconClass}`, `text-${iconColor}`, 'bg-white');
     }
     // Hide table of addons to load
     const checkedExtensions = document.querySelector('#compatibilityTable0');

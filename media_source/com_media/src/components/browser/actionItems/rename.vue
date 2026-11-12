@@ -11,7 +11,7 @@
     @keyup.esc="hideActions()"
   >
     <span
-      class="image-browser-action fa fa-i-cursor"
+      class="image-browser-action icon-i-cursor"
       aria-hidden="true"
     />
     <span class="action-text">

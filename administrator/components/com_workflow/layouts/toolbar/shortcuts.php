@@ -29,7 +29,7 @@ $shortcutsPopupOptions = json_encode([
         class="btn btn-info action-button"
         data-joomla-dialog="<?php echo htmlspecialchars($shortcutsPopupOptions, ENT_QUOTES, 'UTF-8'); ?>"
     >
-        <span class="fa fa-keyboard" aria-hidden="true"></span>
+        <span class="icon-keyboard" aria-hidden="true"></span>
         <?php echo Text::_('COM_WORKFLOW_GRAPH_SHORTCUTS'); ?>
     </button>
 </joomla-toolbar-button>

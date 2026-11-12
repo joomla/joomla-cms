@@ -86,13 +86,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     </div>
                                     <?php if (isset($item->xmldata->inheritable) && $item->xmldata->inheritable) : ?>
                                         <div class="badge bg-primary">
-                                            <span class="fas fa-link text-light" aria-hidden="true"></span>
+                                            <span class="icon-link text-light" aria-hidden="true"></span>
                                             <?php echo Text::_('COM_TEMPLATES_TEMPLATE_IS_PARENT'); ?>
                                         </div>
                                     <?php endif; ?>
                                     <?php if (isset($item->xmldata->parent) && (string) $item->xmldata->parent !== '') : ?>
                                         <div class="badge bg-info text-light">
-                                            <span class="fas fa-clone text-light" aria-hidden="true"></span>
+                                            <span class="icon-clone text-light" aria-hidden="true"></span>
                                             <?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_IS_CHILD_OF', (string) $item->xmldata->parent); ?>
                                         </div>
                                     <?php endif; ?>

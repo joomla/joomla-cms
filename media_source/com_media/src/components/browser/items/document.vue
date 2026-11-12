@@ -22,7 +22,7 @@
           v-if="!thumbURL"
           class="file-icon"
         >
-          <span class="fas fa-file" />
+          <span class="icon-file" />
         </div>
       </div>
     </div>

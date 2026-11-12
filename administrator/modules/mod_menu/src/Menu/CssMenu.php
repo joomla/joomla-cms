@@ -149,7 +149,7 @@ class CssMenu implements DatabaseAwareInterface
 
                 // In recovery mode, load the preset inside a special root node.
                 $this->root = new AdministratorMenuItem(['level' => 0]);
-                $heading    = new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_MENU_ROOT', 'type' => 'heading', 'class' => 'class:fa fa-notes-medical']);
+                $heading    = new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_MENU_ROOT', 'type' => 'heading', 'class' => 'class:icon-notes-medical']);
                 $this->root->addChild($heading);
 
                 MenusHelper::loadPreset('default', true, $heading);

@@ -33,7 +33,7 @@
       style="display: grid; justify-content: center; align-content: center; color: var(--gray-200); height: 100%;"
     >
       <span
-        class="fa-8x icon-cloud-upload upload-icon"
+        class="icon-8x icon-cloud-upload upload-icon"
         aria-hidden="true"
       />
       <p>{{ translate("COM_MEDIA_DROP_FILE") }}</p>

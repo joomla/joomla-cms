@@ -52,7 +52,7 @@
         >
           <span
             v-if="showMiniMap"
-            class="fa fa-close"
+            class="icon-close"
             aria-hidden="true"
           />
           <span

@@ -61,7 +61,7 @@ $helpUrl = 'https://docs.joomla.org/Special:MyLanguage/J4.x:Joomla_Update_Proble
 ?>
 
 <div class="px-4 py-5 my-5 text-center" id="joomlaupdate-progress">
-    <span class="fa-8x mb-4 icon-loop joomlaupdate" aria-hidden="true"></span>
+    <span class="icon-8x mb-4 icon-loop joomlaupdate" aria-hidden="true"></span>
     <h1 class="display-5 fw-bold"><?php echo Text::_('COM_JOOMLAUPDATE_UPDATING_HEAD') ?></h1>
     <div class="col-lg-6 mx-auto">
         <p class="lead mb-4" id="update-title">
@@ -75,17 +75,17 @@ $helpUrl = 'https://docs.joomla.org/Special:MyLanguage/J4.x:Joomla_Update_Proble
         <div id="update-progress" class="container text-muted my-3">
             <div class="row">
                 <div class="col">
-                    <span class="fa fa-file-archive" aria-hidden="true"></span>
+                    <span class="icon-file-archive" aria-hidden="true"></span>
                     <span class="visually-hidden"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_BYTESREAD'); ?></span>
                     <span id="extbytesin"></span>
                 </div>
                 <div class="col">
-                    <span class="fa fa-hdd" aria-hidden="true"></span>
+                    <span class="icon-hdd" aria-hidden="true"></span>
                     <span class="visually-hidden"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_BYTESEXTRACTED'); ?></span>
                     <span id="extbytesout"></span>
                 </div>
                 <div class="col">
-                    <span class="fa fa-copy" aria-hidden="true"></span>
+                    <span class="icon-copy" aria-hidden="true"></span>
                     <span class="visually-hidden"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FILESEXTRACTED'); ?></span>
                     <span id="extfiles"></span>
                 </div>
@@ -106,21 +106,21 @@ $helpUrl = 'https://docs.joomla.org/Special:MyLanguage/J4.x:Joomla_Update_Proble
                     <a href="<?php echo $helpUrl ?>"
                        target="_blank"
                        class="btn btn-info">
-                        <span class="fa fa-info-circle" aria-hidden="true"></span>
+                        <span class="icon-info-circle" aria-hidden="true"></span>
                         <?php echo Text::_('COM_JOOMLAUPDATE_ERRORMODAL_BTN_HELP') ?>
                     </a>
                 </div>
                 <div>
                     <button type="button" id="joomlaupdate-resume"
                             class="btn btn-primary">
-                        <span class="fa fa-play" aria-hidden="true"></span>
+                        <span class="icon-play" aria-hidden="true"></span>
                         <?php echo Text::_('COM_JOOMLAUPDATE_ERRORSTATE_BTN_RETRY') ?>
                     </button>
                 </div>
                 <div>
                     <button type="button" id="joomlaupdate-restart"
                             class="btn btn-warning">
-                        <span class="fa fa-redo" aria-hidden="true"></span>
+                        <span class="icon-redo" aria-hidden="true"></span>
                         <?php echo Text::_('COM_JOOMLAUPDATE_ERRORSTATE_BTN_RESTART') ?>
                     </button>
                 </div>
