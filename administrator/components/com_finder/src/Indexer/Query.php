@@ -19,6 +19,7 @@ use Joomla\Component\Finder\Site\Helper\RouteHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -767,6 +768,16 @@ class Query
         $terms   = [];
         $phrases = [];
 
+        /*
+         * Container for the tokens that have been collected so far. The tokens are
+         * not resolved against the terms table while they are collected, that is
+         * done for the complete set at once further down. Each entry holds the
+         * token, its required flag and the stack it has to be added to, where
+         * "auto" means included if the token is required or has matches and
+         * ignored otherwise.
+         */
+        $pending = [];
+
         // Cleared filter branches.
         $cleared = [];
 
@@ -959,12 +970,13 @@ class Query
                 if ($op === 'AND' && isset($terms[$i + 2])) {
                     // Tokenize the current term.
                     $token = Helper::tokenize($terms[$i], $lang, true);
-                    if (!$token) {
+
+                    // At this point we can only have 0 or 1 tokens in the array, since we are asking for a phrase-token
+                    if (!count($token)) {
                         continue;
                     }
 
-                    // @todo: The previous function call may return an array, which seems not to be handled by the next one, which expects an object
-                    $token = $this->getTokenData(array_shift($token));
+                    $token = array_shift($token);
 
                     if ($params->get('filter_commonwords', 0) && $token->common) {
                         continue;
@@ -974,12 +986,8 @@ class Query
                         continue;
                     }
 
-                    // Set the required flag.
-                    $token->required = true;
-
-                    // Add the current token to the stack.
-                    $this->included[] = $token;
-                    $this->highlight  = array_merge($this->highlight, array_keys($token->matches));
+                    // Add the current token to the stack, it is required.
+                    $pending[] = [$token, true, 'included'];
 
                     // Skip the next token (the mode operator).
                     $this->operators[] = $terms[$i + 1];
@@ -990,14 +998,10 @@ class Query
                         continue;
                     }
 
-                    $other = $this->getTokenData(array_shift($other));
+                    $other = array_shift($other);
 
-                    // Set the required flag.
-                    $other->required = true;
-
-                    // Add the token after the next token to the stack.
-                    $this->included[] = $other;
-                    $this->highlight  = array_merge($this->highlight, array_keys($other->matches));
+                    // Add the token after the next token to the stack, it is required.
+                    $pending[] = [$other, true, 'included'];
 
                     // Remove the processed phrases if possible.
                     if (($pk = array_search($terms[$i], $phrases, true)) !== false) {
@@ -1020,7 +1024,7 @@ class Query
                     if (!$token) {
                         continue;
                     }
-                    $token = $this->getTokenData(array_shift($token));
+                    $token = array_shift($token);
 
                     if ($params->get('filter_commonwords', 0) && $token->common) {
                         continue;
@@ -1030,16 +1034,8 @@ class Query
                         continue;
                     }
 
-                    // Set the required flag.
-                    $token->required = false;
-
-                    // Add the current token to the stack.
-                    if ((bool) $token->matches) {
-                        $this->included[] = $token;
-                        $this->highlight  = array_merge($this->highlight, array_keys($token->matches));
-                    } else {
-                        $this->ignored[] = $token;
-                    }
+                    // Add the current token to the stack, it is not required.
+                    $pending[] = [$token, false, 'auto'];
 
                     // Skip the next token (the mode operator).
                     $this->operators[] = $terms[$i + 1];
@@ -1049,18 +1045,10 @@ class Query
                     if (!$other) {
                         continue;
                     }
-                    $other = $this->getTokenData(array_shift($other));
+                    $other = array_shift($other);
 
-                    // Set the required flag.
-                    $other->required = false;
-
-                    // Add the token after the next token to the stack.
-                    if ((bool) $other->matches) {
-                        $this->included[] = $other;
-                        $this->highlight  = array_merge($this->highlight, array_keys($other->matches));
-                    } else {
-                        $this->ignored[] = $other;
-                    }
+                    // Add the token after the next token to the stack, it is not required.
+                    $pending[] = [$other, false, 'auto'];
 
                     // Remove the processed phrases if possible.
                     if (($pk = array_search($terms[$i], $phrases, true)) !== false) {
@@ -1087,7 +1075,7 @@ class Query
                 if (!$other) {
                     continue;
                 }
-                $other = $this->getTokenData(array_shift($other));
+                $other = array_shift($other);
 
                 if ($params->get('filter_commonwords', 0) && $other->common) {
                     continue;
@@ -1097,16 +1085,8 @@ class Query
                     continue;
                 }
 
-                // Set the required flag.
-                $other->required = false;
-
-                // Add the token after the next token to the stack.
-                if ((bool) $other->matches) {
-                    $this->included[] = $other;
-                    $this->highlight  = array_merge($this->highlight, array_keys($other->matches));
-                } else {
-                    $this->ignored[] = $other;
-                }
+                // Add the token after the next token to the stack, it is not required.
+                $pending[] = [$other, false, 'auto'];
 
                 // Remove the processed phrase if possible.
                 if (($pk = array_search($terms[$i + 1], $phrases, true)) !== false) {
@@ -1128,7 +1108,7 @@ class Query
                 if (!$other) {
                     continue;
                 }
-                $other = $this->getTokenData(array_shift($other));
+                $other = array_shift($other);
 
                 if ($params->get('filter_commonwords', 0) && $other->common) {
                     continue;
@@ -1138,15 +1118,8 @@ class Query
                     continue;
                 }
 
-                // Set the required flag.
-                $other->required = false;
-
-                // Add the next token to the stack.
-                if ((bool) $other->matches) {
-                    $this->excluded[] = $other;
-                } else {
-                    $this->ignored[] = $other;
-                }
+                // Add the next token to the stack, it is not required.
+                $pending[] = [$other, false, 'excluded'];
 
                 // Remove the processed phrase if possible.
                 if (($pk = array_search($terms[$i + 1], $phrases, true)) !== false) {
@@ -1173,7 +1146,7 @@ class Query
                 continue;
             }
 
-            $token = $this->getTokenData(array_shift($token));
+            $token = array_shift($token);
 
             if ($params->get('filter_commonwords', 0) && $token->common) {
                 continue;
@@ -1183,12 +1156,8 @@ class Query
                 continue;
             }
 
-            // Set the required flag.
-            $token->required = true;
-
-            // Add the current token to the stack.
-            $this->included[] = $token;
-            $this->highlight  = array_merge($this->highlight, array_keys($token->matches));
+            // Add the current token to the stack, it is required.
+            $pending[] = [$token, true, 'included'];
 
             // Remove the processed term if possible.
             if (($pk = array_search($phrases[$i], $terms, true)) !== false) {
@@ -1210,11 +1179,8 @@ class Query
             // Make sure we are working with an array.
             $tokens = \is_array($tokens) ? $tokens : [$tokens];
 
-            // Get the token data and required state for all the tokens.
+            // Get the required state for all the tokens.
             foreach ($tokens as $token) {
-                // Get the token data.
-                $token = $this->getTokenData($token);
-
                 if ($params->get('filter_commonwords', 0) && $token->common) {
                     continue;
                 }
@@ -1223,16 +1189,37 @@ class Query
                     continue;
                 }
 
-                // Set the required flag for the token.
-                $token->required = $mode === 'AND' ? (!$token->phrase) : false;
-
                 // Add the token to the appropriate stack.
-                if ($token->required || (bool) $token->matches) {
-                    $this->included[] = $token;
-                    $this->highlight  = array_merge($this->highlight, array_keys($token->matches));
+                $pending[] = [$token, $mode === 'AND' ? (!$token->phrase) : false, 'auto'];
+            }
+        }
+
+        /*
+         * Now that all tokens of the query are known, resolve them against the
+         * terms table in one go instead of running a query per token.
+         */
+        $this->getTokensData(array_column($pending, 0));
+
+        // Distribute the tokens over the stacks in the order they were collected.
+        foreach ($pending as [$token, $required, $stack]) {
+            // Set the required flag for the token.
+            $token->required = $required;
+
+            if ($stack === 'excluded') {
+                if ((bool) $token->matches) {
+                    $this->excluded[] = $token;
                 } else {
                     $this->ignored[] = $token;
                 }
+
+                continue;
+            }
+
+            if ($stack === 'included' || $token->required || (bool) $token->matches) {
+                $this->included[] = $token;
+                $this->highlight  = array_merge($this->highlight, array_keys($token->matches));
+            } else {
+                $this->ignored[] = $token;
             }
         }
 
@@ -1253,73 +1240,294 @@ class Query
      *
      * @since   2.5
      * @throws  \Exception on database error.
+     *
+     * @see     Query::getTokensData()  Resolves a whole set of tokens at once.
      */
     protected function getTokenData($token)
     {
-        // Get the database object.
-        $db = $this->getDatabase();
+        $this->getTokensData([$token]);
 
-        // Create a database query to build match the token.
-        $query = $db->createQuery()
-            ->select('t.term, t.term_id')
-            ->from('#__finder_terms AS t');
+        return $token;
+    }
 
-        if ($token->phrase) {
-            // Add the phrase to the query.
-            $query->where('t.term = ' . $db->quote($token->term))
-                ->where('t.phrase = 1');
-        } else {
-            // Add the term to the query.
+    /**
+     * Method to get the base and similar term ids and, if necessary, suggested
+     * term data for a whole set of tokens at once.
+     *
+     * This does the same as getTokenData() does for a single token, but it
+     * resolves the complete set with a fixed number of queries instead of one
+     * query per token plus another one for every token without a match. The
+     * rows are distributed back onto the tokens in PHP.
+     *
+     * @param   Token[]  $tokens  An array of Token objects.
+     *
+     * @return  Token[]  The array of Token objects.
+     *
+     * @since   6.2.0
+     * @throws  \Exception on database error.
+     */
+    protected function getTokensData(array $tokens)
+    {
+        /*
+         * Reduce the set to the distinct token instances. The tokenizer caches its
+         * tokens, so the same instance can be part of the set more than once and
+         * must not be resolved twice.
+         */
+        $unique = [];
 
-            $searchTerm = $token->term;
-            $searchStem = $token->stem;
-            $term       = $db->quoteName('t.term');
-            $stem       = $db->quoteName('t.stem');
-
-            if ($this->wordmode === 'begin') {
-                $searchTerm .= '%';
-                $searchStem .= '%';
-                $query->where('(' . $term . ' LIKE :searchTerm OR ' . $stem . ' LIKE :searchStem)');
-            } elseif ($this->wordmode === 'fuzzy') {
-                $searchTerm = '%' . $searchTerm . '%';
-                $searchStem = '%' . $searchStem . '%';
-                $query->where('(' . $term . ' LIKE :searchTerm OR ' . $stem . ' LIKE :searchStem)');
-            } else {
-                $query->where('(' . $term . ' = :searchTerm OR ' . $stem . ' = :searchStem)');
+        foreach ($tokens as $token) {
+            if ($token instanceof Token) {
+                $unique[spl_object_id($token)] = $token;
             }
-
-            $query->bind(':searchTerm', $searchTerm, ParameterType::STRING)
-                ->bind(':searchStem', $searchStem, ParameterType::STRING);
-
-            $query->where('t.phrase = 0')
-                ->where('t.language IN (\'*\',' . $db->quote($token->language) . ')');
         }
 
-        // Get the terms.
-        $db->setQuery($query);
-        $matches = $db->loadObjectList();
+        if (!$unique) {
+            return $tokens;
+        }
 
-        // Check the matching terms.
-        if ((bool) $matches) {
-            // Add the matches to the token.
-            foreach ($matches as $item) {
-                if (!isset($token->matches[$item->term])) {
-                    $token->matches[$item->term] = [];
+        // Phrases and words are matched with different rules, so they need their own query.
+        $phrases = [];
+        $words   = [];
+
+        foreach ($unique as $token) {
+            if ($token->phrase) {
+                $phrases[] = $token;
+            } else {
+                $words[] = $token;
+            }
+        }
+
+        if ($phrases) {
+            $db     = $this->getDatabase();
+            $query  = $db->createQuery();
+
+            $bound = [];
+            $terms = [];
+            $cases = [];
+
+            foreach ($phrases as $token) {
+                $placeholder = $this->bindTerm($query, $token->term, $bound);
+
+                $terms[$placeholder] = $placeholder;
+                $cases[]             = $db->quoteName('t.term') . ' = ' . $placeholder;
+            }
+
+            $query->select($db->quoteName(['t.term', 't.term_id']))
+                ->select($this->buildTokenMarker($cases))
+                ->from($db->quoteName('#__finder_terms', 't'))
+                ->where($db->quoteName('t.phrase') . ' = 1')
+                ->where($db->quoteName('t.term') . ' IN (' . implode(',', $terms) . ')');
+
+            $db->setQuery($query);
+
+            foreach ($db->loadObjectList() as $match) {
+                if ((string) $match->finder_tokens === '') {
+                    continue;
                 }
 
-                $token->matches[$item->term][] = (int) $item->term_id;
+                foreach (explode(',', $match->finder_tokens) as $index) {
+                    if (isset($phrases[(int) $index])) {
+                        $this->addMatch($phrases[(int) $index], $match);
+                    }
+                }
             }
         }
 
-        // If no matches were found, try to find a similar but better token.
-        if (empty($token->matches)) {
-            // Create a database query to get the similar terms.
-            $query->clear()
-                ->select('DISTINCT t.term_id AS id, t.term AS term')
-                ->from('#__finder_terms AS t')
-                // ->where('t.soundex = ' . soundex($db->quote($token->term)))
-                ->where('t.soundex = SOUNDEX(' . $db->quote($token->term) . ')')
-                ->where('t.phrase = ' . (int) $token->phrase);
+        if ($words) {
+            $db     = $this->getDatabase();
+            $query  = $db->createQuery();
+
+            $term = $db->quoteName('t.term');
+            $stem = $db->quoteName('t.stem');
+
+            $bound = [];
+
+            // The language neutral index, it is a candidate for every token.
+            $neutral = $this->bindTerm($query, '*', $bound);
+
+            $conditions = [];
+            $languages  = [$neutral => $neutral];
+            $cases      = [];
+
+            foreach ($words as $token) {
+                $searchTerm = $token->term;
+                $searchStem = $token->stem;
+
+                if ($this->wordmode === 'begin') {
+                    $searchTerm = $searchTerm . '%';
+                    $searchStem = $searchStem . '%';
+                    $operator   = ' LIKE ';
+                } elseif ($this->wordmode === 'fuzzy') {
+                    $searchTerm = '%' . $searchTerm . '%';
+                    $searchStem = '%' . $searchStem . '%';
+                    $operator   = ' LIKE ';
+                } else {
+                    $operator = ' = ';
+                }
+
+                $termCondition = $term . $operator . $this->bindTerm($query, $searchTerm, $bound);
+                $stemCondition = $stem . $operator . $this->bindTerm($query, $searchStem, $bound);
+
+                $conditions[$termCondition] = $termCondition;
+                $conditions[$stemCondition] = $stemCondition;
+
+                $language             = $this->bindTerm($query, $token->language, $bound);
+                $languages[$language] = $language;
+
+                $cases[] = '(' . $termCondition . ' OR ' . $stemCondition . ')'
+                    . ' AND ' . $db->quoteName('t.language') . ' IN (' . $neutral . ', ' . $language . ')';
+            }
+
+            $query->select($db->quoteName(['t.term', 't.term_id']))
+                ->select($this->buildTokenMarker($cases))
+                ->from($db->quoteName('#__finder_terms', 't'))
+                ->where($db->quoteName('t.phrase') . ' = 0')
+                ->where($db->quoteName('t.language') . ' IN (' . implode(',', $languages) . ')')
+                ->where('(' . implode(' OR ', $conditions) . ')');
+
+            $db->setQuery($query);
+
+            foreach ($db->loadObjectList() as $match) {
+                if ((string) $match->finder_tokens === '') {
+                    continue;
+                }
+
+                foreach (explode(',', $match->finder_tokens) as $index) {
+                    if (isset($words[(int) $index])) {
+                        $this->addMatch($words[(int) $index], $match);
+                    }
+                }
+            }
+        }
+
+        /*
+         * For the tokens that did not match anything we know that we will not be able
+         * to return any results, so we try to find a similar term that we can suggest
+         * as an alternative search query to the user.
+         */
+        $unmatched = [];
+
+        foreach ($unique as $token) {
+            if (empty($token->matches)) {
+                $unmatched[] = $token;
+            }
+        }
+
+        if ($unmatched) {
+            $this->suggestTokens($unmatched);
+        }
+
+        return $tokens;
+    }
+
+    /**
+     * Method to bind a value to the query and return the placeholder for it. The same
+     * value is only bound once, its placeholder can be used in more than one clause.
+     *
+     * @param   QueryInterface  $query  The query to bind the value to.
+     * @param   string          $value  The value to bind.
+     * @param   array           $bound  The values already bound to the query.
+     *
+     * @return  string  The placeholder of the bound value.
+     *
+     * @since   6.2.0
+     */
+    private function bindTerm(QueryInterface $query, $value, array &$bound)
+    {
+        if (!isset($bound[$value])) {
+            $bound[$value] = $query->bindArray([$value], ParameterType::STRING)[0];
+        }
+
+        return $bound[$value];
+    }
+
+    /**
+     * Method to build the column that tells for every returned row which of the tokens
+     * matched it. The conditions of the individual tokens are evaluated on the rows the
+     * query returns, so the rows can be distributed without having to reproduce the
+     * comparison rules of the database collation in PHP.
+     *
+     * @param   string[]  $cases  The match condition of every token, in token order.
+     *
+     * @return  string  The select expression including its column alias.
+     *
+     * @since   6.2.0
+     */
+    private function buildTokenMarker(array $cases)
+    {
+        $db = $this->getDatabase();
+
+        foreach ($cases as $index => $case) {
+            $cases[$index] = 'CASE WHEN ' . $case . ' THEN ' . $db->quote((string) $index) . ' END';
+        }
+
+        return 'CONCAT_WS(' . $db->quote(',') . ', ' . implode(', ', $cases) . ') AS ' . $db->quoteName('finder_tokens');
+    }
+
+    /**
+     * Method to add a matched term to a token.
+     *
+     * @param   Token   $token  The token to add the match to.
+     * @param   object  $match  The row returned by the term query.
+     *
+     * @return  void
+     *
+     * @since   6.2.0
+     */
+    private function addMatch(Token $token, $match)
+    {
+        if (!isset($token->matches[$match->term])) {
+            $token->matches[$match->term] = [];
+        }
+
+        $token->matches[$match->term][] = (int) $match->term_id;
+    }
+
+    /**
+     * Method to find a similar but better term for the tokens that did not match
+     * anything, so that we can suggest an alternative search query to the user.
+     *
+     * @param   Token[]  $tokens  An array of Token objects without matches.
+     *
+     * @return  void
+     *
+     * @since   6.2.0
+     * @throws  \Exception on database error.
+     */
+    private function suggestTokens(array $tokens)
+    {
+        $db = $this->getDatabase();
+
+        // Phrases and words share the table but are never suggested for each other.
+        $groups = [];
+
+        foreach ($tokens as $token) {
+            $groups[(int) $token->phrase][] = $token;
+        }
+
+        foreach ($groups as $phrase => $group) {
+            $query = $db->createQuery();
+            $bound = [];
+
+            $codes = [];
+            $cases = [];
+
+            /*
+             * The soundex column is filled by the database function, so the codes of
+             * the tokens are calculated by the database as well to be comparable.
+             */
+            foreach ($group as $token) {
+                $code = 'SOUNDEX(' . $this->bindTerm($query, $token->term, $bound) . ')';
+
+                $codes[$code] = $code;
+                $cases[]      = $db->quoteName('t.soundex') . ' = ' . $code;
+            }
+
+            $query->select('DISTINCT ' . implode(', ', $db->quoteName(['t.term_id', 't.term'], ['id', 'term'])))
+                ->select($this->buildTokenMarker($cases))
+                ->from($db->quoteName('#__finder_terms', 't'))
+                ->where($db->quoteName('t.phrase') . ' = ' . (int) $phrase)
+                ->where($db->quoteName('t.soundex') . ' IN (' . implode(',', $codes) . ')');
 
             // Get the terms.
             $db->setQuery($query);
@@ -1327,34 +1535,40 @@ class Query
 
             // Check if any similar terms were found.
             if (empty($results)) {
-                return $token;
+                continue;
             }
 
-            // Stack for sorting the similar terms.
+            // Stacks for sorting the similar terms, one per token of the group.
             $suggestions = [];
 
             // Get the levenshtein distance for all suggested terms.
             foreach ($results as $sk => $st) {
-                // Get the levenshtein distance between terms.
-                $distance = levenshtein($st->term, $token->term);
+                if ((string) $st->finder_tokens === '') {
+                    continue;
+                }
 
-                // Make sure the levenshtein distance isn't over 50.
-                if ($distance < 50) {
-                    $suggestions[$sk] = $distance;
+                foreach (explode(',', $st->finder_tokens) as $index) {
+                    if (!isset($group[(int) $index])) {
+                        continue;
+                    }
+
+                    // Get the levenshtein distance between terms.
+                    $distance = levenshtein($st->term, $group[(int) $index]->term);
+
+                    // Make sure the levenshtein distance isn't over 50.
+                    if ($distance < 50) {
+                        $suggestions[(int) $index][$sk] = $distance;
+                    }
                 }
             }
 
-            // Sort the suggestions.
-            asort($suggestions, SORT_NUMERIC);
+            foreach ($suggestions as $index => $distances) {
+                // Sort the suggestions.
+                asort($distances, SORT_NUMERIC);
 
-            // Get the closest match.
-            $keys = array_keys($suggestions);
-            $key  = $keys[0];
-
-            // Add the suggested term.
-            $token->suggestion = $results[$key]->term;
+                // Add the closest match as the suggested term.
+                $group[$index]->suggestion = $results[array_key_first($distances)]->term;
+            }
         }
-
-        return $token;
     }
 }
