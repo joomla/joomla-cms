@@ -67,7 +67,7 @@ class RouterTreeModeTest extends UnitTestCase
     private function createTreeRouter(?int $activeId = null, array $filters = [])
     {
         $items = [
-            5  => $this->createTagsMenuItem(5, ['view' => 'tags']),
+            5 => $this->createTagsMenuItem(5, ['view' => 'tags']),
             // A menu item on "news".
             20 => $this->createTagsMenuItem(20, ['view' => 'tag', 'id' => [3]]),
             // A menu item on "sport", which lives below "news".
