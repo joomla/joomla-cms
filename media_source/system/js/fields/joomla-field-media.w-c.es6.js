@@ -38,7 +38,7 @@ class JoomlaFieldMedia extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['base-path', 'root-folder', 'url', 'modal-title', 'modal-width', 'modal-height', 'input', 'button-select', 'button-clear', 'preview', 'preview-width', 'preview-height'];
+    return ['base-path', 'root-folder', 'url', 'modal-title-select', 'modal-title-change', 'modal-width', 'modal-height', 'input', 'button-select', 'button-clear', 'preview', 'preview-width', 'preview-height'];
   }
 
   get types() { return this.getAttribute('types') || ''; }
@@ -73,9 +73,9 @@ class JoomlaFieldMedia extends HTMLElement {
 
   set modalHeight(value) { this.setAttribute('modal-height', value); }
 
-  get modalTitle() { return this.getAttribute('modal-title'); }
+  get modalTitleSelect() { return this.getAttribute('modal-title-select'); }
 
-  set modalTitle(value) { this.setAttribute('modal-title', value); }
+  get modalTitleChange() { return this.getAttribute('modal-title-change'); }
 
   get previewWidth() { return parseInt(this.getAttribute('preview-width'), 10); }
 
@@ -139,7 +139,9 @@ class JoomlaFieldMedia extends HTMLElement {
     const dialog = new JoomlaDialog({
       popupType: 'iframe',
       src: this.url,
-      textHeader: this.modalTitle,
+      textHeader: this.inputElement.value.trim()
+        ? this.modalTitleChange
+        : this.modalTitleSelect,
       width: this.modalWidth,
       height: this.modalHeight,
       popupButtons: [
