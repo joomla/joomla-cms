@@ -167,7 +167,8 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
                     'plg_task_privacyconsent.request.reminder',
                     $app->getLanguage()->getTag(),
                     $this->getMailerFactory()->createMailer(),
-                    $this->getLanguageFactory()
+                    $this->getLanguageFactory(),
+                    $this->getDatabase()
                 );
                 $mailer->addTemplateData($templateData);
                 $mailer->addRecipient($user->email);

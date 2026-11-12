@@ -202,10 +202,12 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                         'plg_content_joomla.newarticle',
                         $receiver->getParam('admin_language', $this->getLanguage()->getTag()),
                         $this->getMailerFactory()->createMailer(),
-                        $this->getLanguageFactory()
+                        $this->getLanguageFactory(),
+                        $this->getDatabase()
                     );
                     $mailer->addTemplateData($templateData);
                     $mailer->addRecipient($receiver->email, $receiver->name);
+                    $mailer->addUnsafeTags(['name']);
 
                     $mailer->send();
                 } catch (MailDisabledException | phpMailerException $exception) {
