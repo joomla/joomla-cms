@@ -149,6 +149,12 @@ class TagTableTest extends IntegrationTestCase implements DBTestInterface
         $table->created_by_alias = '';
         $table->version          = 1;
 
+        /*
+         * The form binds the parent_id before store() runs, and the alias check in TagTable::store()
+         * reads it, so it has to be set here as well. Nested::store() would only derive it afterwards
+         * from the location.
+         */
+        $table->parent_id = $parentId;
         $table->setLocation($parentId, 'last-child');
 
         return $table;
@@ -243,8 +249,8 @@ class TagTableTest extends IntegrationTestCase implements DBTestInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    #[TestDox('The alias uniqueness check is global and is not scoped to the siblings of a tag')]
-    public function testAliasUniquenessIsGlobalAndNotScopedToSiblings()
+    #[TestDox('The alias uniqueness check is scoped to the siblings of a tag')]
+    public function testAliasUniquenessIsScopedToSiblings()
     {
         $sport   = $this->storeTag('Sport', 'sport');
         $culture = $this->storeTag('Culture', 'culture');
@@ -254,21 +260,17 @@ class TagTableTest extends IntegrationTestCase implements DBTestInterface
         $secondFootball = $this->makeTag('Football', 'football', (int) $culture->id);
 
         /*
-         * Characterization: this looks like it should be allowed, because the two tags are in different
-         * branches of the tree and a nested taxonomy would normally scope an alias to its siblings.
-         * It is not allowed. TagTable::store() loads any tag with the same alias regardless of its
-         * parent, and TagModel::generateNewTitle() ignores the $parentId argument it is handed.
-         *
-         * This is load bearing for anything that wants to derive URLs from the tag tree: because the
-         * alias is unique for the whole site, a single alias segment already identifies a tag and no
-         * path is needed to disambiguate it.
+         * Since #48248 TagTable::store() only looks for a tag with the same alias under the same parent,
+         * as a nested taxonomy normally does. Two tags in different branches of the tree may therefore
+         * share an alias, which means that a single alias segment no longer identifies a tag on its own.
+         * See RouterSegmentsTest::testTagsWithTheSameAliasUnderDifferentParentsShareASegment().
          */
         $this->assertTrue($secondFootball->check());
-        $this->assertFalse(
+        $this->assertTrue(
             $secondFootball->store(),
-            'The alias check is currently global, so a duplicate alias under a different parent is rejected'
+            'A duplicate alias under a different parent has to be stored: ' . $secondFootball->getError()
         );
-        $this->assertNotEmpty($secondFootball->getError());
+        $this->assertSame((int) $culture->id, (int) $secondFootball->parent_id);
     }
 
     /**

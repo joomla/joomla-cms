@@ -72,7 +72,7 @@ This is the area a change to the tagging model touches most, so it is pinned dow
 |---|---|
 | `testTagCanBeStoredUnderAnArbitraryParent` | A tag can be stored at any depth and the nested set is maintained. |
 | `testSiblingsMayNotShareAnAlias` | Two tags under the same parent may not share an alias. |
-| `testAliasUniquenessIsGlobalAndNotScopedToSiblings` | **The alias check is global.** Two tags under *different* parents may not share an alias either. This is the opposite of what a nested taxonomy would normally do, and it is what makes a single alias segment sufficient to identify a tag in a URL. |
+| `testAliasUniquenessIsScopedToSiblings` | **The alias check is scoped to the siblings.** Two tags under *different* parents may share an alias (since #48248, before which the check was global). A single alias segment is therefore no longer sufficient to identify a tag in a URL. |
 | `testStoreDoesNotComposeThePath` | The table never composes the path; that is done by `TagModel::save()` calling `rebuildPath()` and `rebuild()`. |
 | `testPathIsComposedFromTheAncestorAliases` | `rebuildPath()` joins the aliases of all ancestors and strips the root. |
 | `testRenamingAParentAliasUpdatesTheDescendantPaths` | Renaming a parent and rebuilding updates the paths of the whole subtree. |

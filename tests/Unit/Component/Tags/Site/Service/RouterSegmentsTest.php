@@ -98,9 +98,9 @@ class RouterSegmentsTest extends UnitTestCase
          * Characterization: the two tags are indistinguishable in the URL, and parsing the segment back
          * resolves to whichever tag the database returns first. The nesting is simply not represented.
          *
-         * Note that TagTable::store() rejects a duplicate alias for the whole site rather than only for
-         * the siblings of a tag, so this state cannot currently be reached through the administrator.
-         * See TagTableTest::testAliasUniquenessIsGlobalAndNotScopedToSiblings().
+         * Since #48248 TagTable::store() only rejects a duplicate alias among the siblings of a tag, so
+         * this state can be reached through the administrator.
+         * See TagTableTest::testAliasUniquenessIsScopedToSiblings().
          */
         $this->assertSame(['football'], $router->build($firstQuery));
         $this->assertSame(['football'], $router->build($secondQuery));
