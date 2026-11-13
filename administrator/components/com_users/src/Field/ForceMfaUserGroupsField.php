@@ -171,7 +171,7 @@ class ForceMfaUserGroupsField extends UsergrouplistField
                 $pluginName,
                 [
                     'class'                 => 'alert-link',
-                    'data-joomla-dialog'    => $this->escape(json_encode($options, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)),
+                    'data-joomla-dialog'    => json_encode($options, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
                     'data-close-on-message' => '',
                     'data-mfa-plugin-link'  => '',
                 ]
