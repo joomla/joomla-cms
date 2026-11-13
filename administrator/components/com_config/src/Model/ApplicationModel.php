@@ -1206,6 +1206,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface,
         $config->set('fromname', $input->get('fromname', '', 'STRING'));
         $config->set('mailer', $input->get('mailer'));
         $config->set('mailonline', $input->get('mailonline'));
+        $config->set('mailsender', $input->get('mailsender'));
 
         // We do not load the current oauth2 information since this information needs to be already saved after authorization
         $config->set('smtp_oauth2_client_id', $app->get('smtp_oauth2_client_id', ''));
