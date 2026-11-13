@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\Model;
 
+use Joomla\CMS\Database\LocaleCollation;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
@@ -56,6 +57,15 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      * @since  1.6
      */
     protected $filter_fields = [];
+
+    /**
+     * Order columns that should use locale-aware collation when sorting (e.g. title, name, alias).
+     * Set in child classes to enable locale ordering. Keys must match filter_fields used for ordering.
+     *
+     * @var    array
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $localeOrderColumns = [];
 
     /**
      * An internal cache for the last query used.
@@ -669,5 +679,72 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
         }
 
         return implode('|', $searchArr);
+    }
+
+    /**
+     * Return the list of column keys that should use locale-aware collation when ordering.
+     *
+     * @return  array
+     */
+    protected function getLocaleOrderColumns(): array
+    {
+        return $this->localeOrderColumns;
+    }
+
+    /**
+     * Build a single ORDER BY fragment with locale collation when the column is listed in $textColumnsForCollation.
+     *
+     * @param   string  $orderCol                 Order column (e.g. a.title).
+     * @param   string  $orderDirn                Direction (ASC or DESC).
+     * @param   array   $textColumnsForCollation  Columns that should use locale collation.
+     *
+     * @return  string  Expression for QueryInterface::order().
+     */
+    protected function buildLocaleOrderByExpression(
+        string $orderCol,
+        string $orderDirn,
+        array $textColumnsForCollation
+    ): string {
+        $locale = new LocaleCollation($this->getDatabase());
+
+        return $locale->getOrderByExpression(
+            $orderCol,
+            $orderDirn,
+            $textColumnsForCollation,
+            Factory::getApplication()->getLanguage()->getTag()
+        );
+    }
+
+    /**
+     * Apply locale collation to recognized text columns in a comma-separated ORDER BY.
+     *
+     * @param   string  $ordering     Composite ORDER BY (comma-separated segments).
+     * @param   array   $textColumns  Columns that should use locale collation.
+     *
+     * @return  string
+     */
+    protected function applyLocaleCollationToCompositeOrdering(string $ordering, array $textColumns): string
+    {
+        $locale = new LocaleCollation($this->getDatabase());
+
+        return $locale->applyToCompositeOrdering(
+            $ordering,
+            $textColumns,
+            Factory::getApplication()->getLanguage()->getTag()
+        );
+    }
+
+    /**
+     * Build ORDER BY expression for the current list state, with locale collation for text columns when applicable.
+     * Use in getListQuery() as: $query->order($this->getOrderByWithLocale('a.ordering', 'ASC'));
+     *
+     * @param   string  $orderCol   Ordering column.
+     * @param   string  $orderDirn  Direction (ASC or DESC).
+     *
+     * @return  string  Expression for $query->order().
+     */
+    protected function getOrderByWithLocale(string $orderCol, string $orderDirn): string
+    {
+        return $this->buildLocaleOrderByExpression($orderCol, $orderDirn, $this->getLocaleOrderColumns());
     }
 }
