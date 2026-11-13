@@ -541,6 +541,18 @@ class Query
             unset($filters[array_search(0, $filters, true)]);
         }
 
+        if ((int) $params->get('active_user_only') === 1) {
+            $filters = array_diff($filters, $this->getAuthorTaxonomyIds());
+
+            $authorIds = $this->getActiveUserAuthorTaxonomyIds();
+
+            if ($authorIds) {
+                $filters = array_merge($filters, $authorIds);
+            } else {
+                $this->filters['Author'][-1] = '';
+            }
+        }
+
         // Check if we have any real input.
         if (empty($filters)) {
             return true;
@@ -571,6 +583,67 @@ class Query
         }
 
         return true;
+    }
+
+    /**
+     * Get all author taxonomy node ids.
+     *
+     * @return  integer[]
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function getAuthorTaxonomyIds(): array
+    {
+        $db     = $this->getDatabase();
+        $author = 'Author';
+        $query  = $db->getQuery(true)
+            ->select($db->quoteName('t.id'))
+            ->from($db->quoteName('#__finder_taxonomy', 't'))
+            ->innerJoin(
+                $db->quoteName('#__finder_taxonomy', 'p'),
+                $db->quoteName('p.id') . ' = ' . $db->quoteName('t.parent_id')
+            )
+            ->where($db->quoteName('p.title') . ' = :branch')
+            ->bind(':branch', $author, ParameterType::STRING);
+
+        return array_map('intval', $db->setQuery($query)->loadColumn());
+    }
+
+    /**
+     * Get the author taxonomy node ids for the active user.
+     *
+     * @return  integer[]
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function getActiveUserAuthorTaxonomyIds(): array
+    {
+        $db     = $this->getDatabase();
+        $user   = Factory::getApplication()->getIdentity();
+        $groups = $user->getAuthorisedViewLevels();
+        $author = 'Author';
+        $query  = $db->getQuery(true)
+            ->select($db->quoteName('t.id'))
+            ->from($db->quoteName('#__finder_taxonomy', 't'))
+            ->innerJoin(
+                $db->quoteName('#__finder_taxonomy', 'p'),
+                $db->quoteName('p.id') . ' = ' . $db->quoteName('t.parent_id')
+            )
+            ->innerJoin(
+                $db->quoteName('#__content', 'c') . ' ON ' . $db->quoteName('c.created_by') . ' = :userId'
+                . ' AND ' . $db->quoteName('t.title') . ' = CASE WHEN ' . $db->quoteName('c.created_by_alias')
+                . ' <> ' . $db->quote('') . ' THEN ' . $db->quoteName('c.created_by_alias') . ' ELSE :userName END'
+            )
+            ->where($db->quoteName('t.state') . ' = 1')
+            ->whereIn($db->quoteName('t.access'), $groups)
+            ->where($db->quoteName('p.title') . ' = :branch')
+            ->where($db->quoteName('p.state') . ' = 1')
+            ->whereIn($db->quoteName('p.access'), $groups)
+            ->bind(':userId', $user->id, ParameterType::INTEGER)
+            ->bind(':userName', $user->name, ParameterType::STRING)
+            ->bind(':branch', $author, ParameterType::STRING);
+
+        return array_unique(array_map('intval', $db->setQuery($query)->loadColumn()));
     }
 
     /**
