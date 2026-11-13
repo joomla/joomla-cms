@@ -60,10 +60,10 @@ abstract class RouteHelper
      * Get the category route.
      *
      * @param   integer  $catid     The category ID.
-     * @param   string   $language  The language code.
+     * @param   string|null  $language  The language code.
      * @param   string   $layout    The layout value.
      *
-     * @return  string  The article route.
+     * @return  string  The category route.
      *
      * @since   1.5
      */
