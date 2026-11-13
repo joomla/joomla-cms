@@ -244,7 +244,7 @@ class BannerModel extends AdminModel implements VersionableModelInterface
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return  object  The data for the form.
      *
      * @since   1.6
      */
@@ -252,7 +252,7 @@ class BannerModel extends AdminModel implements VersionableModelInterface
     {
         // Check the session for previously entered form data.
         $app  = Factory::getApplication();
-        $data = $app->getUserState('com_banners.edit.banner.data', []);
+        $data = $app->getUserState('com_banners.edit.banner.data');
 
         if (empty($data)) {
             $data = $this->getItem();
