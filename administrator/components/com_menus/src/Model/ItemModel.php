@@ -332,6 +332,11 @@ class ItemModel extends AdminModel
             return false;
         }
 
+        // Module inheritance only applies to site menus.
+        if ((int) $this->getMenuType($menuType)->client_id === 0) {
+            $this->refreshInheritedModules(array_values($newIds), false);
+        }
+
         // Clean the cache
         $this->cleanCache();
 
@@ -473,6 +478,11 @@ class ItemModel extends AdminModel
 
                 return false;
             }
+        }
+
+        // Module inheritance only applies to site menus.
+        if ((int) $this->getMenuType($menuType)->client_id === 0) {
+            $this->refreshInheritedModules((array) $pks, true);
         }
 
         // Clean the cache
@@ -1386,9 +1396,14 @@ class ItemModel extends AdminModel
         PluginHelper::importPlugin($this->events_map['save'], null, true, $dispatcher);
 
         // Load the row if saving an existing item.
+        $originalParentId = 0;
+        $originalMenuType = '';
+
         if ($pk > 0) {
             $table->load($pk);
-            $isNew = false;
+            $isNew            = false;
+            $originalParentId = (int) $table->parent_id;
+            $originalMenuType = (string) $table->menutype;
         }
 
         if (!$isNew) {
@@ -1522,6 +1537,14 @@ class ItemModel extends AdminModel
 
                 return false;
             }
+        }
+
+        // A new item, or one moved to another parent or menu, can fall under other inheriting menu items.
+        $parentChanged   = (int) $table->parent_id !== $originalParentId;
+        $menuTypeChanged = (string) $table->menutype !== $originalMenuType;
+
+        if ((int) $table->client_id === 0) {
+            $this->refreshInheritedModules([(int) $table->id], $isNew || $parentChanged || $menuTypeChanged);
         }
 
         $this->setState('item.id', $table->id);
@@ -1831,5 +1854,243 @@ class ItemModel extends AdminModel
         parent::cleanCache('com_menus');
         parent::cleanCache('com_modules');
         parent::cleanCache('mod_menu');
+    }
+
+    /**
+     * Add missing inherited module assignments for menu items or moved subtrees.
+     *
+     * @param   array    $menuIds         The menu item IDs.
+     * @param   boolean  $refreshSubtree  True to process all descendants too, false to process only the menu items.
+     *
+     * @return  void
+     *
+     * @throws  \RuntimeException  On database error.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function refreshInheritedModules(array $menuIds, bool $refreshSubtree): void
+    {
+        $menuIds = array_filter(array_unique(ArrayHelper::toInteger($menuIds)), static fn (int $id): bool => $id > 0);
+
+        if (!$menuIds || !(int) ComponentHelper::getParams('com_modules')->get('enable_inherit', 0)) {
+            return;
+        }
+
+        if ($refreshSubtree) {
+            $subtreeIds = [];
+
+            foreach ($menuIds as $menuId) {
+                $subtreeIds[] = $this->getSubtreeIds($menuId);
+            }
+
+            $menuIds = array_merge(...$subtreeIds);
+        }
+
+        $this->addInheritedModules($menuIds);
+    }
+
+    /**
+     * Get all menu IDs in a subtree.
+     *
+     * @param   integer  $rootMenuId  Subtree root menu item ID.
+     *
+     * @return  array  An array of menu item IDs (empty if the root does not exist).
+     *
+     * @throws  \RuntimeException  On database error.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getSubtreeIds(int $rootMenuId): array
+    {
+        $db = $this->getDatabase();
+
+        $query = $db->createQuery()
+            ->select($db->quoteName(['lft', 'rgt', 'menutype']))
+            ->from($db->quoteName('#__menu'))
+            ->where($db->quoteName('id') . ' = :id')
+            ->bind(':id', $rootMenuId, ParameterType::INTEGER);
+
+        try {
+            $db->setQuery($query);
+            $root = $db->loadObject();
+        } catch (\RuntimeException $e) {
+            throw new \RuntimeException($e->getMessage(), 500);
+        }
+
+        if (!$root) {
+            return [];
+        }
+
+        $lft      = (int) $root->lft;
+        $rgt      = (int) $root->rgt;
+        $menutype = (string) $root->menutype;
+        $query    = $db->createQuery()
+            ->select($db->quoteName('id'))
+            ->from($db->quoteName('#__menu'))
+            ->where($db->quoteName('lft') . ' BETWEEN :lft AND :rgt')
+            ->where($db->quoteName('menutype') . ' = :menutype')
+            ->bind(':lft', $lft, ParameterType::INTEGER)
+            ->bind(':rgt', $rgt, ParameterType::INTEGER)
+            ->bind(':menutype', $menutype);
+
+        try {
+            $db->setQuery($query);
+
+            return ArrayHelper::toInteger((array) $db->loadColumn());
+        } catch (\RuntimeException $e) {
+            throw new \RuntimeException($e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * Insert missing module-menu rows inherited from ancestor source menu items.
+     *
+     * For each menu item, materialised rows are inserted with the same sign as
+     * the ancestor source row, so exclusion-mode inheritance ("All except …")
+     * propagates as exclusions on descendants. The whole set is handled in
+     * three queries, whatever its size.
+     *
+     * @param   array  $menuIds  An array of menu item IDs (positive).
+     *
+     * @return  void
+     *
+     * @throws  \RuntimeException  On database error.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function addInheritedModules(array $menuIds): void
+    {
+        $menuIds = array_filter(array_unique(ArrayHelper::toInteger($menuIds)), static fn (int $id): bool => $id > 0);
+
+        if (!$menuIds) {
+            return;
+        }
+
+        // Rows implied by the sources: "moduleid:signed menuid" => [moduleid, signed menuid]
+        $targets   = [];
+        $moduleIds = [];
+
+        foreach ($this->getInheritedModuleIds($menuIds) as $menuId => $moduleSigns) {
+            foreach ($moduleSigns as $moduleId => $sign) {
+                $signedMenuId = $sign * $menuId;
+
+                $targets[$moduleId . ':' . $signedMenuId] = [$moduleId, $signedMenuId];
+                $moduleIds[$moduleId]                     = $moduleId;
+            }
+        }
+
+        if (!$targets) {
+            return;
+        }
+
+        $db    = $this->getDatabase();
+        $query = $db->createQuery()
+            ->select($db->quoteName(['moduleid', 'menuid']))
+            ->from($db->quoteName('#__modules_menu'))
+            ->whereIn($db->quoteName('moduleid'), array_values($moduleIds))
+            ->whereIn($db->quoteName('menuid'), array_values(array_unique(array_column($targets, 1))));
+
+        try {
+            $db->setQuery($query);
+            $existing = (array) $db->loadObjectList();
+        } catch (\RuntimeException $e) {
+            throw new \RuntimeException($e->getMessage(), 500);
+        }
+
+        foreach ($existing as $row) {
+            unset($targets[(int) $row->moduleid . ':' . (int) $row->menuid]);
+        }
+
+        if (!$targets) {
+            return;
+        }
+
+        $insert = $db->createQuery()
+            ->insert($db->quoteName('#__modules_menu'))
+            ->columns($db->quoteName(['moduleid', 'menuid', 'inherit']));
+
+        foreach ($targets as [$moduleId, $signedMenuId]) {
+            $insert->values($moduleId . ',' . $signedMenuId . ',0');
+        }
+
+        try {
+            $db->setQuery($insert);
+            $db->execute();
+        } catch (\RuntimeException $e) {
+            throw new \RuntimeException($e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * Resolve the modules to inherit for menu items from their ancestor source nodes.
+     *
+     * Returns, per menu item ID, a map of moduleId => sign, where sign is +1 if
+     * the ancestor source row had a positive menuid (include mode) and -1 if
+     * negative (exclude mode). In practice all rows for a single module share
+     * a sign, so the first sign encountered is used if duplicates appear.
+     *
+     * @param   array  $menuIds  The target menu item IDs (positive).
+     *
+     * @return  array<int, array<int, int>>  menuId => [moduleId => sign (+1 or -1)].
+     *
+     * @throws  \RuntimeException  On database error.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getInheritedModuleIds(array $menuIds): array
+    {
+        $db = $this->getDatabase();
+
+        $query = $db->createQuery()
+            ->select(
+                'DISTINCT ' . $db->quoteName('node.id') . ', '
+                . $db->quoteName('src.moduleid') . ', '
+                . $db->quoteName('src.menuid')
+            )
+            ->from($db->quoteName('#__menu', 'node'))
+            ->join(
+                'INNER',
+                $db->quoteName('#__menu', 'source'),
+                $db->quoteName('source.lft') . ' <= ' . $db->quoteName('node.lft')
+                . ' AND ' . $db->quoteName('source.rgt') . ' >= ' . $db->quoteName('node.rgt')
+                . ' AND ' . $db->quoteName('source.menutype') . ' = ' . $db->quoteName('node.menutype')
+            )
+            ->join(
+                'INNER',
+                $db->quoteName('#__modules_menu', 'src'),
+                '('
+                . $db->quoteName('src.menuid') . ' = ' . $db->quoteName('source.id')
+                . ' OR ' . $db->quoteName('src.menuid') . ' = -' . $db->quoteName('source.id')
+                . ')'
+            )
+            ->whereIn($db->quoteName('node.id'), $menuIds)
+            ->where($db->quoteName('src.inherit') . ' IN (1, 2)')
+            ->where(
+                '('
+                . $db->quoteName('src.inherit') . ' = 2 OR '
+                . $db->quoteName('node.level') . ' = (' . $db->quoteName('source.level') . ' + 1)'
+                . ')'
+            )
+            ->where($db->quoteName('node.id') . ' <> ' . $db->quoteName('source.id'));
+
+        try {
+            $db->setQuery($query);
+            $rows = (array) $db->loadObjectList();
+        } catch (\RuntimeException $e) {
+            throw new \RuntimeException($e->getMessage(), 500);
+        }
+
+        $result = [];
+
+        foreach ($rows as $row) {
+            $menuId   = (int) $row->id;
+            $moduleId = (int) $row->moduleid;
+
+            if (!isset($result[$menuId][$moduleId])) {
+                $result[$menuId][$moduleId] = (int) $row->menuid < 0 ? -1 : 1;
+            }
+        }
+
+        return $result;
     }
 }

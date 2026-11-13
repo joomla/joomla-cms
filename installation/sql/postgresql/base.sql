@@ -177,7 +177,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'com_media', 'component', 'com_media', '', 1, 1, 0, 1, 1, '', '{"upload_maxsize":"10","file_path":"files","image_path":"images","restrict_uploads":"1","allowed_media_usergroup":"3","restrict_uploads_extensions":"bmp,gif,jpg,jpeg,png,ico,webp,avif,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv","check_mime":"1","image_extensions":"bmp,gif,jpg,png,jpeg,webp,avif","audio_extensions":"mp3,m4a,mp4a,ogg","video_extensions":"mp4,mp4v,mpeg,mov,webm","doc_extensions":"odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv","ignore_extensions":"","upload_mime":"image\\/jpeg,image\\/gif,image\\/png,image\\/bmp,image\\/webp,image\\/avif,audio\\/ogg,audio\\/mpeg,audio\\/mp4,video\\/mp4,video\\/webm,video\\/mpeg,video\\/quicktime,application\\/msword,application\\/excel,application\\/pdf,application\\/powerpoint,text\\/plain,application\\/x-zip"}', '', 0, 0),
 (0, 'com_menus', 'component', 'com_menus', '', 1, 1, 1, 1, 1, '', '{"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":""}', '', 0, 0),
 (0, 'com_messages', 'component', 'com_messages', '', 1, 1, 1, 1, 1, '', '', '', 0, 0),
-(0, 'com_modules', 'component', 'com_modules', '', 1, 1, 1, 1, 1, '', '', '', 0, 0),
+(0, 'com_modules', 'component', 'com_modules', '', 1, 1, 1, 1, 1, '', '{"enable_inherit":"0"}', '', 0, 0),
 (0, 'com_newsfeeds', 'component', 'com_newsfeeds', '', 1, 1, 1, 0, 1, '', '{"newsfeed_layout":"_:default","save_history":"1","history_limit":5,"show_feed_image":"1","show_feed_description":"1","show_item_description":"1","feed_character_count":"0","feed_display_order":"des","float_first":"right","float_second":"right","show_tags":"1","category_layout":"_:default","show_category_title":"1","show_description":"1","show_description_image":"1","maxLevel":"-1","show_empty_categories":"0","show_subcat_desc":"1","show_subcat_image":"0","show_cat_items":"1","show_cat_tags":"1","show_base_description":"1","maxLevelcat":"-1","show_empty_categories_cat":"0","show_subcat_desc_cat":"1","show_cat_items_cat":"1","filter_field":"1","show_pagination_limit":"1","show_headings":"1","show_articles":"0","show_link":"1","show_pagination":"1","show_pagination_results":"1","sef_ids":1}', '', 0, 0),
 (0, 'com_plugins', 'component', 'com_plugins', '', 1, 1, 1, 1, 1, '', '', '', 0, 0),
 (0, 'com_templates', 'component', 'com_templates', '', 1, 1, 1, 1, 1, '', '{"template_positions_display":"0","upload_limit":"10","image_formats":"gif,bmp,jpg,jpeg,png,webp","source_formats":"txt,less,ini,xml,js,php,css,scss,sass,json","font_formats":"woff,woff2,ttf,otf","compressed_formats":"zip","difference":"SideBySide"}', '', 0, 0),
@@ -692,6 +692,7 @@ SELECT setval('#__modules_id_seq', 110, false);
 CREATE TABLE IF NOT EXISTS "#__modules_menu" (
   "moduleid" bigint DEFAULT 0 NOT NULL,
   "menuid" bigint DEFAULT 0 NOT NULL,
+  "inherit" smallint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("moduleid", "menuid")
 );
 

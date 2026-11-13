@@ -53,6 +53,7 @@ class JsonapiView extends BaseApiView
         'language',
         'assigned',
         'assignment',
+        'inherit',
         'xml',
     ];
 
