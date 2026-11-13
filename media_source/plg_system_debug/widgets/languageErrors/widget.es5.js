@@ -1,7 +1,6 @@
-(function ($) {
-
+(function () {
     var csscls = PhpDebugBar.utils.makecsscls('phpdebugbar-widgets-')
-    var languageErrorsWidget = PhpDebugBar.Widgets.languageErrorsWidget = PhpDebugBar.Widget.extend({
+    PhpDebugBar.Widgets.languageErrorsWidget = PhpDebugBar.Widget.extend({
 
         tagName: 'ul',
 
@@ -9,27 +8,27 @@
 
         render: function () {
             this.bindAttr('data', function (data) {
-                this.$el.empty()
+                this.el.replaceChildren()
 
-                for (var file of data.files) {
-                    var relPath = file[0].replace(data.jroot, '')
-                    var li = $('<li />')
+                ;(data.files || []).forEach(function (file) {
+                    var relativePath = file[0].replace(data.jroot, '')
+                    var item = document.createElement('li')
+                    var text = relativePath + ':' + file[1]
+
                     if (data.xdebugLink) {
-                        var link = $('<a />')
-                            .text(relPath + ':' + file[1])
-                            .attr(
-                                'href',
-                                data.xdebugLink
-                                    .replace('%f', file[0])
-                                    .replace('%l', file[1])
-                            )
-                        li.append(link)
+                        var link = document.createElement('a')
+                        link.textContent = text
+                        link.href = data.xdebugLink
+                            .replace('%f', file[0])
+                            .replace('%l', file[1])
+                        item.append(link)
                     } else {
-                        li.text(relPath + ':' + file[1])
+                        item.textContent = text
                     }
-                    this.$el.append(li)
-                }
+
+                    this.el.append(item)
+                }, this)
             })
         }
     })
-})(PhpDebugBar.$)
+})()
