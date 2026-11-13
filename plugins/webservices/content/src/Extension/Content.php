@@ -69,6 +69,8 @@ final class Content extends CMSPlugin implements SubscriberInterface
         $this->createFieldsRoutes($router);
 
         $this->createContentHistoryRoutes($router);
+
+        $this->createContentCategoryHistoryRoutes($router);
     }
 
     /**
@@ -129,6 +131,33 @@ final class Content extends CMSPlugin implements SubscriberInterface
             new Route(['GET'], 'v1/content/articles/:id/contenthistory', 'history.displayList', ['id' => '(\d+)'], $getDefaults),
             new Route(['PATCH'], 'v1/content/articles/:id/contenthistory/keep', 'history.keep', ['id' => '(\d+)'], $defaults),
             new Route(['DELETE'], 'v1/content/articles/:id/contenthistory', 'history.delete', ['id' => '(\d+)'], $defaults),
+        ];
+
+        $router->addRoutes($routes);
+    }
+
+    /**
+     * Create content category history routes
+     *
+     * @param   ApiRouter  &$router  The API Routing object
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function createContentCategoryHistoryRoutes(&$router): void
+    {
+        $defaults    = [
+            'component'  => 'com_contenthistory',
+            'type_alias' => 'com_content.category',
+            'type_id'    => 5,
+        ];
+        $getDefaults = array_merge(['public' => false], $defaults);
+
+        $routes = [
+            new Route(['GET'], 'v1/content/category/:id/contenthistory', 'history.displayList', ['id' => '(\d+)'], $getDefaults),
+            new Route(['PATCH'], 'v1/content/category/:id/contenthistory/keep', 'history.keep', ['id' => '(\d+)'], $defaults),
+            new Route(['DELETE'], 'v1/content/category/:id/contenthistory', 'history.delete', ['id' => '(\d+)'], $defaults),
         ];
 
         $router->addRoutes($routes);
