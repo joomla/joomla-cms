@@ -3,9 +3,9 @@
 /**
  * This script rebases Joomla Github Pull Requests to the target branch
  *
- * @package            Joomla.Build
+ * @package                Joomla.Build
  * @copyright          (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license            GNU General Public License version 2 or later; see LICENSE.txt
+ * @license                GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Set defaults
@@ -139,53 +139,65 @@ if (!empty($label)) {
 
 if (!empty($prNumber)) {
     echo "Retrieving Pull Request " . $prNumber . "...\n";
-    $cmd = $gh . ' pr view ' . $prNumber . ' --json ' . implode(',', $fieldList);
+    $cmdList = $gh . ' pr view ' . $prNumber . ' --json ' . implode(',', $fieldList);
 } else {
     echo "Retrieving Pull Request list...\n";
-    $cmd = $gh . ' pr list --limit 1000 --json ' . implode(',', $fieldList) . ' --search "is:pr is:open ' . $branches . '"';
+    $cmdList = $gh . ' pr list --limit 20 --json ' . implode(',', $fieldList) . ' --search "is:pr is:open ' . $branches . '"';
 }
 
-$output = [];
-exec($cmd, $output, $result);
-if ($result !== 0) {
-    var_dump([$cmd, $output, $result]);
-    die('Unable to retrieve PR list.');
-}
+while (true) {
+    $outputList = [];
+    $result     = null;
 
-$json = $output[0];
+    exec($cmdList, $outputList, $result);
 
-if (!empty($prNumber)) {
-    $json = '[' . $json . ']';
-}
-
-$list = json_decode($json, true);
-
-echo "\nFound " . \count($list) . " pull request(s).\n";
-
-foreach ($list as $pr) {
-    echo "Rebase #" . $pr['number'] . "\n";
-
-    $cmd    = $gh . ' pr edit ' . $pr['url'] . ' --base ' . $targetBranch;
-    $output = [];
-    if (!$tryRun) {
-        exec($cmd, $output, $result);
-        if ($result !== 0) {
-            var_dump([$cmd, $output, $result]);
-            die('Unable to set target branch for pr #' . $pr['number']);
-        }
-    } else {
-        echo "TRY RUN: " . $cmd . "\n";
+    if ($result !== 0) {
+        var_dump([$cmdList, $outputList, $result]);
+        die('Unable to retrieve PR list.');
     }
 
-    $cmd    = $gh . ' pr comment ' . $pr['url'] . ' --body "' . $reason . '"';
-    $output = [];
-    if (!$tryRun) {
-        exec($cmd, $output, $result);
-        if ($result !== 0) {
-            var_dump([$cmd, $output, $result]);
-            die('Unable to create a comment for pr #' . $pr['number']);
+    $json = $outputList[0];
+
+    if (!empty($prNumber)) {
+        $json = '[' . $json . ']';
+    }
+
+    $list = json_decode($json, true);
+
+    echo "\nFound " . \count($list) . " pull request(s).\n";
+
+    if (\count($list) === 0) {
+        break;
+    }
+
+    foreach ($list as $pr) {
+        echo "Rebase #" . $pr['number'] . "\n";
+
+        $cmd    = $gh . ' pr edit ' . $pr['url'] . ' --base ' . $targetBranch;
+        $output = [];
+        $result = null;
+
+        if (!$tryRun) {
+            exec($cmd, $output, $result);
+            if ($result !== 0) {
+                var_dump([$cmd, $output, $result]);
+                die('Unable to set target branch for pr #' . $pr['number']);
+            }
+        } else {
+            echo "TRY RUN: " . $cmd . "\n";
         }
-    } else {
-        echo "TRY RUN: " . $cmd . "\n";
+
+        $cmd    = $gh . ' pr comment ' . $pr['url'] . ' --body "' . $reason . '"';
+        $output = [];
+
+        if (!$tryRun) {
+            exec($cmd, $output, $result);
+            if ($result !== 0) {
+                var_dump([$cmd, $output, $result]);
+                die('Unable to create a comment for pr #' . $pr['number']);
+            }
+        } else {
+            echo "TRY RUN: " . $cmd . "\n";
+        }
     }
 }
