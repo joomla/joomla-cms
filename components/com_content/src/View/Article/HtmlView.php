@@ -54,13 +54,6 @@ class HtmlView extends BaseHtmlView
     protected $params = null;
 
     /**
-     * Should the print button be displayed or not?
-     *
-     * @var   boolean
-     */
-    protected $print = false;
-
-    /**
      * The model state
      *
      * @var   \Joomla\Registry\Registry
@@ -111,7 +104,6 @@ class HtmlView extends BaseHtmlView
         /** @var ArticleModel $model */
         $model       = $this->getModel();
         $this->item  = $model->getItem();
-        $this->print = $app->getInput()->getBool('print', false);
         $this->state = $model->getState();
         $this->user  = $user;
 
@@ -357,10 +349,6 @@ class HtmlView extends BaseHtmlView
             $this->setDocumentTitle(
                 $this->item->page_title . ' - ' . Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('list.offset') + 1)
             );
-        }
-
-        if ($this->print) {
-            $this->getDocument()->setMetaData('robots', 'noindex, nofollow');
         }
     }
 }
