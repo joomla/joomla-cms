@@ -1145,6 +1145,7 @@
 			default="1"
 			filter="UINT"
 			validate="options"
+			layout="joomla.form.field.list-fancy-select"
 		/>
 
 		<field
