@@ -7,7 +7,7 @@ describe('Test in backend that the field form', () => {
   afterEach(() => cy.task('queryDB', "DELETE FROM #__fields WHERE title = 'Test field'"));
 
   it('can create a field', () => {
-    cy.visit('/administrator/index.php?option=com_fields&task=field.add&context=com_content.article');
+    cy.visit('/administrator/index.php?option=com_fields&task=field.add&context=com_content.article&type=text');
     cy.get('#jform_title').clear().type('Test field');
     cy.clickToolbarButton('Save & Close');
 
@@ -15,8 +15,13 @@ describe('Test in backend that the field form', () => {
     cy.contains('Test field');
   });
 
-  it('check redirection to list view', () => {
+  it('check redirection to select view', () => {
     cy.visit('/administrator/index.php?option=com_fields&task=field.add&context=com_content.article');
+    cy.contains('Select a Field Type');
+  });
+
+  it('check redirection to list view', () => {
+    cy.visit('/administrator/index.php?option=com_fields&task=field.add&context=com_content.article&type=text');
     cy.intercept('index.php?option=com_fields&view=fields&context=com_content.article').as('listview');
     cy.clickToolbarButton('Cancel');
 
