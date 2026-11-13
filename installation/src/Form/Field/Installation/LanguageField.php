@@ -67,13 +67,6 @@ class LanguageField extends ListField
         // Get the list of available languages.
         $options = LanguageHelper::createLanguageListInstall($native);
 
-        // Fix wrongly set parentheses in RTL languages
-        if (Factory::getLanguage()->isRtl()) {
-            foreach ($options as &$option) {
-                $option['text'] .= '&#x200E;';
-            }
-        }
-
         if (!$options || $options instanceof \Exception) {
             $options = [];
         } else {
