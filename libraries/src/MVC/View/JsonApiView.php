@@ -94,7 +94,7 @@ abstract class JsonApiView extends JsonView
             $this->type = $config['contentType'];
         }
 
-        if ($this->serializer === null) {
+        if ($this->type && $this->serializer === null) {
             $this->serializer = new JoomlaSerializer($this->type);
         }
 
