@@ -11,9 +11,13 @@
 namespace Joomla\Component\Users\Administrator\Field;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\UsergrouplistField;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -72,7 +76,9 @@ class ForceMfaUserGroupsField extends UsergrouplistField
             $currentGroups = $this->normalizeGroupIds($currentGroups);
 
             if (!empty(array_diff($newGroups, $currentGroups))) {
-                return new \RuntimeException(Text::_('COM_USERS_CONFIG_FORCEMFAUSERGROUPS_NO_METHODS_ERROR'));
+                return new \RuntimeException(
+                    Text::sprintf('COM_USERS_CONFIG_FORCEMFAUSERGROUPS_NO_METHODS_ERROR', $this->getMfaPluginLinks())
+                );
             }
         }
 
@@ -111,10 +117,71 @@ class ForceMfaUserGroupsField extends UsergrouplistField
 
         if (!$this->hasActiveMfaMethods) {
             $input = '<div class="alert alert-danger w-100" role="alert">'
-                . Text::_('COM_USERS_CONFIG_FORCEMFAUSERGROUPS_NO_METHODS_WARNING')
+                . Text::sprintf('COM_USERS_CONFIG_FORCEMFAUSERGROUPS_NO_METHODS_WARNING', $this->getMfaPluginLinks())
                 . '</div>' . $input;
         }
 
         return $input;
+    }
+
+    /**
+     * Create modal links to the installed MFA plugin settings.
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function getMfaPluginLinks(): string
+    {
+        $app = Factory::getApplication();
+
+        if (!$app->getIdentity()->authorise('core.edit', 'com_plugins')) {
+            return '';
+        }
+
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
+        $query = $db->getQuery(true)
+            ->select($db->quoteName(['extension_id', 'name', 'element']))
+            ->from($db->quoteName('#__extensions'))
+            ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+            ->where($db->quoteName('folder') . ' = ' . $db->quote('multifactorauth'))
+            ->order($db->quoteName('name'));
+
+        $plugins  = $db->setQuery($query)->loadObjectList();
+        $language = $app->getLanguage();
+        $links    = [];
+
+        foreach ($plugins as $plugin) {
+            $language->load('plg_multifactorauth_' . $plugin->element . '.sys', JPATH_ADMINISTRATOR)
+                || $language->load('plg_multifactorauth_' . $plugin->element . '.sys', JPATH_PLUGINS . '/multifactorauth/' . $plugin->element);
+
+            $pluginName = Text::_($plugin->name);
+            $options    = [
+                'popupType'  => 'iframe',
+                'textHeader' => $pluginName,
+                'src'        => Route::_(
+                    'index.php?option=com_plugins&task=plugin.edit&extension_id=' . (int) $plugin->extension_id . '&tmpl=component&layout=modal',
+                    false
+                ),
+            ];
+
+            $links[] = HTMLHelper::_(
+                'link',
+                '#',
+                $pluginName,
+                [
+                    'class'                 => 'alert-link',
+                    'data-joomla-dialog'    => $this->escape(json_encode($options, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)),
+                    'data-close-on-message' => '',
+                    'data-mfa-plugin-link'  => '',
+                ]
+            );
+        }
+
+        if ($links) {
+            $app->getDocument()->getWebAssetManager()->useScript('joomla.dialog-autocreate');
+        }
+
+        return implode(', ', $links);
     }
 }

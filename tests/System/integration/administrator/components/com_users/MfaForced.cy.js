@@ -47,6 +47,17 @@ describe('Test in backend that forced MFA', () => {
                 cy.get('#configTabs div[role="tablist"] button[aria-controls="multifactorauth"]').click();
                 cy.get('#jform_params_forceMFAUserGroups').should('be.disabled');
                 cy.contains('.alert-danger', 'There are no active Multi-factor Authentication methods').should('exist');
+                cy.get('a[data-mfa-plugin-link]').should('have.length.greaterThan', 0);
+
+                cy.get('#jform_params_mfaonsilent1').check();
+                cy.get('a[data-mfa-plugin-link]').first().click();
+                cy.get('joomla-dialog[type="iframe"]').as('mfaPluginDialog');
+                cy.get('@mfaPluginDialog').should('be.visible').within(() => {
+                  cy.get('section.joomla-dialog-body iframe').iframe().find('#style-form').should('exist');
+                  cy.get('header.joomla-dialog-header button.button-close.btn-close').click();
+                });
+                cy.get('@mfaPluginDialog').should('not.exist');
+                cy.get('#jform_params_mfaonsilent1').should('be.checked');
 
                 const params = JSON.parse(originalComUsersParams);
                 params.forceMFAUserGroups = groups.map((group) => Number(group.group_id));
