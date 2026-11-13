@@ -133,7 +133,13 @@ abstract class InstallerHelper
         $body = (string) $response->getBody();
 
         // Write buffer to file
-        File::write($target, $body);
+        $res = File::write($target, $body);
+
+        if (!$res) {
+            Log::add(Text::sprintf('JLIB_INSTALLER_ABORT_DISK_FULL'), Log::WARNING, 'jerror');
+
+            return false;
+        }
 
         // Bump the max execution time because not using built in php zip libs are slow
         if (\function_exists('set_time_limit')) {
@@ -171,12 +177,14 @@ abstract class InstallerHelper
         try {
             $archive = new Archive(['tmp_path' => Factory::getApplication()->get('tmp_path')]);
             $extract = $archive->extract($archivename, $extractdir);
-        } catch (\Exception) {
+        } catch (\Exception $exception) {
+            $msg = $exception->getMessage();
             if ($alwaysReturnArray) {
                 return [
                     'extractdir'  => null,
                     'packagefile' => $archivename,
                     'type'        => false,
+                    'diskfull'    => (strpos($msg, 'Unable to write') !== false || strpos($msg, 'Unable to create') !== false),
                 ];
             }
 
