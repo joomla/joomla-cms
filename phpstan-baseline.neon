@@ -13643,6 +13643,12 @@ parameters:
 			path: plugins/task/updatenotification/src/Extension/UpdateNotification.php
 
 		-
+			message: '#^Access to an undefined property Joomla\\Plugin\\Task\\WorkflowTransition\\Extension\\WorkflowTransition\:\:\$app\.$#'
+			identifier: property.notFound
+			count: 2
+			path: plugins/task/workflowtransition/src/Extension/WorkflowTransition.php
+
+		-
 			message: '''
 				#^Access to deprecated static property \$language of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0

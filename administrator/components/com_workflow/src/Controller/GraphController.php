@@ -317,6 +317,7 @@ class GraphController extends AdminController
                     'from_stage_id' => (int) $transition->from_stage_id,
                     'to_stage_id'   => (int) $transition->to_stage_id,
                     'ordering'      => (int) $transition->ordering,
+                    'automated'     => (bool) $transition->automated,
                     'workflow_id'   => (int) $transition->workflow_id,
                     'permissions'   => [
                         'edit'           => $canEdit,

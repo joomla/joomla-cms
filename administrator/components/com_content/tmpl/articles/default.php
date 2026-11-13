@@ -23,6 +23,9 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
+use Joomla\Component\Workflow\Administrator\Automation\RelativeTime;
+use Joomla\Component\Workflow\Administrator\Automation\UpcomingTransitionsCalculator;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /** @var \Joomla\Component\Content\Administrator\View\Articles\HtmlView $this */
@@ -71,6 +74,19 @@ if ($workflow_enabled) :
 
     $this->filterForm->addControlField('transition_id', '');
 endif;
+
+$upcomingByItem = [];
+
+if ($workflow_enabled && !empty($this->items)) {
+    Factory::getApplication()->getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
+
+    $upcomingByItem = (new UpcomingTransitionsCalculator(Factory::getContainer()->get(DatabaseInterface::class)))
+        ->forItems(ArrayHelper::getColumn($this->items, 'id'), 'com_content.article');
+
+    if (!empty($upcomingByItem)) {
+        HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
+    }
+}
 
 $assoc = Associations::isEnabled();
 ?>
@@ -227,6 +243,40 @@ $assoc = Associations::isEnabled();
                                     <div class="small">
                                         <?php echo Text::_($item->stage_title); ?>
                                     </div>
+                                    <?php if (isset($upcomingByItem[$item->id])) :
+                                        $upcoming  = $upcomingByItem[$item->id];
+                                        $chipClass = match ($upcoming->status) {
+                                            'needs_attention' => 'bg-danger',
+                                            'rule_error'      => 'bg-warning text-dark',
+                                            'not_scheduled'   => 'bg-secondary',
+                                            default           => 'bg-info',
+                                        };
+                                        $chipIcon = $upcoming->status === 'rule_error' ? 'icon-warning' : 'icon-clock';
+                                        $chipTip  = match ($upcoming->status) {
+                                            'needs_attention' => Text::_('COM_WORKFLOW_UPCOMING_STATUS_ATTENTION'),
+                                            'rule_error'      => $upcoming->failureReason !== ''
+                                                ? $upcoming->failureReason
+                                                : Text::_('COM_WORKFLOW_UPCOMING_STATUS_RULE_ERROR'),
+                                            'not_scheduled'   => Text::_('COM_WORKFLOW_UPCOMING_STATUS_NOT_SCHEDULED'),
+                                            default           => $upcoming->firesAt !== null
+                                                ? RelativeTime::until($upcoming->firesAt) . ' (' . HTMLHelper::_('date', $upcoming->firesAt->format('Y-m-d H:i:s'), Text::_('DATE_FORMAT_LC2')) . ')'
+                                                : '',
+                                        };
+
+                                        $chipTip .= $upcoming->status !== 'rule_error' && $upcoming->failureReason !== ''
+                                            ? ' - ' . $upcoming->failureReason
+                                            : '';
+    ?>
+                                                                                <div class="small mt-1">
+                                            <span class="badge <?php echo $chipClass; ?>"<?php echo $chipTip !== '' ? ' tabindex="0" aria-describedby="upcoming' . (int) $item->id . '-desc"' : ''; ?>>
+                                                <span class="<?php echo $chipIcon; ?>" aria-hidden="true"></span>
+                                                <?php echo htmlspecialchars(Text::_($upcoming->transitionTitle), ENT_QUOTES, 'UTF-8'); ?>
+                                            </span>
+                                            <?php if ($chipTip !== '') : ?>
+                                                <div role="tooltip" id="upcoming<?php echo (int) $item->id; ?>-desc"><?php echo htmlspecialchars($chipTip, ENT_QUOTES, 'UTF-8'); ?></div>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
                                 </td>
                                 <?php endif; ?>
                                 <td class="text-center d-none d-md-table-cell">
