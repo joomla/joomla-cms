@@ -2,6 +2,7 @@
  * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+import { JoomlaEditor } from 'editor-api';
 
 const KEYCODE = {
   SPACE: 'Space',
@@ -22,6 +23,8 @@ function hasModifier(event) {
 class JoomlaFieldSubform extends HTMLElement {
   // Attribute getters
   get buttonAdd() { return this.getAttribute('button-add'); }
+
+  get buttonCopy() { return this.getAttribute('button-copy'); }
 
   get buttonRemove() { return this.getAttribute('button-remove'); }
 
@@ -74,13 +77,18 @@ class JoomlaFieldSubform extends HTMLElement {
     this.prepareTemplate();
 
     // Bind buttons
-    if (this.buttonAdd || this.buttonRemove) {
+    if (this.buttonAdd || this.buttonCopy || this.buttonRemove) {
       this.addEventListener('click', (event) => {
         let btnAdd = null;
+        let btnCopy = null;
         let btnRem = null;
 
         if (that.buttonAdd) {
           btnAdd = event.target.closest(that.buttonAdd);
+        }
+
+        if (that.buttonCopy) {
+          btnCopy = event.target.closest(that.buttonCopy);
         }
 
         if (that.buttonRemove) {
@@ -93,6 +101,10 @@ class JoomlaFieldSubform extends HTMLElement {
           row = row && row.closest('joomla-field-subform') === that ? row : null;
           that.addRow(row);
           event.preventDefault();
+        } else if (btnCopy && btnCopy.closest('joomla-field-subform') === that) {
+          const row = btnCopy.closest(that.repeatableElement);
+          that.copyRow(row);
+          event.preventDefault();
         } else if (btnRem && btnRem.closest('joomla-field-subform') === that) {
           const row = btnRem.closest(that.repeatableElement);
           that.removeRow(row);
@@ -103,14 +115,17 @@ class JoomlaFieldSubform extends HTMLElement {
       this.addEventListener('keydown', (event) => {
         if (event.code !== KEYCODE.SPACE) return;
         const isAdd = that.buttonAdd && event.target.matches(that.buttonAdd);
+        const isCopy = that.buttonCopy && event.target.matches(that.buttonCopy);
         const isRem = that.buttonRemove && event.target.matches(that.buttonRemove);
 
-        if ((isAdd || isRem) && event.target.closest('joomla-field-subform') === that) {
+        if ((isAdd || isCopy || isRem) && event.target.closest('joomla-field-subform') === that) {
           let row = event.target.closest(that.repeatableElement);
           row = row && row.closest('joomla-field-subform') === that ? row : null;
 
           if (isRem && row) {
             that.removeRow(row);
+          } else if (isCopy && row) {
+            that.copyRow(row);
           } else if (isAdd) {
             that.addRow(row);
           }
@@ -161,9 +176,10 @@ class JoomlaFieldSubform extends HTMLElement {
   /**
    * Add new row
    * @param {HTMLElement} after
+   * @param {HTMLElement} source
    * @returns {HTMLElement}
    */
-  addRow(after) {
+  addRow(after, source) {
     // Count how many we already have
     const count = this.getRows().length;
     if (count >= this.maximum) {
@@ -179,6 +195,11 @@ class JoomlaFieldSubform extends HTMLElement {
     }
     tmpEl.innerHTML = this.template;
     const row = tmpEl.children[0];
+
+    // Copy the values from the source row
+    if (source) {
+      this.copyRowValues(source, row);
+    }
 
     // Add to container
     if (after) {
@@ -211,6 +232,79 @@ class JoomlaFieldSubform extends HTMLElement {
     }));
 
     return row;
+  }
+
+  /**
+   * Copy the row
+   * @param {HTMLElement} row
+   * @returns {HTMLElement}
+   */
+  copyRow(row) {
+    return this.addRow(row, row);
+  }
+
+  /**
+   * Copy the field values to the new row
+   * @param {HTMLElement} source
+   * @param {HTMLElement} row
+   */
+  copyRowValues(source, row) {
+    const group = row.getAttribute('data-group'); // group name of the new row
+    const sourceGroup = source.getAttribute('data-group');
+    const names = {}; // Collect names to match fields that share a name
+
+    [].slice.call(row.querySelectorAll('input, select, textarea')).forEach((elem) => {
+      const $el = elem;
+      const key = $el.name || $el.id;
+
+      // Skip the file inputs and the fields of nested subforms
+      if ($el.type === 'file' || $el.closest('joomla-field-subform') || !key.includes(group)) {
+        return;
+      }
+
+      // Find the field in the source row, a field without a name by its id
+      let selector = `[id$="${CSS.escape($el.id.split(group)[1])}"]:not([name])`;
+
+      if ($el.name) {
+        const name = $el.name.split(`[${group}]`)[1];
+        selector = `[name$="${CSS.escape(`[${sourceGroup}]${name}`)}"]`;
+      }
+
+      // Radio, checkboxes and the modal fields have multiple inputs with the same name
+      const index = names[key] || 0;
+      const sourceEl = source.querySelectorAll(selector)[index];
+      names[key] = index + 1;
+
+      if (!sourceEl) {
+        return;
+      }
+
+      if ($el.type === 'checkbox' || $el.type === 'radio') {
+        $el.defaultChecked = sourceEl.checked;
+      } else if ($el.nodeName === 'SELECT') {
+        const values = [].slice.call(sourceEl.selectedOptions).map((option) => option.value);
+
+        [].slice.call($el.options).forEach((option) => {
+          option.defaultSelected = values.includes(option.value);
+        });
+
+        // Add the selected options that are not in the template, eg: custom values
+        [].slice.call(sourceEl.selectedOptions).forEach((option) => {
+          if (!$el.querySelector(`option[value="${CSS.escape(option.value)}"]`)) {
+            $el.append(new Option(option.text, option.value, true, true));
+          }
+        });
+      } else {
+        // The editor content may not be in the textarea yet
+        const editor = JoomlaEditor.get(sourceEl.id);
+        $el.defaultValue = editor ? editor.getValue() : sourceEl.value;
+      }
+
+      // The calendar keeps the date in the data-alt-value attribute
+      if (sourceEl.hasAttribute('data-alt-value')) {
+        $el.setAttribute('data-alt-value', sourceEl.getAttribute('data-alt-value'));
+      }
+    });
   }
 
   /**

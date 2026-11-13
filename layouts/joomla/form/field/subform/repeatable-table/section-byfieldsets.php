@@ -43,6 +43,11 @@ extract($displayData);
                     <span class="icon-plus" aria-hidden="true"></span>
                 </button>
             <?php endif; ?>
+            <?php if (!empty($buttons['copy'])) : ?>
+                <button type="button" class="group-copy btn btn-sm btn-secondary" aria-label="<?php echo Text::_('JGLOBAL_FIELD_COPY'); ?>">
+                    <span class="icon-copy" aria-hidden="true"></span>
+                </button>
+            <?php endif; ?>
             <?php if (!empty($buttons['remove'])) : ?>
                 <button type="button" class="group-remove btn btn-sm btn-danger" aria-label="<?php echo Text::_('JGLOBAL_FIELD_REMOVE'); ?>">
                     <span class="icon-minus" aria-hidden="true"></span>
