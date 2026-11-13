@@ -7,7 +7,7 @@
 			label="JGLOBAL_FIELD_ID_LABEL"
 			class="readonly"
 			default="0"
-			filter="int"
+			filter="integer"
 			readonly="true"
 		/>
 
@@ -77,7 +77,7 @@
 			type="MenuParent"
 			label="COM_MENUS_ITEM_FIELD_PARENT_LABEL"
 			default="1"
-			filter="int"
+			filter="integer"
 			clientid="1"
 			>
 			<option value="1">JGLOBAL_ROOT_PARENT</option>
@@ -87,13 +87,13 @@
 			name="menuordering"
 			type="MenuOrdering"
 			label="COM_MENUS_ITEM_FIELD_ORDERING_LABEL"
-			filter="int"
+			filter="integer"
 		/>
 
 		<field
 			name="component_id"
 			type="hidden"
-			filter="int"
+			filter="integer"
 		/>
 
 		<field
@@ -101,7 +101,7 @@
 			type="list"
 			label="COM_MENUS_ITEM_FIELD_BROWSERNAV_LABEL"
 			default="0"
-			filter="int"
+			filter="integer"
 			validate="options"
 			>
 			<option value="0">COM_MENUS_FIELD_VALUE_PARENT</option>
