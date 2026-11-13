@@ -47,6 +47,8 @@ if (!empty($editor)) {
     $this->getDocument()->addScriptOptions('xtd-articles', ['editor' => $editor]);
     $onclick = "jSelectArticle";
 }
+
+$userId = $this->getCurrentUser()->id;
 ?>
 <div class="container-popup">
 
@@ -124,12 +126,16 @@ if (!empty($editor)) {
                             <?php $attribs = 'data-content-select data-content-type="com_content.article"'
                                 . 'data-function="' . $this->escape($onclick) . '"'
                                 . ' data-id="' . $item->id . '"'
+                                . ' data-checked-out="' . ((int) (!empty($item->checked_out) && $item->checked_out != $userId)) . '"'
                                 . ' data-title="' . $this->escape($item->title) . '"'
                                 . ' data-cat-id="' . $this->escape($item->catid) . '"'
                                 . ' data-uri="' . $this->escape($link) . '"'
                                 . ' data-language="' . $this->escape($lang) . '"'
                                 . ' data-html="' . $this->escape($itemHtml) . '"';
                             ?>
+                            <?php if ($item->checked_out) : ?>
+                                <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, '', false); ?>
+                            <?php endif; ?>
                             <a class="select-link" href="javascript:void(0)" <?php echo $attribs; ?>>
                                 <?php echo $this->escape($item->title); ?>
                             </a>
