@@ -118,7 +118,8 @@ $fieldList = [
     "labels",
 ];
 
-$branches = 'base:' . implode(' base:', explode(',', $baseBranches));
+$branches     = 'base:' . implode(' base:', explode(',', $baseBranches));
+$singleBranch = substr($baseBranches, 0, strpos($baseBranches, '-'));
 
 if (!empty($label)) {
     $branches .= ' label:' . $label;
@@ -126,66 +127,79 @@ if (!empty($label)) {
 
 if (!empty($prNumber)) {
     echo "Retrieving Pull Request " . $prNumber . "...\n";
-    $cmd = $gh . ' pr view ' . $prNumber . ' --json ' . implode(',', $fieldList);
+    $cmdList = $gh . ' pr view ' . $prNumber . ' --json ' . implode(',', $fieldList);
 } else {
+    $notInTitle = 'NOT in:title [' . $singleBranch . ']';
+
     echo "Retrieving Pull Request list...\n";
-    $cmd = $gh . ' pr list --limit 1000 --json ' . implode(',', $fieldList) . ' --search "is:pr is:open ' . $branches . '"';
+    $cmdList = $gh . ' pr list --limit 20 --json ' . implode(',', $fieldList) . ' --search "' . $notInTitle .' is:pr is:open ' . $branches . '"';
 }
 
-$output = [];
-exec($cmd, $output, $result);
-if ($result !== 0) {
-    var_dump([$cmd, $output, $result]);
-    die('Unable to retrieve PR list.');
-}
+while (true) {
+    $outputList = [];
+    $result     = null;
 
-$json = $output[0];
+    exec($cmdList, $outputList, $result);
 
-if (!empty($prNumber)) {
-    $json = '[' . $json . ']';
-}
-
-$list = json_decode($json, true);
-
-echo "\nFound " . \count($list) . " pull request(s).\n";
-
-foreach ($list as $pr) {
-    echo "Change Title for PR #" . $pr['number'] . "\n";
-
-    $branch = substr($pr['baseRefName'], 0, strpos($pr['baseRefName'], '-'));
-
-    $title = $pr['title'];
-
-    if (str_contains($title, ']') && strpos($title, ']') < 10) {
-        $title = substr($title, strpos($title, ']') + 1);
+    if ($result !== 0) {
+        var_dump([$cmdList, $outputList, $result]);
+        die('Unable to retrieve PR list.');
     }
 
-    $title = trim($title);
+    $json = $outputList[0];
 
-    if (!str_starts_with($title, '[')) {
-        $title = ' ' . $title;
+    if (!empty($prNumber)) {
+        $json = '[' . $json . ']';
     }
 
-    $newTitle = '[' . $branch . ']' . $title;
+    $list = json_decode($json, true);
 
-    if ($newTitle === $pr['title']) {
-        continue;
+    echo "\nFound " . \count($list) . " pull request(s).\n";
+
+    if (\count($list) === 0) {
+        break;
     }
 
-    $newTitleEscaped = escapeShellArg($newTitle);
+    foreach ($list as $pr) {
+        echo "Change Title for PR #" . $pr['number'] . "\n";
 
-    echo 'OLD: ' . trim($pr['title']) ."\n";
-    echo 'NEW: ' . $newTitle ."\n";
+        $branch = substr($pr['baseRefName'], 0, strpos($pr['baseRefName'], '-'));
 
-    $cmd    = $gh . ' pr edit ' . $pr['url'] . ' --title ' . $newTitleEscaped;
-    $output = [];
-    if (!$tryRun) {
-        exec($cmd, $output, $result);
-        if ($result !== 0) {
-            var_dump([$cmd, $output, $result]);
-            die('Unable to set target branch for pr #' . $pr['number']);
+        $title = $pr['title'];
+
+        if (str_contains($title, ']') && strpos($title, ']') < 10) {
+            $title = substr($title, strpos($title, ']') + 1);
         }
-    } else {
-        echo "TRY RUN: " . $cmd . "\n";
+
+        $title = trim($title);
+
+        if (!str_starts_with($title, '[')) {
+            $title = ' ' . $title;
+        }
+
+        $newTitle = '[' . $branch . ']' . $title;
+
+        if ($newTitle === $pr['title']) {
+            continue;
+        }
+
+        $newTitleEscaped = escapeShellArg($newTitle);
+
+        echo 'OLD: ' . trim($pr['title']) . "\n";
+        echo 'NEW: ' . $newTitle . "\n";
+
+        $cmd    = $gh . ' pr edit ' . $pr['url'] . ' --title ' . $newTitleEscaped;
+        $output = [];
+        $result = null;
+
+        if (!$tryRun) {
+            exec($cmd, $output, $result);
+            if ($result !== 0) {
+                var_dump([$cmd, $output, $result]);
+                die('Unable to set target branch for pr #' . $pr['number']);
+            }
+        } else {
+            echo "TRY RUN: " . $cmd . "\n";
+        }
     }
 }
