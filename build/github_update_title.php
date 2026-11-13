@@ -118,7 +118,7 @@ $fieldList = [
     "labels",
 ];
 
-$branches = 'base:' . implode(' base:', explode(',', $baseBranches));
+$branches     = 'base:' . implode(' base:', explode(',', $baseBranches));
 $singleBranch = substr($baseBranches, 0, strpos($baseBranches, '-'));
 
 if (!empty($label)) {
@@ -137,7 +137,7 @@ if (!empty($prNumber)) {
 
 while (true) {
     $outputList = [];
-    $result = null;
+    $result     = null;
 
     exec($cmdList, $outputList, $result);
 
