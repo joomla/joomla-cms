@@ -141,11 +141,32 @@
 	/>
 
 	<field
+		name="url_type"
+		type="toururl"
+		label="COM_GUIDEDTOURS_FIELD_URL_TYPE_LABEL"
+		description="COM_GUIDEDTOURS_FIELD_URL_TYPE_DESC"
+		default="custom"
+		>
+		<option value="custom">COM_GUIDEDTOURS_FIELD_URLTYPE_CUSTOM_URL</option>
+		<option value="administrator/index.php?option=com_cpanel&amp;view=cpanel&amp;dashboard=content">COM_GUIDEDTOURS_FIELD_URLTYPE_DASHBOARD_CONTENT</option>
+		<option value="administrator/index.php?option=com_cpanel&amp;view=cpanel&amp;dashboard=menus">COM_GUIDEDTOURS_FIELD_URLTYPE_DASHBOARD_MENUS</option>
+		<option value="administrator/index.php?option=com_cpanel&amp;view=cpanel&amp;dashboard=components">COM_GUIDEDTOURS_FIELD_URLTYPE_DASHBOARD_COMPONENTS</option>
+		<option value="administrator/index.php?option=com_cpanel&amp;view=cpanel&amp;dashboard=users">COM_GUIDEDTOURS_FIELD_URLTYPE_DASHBOARD_USERS</option>
+		<option value="administrator/index.php?option=com_cpanel&amp;view=cpanel&amp;dashboard=system">COM_GUIDEDTOURS_FIELD_URLTYPE_SYSTEM</option>
+		<option value="administrator/index.php?option=com_content&amp;view=articles">COM_GUIDEDTOURS_FIELD_URLTYPE_CONTENTS</option>
+		<option value="administrator/index.php?option=com_categories&amp;view=categories&amp;extension=com_content">COM_GUIDEDTOURS_FIELD_URLTYPE_CONTENTS_CATEGORIES</option>
+		<option value="administrator/index.php?option=com_fields&amp;view=fields&amp;context=com_content.article">COM_GUIDEDTOURS_FIELD_URLTYPE_CONTENTS_FIELDS</option>
+		<option value="administrator/index.php?option=com_media&amp;path=local-images:/">COM_GUIDEDTOURS_FIELD_URLTYPE_CONTENTS_IMAGES</option>
+	</field>
+	
+	<field
 		name="url"
 		type="url"
 		label="COM_GUIDEDTOURS_URL_LABEL"
 		description="COM_GUIDEDTOURS_URL_DESC"
 		required="true"
+		default=""
+		showon="url_type:custom"
 	/>
 
 	<field
