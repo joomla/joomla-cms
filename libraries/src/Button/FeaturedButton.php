@@ -99,6 +99,9 @@ class FeaturedButton extends ActionButton
 
                 $default['title'] = $tip;
 
+                // Keep the informational dates in the tooltip when the button is disabled
+                $options['disabled_title'] = $tip;
+
                 $options['tip_title'] = Text::_('JLIB_HTML_FEATURED_ITEM');
 
                 if ($featuredUp && $nowDate < $featuredUp->toUnix()) {
