@@ -19,6 +19,7 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -308,12 +309,26 @@ class CategoryView extends HtmlView
 
         $this->setDocumentTitle($this->params->get('page_title', ''));
 
-        if ($this->params->get('menu-meta_description')) {
+        if (!empty($this->category->metadesc)) {
+            $this->getDocument()->setDescription($this->category->metadesc);
+        } elseif ($this->params->get('menu-meta_description')) {
             $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
             $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
+        }
+
+        if (!empty($this->category->metadata)) {
+            if (!\is_object($this->category->metadata)) {
+                $this->category->metadata = new Registry($this->category->metadata);
+            }
+
+            foreach ($this->category->metadata->toArray() as $k => $v) {
+                if ($v) {
+                    $this->getDocument()->setMetaData($k, $v);
+                }
+            }
         }
     }
 
