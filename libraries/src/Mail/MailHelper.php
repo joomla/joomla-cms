@@ -46,6 +46,11 @@ abstract class MailHelper
     /**
      * Cleans multi-line inputs.
      *
+     * Line breaks directly preceding a mail header name are removed together
+     * with that header name, so a multi-line value cannot smuggle additional
+     * headers into the mail. The header names filtered here match the ones
+     * already covered by cleanBody() and cleanSubject().
+     *
      * @param   string  $value  Multi-line string to be cleaned.
      *
      * @return  string  Cleaned multi-line string.
@@ -54,7 +59,7 @@ abstract class MailHelper
      */
     public static function cleanText($value)
     {
-        return trim(preg_replace('/(%0A|%0D|\n+|\r+)(content-type:|to:|cc:|bcc:)/i', '', $value));
+        return trim(preg_replace('/(%0A|%0D|\n+|\r+)+(content-type:|to:|cc:|bcc:|from:|subject:|reply-to:)/i', '', $value));
     }
 
     /**
