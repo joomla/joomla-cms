@@ -167,6 +167,24 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
     }
 
     /**
+     * Check whether a guided tour is available to be offered, e.g. from an empty state.
+     *
+     * @param   string  $tourUid  The unique identifier of the guided tour.
+     *
+     * @return  boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function isTourAvailable(string $tourUid): bool
+    {
+        $factory = Factory::getApplication()->bootComponent('com_guidedtours')->getMVCFactory();
+
+        $tourModel = $factory->createModel('Tour', 'Administrator', ['ignore_request' => true]);
+
+        return $tourModel->isAvailable($tourUid) !== false;
+    }
+
+    /**
      * Method to cache the last query constructed.
      *
      * This method ensures that the query is constructed only once for a given state of the model.
