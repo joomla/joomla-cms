@@ -140,6 +140,12 @@ class MenuModel extends AdminModel
 
         // Check for a table object error.
         if ($return === false && $table->getError()) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -254,6 +260,12 @@ class MenuModel extends AdminModel
 
         // Bind the data.
         if (!$table->bind($data)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -261,6 +273,12 @@ class MenuModel extends AdminModel
 
         // Check the data.
         if (!$table->check()) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -276,6 +294,12 @@ class MenuModel extends AdminModel
 
         // Store the data.
         if (\in_array(false, $result, true) || !$table->store()) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -331,6 +355,12 @@ class MenuModel extends AdminModel
                 )->getArgument('result', []);
 
                 if (\in_array(false, $result, true) || !$table->delete($itemId)) {
+                    if ($this->shouldUseExceptions()) {
+                        $error = $table->getError(null, false);
+
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
                     $this->setError($table->getError());
 
                     return false;
