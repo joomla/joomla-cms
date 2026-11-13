@@ -80,6 +80,12 @@ class TemplateController extends BaseController
         $id   = (int) $this->input->get('id', 0, 'int');
         $url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' .
             $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
+
+        // If the file was opened from the Updated Files tab, redirect back there.
+        if ($this->input->getCmd('return', '') === 'updated_files') {
+            $url .= '#files';
+        }
+
         $this->setRedirect(Route::_($url, false));
     }
 
@@ -360,6 +366,12 @@ class TemplateController extends BaseController
                 $file = base64_encode('home');
                 $id   = (int) $this->input->get('id', 0, 'int');
                 $url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
+
+                // If the file was opened from the Updated Files tab, redirect back there.
+                if ($this->input->getCmd('return', '') === 'updated_files') {
+                    $url .= '#files';
+                }
+
                 $this->setRedirect(Route::_($url, false));
                 break;
         }
