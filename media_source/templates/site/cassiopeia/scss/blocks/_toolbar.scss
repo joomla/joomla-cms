@@ -126,7 +126,6 @@
   }
 
   .btn-group:not(:last-child) > .dropdown-toggle-split {
-    order: 1;
     margin-inline-start: -$border-radius;
     border-radius: 0 $border-radius $border-radius 0;
   }
