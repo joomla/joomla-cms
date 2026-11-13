@@ -163,7 +163,17 @@ class ApplicationController extends BaseController
 
         // Attempt to save the configuration.
         $data   = $return;
-        $return = $model->save($data);
+        try {
+            $return = $model->save($data);
+        } catch (\RuntimeException $e) {
+            $this->setRedirect(
+                Route::_('index.php?option=com_config', false),
+                Text::sprintf('JERROR_SAVE_FAILED', $e->getMessage()),
+                'error'
+            );
+
+            return false;
+        }
 
         // Check the return value.
         if ($return === false) {
@@ -226,7 +236,7 @@ class ApplicationController extends BaseController
             $model->removeroot();
         } catch (\RuntimeException $e) {
             // Save failed, go back to the screen and display a notice.
-            $this->setRedirect('index.php', Text::_('JERROR_SAVE_FAILED', $e->getMessage()), 'error');
+            $this->setRedirect('index.php', Text::sprintf('JERROR_SAVE_FAILED', $e->getMessage()), 'error');
 
             return false;
         }

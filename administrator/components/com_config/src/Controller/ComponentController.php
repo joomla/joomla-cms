@@ -132,7 +132,7 @@ class ComponentController extends FormController
             // Save failed, go back to the screen and display a notice.
             $this->setRedirect(
                 Route::_('index.php?option=com_config&view=component&component=' . $option . $redirect, false),
-                Text::_('JERROR_SAVE_FAILED', $e->getMessage()),
+                Text::sprintf('JERROR_SAVE_FAILED', $e->getMessage()),
                 'error'
             );
 
