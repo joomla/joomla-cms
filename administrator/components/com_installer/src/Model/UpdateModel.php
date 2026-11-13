@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
+use Joomla\CMS\Event\Installer\AfterPackageDownloadFailedEvent;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
@@ -440,7 +441,22 @@ class UpdateModel extends ListModel
 
         // Was the package downloaded?
         if (!$p_file) {
-            Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED', $url), 'error');
+            $dispatcher = $this->getDispatcher();
+            PluginHelper::importPlugin('installer', null, true, $dispatcher);
+            $event = new AfterPackageDownloadFailedEvent('onInstallerPackageDownloadFailed', [
+                'url'     => $url,
+                'message' => true,
+                'type'    => 'error',
+            ]);
+            $dispatcher->dispatch('onInstallerPackageDownloadFailed', $event);
+            $message = $event->getArgument('message', true);
+            $type    = $event->getArgument('type', 'error');
+
+            if ($message === true) {
+                InstallerHelper::enqueueDownloadFailMessage($url);
+            } elseif ($message !== false) {
+                Factory::getApplication()->enqueueMessage($message, $type);
+            }
 
             return false;
         }
