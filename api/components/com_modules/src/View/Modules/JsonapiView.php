@@ -117,7 +117,7 @@ class JsonapiView extends BaseApiView
     /**
      * Execute and display a list modules types.
      *
-     * @return  string
+     * @return  void
      *
      * @since   4.0.0
      */
@@ -136,6 +136,6 @@ class JsonapiView extends BaseApiView
 
         $this->fieldsToRenderList = ['id', 'name', 'module', 'xml', 'desc'];
 
-        return $this->displayList($items);
+        $this->displayList($items);
     }
 }
