@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
 ?>
-<a href="<?php echo Uri::root(); ?>" class="header-item-content"
+<a href="<?php echo Uri::root(); ?>" class="header-item-content no-external-link-icon"
     title="<?php echo Text::sprintf('MOD_FRONTEND_PREVIEW', $sitename); ?>"
     target="_blank">
     <div class="header-item-icon">
