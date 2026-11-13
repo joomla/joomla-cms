@@ -15,6 +15,7 @@ use Joomla\CMS\Editor\Button\Button;
 use Joomla\CMS\Event\Editor\EditorButtonsSetupEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Event\SubscriberInterface;
 
@@ -121,7 +122,13 @@ final class Image extends CMSPlugin implements SubscriberInterface
                 );
             }
 
-            $doc->addScriptOptions('media-picker-api', ['apiBaseUrl' => Uri::base(true) . '/index.php?option=com_media&format=json']);
+            $doc->addScriptOptions(
+                'media-picker-api',
+                [
+                    'apiBaseUrl' => Uri::base(true) . '/index.php?option=com_media&format=json',
+                    'modalUrl'   => Route::_('index.php?option=com_media&view=media&tmpl=component'),
+                ]
+            );
 
             if (!$doc->getScriptOptions('media-picker')) {
                 $imagesExt = array_map(

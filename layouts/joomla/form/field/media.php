@@ -143,7 +143,13 @@ $wam->useStyle('webcomponent.field-media')
     ->useScript('webcomponent.field-media')
     ->useScript('webcomponent.media-select');
 
-$doc->addScriptOptions('media-picker-api', ['apiBaseUrl' => Uri::base(true) . '/index.php?option=com_media&format=json']);
+$doc->addScriptOptions(
+    'media-picker-api',
+    [
+        'apiBaseUrl' => Uri::base(true) . '/index.php?option=com_media&format=json',
+        'modalUrl'   => Route::_('index.php?option=com_media&view=media&tmpl=component'),
+    ]
+);
 
 if (!$doc->getScriptOptions('media-picker')) {
     $doc->addScriptOptions('media-picker', [

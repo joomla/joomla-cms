@@ -9,7 +9,7 @@ if (!window.Joomla) {
   throw new Error('Joomla API is not properly initiated');
 }
 
-const { apiBaseUrl } = Joomla.getOptions('media-picker-api', {});
+const { apiBaseUrl, modalUrl } = Joomla.getOptions('media-picker-api', {});
 if (!apiBaseUrl) {
   throw new Error('The "media-picker-api" script option is required');
 }
@@ -78,9 +78,16 @@ Joomla.editorMediaPicker = (meta = {}) => new Promise((resolve) => {
     resolve(value);
   };
 
+  const options = Joomla.getOptions('media-picker-api', {});
+  const base = Joomla.getOptions('system.paths', {}).base || '';
+  const fallbackUrl = `${base}/index.php?option=com_media&view=media&tmpl=component`;
+  const baseModalUrl = options.modalUrl || modalUrl || fallbackUrl;
+  const url = new URL(baseModalUrl, window.location.origin);
+  url.searchParams.set('mediatypes', mediatypes);
+
   const dialog = new JoomlaDialog({
     popupType: 'iframe',
-    src: `index.php?option=com_media&view=media&tmpl=component&mediatypes=${mediatypes}`,
+    src: url.toString(),
     textHeader: Joomla.Text._('PLG_IMAGE_BUTTON_IMAGE'),
     popupButtons: [
       {
