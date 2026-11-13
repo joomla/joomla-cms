@@ -82,6 +82,15 @@ class HtmlView extends BaseHtmlView
     public $description;
 
     /**
+     * The System - SEF plugin ID.
+     *
+     * @var integer
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public $sefPluginId;
+
+    /**
      * Execute and display a template script.
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -98,9 +107,10 @@ class HtmlView extends BaseHtmlView
             $model = $this->getModel();
 
             // Load Form and Data
-            $this->form = $model->getForm();
-            $this->data = $model->getData();
-            $this->user = $this->getCurrentUser();
+            $this->form        = $model->getForm();
+            $this->data        = $model->getData();
+            $this->user        = $this->getCurrentUser();
+            $this->sefPluginId = $model->getSefPluginId();
         } catch (\Exception $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 

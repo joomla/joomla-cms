@@ -17,6 +17,7 @@ use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterSaveConfigurationEvent;
 use Joomla\CMS\Event\Application\BeforeSaveConfigurationEvent;
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageFactoryAwareInterface;
 use Joomla\CMS\Language\LanguageFactoryAwareTrait;
@@ -264,6 +265,21 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface,
         }
 
         return $data;
+    }
+
+    /**
+     * Get the ID of the System - SEF plugin.
+     *
+     * @return integer The plugin extension ID.
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function getSefPluginId(): int
+    {
+        $sefPlugin         = ExtensionHelper::getExtensionRecord('sef', 'plugin', 0, 'system');
+        $this->sefPluginId = $sefPlugin ? (int) $sefPlugin->extension_id : 0;
+
+        return $this->sefPluginId;
     }
 
     /**
