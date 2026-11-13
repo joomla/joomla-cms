@@ -20,7 +20,7 @@ if (container) {
    */
   url = container.dataset.url;
   direction = container.dataset.direction;
-  isNested = container.dataset.nested;
+  isNested = container.dataset.nested === 'true';
 } else if (Joomla.getOptions('draggable-list')) {
   const options = Joomla.getOptions('draggable-list');
 
