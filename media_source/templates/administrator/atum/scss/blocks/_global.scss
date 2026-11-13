@@ -11,22 +11,10 @@ html {
   &.a11y_font {
     font-size: 18px;
   }
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-  min-block-size: 100%;
-  padding: 0;
-  margin: 0;
-  text-align: start;
-
-  &.admin, &#subhead-container {
-    background-color: $admin-background;
-  }
 
   &.monochrome {
     filter: grayscale(1);
+
     &::after {
       position: fixed;
       inset-block-start: 0;
@@ -50,6 +38,7 @@ body {
   }
 
   &.a11y_highlight {
+
     a,
     .header-item-content {
       padding: 3px;
@@ -66,7 +55,19 @@ body {
     a.page-link {
       padding: $pagination-padding-y $pagination-padding-x;
     }
+  }
+}
 
+body {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100%;
+  padding: 0;
+  margin: 0;
+  text-align: start;
+
+  &.admin, &#subhead-container {
+    background-color: $admin-background;
   }
 }
 
@@ -198,11 +199,6 @@ a[target="_blank"]::before {
       display: block !important;
     }
   }
-}
-
-.text-muted {
-  color: $text-muted-color;
-  opacity: .7;
 }
 
 .card-columns {
