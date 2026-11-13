@@ -30,6 +30,20 @@ function gridItemAction(event) {
 }
 
 /*
+ * Sort the current grid
+ *
+ * @param {Event} event
+ */
+function gridItemSort(event) {
+  event.preventDefault();
+
+  const item = event.currentTarget;
+  const { order, direction, task, form } = item.dataset;
+
+  Joomla.tableOrdering(order, direction, task, form || undefined);
+}
+
+/*
  * Apply the transition state for the current element
  *
  * @param {Event} event
@@ -98,6 +112,7 @@ const setup = ({ target }) => {
   target.querySelectorAll('.js-grid-item-check-all').forEach((element) => element.addEventListener('click', (event) => Joomla.checkAll(event.target)));
   target.querySelectorAll('.js-grid-item-is-checked').forEach((element) => element.addEventListener('click', applyIsChecked));
   target.querySelectorAll('.js-grid-item-action').forEach((element) => element.addEventListener('click', gridItemAction));
+  target.querySelectorAll('.js-grid-item-sort').forEach((element) => element.addEventListener('click', gridItemSort));
   target.querySelectorAll('.js-grid-item-transition-action').forEach((element) => element.addEventListener('change', gridTransitionItemAction));
   target.querySelectorAll('.js-grid-button-transition-action').forEach((element) => element.addEventListener('click', gridTransitionButtonAction));
 };
