@@ -347,6 +347,11 @@ body {
   display: none;
 }
 
+.btn {
+  // Variants only set the shadow colour, so this applies the focus indicator to all of them
+  --btn-focus-box-shadow: #{$focus-indicator-ring};
+}
+
 .btn-primary {
   color: var(--btn-primary-color);
   background-color: var(--btn-primary-bg);

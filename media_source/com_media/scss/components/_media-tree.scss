@@ -108,9 +108,14 @@ ul.media-tree {
   text-overflow: ellipsis;
   white-space: nowrap;
   cursor: pointer;
-  &:hover,
+  &:hover {
+    background-color: $sidebar-tree-item-hover-bg;
+  }
+  // The tree clips overflow, so draw the indicator inside the item
   &:focus-visible {
     background-color: $sidebar-tree-item-hover-bg;
+
+    @include focus-ring(true);
   }
 }
 

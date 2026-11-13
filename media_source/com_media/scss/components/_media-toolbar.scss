@@ -10,6 +10,7 @@
   border-inline-start: 1px solid $border-color;
   border-radius: 0 $border-radius 0 0;
   box-shadow: 0 -1px 0 0  $border-color;
+
   input {
     padding: .3rem .75rem;
   }
@@ -40,6 +41,11 @@
     height: 1.1rem;
     margin: 1rem;
   }
+}
+
+// Toolbar buttons sit edge to edge, so draw the focus indicator inside each one
+.media-toolbar button.media-toolbar-icon:focus-visible {
+  @include focus-ring(true);
 }
 
 .media-view-icons {

@@ -1,0 +1,42 @@
+// Keyboard focus indicator shared by the core templates and extensions.
+// The values come from the --focus-indicator-* custom properties each template defines, with
+// fallbacks for templates that don't define them. The coloured ring is separated from the
+// control by a contrasting ring so that it stays visible on both light and dark backgrounds.
+$focus-indicator-color:    var(--focus-indicator-color, #0b5ed7);
+$focus-indicator-contrast: var(--focus-indicator-contrast, #fff);
+$focus-indicator-width:    var(--focus-indicator-width, 2px);
+$focus-indicator-offset:   var(--focus-indicator-offset, 2px);
+
+// Box shadow form, for components that remove the outline (Bootstrap buttons, inputs, etc.)
+$focus-indicator-ring: 0 0 0 $focus-indicator-offset $focus-indicator-contrast, 0 0 0 calc(#{$focus-indicator-offset} + #{$focus-indicator-width}) $focus-indicator-color;
+
+// Outset by default. Use the inset variant where neighbouring controls or overflow would cover
+// or clip the outline. Transitions are removed so that the indicator is never drawn part way
+// through animating into place.
+@mixin focus-ring($inset: false) {
+  outline: $focus-indicator-width solid $focus-indicator-color;
+  transition: none;
+
+  @if $inset {
+    outline-offset: calc(#{$focus-indicator-width} * -1);
+    box-shadow: inset 0 0 0 calc(#{$focus-indicator-width} + #{$focus-indicator-offset}) $focus-indicator-contrast;
+  } @else {
+    outline-offset: $focus-indicator-offset;
+    box-shadow: 0 0 0 $focus-indicator-offset $focus-indicator-contrast;
+  }
+}
+
+// Default focus highlighting, with an outline fallback for forced colours mode where box shadows are not drawn.
+// !important is needed because Bootstrap components set outline: 0 with higher specificity. The offset is
+// left alone so that inset indicators stay inside clipping containers.
+@mixin focus-indicator-global() {
+  :focus-visible {
+    @include focus-ring();
+  }
+
+  @media (forced-colors: active) {
+    :focus-visible {
+      outline: $focus-indicator-width solid Highlight !important;
+    }
+  }
+}
