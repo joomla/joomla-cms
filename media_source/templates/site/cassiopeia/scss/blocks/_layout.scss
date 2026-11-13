@@ -24,6 +24,24 @@
       color: var(--gray-200);
     }
   }
+
+  // Dropdown submenus have a light background, so keep their dark text on
+  // hover and focus. The default menu layout only uses one above lg.
+  .mm-collapse a:not(.btn) {
+    &:hover,
+    &:focus {
+      color: currentColor;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    .mod-menu__sub a:not(.btn) {
+      &:hover,
+      &:focus {
+        color: currentColor;
+      }
+    }
+  }
 }
 
 .container-banner {

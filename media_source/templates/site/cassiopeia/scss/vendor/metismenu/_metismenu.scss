@@ -59,7 +59,7 @@
 
         > a:focus,
         > button:focus {
-          outline: 1px dotted $gray-400;
+          outline: 2px solid $gray-900;
           outline-offset: 2px;
         }
 
@@ -178,6 +178,17 @@
           color: $gray-900;
         }
       }
+    }
+  }
+
+  // Top-level items sit on the header background, which also holds the
+  // topbar and below-top positions. Follow the header text colour so the
+  // outline stays visible when a child template changes the header colours.
+  // Submenus keep the dark outline.
+  .container-header .metismenu.mod-menu > .metismenu-item {
+    > a:focus,
+    > button:focus {
+      outline-color: currentColor;
     }
   }
 
