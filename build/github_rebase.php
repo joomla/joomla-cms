@@ -3,9 +3,9 @@
 /**
  * This script rebases Joomla Github Pull Requests to the target branch
  *
- * @package                Joomla.Build
+ * @package            Joomla.Build
  * @copyright          (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license                GNU General Public License version 2 or later; see LICENSE.txt
+ * @license            GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Set defaults
