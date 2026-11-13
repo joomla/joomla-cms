@@ -388,6 +388,12 @@ class CssMenu implements DatabaseAwareInterface
                 // Exclude help menu item if set such in mod_menu
                 $parent->removeChild($item);
                 continue;
+            } elseif ($item->element === 'com_cpanel' && ($query['dashboard'] ?? null) === 'healthcheck') {
+                // Show the healthcheck dashboard only when the healthcheck module is instantiated.
+                if (!MenusHelper::hasPublishedAdministratorModule('mod_healthcheck', 'cpanel-healthcheck')) {
+                    $parent->removeChild($item);
+                    continue;
+                }
             } elseif ($item->element === 'com_workflow') {
                 // Only display Workflow menus when enabled in the component
                 $workflow = null;
