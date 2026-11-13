@@ -57,11 +57,12 @@ class UrlFilter implements FormFilterInterface
 
         // Check for a protocol
         $protocol = parse_url($value, PHP_URL_SCHEME);
+        $relative = ((string) $element['relative'] === 'true' || (string) $element['relative'] === 'relative' || (string) $element['relative'] === '1');
 
         // If there is no protocol and the relative option is not specified,
         // we assume that it is an external URL and prepend http://
         if (
-            ((string) $element['type'] === 'url' && !$protocol && !$element['relative'])
+            ((string) $element['type'] === 'url' && !$protocol && !$relative)
             || ((string) $element['type'] !== 'url' && !$protocol)
         ) {
             $protocol = 'http';
@@ -74,7 +75,7 @@ class UrlFilter implements FormFilterInterface
                 // Put the url back together.
                 $value = $protocol . '://' . $value;
             }
-        } elseif (!$protocol && $element['relative']) {
+        } elseif (!$protocol && $relative) {
             // If relative URLS are allowed we assume that URLs without protocols are internal.
             $host = Uri::getInstance('SERVER')->getHost();
 
