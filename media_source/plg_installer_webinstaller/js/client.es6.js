@@ -3,6 +3,8 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+import JoomlaDialog from 'joomla.dialog';
+
 if (!Joomla) {
   throw new Error('Joomla API is not properly initialised');
 }
@@ -28,24 +30,6 @@ let instance;
 class WebInstaller {
   initialise() {
     webInstallerOptions.loaded = 1;
-
-    const cancelButton = document.getElementById('uploadform-web-cancel');
-    cancelButton.addEventListener('click', () => {
-      document.getElementById('uploadform-web').classList.add('hidden');
-
-      if (webInstallerOptions.list && document.querySelector('.list-view')) {
-        document.querySelector('.list-view').click();
-      }
-    });
-
-    const installButton = document.getElementById('uploadform-web-install');
-    installButton.addEventListener('click', () => {
-      if (webInstallerOptions.options.installFrom === 4) {
-        this.submitButtonUrl();
-      } else {
-        this.submitButtonWeb();
-      }
-    });
 
     this.loadweb(`${webInstallerOptions.options.base_url}index.php?format=json&option=com_apps&view=dashboard`);
 
@@ -200,8 +184,10 @@ class WebInstaller {
 
         if (installExtensionButton) {
           installExtensionButton.addEventListener('click', () => {
-            WebInstaller.installfromweb(installExtensionButton.getAttribute('data-downloadurl'), installExtensionButton.getAttribute('data-name'));
-            document.getElementById('uploadform-web-install').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            WebInstaller.installfromweb(
+              installExtensionButton.getAttribute('data-downloadurl'),
+              installExtensionButton.getAttribute('data-name'),
+            );
           });
         }
 
@@ -361,7 +347,52 @@ class WebInstaller {
       document.getElementById('uploadform-web-name-label').classList.add('hidden');
     }
 
-    document.getElementById('uploadform-web').classList.remove('hidden');
+    const confirmation = document.getElementById('uploadform-web');
+
+    confirmation.classList.remove('hidden');
+
+    let dialog;
+
+    dialog = new JoomlaDialog({
+      className: 'joomla-dialog-confirm',
+      textHeader: Joomla.Text._('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM'),
+      popupContent: confirmation,
+      popupButtons: [
+        {
+          label: Joomla.Text._('COM_INSTALLER_INSTALL_BUTTON'),
+          className: 'button button-success btn btn-success',
+          onClick: () => {
+            dialog.close();
+
+            if (webInstallerOptions.options.installFrom === 4) {
+              instance.submitButtonUrl();
+            } else {
+              instance.submitButtonWeb();
+            }
+          },
+        },
+        {
+          label: Joomla.Text._('JCANCEL'),
+          className: 'button button-secondary btn btn-secondary',
+          onClick: () => {
+            dialog.close();
+
+            if (webInstallerOptions.list && document.querySelector('.list-view')) {
+              document.querySelector('.list-view').click();
+            }
+          },
+        },
+      ],
+    });
+
+    dialog.addEventListener('joomla-dialog:close', () => {
+      Joomla.Modal.setCurrent(null);
+      dialog.destroy();
+      confirmation.classList.add('hidden');
+    });
+
+    Joomla.Modal.setCurrent(dialog);
+    dialog.show();
 
     return true;
   }
@@ -387,7 +418,7 @@ class WebInstaller {
     const form = document.getElementById('adminForm');
 
     // do field validation
-    if (form.install_url.value !== '' || form.install_url.value !== 'http://' || form.install_url.value !== 'https://') {
+    if (form.install_url.value !== '' && form.install_url.value !== 'http://' && form.install_url.value !== 'https://') {
       this.submitButtonUrl();
     } else if (form.install_url.value === '') {
       Joomla.renderMessages({ warning: [Joomla.apps.options.btntxt] });
