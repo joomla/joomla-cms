@@ -112,8 +112,8 @@ $this->getDocument()->addScriptOptions('associations-modal', ['func' => $functio
                             <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
                         <?php endif; ?>
                         <?php if (($canEdit && !$isCheckout) || ($canEdit && $canCheckin && $isCheckout)) : ?>
-                            <a class="select-link" href="javascript:void(0);" data-id="<?php echo $item->id; ?>">
-                            <?php echo $this->escape($item->title); ?></a>
+                            <button type="button" class="btn btn-link p-0 text-start align-baseline text-decoration-underline select-link" data-id="<?php echo $item->id; ?>">
+                            <?php echo $this->escape($item->title); ?></button>
                         <?php elseif ($canEdit && $isCheckout) : ?>
                             <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.'); ?>
                             <span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>">

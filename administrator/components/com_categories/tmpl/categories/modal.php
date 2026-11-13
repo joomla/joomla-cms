@@ -30,13 +30,17 @@ if ($app->isClient('site')) {
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('core')
-    ->useScript('modal-content-select');
+    ->useScript('modal-content-select')
+    ->useScript('com_categories.admin-categories-modal');
 
 $extension = $this->escape($this->state->get('filter.extension'));
 // @todo: Use of Function is deprecated and should be removed in 7.0. It stays only for backward compatibility.
 $function  = $app->getInput()->getCmd('function', 'jSelectCategory');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+
+// The legacy callback, for a parent that does not listen for postMessage(): see admin-categories-modal.js
+$this->getDocument()->addScriptOptions('categories-modal', ['function' => $function]);
 ?>
 <div class="container-popup">
 
@@ -114,8 +118,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     . ' data-html="' . $this->escape($itemHtml) . '"';
                                 ?>
                                 <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
-                                <a href="javascript:void(0)" <?php echo $attribs; ?> onclick="if (window.parent && !window.parent.JoomlaExpectingPostMessage) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', null, '<?php echo $this->escape(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
-                                    <?php echo $this->escape($item->title); ?></a>
+                                <button type="button" class="btn btn-link p-0 text-start align-baseline text-decoration-underline select-link" <?php echo $attribs; ?>>
+                                    <?php echo $this->escape($item->title); ?></button>
                                 <div class="small" title="<?php echo $this->escape($item->path); ?>">
                                     <?php if (empty($item->note)) : ?>
                                         <?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>

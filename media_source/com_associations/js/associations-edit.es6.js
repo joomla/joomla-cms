@@ -137,6 +137,14 @@ Joomla = window.Joomla || {};
     return false;
   };
 
+  // The Propagate button of an association field sends it the command --propagate-association.
+  // A command event does not bubble, so it is caught in the capture phase.
+  document.addEventListener('command', ({ command, target }) => {
+    if (command === '--propagate-association') {
+      Joomla.propagateAssociation(target.id, Joomla.getOptions('associations-propagate', {})[target.id]);
+    }
+  }, true);
+
   document.addEventListener('DOMContentLoaded', () => {
     const associationsEditOptions = Joomla.getOptions('system.associations.edit');
     const formControl = associationsEditOptions.formControl || 'jform';

@@ -25,4 +25,14 @@
     window.parent.Joomla.Modal.getCurrent().close();
     return false;
   };
+
+  // Insert the page break when the form is submitted, with the Insert button or the Enter key
+  const form = document.getElementById('pagebreak-form');
+
+  if (form) {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      window.insertPagebreak(form.dataset.editor);
+    });
+  }
 })();
