@@ -85,6 +85,8 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
     {
         $this->cliInput = $input;
         $this->ioStyle  = new SymfonyStyle($input, $output);
+
+        $this->getApplication()->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR);
     }
 
     /**
