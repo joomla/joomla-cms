@@ -11,6 +11,7 @@
 namespace Joomla\Component\Users\Administrator\Model;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Access\Exception\NotAllowedException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
@@ -78,6 +79,10 @@ class LevelModel extends AdminModel
                         try {
                             $values = $db->loadColumn();
                         } catch (\RuntimeException $e) {
+                            if ($this->shouldUseExceptions()) {
+                                throw $e;
+                            }
+
                             $this->setError($e->getMessage());
 
                             return false;
@@ -136,6 +141,10 @@ class LevelModel extends AdminModel
         // Check permissions
         foreach ($groups as $group) {
             if (!$isAdmin && Access::checkGroup($group, 'core.admin')) {
+                if ($this->shouldUseExceptions()) {
+                    throw new NotAllowedException(Text::_('JERROR_ALERTNOAUTHOR'));
+                }
+
                 $this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
 
                 return false;
@@ -329,6 +338,10 @@ class LevelModel extends AdminModel
                     if (\in_array((int) $value->id, $rules) && !\in_array((int) $value->id, $data['rules'])) {
                         $data['rules'][] = (int) $value->id;
                     } elseif (!\in_array((int) $value->id, $rules) && \in_array((int) $value->id, $data['rules'])) {
+                        if ($this->shouldUseExceptions()) {
+                            throw new NotAllowedException(Text::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
+                        }
+
                         $this->setError(Text::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
 
                         return false;

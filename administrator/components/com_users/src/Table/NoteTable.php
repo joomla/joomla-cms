@@ -101,6 +101,10 @@ class NoteTable extends Table implements VersionableTableInterface, CurrentUserI
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;

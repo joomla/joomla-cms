@@ -24,6 +24,8 @@ use Joomla\CMS\Mail\MailerFactoryAwareInterface;
 use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Model\Exception\BatchOperationException;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\Database\ParameterType;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 
@@ -123,6 +125,11 @@ class MailModel extends AdminModel implements MailerFactoryAwareInterface, Langu
         // Check for a message body and subject
         if (!$message_body || !$subject) {
             $app->setUserState('com_users.display.mail.data', $data);
+
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_USERS_MAIL_PLEASE_FILL_IN_THE_FORM_CORRECTLY'));
+            }
+
             $this->setError(Text::_('COM_USERS_MAIL_PLEASE_FILL_IN_THE_FORM_CORRECTLY'));
 
             return false;
@@ -164,11 +171,15 @@ class MailModel extends AdminModel implements MailerFactoryAwareInterface, Langu
         if (!$rows) {
             $app->setUserState('com_users.display.mail.data', $data);
 
-            if (\in_array($user->id, $to)) {
-                $this->setError(Text::_('COM_USERS_MAIL_ONLY_YOU_COULD_BE_FOUND_IN_THIS_GROUP'));
-            } else {
-                $this->setError(Text::_('COM_USERS_MAIL_NO_USERS_COULD_BE_FOUND_IN_THIS_GROUP'));
+            $message = \in_array($user->id, $to)
+                ? Text::_('COM_USERS_MAIL_ONLY_YOU_COULD_BE_FOUND_IN_THIS_GROUP')
+                : Text::_('COM_USERS_MAIL_NO_USERS_COULD_BE_FOUND_IN_THIS_GROUP');
+
+            if ($this->shouldUseExceptions()) {
+                throw new BatchOperationException($message);
             }
+
+            $this->setError($message);
 
             return false;
         }
@@ -221,6 +232,11 @@ class MailModel extends AdminModel implements MailerFactoryAwareInterface, Langu
         // Check for an error
         if ($rs !== true) {
             $app->setUserState('com_users.display.mail.data', $data);
+
+            if ($this->shouldUseExceptions()) {
+                throw new \RuntimeException($mailer->ErrorInfo);
+            }
+
             $this->setError($mailer->ErrorInfo);
 
             return false;
@@ -228,6 +244,11 @@ class MailModel extends AdminModel implements MailerFactoryAwareInterface, Langu
 
         if (empty($rs)) {
             $app->setUserState('com_users.display.mail.data', $data);
+
+            if ($this->shouldUseExceptions()) {
+                throw new \RuntimeException(Text::_('COM_USERS_MAIL_THE_MAIL_COULD_NOT_BE_SENT'));
+            }
+
             $this->setError(Text::_('COM_USERS_MAIL_THE_MAIL_COULD_NOT_BE_SENT'));
 
             return false;

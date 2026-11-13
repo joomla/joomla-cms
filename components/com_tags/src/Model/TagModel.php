@@ -297,6 +297,10 @@ class TagModel extends ListModel
                     $properties   = $table->getProperties(1);
                     $this->item[] = ArrayHelper::toObject($properties);
                 } catch (\RuntimeException $e) {
+                    if ($this->shouldUseExceptions()) {
+                        throw $e;
+                    }
+
                     $this->setError($e->getMessage());
 
                     return false;

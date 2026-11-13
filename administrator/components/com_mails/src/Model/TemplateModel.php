@@ -19,6 +19,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Path;
@@ -156,6 +157,12 @@ class TemplateModel extends AdminModel
 
             // Check for a table object error.
             if ($return === false && $table->getError()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -202,6 +209,12 @@ class TemplateModel extends AdminModel
 
             // Check for a table object error.
             if ($return === false && $table->getError()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -275,6 +288,10 @@ class TemplateModel extends AdminModel
         $validLanguages = LanguageHelper::getContentLanguages([0, 1]);
 
         if (!\array_key_exists($data['language'], $validLanguages)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_MAILS_FIELD_LANGUAGE_CODE_INVALID'));
+            }
+
             $this->setError(Text::_('COM_MAILS_FIELD_LANGUAGE_CODE_INVALID'));
 
             return false;
@@ -320,7 +337,13 @@ class TemplateModel extends AdminModel
 
             // Bind the data.
             if (!$table->bind($data)) {
-                $this->setError($table->getError());
+                $error = $table->getError(null, false);
+
+                if ($this->shouldUseExceptions()) {
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
+                $this->setError($error);
 
                 return false;
             }
@@ -330,7 +353,13 @@ class TemplateModel extends AdminModel
 
             // Check the data.
             if (!$table->check()) {
-                $this->setError($table->getError());
+                $error = $table->getError(null, false);
+
+                if ($this->shouldUseExceptions()) {
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
+                $this->setError($error);
 
                 return false;
             }
@@ -344,14 +373,26 @@ class TemplateModel extends AdminModel
             ]))->getArgument('result', []);
 
             if (\in_array(false, $result, true)) {
-                $this->setError($table->getError());
+                $error = $table->getError(null, false);
+
+                if ($this->shouldUseExceptions()) {
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
+                $this->setError($error);
 
                 return false;
             }
 
             // Store the data.
             if (!$table->store()) {
-                $this->setError($table->getError());
+                $error = $table->getError(null, false);
+
+                if ($this->shouldUseExceptions()) {
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
+                $this->setError($error);
 
                 return false;
             }
@@ -367,6 +408,10 @@ class TemplateModel extends AdminModel
                 'data'    => $data,
             ]));
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;

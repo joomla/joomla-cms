@@ -21,6 +21,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailerFactoryAwareInterface;
 use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFoundException;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
@@ -171,6 +172,10 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
         if ($return === false) {
             // Get the validation messages from the form.
             foreach ($form->getErrors() as $formError) {
+                if ($this->shouldUseExceptions()) {
+                    throw $formError instanceof \Throwable ? $formError : new \RuntimeException((string) $formError);
+                }
+
                 $this->setError($formError->getMessage());
             }
 
@@ -200,6 +205,10 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
 
         // Check for a user and that the tokens match.
         if (empty($user) || $user->activation !== $token) {
+            if ($this->shouldUseExceptions()) {
+                throw new ResourceNotFoundException(Text::_('COM_USERS_USER_NOT_FOUND'));
+            }
+
             $this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
             return false;
@@ -207,6 +216,10 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
 
         // Make sure the user isn't blocked.
         if ($user->block) {
+            if ($this->shouldUseExceptions()) {
+                throw new \RuntimeException(Text::_('COM_USERS_USER_BLOCKED'));
+            }
+
             $this->setError(Text::_('COM_USERS_USER_BLOCKED'));
 
             return false;
@@ -214,6 +227,10 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
 
         // Check if the user is reusing the current password if required to reset their password
         if ($user->requireReset == 1 && UserHelper::verifyPassword($data['password1'], $user->password)) {
+            if ($this->shouldUseExceptions()) {
+                throw new \RuntimeException(Text::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
+            }
+
             $this->setError(Text::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
 
             return false;
@@ -284,6 +301,10 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
         if ($return === false) {
             // Get the validation messages from the form.
             foreach ($form->getErrors() as $formError) {
+                if ($this->shouldUseExceptions()) {
+                    throw $formError instanceof \Throwable ? $formError : new \RuntimeException((string) $formError);
+                }
+
                 $this->setError($formError->getMessage());
             }
 
@@ -309,12 +330,20 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
 
         // Check for a user.
         if (empty($user)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ResourceNotFoundException(Text::_('COM_USERS_USER_NOT_FOUND'));
+            }
+
             $this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
             return false;
         }
 
         if (!$user->activation) {
+            if ($this->shouldUseExceptions()) {
+                throw new ResourceNotFoundException(Text::_('COM_USERS_USER_NOT_FOUND'));
+            }
+
             $this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
             return false;
@@ -322,6 +351,10 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
 
         // Verify the token
         if (!UserHelper::verifyPassword($data['token'], $user->activation)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ResourceNotFoundException(Text::_('COM_USERS_USER_NOT_FOUND'));
+            }
+
             $this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
             return false;
@@ -329,6 +362,10 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
 
         // Make sure the user isn't blocked.
         if ($user->block) {
+            if ($this->shouldUseExceptions()) {
+                throw new \RuntimeException(Text::_('COM_USERS_USER_BLOCKED'));
+            }
+
             $this->setError(Text::_('COM_USERS_USER_BLOCKED'));
 
             return false;
@@ -379,6 +416,10 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
         if ($return === false) {
             // Get the validation messages from the form.
             foreach ($form->getErrors() as $formError) {
+                if ($this->shouldUseExceptions()) {
+                    throw $formError instanceof \Throwable ? $formError : new \RuntimeException((string) $formError);
+                }
+
                 $this->setError($formError->getMessage());
             }
 
@@ -399,6 +440,10 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
         try {
             $userId = $db->loadResult();
         } catch (\RuntimeException $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()));
 
             return false;
@@ -406,6 +451,10 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
 
         // Check for a user.
         if (empty($userId)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ResourceNotFoundException(Text::_('COM_USERS_INVALID_EMAIL'));
+            }
+
             $this->setError(Text::_('COM_USERS_INVALID_EMAIL'));
 
             return false;
@@ -416,6 +465,10 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
 
         // Make sure the user isn't blocked.
         if ($user->block) {
+            if ($this->shouldUseExceptions()) {
+                throw new \RuntimeException(Text::_('COM_USERS_USER_BLOCKED'));
+            }
+
             $this->setError(Text::_('COM_USERS_USER_BLOCKED'));
 
             return false;
@@ -423,6 +476,10 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
 
         // Make sure the user isn't a Super Admin.
         if ($user->authorise('core.admin')) {
+            if ($this->shouldUseExceptions()) {
+                throw new \RuntimeException(Text::_('COM_USERS_REMIND_SUPERADMIN_ERROR'));
+            }
+
             $this->setError(Text::_('COM_USERS_REMIND_SUPERADMIN_ERROR'));
 
             return false;
@@ -431,6 +488,11 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
         // Make sure the user has not exceeded the reset limit
         if (!$this->checkResetLimit($user)) {
             $resetLimit = (int) Factory::getApplication()->getParams()->get('reset_time');
+
+            if ($this->shouldUseExceptions()) {
+                throw new \RuntimeException(Text::plural('COM_USERS_REMIND_LIMIT_ERROR_N_HOURS', $resetLimit));
+            }
+
             $this->setError(Text::plural('COM_USERS_REMIND_LIMIT_ERROR_N_HOURS', $resetLimit));
 
             return false;
