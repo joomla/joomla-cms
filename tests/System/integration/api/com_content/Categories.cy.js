@@ -127,7 +127,7 @@ describe('Test that content categories API endpoint', () => {
       })
       .then((id) => cy.api_patch(`/content/categories/${id}`, { published: -2 })
         .then(() => cy.db_createArticle({ title: 'automated test article', catid: Number(id) }))
-        .then((article) => {          
+        .then((article) => {
           articleId = article.id;
         })
         .then(() => cy.api_getBearerToken())
