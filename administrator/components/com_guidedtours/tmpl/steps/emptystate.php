@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
 /** @var \Joomla\Component\Guidedtours\Administrator\View\Steps\HtmlView $this */
@@ -20,6 +19,7 @@ $displayData = [
     'formURL'    => 'index.php?option=com_guidedtours&view=steps',
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Guided_Tours:_Steps',
     'icon'       => 'icon-map-signs',
+    'tourUID'    => $this->tourUID,
 
     'controlFields' => $this->filterForm->renderControlFields(),
 ];
@@ -28,17 +28,6 @@ $user = $this->getCurrentUser();
 
 if ($user->authorise('core.create', 'com_guidedtours')) {
     $displayData['createURL'] = 'index.php?option=com_guidedtours&task=step.add';
-}
-
-$factory = Factory::getApplication()->bootComponent('com_guidedtours')->getMVCFactory();
-
-// Get an instance of the guided tour model
-$tourModel = $factory->createModel('Tour', 'Administrator', ['ignore_request' => true]);
-
-$tourUid = 'joomla-guidedtoursteps';
-
-if ($tourModel->isAvailable($tourUid) !== false) {
-    $displayData['tourUID'] = $tourUid;
 }
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);

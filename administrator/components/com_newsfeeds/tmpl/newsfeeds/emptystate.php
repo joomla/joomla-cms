@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
 /** @var \Joomla\Component\Newsfeeds\Administrator\View\Newsfeeds\HtmlView $this */
@@ -20,6 +19,7 @@ $displayData = [
     'formURL'    => 'index.php?option=com_newsfeeds&view=newsfeeds',
     'helpURL'    => 'https://guide.joomla.org/user-manual/news-feeds/news-feeds-news-feeds',
     'icon'       => 'icon-rss newsfeeds',
+    'tourUID'    => $this->tourUID,
 
     'controlFields' => $this->filterForm->renderControlFields(),
 ];
@@ -28,17 +28,6 @@ $user = $this->getCurrentUser();
 
 if ($user->authorise('core.create', 'com_newsfeeds') || count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0) {
     $displayData['createURL'] = 'index.php?option=com_newsfeeds&task=newsfeed.add';
-}
-
-$factory = Factory::getApplication()->bootComponent('com_guidedtours')->getMVCFactory();
-
-// Get an instance of the guided tour model
-$tourModel = $factory->createModel('Tour', 'Administrator', ['ignore_request' => true]);
-
-$tourUid = 'joomla-newsfeeds';
-
-if ($tourModel->isAvailable($tourUid) !== false) {
-    $displayData['tourUID'] = $tourUid;
 }
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);
