@@ -64,13 +64,7 @@ class PackageAdapter extends InstallerAdapter
     protected $supportsDiscoverInstall = false;
 
     /**
-     * Method to install a package; the update route runs through here too
-     *
-     * The installer keeps one adapter per extension type for the whole request, so when several
-     * packages are installed or updated in one request (e.g. System - Update with more than one
-     * package selected) this object runs once for each of them. Start every package with empty
-     * lists: otherwise finaliseInstall() would set this package's ID on the extensions of the
-     * packages before it, and postflight() would receive their results.
+     * Method to install a package
      *
      * @return  boolean|integer  The extension ID on success, boolean false on failure
      *
@@ -78,6 +72,7 @@ class PackageAdapter extends InstallerAdapter
      */
     public function install()
     {
+        // The adapter is reused for every package in the request
         $this->installedIds = [];
         $this->results      = [];
 
