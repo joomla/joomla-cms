@@ -44,28 +44,32 @@ class ConfigurationModel extends BaseInstallationModel
     /**
      * Method to setup the configuration file
      *
-     * @param   array  $options  The session options
+     * @param   array  $options       The options to create the config
+     * @param   array  $extraOptions  The extra options that should not end up in the final configuration
      *
      * @return  boolean  True on success
      *
      * @since   3.1
      */
-    public function setup($options)
+    public function setup($options, array $extraOptions = [])
     {
+        // Check the extra options separately, they should not end up in the final configuration
+        $extraOptions = ArrayHelper::toObject(array_merge($options, $extraOptions));
+
         // Get the options as an object for easier handling.
         $options = ArrayHelper::toObject($options);
 
         // Get a database object.
         try {
             $db = DatabaseHelper::getDbo(
-                $options->db_type,
-                $options->db_host,
-                $options->db_user,
-                $options->db_pass_plain,
-                $options->db_name,
-                $options->db_prefix,
+                $extraOptions->db_type,
+                $extraOptions->db_host,
+                $extraOptions->db_user,
+                $extraOptions->db_pass_plain,
+                $extraOptions->db_name,
+                $extraOptions->db_prefix,
                 true,
-                DatabaseHelper::getEncryptionSettings($options)
+                DatabaseHelper::getEncryptionSettings($extraOptions)
             );
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
@@ -195,7 +199,7 @@ class ConfigurationModel extends BaseInstallationModel
         }
 
         // Attempt to create the root user.
-        if (!$this->createRootUser($options, $db)) {
+        if (!$this->createRootUser($extraOptions, $db)) {
             $this->deleteConfiguration();
 
             return false;
