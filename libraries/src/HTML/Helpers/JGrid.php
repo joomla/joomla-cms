@@ -91,6 +91,16 @@ abstract class JGrid
 
             $html[] = '<a href="#" class="js-grid-item-action tbody-icon' . ($activeClass === 'publish' ? ' active' : '') . '"';
             $html[] = ' data-item-id="' . $checkbox . $i . '" data-item-task="' . $prefix . $task . '" data-item-form-id="' . $formId . '"';
+
+            // Support for custom data attribute (string or array).
+            if (isset($options) && \array_key_exists('custom', $options) && $options['custom'] !== '' && $options['custom'] !== []) {
+                $custom = \is_array($options['custom'])
+                    ? htmlspecialchars(\json_encode($options['custom'], JSON_UNESCAPED_UNICODE), ENT_QUOTES, 'UTF-8')
+                    : htmlspecialchars($options['custom'], ENT_QUOTES, 'UTF-8');
+
+                $html[] = ' data-item-custom="' . $custom . '"';
+            }
+
             $html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
             $html[] = '>';
             $html[] = LayoutHelper::render('joomla.icon.iconclass', ['icon' => $activeClass]);
