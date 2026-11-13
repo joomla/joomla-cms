@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Newsfeeds\Site\View\Newsfeed;
 
-use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Feed\FeedFactory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -261,7 +260,7 @@ class HtmlView extends BaseHtmlView
             }
 
             $path     = [['title' => $this->item->name, 'link' => '']];
-            $category = Categories::getInstance('Newsfeeds')->get($this->item->catid);
+            $category = $app->bootComponent('com_newsfeeds')->getCategory()->get($this->item->catid);
 
             while (
                 isset($category->id) && $category->id > 1
