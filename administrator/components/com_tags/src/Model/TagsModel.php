@@ -12,6 +12,7 @@ namespace Joomla\Component\Tags\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Tag\TagServiceInterface;
@@ -72,6 +73,10 @@ class TagsModel extends ListModel
                 'a.path',
                 'countTaggedItems',
             ];
+
+            if (Associations::isEnabled()) {
+                $config['filter_fields'][] = 'association';
+            }
         }
 
         parent::__construct($config, $factory);
@@ -189,6 +194,22 @@ class TagsModel extends ListModel
             ->from($db->quoteName('#__contentitem_tag_map', 'tag_map'))
             ->where($db->quoteName('tag_map.tag_id') . ' = ' . $db->quoteName('a.id'));
         $query->select('(' . (string) $subQueryCountTaggedItems . ') AS ' . $db->quoteName('countTaggedItems'));
+
+        // Join over the associations.
+        if (Associations::isEnabled()) {
+            $subQuery = $db->getQuery(true)
+                ->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
+                ->from($db->quoteName('#__associations', 'asso1'))
+                ->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
+                ->where(
+                    [
+                        $db->quoteName('asso1.id') . ' = ' . $db->quoteName('a.id'),
+                        $db->quoteName('asso1.context') . ' = ' . $db->quote('com_tags.tag'),
+                    ]
+                );
+
+            $query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
+        }
 
         // Filter on the level.
         if ($level = (int) $this->getState('filter.level')) {

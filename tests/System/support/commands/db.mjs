@@ -464,6 +464,34 @@ Cypress.Commands.add('db_createTag', (tag) => {
   return cy.task('queryDB', createInsertQuery('tags', { ...defaultTagOptions, ...tag })).then(async (info) => info.insertId);
 });
 
+/**
+ * Creates a content language in the database with the given data. The content language contains some default values when
+ * not all required fields are passed in the given data. The id of the inserted content language is returned.
+ *
+ * @param {Object} language The content language data to insert
+ *
+ * @returns integer
+ */
+Cypress.Commands.add('db_createLanguage', (language) => {
+  const defaultLanguageOptions = {
+    asset_id: 0,
+    lang_code: 'de-DE',
+    title: 'German (DE)',
+    title_native: 'Deutsch (DE)',
+    sef: 'de',
+    image: 'de_de',
+    description: '',
+    metakey: '',
+    metadesc: '',
+    sitename: '',
+    published: 1,
+    access: 1,
+    ordering: 0,
+  };
+
+  return cy.task('queryDB', createInsertQuery('languages', { ...defaultLanguageOptions, ...language })).then(async (info) => info.insertId);
+});
+
 Cypress.Commands.add('db_createMenuType', (menuTypeData) => {
   const defaultMenuTypeOptions = {
     title: 'test menu',
