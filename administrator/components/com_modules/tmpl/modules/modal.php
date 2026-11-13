@@ -95,7 +95,7 @@ if (!empty($editor)) {
                         . ' data-module="' . ((int) $item->id) . '"';
 
                     $attrs1 = $attrs;
-                    $attrs1 .= ' data-html="{loadmoduleid ' . ((int) $item->id) . '}"';
+                    $attrs1 .= ' data-html="{loadmoduleid ' . ((int) $item->id) . ' - ' . $this->escape($item->title) . '}"';
                     $attrs2 = $attrs;
                     $attrs2 .= ' data-html="{loadposition ' . $this->escape($item->position) . '}"';
                     ?>
