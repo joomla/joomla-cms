@@ -10,16 +10,34 @@
 
 namespace Joomla\Plugin\System\Redirect\Extension;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Event\ErrorEvent;
+use Joomla\CMS\Event\Model\AfterSaveEvent;
+use Joomla\CMS\Event\Model\BeforeSaveEvent;
+use Joomla\CMS\Event\Model\PrepareDataEvent;
+use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\HelperRedirectAwareInterface;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\LanguageFactoryInterface;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Menu\MenuFactoryInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Router\SiteRouter;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
+use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\SubscriberInterface;
 use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -30,9 +48,46 @@ use Joomla\String\StringHelper;
  *
  * @since  1.6
  */
-final class Redirect extends CMSPlugin implements SubscriberInterface
+final class Redirect extends CMSPlugin implements CurrentUserInterface, SubscriberInterface
 {
     use DatabaseAwareTrait;
+    use CurrentUserTrait;
+
+    /**
+     * Holds the SEF link of the item before it's saved
+     *
+     * @var Uri|null
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private ?Uri $oldLink = null;
+
+    /**
+     * The Site Application for the special redirect handling
+     *
+     * @var  SiteApplication
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private SiteApplication $siteApp;
+
+    /**
+     * Language Factory to create a language for the item
+     *
+     * @var  LanguageFactoryInterface
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private LanguageFactoryInterface $languageFactory;
+
+    /**
+     * Menu Factory to create a menu in guest context
+     *
+     * @var  MenuFactoryInterface
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private MenuFactoryInterface $menuFactory;
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -43,7 +98,331 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return ['onError' => 'handleError'];
+        return [
+            'onAfterInitialiseDocument' => 'onAfterInitialiseDocument',
+            'onContentAfterSave'        => 'onContentAfterSave',
+            'onContentBeforeSave'       => 'onContentBeforeSave',
+            'onContentPrepareData'      => 'onContentPrepareData',
+            'onContentPrepareForm'      => 'onContentPrepareForm',
+            'onError'                   => 'handleError',
+        ];
+    }
+
+    /**
+     * The save event.
+     *
+     * @param   BeforeSaveEvent $event  The event instance.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onContentBeforeSave(BeforeSaveEvent $event): void
+    {
+        // No need to redirect if the item is new, so early return
+        if ($event->getIsNew()) {
+            return;
+        }
+
+        // Check if the extension supports auto redirect handling
+        $context = $event->getContext();
+
+        [$component, $view] = explode('.', $context);
+
+        // If we have categories, we have to look at the extension
+        if ($component === 'com_categories' && $view === 'category') {
+            $data = $event->getData();
+
+            $component = ArrayHelper::getValue($data, 'extension', '');
+        }
+
+        if (empty($component)) {
+            return;
+        }
+
+        $app = $this->getApplication();
+
+        $extension = $app->bootComponent($component);
+
+        if (!$extension || !$extension instanceof HelperRedirectAwareInterface) {
+            return;
+        }
+
+        $componentParams = ComponentHelper::getParams($component);
+
+        if (
+            (!$componentParams->get('redirect_on_save_admin', 1) || !$app->isClient('administrator'))
+            && (!$componentParams->get('redirect_on_save_site', 1) || ! $app->isClient('site'))
+        ) {
+            return;
+        }
+
+        $table = $event->getItem();
+
+        if (!$table instanceof Table) {
+            return;
+        }
+
+        // We need to load the old data to get the old alias etc.
+        $tempTable = clone $table;
+        $tempTable->load();
+
+        $link = $extension->getLinkForRedirect($tempTable);
+
+        if (empty($link)) {
+            return;
+        }
+
+        $lang = '*';
+
+        if ($table->hasField('language')) {
+            $lang = $table->{$table->getColumnAlias('language')};
+        }
+
+        $router = $this->getRouter($lang);
+
+        $this->oldLink = $router->build($link);
+    }
+
+    /**
+     * After the save, so no changes will be saved.
+     * Method is called right after the content is saved
+     *
+     * @param   AfterSaveEvent $event  The event instance.
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function onContentAfterSave(AfterSaveEvent $event): void
+    {
+        // No need to redirect if the item is new, so early return
+        $isNew = $event->getIsNew();
+
+        if ($isNew) {
+            return;
+        }
+
+        // Check if the extension supports auto redirect handling
+        $context = $event->getContext();
+
+        [$component, $view] = explode('.', $context);
+
+        if ($component === 'com_categories' && $view === 'category') {
+            $data = $event->getData();
+
+            [$component] = explode('.', ArrayHelper::getValue($data, 'extension', ''));
+        }
+
+        $app = $this->getApplication();
+
+        $extension = $this->getApplication()->bootComponent($component);
+
+        if (!$extension || !$extension instanceof HelperRedirectAwareInterface) {
+            return;
+        }
+
+        // Check if the redirect on save is enabled
+        $componentParams = ComponentHelper::getParams($component);
+
+        if (
+            (!$componentParams->get('redirect_on_save_admin', 1) || !$app->isClient('administrator'))
+            && (!$componentParams->get('redirect_on_save_site', 1) || ! $app->isClient('site'))
+        ) {
+            return;
+        }
+
+        $table = $event->getItem();
+
+        if (!$table instanceof Table) {
+            return;
+        }
+
+        // Load translations
+        $this->loadLanguage();
+
+        $link = $extension->getLinkForRedirect($table);
+
+        if (empty($link) || empty($this->oldLink)) {
+            return;
+        }
+
+        $router = $this->getRouter();
+
+        $newLink = $router->build($link);
+
+        if ((string) $this->oldLink !== (string) $newLink) {
+            $user = $this->getCurrentUser();
+
+            // In admin we have to create the redirect manually if seletected
+            if ($app->isClient('administrator') && (int) $componentParams->get('redirect_on_save_admin', 1) === 2) {
+                // Check for com_redirect permissions
+                $canCreateRedirect = $user->authorise('core.create', 'com_redirect');
+
+                $langString = Text::sprintf('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_CHANGED_NO_PERMISSION');
+
+                if ($canCreateRedirect) {
+                    $button = 'index.php?option=com_redirect&task=link.add&layout=modal&tmpl=component&old_url=' . base64_encode((string) $this->oldLink) . '&new_url=' . base64_encode((string) $link);
+
+                    $langString = Text::sprintf('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_CHANGED', HTMLHelper::_('link', $button, Text::_('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_CHANGED_CREATE_REDIRECT'), ['class' => 'btn btn-success btn-sm', 'data-joomla-dialog' => '', 'data-close-on-message' => 'true']));
+                }
+
+                $this->getApplication()->enqueueMessage($langString, 'info');
+
+                return;
+            } elseif (
+                ($app->isClient('administrator') && (int) $componentParams->get('redirect_on_save_admin', 1))
+                || ($app->isClient('site') && (int) $componentParams->get('redirect_on_save_site', 1))
+            ) {
+                $redirectExtension = $app->bootComponent('com_redirect')->getMVCFactory();
+
+                $redirectModel = $redirectExtension->createModel('Link', 'Administrator', ['ignore_request' => true]);
+
+                $redirectTable = $redirectModel->getTable();
+
+                // If it already exists, just publish it
+                if ($redirectTable->load(['old_url' => (string) $this->oldLink, 'new_url' => (string) $newLink])) {
+                    $redirectTable->published = 1;
+
+                    $redirectTable->store();
+
+                    return;
+                }
+
+                // Create new redirect
+                $data = [
+                    'old_url'      => (string) $this->oldLink,
+                    'new_url'      => (string) $link,
+                    'header'       => 301,
+                    'published'    => 1,
+                    'comment'      => Text::sprintf('PLG_SYSTEM_REDIRECT_AUTOMATICALLY_CREATED_ON_BY', Factory::getDate()->format(Text::_('DATE_FORMAT_LC2')), $user->name, $user->id),
+                    'referer'      => '',
+                    'created_date' => Factory::getDate()->toSql(),
+                ];
+
+                try {
+                    $redirectModel->save($data);
+                } catch (\Throwable $th) {
+                    // Do nothing
+                }
+            }
+        }
+    }
+
+    /**
+     * Extract old/new url and store it in the session
+     *
+     * @param AfterInitialiseDocumentEvent $event
+     *
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onAfterInitialiseDocument(AfterInitialiseDocumentEvent $event): void
+    {
+        if (!$this->getApplication()->isClient('administrator')) {
+            return;
+        }
+
+        $input = $this->getApplication()->getInput();
+
+        $option = $input->getCmd('option', '');
+        $task   = $input->getCmd('task', '');
+
+        if ($option === 'com_redirect' && $task === 'link.add') {
+            $oldUrl = $input->getBase64('old_url');
+            $newUrl = $input->getBase64('new_url');
+
+            $oldUrlDecoded = base64_decode($oldUrl, true);
+            $newUrlDecoded = base64_decode($newUrl, true);
+
+            $data = array_filter([
+                'old_url' => $oldUrl ? $oldUrlDecoded : '',
+                'new_url' => $newUrl ? $newUrlDecoded : '',
+            ]);
+
+            $this->getApplication()->setUserState('plg_system_redirect.create.link', $data);
+        }
+    }
+
+    /**
+     * Set new/old link when redirect is created
+     *
+     * @param PrepareDataEvent $event
+     *
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onContentPrepareData(PrepareDataEvent $event)
+    {
+        $context = $event->getContext();
+
+        if ($context !== 'com_redirect.link' || !$this->getApplication()->isClient('administrator')) {
+            return;
+        }
+
+        $data = $event->getData();
+
+        if (!\is_array($data)) {
+            $data = (array) $data;
+        }
+
+        $id = ArrayHelper::getValue($data, 'id', 0, 'int');
+
+        // We need to create it
+        if (!empty($id)) {
+            return;
+        }
+
+        $storedData = $this->getApplication()->getUserState('plg_system_redirect.create.link', []);
+
+        $this->getApplication()->setUserState('plg_system_redirect.create.link', []);
+
+        $data = array_merge($data, $storedData);
+
+        $event->setArgument('data', $data);
+    }
+
+    /**
+     * Adds additional fields to the com_config editing form for components supporting the redirect interface
+     *
+     * @param   PrepareFormEvent $event  The event instance.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION_
+     *
+     * @throws  \Exception
+     */
+    public function onContentPrepareForm(PrepareFormEvent $event): void
+    {
+        $form     = $event->getForm();
+        $data     = $event->getData();
+        $formName = $form->getName();
+
+        $app = $this->getApplication();
+
+        if (!$app->isClient('administrator') || $formName !== 'com_config.component') {
+            return;
+        }
+
+        $input     = $app->getInput();
+        $component = $input->getCmd('component', '');
+
+        if (empty($component)) {
+            return;
+        }
+
+        $extension = $app->bootComponent($component);
+
+        if (!$extension instanceof HelperRedirectAwareInterface) {
+            return;
+        }
+
+        $this->loadLanguage();
+
+        $form->loadFile(__DIR__ . '/../../form/config.xml');
     }
 
     /**
@@ -261,5 +640,81 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
                 return;
             }
         }
+    }
+
+    /**
+     * Get the router prepared by ourself
+     *
+     * @return  SiteRouter
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getRouter($language = '*'): ?SiteRouter
+    {
+        if (Multilanguage::isEnabled() && $language !== '*') {
+            $lang = $this->languageFactory->createLanguage($language);
+        }
+
+        if (!isset($lang)) {
+            $lang = $this->siteApp->getLanguage();
+        }
+
+        // We need to build our own menu in guest context
+        $options = [
+            'app'      => $this->siteApp,
+            'db'       => $this->getDatabase(),
+            'language' => $lang,
+            'user'     => new User(),
+        ];
+
+        $menu = $this->menuFactory->createMenu('site', $options);
+
+        $router = clone Factory::getContainer()->get(SiteRouter::class);
+
+        $router->setMenu($menu);
+
+        return $router;
+    }
+
+    /**
+     * Sets the internal site application.
+     *
+     * @param  SiteApplication  $siteApp  The site application
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function setSiteApplication(SiteApplication $siteApp): void
+    {
+        $this->siteApp = $siteApp;
+    }
+
+    /**
+     * Sets the internal menu factory.
+     *
+     * @param  MenuFactoryInterface  $menuFactory  The menu factory
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function setMenuFactory(MenuFactoryInterface $menuFactory): void
+    {
+        $this->menuFactory = $menuFactory;
+    }
+
+    /**
+     * Sets the internal language factory.
+     *
+     * @param  LanguageFactoryInterface  $languageFactory  The language factory
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function setLanguageFactory(LanguageFactoryInterface $languageFactory): void
+    {
+        $this->languageFactory = $languageFactory;
     }
 }

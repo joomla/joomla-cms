@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -22,9 +23,17 @@ $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 
+$input = Factory::getApplication()->getInput();
+
+// In case of modal
+$isModal = $input->get('layout') === 'modal';
+$layout  = $isModal ? 'modal' : 'edit';
+$tmpl    = $input->get('tmpl');
+$tmpl    = $tmpl ? '&tmpl=' . $tmpl : '';
+
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_redirect&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="link-form" aria-label="<?php echo Text::_('COM_REDIRECT_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_redirect&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="link-form" aria-label="<?php echo Text::_('COM_REDIRECT_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
     <fieldset class="main-card mt-3">
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'basic', 'recall' => true, 'breakpoint' => 768]); ?>
 
