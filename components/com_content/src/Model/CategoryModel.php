@@ -281,6 +281,12 @@ class CategoryModel extends ListModel
                 $this->_articles = $model->getItems();
 
                 if ($this->_articles === false) {
+                    if ($this->shouldUseExceptions()) {
+                        $error = $model->getError(null, false);
+
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
                     $this->setError($model->getError());
                 }
             } else {
