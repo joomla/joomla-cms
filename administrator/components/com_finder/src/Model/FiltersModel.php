@@ -135,4 +135,18 @@ class FiltersModel extends ListModel
         // List state information.
         parent::populateState($ordering, $direction);
     }
+
+    /**
+     * Get the UID of the guided tour to offer on the empty state, if one is available.
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getEmptyStateTourUid(): string
+    {
+        $tourUid = 'joomla-smartsearch';
+
+        return $this->isTourAvailable($tourUid) ? $tourUid : '';
+    }
 }
