@@ -66,7 +66,7 @@ abstract class Icons
                 }
             } else {
                 // Get the user object to verify permissions
-                $user = Factory::getUser();
+                $user = Factory::getApplication()->getIdentity();
 
                 // Take each pair of permission, context values.
                 for ($i = 0, $n = \count($button['access']); $i < $n; $i += 2) {

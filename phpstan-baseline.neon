@@ -1929,18 +1929,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 2
-			path: administrator/components/com_finder/src/Service/HTML/Filter.php
-
-		-
-			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
@@ -5873,35 +5861,11 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/templates/atum/html/layouts/chromes/body.php
-
-		-
-			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/templates/atum/html/layouts/chromes/well.php
-
-		-
-			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -7672,7 +7636,7 @@ parameters:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 3
+			count: 1
 			path: libraries/src/Application/CMSApplication.php
 
 		-
@@ -7884,35 +7848,11 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Button/FeaturedButton.php
-
-		-
-			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Button/PublishedButton.php
-
-		-
-			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -8344,18 +8284,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: libraries/src/Document/HtmlDocument.php
-
-		-
-			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Document/Renderer/Html/ModulesRenderer.php
 
 		-
 			message: '''
@@ -10314,18 +10242,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/HTML/Helpers/Access.php
-
-		-
-			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
@@ -10367,18 +10283,6 @@ parameters:
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/HTML/Helpers/Category.php
-
-		-
-			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -10457,30 +10361,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/HTML/Helpers/Grid.php
-
-		-
-			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/HTML/Helpers/Icons.php
-
-		-
-			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
@@ -10498,18 +10378,6 @@ parameters:
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/HTML/Helpers/JGrid.php
-
-		-
-			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -10555,18 +10423,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/HTML/Helpers/Links.php
-
-		-
-			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
@@ -10587,18 +10443,6 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 4
-			path: libraries/src/HTML/Helpers/Menu.php
-
-		-
-			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
 			path: libraries/src/HTML/Helpers/Menu.php
 
 		-
@@ -13012,18 +12856,6 @@ parameters:
 			identifier: classConstant.deprecated
 			count: 1
 			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/WebAsset/AssetItem/KeepaliveAssetItem.php
 
 		-
 			message: '''
