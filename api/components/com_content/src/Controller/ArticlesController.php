@@ -137,6 +137,17 @@ class ArticlesController extends ApiController
             $data['tags'] = explode(',', $tags->tags);
         }
 
+        // On PATCH the stored introtext and fulltext would overwrite the text split from articletext
+        if (($this->input->getMethod() === 'PATCH') && isset($data['articletext'])) {
+            $requestData = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
+
+            foreach (['introtext', 'fulltext'] as $field) {
+                if (!\array_key_exists($field, $requestData)) {
+                    unset($data[$field]);
+                }
+            }
+        }
+
         return $data;
     }
 }
