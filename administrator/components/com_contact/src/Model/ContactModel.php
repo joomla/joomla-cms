@@ -10,17 +10,22 @@
 
 namespace Joomla\Component\Contact\Administrator\Model;
 
+use Joomla\CMS\Event\Model\AfterSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
+use Joomla\CMS\Helper\SecondaryCategoriesSaveTrait;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -37,6 +42,7 @@ use Joomla\Utilities\ArrayHelper;
 class ContactModel extends AdminModel implements VersionableModelInterface
 {
     use VersionableModelTrait;
+    use SecondaryCategoriesSaveTrait;
 
     /**
      * The type alias for this content type.
@@ -67,10 +73,11 @@ class ContactModel extends AdminModel implements VersionableModelInterface
      * @var array
      */
     protected $batch_commands = [
-        'assetgroup_id' => 'batchAccess',
-        'language_id'   => 'batchLanguage',
-        'tag'           => 'batchTag',
-        'user_id'       => 'batchUser',
+        'assetgroup_id'      => 'batchAccess',
+        'language_id'        => 'batchLanguage',
+        'secondary_category' => 'batchSecondaryCategory',
+        'tag'                => 'batchTag',
+        'user_id'            => 'batchUser',
     ];
 
     /**
@@ -80,6 +87,89 @@ class ContactModel extends AdminModel implements VersionableModelInterface
      * @since  4.0.0
      */
     protected $formName = 'contact';
+
+    /**
+     * Copy secondary category mappings after batch copying a contact.
+     *
+     * @param   TableInterface  $table  The table object containing the newly created item.
+     * @param   integer         $newId  The id of the new item.
+     * @param   integer         $oldId  The original item id.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function cleanupPostBatchCopy(TableInterface $table, $newId, $oldId)
+    {
+        $secondaryCategories = array_values(array_diff(
+            $this->getCurrentSecondaryCategories((int) $oldId),
+            [(int) $table->catid]
+        ));
+
+        $this->saveSecondaryCategories([
+            'id'                   => (int) $newId,
+            'secondary_categories' => $secondaryCategories,
+        ]);
+
+        $oldItem = $this->getTable();
+        $oldItem->load($oldId);
+
+        $combinedCategories   = array_values(array_merge([(int) $table->catid], $secondaryCategories));
+        $oldItem->fieldscatid = $combinedCategories;
+        $fields               = FieldsHelper::getFields('com_contact.contact', $oldItem, true);
+
+        $fieldsData = [];
+
+        if (!empty($fields)) {
+            $fieldsData['com_fields'] = [];
+
+            foreach ($fields as $field) {
+                $fieldsData['com_fields'][$field->name] = $field->rawvalue;
+            }
+        }
+
+        $this->table->fieldscatid = $combinedCategories;
+
+        $event = new AfterSaveEvent(
+            'onContentAfterSave',
+            [
+                'context' => 'com_contact.contact',
+                'subject' => &$this->table,
+                'isNew'   => false,
+                'data'    => $fieldsData,
+            ]
+        );
+        $this->getDispatcher()->dispatch('onContentAfterSave', $event);
+    }
+
+    /**
+     * Batch move contacts to a new primary category.
+     *
+     * @param   integer  $value     The new category ID.
+     * @param   array    $pks       An array of row IDs.
+     * @param   array    $contexts  An array of item contexts.
+     *
+     * @return  boolean  True if successful, false otherwise.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function batchMove($value, $pks, $contexts)
+    {
+        $result = parent::batchMove($value, $pks, $contexts);
+
+        if ($result) {
+            $categoryId = (int) $value;
+            $helper     = new SecondaryCategoriesHelper($this->typeAlias);
+
+            foreach ($pks as $pk) {
+                $helper->removeMappings((int) $pk, [$categoryId]);
+            }
+
+            $this->cleanCache();
+        }
+
+        return $result;
+    }
 
     /**
      * Batch change a linked user.
@@ -232,6 +322,8 @@ class ContactModel extends AdminModel implements VersionableModelInterface
         if (!empty($item->id)) {
             $item->tags = new TagsHelper();
             $item->tags->getTagIds($item->id, 'com_contact.contact');
+
+            $item->secondary_categories = $this->getCurrentSecondaryCategories($item->id);
         }
 
         return $item;
@@ -260,9 +352,49 @@ class ContactModel extends AdminModel implements VersionableModelInterface
             }
         }
 
+        $isArray   = \is_array($data);
+        $catId     = (int) ($isArray ? ($data['catid'] ?? 0) : ($data->catid ?? 0));
+        $secondary = (array) ($isArray ? ($data['secondary_categories'] ?? []) : ($data->secondary_categories ?? []));
+
+        $manageable          = $this->getManageableSecondaryCategoryIds($catId);
+        $authorizedSecondary = array_values(array_intersect($secondary, $manageable));
+        $fieldscatid         = array_merge([$catId], $authorizedSecondary);
+
+        if ($isArray) {
+            $data['secondary_categories'] = $authorizedSecondary;
+            $data['fieldscatid']          = $fieldscatid;
+        } else {
+            $data->secondary_categories = $authorizedSecondary;
+            $data->fieldscatid          = $fieldscatid;
+        }
+
         $this->preprocessData('com_contact.contact', $data);
 
         return $data;
+    }
+
+    /**
+     * Method to validate the form data.
+     *
+     * @param   Form    $form   The form to validate against.
+     * @param   array   $data   The data to validate.
+     * @param   string  $group  The name of the field group to validate.
+     *
+     * @return  array|boolean  Array of filtered data if valid, false otherwise.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function validate($form, $data, $group = null)
+    {
+        if (isset($data['catid'])) {
+            $catId               = (int) $data['catid'];
+            $secondary           = array_filter(ArrayHelper::toInteger((array) ($data['secondary_categories'] ?? [])));
+            $manageable          = $this->getManageableSecondaryCategoryIds($catId);
+            $authorizedSecondary = array_values(array_intersect($secondary, $manageable));
+            $data['fieldscatid'] = array_values(array_unique(array_merge([$catId], $authorizedSecondary)));
+        }
+
+        return parent::validate($form, $data, $group);
     }
 
     /**
@@ -277,6 +409,12 @@ class ContactModel extends AdminModel implements VersionableModelInterface
     public function save($data)
     {
         $input = Factory::getApplication()->getInput();
+
+        // A multiple select does not submit a value after its final option is removed.
+        // Only form submissions should treat that as an explicit request to clear mappings.
+        if ($input->exists('jform') && !\array_key_exists('secondary_categories', $data)) {
+            $data['secondary_categories'] = [];
+        }
 
         // Create new category, if needed.
         $createCategory = true;
@@ -330,6 +468,25 @@ class ContactModel extends AdminModel implements VersionableModelInterface
             $data['published'] = 0;
         }
 
+        if (\array_key_exists('secondary_categories', $data)) {
+            $data['secondary_categories'] = $this->createSecondaryCategories($data);
+            $data['secondary_categories'] = $this->normalizeSecondaryCategories($data);
+        }
+
+        $catId                         = (int) ($data['catid'] ?? 0);
+        $secondary                     = array_filter(ArrayHelper::toInteger((array) ($data['secondary_categories'] ?? [])));
+        $manageable                    = $this->getManageableSecondaryCategoryIds($catId);
+        $authorizedSecondary           = array_values(array_intersect($secondary, $manageable));
+        $data['fieldscatid']           = array_values(array_unique(array_merge([$catId], $authorizedSecondary)));
+        $this->getTable()->fieldscatid = $data['fieldscatid'];
+
+        $rawJForm = Factory::getApplication()->getInput()->get('jform', [], 'array');
+        if (!empty($rawJForm['com_fields'])) {
+            foreach ($rawJForm['com_fields'] as $fieldName => $fieldValue) {
+                $data['com_fields'][$fieldName] = $fieldValue;
+            }
+        }
+
         $links = ['linka', 'linkb', 'linkc', 'linkd', 'linke'];
 
         foreach ($links as $link) {
@@ -338,7 +495,29 @@ class ContactModel extends AdminModel implements VersionableModelInterface
             }
         }
 
-        return parent::save($data);
+        if (parent::save($data)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Save additional category mappings before plugins handle the after-save event.
+     *
+     * @param   TableInterface  $table  The stored table.
+     * @param   array           $data   The submitted data.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function postStore(TableInterface $table, array $data): void
+    {
+        if (\array_key_exists('secondary_categories', $data)) {
+            $data['id'] = (int) $table->id;
+            $this->saveSecondaryCategories($data);
+        }
     }
 
     /**
@@ -380,6 +559,12 @@ class ContactModel extends AdminModel implements VersionableModelInterface
             $table->modified_by = $this->getCurrentUser()->id;
             $table->version++;
         }
+
+        if (!isset($table->fieldscatid)) {
+            $jform              = Factory::getApplication()->getInput()->get('jform', [], 'array');
+            $secondary          = (array) ($jform['secondary_categories'] ?? []);
+            $table->fieldscatid = array_values(array_merge([(int) $table->catid], array_map('intval', $secondary)));
+        }
     }
 
     /**
@@ -413,9 +598,11 @@ class ContactModel extends AdminModel implements VersionableModelInterface
     {
         if ($this->canCreateCategory()) {
             $form->setFieldAttribute('catid', 'allowAdd', 'true');
+            $form->setFieldAttribute('secondary_categories', 'allowAdd', 'true');
 
             // Add a prefix for categories created on the fly.
             $form->setFieldAttribute('catid', 'customPrefix', '#new#');
+            $form->setFieldAttribute('secondary_categories', 'customPrefix', '#new#');
         }
 
         // Association contact items
@@ -497,6 +684,27 @@ class ContactModel extends AdminModel implements VersionableModelInterface
         $this->cleanCache();
 
         return true;
+    }
+
+    /**
+     * Method to delete one or more records.
+     *
+     * @param   array  &$pks  An array of record primary keys.
+     *
+     * @return  boolean  True if successful, false if an error occurs.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function delete(&$pks)
+    {
+        $return = parent::delete($pks);
+
+        if ($return) {
+            $helper = new SecondaryCategoriesHelper($this->typeAlias);
+            $helper->removeAllMappings(...array_map('intval', (array) $pks));
+        }
+
+        return $return;
     }
 
     /**

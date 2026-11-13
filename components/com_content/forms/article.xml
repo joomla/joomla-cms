@@ -107,6 +107,15 @@
 		/>
 
 		<field
+			name="secondary_categories"
+			type="categorymultiple"
+            label="JADDITIONAL_CATEGORIES"
+			primarycategoryfield="catid"
+			multiple="true"
+			extension="com_content"
+		/>
+
+		<field
 			name="created"
 			type="calendar"
 			translateformat="true"
@@ -245,7 +254,7 @@
 				useglobal="true"
 				validate="CssIdentifier"
 			/>
-			
+
 			<field
 				name="float_intro"
 				type="text"

@@ -21,7 +21,8 @@ use Joomla\CMS\Router\Route;
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
-    ->useScript('com_banners.admin-banner-edit');
+    ->useScript('com_banners.admin-banner-edit')
+    ->registerAndUseScript('field.secondary-categories', 'layouts/joomla/form/field/secondary-categories.min.js', [], ['defer' => true], ['core', 'webcomponent.field-fancy-select']);
 
 ?>
 

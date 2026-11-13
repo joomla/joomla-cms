@@ -126,10 +126,11 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $this->_accessfield = $options['accessfield'] ?? null;
         $this->_statefield  = $options['statefield'] ?? 'state';
 
-        $options['access']        ??= 'true';
-        $options['published']     ??= 1;
-        $options['countItems']    ??= 0;
-        $options['accessOnItems'] ??= 1;
+        $options['access']                 ??= 'true';
+        $options['published']              ??= 1;
+        $options['countItems']             ??= 0;
+        $options['accessOnItems']          ??= 1;
+        $options['categoryMappingContext'] ??= null;
         $options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
 
         $this->_options = $options;
@@ -231,6 +232,18 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
     public function getOptions()
     {
         return $this->_options;
+    }
+
+    /**
+     * Get the configured context to use for category mapping.
+     *
+     * @return string|null
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    protected function getCategoryMappingContext(): ?string
+    {
+        return $this->_options['categoryMappingContext'];
     }
 
     /**
@@ -361,10 +374,29 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
 
         // Note: i for item
         if ($this->_options['countItems'] == 1) {
+            $context = $this->getCategoryMappingContext();
+
             $subQuery = $db->createQuery()
-                ->select('COUNT(' . $db->quoteName($db->escape('i.' . $this->_key)) . ')')
-                ->from($db->quoteName($db->escape($this->_table), 'i'))
-                ->where($db->quoteName($db->escape('i.' . $this->_field)) . ' = ' . $db->quoteName('c.id'));
+                ->select('COUNT(DISTINCT ' . $db->quoteName($db->escape('i.' . $this->_key)) . ')')
+                ->from($db->quoteName($db->escape($this->_table), 'i'));
+
+            if ($context !== null) {
+                $subQuery->join(
+                    'LEFT',
+                    $db->quoteName('#__category_item_map', 'm'),
+                    $db->quoteName('m.item_id') . ' = ' . $db->quoteName($db->escape('i.' . $this->_key))
+                    . ' AND '
+                    . $db->quoteName('m.context') . ' = ' . $db->quote($context)
+                );
+
+                $subQuery->where(
+                    '(' . $db->quoteName($db->escape('i.' . $this->_field)) . ' = ' . $db->quoteName('c.id') . ' OR ' . $db->quoteName('m.category_id') . ' = ' . $db->quoteName('c.id') . ')'
+                );
+            } else {
+                $subQuery->where(
+                    $db->quoteName($db->escape('i.' . $this->_field)) . ' = ' . $db->quoteName('c.id')
+                );
+            }
 
             if ($this->_accessfield && $this->_options['accessOnItems']) {
                 $subQuery->where(

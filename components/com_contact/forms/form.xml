@@ -234,6 +234,16 @@
 		/>
 
 		<field
+			name="secondary_categories"
+			type="categorymultiple"
+			label="JADDITIONAL_CATEGORIES"
+			primarycategoryfield="catid"
+			multiple="true"
+			extension="com_contact"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
+		/>
+
+		<field
 			name="tags"
 			type="tag"
 			label="JTAG"

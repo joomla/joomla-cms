@@ -60,6 +60,13 @@ $user = $this->getCurrentUser();
         </div>
         <?php endif; ?>
     </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <div class="controls">
+                <?php echo LayoutHelper::render('joomla.html.batch.secondarycategory', ['extension' => 'com_content']); ?>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="btn-toolbar p-3">
     <joomla-toolbar-button task="article.batch" class="ms-auto">

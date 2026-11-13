@@ -33,6 +33,7 @@ $fields = $displayData->get('fields') ?: [
     ['parent', 'parent_id'],
     ['published', 'state', 'enabled'],
     ['category', 'catid'],
+    'secondary_categories',
     'featured',
     'sticky',
     'access',

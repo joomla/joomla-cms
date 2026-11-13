@@ -68,22 +68,24 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                                         <td class="original">
                                             <?php if (isset($value1['value'][$key])) : ?>
                                                 <?php $currentvalue1 = $value1['value'][$key]; ?>
+                                                <?php $prefix1 = ArrayHelper::isAssociative($value1['value']) ? $key . ': ' : ''; ?>
                                                 <?php if (is_array($currentvalue1)) : ?>
                                                     <?php $currentvalue1 = ArrayHelper::isAssociative($currentvalue1) ? json_encode($currentvalue1) : implode(' | ', $currentvalue1); ?>
-                                                    <?php echo htmlspecialchars($key . ': ' . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
+                                                    <?php echo htmlspecialchars($prefix1 . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
                                                 <?php else : ?>
-                                                    <?php echo htmlspecialchars($key . ': ' . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
+                                                    <?php echo htmlspecialchars($prefix1 . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
                                                 <?php endif;?>
                                             <?php endif; ?>
                                         </td>
                                         <td class="changed">
                                             <?php if (isset($value2['value'][$key])) : ?>
                                                 <?php $currentvalue2 = $value2['value'][$key]; ?>
+                                                <?php $prefix2 = ArrayHelper::isAssociative($value2['value']) ? $key . ': ' : ''; ?>
                                                 <?php if (is_array($currentvalue2)) : ?>
                                                     <?php $currentvalue2 = ArrayHelper::isAssociative($currentvalue2) ? json_encode($currentvalue2) : implode(' | ', $currentvalue2); ?>
-                                                    <?php echo htmlspecialchars($key . ': ' . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
+                                                    <?php echo htmlspecialchars($prefix2 . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
                                                 <?php else : ?>
-                                                    <?php echo htmlspecialchars($key . ': ' . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
+                                                    <?php echo htmlspecialchars($prefix2 . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
                                                 <?php endif;?>
                                             <?php endif; ?>
                                         <td class="diff">&nbsp;</td>
