@@ -23,9 +23,11 @@ const createOption = (value, text) => {
   return option;
 };
 
-// Attach behaviour to toggle button.
+// Attach behaviour to toggle button and clear association button.
 document.body.addEventListener('click', ({ target }) => {
-  if (target.id === 'toggle-left-panel') {
+  if (target.closest('#remove-assoc')) {
+    Joomla.submitbutton('undo-association');
+  } else if (target.id === 'toggle-left-panel') {
     const referenceHide = target.getAttribute('data-hide-reference');
     const referenceShow = target.getAttribute('data-show-reference');
 
