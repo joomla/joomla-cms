@@ -47,14 +47,10 @@ class VcfView extends AbstractView
     {
         /** @var ContactModel $model */
         $model      = $this->getModel();
+        $model->setUseExceptions(true);
         $app        = Factory::getApplication();
         $user       = $app->getIdentity();
         $item       = $model->getItem();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         // Check if access is not public
         $groups = $user->getAuthorisedViewLevels();

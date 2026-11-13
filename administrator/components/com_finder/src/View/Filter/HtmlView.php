@@ -13,7 +13,6 @@ namespace Joomla\Component\Finder\Administrator\View\Filter;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -97,6 +96,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var FilterModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         // Load the view data.
         $this->filter = $model->getFilter();
@@ -104,11 +104,6 @@ class HtmlView extends BaseHtmlView
         $this->form   = $model->getForm();
         $this->state  = $model->getState();
         $this->total  = $model->getTotal();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         // Add form control fields
         $this->form

@@ -13,7 +13,6 @@ namespace Joomla\Component\Users\Site\View\Profile;
 use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -92,16 +91,12 @@ class HtmlView extends BaseHtmlView
 
         /** @var ProfileModel $model */
         $model                    = $this->getModel();
+        $model->setUseExceptions(true);
         $this->data               = $model->getData();
         $this->form               = $model->getForm();
         $this->state              = $model->getState();
         $this->params             = $this->state->get('params');
         $this->mfaConfigurationUI = Mfa::getConfigurationInterface($user);
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         // View also takes responsibility for checking if the user logged in with remember me.
         if (isset($user->cookieLogin) && !empty($user->cookieLogin)) {
