@@ -139,14 +139,17 @@
 
 		<field
 			name="flags"
-			type="radio"
-			label="JGLOBAL_SHOW_FLAG_LABEL"
-			layout="joomla.form.field.radio.switcher"
+			type="list"
+			label="JGLOBAL_ASSOCIATIONS_DISPLAY_LABEL"
+			description="JGLOBAL_ASSOCIATIONS_DISPLAY_DESC"
 			default="1"
 			showon="show_associations:1"
+			validate="options"
 			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+			<option value="1">JGLOBAL_ASSOCIATIONS_DISPLAY_FLAGS</option>
+			<option value="0">JGLOBAL_ASSOCIATIONS_DISPLAY_LANGUAGE_CODE</option>
+			<option value="2">JGLOBAL_ASSOCIATIONS_DISPLAY_NATIVE_LANGUAGE_TITLE</option>
+			<option value="3">JGLOBAL_ASSOCIATIONS_DISPLAY_LANGUAGE_TITLE</option>
 		</field>
 
 		<field
