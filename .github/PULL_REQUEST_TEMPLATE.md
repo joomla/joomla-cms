@@ -1,4 +1,6 @@
-Pull Request for Issue # .
+Pull Request resolves # .
+
+- [ ] I read the [Generative AI policy](https://developer.joomla.org/generative-ai-policy.html) and my contribution is either not created with the help of AI or is compatible with the policy and GNU/GPL 2 or later.
 
 ### Summary of Changes
 
@@ -18,8 +20,8 @@ Pull Request for Issue # .
 
 ### Link to documentations
 Please select:
-- [ ] Documentation link for docs.joomla.org: <link>
-- [ ] No documentation changes for docs.joomla.org needed
+- [ ] Documentation link for guide.joomla.org: <link>
+- [ ] No documentation changes for guide.joomla.org needed
 
 - [ ] Pull Request link for manual.joomla.org: <link>
 - [ ] No documentation changes for manual.joomla.org needed

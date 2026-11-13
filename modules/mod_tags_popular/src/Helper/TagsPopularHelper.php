@@ -55,7 +55,7 @@ class TagsPopularHelper implements DatabaseAwareInterface
             ->select(
                 [
                     'MAX(' . $db->quoteName('tag_id') . ') AS ' . $db->quoteName('tag_id'),
-                    'COUNT(*) AS ' . $db->quoteName('count'),
+                    'COUNT(DISTINCT ' . $db->quoteName('m.core_content_id') . ') AS ' . $db->quoteName('count'),
                     'MAX(' . $db->quoteName('t.title') . ') AS ' . $db->quoteName('title'),
                     'MAX(' . $db->quoteName('t.access') . ') AS ' . $db->quoteName('access'),
                     'MAX(' . $db->quoteName('t.alias') . ') AS ' . $db->quoteName('alias'),
@@ -122,6 +122,14 @@ class TagsPopularHelper implements DatabaseAwareInterface
             ->where(
                 '(' . $db->quoteName('c.core_access') . ' IN (' . implode(',', $query->bindArray($groups)) . ')'
                     . ' OR ' . $db->quoteName('c.core_access') . ' = 0)'
+            )
+            ->extendWhere(
+                'AND',
+                [
+                    $db->quoteName('c.core_catid') . ' = 0',
+                    $db->quoteName('cat.access') . ' IN (' . implode(',', $query->bindArray($groups)) . ')',
+                ],
+                'OR'
             )
             ->where(
                 '(' . $db->quoteName('c.core_publish_up') . ' IS NULL'

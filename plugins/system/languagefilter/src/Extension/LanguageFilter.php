@@ -136,6 +136,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
         $this->sefs         = LanguageHelper::getLanguages('sef');
         $this->lang_codes   = LanguageHelper::getLanguages('lang_code');
         $this->default_lang = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+        $installedLanguages = LanguageHelper::getInstalledLanguages(0);
 
         // If language filter plugin is executed in a site page.
         if ($app->isClient('site')) {
@@ -146,7 +147,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                 // we also check if frontend language exists and is enabled
                 if (
                     ($language->access && !\in_array($language->access, $levels))
-                    || (!\array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0)))
+                    || (!\array_key_exists($language->lang_code, $installedLanguages))
                 ) {
                     unset($this->lang_codes[$language->lang_code], $this->sefs[$language->sef]);
                 }
@@ -157,7 +158,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
             $this->current_lang = isset($this->lang_codes[$this->default_lang]) ? $this->default_lang : 'en-GB';
 
             foreach ($this->sefs as $sef => $language) {
-                if (!\array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0))) {
+                if (!\array_key_exists($language->lang_code, $installedLanguages)) {
                     unset($this->lang_codes[$language->lang_code], $this->sefs[$language->sef]);
                 }
             }
@@ -358,7 +359,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
             $path  = $uri->getPath();
             $parts = explode('/', $path);
             $sef   = StringHelper::strtolower($parts[0]);
-            $lang  = $uri->getVar('lang');
+            $lang  = $uri->getVar('lang', '');
 
             if (isset($this->sefs[$sef])) {
                 // We found a matching language to the lang code
@@ -371,8 +372,10 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                     $router->setTainted();
                 }
             } elseif ($this->params->get('remove_default_prefix', 0)) {
-                // We don't have a prefix for the default language
-                $uri->setVar('lang', $this->default_lang);
+                // We don't have a prefix for the default language, set lang to default language if it is not set
+                if (!$lang) {
+                    $uri->setVar('lang', $this->default_lang);
+                }
             } elseif (!isset($this->sefs[$lang])) {
                 // No language is set, so we want to redirect to the right language
                 $router->setTainted();
@@ -905,7 +908,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
             $languageCode = $this->getApplication()->getInput()->cookie->get(ApplicationHelper::getHash('language'));
         } else {
             // Else get the user language from the session.
-            $languageCode = $this->getApplication()->getSession()->get('plg_system_languagefilter.language');
+            $languageCode = $this->getApplication()->getSession()->get('plg_system_languagefilter.language', '');
         }
 
         // Let's be sure we got a valid language code. Fallback to null.

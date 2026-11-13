@@ -11,6 +11,7 @@
 namespace Joomla\Component\Mails\Administrator\Helper;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -56,10 +57,12 @@ abstract class MailsHelper
     }
 
     /**
-     * Load the translation files for an extension
+     * Load the translation files for an extension. The language can either be a
+     * string or a language object. If it is an object, then the translations
+     * will be loaded into that instance instead of the global language.
      *
-     * @param   string  $extension  Extension name
-     * @param   string  $language   Language to load
+     * @param   string           $extension  Extension name
+     * @param   string|Language  $language   Language to load
      *
      * @return  void
      *
@@ -77,6 +80,11 @@ abstract class MailsHelper
 
         $lang   = Factory::getApplication()->getLanguage();
         $source = '';
+
+        if ($language instanceof Language) {
+            $lang     = $language;
+            $language = $language->getTag();
+        }
 
         switch (substr($extension, 0, 3)) {
             case 'com':

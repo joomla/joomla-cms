@@ -1278,7 +1278,7 @@ class ZIPExtraction
     }
 
     /**
-     * Handles the permissions of the parent directory to a file and the file itself to make it writeable.
+     * Handles the permissions of the parent directory to a file and the file itself to make it writable.
      *
      * @param   string  $path  A path to a file
      *

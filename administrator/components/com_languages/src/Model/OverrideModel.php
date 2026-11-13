@@ -72,10 +72,38 @@ class OverrideModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_languages.edit.override.data', []);
+        $data  = Factory::getApplication()->getUserState('com_languages.edit.override.data', []);
+        $input = Factory::getApplication()->getInput();
 
         if (empty($data)) {
             $data = $this->getItem();
+        }
+
+        $currentKey      = \is_object($data) ? ($data->key ?? '') : ($data['key'] ?? '');
+        $currentOverride = \is_object($data) ? ($data->override ?? '') : ($data['override'] ?? '');
+
+        if ($currentKey === '') {
+            $sourceKey = $input->get('source_key', '', 'cmd');
+
+            if ($sourceKey !== '') {
+                if (\is_object($data)) {
+                    $data->key = $sourceKey;
+                } else {
+                    $data['key'] = $sourceKey;
+                }
+            }
+        }
+
+        if ($currentOverride === '') {
+            $sourceText = $input->getString('source_text', '');
+
+            if ($sourceText !== '') {
+                if (\is_object($data)) {
+                    $data->override = $sourceText;
+                } else {
+                    $data['override'] = $sourceText;
+                }
+            }
         }
 
         $this->preprocessData('com_languages.override', $data);

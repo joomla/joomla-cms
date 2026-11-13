@@ -510,10 +510,22 @@ class LanguageHelper
             $bytesWritten = file_put_contents($cacheFile, $data);
 
             if ($bytesWritten === false || $bytesWritten < \strlen($data)) {
+                if (is_file($cacheFile)) {
+                    File::delete($cacheFile);
+                }
+
                 throw new FilesystemException('Unable to write cache file');
             }
-        } catch (FilesystemException $e) {
-            // We ignore the error, as the file is for caching only.
+        } catch (FilesystemException) {
+            try {
+                Log::add(
+                    Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_WRITE_CACHE', str_replace(JPATH_ROOT, '', $cacheFile)),
+                    Log::WARNING,
+                    'language'
+                );
+            } catch (\RuntimeException) {
+                // Ignore logging errors
+            }
         }
 
         return $strings;

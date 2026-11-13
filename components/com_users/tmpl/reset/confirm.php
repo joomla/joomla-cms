@@ -31,8 +31,11 @@ $wa->useScript('keepalive')
     <form action="<?php echo Route::_('index.php?task=reset.confirm'); ?>" method="post" class="com-users-reset-confirm__form form-validate form-horizontal well">
         <?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
             <fieldset>
-                <?php if (isset($fieldset->label)) : ?>
-                    <legend><?php echo Text::_($fieldset->label); ?></legend>
+                <?php if (isset($fieldset->legend)) : ?>
+                    <legend><?php echo Text::_($fieldset->legend); ?></legend>
+                <?php endif; ?>
+                <?php if (isset($fieldset->description)) : ?>
+                    <p><?php echo Text::_($fieldset->description); ?></p>
                 <?php endif; ?>
                 <?php echo $this->form->renderFieldset($fieldset->name); ?>
             </fieldset>

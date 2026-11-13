@@ -18,6 +18,7 @@ use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
+use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -175,8 +176,10 @@ class LevelModel extends AdminModel
     {
         $result = parent::getItem($pk);
 
-        // Convert the params field to an array.
-        $result->rules = $result->rules !== null ? json_decode($result->rules) : [];
+        if ($result) {
+            // Convert the params field to an array.
+            $result->rules = $result->rules !== null ? json_decode($result->rules) : [];
+        }
 
         return $result;
     }
@@ -254,7 +257,34 @@ class LevelModel extends AdminModel
 
         $data['title'] = InputFilter::getInstance()->clean($data['title'], 'TRIM');
 
+        if (Factory::getApplication()->getInput()->get('task') === 'save2copy') {
+            $data['title'] = $this->generateLevelTitle($data['title']);
+        }
+
         return parent::save($data);
+    }
+
+    /**
+     * Method to generate the title of access level on Save as Copy action
+     *
+     * @param   string  $title  The title of the access level
+     *
+     * @return  string  Contains the modified title.
+     *
+     * @since   6.2.0
+     */
+    protected function generateLevelTitle($title)
+    {
+        // Alter the title
+        $table = $this->getTable();
+
+        while ($table->load(['title' => $title])) {
+            if ($title === $table->title) {
+                $title = StringHelper::increment($title);
+            }
+        }
+
+        return $title;
     }
 
     /**

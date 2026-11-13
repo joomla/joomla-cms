@@ -176,7 +176,7 @@ class DatabaseModel extends InstallerModel
                     $result->type === 'plugin' ? $result->folder : null
                 );
 
-                if ($installationXML !== null) {
+                if ($installationXML?->update?->schemas?->schemapath !== null) {
                     $folderTmp = (string) $installationXML->update->schemas->schemapath[0];
                     $a         = explode('/', $folderTmp);
                     array_pop($a);

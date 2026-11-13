@@ -29,6 +29,8 @@
 			<filename>content.xml</filename>
 			<folder>forms</folder>
 			<folder>helpers</folder>
+			<folder>layouts</folder>
+			<folder>presets</folder>
 			<folder>services</folder>
 			<folder>src</folder>
 			<folder>tmpl</folder>

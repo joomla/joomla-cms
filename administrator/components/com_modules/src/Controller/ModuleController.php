@@ -18,6 +18,7 @@ use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -30,6 +31,8 @@ use Joomla\CMS\Uri\Uri;
  */
 class ModuleController extends FormController
 {
+    use VersionableControllerTrait;
+
     /**
      * Override parent add method.
      *
@@ -149,11 +152,7 @@ class ModuleController extends FormController
         }
 
         // Check edit on the record asset (explicit or inherited)
-        if ($this->app->getIdentity()->authorise('core.edit', 'com_modules.module.' . $recordId)) {
-            return true;
-        }
-
-        return false;
+        return $this->app->getIdentity()->authorise('core.edit', 'com_modules.module.' . $recordId);
     }
 
     /**

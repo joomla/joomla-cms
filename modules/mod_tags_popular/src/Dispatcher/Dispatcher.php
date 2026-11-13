@@ -29,27 +29,9 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
     use HelperFactoryAwareTrait;
 
     /**
-     * Runs the dispatcher.
-     *
-     * @return  void
-     *
-     * @since   5.1.0
-     */
-    public function dispatch()
-    {
-        $displayData = $this->getLayoutData();
-
-        if (!\count($displayData['list']) && !$displayData['params']->get('no_results_text')) {
-            return;
-        }
-
-        parent::dispatch();
-    }
-
-    /**
      * Returns the layout data.
      *
-     * @return  array
+     * @return  array|false
      *
      * @since   5.1.0
      */
@@ -66,6 +48,11 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
 
         $data['list']          = ModuleHelper::moduleCache($this->module, $data['params'], $cacheparams);
         $data['display_count'] = $data['params']->get('display_count', 0);
+
+        // Stop rendering if there are no results and no fallback text
+        if (!\count($data['list']) && !$data['params']->get('no_results_text')) {
+            return false;
+        }
 
         return $data;
     }

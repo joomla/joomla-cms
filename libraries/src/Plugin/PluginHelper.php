@@ -13,6 +13,7 @@ use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -231,16 +232,26 @@ abstract class PluginHelper
 
         $plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
 
-        if ($dispatcher && $plugin instanceof DispatcherAwareInterface) {
-            $plugin->setDispatcher($dispatcher);
-        }
-
         if (!$autocreate) {
             return;
         }
 
-        // @TODO: Starting from 7.0 it should use $dispatcher->addSubscriber($plugin); for plugins which implement SubscriberInterface.
-        $plugin->registerListeners();
+        // Check for overridden registerListeners()
+        $reflection         = new \ReflectionClass($plugin);
+        $registerOverridden = $reflection->hasMethod('registerListeners') && $reflection->getMethod('registerListeners')->class !== CMSPlugin::class;
+
+        // @TODO: From 7.0 when registerListeners() will be removed from CMSPlugin checking for overridden registerListeners() need to be removed.
+        if ($plugin instanceof SubscriberInterface && !$registerOverridden) {
+            $dispatcher->addSubscriber($plugin);
+        } else {
+            // @TODO: From 7.0 when DispatcherAwareInterface will be removed from CMSPlugin this should be checked for all plugins.
+            if ($dispatcher && $plugin instanceof DispatcherAwareInterface) {
+                $plugin->setDispatcher($dispatcher);
+            }
+
+            // @TODO: From 7.0 it should use $dispatcher->addSubscriber($plugin); for plugins which implement SubscriberInterface.
+            $plugin->registerListeners();
+        }
     }
 
     /**
@@ -271,12 +282,14 @@ abstract class PluginHelper
                             'element',
                             'params',
                             'extension_id',
+                            'custom_data',
                         ],
                         [
                             'type',
                             'name',
                             'params',
                             'id',
+                            null,
                         ]
                     )
                 )

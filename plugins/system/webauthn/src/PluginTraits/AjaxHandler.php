@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Event\Plugin\AjaxEvent;
 use Joomla\CMS\Event\Plugin\System\Webauthn\Ajax as PlgSystemWebauthnAjax;
@@ -24,6 +23,7 @@ use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxSaveLabel as PlgSystemWebauthnAj
 use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\Attribute\AllowUnauthorizedAdministratorAccess;
 use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -52,6 +52,7 @@ trait AjaxHandler
      * @throws  \Exception
      * @since   4.0.0
      */
+    #[AllowUnauthorizedAdministratorAccess]
     public function onAjaxWebauthn(AjaxEvent $event): void
     {
         $input = $this->getApplication()->getInput();
@@ -84,8 +85,7 @@ trait AjaxHandler
             }
 
             // Call the plugin event onAjaxWebauthnSomething where Something is the akaction param.
-            /** @var AbstractEvent|ResultAwareInterface $triggerEvent */
-            $eventName    = 'onAjaxWebauthn' . ucfirst($akaction);
+            $eventName = 'onAjaxWebauthn' . ucfirst($akaction);
 
             switch ($eventName) {
                 case 'onAjaxWebauthn':
