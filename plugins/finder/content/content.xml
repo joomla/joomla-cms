@@ -45,6 +45,18 @@
 					<option value="language">PLG_FINDER_CONTENT_TAXONOMIES_LANGUAGE</option>
 					<option value="type">PLG_FINDER_CONTENT_TAXONOMIES_TYPE</option>
 				</field>
+				<field
+					name="include_created_by_author"
+					type="radio"
+					label="PLG_FINDER_CONTENT_FIELD_CREATED_BY_AUTHOR_LABEL"
+					description="PLG_FINDER_CONTENT_FIELD_CREATED_BY_AUTHOR_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

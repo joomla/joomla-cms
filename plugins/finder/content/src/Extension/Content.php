@@ -322,8 +322,11 @@ final class Content extends Adapter implements SubscriberInterface
         $item->addInstruction(Indexer::META_CONTEXT, 'metakey');
         $item->addInstruction(Indexer::META_CONTEXT, 'metadesc');
         $item->addInstruction(Indexer::META_CONTEXT, 'metaauthor');
-        $item->addInstruction(Indexer::META_CONTEXT, 'author');
-        $item->addInstruction(Indexer::META_CONTEXT, 'created_by_alias');
+        // Include articles created by author
+        if ($this->params->get('include_created_by_author', true)) {
+            $item->addInstruction(Indexer::META_CONTEXT, 'author');
+            $item->addInstruction(Indexer::META_CONTEXT, 'created_by_alias');
+        }
 
         // Translate the state. Articles should only be published if the category is published.
         $item->state = $this->translateState($item->state, $item->cat_state);
