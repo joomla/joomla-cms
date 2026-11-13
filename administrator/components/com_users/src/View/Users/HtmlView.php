@@ -142,6 +142,17 @@ class HtmlView extends BaseHtmlView
             $childBar->standardButton('unblock', 'COM_USERS_TOOLBAR_UNBLOCK', 'users.unblock')
                 ->listCheck(true);
 
+            if ($canDo->get('core.edit')) {
+                $childBar->popupButton('key', 'COM_USERS_TOOLBAR_SEND_NEW_PASSWORD')
+                    ->popupType('inline')
+                    ->textHeader(Text::_('COM_USERS_TOOLBAR_SEND_NEW_PASSWORD'))
+                    ->url('#joomla-dialog-newpassword')
+                    ->modalWidth('800px')
+                    ->modalHeight('fit-content')
+                    ->icon('icon-key')
+                    ->listCheck(true);
+            }
+
             // Add a batch button
             if (
                 $user->authorise('core.create', 'com_users')
