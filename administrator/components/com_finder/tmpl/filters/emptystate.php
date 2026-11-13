@@ -23,6 +23,7 @@ $displayData = [
     'btnadd'     => Text::_('COM_FINDER_FILTERS_EMPTYSTATE_BUTTON_ADD'),
     'content'    => Text::_('COM_FINDER_FILTERS_EMPTYSTATE_CONTENT'),
     'title'      => Text::_('COM_FINDER_FILTERS_TOOLBAR_TITLE'),
+    'tourUID'    => $this->tourUID,
 
     'controlFields' => $this->filterForm->renderControlFields(),
 ];

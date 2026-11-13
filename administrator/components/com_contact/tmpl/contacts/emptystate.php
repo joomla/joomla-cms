@@ -19,6 +19,7 @@ $displayData = [
     'formURL'    => 'index.php?option=com_contact',
     'helpURL'    => 'https://guide.joomla.org/user-manual/contacts',
     'icon'       => 'icon-address-book contact',
+    'tourUID'    => $this->tourUID,
 
     'controlFields' => $this->filterForm->renderControlFields(),
 ];

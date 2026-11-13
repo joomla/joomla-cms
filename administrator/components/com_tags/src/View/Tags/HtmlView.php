@@ -78,6 +78,15 @@ class HtmlView extends BaseHtmlView
     private $isEmptyState = false;
 
     /**
+     * The UID of the guided tour to offer on the empty state, if any.
+     *
+     * @var   string
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public $tourUID = '';
+
+    /**
      * The ordering list for the tags
      *
      * @var    array
@@ -106,6 +115,7 @@ class HtmlView extends BaseHtmlView
 
         if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
+            $this->tourUID = $model->getEmptyStateTourUid();
         }
 
         // Preprocess the list of items to find ordering divisions.

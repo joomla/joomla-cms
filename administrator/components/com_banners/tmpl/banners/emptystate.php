@@ -19,6 +19,7 @@ $displayData = [
     'formURL'    => 'index.php?option=com_banners&view=banners',
     'helpURL'    => 'https://guide.joomla.org/user-manual/banners/banners-banners',
     'icon'       => 'icon-bookmark banners',
+    'tourUID'    => $this->tourUID,
 
     'controlFields' => $this->filterForm->renderControlFields(),
 ];

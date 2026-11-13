@@ -19,6 +19,7 @@ $displayData = [
     'formURL'    => 'index.php?option=com_newsfeeds&view=newsfeeds',
     'helpURL'    => 'https://guide.joomla.org/user-manual/news-feeds/news-feeds-news-feeds',
     'icon'       => 'icon-rss newsfeeds',
+    'tourUID'    => $this->tourUID,
 
     'controlFields' => $this->filterForm->renderControlFields(),
 ];

@@ -85,6 +85,15 @@ class HtmlView extends BaseHtmlView
     private $isEmptyState = false;
 
     /**
+     * The UID of the guided tour to offer on the empty state, if any.
+     *
+     * @var   string
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public $tourUID = '';
+
+    /**
      * Is the vote plugin enabled on the site
      *
      * @var   boolean
@@ -123,6 +132,7 @@ class HtmlView extends BaseHtmlView
 
         if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
+            $this->tourUID = $model->getEmptyStateTourUid();
         }
 
         if (ComponentHelper::getParams('com_content')->get('workflow_enabled')) {
