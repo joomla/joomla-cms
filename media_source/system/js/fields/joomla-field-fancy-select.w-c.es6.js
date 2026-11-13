@@ -24,6 +24,10 @@
  * placeholder=""        The value of the inputs placeholder.
  * search-placeholder="" The value of the search inputs placeholder.
  *
+ * remove-item-text=""     Accessible name of the remove buttons, %s is replaced by the item label.
+ * selected-items-text=""  Description of the selected items for assistive technology, %s is replaced
+ *                         by the comma separated list of selected labels (multiple select only).
+ *
  * data-max-results="30" The maximum amount of search results to be displayed.
  * data-max-render="30"  The maximum amount of items to be rendered, critical for large lists.
  */
@@ -44,6 +48,14 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   get placeholder() { return this.getAttribute('placeholder'); }
 
   get searchPlaceholder() { return this.getAttribute('search-placeholder'); }
+
+  get removeItemText() {
+    return this.getAttribute('remove-item-text') || Joomla.Text._('JGLOBAL_SELECT_REMOVE_ITEM', 'Remove item: %s');
+  }
+
+  get selectedItemsText() {
+    return this.getAttribute('selected-items-text') || Joomla.Text._('JGLOBAL_SELECT_SELECTED_ITEMS', 'Selected: %s');
+  }
 
   get value() { return this.choicesInstance.getValue(true); }
 
@@ -72,6 +84,13 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     this.activeXHR = null;
     this.choicesInstance = null;
     this.isDisconnected = false;
+    this.selectionObserver = null;
+
+    this.onRemoveButtonKeydown = this.onRemoveButtonKeydown.bind(this);
+    this.onRemoveButtonMousedown = this.onRemoveButtonMousedown.bind(this);
+    this.onRemoveButtonClick = this.onRemoveButtonClick.bind(this);
+    this.syncChoicesSelectedState = this.syncChoicesSelectedState.bind(this);
+    this.onDropdownToggle = this.onDropdownToggle.bind(this);
   }
 
   /**
@@ -105,6 +124,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
         this.choicesInstance.init();
         this.choicesInstance.setChoiceByValue(this.disconnectValues);
         this.isDisconnected = false;
+        this.enhanceAccessibility();
       }
       return;
     }
@@ -145,12 +165,52 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       noChoicesText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
       itemSelectText: Joomla.Text._('JGLOBAL_SELECT_PRESS_TO_SELECT', 'Press to select'),
 
+      // The aria-label is set with setAttribute(), so the raw label is used. The icon text is HTML.
+      removeItemLabelText: (value, valueRaw, item) => this.getRemoveItemLabel(item, valueRaw),
+      removeItemIconText: (value, valueRaw, item) => this.constructor.escapeHtml(this.getRemoveItemLabel(item, valueRaw)),
+
       // Redefine some classes
       classNames: {
         button: 'choices__button_joomla', // It is need because an original styling use unavailable Icon.svg file
       },
-      labelId: this.select.labels?.[0]?.id ?? '',
+      labelId: this.getLabelId(),
+
+      // The selected items of a multiple select contain buttons, so they can not be options of a listbox
+      callbackOnCreateTemplates() {
+        const choices = this;
+        const { templates } = window.Choices.defaults;
+
+        return {
+          itemList(...args) {
+            const element = templates.itemList.apply(choices, args);
+
+            if (choices._isSelectMultipleElement) {
+              element.setAttribute('role', 'list');
+            }
+
+            return element;
+          },
+          item(...args) {
+            const element = templates.item.apply(choices, args);
+
+            // A placeholder is not a value, so there is nothing to remove
+            if (element.hasAttribute('data-placeholder')) {
+              element.querySelector('[data-button]')?.remove();
+              element.removeAttribute('data-deletable');
+            }
+
+            if (choices._isSelectMultipleElement) {
+              element.setAttribute('role', 'listitem');
+              element.removeAttribute('aria-selected');
+            }
+
+            return element;
+          },
+        };
+      },
     });
+
+    this.enhanceAccessibility();
 
     // Handle typing of custom Term
     if (this.allowCustom) {
@@ -181,8 +241,10 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
         highlighted.forEach((choice) => {
           choice.classList.remove(this.choicesInstance.config.classNames.highlightedState);
-          choice.setAttribute('aria-selected', 'false');
         });
+
+        // Removing the highlight must not change what is announced as selected
+        this.syncChoicesSelectedState();
 
         this.choicesInstance._highlightPosition = 0;
       });
@@ -282,6 +344,11 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
    */
   disconnectedCallback() {
     // Destroy Choices instance, to unbind event listeners
+    if (this.selectionObserver) {
+      this.selectionObserver.disconnect();
+      this.selectionObserver = null;
+    }
+
     if (this.choicesInstance) {
       // Keep selected values, because choices will reset them on re-init
       this.disconnectValues = this.choicesInstance.getValue(true);
@@ -292,6 +359,341 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     if (this.activeXHR) {
       this.activeXHR.abort();
       this.activeXHR = null;
+    }
+  }
+
+  /**
+   * Escape a plain text string for use as HTML.
+   *
+   * @param {string} text
+   * @returns {string}
+   */
+  static escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+
+    return div.innerHTML;
+  }
+
+  /**
+   * The id of the visible label of the field, it is created when the label does not have one.
+   *
+   * @returns {string}
+   */
+  getLabelId() {
+    const label = this.select.labels?.[0];
+
+    if (!label) {
+      return '';
+    }
+
+    if (!label.id && this.select.id) {
+      label.id = `${this.select.id}-lbl`;
+    }
+
+    return label.id;
+  }
+
+  /**
+   * Accessible name for the remove button of an item, eg "Remove tag: Joomla".
+   *
+   * @param {object|undefined} item      The item, as passed by Choices.js
+   * @param {string}           fallback  Value to use when there is no item
+   * @returns {string}
+   */
+  getRemoveItemLabel(item, fallback) {
+    let label = item ? item.label : fallback;
+
+    if (label && typeof label === 'object') {
+      label = label.trusted ?? label.raw ?? label.escaped ?? '';
+    }
+
+    return this.removeItemText.replace('%s', () => String(label ?? ''));
+  }
+
+  /**
+   * Accessibility improvements on top of Choices.js. Called after every (re)initialisation.
+   */
+  enhanceAccessibility() {
+    const choices = this.choicesInstance;
+
+    if (!choices) {
+      return;
+    }
+
+    // Keyboard, pointer and assistive technology all remove an item through one click handler.
+    // Adding the same listener twice is a no-op, so this is safe on re-init.
+    this.addEventListener('keydown', this.onRemoveButtonKeydown, true);
+    this.addEventListener('mousedown', this.onRemoveButtonMousedown, true);
+    this.addEventListener('click', this.onRemoveButtonClick, true);
+
+    // Announce an option as selected only when it is selected, not when it is highlighted
+    this.select.addEventListener('highlightChoice', this.syncChoicesSelectedState);
+    this.select.addEventListener('showDropdown', this.onDropdownToggle);
+    this.select.addEventListener('hideDropdown', this.onDropdownToggle);
+
+    const input = choices.input?.element;
+    const inner = choices.containerInner.element;
+    const itemList = choices.itemList.element;
+
+    if (!choices._isSelectMultipleElement || !input || !inner.contains(input) || !inner.contains(itemList)) {
+      return;
+    }
+
+    const outer = choices.containerOuter.element;
+    const choiceList = choices.choiceList.element;
+    const labelId = this.getLabelId();
+
+    if (!this.baseId) {
+      this.baseId = this.select.id || `joomla-fancy-select-${Math.random().toString(36).slice(2, 10)}`;
+    }
+
+    // The search input comes first, so it can be reached without tabbing through every selected item
+    inner.insertBefore(input, itemList);
+
+    // The wrapper groups the input with the selected items, the input itself is the combobox
+    outer.setAttribute('role', 'group');
+    ['aria-autocomplete', 'aria-haspopup', 'aria-expanded', 'aria-activedescendant'].forEach((name) => outer.removeAttribute(name));
+
+    if (!choiceList.id) {
+      choiceList.id = `${this.baseId}-listbox`;
+    }
+
+    input.setAttribute('role', 'combobox');
+    input.setAttribute('aria-controls', choiceList.id);
+    this.syncExpandedState(choices.dropdown.isActive);
+
+    // Choices.js keeps the combobox state on the wrapper, keep it on the input instead.
+    // The container is created again on re-init, so it is patched once per container.
+    const container = choices.containerOuter;
+
+    if (!container.joomlaComboboxOnInput) {
+      const { open, close } = container;
+
+      container.joomlaComboboxOnInput = true;
+      container.open = (...args) => {
+        open.apply(container, args);
+        this.syncExpandedState(true);
+      };
+      container.close = (...args) => {
+        close.apply(container, args);
+        this.syncExpandedState(false);
+      };
+      container.setActiveDescendant = () => {};
+    }
+
+    if (labelId) {
+      outer.setAttribute('aria-labelledby', labelId);
+      input.setAttribute('aria-labelledby', labelId);
+      input.removeAttribute('aria-label');
+    }
+
+    // Keep a description that was set on the original select, eg the field description
+    const selectDescribedBy = this.select.getAttribute('aria-describedby');
+
+    if (selectDescribedBy) {
+      input.setAttribute('aria-describedby', selectDescribedBy);
+    }
+
+    // List of the selected items, referenced from the input. It is hidden, so it is not read twice
+    // in browse mode, aria-describedby still uses its text.
+    const summaryId = `${this.baseId}-selected-items`;
+    let summary = Array.from(this.children).find((element) => element.id === summaryId);
+
+    if (!summary) {
+      summary = document.createElement('span');
+      summary.id = summaryId;
+      summary.hidden = true;
+      this.appendChild(summary);
+    }
+
+    this.selectedSummary = summary;
+    this.updateSelectedSummary();
+
+    if (!this.selectionObserver) {
+      this.selectionObserver = new MutationObserver(() => this.updateSelectedSummary());
+    }
+
+    this.selectionObserver.disconnect();
+    this.selectionObserver.observe(itemList, { childList: true });
+  }
+
+  /**
+   * Update the visually hidden description of the selected items.
+   */
+  updateSelectedSummary() {
+    const choices = this.choicesInstance;
+
+    if (!choices || !this.selectedSummary) {
+      return;
+    }
+
+    const input = choices.input.element;
+    const summaryId = this.selectedSummary.id;
+    const labels = [].concat(choices.getValue() || [])
+      .filter((item) => item && !item.placeholder)
+      .map((item) => (typeof item.label === 'object' ? (item.label.trusted ?? item.label.raw ?? '') : String(item.label ?? '')))
+      .filter((label) => label !== '');
+    const describedBy = (input.getAttribute('aria-describedby') || '')
+      .split(/\s+/)
+      .filter((id) => id && id !== summaryId);
+
+    if (labels.length) {
+      this.selectedSummary.textContent = this.selectedItemsText.replace('%s', () => labels.join(', '));
+      describedBy.push(summaryId);
+    } else {
+      this.selectedSummary.textContent = '';
+    }
+
+    if (describedBy.length) {
+      input.setAttribute('aria-describedby', describedBy.join(' '));
+    } else {
+      input.removeAttribute('aria-describedby');
+    }
+  }
+
+  /**
+   * Choices.js marks the highlighted option as selected, and un-marks it when the highlight moves on,
+   * even if the option is selected. Reflect the real selection instead.
+   */
+  syncChoicesSelectedState() {
+    const choices = this.choicesInstance;
+
+    if (!choices) {
+      return;
+    }
+
+    const selectedClasses = [].concat(choices.config.classNames.selectedState).join(' ').split(/\s+/).filter(Boolean);
+
+    choices.dropdown.element.querySelectorAll('[data-choice-selectable]').forEach((option) => {
+      const isSelected = selectedClasses.length > 0 && selectedClasses.every((name) => option.classList.contains(name));
+      option.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+    });
+  }
+
+  /**
+   * Re-sync the selected state when the dropdown is shown or hidden.
+   */
+  onDropdownToggle() {
+    this.syncChoicesSelectedState();
+  }
+
+  /**
+   * For a multiple select the input is the combobox: keep aria-expanded on the input, not on the group.
+   *
+   * @param {boolean} isExpanded
+   */
+  syncExpandedState(isExpanded) {
+    const choices = this.choicesInstance;
+
+    if (!choices) {
+      return;
+    }
+
+    const outer = choices.containerOuter.element;
+    const input = choices.input.element;
+
+    outer.removeAttribute('aria-expanded');
+    outer.removeAttribute('aria-activedescendant');
+    input.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+
+    // A collapsed combobox must not point to an option in the hidden list
+    if (!isExpanded) {
+      input.removeAttribute('aria-activedescendant');
+    }
+  }
+
+  /**
+   * The remove button of an item the event belongs to, if any.
+   *
+   * @param {Event} event
+   * @returns {HTMLElement|null}
+   */
+  getRemoveButton(event) {
+    const choices = this.choicesInstance;
+
+    if (!choices || !(event.target instanceof Element)) {
+      return null;
+    }
+
+    const button = event.target.closest('[data-button]');
+
+    return button && choices.containerOuter.element.contains(button) ? button : null;
+  }
+
+  /**
+   * Choices.js opens the dropdown on Enter and Space, instead let the browser activate the button.
+   *
+   * @param {KeyboardEvent} event
+   */
+  onRemoveButtonKeydown(event) {
+    if ((event.key === 'Enter' || event.key === ' ') && this.getRemoveButton(event)) {
+      event.stopPropagation();
+    }
+  }
+
+  /**
+   * Choices.js removes the item already on mousedown, the item is removed on click instead.
+   *
+   * @param {MouseEvent} event
+   */
+  onRemoveButtonMousedown(event) {
+    if (this.getRemoveButton(event)) {
+      // Keep the focus where it is, like Choices.js does
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+
+  /**
+   * Remove the item of a remove button. Mouse, Enter, Space and screen reader activation all end up here.
+   *
+   * @param {MouseEvent} event
+   */
+  onRemoveButtonClick(event) {
+    const button = this.getRemoveButton(event);
+
+    if (!button) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.removeItemByButton(button);
+  }
+
+  /**
+   * Remove the item of the given button, and if the button had the focus, move the focus to a logical
+   * place nearby: the next item, the previous item or the input.
+   *
+   * @param {HTMLElement} button
+   */
+  removeItemByButton(button) {
+    const choices = this.choicesInstance;
+
+    if (choices.containerOuter.isDisabled) {
+      return;
+    }
+
+    const items = Array.from(choices.itemList.element.querySelectorAll('[data-item]'));
+    const index = items.indexOf(button.closest('[data-item]'));
+    const hadFocus = button.contains(document.activeElement);
+
+    // Removes the item and renders the items again, synchronously
+    choices._handleButtonAction(button);
+
+    if (!hadFocus) {
+      return;
+    }
+
+    if (choices._isSelectMultipleElement) {
+      const buttons = Array.from(choices.itemList.element.querySelectorAll('[data-item] [data-button]'));
+      const target = buttons[index] || buttons[index - 1] || choices.input.element;
+
+      target.focus();
+    } else {
+      choices.containerOuter.element.focus();
     }
   }
 

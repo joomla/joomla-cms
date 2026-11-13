@@ -78,9 +78,14 @@
 
 .choices__button_joomla {
   position: relative;
-  padding: 0 10px;
+  // At least 24x24 CSS pixels (WCAG 2.5.8 Target Size)
+  inline-size: 24px;
+  block-size: 24px;
+  padding: 0;
+  overflow: hidden;
   color: inherit;
   text-indent: -9999px;
+  vertical-align: middle;
   cursor: pointer;
   background: none;
   border: 0;
@@ -89,11 +94,10 @@
 
   &::before {
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: block;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     text-indent: 0;
     content: "\00d7";
@@ -106,6 +110,11 @@
 
   &:focus {
     outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: -2px;
   }
 }
 
@@ -134,10 +143,10 @@
     position: absolute;
     top: 50%;
     inset-inline-end: 0;
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     padding: 0;
-    margin-block-start: -10px;
+    margin-block-start: -12px;
     margin-inline-end: 50px;
     border-radius: 10em;
     opacity: .5;
@@ -162,6 +171,11 @@
   .choices__input {
     padding: .2rem 0;
   }
+}
+
+// The search input is placed before the selected items, show it on its own line above them
+.choices[data-type*="select-multiple"] .choices__inner > .choices__input--cloned {
+  display: block;
 }
 
 .choices__heading {
