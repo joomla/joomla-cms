@@ -69,7 +69,7 @@
         </button>
         <button
           class="btn btn-success"
-          :disabled="!isValid() || isValidName()!==0"
+          :disabled="!canSubmit"
           @click="save()"
         >
           {{ translate('JACTION_CREATE') }}
@@ -94,6 +94,9 @@ export default {
     };
   },
   computed: {
+    canSubmit() {
+      return !!this.isValid() && this.isValidName() === 0;
+    },
     /* Get the contents of the currently selected directory */
     items() {
       const directories = this.$store.getters.getSelectedDirectoryDirectories;
@@ -137,10 +140,7 @@ export default {
     },
     /* Save the form and create the folder */
     save() {
-      // Check if the form is valid
-      if (!this.isValid()) {
-        // @todo show an error message to user for insert a folder name
-        // @todo mark the field as invalid
+      if (!this.canSubmit) {
         return;
       }
 
