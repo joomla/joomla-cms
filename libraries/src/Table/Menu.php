@@ -244,7 +244,12 @@ class Menu extends Nested
             if ($error) {
                 $menuTypeTable = new MenuType($db, $this->getDispatcher());
                 $menuTypeTable->load(['menutype' => $table->menutype]);
-                $url = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $table->id);
+                $url = 'index.php?option=com_menus&task=item.edit&id=' . (int) $table->id;
+
+                // The API application has no router that can build links
+                if (Factory::getApplication()->isClient('administrator')) {
+                    $url = Route::_($url);
+                }
 
                 // Is the existing menu item trashed?
                 $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title, $url));

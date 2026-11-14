@@ -42,6 +42,29 @@ describe('Test that menu items site API endpoint', () => {
         .should('include', 'automated test site menu item'));
   });
 
+  it('rejects a site menu item with an already used alias', () => {
+    cy.db_createMenuItem({ title: 'automated test site menu item', alias: 'automated-test-alias' })
+      .then(() => cy.api_getBearerToken())
+      .then((token) => cy.request({
+        method: 'POST',
+        url: '/api/index.php/v1/menus/site/items',
+        headers: { Authorization: `Bearer ${token}` },
+        json: true,
+        failOnStatusCode: false,
+        body: {
+          title: 'automated test site menu item 2',
+          menutype: 'mainmenu',
+          access: '1',
+          parent_id: '1',
+          published: '1',
+          type: 'component',
+          alias: 'automated-test-alias',
+          link: '',
+        },
+      }))
+      .then((response) => cy.wrap(response).its('status').should('be.within', 400, 499));
+  });
+
   it('can update a site menu item', () => {
     cy.db_createMenuItem({ title: 'updated automated test site menu item', type: 'component' })
       .then((id) => cy.api_patch(`/menus/site/items/${id}`, { title: 'automated test site menu item', type: 'component', menuordering: id }))
