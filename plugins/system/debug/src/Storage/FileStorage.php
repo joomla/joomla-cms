@@ -165,7 +165,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
             return false;
         }
 
-        $currentUser           = Factory::getUser();
+        $currentUser           = Factory::getApplication()->getIdentity();
         $currentUserId         = $currentUser->id;
         $currentUserSuperAdmin = $currentUser->authorise('core.admin');
 

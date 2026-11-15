@@ -46,7 +46,7 @@ class FieldgroupsField extends ListField
         $viewlevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select(
             [
                 $db->quoteName('title', 'text'),

@@ -51,7 +51,7 @@ class StringsModel extends BaseDatabaseModel
         }
 
         // Create the insert query.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->insert($db->quoteName('#__overrider'))
             ->columns(
                 [
@@ -142,7 +142,7 @@ class StringsModel extends BaseDatabaseModel
             $searchstring = '%' . $filter->clean($searchTerm, 'TRIM') . '%';
 
             // Create the search query.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('constant'),

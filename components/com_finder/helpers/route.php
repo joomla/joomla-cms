@@ -21,7 +21,7 @@ use Joomla\Component\Finder\Site\Helper\RouteHelper;
  *
  * @since  2.5
  *
- * @deprecated  4.3 will be removed in 6.0
+ * @deprecated  4.3 will be removed in 7.0
  *              Use \Joomla\Component\Finder\Site\Helper\RouteHelper instead
  */
 class FinderHelperRoute extends RouteHelper

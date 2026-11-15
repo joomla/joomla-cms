@@ -14,17 +14,16 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Component\Users\Site\View\Captive\HtmlView;
 
-/** @var HtmlView $this */
+/** @var \Joomla\Component\Users\Site\View\Captive\HtmlView $this */
 
 $shownMethods = [];
 
 ?>
 <div id="com-users-select">
-    <h2 id="com-users-select-heading">
+    <h1 id="com-users-select-heading">
         <?php echo Text::_('COM_USERS_MFA_SELECT_PAGE_HEAD'); ?>
-    </h2>
+    </h1>
     <div id="com-users-select-information">
         <p>
             <?php echo Text::_('COM_USERS_LBL_SELECT_INSTRUCTIONS'); ?>
@@ -51,7 +50,7 @@ $shownMethods = [];
         <a class="com-users-method p-2 border-top border-dark bg-light d-flex flex-row flex-wrap justify-content-start align-items-center text-decoration-none gap-2 text-body"
            href="<?php echo Route::_('index.php?option=com_users&view=captive&record_id=' . $record->id)?>">
             <img src="<?php echo Uri::root() . $this->getModel()->getMethodImage($record->method) ?>"
-                 alt="<?php echo $this->escape(strip_tags($record->title)) ?>"
+                 alt=""
                  class="com-users-method-image img-fluid" />
             <?php if (!$this->allowEntryBatching || !$allowEntryBatching) : ?>
                 <span class="com-users-method-title flex-grow-1 fs-5 fw-bold">
@@ -61,16 +60,10 @@ $shownMethods = [];
                         <?php echo $this->escape($record->title) ?>
                     <?php endif; ?>
                 </span>
-                <small class="com-users-method-name text-muted">
-                    <?php echo $methodName ?>
-                </small>
             <?php else : ?>
                 <span class="com-users-method-title flex-grow-1 fs-5 fw-bold">
                     <?php echo $methodName ?>
                 </span>
-                <small class="com-users-method-name text-muted">
-                    <?php echo $methodName ?>
-                </small>
             <?php endif; ?>
         </a>
         <?php endforeach; ?>

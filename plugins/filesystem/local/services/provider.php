@@ -31,7 +31,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Local::class, function (Container $container) {
                 $plugin = new Local(
                     (array) PluginHelper::getPlugin('filesystem', 'local'),
                     JPATH_ROOT
@@ -39,7 +39,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

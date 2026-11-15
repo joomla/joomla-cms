@@ -30,7 +30,7 @@ trait LegacyErrorHandlingTrait
      *
      * @var    array
      * @since  1.7.0
-     * @deprecated  3.1.4  JError has been deprecated
+     * @deprecated  3.7.0  JError has been deprecated
      */
     // phpcs:disable PSR2.Classes.PropertyDeclaration
     protected $_errors = [];

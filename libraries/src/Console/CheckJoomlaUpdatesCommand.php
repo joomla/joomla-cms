@@ -51,7 +51,7 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
      * @param   string|null  $name  The name of the command; if the name is empty and no default is set, a name must be set in the configure() method
      *
      * @since   5.1.0
-     * @deprecated 5.1.0 will be removed in 6.0
+     * @deprecated 5.1.0 will be removed in 7.0
      *             Use core:update:check instead of core:check-updates
      *
      */

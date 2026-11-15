@@ -28,6 +28,8 @@ return new class () implements ServiceProviderInterface {
      */
     public function register(Container $container)
     {
+        // The compatibility plugin is a special case which does not use the lazy loading because it
+        // uses the constructor to load b/c code, the constructor might not be initialized when lazy loading is used.
         $container->set(
             PluginInterface::class,
             function (Container $container) {

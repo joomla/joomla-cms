@@ -32,7 +32,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(None::class, function (Container $container) {
                 $plugin     = new None(
                     (array) PluginHelper::getPlugin('editors', 'none')
                 );
@@ -40,7 +40,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

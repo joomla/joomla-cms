@@ -31,7 +31,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Recipe::class, function (Container $container) {
                 $plugin = new Recipe(
                     (array) PluginHelper::getPlugin('schemaorg', 'recipe')
                 );
@@ -39,7 +39,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

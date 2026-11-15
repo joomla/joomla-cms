@@ -57,7 +57,6 @@ class IndexerController extends BaseController
         $dispatcher = $this->getDispatcher();
 
         if ($params->get('enable_logging', '0')) {
-            $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
             $options['text_file'] = 'indexer.php';
             Log::addLogger($options);
         }
@@ -129,7 +128,6 @@ class IndexerController extends BaseController
         $dispatcher = $this->getDispatcher();
 
         if ($params->get('enable_logging', '0')) {
-            $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
             $options['text_file'] = 'indexer.php';
             Log::addLogger($options);
         }
@@ -284,7 +282,6 @@ class IndexerController extends BaseController
         $params = ComponentHelper::getParams('com_finder');
 
         if ($params->get('enable_logging', '0')) {
-            $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
             $options['text_file'] = 'indexer.php';
             Log::addLogger($options);
         }

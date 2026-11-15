@@ -7,6 +7,7 @@
 			label="INSTL_SELECT_LANGUAGE_TITLE"
 			class="required"
 			default="en-GB"
+			labelclass="hidden"
 		/>
 		<field
 			name="site_name"

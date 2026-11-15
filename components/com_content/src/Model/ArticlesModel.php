@@ -195,7 +195,7 @@ class ArticlesModel extends ListModel
         // Create a new query object.
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $nowDate = Factory::getDate()->toSql();
 
@@ -413,7 +413,7 @@ class ArticlesModel extends ListModel
                 $levels     = (int) $this->getState('filter.max_category_levels', 1);
 
                 // Create a subquery for the subcategory list
-                $subQuery = $db->getQuery(true)
+                $subQuery = $db->createQuery()
                     ->select($db->quoteName('sub.id'))
                     ->from($db->quoteName('#__categories', 'sub'))
                     ->join(
@@ -625,7 +625,7 @@ class ArticlesModel extends ListModel
             $tagId = ArrayHelper::toInteger($tagId);
 
             if ($tagId) {
-                $subQuery = $db->getQuery(true)
+                $subQuery = $db->createQuery()
                     ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                     ->from($db->quoteName('#__contentitem_tag_map'))
                     ->where(
@@ -682,10 +682,11 @@ class ArticlesModel extends ListModel
         // Get the global params
         $globalParams = ComponentHelper::getParams('com_content', true);
 
-        $taggedItems = [];
+        $taggedItems     = [];
+        $associatedItems = [];
 
         // Convert the parameter fields into objects.
-        foreach ($items as $item) {
+        foreach ($items as $i => $item) {
             $articleParams = new Registry($item->attribs);
 
             // Unpack readmore and layout params
@@ -782,11 +783,12 @@ class ArticlesModel extends ListModel
             // Some contexts may not use tags data at all, so we allow callers to disable loading tag data
             if ($this->getState('load_tags', $item->params->get('show_tags', '1'))) {
                 $item->tags             = new TagsHelper();
-                $taggedItems[$item->id] = $item;
+                $taggedItems[$item->id] = $i;
             }
 
+            // Collect items for associations load
             if (Associations::isEnabled() && $item->params->get('show_associations')) {
-                $item->associations = AssociationHelper::displayAssociations($item->id);
+                $associatedItems[$item->id] = $i;
             }
         }
 
@@ -796,7 +798,17 @@ class ArticlesModel extends ListModel
             $itemIds    = array_keys($taggedItems);
 
             foreach ($tagsHelper->getMultipleItemTags('com_content.article', $itemIds) as $id => $tags) {
-                $taggedItems[$id]->tags->itemTags = $tags;
+                $items[$taggedItems[$id]]->tags->itemTags = $tags;
+            }
+        }
+
+        // Load associations of all items.
+        if ($associatedItems) {
+            $itemIds      = array_keys($associatedItems);
+            $associations = AssociationHelper::displayAssociations($itemIds);
+
+            foreach ($associatedItems as $itemId => $i) {
+                $items[$i]->associations = $associations[$itemId] ?? [];
             }
         }
 
@@ -826,7 +838,7 @@ class ArticlesModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Get the list query.
         $listQuery = $this->getListQuery();
