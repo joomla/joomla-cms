@@ -32,7 +32,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Ldap::class, function (Container $container) {
                 $plugin = new Ldap(
                     new LdapFactory(),
                     (array) PluginHelper::getPlugin('authentication', 'ldap')
@@ -40,7 +40,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

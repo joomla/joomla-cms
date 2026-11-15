@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\UserFactoryAwareTrait;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Registry\Registry;
@@ -31,6 +33,8 @@ use Joomla\Registry\Registry;
  */
 class Icon
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Method to generate a link to the create item page for the given category
      *
@@ -86,7 +90,7 @@ class Icon
      */
     public function edit($article, $params, $attribs = [], $legacy = false)
     {
-        $user = Factory::getUser();
+        $user = Factory::getApplication()->getIdentity();
         $uri  = Uri::getInstance();
 
         // Ignore if in a popup window.
@@ -106,7 +110,15 @@ class Icon
             && !\is_null($article->checked_out)
             && $article->checked_out != $user->id
         ) {
-            $checkoutUser = Factory::getUser($article->checked_out);
+            try {
+                $checkoutUser = $this->getUserFactory()->loadUserById($article->checked_out);
+            } catch (\UnexpectedValueException) {
+                @trigger_error('UserFactory must be set, this will not be caught anymore in 8.0', E_USER_DEPRECATED);
+                $checkoutUser = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(
+                    $article->checked_out
+                );
+            }
+
             $date         = HTMLHelper::_('date', $article->checked_out_time);
             $tooltip      = Text::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
                 . ' <br> ' . $date;

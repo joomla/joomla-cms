@@ -22,7 +22,7 @@ abstract class BaseController extends ApiController
      *
      * @return void
      *
-     * @since 5.4.0
+     * @since 6.0.0
      *
      * @throws \Exception
      */

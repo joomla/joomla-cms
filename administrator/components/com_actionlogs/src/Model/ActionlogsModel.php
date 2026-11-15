@@ -90,7 +90,7 @@ class ActionlogsModel extends ListModel
     protected function getListQuery()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('a.*')
             ->select($db->quoteName('u.name'))
             ->from($db->quoteName('#__action_logs', 'a'))
@@ -212,7 +212,7 @@ class ActionlogsModel extends ListModel
                 $dStart->setTime(0, 0, 0);
 
                 // Now change the timezone back to UTC.
-                $tz = new \DateTimeZone('GMT');
+                $tz = new \DateTimeZone('UTC');
                 $dStart->setTimezone($tz);
                 break;
         }
@@ -234,7 +234,7 @@ class ActionlogsModel extends ListModel
     {
         $itemId = (int) $itemId;
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true)
+        $query  = $db->createQuery()
             ->select('a.*')
             ->select($db->quoteName('u.name'))
             ->from($db->quoteName('#__action_logs', 'a'))
@@ -307,7 +307,7 @@ class ActionlogsModel extends ListModel
     private function getLogDataQuery($pks = null)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('a.*')
             ->select($db->quoteName('u.name'))
             ->from($db->quoteName('#__action_logs', 'a'))
@@ -334,7 +334,7 @@ class ActionlogsModel extends ListModel
     {
         $keys  = ArrayHelper::toInteger($pks);
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__action_logs'))
             ->whereIn($db->quoteName('id'), $keys);
         $db->setQuery($query);

@@ -86,7 +86,7 @@ class RouteHelper extends CMSRouteHelper
      * @since      3.1
      * @throws     \Exception
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use RouteHelper::getComponentTagRoute() instead
      */
     public static function getTagRoute($id)
@@ -141,7 +141,7 @@ class RouteHelper extends CMSRouteHelper
      * @since      3.7
      * @throws     \Exception
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use RouteHelper::getComponentTagsRoute() instead
      *
      */

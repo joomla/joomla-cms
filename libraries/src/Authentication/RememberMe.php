@@ -26,7 +26,7 @@ use Joomla\Registry\Registry;
  * issued once the login is fully complete (including Multi-factor
  * Authentication) to prevent MFA bypass attacks.
  *
- * @since  5.4.9
+ * @since  6.1.4
  */
 abstract class RememberMe
 {
@@ -45,7 +45,7 @@ abstract class RememberMe
      *
      * @return  void
      *
-     * @since   5.4.9
+     * @since   6.1.4
      */
     public static function createOrUpdateCookie(
         User $user,

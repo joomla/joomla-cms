@@ -170,7 +170,7 @@ class ArticlesHelper implements DatabaseAwareInterface
 
         switch ($ordering) {
             case 'random':
-                $articles->setState('list.ordering', $this->getDatabase()->getQuery(true)->rand());
+                $articles->setState('list.ordering', $this->getDatabase()->createQuery()->rand());
                 break;
 
             case 'rating_count':
@@ -210,6 +210,11 @@ class ArticlesHelper implements DatabaseAwareInterface
         // Filter archived articles
         if ($params->get('show_archived', 'hide') === 'show') {
             $articles->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
+        }
+
+        // Filter unpublished articles
+        if ($params->get('show_unpublished', 0) === 1 && (($user->authorise('core.edit.state', 'com_content') && $user->authorise('core.edit', 'com_content')) || ($user->authorise('core.edit.state', 'com_content') && $user->authorise('core.edit.own', 'com_content')))) {
+            $articles->setState('filter.published', [ContentComponent::CONDITION_UNPUBLISHED, ContentComponent::CONDITION_PUBLISHED]);
         }
 
         // Check if we include or exclude articles and process data

@@ -328,7 +328,7 @@ class InstallModel extends BaseDatabaseModel
         $tmp_src  = $userfile['tmp_name'];
 
         // Move uploaded file. Allow "unsafe" files: an extension package legitimately contains PHP,
-        // which the File::upload() safety scan (default since joomla/filesystem 3.3.0) would reject.
+        // which the File::upload() safety scan (default since joomla/filesystem 4.2.0) would reject.
         try {
             File::upload($tmp_src, $tmp_dest, false, true);
         } catch (FilesystemException) {

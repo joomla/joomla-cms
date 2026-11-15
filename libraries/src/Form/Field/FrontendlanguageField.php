@@ -42,7 +42,7 @@ class FrontendlanguageField extends ListField
     {
         // Get the database object and a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select('a.lang_code AS value, a.title AS text')
             ->from($db->quoteName('#__languages') . ' AS a')

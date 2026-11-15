@@ -31,14 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Privacy::class, function (Container $container) {
                 $plugin     = new Privacy(
                     (array) PluginHelper::getPlugin('webservices', 'privacy')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

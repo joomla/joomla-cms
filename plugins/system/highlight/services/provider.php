@@ -30,13 +30,13 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Highlight::class, function (Container $container) {
                 $plugin     = new Highlight(
                     (array) PluginHelper::getPlugin('system', 'highlight')
                 );
 
                 return $plugin;
-            }
+            })
         );
     }
 };

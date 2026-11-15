@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseFactory;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Utilities\ArrayHelper;
 
@@ -159,7 +159,7 @@ class DatabaseModel extends BaseInstallationModel
                     ];
                 }
 
-                $altDB = DatabaseDriver::getInstance($altDBoptions);
+                $altDB = (new DatabaseFactory())->getDriver($altDBoptions['driver'], $altDBoptions);
 
                 // Check database server parameters
                 $dbServerCheck = DatabaseHelper::checkDbServerParameters($altDB, $options);
@@ -243,7 +243,7 @@ class DatabaseModel extends BaseInstallationModel
 
         $options = array_merge(['db_created' => 1], $options);
 
-        Factory::getSession()->set('setup.options', $options);
+        Factory::getApplication()->getSession()->set('setup.options', $options);
 
         return true;
     }
@@ -321,8 +321,8 @@ class DatabaseModel extends BaseInstallationModel
     /**
      * Method to backup all tables in a database with a given prefix.
      *
-     * @param   DatabaseDriver  $db      DatabaseDriver object.
-     * @param   string          $prefix  Database table prefix.
+     * @param   DatabaseInterface  $db      Database object.
+     * @param   string             $prefix  Database table prefix.
      *
      * @return  boolean  True on success.
      *

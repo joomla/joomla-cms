@@ -67,7 +67,7 @@ describe('Test in backend that the workflows list', () => {
   });
 
   it('can checkin the workflow', () => {
-    cy.db_getUserId(Cypress.env('username')).then((uid) => {
+    cy.db_getUserId(Cypress.expose('username')).then((uid) => {
       cy.db_createWorkflow({
         title: 'Test workflow',
         extension: 'com_content.article',
@@ -115,7 +115,7 @@ describe('Test in backend that the workflows list', () => {
   });
 
   it('can checkin the workflow (grid button)', () => {
-    cy.db_getUserId(Cypress.env('username')).then((uid) => {
+    cy.db_getUserId(Cypress.expose('username')).then((uid) => {
       cy.db_createWorkflow({
         title: 'Test workflow',
         extension: 'com_content.article',
@@ -190,7 +190,7 @@ describe('Test in backend that the workflows list', () => {
     cy.searchForItem('BASIC WORKFLOW');
     cy.intercept('**/administrator/index.php?option=com_workflow&view=workflow*').as('workflows');
     cy.intercept('**/administrator/index.php?option=com_workflow&view=transitions*').as('transitions');
-    cy.get('table#workflowList a.btn.btn-primary').click();
+    cy.get('table#workflowList a.btn[href*="view=transitions"]').click();
 
     cy.wait('@transitions');
     cy.get('h1.page-title').should('contain', 'Transitions: Basic Workflow');

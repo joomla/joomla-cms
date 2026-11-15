@@ -1,0 +1,242 @@
+/* ================================
+   Workflow Graph Client Styles
+   ================================ */
+/* Color Variables */
+:root {
+  --wf-bg: var(--bg-primary);
+  --wf-bg: var(--bg-primary);
+  --wf-border: var(--border-color);
+  --wf-border-hover: var(--border-color-translucent);
+  --wf-dot-color: var(--body-color);
+  --stage-bg: rgb(var(--primary-rgb));
+  --stage-border: var(--border-color);
+  --stage-text: var(--white);
+  --stage-desc: #ffffffc0 !important;
+  --stage-virtual-bg: #800080;
+  --transition-hover: var(--border-color-hover);
+  --transition-label-bg: #2071c6;
+  --transition-stroke: var(--transition-label-bg);
+  --transition-label-color: var(--white);
+  --transition-highlight: #ff6868;
+  --zoom-btn-bg: transparent;
+  --zoom-btn-hover: var(--border-color);
+  --zoom-btn-color: var(--text-primary);
+  --vf-custom-controls-bgcolor: var(--secondary);
+}
+
+@keyframes dashmove {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -36;
+  }
+}
+
+#workflow-graph {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  overflow: hidden;
+  cursor: grab;
+  background-image: radial-gradient(circle at 1px 1px, var(--wf-dot-color) 1px, transparent 1px);
+  background-size: 38px 38px;
+  border: 1px solid var(--stage-border);
+  border-radius: 8px;
+}
+
+#workflow-graph:active {
+  cursor: grabbing;
+}
+
+#workflow-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#graph {
+  position: relative;
+  width: fit-content;
+  min-width: 100%;
+  min-height: 100%;
+  transition: transform .15s ease-out;
+  transform-origin: 0 0;
+}
+
+#graph.dragging {
+  transition: none;
+}
+
+#stages {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+#connections {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* ================================
+   Stage Styling
+   ================================ */
+.stage {
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 200px;
+  min-height: 80px;
+  padding: 12px 16px;
+  cursor: move;
+  user-select: none;
+  background: var(--stage-bg);
+  border: 1px solid var(--stage-border);
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .6);
+}
+
+.stage:hover {
+  transform: translateY(-1px);
+}
+
+.stage.dragging {
+  z-index: 1000;
+  transform: rotate(1deg) scale(1.02);
+}
+
+.stage.virtual {
+  background: var(--stage-virtual-bg);
+  border-width: 1px;
+}
+
+.stage-title {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--stage-text);
+  word-wrap: break-word;
+}
+
+.stage-description {
+  margin: 0 0 8px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--stage-desc);
+  word-wrap: break-word;
+}
+
+.stage-badge {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--stage-text);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  background: var(--stage-border);
+  border-radius: 3px;
+}
+
+/* ================================
+   Transition Styling
+   ================================ */
+.transition-path {
+  stroke: var(--transition-stroke);
+  stroke-width: 3px;
+  fill: none;
+  opacity: .8;
+  transition: stroke .2s, stroke-width .2s;
+}
+
+.transition-path:hover {
+  stroke-width: 3px;
+  opacity: 1;
+  stroke: var(--transition-hover);
+  animation-duration: .5s;
+}
+
+.arrow-marker {
+  fill: var(--transition-stroke);
+  transition: fill .2s ease;
+}
+
+.transition-path:hover+.arrow-marker {
+  fill: var(--transition-hover);
+}
+
+.transition-path.highlighted {
+  stroke: var(--transition-highlight);
+  stroke-width: 5px;
+  stroke-dasharray: 12 6;
+  animation: dashmove .5s linear infinite;
+}
+
+.transition-label-content {
+  position: absolute;
+  z-index: 20;
+  min-width: 80px;
+  max-width: 300px;
+  padding: 2px 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--transition-label-color);
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: auto;
+  cursor: pointer;
+  user-select: none;
+  background: var(--transition-label-bg) !important;
+  border: 2px solid var(--transition-stroke);
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+  transition: background .2s, border .2s, box-shadow .2s;
+}
+
+.transition-label-content.highlighted {
+  font-weight: 700;
+  border-color: var(--transition-highlight);
+  transition: transform .2s;
+  transform: scale(1.1);
+}
+
+/* ================================
+   Zoom Controls
+   ================================ */
+.zoom-controls {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px;
+  background: var(--vf-custom-controls-bgcolor);
+  border: 1px solid var(--wf-border);
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+}
+
+.zoom-btn:hover {
+  background: var(--zoom-btn-hover);
+  transform: scale(1.05);
+}
+
+.zoom-btn:active {
+  transition: transform .5s ease;
+  transform: scale(.95);
+}
