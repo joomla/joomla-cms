@@ -623,7 +623,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     public function getMessageQueue($clear = false)
     {
         // For empty queue, if messages exists in the session, enqueue them.
-        if (!\count($this->messageQueue)) {
+        if (!\count($this->messageQueue) && ($this->getSession()->isStarted() || !headers_sent())) {
             $sessionQueue = $this->getSession()->get('application.queue', []);
 
             if ($sessionQueue) {
