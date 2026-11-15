@@ -95,6 +95,9 @@ class OutputFilter extends BaseOutputFilter
         // Remove any duplicate whitespace, and ensure all characters are alphanumeric
         $str = preg_replace('/(\s|[^A-Za-z0-9\-])+/', '-', $str);
 
+        // Replace multiple dashes with a single dash to avoid alias such as "foo---bar"
+        $str = preg_replace('/-+/', '-', $str);
+
         // Trim dashes at beginning and end of alias
         $str = trim($str, '-');
 
