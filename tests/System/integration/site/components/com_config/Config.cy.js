@@ -8,7 +8,7 @@ describe('Test in frontend that the config config view', () => {
     cy.get('#application-form button[data-submit-task="config.apply"]').click();
 
     cy.checkForSystemMessage('Configuration saved.');
-    cy.title().should('equal', `Home - ${Cypress.env('sitename')}`);
+    cy.title().should('equal', `Home - ${Cypress.expose('sitename')}`);
     cy.get('#jform_sitename_pagetitles').select('No');
     cy.get('#application-form button[data-submit-task="config.apply"]').click();
 

@@ -65,7 +65,7 @@ class BannersModel extends ListModel
     protected function getListQuery()
     {
         $db         = $this->getDatabase();
-        $query      = $db->getQuery(true);
+        $query      = $db->createQuery();
         $ordering   = $this->getState('filter.ordering');
         $tagSearch  = $this->getState('filter.tag_search');
         $cid        = (int) $this->getState('filter.client_id');
@@ -73,6 +73,7 @@ class BannersModel extends ListModel
         $keywords   = $this->getState('filter.keywords');
         $randomise  = ($ordering === 'random');
         $nowDate    = Factory::getDate()->toSql();
+        $groups     = $this->getCurrentUser()->getAuthorisedViewLevels();
 
         $query->select(
             [
@@ -91,7 +92,10 @@ class BannersModel extends ListModel
         )
             ->from($db->quoteName('#__banners', 'a'))
             ->join('LEFT', $db->quoteName('#__banner_clients', 'cl'), $db->quoteName('cl.id') . ' = ' . $db->quoteName('a.cid'))
+            ->join('INNER', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
             ->where($db->quoteName('a.state') . ' = 1')
+            ->where($db->quoteName('c.published') . ' = 1')
+            ->whereIn($db->quoteName('c.access'), $groups, ParameterType::INTEGER)
             ->extendWhere(
                 'AND',
                 [
@@ -138,7 +142,7 @@ class BannersModel extends ListModel
                 $levels = (int) $this->getState('filter.max_category_levels', '1');
 
                 // Create a subquery for the subcategory list
-                $subQuery = $db->getQuery(true);
+                $subQuery = $db->createQuery();
                 $subQuery->select($db->quoteName('sub.id'))
                     ->from($db->quoteName('#__categories', 'sub'))
                     ->join(
@@ -307,7 +311,7 @@ class BannersModel extends ListModel
         }
 
         // Increment impression made
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->update($db->quoteName('#__banners'))
             ->set($db->quoteName('impmade') . ' = ' . $db->quoteName('impmade') . ' + 1')
             ->whereIn($db->quoteName('id'), $bid);
@@ -335,7 +339,7 @@ class BannersModel extends ListModel
             if ($trackImpressions > 0) {
                 // Is track already created?
                 // Update count
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
                 $query->update($db->quoteName('#__banner_tracks'))
                     ->set($db->quoteName('count') . ' = ' . $db->quoteName('count') . ' + 1')
                     ->where(
@@ -358,7 +362,7 @@ class BannersModel extends ListModel
 
                 if ($db->getAffectedRows() === 0) {
                     // Insert new count
-                    $query = $db->getQuery(true);
+                    $query = $db->createQuery();
                     $query->insert($db->quoteName('#__banner_tracks'))
                         ->columns(
                             [

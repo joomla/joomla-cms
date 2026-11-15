@@ -16,7 +16,7 @@ use Joomla\Tests\Unit\UnitTestCase;
 /**
  * Test class for \Joomla\CMS\Encrypt\Totp
  *
- * @since  __DEPLOY_VERSION__
+ * @since  6.2.0
  */
 class TotpTest extends UnitTestCase
 {
@@ -24,7 +24,7 @@ class TotpTest extends UnitTestCase
      * The currently valid passcode is accepted.
      *
      * @return  void
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     public function testCheckCodeAcceptsValidPasscode()
     {
@@ -38,7 +38,7 @@ class TotpTest extends UnitTestCase
      * A numeric string that only equals the passcode under type juggling must be rejected.
      *
      * @return  void
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     public function testCheckCodeRejectsTypeJuggledPasscode()
     {

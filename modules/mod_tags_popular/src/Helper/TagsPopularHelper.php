@@ -51,7 +51,7 @@ class TagsPopularHelper implements DatabaseAwareInterface
         $nowDate     = Factory::getDate()->toSql();
         $nullDate    = $db->getNullDate();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     'MAX(' . $db->quoteName('tag_id') . ') AS ' . $db->quoteName('tag_id'),
@@ -123,6 +123,14 @@ class TagsPopularHelper implements DatabaseAwareInterface
                 '(' . $db->quoteName('c.core_access') . ' IN (' . implode(',', $query->bindArray($groups)) . ')'
                     . ' OR ' . $db->quoteName('c.core_access') . ' = 0)'
             )
+            ->extendWhere(
+                'AND',
+                [
+                    $db->quoteName('c.core_catid') . ' = 0',
+                    $db->quoteName('cat.access') . ' IN (' . implode(',', $query->bindArray($groups)) . ')',
+                ],
+                'OR'
+            )
             ->where(
                 '(' . $db->quoteName('c.core_publish_up') . ' IS NULL'
                     . ' OR ' . $db->quoteName('c.core_publish_up') . ' = :nullDate2'
@@ -151,7 +159,7 @@ class TagsPopularHelper implements DatabaseAwareInterface
                 }
 
                 $query->order($db->quoteName('count') . ' DESC');
-                $equery = $db->getQuery(true)
+                $equery = $db->createQuery()
                     ->select(
                         $db->quoteName(
                             [

@@ -12,13 +12,11 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Users\Site\Model\CaptiveModel;
-use Joomla\Component\Users\Site\View\Captive\HtmlView;
 use Joomla\Utilities\ArrayHelper;
 
 /**
- * @var HtmlView     $this  View object
- * @var CaptiveModel $model The model
+ * @var \Joomla\Component\Users\Site\View\Captive\HtmlView  $this  View object
+ * @var \Joomla\Component\Users\Site\Model\CaptiveModel     $model The model
  */
 $model = $this->getModel();
 
@@ -27,7 +25,7 @@ $this->getDocument()->getWebAssetManager()
 
 ?>
 <div class="users-mfa-captive card card-body">
-    <h2 id="users-mfa-title">
+    <h1 id="users-mfa-title">
         <?php if (!empty($this->renderOptions['help_url'])) : ?>
             <span class="float-end">
         <a href="<?php echo $this->renderOptions['help_url'] ?>"
@@ -50,7 +48,7 @@ $this->getDocument()->getWebAssetManager()
         <?php if (!empty($this->title)) : ?>
         </small>
         <?php endif; ?>
-    </h2>
+    </h1>
 
     <?php if ($this->renderOptions['pre_message']) : ?>
         <div class="users-mfa-captive-pre-message text-muted mb-3">

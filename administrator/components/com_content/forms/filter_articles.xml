@@ -14,8 +14,8 @@
 			name="featured"
 			type="list"
 			label="JFEATURED"
+			filtermode="selector"
 			class="js-select-submit-on-change"
-			default=""
 			validate="options"
 			>
 			<option value="">COM_CONTENT_SELECT_FEATURED</option>

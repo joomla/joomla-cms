@@ -20,8 +20,8 @@ describe('Test in frontend that the user', () => {
     cy.get('#com-users-method-edit').submit();
     cy.get('.com-users-methods-list-method-name-email .com-users-methods-list-method-record').contains('Test Code');
     cy.doFrontendLogout();
-    cy.get('form.mod-login input[name="username"]').type(Cypress.env('username'));
-    cy.get('form.mod-login input[name="password"]').type(Cypress.env('password'));
+    cy.get('form.mod-login input[name="username"]').type(Cypress.expose('username'));
+    cy.get('form.mod-login input[name="password"]').type(Cypress.expose('password'));
     cy.get('form.mod-login').submit();
     cy.get('#users-mfa-title').contains('Test Code');
     cy.task('getMails').then((mails) => {
@@ -53,8 +53,8 @@ describe('Test in frontend that the user', () => {
     cy.get('#com-users-method-edit').submit();
     cy.get('.com-users-methods-list-method-name-totp .com-users-methods-list-method-record').contains('Test Code');
     cy.doFrontendLogout();
-    cy.get('form.mod-login input[name="username"]').type(Cypress.env('username'));
-    cy.get('form.mod-login input[name="password"]').type(Cypress.env('password'));
+    cy.get('form.mod-login input[name="username"]').type(Cypress.expose('username'));
+    cy.get('form.mod-login input[name="password"]').type(Cypress.expose('password'));
     cy.get('form.mod-login').submit();
     cy.get('#users-mfa-title').contains('Verification code');
     cy.get('@secret').then((secret) => cy.get('#users-mfa-code').clear().type(TOTP.generate(secret).otp));
@@ -84,8 +84,8 @@ describe('Test in frontend that the user', () => {
     cy.get('#com-users-method-edit button.multifactorauth_webauthn_setup').click();
     cy.get('.com-users-methods-list-method-name-webauthn .com-users-methods-list-method-record').contains('Test Passkey');
     cy.doFrontendLogout();
-    cy.get('form.mod-login input[name="username"]').type(Cypress.env('username'));
-    cy.get('form.mod-login input[name="password"]').type(Cypress.env('password'));
+    cy.get('form.mod-login input[name="username"]').type(Cypress.expose('username'));
+    cy.get('form.mod-login input[name="password"]').type(Cypress.expose('password'));
     cy.get('form.mod-login').submit();
     cy.get('#users-mfa-title').contains('Passkey');
     cy.get('#users-mfa-captive-button-submit').click();
@@ -116,8 +116,8 @@ describe('Test in frontend that the user', () => {
       .click();
     cy.get('table > tbody > tr > td').first().invoke('text').then((code) => cy.wrap(/\d{8}/.exec(code)[0]).as('code'));
     cy.doFrontendLogout();
-    cy.get('form.mod-login input[name="username"]').type(Cypress.env('username'));
-    cy.get('form.mod-login input[name="password"]').type(Cypress.env('password'));
+    cy.get('form.mod-login input[name="username"]').type(Cypress.expose('username'));
+    cy.get('form.mod-login input[name="password"]').type(Cypress.expose('password'));
     cy.get('form.mod-login').submit();
     cy.get('#users-mfa-title').contains('Verification code');
     cy.get('#users-mfa-captive-form-choose-another a').click();

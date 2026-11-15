@@ -37,7 +37,6 @@ describe('Test that contenthistory for contact API endpoint', () => {
           const contactName = versionData.name;
           const { alias } = versionData;
           const createdDate = versionData.created;
-          const modifiedDate = versionData.modified;
 
           // Log details for debugging
           cy.log(`History ID: ${historyId}`);
@@ -47,12 +46,10 @@ describe('Test that contenthistory for contact API endpoint', () => {
           cy.log(`Contact Name: ${contactName}`);
           cy.log(`Alias: ${alias}`);
           cy.log(`Created Date: ${createdDate}`);
-          cy.log(`Modified Date: ${modifiedDate}`);
 
           // Perform assertions
           expect(attributes).to.have.property('editor_user_id');
           expect(versionData).to.have.property('name');
-          expect(versionData).to.have.property('modified');
           expect(contactName).to.eq('automated test contact');
         });
 

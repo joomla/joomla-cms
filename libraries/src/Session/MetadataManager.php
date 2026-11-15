@@ -149,7 +149,7 @@ final class MetadataManager
      */
     public function deletePriorTo($time)
     {
-        $query = $this->db->getQuery(true)
+        $query = $this->db->createQuery()
             ->delete($this->db->quoteName('#__session'))
             ->where($this->db->quoteName('time') . ' < :time')
             ->bind(':time', $time, ParameterType::INTEGER);
@@ -174,7 +174,7 @@ final class MetadataManager
      */
     private function checkSessionRecordExists(string $sessionId): int
     {
-        $query = $this->db->getQuery(true)
+        $query = $this->db->createQuery()
             ->select($this->db->quoteName('session_id'))
             ->from($this->db->quoteName('#__session'))
             ->where($this->db->quoteName('session_id') . ' = :session_id')
@@ -208,7 +208,7 @@ final class MetadataManager
      */
     private function createSessionRecord(SessionInterface $session, User $user)
     {
-        $query = $this->db->getQuery(true);
+        $query = $this->db->createQuery();
 
         $time = $session->isNew() ? time() : $session->get('session.timer.start');
 
@@ -275,7 +275,7 @@ final class MetadataManager
      */
     private function updateSessionRecord(SessionInterface $session, User $user)
     {
-        $query = $this->db->getQuery(true);
+        $query = $this->db->createQuery();
 
         $time = time();
 

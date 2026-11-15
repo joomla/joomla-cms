@@ -31,14 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(PrivacyCheck::class, function (Container $container) {
                 $plugin     = new PrivacyCheck(
                     (array) PluginHelper::getPlugin('quickicon', 'privacycheck')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

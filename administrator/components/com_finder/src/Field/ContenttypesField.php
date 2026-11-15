@@ -49,7 +49,7 @@ class ContenttypesField extends ListField
         $options = [];
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id', 'value'))
             ->select($db->quoteName('title', 'text'))
             ->from($db->quoteName('#__finder_types'));

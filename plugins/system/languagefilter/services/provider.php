@@ -33,7 +33,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(LanguageFilter::class, function (Container $container) {
                 $plugin = new LanguageFilter(
                     (array) PluginHelper::getPlugin('system', 'languagefilter'),
                     Factory::getApplication(),
@@ -42,7 +42,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setSiteRouter($container->get(SiteRouter::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

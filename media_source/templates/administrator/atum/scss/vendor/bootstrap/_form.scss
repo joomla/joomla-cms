@@ -1,0 +1,104 @@
+@use "sass:color";
+
+// Form
+
+label {
+  margin-block-end: 0;
+}
+
+.form-control {
+  &::placeholder {
+    font-size: .8rem;
+    font-style: italic;
+  }
+}
+
+td .form-control {
+  display: inline-block;
+  inline-size: auto;
+}
+
+legend {
+  margin-block-end: 1.1rem;
+  font-size: 1rem;
+  font-weight: $font-weight-normal;
+}
+
+.checkboxes {
+  padding-block-start: 5px;
+
+  .checkbox input {
+    position: static;
+    margin-inline-start: 0;
+  }
+}
+
+.form-check {
+  padding-block-start: 5px;
+  margin-block-end: 0;
+}
+
+.modal label {
+  inline-size: 100%;
+}
+
+// Validation
+.invalid {
+  border-color: var(--danger);
+}
+
+.valid {
+  border-color: var(--success);
+}
+
+.form-control-feedback {
+  display: block;
+}
+
+[aria-grabbed="true"] {
+  box-shadow: $form-aria-grabbed-box-shadow;
+}
+
+select.form-control {
+  background-color: $form-select-bg;
+}
+
+.field-media-wrapper {
+  display: block;
+  inline-size: 100%;
+  max-inline-size: calc(50vw - 5rem);
+
+  .field-media-preview {
+    inline-size: 100%;
+    max-inline-size: none;
+  }
+
+  .button-select {
+    background-color: color.adjust($success, $lightness: -8%);
+  }
+
+  .button-clear {
+    background-color: color.adjust($danger, $lightness: -8%);
+  }
+
+  .button-clear > .#{$fa-css-prefix}-check,
+  .button-select > .#{$fa-css-prefix}-times {
+    color: $gray-100;
+  }
+
+  @include media-breakpoint-down(lg) {
+    min-inline-size: 100%;
+  }
+}
+
+// Bootstrap 4 b/c
+.form-inline .form-select, .form-inline .custom-select, .form-inline .form-control {
+  display: inline-block;
+  inline-size: auto;
+}
+
+@include media-breakpoint-down(md) {
+  .form-inline .form-select, .form-inline .custom-select, .form-inline .form-control {
+    inline-size: 100%;
+  }
+}

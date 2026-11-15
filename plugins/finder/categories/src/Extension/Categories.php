@@ -393,7 +393,7 @@ final class Categories extends Adapter implements SubscriberInterface
         $db = $this->getDatabase();
 
         // Check if we can use the supplied SQL query.
-        $query = $query instanceof QueryInterface ? $query : $db->getQuery(true);
+        $query = $query instanceof QueryInterface ? $query : $db->createQuery();
 
         $query->select(
             $db->quoteName(
@@ -461,7 +461,7 @@ final class Categories extends Adapter implements SubscriberInterface
      */
     protected function getStateQuery()
     {
-        $query = $this->getDatabase()->getQuery(true);
+        $query = $this->getDatabase()->createQuery();
 
         $query->select(
             $this->getDatabase()->quoteName(
