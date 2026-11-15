@@ -160,7 +160,10 @@ class ModuleModel extends AdminModel
         $newIds = [];
 
         foreach ($pks as $pk) {
-            if ($user->authorise('core.create', 'com_modules')) {
+            if (
+                $user->authorise('core.create', 'com_modules')
+                && $user->authorise('core.edit', $contexts[$pk])
+            ) {
                 $table->reset();
                 $table->load($pk);
 

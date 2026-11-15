@@ -214,8 +214,8 @@ if ($this->hasDueTasks === true) {
                                 <?php echo HTMLHelper::_('jgrid.action', $i, 'unlock', ['enabled' => $canChange, 'prefix' => 'tasks.',
                                     'active_class' => 'none fa fa-running border-dark text-body',
                                     'inactive_class' => 'none fa fa-running', 'tip' => true, 'translate' => false,
-                                    'active_title' => Text::sprintf('COM_SCHEDULER_RUNNING_SINCE', HTMLHelper::_('date', $item->last_execution, 'DATE_FORMAT_LC5')),
-                                    'inactive_title' => Text::sprintf('COM_SCHEDULER_RUNNING_SINCE', HTMLHelper::_('date', $item->last_execution, 'DATE_FORMAT_LC5')),
+                                    'active_title' => Text::sprintf('COM_SCHEDULER_RUNNING_SINCE', HTMLHelper::_('date', $item->locked, 'DATE_FORMAT_LC5')),
+                                    'inactive_title' => Text::sprintf('COM_SCHEDULER_RUNNING_SINCE', HTMLHelper::_('date', $item->locked, 'DATE_FORMAT_LC5')),
                                     ]); ?>
                             <?php endif; ?>
                             <span class="task-title">

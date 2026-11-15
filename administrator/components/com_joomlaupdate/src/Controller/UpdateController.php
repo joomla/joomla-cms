@@ -505,7 +505,10 @@ class UpdateController extends BaseController
             $currentUpdateVersion = end($currentCompatibilityStatus->compatibleVersions);
         }
 
-        if ($upgradeUpdateVersion !== false) {
+        if ($upgradeCompatibilityStatus->state === 3 || $currentCompatibilityStatus->state === 3) {
+            // One of the update servers could not be checked.
+            $resultGroup = 4;
+        } elseif ($upgradeUpdateVersion !== false) {
             $upgradeOldestVersion = $upgradeCompatibilityStatus->compatibleVersions[0];
 
             if ($currentUpdateVersion !== false) {
@@ -618,7 +621,10 @@ class UpdateController extends BaseController
                 $currentUpdateVersion = end($currentCompatibilityStatus->compatibleVersions);
             }
 
-            if ($upgradeUpdateVersion !== false) {
+            if ($upgradeCompatibilityStatus->state === 3 || $currentCompatibilityStatus->state === 3) {
+                // One of the update servers could not be checked.
+                $resultGroup = 4;
+            } elseif ($upgradeUpdateVersion !== false) {
                 $upgradeOldestVersion = $upgradeCompatibilityStatus->compatibleVersions[0];
 
                 if ($currentUpdateVersion !== false) {

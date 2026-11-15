@@ -357,7 +357,7 @@
 			label="Access-Control-Allow-Headers"
 			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_HEADERS_DESC"
 			translate_label="false"
-			default="Content-Type,X-Joomla-Token"
+			default="Content-Type,X-Joomla-Token,Authorization"
 			showon="cors:1"
 		/>
 

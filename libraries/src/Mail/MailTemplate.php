@@ -113,7 +113,7 @@ class MailTemplate
      * The language factory
      *
      * @var    LanguageFactoryInterface
-     * @since  __DEPLOY_VERSION__
+     * @since  5.4.7
      */
     protected LanguageFactoryInterface $languageFactory;
 
@@ -398,7 +398,7 @@ class MailTemplate
 
                 $htmlBody = $layoutFile->render(['mail' => $htmlBody, 'extra' => $this->layoutTemplateData], null);
 
-                $htmlBody = $this->replaceTags($language->_($htmlBody), $this->data);
+                $htmlBody = $this->replaceTags($language->_($htmlBody), $this->data, true);
             }
 
             $htmlBody = MailHelper::convertRelativeToAbsoluteUrls($htmlBody);

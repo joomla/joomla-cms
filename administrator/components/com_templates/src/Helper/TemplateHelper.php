@@ -64,10 +64,10 @@ abstract class TemplateHelper
 
         // Media file names should never have executable extensions buried in them.
         $executable = [
-            'exe', 'phtml','java', 'perl', 'py', 'asp','dll', 'go', 'jar',
-            'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
-            'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb',
-            'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh',
+            'ade', 'adp', 'asp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'dll', 'exe', 'go',
+            'hta', 'ins', 'isp', 'jar', 'java', 'jse', 'lib', 'mde', 'msc', 'msp', 'mst',
+            'perl', 'phtml', 'pif', 'py', 'scr', 'sct', 'shb', 'sht', 'shtm', 'shtml',
+            'stm', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh',
         ];
         $explodedFileName = explode('.', $file['name']);
 

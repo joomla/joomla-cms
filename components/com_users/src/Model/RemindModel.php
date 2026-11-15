@@ -179,6 +179,7 @@ class RemindModel extends FormModel
         $mailer = new MailTemplate('com_users.reminder', $app->getLanguage()->getTag());
         $mailer->addTemplateData($data);
         $mailer->addRecipient($user->email, $user->name);
+        $mailer->addUnsafeTags(['username', 'name']);
 
         // Try to send the password reset request email.
         try {
@@ -189,7 +190,7 @@ class RemindModel extends FormModel
 
                 $return = false;
             } catch (\RuntimeException $exception) {
-                Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                Factory::getApplication()->enqueueMessage(Text::_($exception->getMessage()), 'warning');
 
                 $return = false;
             }

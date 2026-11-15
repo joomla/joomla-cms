@@ -27,7 +27,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Category;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Versioning\VersionableModelTrait;
-use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
@@ -226,10 +225,14 @@ class CategoryModel extends AdminModel
         $assoc = $this->getAssoc();
 
         if ($assoc) {
+            $result->associations = [];
+
             if ($result->id != null) {
-                $result->associations = ArrayHelper::toInteger(CategoriesHelper::getAssociations($result->id, $result->extension));
-            } else {
-                $result->associations = [];
+                $associations = Associations::getAssociations($result->extension, '#__categories', 'com_categories.item', $result->id, 'id', 'alias', '');
+
+                foreach ($associations as $tag => $association) {
+                    $result->associations[$tag] = (int) $association->id;
+                }
             }
         }
 
@@ -966,6 +969,13 @@ class CategoryModel extends AdminModel
                 // Not fatal error
                 $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
                 continue;
+            }
+
+            // Check that the user is allowed to access the item
+            if (!$this->user->authorise('core.edit', $contexts[$pk])) {
+                $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
+                return false;
             }
 
             // Copy is a bit tricky, because we also need to copy the children
