@@ -62,6 +62,22 @@ describe('Test that contacts API endpoint', () => {
     });
   });
 
+  it('returns not found for a not existent contact', () => {
+    cy.api_getBearerToken().then((token) => {
+      cy.request({
+        method: 'GET',
+        url: '/api/index.php/v1/contacts/9999',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        failOnStatusCode: false,
+      }).then((response) => {
+        expect(response.status).to.equal(404);
+        expect(response.body.errors[0].title).to.include('Resource not found');
+      });
+    });
+  });
+
   it('can submit a contact form', () => {
     cy.db_getUserId().then((id) => cy.db_createContact({ name: 'automated test contact', user_id: id, params: '{"show_email_form":"1"}' }))
       .then((contact) => cy.api_post(`/contacts/form/${contact.id}`, {

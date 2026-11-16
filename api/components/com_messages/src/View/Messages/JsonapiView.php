@@ -70,6 +70,10 @@ class JsonapiView extends BaseApiView
      */
     protected function prepareItem($item)
     {
+        if (!$item) {
+            return $item;
+        }
+
         $item->id = $item->message_id;
         unset($item->message_id);
 
