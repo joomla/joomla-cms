@@ -19,19 +19,19 @@ export function logViolations(violations) {
     'log',
     `${violations.length} accessibility violation${
       violations.length === 1 ? '' : 's'
-    } ${violations.length === 1 ? 'was' : 'were'} detected`
-  )
+    } ${violations.length === 1 ? 'was' : 'were'} detected`,
+  );
 
   const violationData = violations.map(
     ({ id, impact, description, nodes }) => ({
       id,
       impact,
       description,
-      nodes: nodes.length
-    })
-  )
+      nodes: nodes.length,
+    }),
+  );
 
-  cy.task('table', violationData)
+  cy.task('table', violationData);
 }
 
 // Disable "Transition was skipped" exceptions, which are happen randomly in installation test
