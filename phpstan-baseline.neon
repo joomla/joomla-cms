@@ -1539,6 +1539,15 @@ parameters:
 			path: administrator/components/com_fields/src/View/Groups/HtmlView.php
 
 		-
+			message: '''
+				#^Call to deprecated method setUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				7\.0$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_fields/src/View/Select/HtmlView.php
+
+		-
 			message: '#^Access to an undefined property Joomla\\Component\\Fields\\Administrator\\View\\Field\\HtmlView\:\:\$canDo\.$#'
 			identifier: property.notFound
 			count: 1
