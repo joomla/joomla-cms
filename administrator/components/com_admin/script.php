@@ -454,6 +454,7 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/mysql/5.4.0-2025-04-23.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.4.0-2025-05-10.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.4.0-2025-08-02.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.4.9-2026-08-11.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-03-11.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-03-17.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-07-12.sql',
@@ -493,6 +494,7 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/postgresql/5.4.0-2025-05-10.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.4.0-2025-08-02.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.4.0-2025-10-07.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.4.9-2026-08-11.sql',
             '/administrator/components/com_content/forms/filter_featured.xml',
             '/administrator/components/com_content/tmpl/featured/default.php',
             '/administrator/components/com_content/tmpl/featured/default.xml',
@@ -1061,9 +1063,6 @@ class JoomlaInstallerScript
             '/libraries/vendor/symfony/validator/Test/ConstraintValidatorTestCase.php',
             '/libraries/vendor/symfony/var-dumper/Test/VarDumperTestTrait.php',
             // From 6.1.0-alpha3 to 6.1.0-beta1
-            '/media/vendor/tinymce/langs/cy.js',
-            '/media/vendor/tinymce/langs/cy.min.js',
-            '/media/vendor/tinymce/langs/cy.min.js.gz',
             '/media/vendor/tinymce/langs/dv.js',
             '/media/vendor/tinymce/langs/dv.min.js',
             '/media/vendor/tinymce/langs/dv.min.js.gz',
@@ -1283,6 +1282,11 @@ class JoomlaInstallerScript
             // From 6.2.0-alpha3 to 6.2.0-beta1
             '/media/vendor/tinymce/langs/bs.min.js',
             '/media/vendor/tinymce/langs/bs.min.js.gz',
+            // From 6.2.0-beta1 to 6.2.0-beta2
+            '/administrator/components/com_content/src/Service/PreviewTokenService.php',
+            // From 6.2.0-beta2 to 6.2.0-beta3
+            '/media/vendor/tinymce/langs/cy.min.js',
+            '/media/vendor/tinymce/langs/cy.min.js.gz',
         ];
 
         $folders = [
