@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\ApiAuthentication\Token\Extension;
 
 use Joomla\CMS\Authentication\Authentication;
-use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Event\User\AuthenticationEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
@@ -207,7 +206,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
         $enabled = $this->isTokenEnabledForUser($userId);
 
         // Do the tokens match? Use a timing safe string comparison to prevent timing attacks.
-        $hashesMatch = Crypt::timingSafeCompare($referenceHMAC, $tokenHMAC);
+        $hashesMatch = hash_equals($referenceHMAC, $tokenHMAC);
 
         // Is the user in the allowed user groups?
         $inAllowedUserGroups = $this->isInAllowedUserGroup($userId);

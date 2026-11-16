@@ -23,7 +23,7 @@ use Joomla\CMS\Filter\InputFilter;
  *
  * @since       3.0.1
  *
- * @deprecated   4.3 will be removed in 6.0.
+ * @deprecated   4.3 will be removed in 7.0.
  *               Use Joomla\Input\Json instead
  */
 class Json extends Input
@@ -32,7 +32,7 @@ class Json extends Input
      * @var    string  The raw JSON string from the request.
      * @since  3.0.1
      *
-     * @deprecated   4.3 will be removed in 6.0.
+     * @deprecated   4.3 will be removed in 7.0.
      *               Use Joomla\Input\Json instead
      */
     // phpcs:ignore
@@ -46,7 +46,7 @@ class Json extends Input
      *
      * @since   3.0.1
      *
-     * @deprecated   4.3 will be removed in 6.0.
+     * @deprecated   4.3 will be removed in 7.0.
      *               Use Joomla\Input\Json instead
      */
     public function __construct(?array $source = null, array $options = [])
@@ -78,7 +78,7 @@ class Json extends Input
      *
      * @since   3.0.1
      *
-     * @deprecated   4.3 will be removed in 6.0.
+     * @deprecated   4.3 will be removed in 7.0.
      *               Use Joomla\Input\Json instead
      */
     public function getRaw()

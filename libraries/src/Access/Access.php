@@ -178,7 +178,7 @@ class Access
      * @return  boolean  True on success.
      *
      * @since   1.6
-     * @note    This method will return void in 4.0.
+     * @note    This method will return void in 7.0.
      */
     public static function preload($assetTypes = 'components', $reload = false)
     {
@@ -444,7 +444,7 @@ class Access
      * @return  Rules  Rules object for the asset.
      *
      * @since   1.7.0
-     * @note    The non preloading code will be removed in 4.0. All asset rules should use asset preloading.
+     * @note    The non preloading code will be removed in 7.0. All asset rules should use asset preloading.
      */
     public static function getAssetRules($assetKey, $recursive = false, $recursiveParentAsset = true, $preload = true)
     {

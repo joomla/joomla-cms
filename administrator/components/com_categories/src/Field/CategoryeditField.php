@@ -146,7 +146,7 @@ class CategoryeditField extends ListField
     protected function getOptions()
     {
         $options   = [];
-        $published = $this->element['published'] ? explode(',', (string) $this->element['published']) : [0, 1];
+        $published = $this->element['published'] ? explode(',', (string) $this->element['published']) : [0, 1, 2];
         $name      = (string) $this->element['name'];
 
         // Let's get the id for the current item, either category or content item.
@@ -251,10 +251,14 @@ class CategoryeditField extends ListField
                 $option->text = Text::_('JGLOBAL_ROOT_PARENT');
             }
 
-            if ($option->published == 1) {
-                $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . $option->text;
+            if ($option->published === 0) {
+                // Add ' ( Unpublished )' after every unpublished category
+                $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . $option->text . ' (' . Text::_('JUNPUBLISHED') . ')';
+            } elseif ($option->published === 2) {
+                // Add ' ( Archived )' after every archived category
+                $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . $option->text . ' (' . Text::_('JARCHIVED') . ')';
             } else {
-                $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . '[' . $option->text . ']';
+                $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . $option->text;
             }
 
             // Displays language code if not set to All

@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Authentication\Password;
 
 use Joomla\Authentication\Password\HandlerInterface;
-use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\User\UserHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -91,6 +90,6 @@ class MD5Handler implements HandlerInterface, CheckIfRehashNeededHandlerInterfac
         // If the salt is empty AND there is a ':' in the original hash, we must append ':' at the end
         $testcrypt = md5($plaintext . $salt) . ($salt ? ':' . $salt : (str_contains($hashed, ':') ? ':' : ''));
 
-        return Crypt::timingSafeCompare($hashed, $testcrypt);
+        return hash_equals($hashed, $testcrypt);
     }
 }

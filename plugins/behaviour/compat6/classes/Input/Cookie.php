@@ -20,7 +20,7 @@ use Joomla\CMS\Filter\InputFilter;
  *
  * @since       1.7.0
  *
- * @deprecated   4.3 will be removed in 6.0.
+ * @deprecated   4.3 will be removed in 7.0.
  *               Use Joomla\Input\Cookie instead
  */
 class Cookie extends Input
@@ -33,7 +33,7 @@ class Cookie extends Input
      *
      * @since   1.7.0
      *
-     * @deprecated   4.3 will be removed in 6.0.
+     * @deprecated   4.3 will be removed in 7.0.
      *               Use Joomla\Input\Cookie instead
      */
     public function __construct(?array $source = null, array $options = [])
@@ -70,7 +70,7 @@ class Cookie extends Input
      * @see     setcookie()
      * @since   1.7.0
      *
-     * @deprecated   4.3 will be removed in 6.0.
+     * @deprecated   4.3 will be removed in 7.0.
      *               Use Joomla\Input\Cookie instead
      */
     public function set($name, $value, $options = [])

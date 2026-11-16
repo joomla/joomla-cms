@@ -122,6 +122,7 @@ class HtmlView extends InstallerViewDefault
 
         if ($canDo->get('core.delete')) {
             $childBar->delete('manage.remove', 'JTOOLBAR_UNINSTALL')
+                ->icon('icon-exclamation-triangle')
                 ->message('COM_INSTALLER_CONFIRM_UNINSTALL')
                 ->listCheck(true);
         }

@@ -121,7 +121,7 @@ class Indexer
     public function __construct(?DatabaseInterface $db = null)
     {
         if ($db === null) {
-            @trigger_error('Database will be mandatory in 5.0.', E_USER_DEPRECATED);
+            @trigger_error('Database will be mandatory in 7.0.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
@@ -734,8 +734,13 @@ class Indexer
         $query2->select('COUNT(lt.link_id)')
             ->from($db->quoteName('#__finder_links_terms', 'lt'))
             ->where($db->quoteName('lt.term_id') . ' = ' . $db->quoteName('t.term_id'));
-        $query->update($db->quoteName('#__finder_terms', 't'))
-            ->set($db->quoteName('t.links') . ' = (' . $query2 . ')');
+        if ($serverType === 'mysql') {
+            $query->update($db->quoteName('#__finder_terms', 't'))
+                ->set($db->quoteName('t.links') . ' = (' . $query2 . ')');
+        } else {
+            $query->update($db->quoteName('#__finder_terms', 't'))
+                ->set($db->quoteName('links') . ' = (' . $query2 . ')');
+        }
         $db->setQuery($query);
         $db->execute();
 

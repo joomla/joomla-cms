@@ -553,10 +553,6 @@ class Task implements LoggerAwareInterface
     {
         $id = is_numeric($id) ? ($id + 0) : $id;
 
-        if (!\is_int($id) || $id <= 0) {
-            return false;
-        }
-
-        return true;
+        return \is_int($id) && $id > 0;
     }
 }

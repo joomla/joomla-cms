@@ -240,7 +240,7 @@ class AdministratorApplication extends CMSApplication
      */
     protected function initialiseApp($options = [])
     {
-        $user = Factory::getUser();
+        $user = $this->getIdentity();
 
         // If the user is a guest we populate it with the guest user group.
         if ($user->guest) {
@@ -351,7 +351,7 @@ class AdministratorApplication extends CMSApplication
     public static function purgeMessages()
     {
         Factory::getApplication()->bootComponent('messages')->getMVCFactory()
-            ->createModel('Messages', 'Administrator')->purge(Factory::getUser()->id);
+            ->createModel('Messages', 'Administrator')->purge(Factory::getApplication()->getIdentity()->id);
     }
 
     /**

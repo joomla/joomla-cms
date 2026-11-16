@@ -11,12 +11,16 @@
 namespace Joomla\Component\Mails\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model\AfterSaveEvent;
+use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -47,20 +51,6 @@ class TemplateModel extends AdminModel
      * @since  4.0.0
      */
     public $typeAlias = 'com_mails.template';
-
-    /**
-     * Method to test whether a record can be deleted.
-     *
-     * @param   object  $record  A record object.
-     *
-     * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
-     *
-     * @since   4.0.0
-     */
-    protected function canDelete($record)
-    {
-        return false;
-    }
 
     /**
      * Method to get the record form.
@@ -313,7 +303,8 @@ class TemplateModel extends AdminModel
         $isNew       = true;
 
         // Include the plugins for the save events.
-        \Joomla\CMS\Plugin\PluginHelper::importPlugin($this->events_map['save']);
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin($this->events_map['save'], null, true, $dispatcher);
 
         // Allow an exception to be thrown.
         try {
@@ -345,7 +336,12 @@ class TemplateModel extends AdminModel
             }
 
             // Trigger the before save event.
-            $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data]);
+            $result = $dispatcher->dispatch($this->event_before_save, new BeforeSaveEvent($this->event_before_save, [
+                'context' => $context,
+                'subject' => $table,
+                'isNew'   => $isNew,
+                'data'    => $data,
+            ]))->getArgument('result', []);
 
             if (\in_array(false, $result, true)) {
                 $this->setError($table->getError());
@@ -364,7 +360,12 @@ class TemplateModel extends AdminModel
             $this->cleanCache();
 
             // Trigger the after save event.
-            Factory::getApplication()->triggerEvent($this->event_after_save, [$context, $table, $isNew, $data]);
+            $dispatcher->dispatch($this->event_after_save, new AfterSaveEvent($this->event_after_save, [
+                'context' => $context,
+                'subject' => $table,
+                'isNew'   => $isNew,
+                'data'    => $data,
+            ]));
         } catch (\Exception $e) {
             $this->setError($e->getMessage());
 
@@ -405,5 +406,30 @@ class TemplateModel extends AdminModel
 
         $language = Factory::getApplication()->getInput()->getCmd('language');
         $this->setState($this->getName() . '.language', $language);
+    }
+
+    /**
+     * Method to delete one or more records.
+     *
+     * @param   array  &$pks  An array of record primary keys.
+     *
+     * @return  boolean  True if successful, false if an error occurs.
+     *
+     * @since   1.6
+     */
+    public function delete(&$pks)
+    {
+        $pks = (array)$pks;
+        foreach ($pks as $i => $pk) {
+            if (!$this->canDelete((object)['template_id' => $pk])) {
+                return false;
+            }
+        }
+
+        $db    = $this->getDatabase();
+        $query = $db->createQuery();
+        $query->delete($db->quoteName('#__mail_templates'))
+            ->whereIn($db->quoteName('template_id'), $pks, ParameterType::STRING);
+        return $db->setQuery($query)->execute();
     }
 }

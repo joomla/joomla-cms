@@ -420,8 +420,8 @@
       "@fortawesome/fontawesome-free": {
         "name": "fontawesome-free",
         "css": {
-          "css/fontawesome.css": "css/fontawesome.css",
-          "css/fontawesome.min.css": "css/fontawesome.min.css"
+          "css/all.css": "css/fontawesome.css",
+          "css/all.min.css": "css/fontawesome.min.css"
         },
         "filesExtra": {
           "scss": "scss",
@@ -644,7 +644,7 @@
       },
       "tinymce": {
         "name": "tinymce",
-        "licenseFilename": "license.txt"
+        "licenseFilename": "license.md"
       },
       "accessibility": {
         "name": "accessibility",
