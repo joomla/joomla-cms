@@ -219,6 +219,11 @@
 		addfieldprefix="Joomla\Component\Users\Administrator\Field"
 	>
 		<field
+			name="mfa_plugins_warning"
+			type="MfaWarning"
+		/>
+
+		<field
 			name="allowed_positions_frontend"
 			type="ModulesPosition"
 			label="COM_USERS_CONFIG_ALLOWED_POSITIONS_FRONTEND_LABEL"
