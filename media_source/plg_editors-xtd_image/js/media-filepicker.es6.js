@@ -80,7 +80,7 @@ Joomla.editorMediaPicker = (meta = {}) => new Promise((resolve) => {
 
   const dialog = new JoomlaDialog({
     popupType: 'iframe',
-    src: `index.php?option=com_media&view=media&tmpl=component&mediatypes=${mediatypes}`,
+    src: `${Joomla.getOptions('system.paths', {}).base}/index.php?option=com_media&view=media&tmpl=component&mediatypes=${mediatypes}`,
     textHeader: Joomla.Text._('PLG_IMAGE_BUTTON_IMAGE'),
     popupButtons: [
       {
