@@ -44,7 +44,7 @@ class MfaWarningField extends NoteField
             return '';
         }
 
-        $url = Route::_('index.php?option=com_plugins&view=plugins&filter[folder]=multifactorauth');
+        $url  = Route::_('index.php?option=com_plugins&view=plugins&filter[folder]=multifactorauth');
         $link = '<a href="' . $url . '">' . Text::_('COM_USERS_CONFIG_MULTIFACTORAUTH_PLUGINS') . '</a>';
 
         return '<div class="alert alert-danger" role="alert">'
