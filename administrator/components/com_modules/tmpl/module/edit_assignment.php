@@ -152,9 +152,9 @@ if ($inheritEnabled) {
                                                     <option value="2"<?php echo $inheritValue === 2 ? ' selected' : ''; ?>><?php echo Text::_('COM_MODULES_INHERIT_ALL'); ?></option>
                                                 </select>
                                             </span>
+                                            <input type="hidden" name="jform[inherit][<?php echo (int) $link->value; ?>]" value="<?php echo $inheritValue; ?>">
                                         <?php endif; ?>
                                         <span class="module-inherit-lock-badge badge bg-info d-none"></span>
-                                        <input type="hidden" name="jform[inherit][<?php echo (int) $link->value; ?>]" value="<?php echo $inheritValue; ?>">
                                     <?php endif; ?>
                                 </div>
                             <?php
