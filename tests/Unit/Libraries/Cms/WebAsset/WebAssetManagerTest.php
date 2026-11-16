@@ -190,14 +190,14 @@ class WebAssetManagerTest extends UnitTestCase
         $wa->useAsset('script', 'test5');
 
         $assets = $wa->getAssets('script');
-        $this->assertEquals(
+        $this->assertSame(
             ['test3', 'test1', 'test2', 'test4', 'test5'],
             array_keys($assets),
             'Should return all active assets in FIFO order, with automatically enabled dependencies "at top"'
         );
 
         $assets2 = $wa->getAssets('script', true);
-        $this->assertEquals(
+        $this->assertSame(
             ['test3', 'test1', 'test2', 'test5', 'test4'],
             array_keys($assets2),
             'Should return all active assets in a Graph order'
