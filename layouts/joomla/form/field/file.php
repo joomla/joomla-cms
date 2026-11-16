@@ -52,7 +52,7 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
 
-$maxSize = HTMLHelper::_('number.bytes', Utility::getMaxUploadSize($maxsize));
+$maxSize = HTMLHelper::_('number.bytes', Utility::getMaxUploadSize($maxsize ?? ''));
 
 ?>
 <input type="file"
