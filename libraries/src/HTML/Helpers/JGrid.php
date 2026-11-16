@@ -98,7 +98,7 @@ abstract class JGrid
             $html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
         } else {
             $html[] = '<span class="tbody-icon jgrid"';
-            $html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
+            $html[] = $tip ? ' tabindex="0" aria-labelledby="' . $ariaid . '"' : '';
             $html[] = '>';
             $html[] = LayoutHelper::render('joomla.icon.iconclass', ['icon' => $inactiveClass]);
             $html[] = '</span>';
