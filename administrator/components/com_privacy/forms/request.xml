@@ -14,7 +14,7 @@
 			name="status"
 			type="list"
 			label="COM_PRIVACY_FIELD_STATUS_LABEL"
-			filter="int"
+			filter="integer"
 			default="0"
 			validate="options"
 			readonly="true"

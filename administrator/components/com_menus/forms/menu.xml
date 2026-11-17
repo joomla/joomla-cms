@@ -5,7 +5,7 @@
 			name="id"
 			type="hidden"
 			default="0"
-			filter="int"
+			filter="integer"
 			readonly="true"
 		/>
 		<field
