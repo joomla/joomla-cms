@@ -86,7 +86,9 @@ final class ApiApplication extends CMSApplication
         $this->addFormatMap('application/vnd.api+json', 'jsonapi');
 
         // Set the root in the URI based on the application name
-        Uri::root(null, str_ireplace('/' . $this->getName(), '', Uri::base(true)));
+        $parts = explode('/', Uri::base(true));
+        array_pop($parts);
+        Uri::root(null, implode('/', $parts));
     }
 
     /**
