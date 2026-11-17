@@ -33,4 +33,20 @@ describe('Test that plugins API endpoint', () => {
       });
     cy.db_enableExtension('1', 'plg_actionlog_joomla');
   });
+
+  it('returns not found for a not existent plugin', () => {
+    cy.api_getBearerToken().then((token) => {
+      cy.request({
+        method: 'GET',
+        url: '/api/index.php/v1/plugins/9999',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        failOnStatusCode: false,
+      }).then((response) => {
+        expect(response.status).to.equal(404);
+        expect(response.body.errors[0].title).to.include('Resource not found');
+      });
+    });
+  });
 });
