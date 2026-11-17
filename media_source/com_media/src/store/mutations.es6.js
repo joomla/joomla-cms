@@ -177,7 +177,7 @@ export default {
       return;
     }
 
-    const selectedFile = state.files.find((item) => item.name === file.name);
+    const selectedFile = state.files.find((item) => item.path === file.path);
 
     if (!selectedFile) {
       return;
