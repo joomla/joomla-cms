@@ -103,8 +103,12 @@ class Uri extends \Joomla\Uri\Uri
                     }
                 }
 
-                // Extra cleanup to remove invalid chars in the URL to prevent injections through the Host header
+                /*
+                 * Extra cleanup to remove invalid chars in the URL to prevent injections through the Host header.
+                 * Control characters are never valid in a URL, so they are removed instead of being encoded.
+                 */
                 $theURI = str_replace(["'", '"', '<', '>'], ['%27', '%22', '%3C', '%3E'], $theURI);
+                $theURI = (string) preg_replace('/[\x00-\x1F\x7F]/', '', $theURI);
             } else {
                 // We were given a URI
                 $theURI = $uri;
