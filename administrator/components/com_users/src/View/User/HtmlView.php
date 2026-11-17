@@ -195,8 +195,9 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
             $toolbar->cancel('user.cancel');
         }
 
-        // Check lastvisitDate for allow resend the activation email
-        $userIsNotActive = !empty($this->item->activation) || \is_null($this->item->lastvisitDate);
+        // Check lastvisitDate for allow resend the activation email, but not to a blocked user
+        $userIsNotActive = !empty($this->item->activation)
+            || (\is_null($this->item->lastvisitDate) && !$this->item->block);
 
         if ($this->item->id > 0 && $userIsNotActive) {
             $buttonText = !empty($this->item->activation)

@@ -595,7 +595,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
                 // Ignore activated accounts but check if we can still
                 // resend the notification email
                 if (empty($table->activation)) {
-                    if (\is_null($table->lastvisitDate)) {
+                    if (\is_null($table->lastvisitDate) && !$table->block) {
                         $sendMailTo($prevUserData);
                     }
 
