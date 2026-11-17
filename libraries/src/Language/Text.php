@@ -31,6 +31,27 @@ class Text
     protected static $strings = [];
 
     /**
+     * Resolve the current language object without forcing an app startup.
+     *
+     * When the CMS application is already initialized, prefer the application
+     * instance. This avoids deprecated static Factory access in normal runtime
+     * code while still allowing low-level bootstrap code to work before the app
+     * is created.
+     *
+     * @return  \Joomla\CMS\Language\Language
+     *
+     * @since   6.3.0
+     */
+    private static function getLanguage()
+    {
+        if (Factory::$application) {
+            return Factory::$application->getLanguage();
+        }
+
+        return Factory::getLanguage();
+    }
+
+    /**
      * Translates a string into the current language.
      *
      * Examples:
@@ -65,7 +86,7 @@ class Text
             return $string;
         }
 
-        $lang = Factory::getApplication()->getLanguage();
+        $lang = self::getLanguage();
 
         if ($script) {
             static::$strings[$string] = $lang->_($string, $jsSafe, $interpretBackSlashes);
@@ -95,7 +116,7 @@ class Text
             return false;
         }
 
-        $lang         = Factory::getApplication()->getLanguage();
+        $lang         = self::getLanguage();
         $string_parts = explode(',', $string);
 
         // Pass all parts through the Text translator
@@ -150,7 +171,7 @@ class Text
      */
     public static function alt($string, $alt, $jsSafe = false, $interpretBackSlashes = true, $script = false)
     {
-        if (Factory::getApplication()->getLanguage()->hasKey($string . '_' . $alt)) {
+        if (self::getLanguage()->hasKey($string . '_' . $alt)) {
             $string .= '_' . $alt;
         }
 
@@ -186,7 +207,7 @@ class Text
      */
     public static function plural($string, $n)
     {
-        $lang  = Factory::getApplication()->getLanguage();
+        $lang  = self::getLanguage();
         $args  = \func_get_args();
         $count = \count($args);
 
@@ -254,7 +275,7 @@ class Text
      */
     public static function sprintf($string)
     {
-        $lang  = Factory::getApplication()->getLanguage();
+        $lang  = self::getLanguage();
         $args  = \func_get_args();
         $count = \count($args);
 
@@ -293,7 +314,7 @@ class Text
      */
     public static function printf($string)
     {
-        $lang  = Factory::getApplication()->getLanguage();
+        $lang  = self::getLanguage();
         $args  = \func_get_args();
         $count = \count($args);
 
@@ -358,7 +379,7 @@ class Text
 
             // Normalize the key and translate the string.
             $key                   = strtoupper($string);
-            $strings[$key]         = Factory::getApplication()->getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
+            $strings[$key]         = self::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
             static::$strings[$key] = $strings[$key];
 
             // Load core.js dependency
