@@ -64,6 +64,22 @@ class PackageAdapter extends InstallerAdapter
     protected $supportsDiscoverInstall = false;
 
     /**
+     * Method to install a package
+     *
+     * @return  boolean|integer  The extension ID on success, boolean false on failure
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function install()
+    {
+        // The adapter is reused for every package in the request
+        $this->installedIds = [];
+        $this->results      = [];
+
+        return parent::install();
+    }
+
+    /**
      * Method to check if the extension is present in the filesystem, flags the route as update if so
      *
      * @return  void
