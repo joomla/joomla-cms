@@ -42,7 +42,22 @@ class BannersHelper
         /** @var BannersModel $model */
         $model = $app->bootComponent('com_banners')->getMVCFactory()->createModel('Banners', 'Site', ['ignore_request' => true]);
 
-        $keywords = explode(',', $app->getDocument()->getMetaData('keywords'));
+        $input    = $app->getInput();
+        $keywords = [];
+
+        // Check if the current view is an article
+        if ($input->getCmd('option') === 'com_content' && $input->getCmd('view') === 'article') {
+            $articleId = $input->getInt('id');
+
+            if (\is_integer($articleId)) {
+                // Load the article model to get the keywords
+                $contentModel = $app->bootComponent('com_content')->getMVCFactory()->createModel('Article', 'Site', ['ignore_request' => true]);
+
+                $article  = $contentModel->getItem($articleId);
+                $keywords = explode(',', $article->metakey);
+            }
+        }
+
         $config   = ComponentHelper::getParams('com_banners');
 
         $model->setState('filter.client_id', (int) $params->get('cid'));
