@@ -14,6 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\MVC\View\CategoryView;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -96,6 +97,16 @@ class HtmlView extends CategoryView
     protected function prepareDocument()
     {
         parent::prepareDocument();
+
+        if (!\is_object($this->category->metadata)) {
+            $this->category->metadata = new Registry($this->category->metadata);
+        }
+
+        foreach ($this->category->metadata->toArray() as $k => $v) {
+            if ($v) {
+                $this->getDocument()->setMetaData($k, $v);
+            }
+        }
 
         $this->addFeed();
 
