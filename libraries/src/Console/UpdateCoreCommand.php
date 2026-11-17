@@ -136,7 +136,7 @@ class UpdateCoreCommand extends AbstractCommand
         $this->cliInput = $input;
         $this->ioStyle  = new SymfonyStyle($input, $output);
 
-        $language = Factory::getLanguage();
+        $language = Factory::getApplication()->getLanguage();
         $language->load('lib_joomla', JPATH_ADMINISTRATOR);
         $language->load('', JPATH_ADMINISTRATOR);
         $language->load('com_joomlaupdate', JPATH_ADMINISTRATOR);
@@ -531,7 +531,7 @@ class UpdateCoreCommand extends AbstractCommand
     {
         $return = true;
 
-        $language = Factory::getLanguage();
+        $language = Factory::getApplication()->getLanguage();
 
         $plugin = ExtensionHelper::getExtensionRecord('compat' . Version::MAJOR_VERSION, 'plugin', 0, 'behaviour');
 

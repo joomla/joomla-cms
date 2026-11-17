@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-$direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
+$direction = Factory::getApplication()->getLanguage()->isRtl() ? 'left' : 'right';
 
 /** @var \Joomla\CMS\Installation\View\Setup\HtmlView $this */
 

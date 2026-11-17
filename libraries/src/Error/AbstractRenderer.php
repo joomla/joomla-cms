@@ -105,8 +105,8 @@ abstract class AbstractRenderer implements RendererInterface
 
         // If there is a Language instance in Factory then let's pull the language and direction from its metadata
         if (Factory::$language) {
-            $attributes['language']  = Factory::getLanguage()->getTag();
-            $attributes['direction'] = Factory::getLanguage()->isRtl() ? 'rtl' : 'ltr';
+            $attributes['language']  = Factory::getApplication()->getLanguage()->getTag();
+            $attributes['direction'] = Factory::getApplication()->getLanguage()->isRtl() ? 'rtl' : 'ltr';
         }
 
         return Factory::getContainer()->get(FactoryInterface::class)->createDocument($this->type, $attributes);

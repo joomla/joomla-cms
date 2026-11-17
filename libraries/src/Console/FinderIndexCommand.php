@@ -252,7 +252,7 @@ EOF;
             $language = $this->getLanguage();
         } catch (\UnexpectedValueException) {
             @trigger_error(\sprintf('Language must be set in 7.0 in %s', __METHOD__), E_USER_DEPRECATED);
-            $language = Factory::getLanguage();
+            $language = Factory::getApplication()->getLanguage();
         }
 
         $language->load('', JPATH_ADMINISTRATOR, null, false, false) ||

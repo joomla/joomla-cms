@@ -94,7 +94,7 @@ class JsonResponse
         $this->token = Session::getFormToken(true);
 
         // Get the language and send its tag along
-        $this->lang = Factory::getLanguage()->getTag();
+        $this->lang = Factory::getApplication()->getLanguage()->getTag();
 
         // Get the message queue
         $messages = Factory::getApplication()->getMessageQueue();

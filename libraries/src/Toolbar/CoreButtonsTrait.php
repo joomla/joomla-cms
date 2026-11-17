@@ -514,7 +514,7 @@ trait CoreButtonsTrait
         int $width = 500,
         string $text = 'JTOOLBAR_VERSIONS'
     ): CustomButton {
-        $lang = Factory::getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
         $lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 
         // Options array for Layout

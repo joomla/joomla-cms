@@ -771,7 +771,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
         }
 
         // Load the language file for the template
-        $lang = CmsFactory::getLanguage();
+        $lang = CmsFactory::getApplication()->getLanguage();
 
         if ($inherits) {
             $lang->load('tpl_' . $inherits, $directory . '/' . $inherits)

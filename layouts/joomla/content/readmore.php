@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 
 $params    = $displayData['params'];
 $item      = $displayData['item'];
-$direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
+$direction = Factory::getApplication()->getLanguage()->isRtl() ? 'left' : 'right';
 ?>
 
 <p class="readmore">

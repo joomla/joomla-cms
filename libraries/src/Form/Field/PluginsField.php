@@ -152,7 +152,7 @@ class PluginsField extends ListField
         }
 
         $options   = $db->setQuery($query)->loadObjectList();
-        $lang      = Factory::getLanguage();
+        $lang      = Factory::getApplication()->getLanguage();
         $useGlobal = $this->element['useglobal'];
 
         if ($useGlobal) {

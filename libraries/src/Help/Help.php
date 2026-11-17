@@ -85,7 +85,7 @@ class Help
         /*
          *  Replace substitution codes in the URL.
          */
-        $lang    = Factory::getLanguage();
+        $lang    = Factory::getApplication()->getLanguage();
         $version = new Version();
         $jver    = explode('.', $version->getShortVersion());
         $jlang   = explode('-', $lang->getTag());

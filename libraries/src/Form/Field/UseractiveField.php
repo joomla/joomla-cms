@@ -54,7 +54,7 @@ class UseractiveField extends PredefinedlistField
         parent::__construct($form);
 
         // Load the required language
-        $lang = Factory::getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
         $lang->load('com_users', JPATH_ADMINISTRATOR);
     }
 }
