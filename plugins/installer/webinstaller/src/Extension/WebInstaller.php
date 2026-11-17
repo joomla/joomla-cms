@@ -88,6 +88,11 @@ final class WebInstaller extends CMSPlugin implements SubscriberInterface
         // Push language strings to the JavaScript store
         Text::script('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN');
         Text::script('PLG_INSTALLER_WEBINSTALLER_REDIRECT_TO_EXTERNAL_SITE_TO_INSTALL');
+        Text::script('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM');
+        Text::script('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_NAME');
+        Text::script('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_URL');
+        Text::script('COM_INSTALLER_INSTALL_BUTTON');
+        Text::script('JCANCEL');
 
         $doc->getWebAssetManager()
             ->registerAndUseStyle('plg_installer_webinstaller.client', 'plg_installer_webinstaller/client.min.css')
@@ -96,7 +101,7 @@ final class WebInstaller extends CMSPlugin implements SubscriberInterface
                 'plg_installer_webinstaller/client.min.js',
                 [],
                 ['type' => 'module'],
-                ['core']
+                ['core', 'joomla.dialog']
             );
 
         $devLevel = Version::PATCH_VERSION;
