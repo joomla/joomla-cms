@@ -190,7 +190,22 @@ class WebInstaller {
             this.processLinkClick(element.getAttribute('data-url'));
           });
 
+          element.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+              event.preventDefault();
+              this.processLinkClick(element.getAttribute('data-url'));
+            }
+          });
+
+          const title = element.closest('.item')?.querySelector('h4');
+
+          if (title) {
+            element.setAttribute('aria-label', title.textContent.trim());
+          }
+
           element.setAttribute('href', '#');
+          element.setAttribute('tabindex', '0');
+          element.setAttribute('role', 'link');
         });
       }
 
