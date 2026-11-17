@@ -267,6 +267,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links` (
   `published` tinyint NOT NULL DEFAULT 1,
   `state` int NOT NULL DEFAULT 1,
   `access` int NOT NULL DEFAULT 0,
+  `cat_access` int NOT NULL DEFAULT 1,
   `language` char(7) NOT NULL DEFAULT '',
   `publish_start_date` datetime,
   `publish_end_date` datetime,
@@ -282,8 +283,8 @@ CREATE TABLE IF NOT EXISTS `#__finder_links` (
   KEY `idx_md5` (`md5sum`),
   KEY `idx_url` (`url`(75)),
   KEY `idx_language` (`language`),
-  KEY `idx_published_list` (`published`,`state`,`access`,`publish_start_date`,`publish_end_date`,`list_price`),
-  KEY `idx_published_sale` (`published`,`state`,`access`,`publish_start_date`,`publish_end_date`,`sale_price`)
+  KEY `idx_published_list` (`published`,`state`,`access`,`cat_access`,`publish_start_date`,`publish_end_date`,`list_price`),
+  KEY `idx_published_sale` (`published`,`state`,`access`,`cat_access`,`publish_start_date`,`publish_end_date`,`sale_price`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
