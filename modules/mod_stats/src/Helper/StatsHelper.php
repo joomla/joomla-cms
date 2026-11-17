@@ -58,7 +58,7 @@ class StatsHelper implements DatabaseAwareInterface
         if ($serverinfo) {
             $rows[$i]        = new \stdClass();
             $rows[$i]->title = Text::_('MOD_STATS_OS');
-            $rows[$i]->data  = substr(php_uname(), 0, 7);
+            $rows[$i]->data  = \function_exists('php_uname') ? substr(php_uname(), 0, 7) : '';
             $i++;
 
             $rows[$i]        = new \stdClass();
