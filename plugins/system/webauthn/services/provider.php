@@ -18,7 +18,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\Webauthn\Authentication;
 use Joomla\Plugin\System\Webauthn\CredentialRepository;
 use Joomla\Plugin\System\Webauthn\Extension\Webauthn;
@@ -41,8 +40,9 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Webauthn::class, function (Container $container) {
                 $app     = Factory::getApplication();
+                $config  = (array) PluginHelper::getPlugin('system', 'webauthn');
                 $session = $container->has('session') ? $container->get('session') : $this->getSession($app);
 
                 $db                    = $container->get(DatabaseInterface::class);
@@ -54,24 +54,23 @@ return new class () implements ServiceProviderInterface {
                 $params             = new Registry($config['params'] ?? '{}');
 
                 if ($params->get('attestationSupport', 0) == 1) {
-                    $metadataRepository    = $container->has(MetadataStatementRepository::class)
+                    $metadataRepository = $container->has(MetadataStatementRepository::class)
                         ? $container->get(MetadataStatementRepository::class)
                         : new MetadataRepository();
                 }
 
-                $authenticationHelper  = $container->has(Authentication::class)
+                $authenticationHelper = $container->has(Authentication::class)
                     ? $container->get(Authentication::class)
                     : new Authentication($app, $session, $credentialsRepository, $metadataRepository);
 
                 $plugin = new Webauthn(
-                    $container->get(DispatcherInterface::class),
-                    (array) PluginHelper::getPlugin('system', 'webauthn'),
+                    $config,
                     $authenticationHelper
                 );
                 $plugin->setApplication($app);
 
                 return $plugin;
-            }
+            })
         );
     }
 

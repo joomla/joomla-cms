@@ -58,10 +58,10 @@ if ($menusEditing && $mod->module === 'mod_menu') {
                 $menuitemEditUrl = Uri::base() . 'administrator/index.php?option=com_menus&view=item&client_id=0&layout=edit&id=' . (int) $menuItemid;
                 $moduleHtml = preg_replace(
                     // Find the link
-                    '/(<li.*?\bitem-' . $menuItemid . '.*?>)/',
+                    '/(<li\b[^>]*\bitem-' . $menuItemid . '\b[^>]*>)/',
                     // Create and add the edit link
                     '\\1 <a class="jmenuedit small" href="' . $menuitemEditUrl . '" target="' . $target . '" title="' . Text::_('JLIB_HTML_EDIT_MENU_ITEM') . ' ' . sprintf(Text::_('JLIB_HTML_EDIT_MENU_ITEM_ID'), (int) $menuItemid) . '">
-					<span class="icon-edit" aria-hidden="true"></span></a>',
+                    <span class="icon-edit" aria-hidden="true"></span></a> ',
                     $moduleHtml
                 );
         }

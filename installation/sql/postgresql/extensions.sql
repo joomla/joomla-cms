@@ -247,7 +247,7 @@ CREATE TABLE IF NOT EXISTS "#__finder_filters" (
 CREATE TABLE IF NOT EXISTS "#__finder_links" (
   "link_id" serial NOT NULL,
   "url" varchar(255) NOT NULL,
-  "route" varchar(400) NOT NULL,
+  "route" varchar(2048) NOT NULL,
   "title" varchar(400) DEFAULT NULL,
   "description" text,
   "indexdate" timestamp without time zone NOT NULL,
@@ -838,7 +838,7 @@ INSERT INTO "#__action_log_config" ("id", "type_title", "type_alias", "id_holder
 (23, 'contact', 'com_contact.form', 'id', 'name', '#__contact_details', 'PLG_ACTIONLOG_JOOMLA');
 
 
-SELECT setval('#__action_log_config_id_seq', 23, false);
+SELECT setval('#__action_log_config_id_seq', 24, false);
 
 --
 -- Table structure for table `#__action_logs_users`

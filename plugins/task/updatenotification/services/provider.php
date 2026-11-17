@@ -12,11 +12,12 @@
 
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageFactoryInterface;
+use Joomla\CMS\Mail\MailerFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Task\UpdateNotification\Extension\UpdateNotification;
 
 return new class () implements ServiceProviderInterface {
@@ -33,16 +34,17 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(UpdateNotification::class, function (Container $container) {
                 $plugin = new UpdateNotification(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('task', 'updatenotification')
                 );
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
+                $plugin->setMailerFactory($container->get(MailerFactoryInterface::class));
+                $plugin->setLanguageFactory($container->get(LanguageFactoryInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

@@ -19,6 +19,7 @@ use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for \Joomla\CMS\Plugin\CMSPlugin
@@ -26,19 +27,17 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  Plugin
  *
- * @testdox     The CMSPlugin
- *
  * @since       4.2.0
  */
+#[TestDox('The CMSPlugin')]
 class CMSPluginTest extends UnitTestCase
 {
     /**
-     * @testdox  has the correct dispatcher
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('has the correct dispatcher')]
     public function testInjectedDispatcher()
     {
         $dispatcher = new Dispatcher();
@@ -46,16 +45,15 @@ class CMSPluginTest extends UnitTestCase
         $plugin = new class ($dispatcher, []) extends CMSPlugin {
         };
 
-        $this->assertEquals($dispatcher, $plugin->getDispatcher());
+        $this->assertSame($dispatcher, $plugin->getDispatcher());
     }
 
     /**
-     * @testdox  has the correct dispatcher
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('has the correct dispatcher')]
     public function testInjectedApplication()
     {
         $dispatcher = new Dispatcher();
@@ -69,16 +67,15 @@ class CMSPluginTest extends UnitTestCase
         };
         $plugin->setApplication($app);
 
-        $this->assertEquals($app, $plugin->getApplication());
+        $this->assertSame($app, $plugin->getApplication());
     }
 
     /**
-     * @testdox  has null params when not set
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('has null params when not set')]
     public function testEmptyParams()
     {
         $dispatcher = new Dispatcher();
@@ -90,12 +87,11 @@ class CMSPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  gets the injected params from a registry object
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('gets the injected params from a registry object')]
     public function testInjectedRegistryParams()
     {
         $dispatcher = new Dispatcher();
@@ -104,16 +100,15 @@ class CMSPluginTest extends UnitTestCase
         $plugin = new class ($dispatcher, ['params' => $registry]) extends CMSPlugin {
         };
 
-        $this->assertEquals($registry, $plugin->params);
+        $this->assertSame($registry, $plugin->params);
     }
 
     /**
-     * @testdox  gets the injected params from array
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('gets the injected params from array')]
     public function testInjectedArrayParams()
     {
         $dispatcher = new Dispatcher();
@@ -121,16 +116,15 @@ class CMSPluginTest extends UnitTestCase
         $plugin = new class ($dispatcher, ['params' => ['test' => 'unit']]) extends CMSPlugin {
         };
 
-        $this->assertEquals('unit', $plugin->params->get('test'));
+        $this->assertSame('unit', $plugin->params->get('test'));
     }
 
     /**
-     * @testdox  gets the injected name
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('gets the injected name')]
     public function testInjectedName()
     {
         $dispatcher = new Dispatcher();
@@ -142,16 +136,15 @@ class CMSPluginTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals('test', $plugin->getName());
+        $this->assertSame('test', $plugin->getName());
     }
 
     /**
-     * @testdox  gets the injected type
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('gets the injected type')]
     public function testInjectedType()
     {
         $dispatcher = new Dispatcher();
@@ -163,21 +156,20 @@ class CMSPluginTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals('test', $plugin->getType());
+        $this->assertSame('test', $plugin->getType());
     }
 
     /**
-     * @testdox  can load the language
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can load the language')]
     public function testLoadLanguage()
     {
         $dispatcher = new Dispatcher();
         $language   = $this->createMock(Language::class);
-        $language->expects($this->once())->method('load')->with($this->equalTo('plg__'), JPATH_ADMINISTRATOR)->willReturn(true);
+        $language->expects($this->once())->method('load')->with('plg__', JPATH_ADMINISTRATOR)->willReturn(true);
 
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
@@ -189,17 +181,16 @@ class CMSPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can load the language for a custom extension and path
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can load the language for a custom extension and path')]
     public function testLoadLanguageWithExtensionAndPath()
     {
         $dispatcher = new Dispatcher();
         $language   = $this->createMock(Language::class);
-        $language->expects($this->once())->method('load')->with($this->equalTo('test'), __DIR__)->willReturn(true);
+        $language->expects($this->once())->method('load')->with('test', __DIR__)->willReturn(true);
 
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
@@ -211,12 +202,11 @@ class CMSPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  does not load the language when the path exists
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('does not load the language when the path exists')]
     public function testNotLoadLanguageWhenExists()
     {
         $dispatcher = new Dispatcher();
@@ -234,12 +224,11 @@ class CMSPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can register the listeners when is SubscriberInterface
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can register the listeners when is SubscriberInterface')]
     public function testRegisterListenersAsSubscriber()
     {
         $dispatcher = new Dispatcher();
@@ -256,16 +245,15 @@ class CMSPluginTest extends UnitTestCase
         };
         $plugin->registerListeners();
 
-        $this->assertEquals([[$plugin, 'unit']], $dispatcher->getListeners('test'));
+        $this->assertSame([[$plugin, 'unit']], $dispatcher->getListeners('test'));
     }
 
     /**
-     * @testdox  can register the listeners when is legacy
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can register the listeners when is legacy')]
     public function testRegisterListenersAsLegacy()
     {
         $dispatcher = new Dispatcher();
@@ -281,12 +269,11 @@ class CMSPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can register the listeners with event interface
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can register the listeners with event interface')]
     public function testRegisterListenersForEventInterface()
     {
         $dispatcher = new Dispatcher();
@@ -302,12 +289,11 @@ class CMSPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  must register the listeners with event interface
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('must register the listeners with event interface')]
     public function testRegisterListenersWithForcedEventInterface()
     {
         $dispatcher = new Dispatcher();
@@ -325,12 +311,11 @@ class CMSPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can register the listeners when has typed arguments
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can register the listeners when has typed arguments')]
     public function testRegisterListenersForNoEventInterface()
     {
         $dispatcher = new Dispatcher();
@@ -346,12 +331,11 @@ class CMSPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can register the listeners when has untyped arguments
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can register the listeners when has untyped arguments')]
     public function testRegisterListenersNotTyped()
     {
         $dispatcher = new Dispatcher();
@@ -367,12 +351,11 @@ class CMSPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can register the listeners when has nullable arguments
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can register the listeners when has nullable arguments')]
     public function testRegisterListenersNullable()
     {
         $dispatcher = new Dispatcher();
@@ -388,12 +371,11 @@ class CMSPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can dispatch a legacy listener
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can dispatch a legacy listener')]
     public function testDispatchLegacyListener()
     {
         $dispatcher = new Dispatcher();
@@ -412,16 +394,15 @@ class CMSPluginTest extends UnitTestCase
         $plugin->registerTestListener();
         $event = $dispatcher->dispatch('onTest');
 
-        $this->assertEquals(['unit'], $event->getArgument('result'));
+        $this->assertSame(['unit'], $event->getArgument('result'));
     }
 
     /**
-     * @testdox  can dispatch a legacy listener with null result
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can dispatch a legacy listener with null result')]
     public function testDispatchLegacyListenerWhenNullIsReturned()
     {
         $dispatcher = new Dispatcher();
@@ -439,16 +420,15 @@ class CMSPluginTest extends UnitTestCase
         $plugin->registerTestListener();
         $event = $dispatcher->dispatch('onTest');
 
-        $this->assertEquals(null, $event->getArgument('result'));
+        $this->assertSame(null, $event->getArgument('result'));
     }
 
     /**
-     * @testdox  can dispatch a legacy listener and contains the result from the event and the plugin
-     *
      * @return  void
      *
      * @since   4.2.0
      */
+    #[TestDox('can dispatch a legacy listener and contains the result from the event and the plugin')]
     public function testDispatchLegacyListenerWhenEventHasResult()
     {
         $dispatcher = new Dispatcher();
@@ -467,6 +447,6 @@ class CMSPluginTest extends UnitTestCase
         $plugin->registerTestListener();
         $event = $dispatcher->dispatch('onTest', new Event('onTest', ['result' => ['test']]));
 
-        $this->assertEquals(['test', 'unit'], $event->getArgument('result'));
+        $this->assertSame(['test', 'unit'], $event->getArgument('result'));
     }
 }

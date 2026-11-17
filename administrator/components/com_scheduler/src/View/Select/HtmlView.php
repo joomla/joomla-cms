@@ -13,7 +13,6 @@ namespace Joomla\Component\Scheduler\Administrator\View\Select;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Scheduler\Administrator\Model\SelectModel;
@@ -88,14 +87,10 @@ class HtmlView extends BaseHtmlView
     {
         /** @var SelectModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->state     = $model->getState();
         $this->items     = $model->getItems();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         $this->addToolbar();
 

@@ -344,7 +344,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
             ob_start();
             include $layoutPath;
             $html = ob_get_clean();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return;
         }
 
@@ -422,7 +422,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
         } catch (\Exception $e) {
             try {
                 $this->getApplication()->enqueueMessage($e->getMessage(), 'error');
-            } catch (\Exception $e) {
+            } catch (\Exception) {
             }
 
             $event->addResult(false);

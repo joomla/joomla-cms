@@ -70,7 +70,7 @@ class FilePathRule extends FormRule
         // Check if $value is a valid path, which includes not allowing to break out of the current path
         try {
             Path::check($value);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // When there is an exception in the check path this is not valid
             return false;
         }

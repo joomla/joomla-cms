@@ -86,7 +86,7 @@ class ComponentController extends FormController
         }
 
         // Remove the permissions rules data if user isn't allowed to edit them.
-        if (!$user->authorise('core.admin', $option) && isset($data['params']) && isset($data['params']['rules'])) {
+        if (!$user->authorise('core.admin', $option) && isset($data['params']['rules'])) {
             unset($data['params']['rules']);
         }
 

@@ -125,7 +125,7 @@ class Encrypt
     {
         try {
             return Factory::getApplication()->get('secret', '');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return '';
         }
     }

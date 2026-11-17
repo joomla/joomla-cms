@@ -37,7 +37,7 @@ class HttpLoader implements LoaderInterface
             throw new HttpLoaderException($e->getMessage(), $e->getCode(), $e);
         }
 
-        if ($response->code !== 200) {
+        if ($response->getStatusCode() !== 200) {
             throw new RepoFileNotFound();
         }
 

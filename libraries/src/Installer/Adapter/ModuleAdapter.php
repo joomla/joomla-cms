@@ -14,7 +14,9 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
+use Joomla\CMS\Table\Module;
+use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Folder;
 use Joomla\Utilities\ArrayHelper;
@@ -45,6 +47,17 @@ class ModuleAdapter extends InstallerAdapter
      * @since  3.1
      */
     protected $scriptElement = null;
+
+    /**
+     * The list of current files that are installed and is read
+     * from the manifest on disk in the update area to handle doing a diff
+     * and deleting files that are in the old files list and not in the new
+     * files list.
+     *
+     * @var    array
+     * @since  6.1.0
+     * */
+    protected $oldFiles = null;
 
     /**
      * Method to check if the extension is already present in the database
@@ -89,7 +102,7 @@ class ModuleAdapter extends InstallerAdapter
     protected function copyBaseFiles()
     {
         // Copy all necessary files
-        if ($this->parent->parseFiles($this->getManifest()->files, -1) === false) {
+        if ($this->parent->parseFiles($this->getManifest()->files, -1, $this->oldFiles) === false) {
             throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_MOD_COPY_FILES'));
         }
 
@@ -131,7 +144,7 @@ class ModuleAdapter extends InstallerAdapter
         foreach ($site_list as $module) {
             if (file_exists(JPATH_SITE . "/modules/$module/$module.xml")) {
                 $manifest_details          = Installer::parseXMLInstallFile(JPATH_SITE . "/modules/$module/$module.xml");
-                $extension                 = Table::getInstance('extension');
+                $extension                 = new Extension($this->getDatabase());
                 $extension->type           = 'module';
                 $extension->client_id      = $site_info->id;
                 $extension->element        = $module;
@@ -147,7 +160,7 @@ class ModuleAdapter extends InstallerAdapter
         foreach ($admin_list as $module) {
             if (file_exists(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml")) {
                 $manifest_details          = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml");
-                $extension                 = Table::getInstance('extension');
+                $extension                 = new Extension($this->getDatabase());
                 $extension->type           = 'module';
                 $extension->client_id      = $admin_info->id;
                 $extension->element        = $module;
@@ -174,7 +187,7 @@ class ModuleAdapter extends InstallerAdapter
     protected function finaliseInstall()
     {
         // Clobber any possible pending updates
-        $update = Table::getInstance('update');
+        $update = new Update($this->getDatabase());
         $uid    = $update->find(
             [
                 'element'   => $this->element,
@@ -217,7 +230,7 @@ class ModuleAdapter extends InstallerAdapter
         $retval = true;
 
         // Remove the schema version
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete('#__schemas')
             ->where('extension_id = :extension_id')
             ->bind(':extension_id', $extensionId, ParameterType::INTEGER);
@@ -249,7 +262,7 @@ class ModuleAdapter extends InstallerAdapter
             $modules = ArrayHelper::toInteger($modules);
 
             // Wipe out any items assigned to menus
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__modules_menu'))
                 ->whereIn($db->quoteName('moduleid'), $modules);
             $db->setQuery($query);
@@ -262,8 +275,7 @@ class ModuleAdapter extends InstallerAdapter
             }
 
             // Wipe out any instances in the modules table
-            /** @var \Joomla\CMS\Table\Module $module */
-            $module = Table::getInstance('Module');
+            $module = new Module($db);
 
             foreach ($modules as $modInstanceId) {
                 $module->load($modInstanceId);
@@ -277,7 +289,7 @@ class ModuleAdapter extends InstallerAdapter
 
         // Now we will no longer need the module object, so let's delete it and free up memory
         $this->extension->delete($this->extension->extension_id);
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__modules'))
             ->where($db->quoteName('module') . ' = :element')
             ->where($db->quoteName('client_id') . ' = :client_id')
@@ -288,7 +300,7 @@ class ModuleAdapter extends InstallerAdapter
         try {
             // Clean up any other ones that might exist as well
             $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Ignore the error...
         }
 
@@ -528,6 +540,28 @@ class ModuleAdapter extends InstallerAdapter
     }
 
     /**
+     * Method to setup the update routine for the adapter
+     *
+     * @return  void
+     *
+     * @since   6.1.0
+     */
+    protected function setupUpdates()
+    {
+        // Create a new installer because findManifest sets stuff; side effects!
+        $tmpInstaller = new Installer();
+        $tmpInstaller->setDatabase($this->getDatabase());
+
+        // Look in the extension root
+        $tmpInstaller->setPath('source', $this->parent->getPath('extension_root'));
+
+        if ($tmpInstaller->findManifest()) {
+            $old_manifest   = $tmpInstaller->getManifest();
+            $this->oldFiles = $old_manifest->files;
+        }
+    }
+
+    /**
      * Method to store the extension to the database
      *
      * @return  void
@@ -635,8 +669,7 @@ class ModuleAdapter extends InstallerAdapter
             // Create unpublished module
             $name = preg_replace('#[\*?]#', '', Text::_($this->name));
 
-            /** @var \Joomla\CMS\Table\Module $module */
-            $module            = Table::getInstance('module');
+            $module            = new Module($this->getDatabase());
             $module->title     = $name;
             $module->content   = '';
             $module->module    = $this->element;
@@ -669,7 +702,7 @@ class ModuleAdapter extends InstallerAdapter
         $moduleId = $arg['id'];
 
         // Remove the entry from the #__modules_menu table
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__modules_menu'))
             ->where($db->quoteName('moduleid') . ' = :module_id')
             ->bind(':module_id', $moduleId, ParameterType::INTEGER);
@@ -677,7 +710,7 @@ class ModuleAdapter extends InstallerAdapter
 
         try {
             return $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
     }
@@ -700,7 +733,7 @@ class ModuleAdapter extends InstallerAdapter
         $moduleId = $arg['id'];
 
         // Remove the entry from the #__modules table
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__modules'))
             ->where($db->quoteName('id') . ' = :module_id')
             ->bind(':module_id', $moduleId, ParameterType::INTEGER);
@@ -708,7 +741,7 @@ class ModuleAdapter extends InstallerAdapter
 
         try {
             return $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
     }

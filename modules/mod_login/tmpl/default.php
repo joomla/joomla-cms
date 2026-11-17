@@ -60,7 +60,13 @@ Text::script('JHIDEPASSWORD');
                 </div>
             <?php else : ?>
                 <label for="modlgn-passwd-<?php echo $module->id; ?>"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
-                <input id="modlgn-passwd-<?php echo $module->id; ?>" type="password" name="password" autocomplete="current-password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
+                <div class="input-group">
+                    <input id="modlgn-passwd-<?php echo $module->id; ?>" type="password" name="password" autocomplete="current-password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
+                    <button type="button" class="btn btn-secondary input-password-toggle">
+                        <span class="icon-eye icon-fw" aria-hidden="true"></span>
+                        <span class="visually-hidden"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
+                    </button>
+                </div>
             <?php endif; ?>
         </div>
 
@@ -111,14 +117,18 @@ Text::script('JHIDEPASSWORD');
         <?php
             $usersConfig = ComponentHelper::getParams('com_users'); ?>
             <ul class="mod-login__options list-unstyled">
+                <?php if ($params->get('showPasswordReset', 1)) : ?>
                 <li>
                     <a href="<?php echo Route::_('index.php?option=com_users&view=reset'); ?>">
                     <?php echo Text::_('MOD_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>
                 </li>
+                <?php endif; ?>
+                <?php if ($params->get('showUsernameReminder', 1)) : ?>
                 <li>
                     <a href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
                     <?php echo Text::_('MOD_LOGIN_FORGOT_YOUR_USERNAME'); ?></a>
                 </li>
+                <?php endif; ?>
                 <?php if ($usersConfig->get('allowUserRegistration')) : ?>
                 <li>
                     <a href="<?php echo Route::_($registerLink); ?>">

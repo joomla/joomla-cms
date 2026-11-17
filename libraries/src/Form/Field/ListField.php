@@ -208,8 +208,6 @@ class ListField extends FormField
             array_unshift($options, $tmp);
         }
 
-        reset($options);
-
         return $options;
     }
 

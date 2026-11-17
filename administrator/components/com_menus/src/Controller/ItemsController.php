@@ -194,7 +194,7 @@ class ItemsController extends AdminController
         if (empty($cid)) {
             try {
                 Log::add(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), Log::WARNING, 'jerror');
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 $this->setMessage(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
             }
         } else {

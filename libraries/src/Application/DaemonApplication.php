@@ -517,7 +517,7 @@ abstract class DaemonApplication extends CliApplication
                 $this->processId = (int) posix_getpid();
                 $this->parentId  = $this->processId;
             }
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add('Unable to fork.', Log::EMERGENCY);
 
             return false;

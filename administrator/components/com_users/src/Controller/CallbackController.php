@@ -58,8 +58,6 @@ class CallbackController extends BaseController
      */
     public function callback($cachable = false, $urlparams = false): void
     {
-        $app = $this->app;
-
         // Get the Method and make sure it's non-empty
         $method = $this->input->getCmd('method', '');
 

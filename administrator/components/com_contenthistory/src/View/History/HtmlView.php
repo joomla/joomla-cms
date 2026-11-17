@@ -12,7 +12,6 @@ namespace Joomla\Component\Contenthistory\Administrator\View\History;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Router\Route;
@@ -61,6 +60,13 @@ class HtmlView extends BaseHtmlView
     protected $toolbar;
 
     /**
+     * The SHA1 hash of the current version of the item being viewed
+     *
+     * @var  string
+     */
+    protected $currentVersionHash;
+
+    /**
      * Method to display the view.
      *
      * @param   string  $tpl  A template file to load. [optional]
@@ -73,15 +79,12 @@ class HtmlView extends BaseHtmlView
     {
         /** @var HistoryModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        $this->state      = $model->getState();
-        $this->items      = $model->getItems();
-        $this->pagination = $model->getPagination();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $this->state              = $model->getState();
+        $this->items              = $model->getItems();
+        $this->pagination         = $model->getPagination();
+        $this->currentVersionHash = $model->getSha1Hash();
 
         $this->toolbar = $this->addToolbar();
 
@@ -105,7 +108,7 @@ class HtmlView extends BaseHtmlView
 
         // Clean up input to ensure a clean url.
         $filter     = InputFilter::getInstance();
-        $aliasArray = explode('.', $this->state->item_id);
+        $aliasArray = explode('.', $this->state->get('item_id'));
 
         if ($aliasArray[1] === 'category') {
             $option = 'com_categories';

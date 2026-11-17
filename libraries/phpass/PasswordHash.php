@@ -2,7 +2,7 @@
 #
 # Portable PHP password hashing framework.
 #
-# Version 0.5 / genuine.
+# Version 0.5.1 / Joomla Project.
 #
 # Written by Solar Designer <solar at openwall.com> in 2004-2006 and placed in
 # the public domain.  Revised in subsequent years, still public domain.
@@ -216,11 +216,7 @@ class PasswordHash {
 		if ($hash[0] === '*')
 			$hash = crypt($password, $stored_hash);
 
-		# This is not constant-time.  In order to keep the code simple,
-		# for timing safety we currently rely on the salts being
-		# unpredictable, which they are at least in the non-fallback
-		# cases (that is, when we use /dev/urandom and bcrypt).
-		return $hash === $stored_hash;
+		return hash_equals($hash, $stored_hash);
 	}
 }
 

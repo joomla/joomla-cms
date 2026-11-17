@@ -9,6 +9,7 @@ plugins/finder/*  @hackwar
 build/build.php  @rdeutz
 build/bump.php  @rdeutz
 build/deleted_file_check.php  @rdeutz
+.drone.yml  @rdeutz @hackwar
 
 # Core/Extension Install/Update Tools
 administrator/components/com_joomlaupdate/*  @rdeutz
@@ -16,12 +17,11 @@ libraries/src/Installer/*  @rdeutz
 libraries/src/Updater/*  @rdeutz
 
 # Automated Testing
+.github/workflows/ci.yml  @rdeutz @hackwar @laoneo
 tests/*  @hackwar @laoneo
 tests/Unit/*  @rdeutz @laoneo
-.appveyor.yml  @rdeutz @hackwar @laoneo
-.drone.yml  @rdeutz @hackwar @laoneo
 phpunit.xml.dist  @rdeutz @hackwar @laoneo
-phpunit-pgsql.xml.dist  @rdeutz @hackwar @laoneo
+phpunit-windows.xml.dist  @rdeutz @hackwar @laoneo
 
 # Workflow
 administrator/components/com_workflow/*	@bembelimen @hleithner
@@ -51,6 +51,7 @@ installation/tmpl/* @chmst
 
 # Translation GitHub Actions
 .github/workflows/create-translation-pull-request-v4.yml @hleithner
+.github/workflows/create-translation-pull-request-v5.yml @hleithner
 
 # Libraries
 libraries/src/* @laoneo

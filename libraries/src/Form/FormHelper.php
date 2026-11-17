@@ -213,8 +213,8 @@ class FormHelper
             $subPrefix = '';
 
             if (strpos($name, '.')) {
-                list($subPrefix, $name) = explode('.', $name);
-                $subPrefix              = ucfirst($subPrefix) . '\\';
+                [$subPrefix, $name] = explode('.', $name);
+                $subPrefix          = ucfirst($subPrefix) . '\\';
             }
 
             // Compile the classname
@@ -229,7 +229,7 @@ class FormHelper
         $prefix = 'J';
 
         if (strpos($type, '.')) {
-            list($prefix, $type) = explode('.', $type);
+            [$prefix, $type] = explode('.', $type);
         }
 
         $class = StringHelper::ucfirst($prefix, '_') . 'Form' . StringHelper::ucfirst($entity, '_') . StringHelper::ucfirst($type, '_');
@@ -509,7 +509,7 @@ class FormHelper
                 continue;
             }
 
-            $compareEqual     = strpos($showOnPart, '!:') === false;
+            $compareEqual     = !str_contains($showOnPart, '!:');
             $showOnPartBlocks = explode(($compareEqual ? ':' : '!:'), $showOnPart, 2);
 
             $dotPos = strpos($showOnPartBlocks[0], '.');

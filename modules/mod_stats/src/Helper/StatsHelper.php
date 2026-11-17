@@ -47,7 +47,7 @@ class StatsHelper implements DatabaseAwareInterface
     {
         $db         = $this->getDatabase();
         $rows       = [];
-        $query      = $db->getQuery(true);
+        $query      = $db->createQuery();
         $serverinfo = $params->get('serverinfo', 0);
         $siteinfo   = $params->get('siteinfo', 0);
         $counter    = $params->get('counter', 0);
@@ -58,7 +58,7 @@ class StatsHelper implements DatabaseAwareInterface
         if ($serverinfo) {
             $rows[$i]        = new \stdClass();
             $rows[$i]->title = Text::_('MOD_STATS_OS');
-            $rows[$i]->data  = substr(php_uname(), 0, 7);
+            $rows[$i]->data  = \function_exists('php_uname') ? substr(php_uname(), 0, 7) : '';
             $i++;
 
             $rows[$i]        = new \stdClass();
@@ -106,7 +106,7 @@ class StatsHelper implements DatabaseAwareInterface
 
             try {
                 $items = $db->loadResult();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $items = false;
             }
 
@@ -134,7 +134,7 @@ class StatsHelper implements DatabaseAwareInterface
 
             try {
                 $hits = $db->loadResult();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $hits = false;
             }
 
@@ -154,7 +154,7 @@ class StatsHelper implements DatabaseAwareInterface
         foreach ($arrays as $response) {
             foreach ($response as $row) {
                 // We only add a row if the title and data are given
-                if (isset($row['title']) && isset($row['data'])) {
+                if (isset($row['title'], $row['data'])) {
                     $rows[$i]        = new \stdClass();
                     $rows[$i]->title = $row['title'];
                     $rows[$i]->icon  = $row['icon'] ?? 'info';

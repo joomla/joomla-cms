@@ -31,7 +31,7 @@ class SubmitContactEvent extends AbstractImmutableEvent
      * @var array
      *
      * @since  5.0.0
-     * @deprecated 5.0 will be removed in 6.0
+     * @deprecated 5.0 will be removed in 7.0
      */
     protected $legacyArgumentsOrder = ['subject', 'data'];
 
@@ -63,8 +63,8 @@ class SubmitContactEvent extends AbstractImmutableEvent
         }
 
         // For backward compatibility make sure the content is referenced
-        // @todo: Remove in Joomla 6
-        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
+        // @todo: Remove in Joomla 7
+        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 7
         if (key($arguments) === 0) {
             $this->arguments['data'] = &$arguments[1];
         } elseif (\array_key_exists('data', $arguments)) {

@@ -69,7 +69,7 @@ class MediumModel extends BaseModel
 
         try {
             return $this->mediaApiModel->getFile($adapterName, $path, $options);
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             throw new ResourceNotFound(
                 Text::sprintf('WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND', $path),
                 404
@@ -121,7 +121,7 @@ class MediumModel extends BaseModel
                     $this->mediaApiModel->move($adapterName, $oldPath, $path, $override),
                     '/'
                 );
-            } catch (FileNotFoundException $e) {
+            } catch (FileNotFoundException) {
                 throw new Save(
                     Text::sprintf(
                         'WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND',
@@ -159,7 +159,7 @@ class MediumModel extends BaseModel
                     );
 
                 $resultPath = $dirname . '/' . $name;
-            } catch (FileNotFoundException $e) {
+            } catch (FileNotFoundException) {
                 throw new Save(
                     Text::sprintf(
                         'WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND',
@@ -167,7 +167,7 @@ class MediumModel extends BaseModel
                     ),
                     404
                 );
-            } catch (FileExistsException $e) {
+            } catch (FileExistsException) {
                 throw new Save(
                     Text::sprintf(
                         'WEBSERVICE_COM_MEDIA_FILE_EXISTS',
@@ -175,7 +175,7 @@ class MediumModel extends BaseModel
                     ),
                     400
                 );
-            } catch (InvalidPathException $e) {
+            } catch (InvalidPathException) {
                 throw new Save(
                     Text::sprintf(
                         'WEBSERVICE_COM_MEDIA_BAD_FILE_TYPE',
@@ -201,7 +201,7 @@ class MediumModel extends BaseModel
                     $dirname,
                     $content
                 );
-            } catch (FileNotFoundException $e) {
+            } catch (FileNotFoundException) {
                 throw new Save(
                     Text::sprintf(
                         'WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND',
@@ -209,7 +209,7 @@ class MediumModel extends BaseModel
                     ),
                     404
                 );
-            } catch (InvalidPathException $e) {
+            } catch (InvalidPathException) {
                 throw new Save(
                     Text::sprintf(
                         'WEBSERVICE_COM_MEDIA_BAD_FILE_TYPE',
@@ -250,7 +250,7 @@ class MediumModel extends BaseModel
 
         try {
             $this->mediaApiModel->delete($adapterName, $path);
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             throw new Save(
                 Text::sprintf('WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND', $path),
                 404

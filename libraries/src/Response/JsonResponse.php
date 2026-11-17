@@ -85,7 +85,7 @@ class JsonResponse
             // Build the sorted messages list
             if (\is_array($messages) && \count($messages)) {
                 foreach ($messages as $message) {
-                    if (isset($message['type']) && isset($message['message'])) {
+                    if (isset($message['type'], $message['message'])) {
                         $lists[$message['type']][] = $message['message'];
                     }
                 }

@@ -10,10 +10,11 @@
 
 namespace Joomla\Component\Modules\Administrator\View\Module;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -80,6 +81,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var ModuleModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->state = $model->getState();
 
@@ -100,10 +102,23 @@ class HtmlView extends BaseHtmlView
             return;
         }
 
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
+        $input          = Factory::getApplication()->getInput();
+        $forcedLanguage = $input->get('forcedLanguage', '', 'cmd');
+
+        // If we are forcing a language in modal (used for associations).
+        if ($this->getLayout() === 'modal' && $forcedLanguage) {
+            // Set the language field to the forcedLanguage and disable changing it.
+            $this->form->setValue('language', null, $forcedLanguage);
+            $this->form->setFieldAttribute('language', 'readonly', 'true');
+
+            // Only allow to select categories with All language or with the forced language.
+            $this->form->setFieldAttribute('parent_id', 'language', '*,' . $forcedLanguage);
         }
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task')
+            ->addControlField('return', Factory::getApplication()->getInput()->getBase64('return', ''));
 
         if ($this->getLayout() !== 'modal') {
             $this->addToolbar();
@@ -175,6 +190,16 @@ class HtmlView extends BaseHtmlView
             );
 
             $toolbar->cancel('module.cancel');
+
+            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->get('params')->get('save_history', 0) && $canDo->get('core.edit')) {
+                $toolbar->versions('com_modules.module', $this->item->id);
+            }
+
+            if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations') && $this->item->client_id === 0) {
+                $toolbar->standardButton('associations', 'JTOOLBAR_ASSOCIATIONS', 'module.editAssociations')
+                    ->icon('icon-contract')
+                    ->listCheck(false);
+            }
         }
 
         // Get the help information for the menu item.

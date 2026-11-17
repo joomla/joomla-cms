@@ -69,7 +69,7 @@ class HtmlView extends BaseHtmlView
             $parts     = explode('.', $dashboard);
             $component = $parts[0];
 
-            if (!str_contains($component, 'com_')) {
+            if (!str_starts_with($component, 'com_')) {
                 $component = 'com_' . $component;
             }
 

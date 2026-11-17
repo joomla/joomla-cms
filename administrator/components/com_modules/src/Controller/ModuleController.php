@@ -18,6 +18,7 @@ use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -30,6 +31,8 @@ use Joomla\CMS\Uri\Uri;
  */
 class ModuleController extends FormController
 {
+    use VersionableControllerTrait;
+
     /**
      * Override parent add method.
      *
@@ -141,7 +144,7 @@ class ModuleController extends FormController
     protected function allowEdit($data = [], $key = 'id')
     {
         // Initialise variables.
-        $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+        $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
 
         // Zero record (id:0), return component edit permission by calling parent controller method
         if (!$recordId) {
@@ -149,11 +152,7 @@ class ModuleController extends FormController
         }
 
         // Check edit on the record asset (explicit or inherited)
-        if ($this->app->getIdentity()->authorise('core.edit', 'com_modules.module.' . $recordId)) {
-            return true;
-        }
-
-        return false;
+        return $this->app->getIdentity()->authorise('core.edit', 'com_modules.module.' . $recordId);
     }
 
     /**
@@ -232,7 +231,7 @@ class ModuleController extends FormController
             $model      = $this->getModel();
             $data       = $this->input->post->get('jform', [], 'array');
             $item       = $model->getItem($this->input->get('id'));
-            $properties = $item->getProperties();
+            $properties = get_object_vars($item);
 
             if (isset($data['params'])) {
                 unset($properties['params']);

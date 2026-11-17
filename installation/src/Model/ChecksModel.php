@@ -10,6 +10,7 @@
 
 namespace Joomla\CMS\Installation\Model;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -233,7 +234,7 @@ class ChecksModel extends BaseInstallationModel
         }
 
         // Get the form.
-        Form::addFormPath(JPATH_COMPONENT . '/forms');
+        Form::addFormPath(JPATH_BASE . '/forms');
 
         try {
             $form = Form::getInstance('jform', $view, ['control' => 'jform']);
@@ -252,5 +253,19 @@ class ChecksModel extends BaseInstallationModel
         }
 
         return $form;
+    }
+
+    /**
+     * Check if auto updates are disabled
+     *
+     * @return  boolean
+     *
+     * @since   5.4.1
+     */
+    public function getAutoUpdatesDisabled(): bool
+    {
+        $updates = ComponentHelper::getParams('com_joomlaupdate');
+
+        return !$updates->get('autoupdate', 0) && !$updates->get('autoupdate_status', 0);
     }
 }

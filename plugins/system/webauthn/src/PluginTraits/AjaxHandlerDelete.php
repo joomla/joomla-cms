@@ -81,7 +81,7 @@ trait AjaxHandlerDelete
         // Delete the record
         try {
             $repository->remove($credentialId);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $event->addResult(false);
 
             return;

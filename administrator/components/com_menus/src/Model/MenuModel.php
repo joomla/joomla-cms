@@ -11,10 +11,13 @@
 namespace Joomla\Component\Menus\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model\AfterDeleteEvent;
+use Joomla\CMS\Event\Model\AfterSaveEvent;
+use Joomla\CMS\Event\Model\BeforeDeleteEvent;
+use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
@@ -121,7 +124,7 @@ class MenuModel extends AdminModel
      *
      * @param   integer  $itemId  The id of the menu item to get.
      *
-     * @return  mixed  Menu item data object on success, false on failure.
+     * @return  \stdClass|false  Menu item data object on success, false on failure.
      *
      * @since   1.6
      */
@@ -143,7 +146,7 @@ class MenuModel extends AdminModel
         }
 
         $properties = $table->getProperties(1);
-        $value      = ArrayHelper::toObject($properties, CMSObject::class);
+        $value      = ArrayHelper::toObject($properties);
 
         return $value;
     }
@@ -154,18 +157,15 @@ class MenuModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean    A Form object on success, false on failure
+     * @return  Form    A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm('com_menus.menu', 'menu', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         if (!$this->getState('client_id', 0)) {
             $form->removeField('preset');
@@ -243,7 +243,8 @@ class MenuModel extends AdminModel
         $table = $this->getTable();
 
         // Include the plugins for the save events.
-        PluginHelper::importPlugin('content');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
         // Load the row if saving an existing item.
         if ($id > 0) {
@@ -266,7 +267,12 @@ class MenuModel extends AdminModel
         }
 
         // Trigger the before event.
-        $result = Factory::getApplication()->triggerEvent('onContentBeforeSave', [$this->_context, &$table, $isNew, $data]);
+        $result = $dispatcher->dispatch('onContentBeforeSave', new BeforeSaveEvent('onContentBeforeSave', [
+            'context' => $this->_context,
+            'subject' => $table,
+            'isNew'   => $isNew,
+            'data'    => $data,
+        ]))->getArgument('result', []);
 
         // Store the data.
         if (\in_array(false, $result, true) || !$table->store()) {
@@ -276,7 +282,12 @@ class MenuModel extends AdminModel
         }
 
         // Trigger the after save event.
-        Factory::getApplication()->triggerEvent('onContentAfterSave', [$this->_context, &$table, $isNew]);
+        $dispatcher->dispatch('onContentAfterSave', new AfterSaveEvent('onContentAfterSave', [
+            'context' => $this->_context,
+            'subject' => $table,
+            'isNew'   => $isNew,
+            'data'    => $data,
+        ]));
 
         $this->setState('menu.id', $table->id);
 
@@ -304,13 +315,20 @@ class MenuModel extends AdminModel
         $table = $this->getTable();
 
         // Include the plugins for the delete events.
-        PluginHelper::importPlugin('content');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
         // Iterate the items to delete each one.
         foreach ($itemIds as $itemId) {
             if ($table->load($itemId)) {
                 // Trigger the before delete event.
-                $result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', [$this->_context, $table]);
+                $result = $dispatcher->dispatch(
+                    'onContentBeforeDelete',
+                    new BeforeDeleteEvent('onContentBeforeDelete', [
+                        'context' => $this->_context,
+                        'subject' => $table,
+                    ])
+                )->getArgument('result', []);
 
                 if (\in_array(false, $result, true) || !$table->delete($itemId)) {
                     $this->setError($table->getError());
@@ -319,7 +337,10 @@ class MenuModel extends AdminModel
                 }
 
                 // Trigger the after delete event.
-                Factory::getApplication()->triggerEvent('onContentAfterDelete', [$this->_context, $table]);
+                $dispatcher->dispatch('onContentAfterDelete', new AfterDeleteEvent('onContentAfterDelete', [
+                    'context' => $this->_context,
+                    'subject' => $table,
+                ]));
 
                 // @todo: Delete the menu associations - Menu items and Modules
             }
@@ -342,7 +363,7 @@ class MenuModel extends AdminModel
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('a.id'),
@@ -364,7 +385,7 @@ class MenuModel extends AdminModel
         foreach ($modules as &$module) {
             $params = new Registry($module->params);
 
-            $menuType = $params->get('menutype');
+            $menuType = $params->get('menutype', '');
 
             if (!isset($result[$menuType])) {
                 $result[$menuType] = [];
@@ -388,7 +409,7 @@ class MenuModel extends AdminModel
     public function getExtensionElementsForMenuItems(array $itemIds): array
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query
             ->select($db->quoteName('e.element'))
@@ -402,15 +423,13 @@ class MenuModel extends AdminModel
     /**
      * Custom clean the cache
      *
-     * @param   string   $group     Cache group name.
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   1.6
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         parent::cleanCache('com_menus');
         parent::cleanCache('com_modules');

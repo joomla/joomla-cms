@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
@@ -29,11 +28,14 @@ $wa->useScript('keepalive')
             </h1>
         </div>
     <?php endif; ?>
-    <form id="user-registration" action="<?php echo Route::_('index.php?option=com_users&task=reset.request'); ?>" method="post" class="com-users-reset__form form-validate form-horizontal well">
+    <form action="<?php echo Route::_('index.php?task=reset.request'); ?>" method="post" id="user-registration" class="com-users-reset__form form-validate form-horizontal well">
         <?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
             <fieldset>
-                <?php if (isset($fieldset->label)) : ?>
-                    <legend><?php echo Text::_($fieldset->label); ?></legend>
+                <?php if (isset($fieldset->legend)) : ?>
+                    <legend><?php echo Text::_($fieldset->legend); ?></legend>
+                <?php endif; ?>
+                <?php if (isset($fieldset->description)) : ?>
+                    <p><?php echo Text::_($fieldset->description); ?></p>
                 <?php endif; ?>
                 <?php echo $this->form->renderFieldset($fieldset->name); ?>
             </fieldset>
@@ -45,6 +47,7 @@ $wa->useScript('keepalive')
                 </button>
             </div>
         </div>
-        <?php echo HTMLHelper::_('form.token'); ?>
+
+        <?php echo $this->form->renderControlFields(); ?>
     </form>
 </div>

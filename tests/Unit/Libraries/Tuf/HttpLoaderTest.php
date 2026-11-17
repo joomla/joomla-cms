@@ -37,7 +37,7 @@ class HttpLoaderTest extends UnitTestCase
      */
     public function testLoaderQueriesCorrectUrl()
     {
-        $responseBody = $this->createMock(Stream::class);
+        $responseBody = $this->createStub(Stream::class);
 
         $object = new HttpLoader(
             self::REPOPATHMOCK,
@@ -54,7 +54,7 @@ class HttpLoaderTest extends UnitTestCase
      */
     public function testLoaderForwardsReturnedBodyFromHttpClient()
     {
-        $responseBody = $this->createMock(Stream::class);
+        $responseBody = $this->createStub(Stream::class);
 
         $object = new HttpLoader(
             self::REPOPATHMOCK,
@@ -76,7 +76,7 @@ class HttpLoaderTest extends UnitTestCase
     {
         $this->expectException(RepoFileNotFound::class);
 
-        $responseBody = $this->createMock(Stream::class);
+        $responseBody = $this->createStub(Stream::class);
 
         $object = new HttpLoader(
             self::REPOPATHMOCK,
@@ -93,13 +93,11 @@ class HttpLoaderTest extends UnitTestCase
      *
      * @since   5.1.0
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|(\stdClass&\PHPUnit\Framework\MockObject\MockObject)
+     * @return \PHPUnit\Framework\MockObject\MockObject&\Joomla\Http\Http
      */
     protected function getHttpMock(int $responseCode, Stream $responseBody, string $expectedFile)
     {
-        $responseMock = $this->createMock(Response::class);
-        $responseMock->method('__get')->with('code')->willReturn($responseCode);
-        $responseMock->method('getBody')->willReturn($responseBody);
+        $responseMock = new Response($responseBody, $responseCode);
 
         $httpClientMock = $this->createMock(Http::class);
         $httpClientMock->expects($this->once())

@@ -200,7 +200,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
             try {
                 $this->getDatabase()->insertObject('#__privacy_consents', $userNote);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Do nothing if the save fails
             }
 
@@ -244,7 +244,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
         if ($userId) {
             // Remove user's consent
-            $query = $this->getDatabase()->getQuery(true)
+            $query = $this->getDatabase()->createQuery()
                 ->delete($this->getDatabase()->quoteName('#__privacy_consents'))
                 ->where($this->getDatabase()->quoteName('user_id') . ' = :userid')
                 ->bind(':userid', $userId, ParameterType::INTEGER);
@@ -301,10 +301,10 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
                 'method', 'methods', 'captive', 'callback',
             ];
             $isAllowedUserTask = \in_array($task, $allowedUserTasks)
-                || substr($task, 0, 8) === 'captive.'
-                || substr($task, 0, 8) === 'methods.'
-                || substr($task, 0, 7) === 'method.'
-                || substr($task, 0, 9) === 'callback.';
+                || str_starts_with($task, 'captive.')
+                || str_starts_with($task, 'methods.')
+                || str_starts_with($task, 'method.')
+                || str_starts_with($task, 'callback.');
 
             if (
                 ($option == 'com_users' && $isAllowedUserTask)
@@ -348,7 +348,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
         }
 
         // Check if the article exists in database and is published
-        $query = $this->getDatabase()->getQuery(true)
+        $query = $this->getDatabase()->createQuery()
             ->select($this->getDatabase()->quoteName(['id', 'state']))
             ->from($this->getDatabase()->quoteName('#__content'))
             ->where($this->getDatabase()->quoteName('id') . ' = :id')
@@ -404,7 +404,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
     {
         $userId = (int) $userId;
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true);
+        $query  = $db->createQuery();
 
         $query->select('COUNT(*)')
             ->from($db->quoteName('#__privacy_consents'))

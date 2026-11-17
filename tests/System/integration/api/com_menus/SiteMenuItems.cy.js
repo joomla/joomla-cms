@@ -44,7 +44,7 @@ describe('Test that menu items site API endpoint', () => {
 
   it('can update a site menu item', () => {
     cy.db_createMenuItem({ title: 'updated automated test site menu item', type: 'component' })
-      .then((id) => cy.api_patch(`/menus/site/items/${id}`, { title: 'automated test site menu item', type: 'component' }))
+      .then((id) => cy.api_patch(`/menus/site/items/${id}`, { title: 'automated test site menu item', type: 'component', menuordering: id }))
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('title')
         .should('include', 'automated test site menu item'));

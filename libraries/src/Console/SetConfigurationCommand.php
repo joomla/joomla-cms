@@ -12,7 +12,7 @@ namespace Joomla\CMS\Console;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Console\Command\AbstractCommand;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseFactory;
 use Joomla\Registry\Registry;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputArgument;
@@ -127,13 +127,13 @@ class SetConfigurationCommand extends AbstractCommand
         $collected = [];
 
         foreach ($options as $option) {
-            if (strpos($option, '=') === false) {
+            if (!str_contains($option, '=')) {
                 $this->ioStyle->error('Options and values should be separated by "="');
 
                 return false;
             }
 
-            list($option, $value) = explode('=', $option);
+            [$option, $value] = explode('=', $option);
 
             $collected[$option] = $value;
         }
@@ -205,7 +205,7 @@ class SetConfigurationCommand extends AbstractCommand
      */
     public function getInitialConfigurationOptions(): Registry
     {
-        return (new Registry(new \JConfig()));
+        return new Registry(new \JConfig());
     }
 
 
@@ -363,7 +363,7 @@ class SetConfigurationCommand extends AbstractCommand
 
         // Get a database object.
         try {
-            $db = DatabaseDriver::getInstance($settings);
+            $db = (new DatabaseFactory())->getDriver($settings['driver'], $settings);
             $db->getVersion();
         } catch (\Exception $e) {
             $this->ioStyle->error(

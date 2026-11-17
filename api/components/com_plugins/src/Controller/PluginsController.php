@@ -10,12 +10,12 @@
 
 namespace Joomla\Component\Plugins\Api\Controller;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\MVC\Controller\Exception;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
-use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -70,7 +70,8 @@ class PluginsController extends ApiController
         }
 
         /** @var \Joomla\Component\Plugins\Administrator\Model\PluginModel $model */
-        $model = $this->getModel(Inflector::singularize($this->contentType), '', ['ignore_request' => true]);
+        $inflector = InflectorFactory::create()->build();
+        $model     = $this->getModel($inflector->singularize($this->contentType), '', ['ignore_request' => true]);
 
         if (!$model) {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));

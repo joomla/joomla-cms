@@ -17,6 +17,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Exception\ProviderAccountNotFoundException;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -61,7 +62,7 @@ trait ProviderManagerHelperTrait
             $eventParameters = ['context' => 'AdapterManager', 'providerManager' => new ProviderManager()];
             $event           = new MediaProviderEvent('onSetupProviders', $eventParameters);
             PluginHelper::importPlugin('filesystem');
-            Factory::getApplication()->triggerEvent('onSetupProviders', $event);
+            Factory::getContainer()->get(DispatcherInterface::class)->dispatch('onSetupProviders', $event);
             $this->providerManager = $event->getProviderManager();
         }
 
@@ -154,7 +155,7 @@ trait ProviderManagerHelperTrait
             $defaultFilePath = ComponentHelper::getParams('com_media')->get('file_path', 'files');
             $defaultAdapter  = $this->getAdapter('local-' . $defaultFilePath);
             // @TODO: Need a proper configuration for default adapter.
-        } catch (ProviderAccountNotFoundException $e) {
+        } catch (ProviderAccountNotFoundException) {
             $defaultAdapter = null;
         }
 

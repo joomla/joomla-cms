@@ -16,7 +16,6 @@ use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Event\Application\AfterRouteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -24,6 +23,7 @@ use Joomla\CMS\Router\Router;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -59,7 +59,7 @@ class AdministratorApplication extends CMSApplication
      * Class constructor.
      *
      * @param   ?Input      $input      An optional argument to provide dependency injection for the application's input
-     *                                  object.  If the argument is a JInput object that object will become the
+     *                                  object.  If the argument is a Input object that object will become the
      *                                  application's input object, otherwise a default input object is created.
      * @param   ?Registry   $config     An optional argument to provide dependency injection for the application's config
      *                                  object.  If the argument is a Registry object that object will become the
@@ -193,7 +193,8 @@ class AdministratorApplication extends CMSApplication
             ['option' => 'com_users', 'task' => 'user.edit'],
             ['option' => 'com_users', 'task' => 'user.save'],
             ['option' => 'com_users', 'task' => 'user.apply'],
-            ['option' => 'com_users', 'view' => 'captivate'],
+            ['option' => 'com_users', 'view' => 'captive'],
+            ['option' => 'com_users', 'task' => 'captive.validate'],
             ['option' => 'com_login', 'task' => 'logout'],
             ['option' => 'com_users', 'view' => 'methods'],
             ['option' => 'com_users', 'view' => 'method'],
@@ -218,7 +219,7 @@ class AdministratorApplication extends CMSApplication
      *
      * @since      3.2
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Inject the router or load it from the dependency injection container
      *              Example:
      *              Factory::getContainer()->get(AdministratorRouter::class);
@@ -226,61 +227,6 @@ class AdministratorApplication extends CMSApplication
     public static function getRouter($name = 'administrator', array $options = [])
     {
         return parent::getRouter($name, $options);
-    }
-
-    /**
-     * Gets the name of the current template.
-     *
-     * @param   boolean  $params  True to return the template parameters
-     *
-     * @return  string|\stdClass  The name of the template if the params argument is false. The template object if the params argument is true.
-     *
-     * @since   3.2
-     * @throws  \InvalidArgumentException
-     */
-    public function getTemplate($params = false)
-    {
-        if (\is_object($this->template)) {
-            if ($params) {
-                return $this->template;
-            }
-
-            return $this->template->template;
-        }
-
-        $adminStyle = $this->getIdentity() ? (int) $this->getIdentity()->getParam('admin_style') : 0;
-        $template   = $this->bootComponent('templates')->getMVCFactory()
-            ->createModel('Style', 'Administrator')->getAdminTemplate($adminStyle);
-
-        $template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
-        $template->params   = new Registry($template->params);
-
-        // Fallback template
-        if (
-            !is_file(JPATH_THEMES . '/' . $template->template . '/index.php')
-            && !is_file(JPATH_THEMES . '/' . $template->parent . '/index.php')
-        ) {
-            $this->getLogger()->error(Text::_('JERROR_ALERTNOTEMPLATE'), ['category' => 'system']);
-            $template->params   = new Registry();
-            $template->template = 'atum';
-
-            // Check, the data were found and if template really exists
-            if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php')) {
-                throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
-            }
-        }
-
-        // Cache the result
-        $this->template = $template;
-
-        // Pass the parent template to the state
-        $this->set('themeInherits', $template->parent);
-
-        if ($params) {
-            return $template;
-        }
-
-        return $template->template;
     }
 
     /**
@@ -294,7 +240,7 @@ class AdministratorApplication extends CMSApplication
      */
     protected function initialiseApp($options = [])
     {
-        $user = Factory::getUser();
+        $user = $this->getIdentity();
 
         // If the user is a guest we populate it with the guest user group.
         if ($user->guest) {
@@ -396,7 +342,7 @@ class AdministratorApplication extends CMSApplication
      *
      * @since   3.2
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Purge the messages through the messages model
      *              Example:
      *              Factory::getApplication()->bootComponent('messages')->getMVCFactory()
@@ -405,7 +351,7 @@ class AdministratorApplication extends CMSApplication
     public static function purgeMessages()
     {
         Factory::getApplication()->bootComponent('messages')->getMVCFactory()
-            ->createModel('Messages', 'Administrator')->purge(Factory::getUser()->id);
+            ->createModel('Messages', 'Administrator')->purge(Factory::getApplication()->getIdentity()->id);
     }
 
     /**
@@ -419,7 +365,7 @@ class AdministratorApplication extends CMSApplication
      */
     protected function render()
     {
-        // Get the \JInput object
+        // Get the Input object
         $input = $this->input;
 
         $component = $input->getCmd('option', 'com_login');
@@ -532,5 +478,43 @@ class AdministratorApplication extends CMSApplication
         $app->getInput()->set('option', $option);
 
         return $option;
+    }
+
+    /**
+     * Initialise the template.
+     *
+     * @return  void
+     *
+     * @throws  \InvalidArgumentException
+     * @since   6.1.0
+     */
+    protected function initialiseTemplate(): void
+    {
+        $adminStyle = $this->getIdentity() ? (int) $this->getIdentity()->getParam('admin_style') : 0;
+        $template   = $this->bootComponent('templates')->getMVCFactory()
+            ->createModel('Style', 'Administrator')->getAdminTemplate($adminStyle);
+
+        $template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
+        $template->params   = new Registry($template->params);
+
+        // Fallback template
+        if (!$this->isValidTemplate($template)) {
+            $this->getLogger()->error(Text::_('JERROR_ALERTNOTEMPLATE'), ['category' => 'system']);
+            $template->params   = new Registry();
+            $template->template = 'atum';
+
+            // Check, the data were found and if template really exists
+            if ($this->isValidTemplate($template)) {
+                throw new \InvalidArgumentException(
+                    Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template)
+                );
+            }
+        }
+
+        // Cache the result
+        $this->template = $template;
+
+        // Pass the parent template to the state
+        $this->set('themeInherits', $template->parent);
     }
 }

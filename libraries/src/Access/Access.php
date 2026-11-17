@@ -178,7 +178,7 @@ class Access
      * @return  boolean  True on success.
      *
      * @since   1.6
-     * @note    This method will return void in 4.0.
+     * @note    This method will return void in 7.0.
      */
     public static function preload($assetTypes = 'components', $reload = false)
     {
@@ -283,7 +283,7 @@ class Access
         $assetKey = $extensionName . '.%';
 
         // Get a fresh query object.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['id', 'name', 'rules', 'parent_id']))
             ->from($db->quoteName('#__assets'))
             ->where(
@@ -348,7 +348,7 @@ class Access
         $db = Factory::getDbo();
 
         // Get the asset info for all assets in asset names list.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['id', 'name', 'rules', 'parent_id']))
             ->from($db->quoteName('#__assets'))
             ->whereIn($db->quoteName('name'), $components, ParameterType::STRING);
@@ -444,7 +444,7 @@ class Access
      * @return  Rules  Rules object for the asset.
      *
      * @since   1.7.0
-     * @note    The non preloading code will be removed in 4.0. All asset rules should use asset preloading.
+     * @note    The non preloading code will be removed in 7.0. All asset rules should use asset preloading.
      */
     public static function getAssetRules($assetKey, $recursive = false, $recursiveParentAsset = true, $preload = true)
     {
@@ -569,7 +569,7 @@ class Access
         $db = Factory::getDbo();
 
         // Build the database query to get the rules for the asset.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName($recursive ? 'b.rules' : 'a.rules', 'rules'))
             ->from($db->quoteName('#__assets', 'a'));
 
@@ -798,7 +798,7 @@ class Access
 
         // Fetch the group title from the database
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select($db->quoteName('title'))
             ->from($db->quoteName('#__usergroups'))
             ->where($db->quoteName('id') . ' = :groupId')
@@ -840,7 +840,7 @@ class Access
                 $db = Factory::getDbo();
 
                 // Build the database query to get the rules for the asset.
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName($recursive ? 'b.id' : 'a.id'));
 
                 if (empty($userId)) {
@@ -905,7 +905,7 @@ class Access
         $test = $recursive ? ' >= ' : ' = ';
 
         // First find the users contained in the group
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('DISTINCT(' . $db->quoteName('user_id') . ')')
             ->from($db->quoteName('#__usergroups', 'ug1'))
             ->join(
@@ -944,7 +944,7 @@ class Access
             $db = Factory::getDbo();
 
             // Build the base query.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName(['id', 'rules']))
                 ->from($db->quoteName('#__viewlevels'));
 
@@ -1044,7 +1044,7 @@ class Access
         if (\is_string($data)) {
             try {
                 $data = new \SimpleXMLElement($data);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 return false;
             }
 

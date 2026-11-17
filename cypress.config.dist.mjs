@@ -26,7 +26,7 @@ export default defineConfig({
     screenshotOnRunFailure: true,
     video: false,
   },
-  env: {
+  expose: {
     sitename: 'Joomla CMS Test',
     name: 'jane doe',
     email: 'admin@example.com',
@@ -42,5 +42,6 @@ export default defineConfig({
     smtp_host: 'localhost',
     smtp_port: '1025',
     cmsPath: '.',
+    logFile: '',
   },
 });

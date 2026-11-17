@@ -146,16 +146,19 @@ class CategoryeditField extends ListField
     protected function getOptions()
     {
         $options   = [];
-        $published = $this->element['published'] ? explode(',', (string) $this->element['published']) : [0, 1];
+        $published = $this->element['published'] ? explode(',', (string) $this->element['published']) : [0, 1, 2];
         $name      = (string) $this->element['name'];
 
         // Let's get the id for the current item, either category or content item.
         $jinput = Factory::getApplication()->getInput();
 
+        // Is this field used to select parent category for a category ?
+        $isParentCategoryField = isset($this->element['parent']) || $jinput->getCmd('option') === 'com_categories';
+
         // Load the category options for a given extension.
 
         // For categories the old category is the category id or 0 for new category.
-        if ($this->element['parent'] || $jinput->get('option') == 'com_categories') {
+        if ($isParentCategoryField) {
             $oldCat    = $jinput->get('id', 0);
             $oldParent = $this->form->getValue($name, 0);
             $extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('extension', 'com_content');
@@ -172,7 +175,7 @@ class CategoryeditField extends ListField
         $db   = $this->getDatabase();
         $user = $this->getCurrentUser();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('a.id', 'value'),
@@ -186,7 +189,7 @@ class CategoryeditField extends ListField
             ->from($db->quoteName('#__categories', 'a'));
 
         // Filter by the extension type
-        if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories') {
+        if ($isParentCategoryField) {
             $query->where('(' . $db->quoteName('a.extension') . ' = :extension OR ' . $db->quoteName('a.parent_id') . ' = 0)')
                 ->bind(':extension', $extension);
         } else {
@@ -195,7 +198,7 @@ class CategoryeditField extends ListField
         }
 
         // Filter language
-        if (!empty($this->element['language'])) {
+        if (isset($this->element['language'])) {
             if (str_contains($this->element['language'], ',')) {
                 $language = explode(',', $this->element['language']);
             } else {
@@ -219,7 +222,7 @@ class CategoryeditField extends ListField
         $query->order($db->quoteName('a.lft') . ' ASC');
 
         // If parent isn't explicitly stated but we are in com_categories assume we want parents
-        if ($oldCat != 0 && ($this->element['parent'] == true || $jinput->get('option') == 'com_categories')) {
+        if ($oldCat != 0 && $isParentCategoryField) {
             // Prevent parenting to children of this item.
             // To rearrange parents and children move the children up, not the parents down.
             $query->join(
@@ -244,16 +247,18 @@ class CategoryeditField extends ListField
         // Pad the option text with spaces using depth level as a multiplier.
         foreach ($options as $option) {
             // Translate ROOT
-            if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories') {
-                if ($option->level == 0) {
-                    $option->text = Text::_('JGLOBAL_ROOT_PARENT');
-                }
+            if ($isParentCategoryField && $option->level == 0) {
+                $option->text = Text::_('JGLOBAL_ROOT_PARENT');
             }
 
-            if ($option->published == 1) {
-                $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . $option->text;
+            if ($option->published === 0) {
+                // Add ' ( Unpublished )' after every unpublished category
+                $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . $option->text . ' (' . Text::_('JUNPUBLISHED') . ')';
+            } elseif ($option->published === 2) {
+                // Add ' ( Archived )' after every archived category
+                $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . $option->text . ' (' . Text::_('JARCHIVED') . ')';
             } else {
-                $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . '[' . $option->text . ']';
+                $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . $option->text;
             }
 
             // Displays language code if not set to All
@@ -311,11 +316,11 @@ class CategoryeditField extends ListField
         }
 
         if (
-            $oldCat != 0 && ($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
+            $oldCat != 0 && $isParentCategoryField
             && !isset($options[0])
             && isset($this->element['show_root'])
         ) {
-            $rowQuery = $db->getQuery(true)
+            $rowQuery = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('a.id', 'value'),

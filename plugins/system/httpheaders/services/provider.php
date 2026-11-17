@@ -16,7 +16,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\Httpheaders\Extension\Httpheaders;
 
 return new class () implements ServiceProviderInterface {
@@ -33,16 +32,15 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Httpheaders::class, function (Container $container) {
                 $plugin     = new Httpheaders(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('system', 'httpheaders'),
                     Factory::getApplication()
                 );
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

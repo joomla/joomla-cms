@@ -1,4 +1,4 @@
-describe('Test in backend that the user form', () => {
+describe('Test in backend that the menu form', () => {
   beforeEach(() => cy.doAdministratorLogin());
   afterEach(() => cy.task('queryDB', "DELETE FROM #__menu_types WHERE menutype = 'test'"));
 

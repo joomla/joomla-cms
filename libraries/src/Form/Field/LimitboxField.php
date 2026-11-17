@@ -31,7 +31,7 @@ class LimitboxField extends ListField
     public $type = 'Limitbox';
 
     /**
-     * Cached array of the category items.
+     * Cached array of the list limits.
      *
      * @var    array[]
      * @since  3.2

@@ -110,6 +110,7 @@ trait CoreEventAware
         'onContentChangeState'          => Model\AfterChangeStateEvent::class,
         'onCategoryChangeState'         => Model\AfterCategoryChangeStateEvent::class,
         'onBeforeBatch'                 => Model\BeforeBatchEvent::class,
+        'onContentCleanCache'           => Model\AfterCleanCacheEvent::class,
         // User
         'onUserAuthenticate'         => User\AuthenticationEvent::class,
         'onUserAuthorisation'        => User\AuthorisationEvent::class,
@@ -153,8 +154,10 @@ trait CoreEventAware
         'onExtensionAfterUpdate'     => Extension\AfterUpdateEvent::class,
         'onExtensionBeforeSave'      => Model\BeforeSaveEvent::class,
         'onExtensionAfterSave'       => Model\AfterSaveEvent::class,
+        'onExtensionBeforeDelete'    => Model\BeforeDeleteEvent::class,
         'onExtensionAfterDelete'     => Model\AfterDeleteEvent::class,
         'onExtensionChangeState'     => Model\BeforeChangeStateEvent::class,
+        'onJoomlaBeforeAutoupdate'   => Extension\BeforeJoomlaAutoupdateEvent::class,
         'onJoomlaBeforeUpdate'       => Extension\BeforeJoomlaUpdateEvent::class,
         'onJoomlaAfterUpdate'        => Extension\AfterJoomlaUpdateEvent::class,
         // Installer

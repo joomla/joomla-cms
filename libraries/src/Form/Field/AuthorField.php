@@ -29,7 +29,7 @@ class AuthorField extends ListField
     public $type = 'Author';
 
     /**
-     * Cached array of the category items.
+     * Cached array of the user items.
      *
      * @var    array[]
      * @since  3.2
@@ -54,7 +54,7 @@ class AuthorField extends ListField
             $db = $this->getDatabase();
 
             // Construct the query
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('u.id', 'value'),

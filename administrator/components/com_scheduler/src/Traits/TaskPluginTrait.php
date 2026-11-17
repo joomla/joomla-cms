@@ -143,7 +143,7 @@ trait TaskPluginTrait
 
         try {
             $enhancementFormFile = Path::check($enhancementFormFile);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
@@ -168,6 +168,10 @@ trait TaskPluginTrait
     public function advertiseRoutines(EventInterface $event): void
     {
         $options = [];
+
+        // In case if the plugin is lazy loaded we might not initialise the object
+        // That means autoloading the language is not executed
+        $this->loadLanguage();
 
         foreach (self::TASKS_MAP as $routineId => $details) {
             // Sanity check against non-compliant plugins
@@ -296,8 +300,6 @@ trait TaskPluginTrait
             }
 
             try {
-                // Enable invocation of private/protected methods.
-                $method->setAccessible(true);
                 $exitCode = $method->invoke($this, $event);
             } catch (\ReflectionException $e) {
                 // @todo replace with language string (?)

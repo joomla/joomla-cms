@@ -173,7 +173,7 @@ class ManageController extends BaseController
 
         $output = $model->loadChangelog($eid, $source);
 
-        echo (new JsonResponse($output));
+        echo new JsonResponse($output);
     }
 
     /**

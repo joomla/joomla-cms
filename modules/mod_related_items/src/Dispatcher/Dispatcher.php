@@ -20,7 +20,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Dispatcher class for mod_articles_popular
+ * Dispatcher class for mod_articles_related_items
  *
  * @since  4.4.0
  */

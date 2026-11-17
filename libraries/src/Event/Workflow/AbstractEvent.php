@@ -42,7 +42,7 @@ abstract class AbstractEvent extends AbstractImmutableEvent
             throw new \BadMethodCallException("Argument 'extension' of event {$this->name} is required but has not been provided");
         }
 
-        if (strpos($arguments['extension'], '.') === false) {
+        if (!str_contains($arguments['extension'], '.')) {
             throw new \BadMethodCallException("Argument 'extension' of event {$this->name} has wrong format. Valid format: 'component.section'");
         }
 
@@ -50,7 +50,7 @@ abstract class AbstractEvent extends AbstractImmutableEvent
             $parts = explode('.', $arguments['extension']);
 
             $arguments['extensionName'] ??= $parts[0];
-            $arguments['section'] ??= $parts[1];
+            $arguments['section']       ??= $parts[1];
         }
 
         parent::__construct($name, $arguments);

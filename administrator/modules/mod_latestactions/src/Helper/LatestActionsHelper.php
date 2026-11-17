@@ -55,6 +55,8 @@ class LatestActionsHelper
         ActionlogsHelper::loadActionLogPluginsLanguage();
 
         foreach ($rows as $row) {
+            $extension = strtok($row->extension, '.');
+            ActionlogsHelper::loadTranslationFiles($extension);
             $row->message = ActionlogsHelper::getHumanReadableLogMessage($row);
         }
 

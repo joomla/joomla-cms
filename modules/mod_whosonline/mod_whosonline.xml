@@ -11,7 +11,7 @@
 	<description>MOD_WHOSONLINE_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Whosonline</namespace>
 	<files>
-		<filename module="mod_whosonline">mod_whosonline.php</filename>
+		<folder module="mod_whosonline">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

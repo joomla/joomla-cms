@@ -10,44 +10,38 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Help\Help;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Admin\Administrator\View\Help\HtmlView $this */
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
-$wa->useScript('com_admin.admin-help');
+$wa->useScript('com_admin.admin-help')
+    ->useStyle('com_admin.admin-help');
+
+// Get the HTML for the Table of Contents from a separate file.
+include_once 'toc-src.php';
 
 ?>
-<form action="<?php echo Route::_('index.php?option=com_admin&amp;view=help'); ?>" method="post" name="adminForm" id="adminForm" class="main-card">
-    <div class="row mt-sm-3">
-        <div id="sidebar" class="col-md-3">
-            <button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-bs-toggle="collapse" data-bs-target=".sidebar-nav" aria-controls="help-index" aria-expanded="false">
-                 <span class="icon-align-justify" aria-hidden="true"></span>
-                 <?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>
-            </button>
-            <div class="sidebar-nav" id="help-index">
-                <ul class="nav flex-column">
-                    <li class="item"><?php echo HTMLHelper::_('link', Help::createUrl('Start_Here'), Text::_('COM_ADMIN_START_HERE'), ['target' => 'helpFrame']); ?></li>
-                    <li class="item"><?php echo HTMLHelper::_('link', 'https://help.joomla.org/proxy?keyref=Help4.x:License', Text::_('COM_ADMIN_LICENSE'), ['target' => 'helpFrame']); ?></li>
-                    <li class="item"><?php echo HTMLHelper::_('link', Help::createUrl('Glossary'), Text::_('COM_ADMIN_GLOSSARY'), ['target' => 'helpFrame']); ?></li>
-                    <li class="divider"></li>
-                    <li class="nav-header"><?php echo Text::_('COM_ADMIN_ALPHABETICAL_INDEX'); ?></li>
-                    <?php foreach ($this->toc as $k => $v) : ?>
-                        <li class="item">
-                            <?php $url = Help::createUrl($k); ?>
-                            <?php echo HTMLHelper::_('link', $url, $v, ['target' => 'helpFrame']); ?>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-        </div>
-        <div class="col-md-9">
-            <iframe onLoad="var x = getElementById('help-index'); x.classList.remove('show');" name="helpFrame" title="helpFrame" height="2100px" src="<?php echo $this->page; ?>" class="helpFrame table table-bordered"></iframe>
-        </div>
+<div class="d-flex flex-column flex-md-row">
+    <div id="help-sidebar" class="flex-shrink-0 mt-md-2">
+        <!-- Left menu -->
+        <button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#help-index" aria-controls="help-index" aria-expanded="false">
+            <span class="icon-align-justify" aria-hidden="true"></span>
+            <?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>
+        </button>
+        <nav id="help-index" class="main-nav help-nav sidebar-wrapper">
+            <h2><?php echo Text::_('COM_ADMIN_HELP_INDEX'); ?></h2>
+            <ul id="helpmenu" class="help-nav flex-column">
+                <?php
+                    // WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
+                    $this->renderSubmenu(JPATH_ADMINISTRATOR . '/components/com_admin/tmpl/help/toc-build.php', $menu);
+                ?>
+            </ul>
+        </nav>
     </div>
-    <input class="textarea" type="hidden" name="option" value="com_admin">
-</form>
+    <div class="flex-grow-1 mt-2">
+        <!-- Right content -->
+        <iframe name="helpFrame" title="<?php echo Text::_('COM_ADMIN_HELP_FRAME_TITLE'); ?>" height="2100px" src="" class="helpFrame table table-bordered"></iframe>
+    </div>
+</div>

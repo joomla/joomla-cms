@@ -198,7 +198,7 @@ class WebAssetManager implements WebAssetManagerInterface
     {
         $method = strtolower($method);
 
-        if (0 === strpos($method, 'use')) {
+        if (str_starts_with($method, 'use')) {
             $type = substr($method, 3);
 
             if (empty($arguments[0])) {
@@ -208,7 +208,7 @@ class WebAssetManager implements WebAssetManagerInterface
             return $this->useAsset($type, $arguments[0]);
         }
 
-        if (0 === strpos($method, 'addinline')) {
+        if (str_starts_with($method, 'addinline')) {
             $type = substr($method, 9);
 
             if (empty($arguments[0])) {
@@ -218,7 +218,7 @@ class WebAssetManager implements WebAssetManagerInterface
             return $this->addInline($type, ...$arguments);
         }
 
-        if (0 === strpos($method, 'disable')) {
+        if (str_starts_with($method, 'disable')) {
             $type = substr($method, 7);
 
             if (empty($arguments[0])) {
@@ -228,7 +228,7 @@ class WebAssetManager implements WebAssetManagerInterface
             return $this->disableAsset($type, $arguments[0]);
         }
 
-        if (0 === strpos($method, 'register')) {
+        if (str_starts_with($method, 'register')) {
             // Check for registerAndUse<Type>
             $andUse = substr($method, 8, 6) === 'anduse';
 

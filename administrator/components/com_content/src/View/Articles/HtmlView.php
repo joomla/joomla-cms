@@ -14,9 +14,9 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
@@ -111,6 +111,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var ArticlesModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->items         = $model->getItems();
         $this->pagination    = $model->getPagination();
@@ -128,11 +129,6 @@ class HtmlView extends BaseHtmlView
             PluginHelper::importPlugin('workflow');
 
             $this->transitions = $model->getTransitions();
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors()) || $this->transitions === false) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // We don't need toolbar in the modal window.
@@ -162,11 +158,20 @@ class HtmlView extends BaseHtmlView
             }
 
             $this->filterForm->addControlField('forcedLanguage', $forcedLanguage);
+
+            /*
+            * When loaded from the frontend, the modal template requires a valid CSRF token on every request.
+            * Pagination links are plain GET anchor tags that bypass form submission,
+            * so the token must be threaded into all pagination URLs via additionalUrlParams.
+            */
+            if (Factory::getApplication()->isClient('site')) {
+                $this->pagination->setAdditionalUrlParam(Session::getFormToken(), '1');
+            }
         }
 
         // Add form control fields
         $this->filterForm
-            ->addControlField('task', '')
+            ->addControlField('task')
             ->addControlField('boxchecked', '0');
 
         parent::display($tpl);
@@ -181,9 +186,9 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo   = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
-        $user    = $this->getCurrentUser();
-        $toolbar = $this->getDocument()->getToolbar();
+        $canDo    = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
+        $user     = $this->getCurrentUser();
+        $toolbar  = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_CONTENT_ARTICLES_TITLE'), 'copy article');
 
@@ -208,15 +213,17 @@ class HtmlView extends BaseHtmlView
                     ->buttonClass('text-center py-2 h3');
 
                 $cmd      = "Joomla.submitbutton('articles.runTransition');";
-                $messages = "{error: [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
+                $messages = "{error: [Joomla.Text._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
                 $alert    = 'Joomla.renderMessages(' . $messages . ')';
                 $cmd      = 'if (document.adminForm.boxchecked.value == 0) { ' . $alert . ' } else { ' . $cmd . ' }';
 
                 foreach ($this->transitions as $transition) {
+                    $transitionValue = (int) ($transition['value'] ?? 0);
+
                     $childBar->standardButton('transition', $transition['text'])
-                        ->buttonClass('transition-' . (int) $transition['value'])
+                        ->buttonClass('transition-' . $transitionValue)
                         ->icon('icon-project-diagram')
-                        ->onclick('document.adminForm.transition_id.value=' . (int) $transition['value'] . ';' . $cmd);
+                        ->onclick('document.adminForm.transition_id.value=' . $transitionValue . ';' . $cmd);
                 }
 
                 $childBar->separatorButton('transition-separator');
@@ -227,11 +234,9 @@ class HtmlView extends BaseHtmlView
 
                 $childBar->unpublish('articles.unpublish')->listCheck(true);
 
-                $childBar->standardButton('featured', 'JFEATURE', 'articles.featured')
-                    ->listCheck(true);
+                $childBar->standardButton('featured', 'JFEATURE', 'articles.featured')->listCheck(true);
 
-                $childBar->standardButton('unfeatured', 'JUNFEATURE', 'articles.unfeatured')
-                    ->listCheck(true);
+                $childBar->standardButton('unfeatured', 'JUNFEATURE', 'articles.unfeatured')->listCheck(true);
 
                 $childBar->archive('articles.archive')->listCheck(true);
 

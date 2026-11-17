@@ -1,0 +1,65 @@
+name: Accessibility issue
+description: Did you find an accessibility issue in the Joomla CMS? Please report it here.
+labels: ["a11y"]
+type: bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Did you find an accessibility issue in the Joomla CMS? Please report it here.
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to reproduce the issue
+      description: Tell us the steps to reproduce the issue
+      value: "1."
+    validations:
+      required: true
+  - type: dropdown
+    id: version
+    attributes:
+      label: Version
+      description: What version of our software are you running?
+      options:
+        - 5.4
+        - 6.0
+        - 6.1
+        - 6.2
+      default: 0
+    validations:
+      required: true
+  - type: textarea
+    id: expected-result
+    attributes:
+      label: Expected result
+      description: Tell us detailed what behaviour you would expect
+  - type: textarea
+    id: actual-result
+    attributes:
+      label: Actual result
+      description: Tell us detailed the current behaviour
+  - type: markdown
+    attributes:
+      value: |
+        Device and system info
+  - type: textarea
+    id: device-usage
+    attributes:
+      label: What device were you using? (eg, phone, laptop)
+      description: Please specify all devices where the problem occure.
+  - type: textarea
+    id: browser-usage
+    attributes:
+      label: What web browser were you using? (eg, Chrome, Safari)
+      description: Specify if the problem occures on only one or on different browsers. Also specify the version of the browser if possible.
+  - type: textarea
+    id: assistive-technology-usage
+    attributes:
+      label: Assistive Technology?
+      description: If you were using assistive technology, please let us know the device or software you were using (eg VoiceOver, JAWS, sip-and-puff device, etc)
+  - type: textarea
+    id: additional-comments
+    attributes:
+      label: Additional Comments
+      description: If you know which [WCAG](https://www.w3.org/TR/WCAG/) or [ATAG](https://www.w3.org/TR/ATAG20/) criteria this violates, please indicate it here
+

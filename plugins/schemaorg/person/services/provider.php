@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Schemaorg\Person\Extension\Person;
 
 return new class () implements ServiceProviderInterface {
@@ -32,16 +31,15 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Person::class, function (Container $container) {
                 $plugin = new Person(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('schemaorg', 'person')
                 );
 
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

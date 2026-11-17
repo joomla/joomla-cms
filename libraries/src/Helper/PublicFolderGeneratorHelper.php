@@ -100,7 +100,7 @@ PHP;
         $root                = JPATH_ROOT . '/';
         $defineRoot          = '\'' . JPATH_ROOT . '\'';
 
-        if (substr($destinationPath, 0, 1) !== '/') {
+        if (!str_starts_with($destinationPath, '/')) {
             $fullDestinationPath = JPATH_ROOT . '/' . $destinationPath;
             $root                = '';
             $dirsToRoot          = substr_count($destinationPath, '/');
@@ -190,7 +190,7 @@ PHP;
      */
     private function createSymlink(string $source, string $dest, string $base): void
     {
-        if (substr($source, 0, 1) !== '/') {
+        if (!str_starts_with($source, '/')) {
             $source = str_repeat('../', substr_count($dest, '/')) . $source;
             $dest   = $base . $dest;
         }

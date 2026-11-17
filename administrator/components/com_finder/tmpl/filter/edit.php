@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -87,8 +86,6 @@ $wa->useScript('keepalive')
 
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
-        <input type="hidden" name="task" value="">
-        <input type="hidden" name="return" value="<?php echo Factory::getApplication()->getInput()->get('return', '', 'BASE64'); ?>">
-        <?php echo HTMLHelper::_('form.token'); ?>
+        <?php echo $this->form->renderControlFields(); ?>
     </div>
 </form>

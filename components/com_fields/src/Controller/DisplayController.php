@@ -12,6 +12,7 @@ namespace Joomla\Component\Fields\Site\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -25,12 +26,12 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 {
     /**
-     * @param   array                     $config   An optional associative array of configuration settings.
-     *                                              Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                              'view_path' (this list is not meant to be comprehensive).
-     * @param   ?MVCFactoryInterface      $factory  The factory.
-     * @param   ?CMSApplication           $app      The Application for the dispatcher
-     * @param   ?\Joomla\CMS\Input\Input  $input    The request's input object
+     * @param   array                 $config   An optional associative array of configuration settings.
+     *                                          Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                          'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    The request's input object
      *
      * @since   3.7.0
      */
@@ -41,7 +42,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
             // Load the backend language file.
             $app->getLanguage()->load('com_fields', JPATH_ADMINISTRATOR);
 
-            $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+            $config['base_path'] = JPATH_ADMINISTRATOR . '/components/com_fields';
         }
 
         parent::__construct($config, $factory, $app, $input);

@@ -68,7 +68,7 @@ final class Finder extends CMSPlugin implements SubscriberInterface
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['element', 'client_id']))
             ->from($db->quoteName('#__extensions'))
             ->where(
@@ -161,7 +161,7 @@ final class Finder extends CMSPlugin implements SubscriberInterface
         $words = array_filter(array_map('trim', $words));
         $words = array_unique($words);
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $lang = Helper::getPrimaryLanguage($extension->element);
 
@@ -177,7 +177,7 @@ final class Finder extends CMSPlugin implements SubscriberInterface
         try {
             $db->setQuery($query);
             $db->execute();
-        } catch (\Exception $ex) {
+        } catch (\Exception) {
             // It would be nice if the common word is stored to the DB, but it isn't super important
         }
     }
@@ -196,7 +196,7 @@ final class Finder extends CMSPlugin implements SubscriberInterface
         $db   = $this->getDatabase();
         $lang = Helper::getPrimaryLanguage($extension->element);
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->delete($db->quoteName('#__finder_terms_common'))
             ->where(
                 [

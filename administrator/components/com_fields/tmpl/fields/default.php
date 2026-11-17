@@ -179,7 +179,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                                         <?php echo $this->escape($item->type); ?>
                                     </td>
                                     <td>
-                                        <?php echo $this->escape($item->group_title); ?>
+                                        <?php echo !empty($item->group_title) ? $this->escape($item->group_title) : '[ ' . Text::_('JNONE') . ' ]'; ?>
                                     </td>
                                     <td class="small d-none d-md-table-cell">
                                         <?php echo $this->escape($item->access_level); ?>
@@ -210,9 +210,8 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                         <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
                     <?php endif; ?>
                 <?php endif; ?>
-                <input type="hidden" name="task" value="">
-                <input type="hidden" name="boxchecked" value="0">
-                <?php echo HTMLHelper::_('form.token'); ?>
+
+                <?php echo $this->filterForm->renderControlFields(); ?>
             </div>
         </div>
     </div>

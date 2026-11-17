@@ -105,7 +105,7 @@ class ConfirmModel extends AdminModel
 
             try {
                 $table->store();
-            } catch (ExecutionFailureException $exception) {
+            } catch (ExecutionFailureException) {
                 // The error will be logged in the database API, we just need to catch it here to not let things fatal out
             }
 
@@ -162,18 +162,15 @@ class ConfirmModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   3.9.0
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm('com_privacy.confirm', 'confirm', ['control' => 'jform']);
-
-        if (empty($form)) {
-            return false;
-        }
 
         $input = Factory::getApplication()->getInput();
 

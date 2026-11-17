@@ -87,7 +87,7 @@ class HtmlView extends BaseHtmlView
         }
 
         $this->state  = $model->getState();
-        $this->params = $this->state->params;
+        $this->params = $this->state->get('params');
 
         // Check for errors.
         if (\count($errors = $model->getErrors())) {

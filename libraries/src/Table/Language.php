@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -27,12 +27,12 @@ class Language extends Table
     /**
      * Constructor
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.7.0
      */
-    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__languages', 'lang_id', $db, $dispatcher);
     }
@@ -74,7 +74,7 @@ class Language extends Table
      */
     public function store($updateNulls = false)
     {
-        $table = new self($this->getDbo(), $this->getDispatcher());
+        $table = new self($this->getDatabase(), $this->getDispatcher());
 
         // Verify that the language code is unique
         if ($table->load(['lang_code' => $this->lang_code]) && ($table->lang_id != $this->lang_id || $this->lang_id == 0)) {
@@ -143,7 +143,7 @@ class Language extends Table
     protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $assetId = null;
-        $asset   = new Asset($this->getDbo(), $this->getDispatcher());
+        $asset   = new Asset($this->getDatabase(), $this->getDispatcher());
 
         if ($asset->loadByName('com_languages')) {
             $assetId = $asset->id;

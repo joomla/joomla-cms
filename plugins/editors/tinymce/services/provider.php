@@ -33,16 +33,16 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(TinyMCE::class, function (Container $container) {
                 $plugin     = new TinyMCE(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('editors', 'tinymce')
                 );
+                $plugin->setDispatcher($container->get(DispatcherInterface::class));
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

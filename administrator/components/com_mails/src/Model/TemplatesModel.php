@@ -91,7 +91,7 @@ class TemplatesModel extends ListModel
         $id    = '';
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('language'))
             ->from($db->quoteName('#__mail_templates'))
             ->where($db->quoteName('template_id') . ' = :id')
@@ -119,7 +119,7 @@ class TemplatesModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields from the table.
         $query->select(
@@ -155,7 +155,7 @@ class TemplatesModel extends ListModel
                 ->bind(':extension', $extension);
         } else {
             // Only show mail template from enabled extensions
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select($db->quoteName('name'))
                 ->from($db->quoteName('#__extensions'))
                 ->where($db->quoteName('enabled') . ' = 1');
@@ -193,12 +193,12 @@ class TemplatesModel extends ListModel
     public function getExtensions()
     {
         $db       = $this->getDatabase();
-        $subQuery = $db->getQuery(true)
+        $subQuery = $db->createQuery()
             ->select($db->quoteName('name'))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('enabled') . ' = 1');
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('DISTINCT ' . $db->quoteName('extension'))
             ->from($db->quoteName('#__mail_templates'))
             ->where($db->quoteName('extension') . ' IN (' . $subQuery . ')');

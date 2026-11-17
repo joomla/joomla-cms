@@ -432,7 +432,7 @@ final class Contacts extends Adapter implements SubscriberInterface
         $db = $this->getDatabase();
 
         // Check if we can use the supplied SQL query.
-        $query = $query instanceof QueryInterface ? $query : $db->getQuery(true)
+        $query = $query instanceof QueryInterface ? $query : $db->createQuery()
             ->select('a.id, a.name AS title, a.alias, a.con_position AS position, a.address, a.created AS start_date')
             ->select('a.created_by_alias, a.modified, a.modified_by')
             ->select('a.metakey, a.metadesc, a.metadata, a.language')
@@ -447,7 +447,7 @@ final class Contacts extends Adapter implements SubscriberInterface
         $case_when_item_alias = ' CASE WHEN ';
         $case_when_item_alias .= $query->charLength('a.alias', '!=', '0');
         $case_when_item_alias .= ' THEN ';
-        $a_id = $query->castAsChar('a.id');
+        $a_id = $query->castAs('CHAR', 'a.id');
         $case_when_item_alias .= $query->concatenate([$a_id, 'a.alias'], ':');
         $case_when_item_alias .= ' ELSE ';
         $case_when_item_alias .= $a_id . ' END as slug';
@@ -456,7 +456,7 @@ final class Contacts extends Adapter implements SubscriberInterface
         $case_when_category_alias = ' CASE WHEN ';
         $case_when_category_alias .= $query->charLength('c.alias', '!=', '0');
         $case_when_category_alias .= ' THEN ';
-        $c_id = $query->castAsChar('c.id');
+        $c_id = $query->castAs('CHAR', 'c.id');
         $case_when_category_alias .= $query->concatenate([$c_id, 'c.alias'], ':');
         $case_when_category_alias .= ' ELSE ';
         $case_when_category_alias .= $c_id . ' END as catslug';

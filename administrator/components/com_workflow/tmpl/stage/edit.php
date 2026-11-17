@@ -40,7 +40,7 @@ $lang     = $this->getLanguage()->getTag();
 
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-    <?php // Add the translation of the workflow item title when client is administrator ?>
+    <?php // Add the translation of the stage item title when client is administrator ?>
     <?php if ($clientId === 0 && $this->item->id != 0) : ?>
         <div class="row title-alias form-vertical mb-3">
             <div class="col-12">
@@ -85,7 +85,7 @@ $lang     = $this->getLanguage()->getTag();
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
         <?php echo $this->form->getInput('workflow_id'); ?>
-        <input type="hidden" name="task" value="stage.edit" />
-        <?php echo HTMLHelper::_('form.token'); ?>
+
+        <?php echo $this->form->renderControlFields(); ?>
     </div>
 </form>

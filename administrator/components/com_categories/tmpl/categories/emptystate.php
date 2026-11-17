@@ -42,6 +42,8 @@ $displayData = [
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Category',
     'title'      => $title,
     'icon'       => 'icon-folder categories content-categories',
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 if ($this->getCurrentUser()->authorise('core.create', $extension)) {
