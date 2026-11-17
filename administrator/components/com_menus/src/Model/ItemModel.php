@@ -1910,12 +1910,8 @@ class ItemModel extends AdminModel
             ->where($db->quoteName('id') . ' = :id')
             ->bind(':id', $rootMenuId, ParameterType::INTEGER);
 
-        try {
-            $db->setQuery($query);
-            $root = $db->loadObject();
-        } catch (\RuntimeException $e) {
-            throw new \RuntimeException($e->getMessage(), 500);
-        }
+        $db->setQuery($query);
+        $root = $db->loadObject();
 
         if (!$root) {
             return [];
@@ -1933,13 +1929,9 @@ class ItemModel extends AdminModel
             ->bind(':rgt', $rgt, ParameterType::INTEGER)
             ->bind(':menutype', $menutype);
 
-        try {
-            $db->setQuery($query);
+        $db->setQuery($query);
 
-            return ArrayHelper::toInteger((array) $db->loadColumn());
-        } catch (\RuntimeException $e) {
-            throw new \RuntimeException($e->getMessage(), 500);
-        }
+        return ArrayHelper::toInteger((array) $db->loadColumn());
     }
 
     /**
@@ -1990,12 +1982,8 @@ class ItemModel extends AdminModel
             ->whereIn($db->quoteName('moduleid'), array_values($moduleIds))
             ->whereIn($db->quoteName('menuid'), array_values(array_unique(array_column($targets, 1))));
 
-        try {
-            $db->setQuery($query);
-            $existing = (array) $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            throw new \RuntimeException($e->getMessage(), 500);
-        }
+        $db->setQuery($query);
+        $existing = (array) $db->loadObjectList();
 
         foreach ($existing as $row) {
             unset($targets[(int) $row->moduleid . ':' . (int) $row->menuid]);
@@ -2013,12 +2001,8 @@ class ItemModel extends AdminModel
             $insert->values($moduleId . ',' . $signedMenuId . ',0');
         }
 
-        try {
-            $db->setQuery($insert);
-            $db->execute();
-        } catch (\RuntimeException $e) {
-            throw new \RuntimeException($e->getMessage(), 500);
-        }
+        $db->setQuery($insert);
+        $db->execute();
     }
 
     /**
@@ -2073,12 +2057,8 @@ class ItemModel extends AdminModel
             )
             ->where($db->quoteName('node.id') . ' <> ' . $db->quoteName('source.id'));
 
-        try {
-            $db->setQuery($query);
-            $rows = (array) $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            throw new \RuntimeException($e->getMessage(), 500);
-        }
+        $db->setQuery($query);
+        $rows = (array) $db->loadObjectList();
 
         $result = [];
 
