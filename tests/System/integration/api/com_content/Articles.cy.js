@@ -88,6 +88,24 @@ describe('Test that content API endpoint', () => {
         .should('include', 'updated automated test article'));
   });
 
+  it('does not leave an article checked out when an update is refused', () => {
+    cy.db_createArticle({ title: 'automated test article' })
+      .then((article) => cy.api_getBearerToken()
+        .then((token) => cy.request({
+          method: 'PATCH',
+          url: `/api/index.php/v1/content/articles/${article.id}`,
+          body: { title: '' },
+          headers: { Authorization: `Bearer ${token}` },
+          json: true,
+          failOnStatusCode: false,
+        }))
+        .then((response) => {
+          expect(response.status).to.be.at.least(400);
+          cy.task('queryDB', `SELECT checked_out FROM #__content WHERE id = ${article.id}`)
+            .then((rows) => expect(Number(rows[0].checked_out ?? 0)).to.equal(0));
+        }));
+  });
+
   it('can delete an article', () => {
     cy.db_createArticle({ title: 'automated test article', state: -2 })
       .then((article) => cy.api_delete(`/content/articles/${article.id}`));
