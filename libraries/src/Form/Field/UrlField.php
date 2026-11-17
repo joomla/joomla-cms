@@ -40,6 +40,80 @@ class UrlField extends TextField
     protected $layout = 'joomla.form.field.url';
 
     /**
+     * Whether relative URLs are allowed.
+     *
+     * @var    boolean
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $relative = false;
+
+    /**
+     * Method to get certain otherwise inaccessible properties from the form field object.
+     *
+     * @param   string  $name  The property name for which to get the value.
+     *
+     * @return  mixed  The property value or null.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __get($name)
+    {
+        if ($name === 'relative') {
+            return $this->relative;
+        }
+
+        return parent::__get($name);
+    }
+
+    /**
+     * Method to set certain otherwise inaccessible properties of the form field object.
+     *
+     * @param   string  $name   The property name for which to set the value.
+     * @param   mixed   $value  The value of the property.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __set($name, $value)
+    {
+        if ($name === 'relative') {
+            $value          = (string) $value;
+            $this->relative = ($value === 'true' || $value === 'relative' || $value === '1');
+
+            return;
+        }
+
+        parent::__set($name, $value);
+    }
+
+    /**
+     * Method to attach a Form object to the field.
+     *
+     * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+     * @param   mixed              $value    The form field value to validate.
+     * @param   string             $group    The field name group control value. This acts as an array container for the field.
+     *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+     *                                       full field name would end up being "bar[foo]".
+     *
+     * @return  boolean  True on success.
+     *
+     * @see     FormField::setup()
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setup(\SimpleXMLElement $element, $value, $group = null)
+    {
+        $return = parent::setup($element, $value, $group);
+
+        if ($return) {
+            $relative       = (string) $this->element['relative'];
+            $this->relative = ($relative === 'true' || $relative === 'relative' || $relative === '1');
+        }
+
+        return $return;
+    }
+
+    /**
      * Method to get the field input markup.
      *
      * @return  string  The field input markup.
@@ -68,7 +142,7 @@ class UrlField extends TextField
 
         // Note that the input type "url" is suitable only for external URLs, so if internal URLs are allowed
         // we have to use the input type "text" instead.
-        $inputType    = $this->element['relative'] ? 'type="text"' : 'type="url"';
+        $inputType    = $this->relative ? 'type="text"' : 'type="url"';
 
         $extraData = [
             'maxLength' => $maxLength,
