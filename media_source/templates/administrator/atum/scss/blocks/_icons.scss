@@ -9,7 +9,12 @@ html:lang(ar),
 html:lang(fa),
 html:lang(ur) {
   .fa-question,
-  .icon-question {
+  .fa-question-circle,
+  .icon-question,
+  .icon-question-2,
+  .icon-question-circle,
+  .icon-question-sign,
+  .icon-help {
     display: inline-block;
     transform: scaleX(-1);
   }
