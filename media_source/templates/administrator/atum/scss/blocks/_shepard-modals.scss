@@ -6,6 +6,22 @@
   color: var(--body-color) !important;
 }
 
+// Cancel label (text) and icon: >= 4.5:1 against the header (WCAG 1.4.3, 1.4.11)
+.shepherd-has-title .shepherd-content .shepherd-cancel-icon {
+  color: var(--gray-700) !important;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--body-color) !important;
+
+    // Non-colour cue: the colour change alone is subtle
+    &::before {
+      text-decoration: underline;
+      text-underline-offset: .2em;
+    }
+  }
+}
+
 @if $enable-dark-mode {
   @include color-mode(dark) {
     .shepherd-element, .shepherd-arrow:before {
