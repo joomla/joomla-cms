@@ -38,7 +38,7 @@ class JoomlaFieldMedia extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['base-path', 'root-folder', 'url', 'modal-title','modal-title-select', 'modal-title-change', 'modal-width', 'modal-height', 'input', 'button-select', 'button-clear', 'preview', 'preview-width', 'preview-height'];
+    return ['base-path', 'root-folder', 'url', 'modal-title', 'modal-title-select', 'modal-title-change', 'modal-width', 'modal-height', 'input', 'button-select', 'button-clear', 'preview', 'preview-width', 'preview-height'];
   }
 
   get types() { return this.getAttribute('types') || ''; }
