@@ -12,6 +12,8 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\SessionAwareWebApplicationTrait;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Document\FactoryInterface as DocumentFactoryInterface;
 use Joomla\CMS\Event\Application\AfterCompressEvent;
 use Joomla\CMS\Event\Application\AfterInitialiseEvent;
 use Joomla\CMS\Event\Application\AfterRenderEvent;
@@ -45,6 +47,7 @@ use Joomla\CMS\Router\Router;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Version;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
@@ -1421,6 +1424,52 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             'inheritable' => 0,
             'parent'      => '',
         ];
+    }
+
+    /**
+     * Allows the application to load a custom or default document.
+     *
+     * For backward compatible purpose, if no document is passed, it will try to use the factory document if it exists,
+     * or create a new one if it doesn't.
+     *
+     * @param   ?Document  $document  An optional document object. If omitted, the factory document is created.
+     *
+     * @return  WebApplication This method is chainable.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function loadDocument(?Document $document = null)
+    {
+        $this->document = $document ?? Factory::$document ?? $this->createDocument();
+
+        return $this;
+    }
+
+    /**
+     * Creates a document object for the application.
+     *
+     * @return  Document  The document object.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function createDocument(): Document
+    {
+        $lang = $this->getLanguage();
+
+        $type = $this->getInput()->getCmd('format', 'html');
+
+        $version = new Version();
+
+        $attributes = [
+            'charset'      => 'utf-8',
+            'lineend'      => 'unix',
+            'tab'          => "\t",
+            'language'     => $lang->getTag(),
+            'direction'    => $lang->isRtl() ? 'rtl' : 'ltr',
+            'mediaversion' => $version->getMediaVersion(),
+        ];
+
+        return $this->getContainer()->get(DocumentFactoryInterface::class)->createDocument($type, $attributes);
     }
 
     /**
