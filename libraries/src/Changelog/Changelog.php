@@ -169,7 +169,7 @@ class Changelog
      * Text content of the current item.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.2.1
      */
     private $currentItem = '';
 
