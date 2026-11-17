@@ -104,8 +104,7 @@ class TemplatesController extends BaseController
 
         // Check the return value.
         if ($return === false) {
-            // Save failed, go back to the screen and display a notice.
-            $this->setMessage(Text::sprintf('JERROR_SAVE_FAILED'), 'error');
+            // The backend controller has already enqueued the error message.
             $this->setRedirect(Route::_('index.php?option=com_config&view=templates', false));
 
             return false;

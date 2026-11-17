@@ -135,8 +135,7 @@ class ModulesController extends BaseController
 
             $this->app->setUserState('com_config.modules.global.data', $data);
 
-            // Save failed, go back to the screen and display a notice.
-            $this->app->enqueueMessage(Text::_('JERROR_SAVE_FAILED'));
+            // The backend controller has already enqueued the error message.
             $this->app->redirect(Route::_('index.php?option=com_config&view=modules' . $moduleId . $redirect, false));
         }
 
