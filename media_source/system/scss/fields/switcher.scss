@@ -1,3 +1,5 @@
+@import "../focus-indicator";
+
 $off-background-colour: #d3d3d3;
 $on-background-colour: #2f7d32;
 $switcher-width: 62px;
@@ -39,6 +41,10 @@ $switcher-height: 28px;
 .switcher input:focus ~ .toggle-outside {
   border-color: var(--focus);
   box-shadow: 0 0 0 .2rem rgba(26, 70, 107, .25);
+}
+
+.switcher input:focus-visible ~ .toggle-outside {
+  @include focus-ring();
 }
 
 .switcher label {

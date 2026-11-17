@@ -1,5 +1,8 @@
 @use "sass:color";
 
+// Keyboard focus indicator mixins and box shadow
+@import "../../../../system/scss/focus-indicator";
+
 // Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
 $prefix: "";
 
@@ -262,14 +265,14 @@ $atum-colors: (
   quickicon-box-shadow-warning:    0 0 3px 0 var(--warning),
 
   login-box-shadow:                0 4px 20px -10px var(--template-bg-dark-50),
-  login-focus-box-shadow:          inset 0 0 1px 1px var(--template-contrast),
+  login-focus-box-shadow:          $focus-indicator-ring,
 
   modal-btn-box-shadow:            1px 1px 1px 0 rgba(0, 0, 0, .25),
   modal-joomla-dialog-box-shadow:  0 .5rem 1rem rgba(0, 0, 0, .15),
 
   form-aria-grabbed-box-shadow:    0 0 2px 1px var(--template-bg-dark),
 
-  choices__button_joomla-focus-box-shadow: 0 0 0 2px #00bcd4,
+  choices__button_joomla-focus-box-shadow: $focus-indicator-ring,
 
   joomla-tab-accordion-box-shadow:    (0 1px $white inset, 0 0 3px rgba(0, 0, 0, .04)),
   joomla-tab-btn-hvr:                 var(--template-bg-dark-60),
@@ -551,6 +554,12 @@ $atum-colors: (
   warning-text:                      #000,
   warning:                           $warning,
   warninghvr:                        color.adjust($warning, $lightness: -15%),
+
+  // Keyboard focus indicator: a coloured outline separated from the control by a contrasting ring
+  focus-indicator-color:             #0b5ed7, // contrast ratio: 5.84 on #fff
+  focus-indicator-contrast:          $white, // contrast ratio: 12.63 on the dark header and sidebar
+  focus-indicator-width:             2px,
+  focus-indicator-offset:            2px,
 
 );
 
@@ -921,6 +930,11 @@ $input-box-shadow:                 var(--atum-box-shadow);
 $input-max-width:                  100%;
 $input-btn-focus-width:            .2rem;
 $input-btn-focus-color:            var(--focus-shadow);
+
+// Keyboard focus indicator for Bootstrap components that remove the outline
+$focus-ring-box-shadow:            $focus-indicator-ring;
+$input-btn-focus-box-shadow:       $focus-indicator-ring;
+$form-select-focus-box-shadow:     $focus-indicator-ring;
 $input-btn-padding-y:              .5rem;
 $input-btn-padding-x:              1rem;
 

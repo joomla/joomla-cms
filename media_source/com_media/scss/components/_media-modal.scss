@@ -73,6 +73,11 @@
     cursor: pointer;
     opacity: 1;
   }
+  &:focus-visible {
+    opacity: 1;
+
+    @include focus-ring(true);
+  }
 }
 
 @media (min-width: 576px) {

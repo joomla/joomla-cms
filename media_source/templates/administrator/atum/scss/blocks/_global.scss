@@ -92,21 +92,8 @@ legend {
   font-weight: $font-weight-bold;
 }
 
-// focus-visible polyfill rule
-.js-focus-visible :focus:not(.focus-visible) {
-  outline: none;
-}
-
 // Default focus highlighting
-a,
-button,
-input,
-textarea {
-
-  &.focus-visible {
-    outline: auto 2px var(--focus);
-  }
-}
+@include focus-indicator-global();
 
 // Break up text in cells to prevent overflow
 .break-word {

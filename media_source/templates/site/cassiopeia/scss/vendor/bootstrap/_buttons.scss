@@ -1,5 +1,14 @@
 // Buttons
 
+.btn {
+  // Variants only set the shadow colour, so this applies the focus indicator to all of them
+  --btn-focus-box-shadow: #{$focus-indicator-ring};
+}
+
+.navbar-toggler:focus-visible {
+  @include focus-ring();
+}
+
 .btn:focus,
 .btn.focus,
 .btn:active:focus,

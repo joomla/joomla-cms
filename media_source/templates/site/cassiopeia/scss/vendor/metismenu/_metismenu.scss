@@ -57,10 +57,9 @@
           white-space: nowrap;
         }
 
-        > a:focus,
-        > button:focus {
-          outline: 1px dotted $gray-400;
-          outline-offset: 2px;
+        > a:focus-visible,
+        > button:focus-visible {
+          @include focus-ring();
         }
 
         &.active > a,
