@@ -84,7 +84,7 @@ class HtmlView extends BaseHtmlView
             // Add form control fields
             $this->form
                 ->addControlField('task')
-                ->addControlField('return', Factory::getApplication()->getInput()->get('return', null, 'base64'))
+                ->addControlField('return', Factory::getApplication()->getInput()->get('return', '', 'base64'))
                 ->addControlField('id', $this->item['id']);
         }
 
