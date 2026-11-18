@@ -13061,18 +13061,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 2
-			path: plugins/content/confirmconsent/src/Field/ConsentBoxField.php
-
-		-
-			message: '''
 				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\Content\\Finder\\Extension\\Finder\:
 				5\.2 will be removed in 7\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
@@ -13243,18 +13231,6 @@ parameters:
 			path: plugins/editors/tinymce/src/Field/TinymcebuilderField.php
 
 		-
-			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: plugins/editors/tinymce/src/Field/TinymcebuilderField.php
-
-		-
 			message: '#^Call to an undefined method Joomla\\Plugin\\Editors\\TinyMCE\\Provider\\TinyMCEProvider\:\:getApplication\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -13390,42 +13366,6 @@ parameters:
 			identifier: method.deprecated
 			count: 4
 			path: plugins/system/cache/src/Extension/Cache.php
-
-		-
-			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: plugins/system/debug/src/DataCollector/LanguageErrorsCollector.php
-
-		-
-			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: plugins/system/debug/src/DataCollector/LanguageFilesCollector.php
-
-		-
-			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 2
-			path: plugins/system/debug/src/DataCollector/LanguageStringsCollector.php
 
 		-
 			message: '''
@@ -13640,30 +13580,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 4
 			path: plugins/user/profile/src/Extension/Profile.php
-
-		-
-			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 2
-			path: plugins/user/profile/src/Field/TosField.php
-
-		-
-			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: plugins/user/terms/src/Field/TermsField.php
 
 		-
 			message: '#^Access to an undefined property Joomla\\Plugin\\Workflow\\Featuring\\Extension\\Featuring\:\:\$app\.$#'
