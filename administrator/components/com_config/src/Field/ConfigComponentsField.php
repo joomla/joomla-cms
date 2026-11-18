@@ -53,7 +53,7 @@ class ConfigComponentsField extends ListField
         $items = $db->setQuery($query)->loadObjectList();
 
         if ($items) {
-            $lang = Factory::getLanguage();
+            $lang = Factory::getApplication()->getLanguage();
 
             foreach ($items as &$item) {
                 // Load language

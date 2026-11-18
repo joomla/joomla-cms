@@ -42,7 +42,7 @@ class GuidedtoursHelper
             return;
         }
 
-        $lang   = Factory::getLanguage();
+        $lang   = Factory::getApplication()->getLanguage();
 
         // The uid has an extension separator so we need to check the extension language files
         if (strpos($uid, '.') > 0) {
