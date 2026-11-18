@@ -375,7 +375,7 @@ class TemplateModel extends FormModel
             $app    = Factory::getApplication();
             $client = ApplicationHelper::getClientInfo($template->client_id);
             $path   = Path::clean($client->path . '/templates/' . $template->element . '/');
-            $lang   = Factory::getApplication()->getLanguage();
+            $lang   = $app->getLanguage();
 
             // Load the parent and child overrides for template language constants
             if (!empty($template->xmldata->parent)) {
