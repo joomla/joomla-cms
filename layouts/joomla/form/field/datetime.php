@@ -35,6 +35,8 @@ defined('_JEXEC') or die;
  * @var   string   $value           Value attribute of the field.
  * @var   string   $min
  * @var   string   $max
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 extract($displayData);
 
@@ -53,4 +55,4 @@ $maxAttr      = !empty($max) ? ' max="' . $this->escape($max) . '"' : '';
 
 echo '<input type="datetime-local" name="' . $name . '" id="' . $id . '" value="' . $this->escape($value) . '"'
     . $class . $disabled . $readonly
-            . $hint . $onchange . $required . $autocomplete . $autofocus . $pattern . $minAttr . $maxAttr . ' />';
+            . $hint . $onchange . $required . $autocomplete . $autofocus . $pattern . $minAttr . $maxAttr . $dataAttribute . ' />';

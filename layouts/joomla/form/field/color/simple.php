@@ -79,7 +79,7 @@ foreach ($colors as $val) {
     $slots[] = '<button slot="colors" value="' . trim($val) . '" aria-pressed="' . (trim($val) === $color ? 'true' : 'false') . '" type="button"></button>';
 }
 ?>
-<joomla-field-simple-color <?php echo ArrayHelper::toString($attr); ?>>
+<joomla-field-simple-color <?php echo ArrayHelper::toString($attr); ?><?php echo $dataAttribute; ?>>
     <?php echo implode('', $slots); ?>
     <input type="hidden" name="<?php echo $name; ?>" value="<?php echo $color; ?>" />
 </joomla-field-simple-color>
