@@ -394,6 +394,7 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
+        // Load language files
         $lang      = Factory::getApplication()->getLanguage();
         $component = $this->getState('category.component');
         $section   = $this->getState('category.section');
