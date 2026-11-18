@@ -113,7 +113,7 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
      */
     private function getData(): array
     {
-        $orphans = Factory::getLanguage()->getOrphans();
+        $orphans = Factory::getApplication()->getLanguage()->getOrphans();
 
         $data = [];
 
@@ -184,6 +184,6 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
      */
     private function getCount(): int
     {
-        return \count(Factory::getLanguage()->getOrphans());
+        return \count(Factory::getApplication()->getLanguage()->getOrphans());
     }
 }
