@@ -21,9 +21,9 @@ $shownMethods = [];
 
 ?>
 <div id="com-users-select">
-    <h2 id="com-users-select-heading">
+    <h1 id="com-users-select-heading">
         <?php echo Text::_('COM_USERS_MFA_SELECT_PAGE_HEAD'); ?>
-    </h2>
+    </h1>
     <div id="com-users-select-information">
         <p>
             <?php echo Text::_('COM_USERS_LBL_SELECT_INSTRUCTIONS'); ?>
