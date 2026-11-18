@@ -135,6 +135,8 @@ if ($refreshPage === true) {
 
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
+Text::script('JGLOBAL_SELECT_REMOVE_ITEM');
+Text::script('JGLOBAL_SELECT_SELECTED_ITEMS');
 
 Factory::getDocument()->getWebAssetManager()
     ->usePreset('choicesjs')

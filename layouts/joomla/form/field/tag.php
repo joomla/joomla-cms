@@ -71,6 +71,8 @@ if ($readonly || $disabled) {
 $attr2  = '';
 $attr2 .= !empty($class) ? ' class="' . $class . '"' : '';
 $attr2 .= ' placeholder="' . $this->escape($hint ?: Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_TAGS')) . '" ';
+$attr2 .= ' remove-item-text="' . $this->escape(Text::_('JGLOBAL_SELECT_REMOVE_TAG')) . '"';
+$attr2 .= ' selected-items-text="' . $this->escape(Text::_('JGLOBAL_SELECT_SELECTED_TAGS')) . '"';
 $attr2 .= $dataAttribute;
 
 if ($allowCustom) {
