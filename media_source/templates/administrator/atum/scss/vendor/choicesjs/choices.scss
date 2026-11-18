@@ -143,11 +143,11 @@
   &:focus {
     outline: none;
   }
+}
 
-  &:focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: -2px;
-  }
+.choices__list--multiple .choices__button_joomla:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
 }
 
 .choices[data-type*="select-one"],

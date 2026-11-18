@@ -146,6 +146,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     }
     // END workaround for issue #47507
 
+    const isMultiple = this.select.multiple;
+
     // Init Choices
     this.choicesInstance = new Choices(this.select, {
       placeholderValue: this.placeholder,
@@ -166,8 +168,10 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       itemSelectText: Joomla.Text._('JGLOBAL_SELECT_PRESS_TO_SELECT', 'Press to select'),
 
       // The aria-label is set with setAttribute(), so the raw label is used. The icon text is HTML.
-      removeItemLabelText: (value, valueRaw, item) => this.getRemoveItemLabel(item, valueRaw),
-      removeItemIconText: (value, valueRaw, item) => this.constructor.escapeHtml(this.getRemoveItemLabel(item, valueRaw)),
+      ...(this.select.multiple && {
+        removeItemLabelText: (value, valueRaw, item) => this.getRemoveItemLabel(item, valueRaw),
+        removeItemIconText: (value, valueRaw, item) => this.constructor.escapeHtml(this.getRemoveItemLabel(item, valueRaw)),
+      }),
 
       // Redefine some classes
       classNames: {
@@ -184,7 +188,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
           itemList(...args) {
             const element = templates.itemList.apply(choices, args);
 
-            if (choices._isSelectMultipleElement) {
+            if (isMultiple) {
               element.setAttribute('role', 'list');
             }
 
@@ -193,13 +197,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
           item(...args) {
             const element = templates.item.apply(choices, args);
 
-            // A placeholder is not a value, so there is nothing to remove
-            if (element.hasAttribute('data-placeholder')) {
-              element.querySelector('[data-button]')?.remove();
-              element.removeAttribute('data-deletable');
-            }
-
-            if (choices._isSelectMultipleElement) {
+            if (isMultiple) {
               element.setAttribute('role', 'listitem');
               element.removeAttribute('aria-selected');
             }
@@ -241,6 +239,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
         highlighted.forEach((choice) => {
           choice.classList.remove(this.choicesInstance.config.classNames.highlightedState);
+          choice.setAttribute('aria-selected', 'false');
         });
 
         // Removing the highlight must not change what is announced as selected
@@ -421,6 +420,14 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       return;
     }
 
+    const input = choices.input?.element;
+    const inner = choices.containerInner.element;
+    const itemList = choices.itemList.element;
+
+    if (!this.select.multiple || !input || !inner.contains(input) || !inner.contains(itemList)) {
+      return;
+    }
+
     // Keyboard, pointer and assistive technology all remove an item through one click handler.
     // Adding the same listener twice is a no-op, so this is safe on re-init.
     this.addEventListener('keydown', this.onRemoveButtonKeydown, true);
@@ -431,14 +438,6 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     this.select.addEventListener('highlightChoice', this.syncChoicesSelectedState);
     this.select.addEventListener('showDropdown', this.onDropdownToggle);
     this.select.addEventListener('hideDropdown', this.onDropdownToggle);
-
-    const input = choices.input?.element;
-    const inner = choices.containerInner.element;
-    const itemList = choices.itemList.element;
-
-    if (!choices._isSelectMultipleElement || !input || !inner.contains(input) || !inner.contains(itemList)) {
-      return;
-    }
 
     const outer = choices.containerOuter.element;
     const choiceList = choices.choiceList.element;
@@ -559,7 +558,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   syncChoicesSelectedState() {
     const choices = this.choicesInstance;
 
-    if (!choices) {
+    if (!choices || !this.select.multiple) {
       return;
     }
 
@@ -676,25 +675,36 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       return;
     }
 
-    const items = Array.from(choices.itemList.element.querySelectorAll('[data-item]'));
-    const index = items.indexOf(button.closest('[data-item]'));
-    const hadFocus = button.contains(document.activeElement);
+    const item = button.closest('[data-item]');
+    const id = parseInt(item?.dataset.id, 10);
 
-    // Removes the item and renders the items again, synchronously
-    choices._handleButtonAction(button);
-
-    if (!hadFocus) {
+    if (!id) {
       return;
     }
 
-    if (choices._isSelectMultipleElement) {
-      const buttons = Array.from(choices.itemList.element.querySelectorAll('[data-item] [data-button]'));
-      const target = buttons[index] || buttons[index - 1] || choices.input.element;
+    const items = Array.from(choices.itemList.element.querySelectorAll('[data-item]'));
+    const index = items.indexOf(item);
+    const hadFocus = button.contains(document.activeElement);
 
-      target.focus();
-    } else {
-      choices.containerOuter.element.focus();
+    // removeHighlightedItems() removes every highlighted item, so only the item of this button may be highlighted
+    [].concat(choices.getValue() || [])
+      .filter((value) => value.highlighted && value.id !== id)
+      .forEach((value) => choices.unhighlightItem(value, false));
+
+    // Removes the item, triggers the removeItem and change events and renders the items again, synchronously
+    choices.highlightItem({ id }, false);
+    choices.removeHighlightedItems(true);
+
+    // Not focused, eg a mouse click: open the dropdown, like Choices.js does
+    if (!hadFocus) {
+      choices.showDropdown();
+      return;
     }
+
+    const buttons = Array.from(choices.itemList.element.querySelectorAll('[data-item] [data-button]'));
+    const target = buttons[index] || buttons[index - 1] || choices.input.element;
+
+    target.focus();
   }
 
   requestLookup() {
