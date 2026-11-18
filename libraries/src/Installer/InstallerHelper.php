@@ -136,7 +136,7 @@ abstract class InstallerHelper
         $res = File::write($target, $body);
 
         if (!$res) {
-            Log::add(Text::sprintf('JLIB_INSTALLER_ABORT_DISK_FULL'), Log::WARNING, 'jerror');
+            Log::add(Text::_('JLIB_INSTALLER_ABORT_DISK_FULL'), Log::WARNING, 'jerror');
 
             return false;
         }
