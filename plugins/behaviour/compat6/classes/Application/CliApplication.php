@@ -138,6 +138,8 @@ abstract class CliApplication extends AbstractApplication implements CMSApplicat
         }
 
         $this->input    = new \Joomla\CMS\Input\Cli();
+
+        // Load language file
         $this->language = Factory::getApplication()->getLanguage();
         $this->output   = $output ?: new Stdout();
         $this->cliInput = $cliInput ?: new CliInput();
