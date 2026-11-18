@@ -76,7 +76,7 @@ class ModulesModel extends FormModel
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
-        $lang     = Factory::getLanguage();
+        $lang     = Factory::getApplication()->getLanguage();
         $module   = $this->getState()->get('module.name');
         $basePath = JPATH_BASE;
 
@@ -115,7 +115,7 @@ class ModulesModel extends FormModel
      */
     public function getPositions()
     {
-        $lang         = Factory::getLanguage();
+        $lang         = Factory::getApplication()->getLanguage();
         $templateName = Factory::getApplication()->getTemplate();
 
         // Load templateDetails.xml file

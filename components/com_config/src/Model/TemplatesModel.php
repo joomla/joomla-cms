@@ -87,7 +87,7 @@ class TemplatesModel extends FormModel
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
-        $lang = Factory::getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
 
         $templateObj = Factory::getApplication()->getTemplate(true);
 
