@@ -115,6 +115,7 @@ class ModulesModel extends FormModel
      */
     public function getPositions()
     {
+        // Load language file
         $lang         = Factory::getApplication()->getLanguage();
         $templateName = Factory::getApplication()->getTemplate();
 
