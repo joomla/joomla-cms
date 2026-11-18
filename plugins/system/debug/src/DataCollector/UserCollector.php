@@ -40,7 +40,7 @@ class UserCollector implements DataCollectorInterface
      *
      * @return array Collected data
      */
-    public function collect()
+    public function collect(): array
     {
         $user = Factory::getApplication()->getIdentity()
             ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
@@ -55,7 +55,7 @@ class UserCollector implements DataCollectorInterface
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }

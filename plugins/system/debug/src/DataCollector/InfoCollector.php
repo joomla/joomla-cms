@@ -84,7 +84,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
     {
         return [
             'info' => [
-                'icon'    => 'info-circle',
+                'icon'    => 'code',
                 'title'   => 'J! Info',
                 'widget'  => 'PhpDebugBar.Widgets.InfoWidget',
                 'map'     => $this->name,

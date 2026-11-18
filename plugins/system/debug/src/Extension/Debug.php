@@ -240,21 +240,20 @@ final class Debug extends CMSPlugin implements SubscriberInterface
     {
         // Only if debugging or language debug is enabled.
         if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug() && $this->getApplication()->getDocument() instanceof HtmlDocument) {
-            // Use our own jQuery and fontawesome instead of the debug bar shipped version
             $assetManager = $this->getApplication()->getDocument()->getWebAssetManager();
             $assetManager->registerAndUseStyle(
                 'plg.system.debug',
                 'plg_system_debug/debug.css',
                 [],
                 [],
-                ['fontawesome']
+                []
             );
             $assetManager->registerAndUseScript(
                 'plg.system.debug',
                 'plg_system_debug/debug.min.js',
                 [],
                 ['defer' => true],
-                ['jquery']
+                []
             );
         }
 
@@ -343,7 +342,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
 
         $debugBarRenderer = new JavascriptRenderer($this->debugBar, Uri::root(true) . '/media/vendor/debugbar/');
 
-        if ($this->params->get('track_request_history', false)) {
+        if ($this->params->get('track_request_history', false) && !$this->getApplication()->getIdentity()->guest) {
             $openHandlerUrl   = Uri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
             $openHandlerUrl .= '&' . ($formToken ?? Session::getFormToken()) . '=1';
             $debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);

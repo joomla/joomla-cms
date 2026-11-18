@@ -37,11 +37,6 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
     public function __construct(DebugBar $debugBar, $baseUrl = null, $basePath = null)
     {
         parent::__construct($debugBar, $baseUrl, $basePath);
-
-        // Disable features that loaded by Joomla! API, or not in use
-        $this->setEnableJqueryNoConflict(false);
-        $this->disableVendor('jquery');
-        $this->disableVendor('fontawesome');
     }
 
     /**
@@ -53,39 +48,11 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
      *
      * @since  4.0.0
      */
-    public function renderHead()
+    public function renderHead(): string
     {
-        [$cssFiles, $jsFiles, $inlineCss, $inlineJs, $inlineHead] = $this->getAssets(null, self::RELATIVE_URL);
-        $html                                                     = '';
-        $doc                                                      = Factory::getApplication()->getDocument();
+        $this->setCspNonce(Factory::getApplication()->getDocument()->cspNonce);
 
-        foreach ($cssFiles as $file) {
-            $html .= \sprintf('<link rel="stylesheet" type="text/css" href="%s">' . "\n", $file);
-        }
-
-        foreach ($inlineCss as $content) {
-            $html .= \sprintf('<style>%s</style>' . "\n", $content);
-        }
-
-        foreach ($jsFiles as $file) {
-            $html .= \sprintf('<script type="text/javascript" src="%s" defer></script>' . "\n", $file);
-        }
-
-        $nonce = '';
-
-        if ($doc->cspNonce) {
-            $nonce = ' nonce="' . $doc->cspNonce . '"';
-        }
-
-        foreach ($inlineJs as $content) {
-            $html .= \sprintf('<script type="module"%s>%s</script>' . "\n", $nonce, $content);
-        }
-
-        foreach ($inlineHead as $content) {
-            $html .= $content . "\n";
-        }
-
-        return $html;
+        return parent::renderHead();
     }
 
     /**
@@ -100,34 +67,10 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
      *
      * @since  4.0.0
      */
-    public function render($initialize = true, $renderStackedData = true)
+    public function render(bool $initialize = true, bool $renderStackedData = true): string
     {
-        $js  = '';
-        $doc = Factory::getApplication()->getDocument();
+        $this->setCspNonce(Factory::getApplication()->getDocument()->cspNonce);
 
-        if ($initialize) {
-            $js = $this->getJsInitializationCode();
-        }
-
-        if ($renderStackedData && $this->debugBar->hasStackedData()) {
-            foreach ($this->debugBar->getStackedData() as $id => $data) {
-                $js .= $this->getAddDatasetCode($id, $data, '(stacked)');
-            }
-        }
-
-        $suffix = !$initialize ? '(ajax)' : null;
-        $js .= $this->getAddDatasetCode($this->debugBar->getCurrentRequestId(), $this->debugBar->getData(), $suffix);
-
-        $nonce = '';
-
-        if ($doc->cspNonce) {
-            $nonce = ' nonce="' . $doc->cspNonce . '"';
-        }
-
-        if ($this->useRequireJs) {
-            return "<script type=\"module\"$nonce>\nrequire(['debugbar'], function(PhpDebugBar){ $js });\n</script>\n";
-        }
-
-        return "<script type=\"module\"$nonce>\n$js\n</script>\n";
+        return parent::render($initialize, $renderStackedData);
     }
 }

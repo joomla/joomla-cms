@@ -112,7 +112,7 @@ class MemoryCollector extends AbstractDataCollector
      *
      * @since 4.4.0
      */
-    public function collect()
+    public function collect(): array
     {
         $this->updatePeakUsage();
 
@@ -127,7 +127,7 @@ class MemoryCollector extends AbstractDataCollector
      *
      * @since 4.4.0
      */
-    public function getName()
+    public function getName(): string
     {
         return 'memory';
     }
@@ -137,11 +137,11 @@ class MemoryCollector extends AbstractDataCollector
      *
      * @since 4.4.0
      */
-    public function getWidgets()
+    public function getWidgets(): array
     {
         return [
             'memory' => [
-                'icon'    => 'cogs',
+                'icon'    => 'server-cog',
                 'tooltip' => 'Memory Usage',
                 'map'     => 'memory.peak_usage_str',
                 'default' => "'0B'",

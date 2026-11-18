@@ -326,13 +326,13 @@ class ProfileCollector extends AbstractDataCollector
     {
         return [
             'profileTime' => [
-                'icon'    => 'clock-o',
+                'icon'    => 'clock',
                 'tooltip' => 'Request Duration',
                 'map'     => 'profile.duration_str',
                 'default' => "'0ms'",
             ],
             'profile' => [
-                'icon'    => 'clock-o',
+                'icon'    => 'clock',
                 'widget'  => 'PhpDebugBar.Widgets.TimelineWidget',
                 'map'     => 'profile',
                 'default' => '{}',

@@ -85,10 +85,10 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
     {
         return [
             'errors' => [
-                'icon'    => 'warning',
+                'icon'    => 'bug',
                 'widget'  => 'PhpDebugBar.Widgets.languageErrorsWidget',
                 'map'     => $this->name . '.data',
-                'default' => '',
+                'default' => '{}',
             ],
             'errors:badge' => [
                 'map'     => $this->name . '.count',
@@ -98,16 +98,13 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
     }
 
     /**
-     * Returns an array with the following keys:
-     *  - base_path
-     *  - base_url
-     *  - css: an array of filenames
-     *  - js: an array of filenames
+     * Assets for the collector.
+     *
+     * @return array
      *
      * @since  4.0.0
-     * @return array
      */
-    public function getAssets()
+    public function getAssets(): array
     {
         return [
             'js'  => Uri::root(true) . '/media/plg_system_debug/widgets/languageErrors/widget.min.js',

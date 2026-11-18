@@ -58,7 +58,7 @@ final class JoomlaHttpDriver implements HttpDriverInterface
      *
      * @since   4.1.5
      */
-    public function setHeaders(array $headers)
+    public function setHeaders(array $headers): void
     {
         if ($this->app instanceof WebApplicationInterface) {
             foreach ($headers as $name => $value) {
@@ -74,7 +74,7 @@ final class JoomlaHttpDriver implements HttpDriverInterface
      *
      * @since   4.1.5
      */
-    public function isSessionStarted()
+    public function isSessionStarted(): bool
     {
         return true;
     }
@@ -87,7 +87,7 @@ final class JoomlaHttpDriver implements HttpDriverInterface
      *
      * @since   4.1.5
      */
-    public function setSessionValue($name, $value)
+    public function setSessionValue(string $name, mixed $value): void
     {
         $this->dummySession[$name] = $value;
     }
@@ -101,7 +101,7 @@ final class JoomlaHttpDriver implements HttpDriverInterface
      *
      * @since   4.1.5
      */
-    public function hasSessionValue($name)
+    public function hasSessionValue(string $name): bool
     {
         return \array_key_exists($name, $this->dummySession);
     }
@@ -115,7 +115,7 @@ final class JoomlaHttpDriver implements HttpDriverInterface
      *
      * @since   4.1.5
      */
-    public function getSessionValue($name)
+    public function getSessionValue(string $name): mixed
     {
         return $this->dummySession[$name] ?? null;
     }
@@ -127,8 +127,13 @@ final class JoomlaHttpDriver implements HttpDriverInterface
      *
      * @since   4.1.5
      */
-    public function deleteSessionValue($name)
+    public function deleteSessionValue(string $name): void
     {
         unset($this->dummySession[$name]);
+    }
+
+    public function output(string $content): void
+    {
+        echo $content;
     }
 }
