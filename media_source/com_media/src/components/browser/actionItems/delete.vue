@@ -2,11 +2,8 @@
   <button
     type="button"
     class="action-delete"
-    @keyup.enter="openConfirmDeleteModal()"
-    @keyup.space="openConfirmDeleteModal()"
     @focus="focused(true)"
     @blur="focused(false)"
-    @keyup.esc="hideActions()"
     @click.stop="openConfirmDeleteModal()"
   >
     <span
@@ -32,7 +29,7 @@ export default {
       this.mainAction();
     },
     hideActions() {
-      this.hideActions();
+      this.closingAction();
     },
     focused(bool) {
       this.onFocused(bool);

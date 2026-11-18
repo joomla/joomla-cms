@@ -2,12 +2,9 @@
   <button
     type="button"
     class="action-download"
-    @keyup.enter="download()"
-    @keyup.space="download()"
     @click.stop="download()"
     @focus="focused(true)"
     @blur="focused(false)"
-    @keyup.esc="hideActions()"
   >
     <span
       class="image-browser-action icon-download"

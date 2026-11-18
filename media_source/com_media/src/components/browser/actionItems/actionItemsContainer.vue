@@ -1,144 +1,101 @@
 <template>
-  <span
+  <label
     class="media-browser-select"
-    :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
-    :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
-    tabindex="0"
+    :title="sprintf('COM_MEDIA_SELECT_ITEM', item.name)"
+    @click.stop
     @focusin="focused(true)"
     @focusout="focused(false)"
-  />
+  >
+    <input
+      type="checkbox"
+      class="visually-hidden"
+      :checked="isSelected"
+      :aria-label="sprintf('COM_MEDIA_SELECT_ITEM', item.name)"
+      @change="toggleSelect()"
+    >
+  </label>
   <div
     class="media-browser-actions"
     :class="{ active: showActions }"
   >
     <MediaBrowserActionItemToggle
+      :id="toggleId"
       ref="actionToggle"
+      :aria-expanded="showActions ? 'true' : 'false'"
+      :aria-controls="menuId"
       :main-action="openActions"
       @on-focused="focused"
-      @keyup.up="openLastActions()"
-      @keyup.down="openActions()"
-      @keyup.end="openLastActions()"
-      @keyup.home="openActions()"
-      @keydown.up.prevent
-      @keydown.down.prevent
-      @keydown.home.prevent
-      @keydown.end.prevent
+      @keydown.down.prevent="openActions()"
+      @keydown.up.prevent="openLastActions()"
     />
     <div
       v-if="showActions"
+      :id="menuId"
       ref="actionList"
       class="media-browser-actions-list"
-      role="toolbar"
-      aria-orientation="vertical"
-      :aria-label="sprintf('COM_MEDIA_ACTIONS_TOOLBAR_LABEL',($parent.$props.item.name))"
+      role="menu"
+      :aria-label="sprintf('COM_MEDIA_ACTIONS_TOOLBAR_LABEL', item.name)"
+      @keydown="onMenuKeydown"
     >
       <span
         aria-hidden="true"
         class="media-browser-actions-item-name"
       >
-        <strong>{{ $parent.$props.item.name }}</strong>
+        <strong>{{ item.name }}</strong>
       </span>
       <MediaBrowserActionItemPreview
         v-if="previewable"
         ref="actionPreview"
+        role="menuitem"
+        tabindex="-1"
         :on-focused="focused"
         :main-action="openPreview"
         :closing-action="hideActions"
-        @keydown.up.prevent
-        @keydown.down.prevent
-        @keyup.up="focusPrev"
-        @keyup.down="focusNext"
-        @keyup.end="focusLast"
-        @keyup.home="focusFirst"
-        @keydown.home.prevent
-        @keydown.end.prevent
-        @keyup.esc="hideActions"
-        @keydown.tab="hideActions"
       />
       <MediaBrowserActionItemDownload
         v-if="downloadable"
         ref="actionDownload"
+        role="menuitem"
+        tabindex="-1"
         :on-focused="focused"
         :main-action="download"
         :closing-action="hideActions"
-        @keydown.up.prevent
-        @keydown.down.prevent
-        @keyup.up="focusPrev"
-        @keyup.down="focusNext"
-        @keyup.esc="hideActions"
-        @keydown.tab="hideActions"
-        @keyup.end="focusLast"
-        @keyup.home="focusFirst"
-        @keydown.home.prevent
-        @keydown.end.prevent
       />
       <MediaBrowserActionItemRename
         v-if="canEdit"
         ref="actionRename"
+        role="menuitem"
+        tabindex="-1"
         :on-focused="focused"
         :main-action="openRenameModal"
         :closing-action="hideActions"
-        @keydown.up.prevent
-        @keydown.down.prevent
-        @keyup.up="focusPrev"
-        @keyup.down="focusNext"
-        @keyup.esc="hideActions"
-        @keydown.tab="hideActions"
-        @keyup.end="focusLast"
-        @keyup.home="focusFirst"
-        @keydown.home.prevent
-        @keydown.end.prevent
       />
       <MediaBrowserActionItemEdit
         v-if="canEdit && canOpenEditView"
         ref="actionEdit"
+        role="menuitem"
+        tabindex="-1"
         :on-focused="focused"
         :main-action="editItem"
         :closing-action="hideActions"
-        @keydown.up.prevent
-        @keydown.down.prevent
-        @keyup.up="focusPrev"
-        @keyup.down="focusNext"
-        @keyup.esc="hideActions"
-        @keydown.tab="hideActions"
-        @keyup.end="focusLast"
-        @keyup.home="focusFirst"
-        @keydown.home.prevent
-        @keydown.end.prevent
       />
       <MediaBrowserActionItemShare
         v-if="shareable"
         ref="actionShare"
+        role="menuitem"
+        tabindex="-1"
         :on-focused="focused"
         :main-action="openShareUrlModal"
         :closing-action="hideActions"
-        @keydown.up.prevent
-        @keydown.down.prevent
-        @keyup.up="focusPrev"
-        @keyup.down="focusNext"
-        @keyup.esc="hideActions"
-        @keydown.tab="hideActions"
-        @keyup.end="focusLast"
-        @keyup.home="focusFirst"
-        @keydown.home.prevent
-        @keydown.end.prevent
       />
       <MediaBrowserActionItemDelete
         v-if="canDelete"
         ref="actionDelete"
+        role="menuitem"
+        tabindex="-1"
         :on-focused="focused"
         :main-action="openConfirmDeleteModal"
-        :hide-actions="hideActions"
-        @keydown.up.prevent
-        @keydown.down.prevent
-        @keyup.up="focusPrev"
-        @keyup.down="focusNext"
-        @keyup.esc="hideActions"
-        @keydown.tab="hideActions"
-        @keyup.end="focusLast"
-        @keyup.home="focusFirst"
-        @keydown.home.prevent
-        @keydown.end.prevent
+        :closing-action="hideActions"
       />
     </div>
   </div>
@@ -147,6 +104,7 @@
 <script>
 import * as types from '../../../store/mutation-types.es6';
 import api from '../../../app/Api.es6';
+import { toggleItemSelection } from '../utils/utils.es6';
 
 import MediaBrowserActionItemEdit from './edit.vue';
 import MediaBrowserActionItemDelete from './delete.vue';
@@ -155,6 +113,8 @@ import MediaBrowserActionItemPreview from './preview.vue';
 import MediaBrowserActionItemRename from './rename.vue';
 import MediaBrowserActionItemShare from './share.vue';
 import MediaBrowserActionItemToggle from './toggle.vue';
+
+let menuCounter = 0;
 
 export default {
   name: 'MediaBrowserActionItemsContainer',
@@ -176,11 +136,24 @@ export default {
   },
   emits: ['toggle-settings'],
   data() {
+    menuCounter += 1;
+
     return {
       showActions: false,
+      menuUid: menuCounter,
     };
   },
   computed: {
+    /* Unique ids for the menu button and the menu */
+    toggleId() {
+      return `media-actions-toggle-${this.menuUid}`;
+    },
+    menuId() {
+      return `media-actions-menu-${this.menuUid}`;
+    },
+    isSelected() {
+      return this.$store.state.selectedItems.some((selected) => selected.path === this.item.path);
+    },
     canEdit() {
       return api.canEdit && (typeof this.item.canEdit !== 'undefined' ? this.item.canEdit : true);
     },
@@ -237,91 +210,73 @@ export default {
       this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
       this.$store.commit(types.SHOW_SHARE_MODAL);
     },
-    /* Open actions dropdown */
+    /* Open actions menu and focus the first item */
     openActions() {
-      this.showActions = true;
-      this.$parent.$parent.$data.actionsActive = true;
-      const buttons = [...this.$el.parentElement.querySelectorAll('.media-browser-actions-list button')];
-      if (buttons.length) {
-        buttons.forEach((button, i) => {
-          if (i === (0)) {
-            button.tabIndex = 0;
-          } else {
-            button.tabIndex = -1;
-          }
-        });
-        buttons[0].focus();
-      }
+      this.showMenu('first');
     },
-    /* Open actions dropdown and focus on last element */
+    /* Open actions menu and focus the last item */
     openLastActions() {
+      this.showMenu('last');
+    },
+    /* Show the menu, then move the focus into it once it has been rendered */
+    showMenu(position) {
       this.showActions = true;
       this.$parent.$parent.$data.actionsActive = true;
-      const buttons = [...this.$el.parentElement.querySelectorAll('.media-browser-actions-list button')];
-      if (buttons.length) {
-        buttons.forEach((button, i) => {
-          if (i === (buttons.length)) {
-            button.tabIndex = 0;
-          } else {
-            button.tabIndex = -1;
-          }
-        });
-        this.$nextTick(() => buttons[buttons.length - 1].focus());
-      }
-    },
-    /* Focus on the next item or go to the beginning again */
-    focusNext(event) {
-      const active = event.target;
-      const buttons = [...active.parentElement.querySelectorAll('button')];
-      const lastchild = buttons[buttons.length - 1];
-      active.tabIndex = -1;
-      if (active === lastchild) {
-        buttons[0].focus();
-        buttons[0].tabIndex = 0;
-      } else {
-        active.nextElementSibling.focus();
-        active.nextElementSibling.tabIndex = 0;
-      }
-    },
-    /* Focus on the previous item or go to the end again */
-    focusPrev(event) {
-      const active = event.target;
-      const buttons = [...active.parentElement.querySelectorAll('button')];
-      const firstchild = buttons[0];
-      active.tabIndex = -1;
-      if (active === firstchild) {
-        buttons[buttons.length - 1].focus();
-        buttons[buttons.length - 1].tabIndex = 0;
-      } else {
-        active.previousElementSibling.focus();
-        active.previousElementSibling.tabIndex = 0;
-      }
-    },
-    /* Focus on the first item */
-    focusFirst(event) {
-      const active = event.target;
-      const buttons = [...active.parentElement.querySelectorAll('button')];
-      buttons[0].focus();
-      buttons.forEach((button, i) => {
-        if (i === 0) {
-          button.tabIndex = 0;
-        } else {
-          button.tabIndex = -1;
+      this.$nextTick(() => {
+        const items = this.getMenuItems();
+        if (items.length) {
+          items[position === 'last' ? items.length - 1 : 0].focus();
         }
       });
     },
-    /* Focus on the last item */
-    focusLast(event) {
-      const active = event.target;
-      const buttons = [...active.parentElement.querySelectorAll('button')];
-      buttons[buttons.length - 1].focus();
-      buttons.forEach((button, i) => {
-        if (i === (buttons.length)) {
-          button.tabIndex = 0;
-        } else {
-          button.tabIndex = -1;
+    getMenuItems() {
+      return this.$refs.actionList ? [...this.$refs.actionList.querySelectorAll('[role="menuitem"]')] : [];
+    },
+    /* Close the menu and return the focus to the menu button */
+    closeMenuAndFocusToggle() {
+      this.hideActions();
+      this.$nextTick(() => {
+        if (this.$refs.actionToggle) {
+          this.$refs.actionToggle.$el.focus();
         }
       });
+    },
+    /* Keyboard support of the menu: arrows, Home, End, Escape and Tab */
+    onMenuKeydown(event) {
+      const items = this.getMenuItems();
+      const index = items.indexOf(document.activeElement);
+      let next = null;
+
+      switch (event.key) {
+        case 'ArrowDown':
+          next = (index + 1) % items.length;
+          break;
+        case 'ArrowUp':
+          next = (index - 1 + items.length) % items.length;
+          break;
+        case 'Home':
+          next = 0;
+          break;
+        case 'End':
+          next = items.length - 1;
+          break;
+        case 'Escape':
+          event.preventDefault();
+          event.stopPropagation();
+          this.closeMenuAndFocusToggle();
+          return;
+        case 'Tab':
+          this.hideActions();
+          return;
+        default:
+          return;
+      }
+
+      event.preventDefault();
+      items[next].focus();
+    },
+    toggleSelect() {
+      toggleItemSelection(this.item, this.$store);
     },
     editItem() {
       this.edit();

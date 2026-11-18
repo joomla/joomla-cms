@@ -85,8 +85,14 @@ ul.media-tree {
   }
 }
 
+// The drives are the items of one tree now. Keep the space that the template gives to
+// the elements after <summary> (details summary ~ *) inside each drive, as before.
+.media-disk > details > ul.media-tree {
+  padding-block-start: 0;
+}
+
 .media-drive-name {
-  padding: 4px 10px;
+  padding: calc(1rem + 4px) 10px 9px;
   &::before {
     content: none;
   }
@@ -108,15 +114,26 @@ ul.media-tree {
   text-overflow: ellipsis;
   white-space: nowrap;
   cursor: pointer;
-  &:hover,
-  &:focus-visible {
+  &:hover {
     background-color: $sidebar-tree-item-hover-bg;
   }
 }
 
-.media-tree-item.active > a {
-  &:hover,
+// The tree item (li) has the focus and contains its sub folders,
+// so the focus indicator is shown on its own label only
+.media-tree-item[role="treeitem"] {
   &:focus-visible {
+    outline: 0;
+  }
+  &:focus-visible > a {
+    background-color: $sidebar-tree-item-hover-bg;
+    outline: 2px solid var(--focus, #{$highlight-color});
+    outline-offset: -2px;
+  }
+}
+
+.media-tree-item.active > a {
+  &:hover {
     text-decoration: none;
     background-color: $sidebar-tree-item-hover-bg;
   }

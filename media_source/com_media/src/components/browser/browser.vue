@@ -8,23 +8,30 @@
     @dragover="onDragOver"
     @dragleave="onDragLeave"
   >
+    <!-- The live region is always rendered, so the message is announced when it is added -->
     <div
-      v-if="isEmptySearch"
-      class="pt-1"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
     >
       <div
-        class="alert alert-info m-3"
+        v-if="isEmptySearch"
+        class="pt-1"
       >
-        <span
-          class="icon-info-circle"
-          aria-hidden="true"
-        />
-        <span
-          class="visually-hidden"
+        <div
+          class="alert alert-info m-3"
         >
-          {{ translate('NOTICE') }}
-        </span>
-        {{ translate('JGLOBAL_NO_MATCHING_RESULTS') }}
+          <span
+            class="icon-info-circle"
+            aria-hidden="true"
+          />
+          <span
+            class="visually-hidden"
+          >
+            {{ translate('NOTICE') }}
+          </span>
+          {{ translate('JGLOBAL_NO_MATCHING_RESULTS') }}
+        </div>
       </div>
     </div>
     <div

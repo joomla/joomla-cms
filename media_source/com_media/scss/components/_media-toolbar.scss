@@ -40,6 +40,17 @@
     height: 1.1rem;
     margin: 1rem;
   }
+  // The ordering selects follow their button in the DOM (focus order),
+  // but are shown as a new row below the toolbar buttons
+  &-sort-options {
+    flex: 0 0 100%;
+    order: 1;
+    margin: 0;
+    border-top: 1px solid $border-color;
+    > * {
+      margin-top: 0;
+    }
+  }
 }
 
 .media-view-icons {
