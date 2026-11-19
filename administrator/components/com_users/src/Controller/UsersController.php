@@ -148,6 +148,44 @@ class UsersController extends AdminController
     }
 
     /**
+     * Method to send the selected users either a new password or a password reset link by email.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function sendNewPassword(): void
+    {
+        $this->checkToken();
+
+        $ids = array_filter((array) $this->input->get('cid', [], 'int'));
+
+        if (empty($ids)) {
+            $this->setMessage(Text::_('COM_USERS_USERS_NO_ITEM_SELECTED'), 'warning');
+        } else {
+            try {
+                $model = $this->getModel();
+
+                if ($this->input->get('passwordMode') === 'link') {
+                    $model->sendPasswordResetLink($ids);
+                    $message = 'COM_USERS_N_USERS_RESET_LINK_SENT';
+                } else {
+                    $model->sendNewPassword($ids, $this->input->getBool('requireReset', false));
+                    $message = 'COM_USERS_N_USERS_NEW_PASSWORD_SENT';
+                }
+
+                if ($ids) {
+                    $this->setMessage(Text::plural($message, \count($ids)));
+                }
+            } catch (\Exception $exception) {
+                $this->setMessage($exception->getMessage(), 'error');
+            }
+        }
+
+        $this->setRedirect('index.php?option=com_users&view=users');
+    }
+
+    /**
      * Method to get the number of active users
      *
      * @return  void
