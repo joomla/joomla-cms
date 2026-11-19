@@ -22,6 +22,7 @@ use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryAwareInterface;
@@ -61,6 +62,10 @@ class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
         $id = !empty($id) ? $id : (int) $this->getState($this->getName() . '.request_id');
 
         if (!$id) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_PRIVACY_ERROR_REQUEST_ID_REQUIRED_FOR_EXPORT'));
+            }
+
             $this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_ID_REQUIRED_FOR_EXPORT'));
 
             return false;
@@ -70,18 +75,32 @@ class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
         $table = $this->getTable();
 
         if (!$table->load($id)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
         }
 
         if ($table->request_type !== 'export') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_PRIVACY_ERROR_REQUEST_TYPE_NOT_EXPORT'));
+            }
+
             $this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_TYPE_NOT_EXPORT'));
 
             return false;
         }
 
         if ($table->status != 1) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_PRIVACY_ERROR_CANNOT_EXPORT_UNCONFIRMED_REQUEST'));
+            }
+
             $this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_EXPORT_UNCONFIRMED_REQUEST'));
 
             return false;
@@ -136,6 +155,10 @@ class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
         $id = !empty($id) ? $id : (int) $this->getState($this->getName() . '.request_id');
 
         if (!$id) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_PRIVACY_ERROR_REQUEST_ID_REQUIRED_FOR_EXPORT'));
+            }
+
             $this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_ID_REQUIRED_FOR_EXPORT'));
 
             return false;
@@ -152,18 +175,32 @@ class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
         $table = $this->getTable();
 
         if (!$table->load($id)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
         }
 
         if ($table->request_type !== 'export') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_PRIVACY_ERROR_REQUEST_TYPE_NOT_EXPORT'));
+            }
+
             $this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_TYPE_NOT_EXPORT'));
 
             return false;
         }
 
         if ($table->status != 1) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_PRIVACY_ERROR_CANNOT_EXPORT_UNCONFIRMED_REQUEST'));
+            }
+
             $this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_EXPORT_UNCONFIRMED_REQUEST'));
 
             return false;
@@ -236,6 +273,10 @@ class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
             $mailer->addAttachment('user-data_' . Uri::getInstance()->toString(['host']) . '.xml', PrivacyHelper::renderDataAsXml($exportData));
 
             if ($mailer->send() === false) {
+                if ($this->shouldUseExceptions()) {
+                    throw new \RuntimeException($mailer->ErrorInfo);
+                }
+
                 $this->setError($mailer->ErrorInfo);
 
                 return false;
@@ -243,6 +284,10 @@ class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
 
             return true;
         } catch (phpmailerException $exception) {
+            if ($this->shouldUseExceptions()) {
+                throw $exception;
+            }
+
             $this->setError($exception->getMessage());
 
             return false;

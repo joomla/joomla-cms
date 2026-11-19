@@ -11,6 +11,7 @@
 namespace Joomla\Component\Messages\Administrator\Table;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseInterface;
@@ -54,6 +55,10 @@ class MessageTable extends Table
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -63,6 +68,10 @@ class MessageTable extends Table
         $user = new User($this->user_id_from);
 
         if (empty($user->id)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_MESSAGES_ERROR_INVALID_FROM_USER'));
+            }
+
             $this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_FROM_USER'));
 
             return false;
@@ -71,18 +80,30 @@ class MessageTable extends Table
         $user = new User($this->user_id_to);
 
         if (empty($user->id)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_MESSAGES_ERROR_INVALID_TO_USER'));
+            }
+
             $this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_TO_USER'));
 
             return false;
         }
 
         if (empty($this->subject)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_MESSAGES_ERROR_INVALID_SUBJECT'));
+            }
+
             $this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_SUBJECT'));
 
             return false;
         }
 
         if (empty($this->message)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_MESSAGES_ERROR_INVALID_MESSAGE'));
+            }
+
             $this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_MESSAGE'));
 
             return false;
