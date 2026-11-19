@@ -93,4 +93,28 @@ abstract class SaveEvent extends ModelEvent
     {
         return $this->arguments['data'];
     }
+
+    /**
+     * Getter for the task.
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getTask()
+    {
+        return $this->arguments['task'];
+    }
+
+    /**
+     * Getter for the source primary key.
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getSourcePk()
+    {
+        return $this->arguments['sourcePk'];
+    }
 }
