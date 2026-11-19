@@ -96,26 +96,26 @@ describe('Test in backend that the media manager', () => {
       cy.wait('@getMedia');
       cy.intercept('PUT', '*format=json*task=api.files*').as('renameMedia');
 
-      cy.contains('.media-browser-item', name).find('.action-toggle').focus().type('{enter}');
+      cy.contains('.media-browser-item', name).find('.action-toggle .image-browser-action').click({ force: true });
       cy.contains('.media-browser-item', name).find('.action-rename').click();
       cy.get('[role="dialog"]').within(() => {
         cy.get('#name').clear();
-        cy.contains('button', 'Apply').should('be.disabled');
+        cy.get('.modal-footer .btn-success').should('be.disabled');
         cy.get('#name').type('{enter}').should('have.value', '');
         cy.get('form').submit();
         cy.get('#name').should('have.value', '');
         cy.get('#name').type('   ');
-        cy.contains('button', 'Apply').should('be.disabled');
+        cy.get('.modal-footer .btn-success').should('be.disabled');
         cy.get('#name').type('{enter}');
         cy.get('form').submit();
         cy.get('#name').should('have.value', '   ');
         cy.get('#name').clear().type('valid-name');
-        cy.contains('button', 'Apply').should('be.enabled');
+        cy.get('.modal-footer .btn-success').should('be.enabled');
         cy.contains('button', 'Cancel').click();
       });
       cy.get('@renameMedia.all').should('have.length', 0);
 
-      cy.contains('.media-browser-item', name).find('.action-toggle').focus().type('{enter}');
+      cy.contains('.media-browser-item', name).find('.action-toggle .image-browser-action').click({ force: true });
       cy.contains('.media-browser-item', name).find('.action-rename').click();
       cy.get('#name').should('have.value', name === 'joomla_black.png' ? 'joomla_black' : name);
       cy.contains('[role="dialog"] button', 'Cancel').click();
