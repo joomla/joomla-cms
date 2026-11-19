@@ -6,6 +6,21 @@ const { Pool } = pkg; // Using Pool from pg for PostgreSQL connections
 // Items cache which are added by an insert statement
 let insertedItems = [];
 
+// Primary key columns of the tables which do not use 'id', without the table prefix
+const primaryKeys = { languages: 'lang_id' };
+
+/**
+ * Returns the primary key column of the given prefixed table name.
+ *
+ * @param {string} table The table name including the prefix
+ * @param {object} config The configuration
+ *
+ * @returns {string}
+ */
+function primaryKeyOf(table, config) {
+  return primaryKeys[table.substring(config.expose.db_prefix.length)] || 'id';
+}
+
 // Use of the PostgreSQL connection pool to limit the number of sessions
 let postgresConnectionPool = null;
 
@@ -78,12 +93,14 @@ function queryTestDB(joomlaQuery, config) {
       }
 
       // Push the id to the cache when it is an insert operation
-      if (insertItem && result.rows.length && result.rows[0].id) {
-        insertItem.rows.push(result.rows[0].id);
+      const insertId = result.rows[0][primaryKeyOf(insertItem.table, config)];
+
+      if (insertId) {
+        insertItem.rows.push(insertId);
       }
 
       // Normalize the object and return from PostgreSQL
-      return { insertId: result.rows[0].id };
+      return { insertId };
     })
       .catch((error) => {
         throw new Error(`Postgres query failed: ${error.message}`);
@@ -160,7 +177,7 @@ function deleteInsertedItems(config) {
     }
 
     // Delete the items from the database
-    promises.push(queryTestDB(`DELETE FROM ${item.table} WHERE id IN (${item.rows.join(',')})`, config).then(() => {
+    promises.push(queryTestDB(`DELETE FROM ${item.table} WHERE ${primaryKeyOf(item.table, config)} IN (${item.rows.join(',')})`, config).then(() => {
       // Cleanup some tables we do not have control over from inserted items
       if (item.table === `${config.expose.db_prefix}users`) {
         promises.push(queryTestDB(`DELETE FROM #__user_usergroup_map WHERE user_id IN (${item.rows.join(',')})`, config));
