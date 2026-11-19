@@ -27,10 +27,10 @@
               <input
                 id="name"
                 ref="nameField"
+                v-model="editedName"
                 class="form-control"
                 type="text"
                 :placeholder="translate('COM_MEDIA_NAME')"
-                :value="name"
                 required
                 autocomplete="off"
               >
@@ -78,6 +78,11 @@ export default {
   components: {
     MediaModal,
   },
+  data() {
+    return {
+      editedName: '',
+    };
+  },
   computed: {
     item() {
       return this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1];
@@ -89,13 +94,21 @@ export default {
       return this.item.extension;
     },
   },
-  updated() {
-    this.$nextTick(() => (this.$refs.nameField ? this.$refs.nameField.focus() : null));
+  watch: {
+    '$store.state.showRenameModal': {
+      immediate: true,
+      handler(show) {
+        if (show) {
+          this.editedName = this.name;
+          this.$nextTick(() => this.$refs.nameField?.focus());
+        }
+      },
+    },
   },
   methods: {
     /* Check if the form is valid */
     isValid() {
-      return this.item.name.length > 0;
+      return this.editedName.trim().length > 0;
     },
     /* Close the modal instance */
     close() {
@@ -108,7 +121,7 @@ export default {
         // @todo mark the field as invalid
         return;
       }
-      let newName = this.$refs.nameField.value;
+      let newName = this.editedName;
       if (this.extension.length) {
         newName += `.${this.item.extension}`;
       }
