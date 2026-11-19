@@ -135,6 +135,12 @@ class ModuleField extends ModalSelectField
 
         $this->hint = $this->hint ?: Text::_('COM_MODULES_SELECT_A_MODULE');
 
+        // Prepare the data source for the value title and the check out state
+        $this->sql_title_table        = '#__modules';
+        $this->sql_title_column       = 'title';
+        $this->sql_title_key          = 'id';
+        $this->sql_checked_out_column = 'checked_out';
+
         return $return;
     }
 
@@ -171,37 +177,6 @@ class ModuleField extends ModalSelectField
         }
 
         return $eid;
-    }
-
-    /**
-     * Method to retrieve the title of selected item.
-     *
-     * @return string
-     *
-     * @since   6.1.0
-     */
-    protected function getValueTitle()
-    {
-        $value = (int) $this->value ?: '';
-        $title = '';
-
-        if ($value) {
-            try {
-                $db    = $this->getDatabase();
-                $query = $db->createQuery()
-                    ->select($db->quoteName('title'))
-                    ->from($db->quoteName('#__modules'))
-                    ->where($db->quoteName('id') . ' = :id')
-                    ->bind(':id', $value, ParameterType::INTEGER);
-                $db->setQuery($query);
-
-                $title = $db->loadResult();
-            } catch (\Throwable $e) {
-                Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-            }
-        }
-
-        return $title ?: $value;
     }
 
     /**
