@@ -62,7 +62,8 @@ class Filter
         if (!empty($filterId)) {
             $query->select('f.data, f.params')
                 ->from($db->quoteName('#__finder_filters') . ' AS f')
-                ->where('f.filter_id = ' . (int) $filterId);
+                ->where('f.filter_id = ' . (int) $filterId)
+                ->where($db->quoteName('f.state') . ' = 1');
 
             // Load the filter data.
             $db->setQuery($query);
@@ -231,7 +232,8 @@ class Filter
             if (!empty($idxQuery->filter)) {
                 $query->select('f.data, ' . $db->quoteName('f.params'))
                     ->from($db->quoteName('#__finder_filters') . ' AS f')
-                    ->where('f.filter_id = ' . (int) $idxQuery->filter);
+                    ->where('f.filter_id = ' . (int) $idxQuery->filter)
+                    ->where($db->quoteName('f.state') . ' = 1');
 
                 // Load the filter data.
                 $db->setQuery($query);
