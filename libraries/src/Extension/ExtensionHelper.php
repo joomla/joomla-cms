@@ -214,6 +214,7 @@ class ExtensionHelper
         ['plugin', 'finder', 'extension', 0],
 
         // Core plugin extensions - fields
+        ['plugin', 'article', 'fields', 0],
         ['plugin', 'calendar', 'fields', 0],
         ['plugin', 'checkboxes', 'fields', 0],
         ['plugin', 'color', 'fields', 0],
