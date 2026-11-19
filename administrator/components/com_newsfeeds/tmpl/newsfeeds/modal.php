@@ -23,7 +23,8 @@ use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('core')
-    ->useScript('modal-content-select');
+    ->useScript('modal-content-select')
+    ->useScript('com_newsfeeds.admin-newsfeeds-modal');
 
 $app = Factory::getApplication();
 
@@ -32,6 +33,9 @@ $function  = $app->getInput()->getCmd('function', 'jSelectNewsfeed');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $multilang = Multilanguage::isEnabled();
+
+// The legacy callback, for a parent that does not listen for postMessage(): see admin-newsfeeds-modal.js
+$this->getDocument()->addScriptOptions('newsfeeds-modal', ['function' => $function]);
 ?>
 <div class="container-popup">
 
@@ -111,9 +115,8 @@ $multilang = Multilanguage::isEnabled();
                                 . ' data-language="' . $this->escape($lang) . '"'
                                 . ' data-html="' . $this->escape($itemHtml) . '"';
                             ?>
-                            <a href="javascript:void(0)" <?php echo $attribs; ?>
-                               onclick="if (window.parent && !window.parent.JoomlaExpectingPostMessage) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape($link); ?>', '<?php echo $this->escape($lang); ?>', null);">
-                            <?php echo $this->escape($item->name); ?></a>
+                            <button type="button" class="btn btn-link p-0 text-start align-baseline text-decoration-underline select-link" <?php echo $attribs; ?>>
+                            <?php echo $this->escape($item->name); ?></button>
                             <div class="small">
                                 <?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
                             </div>

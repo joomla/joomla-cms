@@ -25,7 +25,7 @@ $this->getDocument()->setTitle(Text::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
 
 ?>
 <div class="container-popup">
-    <form>
+    <form id="pagebreak-form" data-editor="<?php echo $this->escape($this->eName); ?>">
         <div class="control-group">
             <div class="control-label">
                 <label for="title"><?php echo Text::_('COM_CONTENT_PAGEBREAK_TITLE'); ?></label>
@@ -43,7 +43,7 @@ $this->getDocument()->setTitle(Text::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
             </div>
         </div>
 
-        <button onclick="insertPagebreak('<?php echo $this->eName; ?>');" class="btn btn-success">
+        <button type="submit" class="btn btn-success">
             <?php echo Text::_('COM_CONTENT_PAGEBREAK_INSERT_BUTTON'); ?>
         </button>
 
