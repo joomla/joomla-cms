@@ -8,7 +8,7 @@
       style="display: flex"
       @click.stop
     >
-      <Lock>
+      <Lock return-focus>
         <div
           class="modal-dialog"
           :class="modalClass"

@@ -2,12 +2,9 @@
   <button
     type="button"
     class="action-edit"
-    @keyup.enter="editItem()"
-    @keyup.space="editItem()"
     @click.stop="editItem()"
     @focus="focused(true)"
     @blur="focused(false)"
-    @keyup.esc="hideActions()"
   >
     <span
       class="image-browser-action icon-pencil-alt"

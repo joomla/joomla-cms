@@ -59,6 +59,8 @@ $fa-css-prefix:    fa;
   color: $info-close-color;
   text-indent: 0;
   text-shadow: none;
+  background: transparent;
+  border: 0;
   &:hover {
     color: $info-close-color-hover;
     cursor: pointer;

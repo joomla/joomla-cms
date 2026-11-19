@@ -8,35 +8,33 @@
       :key="item.path"
       class="media-tree-item"
       :class="{active: isActive(item)}"
-      role="none"
+      role="treeitem"
+      :aria-labelledby="treeLabelId(item.path)"
+      :aria-level="level"
+      :aria-setsize="directories.length"
+      :aria-posinset="index + 1"
+      :aria-expanded="hasChildren(item) ? String(isExpanded(item)) : undefined"
+      :aria-selected="isActive(item) ? 'true' : 'false'"
+      :tabindex="isTabStop(item.path) ? 0 : -1"
+      @focus.self="setFocusedPath(item.path)"
+      @keydown.self="onKeydown($event, item)"
     >
       <a
-        :ref="root + index"
-        role="treeitem"
-        :aria-level="level"
-        :aria-setsize="directories.length"
-        :aria-posinset="index + 1"
-        :tabindex="getTabindex(item)"
+        :id="treeLabelId(item.path)"
         @click.stop.prevent="onItemClick(item)"
-        @keyup.up="moveFocusToPreviousElement(index)"
-        @keyup.down="moveFocusToNextElement(index)"
-        @keyup.enter="onItemClick(item)"
-        @keyup.right="moveFocusToChildElement(item)"
-        @keyup.left="moveFocusToParentElement()"
       >
-        <span class="item-icon"><span :class="iconClass(item)" /></span>
+        <span class="item-icon"><span
+          :class="iconClass(item)"
+          aria-hidden="true"
+        /></span>
         <span class="item-name">{{ item.name }}</span>
       </a>
       <transition name="slide-fade">
         <MediaTree
           v-if="hasChildren(item)"
-          v-show="isOpen(item)"
-          :ref="item.path"
-          :aria-expanded="isOpen(item) ? 'true' : 'false'"
+          v-show="isExpanded(item)"
           :root="item.path"
           :level="(level+1)"
-          :parent-index="index"
-          @move-focus-to-parent="restoreFocus"
         />
       </transition>
     </li>
@@ -45,10 +43,12 @@
 
 <script>
 import navigable from '../../mixins/navigable.es6';
+import { onTreeItemKeydown, treeLabelId } from './tree-navigation.es6';
 
 export default {
   name: 'MediaTree',
   mixins: [navigable],
+  inject: ['mediaTree'],
   props: {
     root: {
       type: String,
@@ -58,12 +58,13 @@ export default {
       type: Number,
       required: true,
     },
-    parentIndex: {
-      type: Number,
-      required: true,
-    },
   },
-  emits: ['move-focus-to-parent'],
+  data() {
+    return {
+      // Folders the user expanded or collapsed with the keyboard: { path: true|false }
+      expandedOverride: {},
+    };
+  },
   computed: {
     /* Get the directories */
     directories() {
@@ -73,12 +74,22 @@ export default {
         .sort((a, b) => ((a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1));
     },
   },
+  watch: {
+    // After navigating, the open folders follow the current folder again
+    '$store.state.selectedDirectory': function () {
+      this.expandedOverride = {};
+    },
+  },
   methods: {
+    treeLabelId,
     isActive(item) {
       return (item.path === this.$store.state.selectedDirectory);
     },
-    getTabindex(item) {
-      return this.isActive(item) ? 0 : -1;
+    isTabStop(path) {
+      return this.mediaTree.isTabStop(path);
+    },
+    setFocusedPath(path) {
+      this.mediaTree.focusedPath = path;
     },
     onItemClick(item) {
       this.navigateTo(item.path);
@@ -103,39 +114,35 @@ export default {
     isOpen(item) {
       return this.$store.state.selectedDirectory.includes(item.path);
     },
+    isExpanded(item) {
+      if (!this.hasChildren(item)) {
+        return false;
+      }
+
+      if (typeof this.expandedOverride[item.path] === 'boolean') {
+        return this.expandedOverride[item.path];
+      }
+
+      return this.isOpen(item);
+    },
     iconClass(item) {
+      // Folders with sub folders show their expanded state, other folders are open when they are in the current path
+      const open = this.hasChildren(item) ? this.isExpanded(item) : this.isOpen(item);
+
       return {
         fas: false,
-        'icon-folder': !this.isOpen(item),
-        'icon-folder-open': this.isOpen(item),
+        'icon-folder': !open,
+        'icon-folder-open': open,
       };
     },
-    setFocusToFirstChild() {
-      this.$refs[`${this.root}0`][0].focus();
-    },
-    moveFocusToNextElement(currentIndex) {
-      if ((currentIndex + 1) === this.directories.length) {
-        return;
-      }
-      this.$refs[this.root + (currentIndex + 1)][0].focus();
-    },
-    moveFocusToPreviousElement(currentIndex) {
-      if (currentIndex === 0) {
-        return;
-      }
-      this.$refs[this.root + (currentIndex - 1)][0].focus();
-    },
-    moveFocusToChildElement(item) {
-      if (!this.hasChildren(item)) {
-        return;
-      }
-      this.$refs[item.path][0].setFocusToFirstChild();
-    },
-    moveFocusToParentElement() {
-      this.$emit('move-focus-to-parent', this.parentIndex);
-    },
-    restoreFocus(parentIndex) {
-      this.$refs[this.root + parentIndex][0].focus();
+    onKeydown(event, item) {
+      onTreeItemKeydown(event, {
+        hasChildren: this.hasChildren(item),
+        expanded: this.isExpanded(item),
+        expand: () => { this.expandedOverride = { ...this.expandedOverride, [item.path]: true }; },
+        collapse: () => { this.expandedOverride = { ...this.expandedOverride, [item.path]: false }; },
+        activate: () => this.onItemClick(item),
+      });
     },
   },
 };

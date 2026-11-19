@@ -1,16 +1,17 @@
 <template>
   <div
     class="media-browser-image"
-    tabindex="0"
     @dblclick="openPreview()"
     @mouseleave="hideActions()"
-    @keyup.enter="openPreview()"
   >
-    <div
+    <button
+      type="button"
       class="media-browser-item-preview"
       :title="item.name"
+      :aria-label="sprintf('COM_MEDIA_PREVIEW_ITEM', item.name)"
+      @click="onOpenControl"
     >
-      <div class="image-background">
+      <span class="image-background">
         <img
           v-if="thumbURL"
           class="image-cropped"
@@ -26,19 +27,14 @@
           class="icon-eye-slash image-placeholder"
           aria-hidden="true"
         />
-      </div>
-    </div>
+      </span>
+    </button>
     <div
       class="media-browser-item-info"
       :title="item.name"
     >
       {{ item.name }} {{ item.filetype }}
     </div>
-    <span
-      class="media-browser-select"
-      :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
-      :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
-    />
     <MediaBrowserActionItemsContainer
       ref="container"
       :item="item"
@@ -54,6 +50,7 @@
 <script>
 import api from '../../../app/Api.es6';
 import MediaBrowserActionItemsContainer from '../actionItems/actionItemsContainer.vue';
+import { openOnNonPointerClick } from '../utils/utils.es6';
 
 export default {
   name: 'MediaBrowserItemImage',
@@ -107,6 +104,9 @@ export default {
     /* Preview an item */
     openPreview() {
       this.$refs.container.openPreview();
+    },
+    onOpenControl(event) {
+      openOnNonPointerClick(event, this.openPreview);
     },
     /* Edit an item */
     editItem() {

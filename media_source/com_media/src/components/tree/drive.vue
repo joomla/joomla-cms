@@ -1,44 +1,34 @@
 <template>
-  <div
-    class="media-drive"
+  <li
+    class="media-drive media-tree-item media-drive-name"
+    :class="{active: isActive}"
+    role="treeitem"
+    :aria-labelledby="treeLabelId(drive.root)"
+    aria-level="1"
+    :aria-setsize="total"
+    :aria-posinset="counter + 1"
+    :aria-expanded="hasChildren ? String(isExpanded) : undefined"
+    :aria-selected="isActive ? 'true' : 'false'"
+    :tabindex="mediaTree.isTabStop(drive.root) ? 0 : -1"
     @click.stop.prevent="onDriveClick()"
+    @focus.self="mediaTree.focusedPath = drive.root"
+    @keydown.self="onKeydown"
   >
-    <ul
-      class="media-tree"
-      role="tree"
-      :aria-labelledby="diskId"
-    >
-      <li
-        :class="{active: isActive, 'media-tree-item': true, 'media-drive-name': true}"
-        role="none"
-      >
-        <a
-          ref="drive-root"
-          role="treeitem"
-          aria-level="1"
-          :aria-setsize="counter"
-          :aria-posinset="1"
-          :tabindex="getTabindex"
-          @keyup.right="moveFocusToChildElement(drive.root)"
-          @keyup.enter="onDriveClick"
-        >
-          <span class="item-name">{{ drive.displayName }}</span>
-        </a>
-        <MediaTree
-          :ref="drive.root"
-          :root="drive.root"
-          :level="2"
-          :parent-index="0"
-          @move-focus-to-parent="restoreFocus"
-        />
-      </li>
-    </ul>
-  </div>
+    <a :id="treeLabelId(drive.root)">
+      <span class="item-name">{{ drive.displayName }}</span>
+    </a>
+    <MediaTree
+      v-show="isExpanded"
+      :root="drive.root"
+      :level="2"
+    />
+  </li>
 </template>
 
 <script>
 import navigable from '../../mixins/navigable.es6';
 import MediaTree from './tree.vue';
+import { onTreeItemKeydown, treeLabelId } from './tree-navigation.es6';
 
 export default {
   name: 'MediaDrive',
@@ -46,6 +36,7 @@ export default {
     MediaTree,
   },
   mixins: [navigable],
+  inject: ['mediaTree'],
   props: {
     drive: {
       type: Object,
@@ -64,16 +55,31 @@ export default {
       default: 0,
     },
   },
+  data() {
+    return {
+      // The drive is expanded unless the user collapsed it with the keyboard
+      collapsed: false,
+    };
+  },
   computed: {
     /* Whether or not the item is active */
     isActive() {
       return (this.$store.state.selectedDirectory === this.drive.root);
     },
-    getTabindex() {
-      return this.isActive ? 0 : -1;
+    hasChildren() {
+      return this.$store.state.directories.some((directory) => directory.directory === this.drive.root);
+    },
+    isExpanded() {
+      return this.hasChildren && !this.collapsed;
+    },
+  },
+  watch: {
+    '$store.state.selectedDirectory': function () {
+      this.collapsed = false;
     },
   },
   methods: {
+    treeLabelId,
     /* Handle the on drive click event */
     onDriveClick() {
       this.navigateTo(this.drive.root);
@@ -89,11 +95,14 @@ export default {
         }),
       );
     },
-    moveFocusToChildElement(nextRoot) {
-      this.$refs[nextRoot].setFocusToFirstChild();
-    },
-    restoreFocus() {
-      this.$refs['drive-root'].focus();
+    onKeydown(event) {
+      onTreeItemKeydown(event, {
+        hasChildren: this.hasChildren,
+        expanded: this.isExpanded,
+        expand: () => { this.collapsed = false; },
+        collapse: () => { this.collapsed = true; },
+        activate: () => this.onDriveClick(),
+      });
     },
   },
 };

@@ -12,6 +12,7 @@
         <th
           class="name"
           scope="col"
+          :aria-sort="ariaSort('name')"
         >
           <button
             class="btn btn-link"
@@ -32,6 +33,7 @@
         <th
           class="size"
           scope="col"
+          :aria-sort="ariaSort('size')"
         >
           <button
             class="btn btn-link"
@@ -52,6 +54,7 @@
         <th
           class="dimension"
           scope="col"
+          :aria-sort="ariaSort('dimension')"
         >
           <button
             class="btn btn-link"
@@ -72,6 +75,7 @@
         <th
           class="created"
           scope="col"
+          :aria-sort="ariaSort('date_created')"
         >
           <button
             class="btn btn-link"
@@ -92,6 +96,7 @@
         <th
           class="modified"
           scope="col"
+          :aria-sort="ariaSort('date_modified')"
         >
           <button
             class="btn btn-link"
@@ -142,6 +147,14 @@ export default {
     },
   },
   methods: {
+    /* The aria-sort value of a column: only the sorted column gets it */
+    ariaSort(name) {
+      if (this.$store.state.sortBy !== name) {
+        return undefined;
+      }
+
+      return this.$store.state.sortDirection === 'asc' ? 'ascending' : 'descending';
+    },
     changeOrder(name) {
       this.$store.commit(types.UPDATE_SORT_BY, name);
       this.$store.commit(types.UPDATE_SORT_DIRECTION, this.$store.state.sortDirection === 'asc' ? 'desc' : 'asc');

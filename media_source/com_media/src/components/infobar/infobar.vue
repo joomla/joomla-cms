@@ -5,10 +5,14 @@
       class="media-infobar"
     >
       <div class="media-infobar-inner">
-        <span
+        <button
+          type="button"
           class="infobar-close"
+          :aria-label="translate('JCLOSE')"
           @click="hideInfoBar()"
-        >×</span>
+        >
+          <span aria-hidden="true">×</span>
+        </button>
         <h2>{{ item.name }}</h2>
         <div
           v-if="item.path === '/'"
@@ -97,6 +101,14 @@ export default {
   methods: {
     hideInfoBar() {
       this.$store.commit(types.HIDE_INFOBAR);
+
+      // The close button is removed, so return the focus to the button that opens the information pane
+      this.$nextTick(() => {
+        const toggle = document.querySelector('.media-toolbar-info');
+        if (toggle) {
+          toggle.focus();
+        }
+      });
     },
   },
 };

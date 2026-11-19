@@ -3,11 +3,8 @@
     type="button"
     class="action-url"
     @click.stop="openShareUrlModal()"
-    @keyup.enter="openShareUrlModal()"
-    @keyup.space="openShareUrlModal()"
     @focus="focused(true)"
     @blur="focused(false)"
-    @keyup.esc="hideActions()"
   >
     <span
       class="image-browser-action icon-link"

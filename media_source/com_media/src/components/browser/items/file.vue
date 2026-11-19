@@ -28,11 +28,6 @@
     <div class="media-browser-item-info">
       {{ item.name }} {{ item.filetype }}
     </div>
-    <span
-      class="media-browser-select"
-      :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
-      :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
-    />
     <MediaBrowserActionItemsContainer
       ref="container"
       :item="item"

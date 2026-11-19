@@ -1,42 +1,66 @@
 import * as types from '../../../store/mutation-types.es6';
 
 /**
+ * The detail of the onMediaFileSelected event for an item
+ * @param item
+ */
+function selectedItemDetail(item) {
+  if (item.type === 'dir') {
+    return { type: item.type, name: item.name, path: item.path };
+  }
+
+  return {
+    type: item.type,
+    name: item.name,
+    path: item.path,
+    thumb: item.thumb,
+    fileType: item.mime_type ? item.mime_type : false,
+    extension: item.extension ? item.extension : false,
+    width: item.width ? item.width : 0,
+    height: item.height ? item.height : 0,
+  };
+}
+
+function dispatchFileSelected(detail) {
+  window.parent.document.dispatchEvent(
+    new CustomEvent('onMediaFileSelected', { bubbles: true, cancelable: false, detail }),
+  );
+}
+
+/**
+ * Select or unselect one item with its checkbox, keeping the other selected items
+ * @param item
+ * @param store
+ */
+export function toggleItemSelection(item, store) {
+  const wasSelected = store.state.selectedItems.some((selected) => selected.path === item.path);
+
+  store.dispatch('toggleBrowserItemSelect', item);
+  dispatchFileSelected(wasSelected ? {} : selectedItemDetail(item));
+}
+
+/**
+ * Click handler of the button that opens an item. A click from the keyboard or from
+ * assistive technology has detail 0 and opens the item. A mouse click bubbles to the
+ * item and selects it, as before; a double click opens it.
+ * @param event
+ * @param open
+ */
+export function openOnNonPointerClick(event, open) {
+  if (event.detail === 0) {
+    event.stopPropagation();
+    open();
+  }
+}
+
+/**
  * Handle the click event
  * @param event
  * @param ctx  the context
  */
 export default function onItemClick(event, ctx) {
-  if (ctx.item.path && ctx.item.type === 'file') {
-    window.parent.document.dispatchEvent(
-      new CustomEvent('onMediaFileSelected', {
-        bubbles: true,
-        cancelable: false,
-        detail: {
-          type: ctx.item.type,
-          name: ctx.item.name,
-          path: ctx.item.path,
-          thumb: ctx.item.thumb,
-          fileType: ctx.item.mime_type ? ctx.item.mime_type : false,
-          extension: ctx.item.extension ? ctx.item.extension : false,
-          width: ctx.item.width ? ctx.item.width : 0,
-          height: ctx.item.height ? ctx.item.height : 0,
-        },
-      }),
-    );
-  }
-
-  if (ctx.item.type === 'dir') {
-    window.parent.document.dispatchEvent(
-      new CustomEvent('onMediaFileSelected', {
-        bubbles: true,
-        cancelable: false,
-        detail: {
-          type: ctx.item.type,
-          name: ctx.item.name,
-          path: ctx.item.path,
-        },
-      }),
-    );
+  if (ctx.item.type === 'dir' || (ctx.item.path && ctx.item.type === 'file')) {
+    dispatchFileSelected(selectedItemDetail(ctx.item));
   }
 
   // Handle clicks when the item was not selected
