@@ -35,6 +35,7 @@
 			type="ModulesPosition"
 			label="COM_MODULES_FIELD_POSITION_LABEL"
 			client="site"
+			layout="joomla.form.field.list-fancy-select"
 			class="js-select-submit-on-change"
 			>
 			<option value="">COM_MODULES_OPTION_SELECT_POSITION</option>
@@ -44,6 +45,7 @@
 			type="ModulesModule"
 			label="COM_MODULES_HEADING_MODULE"
 			client="site"
+			layout="joomla.form.field.list-fancy-select"
 			class="js-select-submit-on-change"
 			>
 			<option value="">COM_MODULES_OPTION_SELECT_MODULE</option>
@@ -53,6 +55,7 @@
 			type="menuitem"
 			label="JGLOBAL_MENU_SELECTION"
 			disable="separator,alias,heading,url"
+			layout="joomla.form.field.groupedlist-fancy-select"
 			class="js-select-submit-on-change"
 			>
 			<option	value="">COM_MODULES_OPTION_SELECT_MENU_ITEM</option>
