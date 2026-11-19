@@ -66,7 +66,9 @@ Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
                 <tr>
                     <th scope="row"><?php echo $value->label; ?></th>
                     <td>
-                        <?php if (\is_array($value->value)) : ?>
+                        <?php if ($name === 'secondary_categories' && \is_array($value->value)) :?>
+                                <?php echo $this->escape(implode(', ', $value->value)); ?>
+                        <?php elseif (\is_array($value->value)) : ?>
                             <?php echo $this->escape(json_encode($value->value)); ?>
                         <?php else : ?>
                             <?php echo $this->escape($value->value); ?>

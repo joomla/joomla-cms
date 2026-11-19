@@ -16,6 +16,8 @@ use Joomla\CMS\Event\Contact\SubmitContactEvent;
 use Joomla\CMS\Event\Contact\ValidateContactEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\LanguageFactoryAwareInterface;
 use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
@@ -34,6 +36,7 @@ use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
@@ -79,7 +82,26 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
      */
     protected function preprocessSaveData(array $data): array
     {
-        foreach (FieldsHelper::getFields('com_contact.contact') as $field) {
+        if (($this->input->getMethod() === 'PATCH') && !(\array_key_exists('tags', $data))) {
+            $tags = new TagsHelper();
+            $tags->getTagIds($data['id'], 'com_contact.contact');
+            $data['tags'] = explode(',', $tags->tags);
+        }
+
+        if (($this->input->getMethod() === 'PATCH') && !\array_key_exists('secondary_categories', $data)) {
+            $helper                       = new SecondaryCategoriesHelper('com_contact.contact');
+            $data['secondary_categories'] = $helper->getCurrentSecondaryCategoriesByItem((int) $data['id']);
+        }
+
+        if (\array_key_exists('secondary_categories', $data)) {
+            $data['secondary_categories'] = array_values(array_filter(ArrayHelper::toInteger((array) $data['secondary_categories'])));
+        }
+
+        if (isset($data['catid'])) {
+            $data['fieldscatid'] = array_values(array_merge([(int) $data['catid']], (array) ($data['secondary_categories'] ?? [])));
+        }
+
+        foreach (FieldsHelper::getFields('com_contact.contact', $data) as $field) {
             if (isset($data[$field->name])) {
                 !isset($data['com_fields']) && $data['com_fields'] = [];
 

@@ -20,7 +20,7 @@
 		<field
 			name="show_contact_category"
 			type="list"
-			label="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_LABEL"
+			label="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORIES_LABEL"
 			default="hide"
 			validate="options"
 			>

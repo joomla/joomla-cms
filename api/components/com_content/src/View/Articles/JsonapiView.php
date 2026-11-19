@@ -54,6 +54,7 @@ class JsonapiView extends BaseApiView
         'language',
         'state',
         'category',
+        'secondary_categories',
         'images',
         'metakey',
         'metadesc',
@@ -99,6 +100,7 @@ class JsonapiView extends BaseApiView
         'language',
         'state',
         'category',
+        'secondary_categories',
         'images',
         'metakey',
         'metadesc',
@@ -208,6 +210,16 @@ class JsonapiView extends BaseApiView
             return $item;
         }
 
+        $fieldCategoryIds = [(int) ($item->catid ?? 0)];
+
+        if (!empty($item->secondary_categories)) {
+            foreach ((array) $item->secondary_categories as $category) {
+                $fieldCategoryIds[] = \is_object($category) ? (int) $category->id : (int) $category;
+            }
+        }
+
+        $item->fieldscatid = array_values(array_unique(array_filter($fieldCategoryIds)));
+
         /**
          * @deprecated  6.2.0 will be removed in 8.0
          *              Will be removed without replacement.
@@ -258,6 +270,17 @@ class JsonapiView extends BaseApiView
                 $tagsIds    = explode(',', $tagsIds);
                 $item->tags = $tags->getTags($tagsIds);
             }
+        }
+
+        if (!empty($item->secondary_categories)) {
+            $item->secondary_categories = array_values(
+                array_map(
+                    static fn ($category): int => \is_object($category) ? (int) $category->id : (int) $category,
+                    (array) $item->secondary_categories
+                )
+            );
+        } else {
+            $item->secondary_categories = [];
         }
 
         if (isset($item->images)) {

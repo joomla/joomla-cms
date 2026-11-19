@@ -23,12 +23,13 @@
 			name="category_id"
 			type="category"
 			label="JCATEGORY"
+			multiple="true"
 			extension="com_banners"
+			layout="joomla.form.field.list-fancy-select"
+			hint="JOPTION_SELECT_CATEGORY"
 			class="js-select-submit-on-change"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
-			>
-			<option value="">JOPTION_SELECT_CATEGORY</option>
-		</field>
+		/>
 
 		<field
 			name="client_id"

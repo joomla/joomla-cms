@@ -43,6 +43,11 @@ $published = (int) $this->state->get('filter.published');
                 </div>
             </div>
         <?php endif; ?>
+        <div class="form-group col-md-6">
+            <div class="controls">
+                <?php echo LayoutHelper::render('joomla.html.batch.secondarycategory', ['extension' => 'com_banners']); ?>
+            </div>
+        </div>
     </div>
 </div>
 <div class="btn-toolbar p-3">
