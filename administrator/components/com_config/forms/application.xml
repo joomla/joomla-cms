@@ -526,6 +526,16 @@
 		/>
 
 		<field
+			name="mailsender"
+			type="email"
+			label="COM_CONFIG_FIELD_MAIL_SENDER_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_SENDER_DESC"
+			filter="string"
+			validate="email"
+			showon="mailonline:1"
+		/>
+
+		<field
 			name="mailer"
 			type="list"
 			label="COM_CONFIG_FIELD_MAIL_MAILER_LABEL"
