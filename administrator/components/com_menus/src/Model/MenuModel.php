@@ -90,7 +90,9 @@ class MenuModel extends AdminModel
      */
     public function getTable($type = 'MenuType', $prefix = '\\Joomla\\CMS\\Table\\', $config = [])
     {
-        return Table::getInstance($type, $prefix, $config);
+        $className = $prefix . $type;
+
+        return new $className($this->getDatabase());
     }
 
     /**
