@@ -96,7 +96,8 @@ describe('Test in backend that the media manager', () => {
       cy.wait('@getMedia');
       cy.intercept('PUT', '*format=json*task=api.files*').as('renameMedia');
 
-      cy.contains('.media-browser-item', name).find('.action-rename').click({ force: true });
+      cy.contains('.media-browser-item', name).find('.action-toggle').focus().type('{enter}');
+      cy.contains('.media-browser-item', name).find('.action-rename').click();
       cy.get('[role="dialog"]').within(() => {
         cy.get('#name').clear();
         cy.contains('button', 'Apply').should('be.disabled');
@@ -114,7 +115,8 @@ describe('Test in backend that the media manager', () => {
       });
       cy.get('@renameMedia.all').should('have.length', 0);
 
-      cy.contains('.media-browser-item', name).find('.action-rename').click({ force: true });
+      cy.contains('.media-browser-item', name).find('.action-toggle').focus().type('{enter}');
+      cy.contains('.media-browser-item', name).find('.action-rename').click();
       cy.get('#name').should('have.value', name === 'joomla_black.png' ? 'joomla_black' : name);
       cy.contains('[role="dialog"] button', 'Cancel').click();
     });
