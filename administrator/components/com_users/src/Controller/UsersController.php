@@ -148,7 +148,7 @@ class UsersController extends AdminController
     }
 
     /**
-     * Method to generate a new password for the selected users and send it to them by email.
+     * Method to send the selected users either a new password or a password reset link by email.
      *
      * @return  void
      *
@@ -164,8 +164,19 @@ class UsersController extends AdminController
             $this->setMessage(Text::_('COM_USERS_USERS_NO_ITEM_SELECTED'), 'warning');
         } else {
             try {
-                $this->getModel()->sendNewPassword($ids, $this->input->getBool('requireReset', false));
-                $this->setMessage(Text::plural('COM_USERS_N_USERS_NEW_PASSWORD_SENT', \count($ids)));
+                $model = $this->getModel();
+
+                if ($this->input->get('passwordMode') === 'link') {
+                    $model->sendPasswordResetLink($ids);
+                    $message = 'COM_USERS_N_USERS_RESET_LINK_SENT';
+                } else {
+                    $model->sendNewPassword($ids, $this->input->getBool('requireReset', false));
+                    $message = 'COM_USERS_N_USERS_NEW_PASSWORD_SENT';
+                }
+
+                if ($ids) {
+                    $this->setMessage(Text::plural($message, \count($ids)));
+                }
             } catch (\Exception $exception) {
                 $this->setMessage($exception->getMessage(), 'error');
             }

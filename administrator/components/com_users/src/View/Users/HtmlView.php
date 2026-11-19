@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Administrator\View\Users;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -78,6 +79,14 @@ class HtmlView extends BaseHtmlView
     protected $canDo;
 
     /**
+     * Flag indicating the site supports sending email
+     *
+     * @var    bool
+     * @since  __DEPLOY_VERSION__
+     */
+    protected bool $sendMailEnabled;
+
+    /**
      * Display the view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -90,12 +99,13 @@ class HtmlView extends BaseHtmlView
         $model = $this->getModel();
         $model->setUseExceptions(true);
 
-        $this->items         = $model->getItems();
-        $this->pagination    = $model->getPagination();
-        $this->state         = $model->getState();
-        $this->filterForm    = $model->getFilterForm();
-        $this->activeFilters = $model->getActiveFilters();
-        $this->canDo         = ContentHelper::getActions('com_users');
+        $this->items           = $model->getItems();
+        $this->pagination      = $model->getPagination();
+        $this->state           = $model->getState();
+        $this->filterForm      = $model->getFilterForm();
+        $this->activeFilters   = $model->getActiveFilters();
+        $this->canDo           = ContentHelper::getActions('com_users');
+        $this->sendMailEnabled = (bool) Factory::getApplication()->get('mailonline', 1);
 
         // Add form control fields
         $this->filterForm
@@ -142,7 +152,7 @@ class HtmlView extends BaseHtmlView
             $childBar->standardButton('unblock', 'COM_USERS_TOOLBAR_UNBLOCK', 'users.unblock')
                 ->listCheck(true);
 
-            if ($canDo->get('core.edit')) {
+            if ($canDo->get('core.edit') && $this->sendMailEnabled) {
                 $childBar->popupButton('key', 'COM_USERS_TOOLBAR_SEND_NEW_PASSWORD')
                     ->popupType('inline')
                     ->textHeader(Text::_('COM_USERS_TOOLBAR_SEND_NEW_PASSWORD'))

@@ -12,6 +12,7 @@ namespace Joomla\Component\Users\Administrator\Model;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Exception\NotAllowed;
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\User\AfterDeleteEvent;
 use Joomla\CMS\Event\User\AfterSaveEvent;
@@ -30,8 +31,10 @@ use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
@@ -677,45 +680,15 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
      * @since   __DEPLOY_VERSION__
      *
      * @throws  NotAllowed        If the current user is not allowed to edit users.
-     * @throws  \RuntimeException  If a user could not be saved.
+     * @throws  \RuntimeException  If the mail function is disabled or a user could not be saved.
      */
     public function sendNewPassword(array &$pks, bool $requireReset): void
     {
         $app            = Factory::getApplication();
-        $my             = $this->getCurrentUser();
-        $iAmSuperAdmin  = $my->authorise('core.admin');
         $passwordLength = (int) ComponentHelper::getParams('com_users')->get('minimum_length', 12);
+        $users          = $this->getUsersForPasswordReset($pks);
 
-        if (!$my->authorise('core.edit', 'com_users')) {
-            throw new NotAllowed(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 403);
-        }
-
-        $app->getLanguage()->load('com_users', JPATH_SITE);
-
-        foreach ($pks as $i => $pk) {
-            if ((int) $pk === (int) $my->id) {
-                unset($pks[$i]);
-                $app->enqueueMessage(Text::_('COM_USERS_USERS_ERROR_CANNOT_SEND_NEW_PASSWORD_SELF'), 'error');
-
-                continue;
-            }
-
-            // Prevent new password from non-super user for super user accounts
-            if (!$iAmSuperAdmin && Access::check($pk, 'core.admin')) {
-                unset($pks[$i]);
-                $app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
-
-                continue;
-            }
-
-            $user = $this->getUserFactory()->loadUserById((int) $pk);
-
-            if ((int) $user->id !== (int) $pk) {
-                unset($pks[$i]);
-
-                continue;
-            }
-
+        foreach ($users as $i => $user) {
             $password = UserHelper::genRandomPassword($passwordLength);
             $data     = ['password' => $password, 'password2' => $password];
 
@@ -763,6 +736,137 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
                 $app->enqueueMessage(Text::sprintf('COM_USERS_USERS_ERROR_NEW_PASSWORD_MAIL_FAILED', $user->username), 'warning');
             }
         }
+    }
+
+    /**
+     * Method to send a password reset link to user records by email.
+     *
+     * The current passwords stay valid until the users set a new one. Ids of users which could not be processed
+     * are removed from $pks.
+     *
+     * @param   array  &$pks  The ids of the users.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     *
+     * @throws  NotAllowed        If the current user is not allowed to edit users.
+     * @throws  \RuntimeException  If the mail function is disabled or a user could not be saved.
+     */
+    public function sendPasswordResetLink(array &$pks): void
+    {
+        $app   = Factory::getApplication();
+        $mode  = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
+        $users = $this->getUsersForPasswordReset($pks);
+
+        foreach ($users as $i => $user) {
+            $token            = ApplicationHelper::getHash(UserHelper::genRandomPassword());
+            $user->activation = UserHelper::hashPassword($token);
+
+            if (!$user->save(true)) {
+                throw new \RuntimeException(Text::sprintf('COM_USERS_USERS_ERROR_RESET_LINK_SAVE_FAILED', $user->username));
+            }
+
+            $link   = 'index.php?option=com_users&view=reset&layout=confirm&token=' . $token;
+            $mailer = new MailTemplate(
+                'com_users.password_reset',
+                $user->getParam('language', $user->getParam('admin_language', $app->getLanguage()->getTag())),
+                $this->getMailerFactory()->createMailer(),
+                $this->getLanguageFactory(),
+                $this->getDatabase()
+            );
+            $mailer->addTemplateData([
+                'name'      => $user->name,
+                'email'     => $user->email,
+                'sitename'  => $app->get('sitename'),
+                'link_text' => Route::link('site', $link, false, $mode, true),
+                'link_html' => Route::link('site', $link, true, $mode, true),
+                'token'     => $token,
+            ]);
+            $mailer->addUnsafeTags(['name', 'email']);
+            $mailer->addRecipient($user->email, $user->name);
+
+            try {
+                $sent = $mailer->send();
+            } catch (\Exception $exception) {
+                Log::add($exception->getMessage(), Log::WARNING, 'jerror');
+
+                $sent = false;
+            }
+
+            if ($sent !== true) {
+                unset($pks[$i]);
+                $app->enqueueMessage(Text::sprintf('COM_USERS_USERS_ERROR_RESET_LINK_MAIL_FAILED', $user->username), 'warning');
+            }
+        }
+    }
+
+    /**
+     * Method to load the users whose password may be reset by the current user.
+     *
+     * Ids of users which must not be processed are removed from $pks, with a message for each of them.
+     *
+     * @param   array  &$pks  The ids of the users.
+     *
+     * @return  User[]  The users, keyed like $pks.
+     *
+     * @since   __DEPLOY_VERSION__
+     *
+     * @throws  NotAllowed        If the current user is not allowed to edit users.
+     * @throws  \RuntimeException  If the mail function is disabled.
+     */
+    protected function getUsersForPasswordReset(array &$pks): array
+    {
+        $app           = Factory::getApplication();
+        $my            = $this->getCurrentUser();
+        $iAmSuperAdmin = $my->authorise('core.admin');
+        $users         = [];
+
+        if (!$my->authorise('core.edit', 'com_users')) {
+            throw new NotAllowed(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 403);
+        }
+
+        if (!$app->get('mailonline', 1)) {
+            throw new \RuntimeException(Text::_('JLIB_MAIL_FUNCTION_OFFLINE'));
+        }
+
+        $app->getLanguage()->load('com_users', JPATH_SITE);
+
+        foreach ($pks as $i => $pk) {
+            if ((int) $pk === (int) $my->id) {
+                unset($pks[$i]);
+                $app->enqueueMessage(Text::_('COM_USERS_USERS_ERROR_CANNOT_SEND_NEW_PASSWORD_SELF'), 'error');
+
+                continue;
+            }
+
+            // Prevent new password from non-super user for super user accounts
+            if (!$iAmSuperAdmin && Access::check($pk, 'core.admin')) {
+                unset($pks[$i]);
+                $app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
+
+                continue;
+            }
+
+            $user = $this->getUserFactory()->loadUserById((int) $pk);
+
+            if ((int) $user->id !== (int) $pk) {
+                unset($pks[$i]);
+
+                continue;
+            }
+
+            if ($user->block) {
+                unset($pks[$i]);
+                $app->enqueueMessage(Text::sprintf('COM_USERS_USERS_ERROR_CANNOT_SEND_NEW_PASSWORD_BLOCKED', $user->username), 'error');
+
+                continue;
+            }
+
+            $users[$i] = $user;
+        }
+
+        return $users;
     }
 
     /**

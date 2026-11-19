@@ -219,7 +219,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                         <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
                     <?php endif; ?>
 
-                    <?php if ($loggeduser->authorise('core.edit', 'com_users')) : ?>
+                    <?php if ($loggeduser->authorise('core.edit', 'com_users') && $this->sendMailEnabled) : ?>
                         <template id="joomla-dialog-newpassword"><?php echo $this->loadTemplate('newpassword_body'); ?></template>
                     <?php endif; ?>
                 <?php endif; ?>
