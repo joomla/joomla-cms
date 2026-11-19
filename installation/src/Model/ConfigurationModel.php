@@ -55,6 +55,12 @@ class ConfigurationModel extends BaseInstallationModel
         // Get the options as an object for easier handling.
         $options = ArrayHelper::toObject($options);
 
+        // Security check for remote db hosts, the options in the session might not have passed it
+        if (!DatabaseHelper::checkRemoteDbHost($options)) {
+            // Messages have been enqueued in the called function.
+            return false;
+        }
+
         // Get a database object.
         try {
             $db = DatabaseHelper::getDbo(
@@ -77,6 +83,9 @@ class ConfigurationModel extends BaseInstallationModel
         if (!$this->createConfiguration($options)) {
             return false;
         }
+
+        // Remember that this session wrote the configuration, it may continue or repeat the installation afterwards
+        Factory::getApplication()->getSession()->set('setup.started', true);
 
         $serverType = $db->getServerType();
 

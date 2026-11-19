@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Fields\Api\Controller;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\String\Inflector;
 
@@ -99,7 +100,11 @@ class GroupsController extends ApiController
         $user     = $this->app->getIdentity();
         [$option] = explode('.', $this->getContextFromInput());
 
-        if (!$user->authorise('core.manage', $option)) {
+        /**
+         * @deprecated Remove in Joomla 8.0
+         * This check acts as a safety net for third-party extensions that do not extend ApiDispatcher.
+         */
+        if (!$user->authorise('core.api', $option)) {
             return false;
         }
 
@@ -124,8 +129,11 @@ class GroupsController extends ApiController
         $user     = $this->app->getIdentity();
         [$option] = explode('.', $this->getContextFromInput());
 
-        // Require generic management permissions for the component
-        if (!$user->authorise('core.manage', $option)) {
+        /**
+         * @deprecated Remove in Joomla 8.0
+         * This check acts as a safety net for third-party extensions that do not extend ApiDispatcher.
+         */
+        if (!$user->authorise('core.api', $option)) {
             return false;
         }
 
@@ -172,17 +180,39 @@ class GroupsController extends ApiController
     /**
      * Method to check if it's allowed to delete a record
      *
+     * @param array  $data An array of input data.
+     * @param string  $key The name of the key for the primary key; default is id.
+     *
      * @return  boolean
      *
      * @since   5.4.8
      */
-    protected function allowDelete(): bool
+    protected function allowDelete($data = [], $key = 'parent_id'): bool
     {
         [$option] = explode('.', $this->getContextFromInput());
         $user     = $this->app->getIdentity();
+        $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
 
-        // Require generic management permissions for the component
-        if (!$user->authorise('core.manage', $option)) {
+        /**
+         * @deprecated Remove in Joomla 8.0
+         * This check acts as a safety net for third-party extensions that do not extend ApiDispatcher.
+         */
+        if (!$user->authorise('core.api', $option)) {
+            return false;
+        }
+
+        // Get existing record
+        $inflector = InflectorFactory::create()->build();
+        $record    = $this->getModel($inflector->singularize($this->contentType))->getItem($recordId);
+
+        if (empty($record)) {
+            return false;
+        }
+
+        [$recordOption] = explode('.', $record->context);
+
+        // Validate request context and field context match
+        if ($recordOption !== $option) {
             return false;
         }
 

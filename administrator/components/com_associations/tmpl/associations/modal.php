@@ -165,7 +165,7 @@ $this->getDocument()->addScriptOptions('associations-modal', ['func' => $functio
         <?php endif; ?>
 
         <input type="hidden" name="task" value="">
-        <input type="hidden" name="forcedItemType" value="<?php echo $app->getInput()->get('forcedItemType', '', 'string'); ?>">
+        <input type="hidden" name="forcedItemType" value="<?php echo $this->escape($app->getInput()->get('forcedItemType', '', 'string')); ?>">
         <input type="hidden" name="forcedLanguage" value="<?php echo $app->getInput()->get('forcedLanguage', '', 'cmd'); ?>">
         <?php echo HTMLHelper::_('form.token'); ?>
     </form>

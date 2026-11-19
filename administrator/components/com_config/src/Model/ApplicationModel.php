@@ -59,7 +59,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
      * @var    array
      * @since  3.9.23
      */
-    private $protectedConfigurationFields = ['password', 'secret', 'smtppass', 'redis_server_auth', 'session_redis_server_auth'];
+    private $protectedConfigurationFields = ['password', 'secret', 'smtppass', 'redis_server_auth', 'session_redis_server_auth', 'proxy_pass'];
 
     /**
      * Method to get a form object.
@@ -81,6 +81,20 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         return $form;
+    }
+
+    /**
+     * Method to get the names of the protected password fields of the configuration.
+     *
+     * The values of these fields must never be returned to a client.
+     *
+     * @return  string[]  The names of the protected configuration fields.
+     *
+     * @since   5.4.11
+     */
+    public function getProtectedConfigurationFields(): array
+    {
+        return $this->protectedConfigurationFields;
     }
 
     /**

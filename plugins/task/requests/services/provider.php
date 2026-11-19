@@ -36,7 +36,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin = new Requests(
                     (array) PluginHelper::getPlugin('task', 'requests'),
                     new HttpFactory(),
-                    JPATH_ROOT . '/tmp'
+                    Factory::getApplication()->get('tmp_path', JPATH_ROOT . '/tmp')
                 );
                 $plugin->setApplication(Factory::getApplication());
 

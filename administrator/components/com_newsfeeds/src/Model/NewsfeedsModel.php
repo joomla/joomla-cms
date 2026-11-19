@@ -211,9 +211,11 @@ class NewsfeedsModel extends ListModel
                 ->bind(':access', $access, ParameterType::INTEGER);
         }
 
-        // Implement View Level Access
+        // Implement View Level Access, for the newsfeed and its category
         if (!$user->authorise('core.admin')) {
-            $query->whereIn($db->quoteName('a.access'), $user->getAuthorisedViewLevels());
+            $groups = $user->getAuthorisedViewLevels();
+            $query->whereIn($db->quoteName('a.access'), $groups);
+            $query->whereIn($db->quoteName('c.access'), $groups);
         }
 
         // Filter by published state.

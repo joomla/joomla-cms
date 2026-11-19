@@ -77,16 +77,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                 <td>
                                     <?php $buttonText = (isset($this->installedLang[0][$language->code]) || isset($this->installedLang[1][$language->code])) ? 'REINSTALL' : 'INSTALL'; ?>
                                     <?php $buttonClass = (isset($this->installedLang[0][$language->code]) || isset($this->installedLang[1][$language->code])) ? 'btn btn-success btn-sm' : 'btn btn-primary btn-sm'; ?>
-                                    <?php $onclick = 'document.getElementById(\'install_url\').value = \'' . $language->detailsurl . '\'; Joomla.submitbutton(\'install.install\'); document.body.appendChild(document.createElement(\'joomla-core-loader\'));'; ?>
+                                    <?php $onclick = 'document.getElementById(\'install_url\').value = ' . json_encode((string) $language->detailsurl, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) . '; Joomla.submitbutton(\'install.install\'); document.body.appendChild(document.createElement(\'joomla-core-loader\'));'; ?>
                                     <input type="button"
                                         class="<?php echo $buttonClass; ?>"
                                         value="<?php echo Text::_('COM_INSTALLER_' . $buttonText . '_BUTTON'); ?>"
-                                        aria-label="<?php echo Text::sprintf('COM_INSTALLER_' . $buttonText . '_ARIA', $language->name); ?>"
-                                        onclick="<?php echo $onclick; ?>"
+                                        aria-label="<?php echo $this->escape(Text::sprintf('COM_INSTALLER_' . $buttonText . '_ARIA', $language->name)); ?>"
+                                        onclick="<?php echo htmlspecialchars($onclick, ENT_QUOTES, 'UTF-8'); ?>"
                                     >
                                 </td>
                                 <th scope="row">
-                                    <?php echo $language->name; ?>
+                                    <?php echo $this->escape($language->name); ?>
                                 </th>
                                 <td class="text-center">
                                     <?php echo $language->code; ?>
@@ -95,17 +95,17 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                         <?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
                                         <?php // Display a Note if language pack version is not equal to Joomla version ?>
                                         <?php if (strpos($language->version, $minorVersion) !== 0 || strpos($language->version, $currentShortVersion) !== 0) : ?>
-                                            <span class="badge bg-warning"><?php echo $language->version; ?></span>
+                                            <span class="badge bg-warning"><?php echo $this->escape($language->version); ?></span>
                                             <span class="icon-info-circle" aria-label="<?php echo Text::_('INFO'); ?>" tabindex="0"></span>
                                             <div role="tooltip" class="text-start" id="tip<?php echo $language->code; ?>">
                                             <?php echo Text::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>
                                             </div>
                                         <?php else : ?>
-                                            <span class="badge bg-success"><?php echo $language->version; ?></span>
+                                            <span class="badge bg-success"><?php echo $this->escape($language->version); ?></span>
                                         <?php endif; ?>
                                 </td>
                                 <td class="small d-none d-md-table-cell">
-                                    <a href="<?php echo $language->detailsurl; ?>" target="_blank" rel="noopener noreferrer"><?php echo $language->detailsurl; ?></a>
+                                    <a href="<?php echo $this->escape($language->detailsurl); ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($language->detailsurl); ?></a>
                                 </td>
                             </tr>
                             <?php $i++; ?>

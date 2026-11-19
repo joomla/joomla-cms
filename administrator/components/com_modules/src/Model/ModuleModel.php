@@ -13,6 +13,7 @@ namespace Joomla\Component\Modules\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
@@ -173,7 +174,7 @@ class ModuleModel extends AdminModel
                 } elseif ($value == 'nochange') {
                     $position = $table->position;
                 } else {
-                    $position = $value;
+                    $position = InputFilter::getInstance()->clean($value, 'string');
                 }
 
                 $table->position = $position;
@@ -275,7 +276,7 @@ class ModuleModel extends AdminModel
                 } elseif ($value == 'nochange') {
                     $position = $table->position;
                 } else {
-                    $position = $value;
+                    $position = InputFilter::getInstance()->clean($value, 'string');
                 }
 
                 $table->position = $position;
@@ -776,7 +777,6 @@ class ModuleModel extends AdminModel
      */
     protected function prepareTable($table)
     {
-        $table->title    = htmlspecialchars_decode($table->title, ENT_QUOTES);
         $table->position = trim($table->position);
     }
 

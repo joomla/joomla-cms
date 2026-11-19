@@ -48,7 +48,7 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                 <?php if (is_object($value->value)) : ?>
                     <tr>
                         <td colspan="4">
-                            <strong><?php echo $value->label; ?></strong>
+                            <strong><?php echo $this->escape($value->label); ?></strong>
                         </td>
                     </tr>
                     <?php foreach ($value->value as $subName => $subValue) : ?>
@@ -56,9 +56,9 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                         <?php if ($subValue->value || $newSubValue) : ?>
                             <?php if ($subValue->value != $newSubValue) : ?>
                                 <tr>
-                                    <th scope="row"><em>&nbsp;&nbsp;<?php echo $subValue->label; ?></em></th>
-                                    <td class="original"><?php echo htmlspecialchars($subValue->value, ENT_COMPAT, 'UTF-8'); ?></td>
-                                    <td class="changed" ><?php echo htmlspecialchars($newSubValue, ENT_COMPAT, 'UTF-8'); ?></td>
+                                    <th scope="row"><em>&nbsp;&nbsp;<?php echo $this->escape($subValue->label); ?></em></th>
+                                    <td class="original"><?php echo $this->escape($subValue->value); ?></td>
+                                    <td class="changed" ><?php echo $this->escape($newSubValue); ?></td>
                                     <td class="diff">&nbsp;</td>
                                 </tr>
                             <?php endif; ?>
@@ -67,11 +67,11 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                 <?php else : ?>
                     <tr>
                         <th scope="row">
-                            <?php echo $value->label; ?>
+                            <?php echo $this->escape($value->label); ?>
                         </th>
-                        <td class="original"><?php echo htmlspecialchars($value->value); ?></td>
+                        <td class="original"><?php echo $this->escape($value->value); ?></td>
                         <?php $object2->$name->value = is_object($object2->$name->value) ? json_encode($object2->$name->value) : $object2->$name->value; ?>
-                        <td class="changed"><?php echo htmlspecialchars($object2->$name->value, ENT_COMPAT, 'UTF-8'); ?></td>
+                        <td class="changed"><?php echo $this->escape($object2->$name->value); ?></td>
                         <td class="diff">&nbsp;</td>
                     </tr>
                 <?php endif; ?>

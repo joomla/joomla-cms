@@ -180,6 +180,10 @@ class AccessiblemediaField extends SubformField
         $this->previewHeight = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
         $this->previewWidth  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
 
+        // Escape the values for the form source, a field parameter must not change the structure of the XML
+        $directory = htmlspecialchars($this->directory, ENT_QUOTES | ENT_XML1, 'UTF-8');
+        $preview   = htmlspecialchars($this->preview, ENT_QUOTES | ENT_XML1, 'UTF-8');
+
         $xml = <<<XML
 <?xml version="1.0" encoding="utf-8"?>
 <form>
@@ -191,8 +195,8 @@ class AccessiblemediaField extends SubformField
 			name="imagefile"
 			type="media"
 			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_IMAGEFILE_LABEL"
-			directory="$this->directory"
-			preview="$this->preview"
+			directory="$directory"
+			preview="$preview"
 			preview_width="$this->previewWidth"
 			preview_height="$this->previewHeight"
 			schemes="http,https,ftp,ftps,data,file"

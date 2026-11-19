@@ -56,6 +56,14 @@ final class ApiApplication extends CMSApplication
     protected $authenticationPluginType = 'api-authentication';
 
     /**
+     * The active route
+     *
+     * @var    ?Registry
+     * @since  5.4.11
+     */
+    private ?Registry $activeRoute = null;
+
+    /**
      * Class constructor.
      *
      * @param   ?JInputJson  $input      An optional argument to provide dependency injection for the application's input
@@ -265,6 +273,7 @@ final class ApiApplication extends CMSApplication
      */
     protected function route()
     {
+        /** @var ApiRouter $router */
         $router = $this->getContainer()->get(ApiRouter::class);
 
         // Trigger the onBeforeApiRoute event.
@@ -280,7 +289,8 @@ final class ApiApplication extends CMSApplication
         try {
             $this->handlePreflight($method, $router);
 
-            $route = $router->parseApiRoute($method);
+            $route             = $router->parseApiRoute($method);
+            $this->activeRoute = new Registry($route);
         } catch (RouteNotFoundException $e) {
             $caught404 = true;
         }
@@ -349,7 +359,7 @@ final class ApiApplication extends CMSApplication
             new AfterApiRouteEvent('onAfterApiRoute', ['subject' => $this])
         );
 
-        if (!isset($route['vars']['public']) || $route['vars']['public'] === false) {
+        if ($this->activeRoute->get('vars.public') !== true) {
             if (!$this->login(['username' => ''], ['silent' => true, 'action' => 'core.login.api'])) {
                 throw new AuthenticationFailed();
             }
@@ -456,6 +466,18 @@ final class ApiApplication extends CMSApplication
     public function getApiRouter()
     {
         return $this->getContainer()->get(ApiRouter::class);
+    }
+
+    /**
+     * Returns the active route.
+     *
+     * @return  Registry|null
+     *
+     * @since   5.4.11
+     */
+    public function getActiveRoute(): ?Registry
+    {
+        return $this->activeRoute;
     }
 
     /**

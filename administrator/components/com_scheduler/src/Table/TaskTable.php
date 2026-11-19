@@ -107,8 +107,6 @@ class TaskTable extends Table implements CurrentUserInterface
             return false;
         }
 
-        $this->title = htmlspecialchars_decode($this->title, ENT_QUOTES);
-
         // Set created date if not set.
         // ? Might not need since the constructor already sets this
         if (!(int) $this->created) {

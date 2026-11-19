@@ -234,6 +234,69 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Data provider for testSetupEscapesFormSource
+     *
+     * @return  array
+     *
+     * @since   5.4.11
+     */
+    public static function formSourceProvider(): array
+    {
+        $injected = 'images" data-marker="inert';
+
+        return [
+            'regular directory' => [
+                ['directory' => 'images/sub', 'preview' => 'tooltip'], 'imagefile', 'directory', 'images/sub',
+            ],
+            'quote in directory' => [
+                ['directory' => $injected], 'imagefile', 'directory', $injected,
+            ],
+            'quote in preview' => [
+                ['preview' => 'true" data-marker="inert'], 'imagefile', 'preview', 'true" data-marker="inert',
+            ],
+            'angle brackets in directory' => [
+                ['directory' => 'images"/><field name="marker'], 'imagefile', 'directory', 'images"/><field name="marker',
+            ],
+        ];
+    }
+
+    /**
+     * Tests that the parameters copied into the generated form source cannot change its structure
+     *
+     * @param   array   $attributes  The attributes of the field element
+     * @param   string  $fieldName   The name of the generated subform field to check
+     * @param   string  $attribute   The attribute of the generated subform field to check
+     * @param   string  $expected    The expected attribute value
+     *
+     * @return  void
+     *
+     * @since   5.4.11
+     *
+     * @dataProvider  formSourceProvider
+     * @testdox       setup escapes the parameters in the form source: $_dataName
+     */
+    public function testSetupEscapesFormSource(array $attributes, string $fieldName, string $attribute, string $expected): void
+    {
+        $element = new \SimpleXMLElement('<field name="testfield" />');
+
+        foreach ($attributes as $name => $value) {
+            $element->addAttribute($name, $value);
+        }
+
+        $accessiblemediafield = $this->createAccessiblemediaField();
+
+        $this->assertTrue($accessiblemediafield->setup($element, '', null));
+
+        $form   = new \SimpleXMLElement($accessiblemediafield->__get('formsource'));
+        $fields = $form->xpath('//field[@name="' . $fieldName . '"]');
+
+        $this->assertCount(1, $fields);
+        $this->assertSame($expected, (string) $fields[0][$attribute]);
+        $this->assertCount(0, $form->xpath('//field[@data-marker]'));
+        $this->assertCount(0, $form->xpath('//field[@name="marker"]'));
+    }
+
+    /**
      * Helper function to create a AccessiblemediaField
      *
      * @return  AccessiblemediaField
