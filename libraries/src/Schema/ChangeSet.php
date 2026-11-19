@@ -83,6 +83,97 @@ class ChangeSet
         foreach ($updateQueries as $obj) {
             $this->changeItems[] = ChangeItem::getInstance($db, $obj->file, $obj->updateQuery);
         }
+
+        $this->markSupersededItems();
+    }
+
+    /**
+     * Flags every change item whose schema object is changed again by a later update file.
+     *
+     * The update files are processed in ascending version order, so for any given column or
+     * index the *last* statement is the one that describes the schema the extension currently
+     * intends. Earlier statements describe historical intermediate states which, by design,
+     * no longer hold — checking them reports a problem on a database that is perfectly correct.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function markSupersededItems()
+    {
+        $lastIndexFor = [];
+
+        /**
+         * Find the last change item's index for each change key.
+         *
+         * This records the last $this->changeItems array index for each changed database column
+         * or database index.
+         */
+        foreach ($this->changeItems as $index => $item) {
+            if (($key = $this->getTargetKey($item)) !== null) {
+                $lastIndexFor[$key] = $index;
+            }
+        }
+
+        /**
+         * Find superseded items.
+         *
+         * Iterate through $this->changeItems items and compare its index to the index for the
+         * specific change key recorded in $lastIndexFor. If it's different, it means that
+         * another change item has superseded this one; we need to set the flag in this case.
+         */
+        foreach ($this->changeItems as $index => $item) {
+            $key = $this->getTargetKey($item);
+
+            if ($key !== null && $lastIndexFor[$key] !== $index) {
+                $item->superseded = true;
+            }
+        }
+    }
+
+    /**
+     * Identify the schema object a change item acts upon.
+     *
+     * Column-level query types share one key space. An ADD_COLUMN followed by
+     * CHANGE_COLUMN_TYPE on the same column is recognised as a single history.
+     *
+     * Index-level query types share another key space. An ADD_INDEX followed
+     * by DROP_INDEX for the same index is recognised as a single history.
+     *
+     * Everything else, currently creating and renaming tables, cannot be
+     * superseded. It returns NULL in this case.
+     *
+     * @param   ChangeItem  $item  The change item to key.
+     *
+     * @return  string|null
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function getTargetKey(ChangeItem $item)
+    {
+        switch ($item->queryType) {
+            case 'ADD_COLUMN':
+            case 'DROP_COLUMN':
+            case 'CHANGE_COLUMN_TYPE':
+                $scope = 'column';
+                break;
+
+            case 'ADD_INDEX':
+            case 'DROP_INDEX':
+                $scope = 'index';
+                break;
+
+                // CREATE_TABLE and RENAME_TABLE cannot be superseded
+            default:
+                return null;
+        }
+
+        // msgElements[0] is the table name, msgElements[1] the column or index name
+        if (\count($item->msgElements) < 2) {
+            return null;
+        }
+
+        return $scope . ':' . strtolower($item->msgElements[0] . '.' . $item->msgElements[1]);
     }
 
     /**
@@ -118,7 +209,17 @@ class ChangeSet
         $errors = [];
 
         foreach ($this->changeItems as $item) {
-            if ($item->check() === -2) {
+            /**
+             * An error is recorded if check() returns -2 (check failed) and the change item has
+             * not been superseded by a newer change item.
+             *
+             * This allows extensions to keep a history of changes in their SQL update files
+             * without Joomla erroneously complaining that there are database errors. If a column,
+             * for example, is changed by three different versions, it's a database error only
+             * if the column does not agree with the column definition derived from the latest
+             * version's changes.
+             */
+            if ($item->check() === -2 && !$item->superseded) {
                 // Error found
                 $errors[] = $item;
             }
@@ -163,7 +264,8 @@ class ChangeSet
                     $result['ok'][] = $item;
                     break;
                 case -2:
-                    $result['error'][] = $item;
+                    // A superseded item's expectation is obsolete, so a failure is not an error
+                    $result[$item->superseded ? 'skipped' : 'error'][] = $item;
                     break;
                 case -1:
                     $result['skipped'][] = $item;
