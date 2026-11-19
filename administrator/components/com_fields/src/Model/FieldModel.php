@@ -936,7 +936,7 @@ class FieldModel extends AdminModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  array  The default data is an empty array.
+     * @return  object  The default data is an empty object.
      *
      * @since   3.7.0
      */
@@ -945,7 +945,7 @@ class FieldModel extends AdminModel
         // Check the session for previously entered form data.
         $app   = Factory::getApplication();
         $input = $app->getInput();
-        $data  = $app->getUserState('com_fields.edit.field.data', []);
+        $data  = $app->getUserState('com_fields.edit.field.data');
 
         if (empty($data)) {
             $data = $this->getItem();
