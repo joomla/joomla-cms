@@ -202,6 +202,12 @@ class NewsfeedModel extends AdminModel implements VersionableModelInterface
 
             // Create new category.
             if (!$categoryModel->save($category)) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $categoryModel->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($categoryModel->getError());
 
                 return false;
