@@ -62,6 +62,30 @@
       "attributes": {
         "type": "module"
       }
+    },
+    {
+      "name": "com_modules.admin-module-inherit",
+      "type": "preset",
+      "dependencies": [
+        "com_modules.admin-module-inherit#style",
+        "com_modules.admin-module-inherit#script"
+      ]
+    },
+    {
+      "name": "com_modules.admin-module-inherit",
+      "type": "script",
+      "uri": "com_modules/admin-module-inherit.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_modules.admin-module-inherit",
+      "type": "style",
+      "uri": "com_modules/admin-module-inherit.min.css"
     }
   ]
 }
