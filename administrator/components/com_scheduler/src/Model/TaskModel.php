@@ -806,6 +806,10 @@ class TaskModel extends AdminModel
         try {
             Factory::getApplication()->getDispatcher()->dispatch($this->event_before_unlock, $event);
         } catch (\RuntimeException $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -813,6 +817,12 @@ class TaskModel extends AdminModel
 
         // Attempt to unlock the records.
         if (!$table->unlock($pks, $user->id)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -831,6 +841,10 @@ class TaskModel extends AdminModel
         try {
             Factory::getApplication()->getDispatcher()->dispatch($this->event_unlock, $event);
         } catch (\RuntimeException $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;

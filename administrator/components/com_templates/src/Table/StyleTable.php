@@ -11,6 +11,7 @@
 namespace Joomla\Component\Templates\Administrator\Table;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
@@ -60,6 +61,10 @@ class StyleTable extends Table
 
         // Verify that the default style is not unset
         if ($array['home'] == '0' && $this->home == '1') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
+            }
+
             $this->setError(Text::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
 
             return false;
@@ -80,12 +85,20 @@ class StyleTable extends Table
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
         }
 
         if (empty($this->title)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_TEMPLATES_ERROR_STYLE_REQUIRES_TITLE'));
+            }
+
             $this->setError(Text::_('COM_TEMPLATES_ERROR_STYLE_REQUIRES_TITLE'));
 
             return false;
@@ -150,6 +163,10 @@ class StyleTable extends Table
             $results = $db->loadColumn();
 
             if (\count($results) == 1 && $results[0] == $pk) {
+                if ($this->shouldUseExceptions()) {
+                    throw new ValidationException(Text::_('COM_TEMPLATES_ERROR_CANNOT_DELETE_LAST_STYLE'));
+                }
+
                 $this->setError(Text::_('COM_TEMPLATES_ERROR_CANNOT_DELETE_LAST_STYLE'));
 
                 return false;
