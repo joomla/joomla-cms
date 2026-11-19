@@ -61,6 +61,7 @@ class UsersModel extends ListModel
                 'sendEmail', 'a.sendEmail',
                 'registerDate', 'a.registerDate',
                 'lastvisitDate', 'a.lastvisitDate',
+                'previousvisitDate', 'a.previousvisitDate',
                 'activation', 'a.activation',
                 'active',
                 'group_id',
