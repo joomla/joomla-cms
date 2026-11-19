@@ -12,7 +12,6 @@ namespace Joomla\Component\Users\Site\View\Reset;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Users\Site\Model\ResetModel;
 
@@ -72,6 +71,7 @@ class HtmlView extends BaseHtmlView
 
         /** @var ResetModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         // Check that the name is valid - has an associated model.
         if (!\in_array($name, ['confirm', 'complete'])) {
@@ -88,11 +88,6 @@ class HtmlView extends BaseHtmlView
 
         $this->state  = $model->getState();
         $this->params = $this->state->get('params');
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         // Escape strings for HTML output
         $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');

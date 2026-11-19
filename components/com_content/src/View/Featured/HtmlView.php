@@ -16,7 +16,6 @@ use Joomla\CMS\Event\Content\BeforeDisplayEvent;
 use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -113,17 +112,13 @@ class HtmlView extends BaseHtmlView
 
         /** @var FeaturedModel $model */
         $model      = $this->getModel();
+        $model->setUseExceptions(true);
         $state      = $model->getState();
         $items      = $model->getItems();
         $pagination = $model->getPagination();
 
         // Flag indicates to not add limitstart=0 to URL
         $pagination->hideEmptyLimitstart = true;
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         /** @var \Joomla\Registry\Registry $params */
         $params = $state->get('params');
