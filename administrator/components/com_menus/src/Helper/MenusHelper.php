@@ -54,6 +54,52 @@ class MenusHelper extends ContentHelper
     protected static $presets = null;
 
     /**
+     * Cache for published administrator module lookup.
+     *
+     * @var  array<string, bool>
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected static $publishedAdministratorModules = [];
+
+    /**
+     * Check whether an administrator module exists in published state.
+     *
+     * @param   string       $module    Module element (e.g. mod_healthcheck)
+     * @param   string|null  $position  Optional module position filter (e.g. cpanel-healthcheck)
+     *
+     * @return  bool
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function hasPublishedAdministratorModule(string $module, ?string $position = null): bool
+    {
+        $cacheKey = $module . ':' . (string) $position;
+
+        if (isset(static::$publishedAdministratorModules[$cacheKey])) {
+            return static::$publishedAdministratorModules[$cacheKey];
+        }
+
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
+        $query = $db->createQuery()
+            ->select('1')
+            ->from($db->quoteName('#__modules'))
+            ->where($db->quoteName('client_id') . ' = 1')
+            ->where($db->quoteName('published') . ' = 1')
+            ->where($db->quoteName('module') . ' = :module')
+            ->bind(':module', $module, ParameterType::STRING);
+
+        if ($position !== null) {
+            $query->where($db->quoteName('position') . ' = :position')
+                ->bind(':position', $position, ParameterType::STRING);
+        }
+
+        $query->setLimit(1);
+
+        return static::$publishedAdministratorModules[$cacheKey] = (bool) $db->setQuery($query)->loadResult();
+    }
+
+    /**
      * Gets a standard form of a link for lookups.
      *
      * @param   mixed  $request  A link string or array of request variables.
