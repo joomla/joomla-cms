@@ -169,6 +169,10 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
         try {
             $result = parent::store($updateNulls);
         } catch (\Throwable $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             $result = false;

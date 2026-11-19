@@ -2,6 +2,16 @@ parameters:
 	ignoreErrors:
 		-
 			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: administrator/components/com_actionlogs/src/Dispatcher/Dispatcher.php
+
+		-
+			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
 				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
@@ -92,6 +102,16 @@ parameters:
 
 		-
 			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: administrator/components/com_admin/src/View/Sysinfo/HtmlView.php
+
+		-
+			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
@@ -99,6 +119,16 @@ parameters:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
 			'''
 			identifier: staticMethod.deprecated
+			count: 1
+			path: administrator/components/com_admin/src/View/Sysinfo/JsonView.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
 			count: 1
 			path: administrator/components/com_admin/src/View/Sysinfo/JsonView.php
 
@@ -113,6 +143,26 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: administrator/components/com_admin/src/View/Sysinfo/TextView.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: administrator/components/com_admin/src/View/Sysinfo/TextView.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: administrator/components/com_associations/src/Dispatcher/Dispatcher.php
 
 		-
 			message: '''
@@ -452,6 +502,16 @@ parameters:
 
 		-
 			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: administrator/components/com_categories/src/Dispatcher/Dispatcher.php
+
+		-
+			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
@@ -637,6 +697,16 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_config/src/Controller/ComponentController.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: administrator/components/com_config/src/Dispatcher/Dispatcher.php
 
 		-
 			message: '''
@@ -1185,6 +1255,16 @@ parameters:
 
 		-
 			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: administrator/components/com_contenthistory/src/Dispatcher/Dispatcher.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
@@ -1228,6 +1308,16 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 3
+			path: administrator/components/com_contenthistory/src/Model/CompareModel.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
 			path: administrator/components/com_contenthistory/src/Model/CompareModel.php
 
 		-
@@ -1287,6 +1377,16 @@ parameters:
 
 		-
 			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: administrator/components/com_contenthistory/src/Model/HistoryModel.php
+
+		-
+			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
 				4\.3 will be removed in 7\.0
 				             Use the MvcFactory instead or instantiate the table class directly\.
@@ -1294,6 +1394,16 @@ parameters:
 				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
 			'''
 			identifier: staticMethod.deprecated
+			count: 1
+			path: administrator/components/com_contenthistory/src/Model/PreviewModel.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
 			count: 1
 			path: administrator/components/com_contenthistory/src/Model/PreviewModel.php
 
@@ -1323,6 +1433,16 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_contenthistory/src/View/Preview/HtmlView.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: administrator/components/com_fields/src/Dispatcher/Dispatcher.php
 
 		-
 			message: '''
@@ -2232,6 +2352,16 @@ parameters:
 
 		-
 			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 2
+			path: administrator/components/com_installer/src/Controller/InstallController.php
+
+		-
+			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -2438,6 +2568,16 @@ parameters:
 			path: administrator/components/com_installer/src/View/Install/HtmlView.php
 
 		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: administrator/components/com_installer/src/View/Install/HtmlView.php
+
+		-
 			message: '#^Access to an undefined property Joomla\\Component\\Installer\\Administrator\\View\\Languages\\HtmlView\:\:\$installedLang\.$#'
 			identifier: property.notFound
 			count: 1
@@ -2449,6 +2589,16 @@ parameters:
 				7\.0$#
 			'''
 			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_installer/src/View/Languages/HtmlView.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
 			count: 1
 			path: administrator/components/com_installer/src/View/Languages/HtmlView.php
 
@@ -2541,6 +2691,16 @@ parameters:
 
 		-
 			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: administrator/components/com_joomlaupdate/src/Dispatcher/Dispatcher.php
+
+		-
+			message: '''
 				#^Access to deprecated static property \$language of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
@@ -2624,6 +2784,16 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_joomlaupdate/src/Model/UpdateModel.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\MVC\\Controller\\Exception\\CheckinCheckout\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
 			count: 1
 			path: administrator/components/com_joomlaupdate/src/Model/UpdateModel.php
 
@@ -3100,7 +3270,7 @@ parameters:
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 8
+			count: 10
 			path: administrator/components/com_mails/src/Model/TemplateModel.php
 
 		-
@@ -3119,6 +3289,15 @@ parameters:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
+			'''
+			identifier: method.deprecated
+			count: 8
+			path: administrator/components/com_mails/src/Model/TemplateModel.php
+
+		-
+			message: '''
+				#^Call to deprecated method shouldUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 8
@@ -3183,6 +3362,16 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: administrator/components/com_media/layouts/toolbar/upload.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: administrator/components/com_media/src/Dispatcher/Dispatcher.php
 
 		-
 			message: '''
@@ -4232,6 +4421,16 @@ parameters:
 
 		-
 			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: administrator/components/com_privacy/src/Dispatcher/Dispatcher.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
@@ -4637,7 +4836,7 @@ parameters:
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 20
+			count: 30
 			path: administrator/components/com_tags/src/Model/TagModel.php
 
 		-
@@ -4649,6 +4848,15 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 30
+			path: administrator/components/com_tags/src/Model/TagModel.php
+
+		-
+			message: '''
+				#^Call to deprecated method shouldUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				7\.0$#
+			'''
+			identifier: method.deprecated
+			count: 29
 			path: administrator/components/com_tags/src/Model/TagModel.php
 
 		-
@@ -4672,6 +4880,15 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 3
+			path: administrator/components/com_tags/src/Table/TagTable.php
+
+		-
+			message: '''
+				#^Call to deprecated method shouldUseExceptions\(\) of class Joomla\\CMS\\Table\\Table\:
+				7\.0$#
+			'''
+			identifier: method.deprecated
+			count: 2
 			path: administrator/components/com_tags/src/Table/TagTable.php
 
 		-
@@ -4988,6 +5205,36 @@ parameters:
 
 		-
 			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: administrator/components/com_users/src/Controller/DisplayController.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 5
+			path: administrator/components/com_users/src/Controller/GroupsController.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: administrator/components/com_users/src/Controller/LevelController.php
+
+		-
+			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -5140,6 +5387,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method shouldUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				7\.0$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_users/src/Model/DebuggroupModel.php
+
+		-
+			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -5157,7 +5413,7 @@ parameters:
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 3
+			count: 6
 			path: administrator/components/com_users/src/Model/GroupModel.php
 
 		-
@@ -5195,10 +5451,28 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method shouldUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				7\.0$#
+			'''
+			identifier: method.deprecated
+			count: 5
+			path: administrator/components/com_users/src/Model/GroupModel.php
+
+		-
+			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
+			'''
+			identifier: method.deprecated
+			count: 3
+			path: administrator/components/com_users/src/Model/GroupsModel.php
+
+		-
+			message: '''
+				#^Call to deprecated method shouldUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 3
@@ -5229,13 +5503,22 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method shouldUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				7\.0$#
+			'''
+			identifier: method.deprecated
+			count: 3
+			path: administrator/components/com_users/src/Model/LevelModel.php
+
+		-
+			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 2
+			count: 4
 			path: administrator/components/com_users/src/Model/LevelsModel.php
 
 		-
@@ -5244,6 +5527,15 @@ parameters:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
+			'''
+			identifier: method.deprecated
+			count: 3
+			path: administrator/components/com_users/src/Model/LevelsModel.php
+
+		-
+			message: '''
+				#^Call to deprecated method shouldUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 3
@@ -5269,7 +5561,16 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 5
+			count: 4
+			path: administrator/components/com_users/src/Model/MailModel.php
+
+		-
+			message: '''
+				#^Call to deprecated method shouldUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				7\.0$#
+			'''
+			identifier: method.deprecated
+			count: 4
 			path: administrator/components/com_users/src/Model/MailModel.php
 
 		-
@@ -5301,7 +5602,7 @@ parameters:
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 6
+			count: 8
 			path: administrator/components/com_users/src/Model/UserModel.php
 
 		-
@@ -5312,7 +5613,7 @@ parameters:
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 2
+			count: 4
 			path: administrator/components/com_users/src/Model/UserModel.php
 
 		-
@@ -5350,10 +5651,28 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method shouldUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				7\.0$#
+			'''
+			identifier: method.deprecated
+			count: 28
+			path: administrator/components/com_users/src/Model/UserModel.php
+
+		-
+			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
+			'''
+			identifier: method.deprecated
+			count: 2
+			path: administrator/components/com_users/src/Model/UsersModel.php
+
+		-
+			message: '''
+				#^Call to deprecated method shouldUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 2
@@ -5408,6 +5727,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method shouldUseExceptions\(\) of class Joomla\\CMS\\Table\\Table\:
+				7\.0$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_users/src/Table/MfaTable.php
+
+		-
+			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
@@ -5424,6 +5752,15 @@ parameters:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_users/src/Table/NoteTable.php
+
+		-
+			message: '''
+				#^Call to deprecated method shouldUseExceptions\(\) of class Joomla\\CMS\\Table\\Table\:
+				7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 1
@@ -5450,10 +5787,30 @@ parameters:
 
 		-
 			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: administrator/components/com_users/src/View/Debuggroup/HtmlView.php
+
+		-
+			message: '''
 				#^Call to deprecated method setUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				7\.0$#
 			'''
 			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_users/src/View/Debuguser/HtmlView.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
 			count: 1
 			path: administrator/components/com_users/src/View/Debuguser/HtmlView.php
 
@@ -5589,6 +5946,16 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_workflow/src/Controller/WorkflowsController.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: administrator/components/com_workflow/src/Dispatcher/Dispatcher.php
 
 		-
 			message: '''
@@ -5959,6 +6326,16 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: components/com_banners/src/Model/BannersModel.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 2
+			path: components/com_config/src/Dispatcher/Dispatcher.php
 
 		-
 			message: '''
@@ -6631,6 +7008,26 @@ parameters:
 
 		-
 			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: components/com_contenthistory/src/Dispatcher/Dispatcher.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: components/com_fields/src/Dispatcher/Dispatcher.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
@@ -6733,6 +7130,36 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: components/com_finder/tmpl/search/default_sorting.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: components/com_media/src/Dispatcher/Dispatcher.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: components/com_menus/src/Dispatcher/Dispatcher.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: components/com_modules/src/Dispatcher/Dispatcher.php
 
 		-
 			message: '''
@@ -6981,6 +7408,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method shouldUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				7\.0$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: components/com_tags/src/Model/TagModel.php
+
+		-
+			message: '''
 				#^Access to deprecated property \$sefparams of class Joomla\\Component\\Tags\\Site\\Service\\Router\:
 				5\.2\.0 will be removed in 7\.0
 				             without replacement$#
@@ -7107,7 +7543,7 @@ parameters:
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 2
+			count: 4
 			path: components/com_users/src/Model/ProfileModel.php
 
 		-
@@ -7123,13 +7559,22 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method shouldUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				7\.0$#
+			'''
+			identifier: method.deprecated
+			count: 2
+			path: components/com_users/src/Model/ProfileModel.php
+
+		-
+			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\User\\User\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 3
+			count: 6
 			path: components/com_users/src/Model/RegistrationModel.php
 
 		-
@@ -7157,10 +7602,28 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method shouldUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				7\.0$#
+			'''
+			identifier: method.deprecated
+			count: 8
+			path: components/com_users/src/Model/RegistrationModel.php
+
+		-
+			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
+			'''
+			identifier: method.deprecated
+			count: 5
+			path: components/com_users/src/Model/RemindModel.php
+
+		-
+			message: '''
+				#^Call to deprecated method shouldUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 5
@@ -7183,6 +7646,15 @@ parameters:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
+			'''
+			identifier: method.deprecated
+			count: 15
+			path: components/com_users/src/Model/ResetModel.php
+
+		-
+			message: '''
+				#^Call to deprecated method shouldUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 15
@@ -7252,6 +7724,16 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: components/com_users/src/View/Reset/HtmlView.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: components/com_workflow/src/Dispatcher/Dispatcher.php
 
 		-
 			message: '''
@@ -8216,6 +8698,16 @@ parameters:
 			identifier: new.static
 			count: 1
 			path: libraries/src/Date/Date.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: libraries/src/Dispatcher/ComponentDispatcher.php
 
 		-
 			message: '''
@@ -11317,6 +11809,46 @@ parameters:
 
 		-
 			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 3
+			path: libraries/src/MVC/Controller/ApiController.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\MVC\\Controller\\Exception\\CheckinCheckout\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 3
+			path: libraries/src/MVC/Controller/ApiController.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\MVC\\Controller\\Exception\\ResourceNotFound\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 2
+			path: libraries/src/MVC/Controller/ApiController.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\MVC\\Controller\\Exception\\Save\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: libraries/src/MVC/Controller/ApiController.php
+
+		-
+			message: '''
 				#^Call to deprecated method addModelPath\(\) of class Joomla\\CMS\\MVC\\Controller\\BaseController\:
 				4\.3 will be removed in 7\.0
 				             Will be removed without replacement\. Get the model through the MVCFactory instead$#
@@ -13316,6 +13848,16 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: plugins/multifactorauth/email/src/Extension/Email.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: plugins/quickicon/eos/src/Extension/Eos.php
 
 		-
 			message: '''

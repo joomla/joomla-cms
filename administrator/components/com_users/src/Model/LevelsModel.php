@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Administrator\Model;
 
+use Joomla\CMS\Access\Exception\NotAllowedException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -158,6 +159,12 @@ class LevelsModel extends ListModel
 
         // Load the row.
         if (!$table->load($pk)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -167,6 +174,10 @@ class LevelsModel extends ListModel
         $allow = $user->authorise('core.edit.state', 'com_users');
 
         if (!$allow) {
+            if ($this->shouldUseExceptions()) {
+                throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+            }
+
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 
             return false;
@@ -216,6 +227,12 @@ class LevelsModel extends ListModel
                 $table->ordering = $order[$i];
 
                 if (!$table->store()) {
+                    if ($this->shouldUseExceptions()) {
+                        $error = $table->getError(null, false);
+
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
                     $this->setError($table->getError());
 
                     return false;
