@@ -1,0 +1,21 @@
+/**
+ * @package     Joomla.Plugin
+ * @subpackage  System.externallink
+ * @copyright   (C) 2026 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+.plg-system-externallink-nobreak {
+  white-space: nowrap;
+}
+
+.plg-system-externallink-icon {
+  display: inline-block;
+  margin-inline-start: .2em;
+  vertical-align: -.08em;
+
+  svg {
+    display: inline-block;
+    vertical-align: .1em;
+  }
+}
