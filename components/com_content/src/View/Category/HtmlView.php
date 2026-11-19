@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Site\View\Category;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Event\Content\AfterDisplayEvent;
 use Joomla\CMS\Event\Content\AfterTitleEvent;
 use Joomla\CMS\Event\Content\BeforeDisplayEvent;
@@ -101,6 +102,21 @@ class HtmlView extends CategoryView
         PluginHelper::importPlugin('content', null, true, $dispatcher);
 
         $app     = Factory::getApplication();
+
+        if ($this->items) {
+            // Preload access rules for the items list
+            $assetsList = [];
+
+            foreach ($this->items as $item) {
+                $assetsList[] = 'com_content.article.' . $item->id;
+
+                if (!empty($item->catid)) {
+                    $assetsList['c' . $item->catid] = 'com_content.category.' . $item->catid;
+                }
+            }
+
+            Access::preloadItems('com_content', array_values($assetsList), 'name');
+        }
 
         // Compute the article slugs and prepare introtext (runs content plugins).
         foreach ($this->items as $item) {
