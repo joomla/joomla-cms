@@ -246,7 +246,7 @@ class PluginModel extends AdminModel
     {
         $folder  = $this->getState('item.folder');
         $element = $this->getState('item.element');
-        $lang    = Factory::getLanguage();
+        $lang    = Factory::getApplication()->getLanguage();
 
         // Load the core and/or local language sys file(s) for the ordering field.
         $db    = $this->getDatabase();

@@ -103,7 +103,7 @@ class ContentmapField extends GroupedlistField
      */
     private function prepareLevel($parent, $parents)
     {
-        $lang    = Factory::getLanguage();
+        $lang    = Factory::getApplication()->getLanguage();
         $entries = [];
 
         foreach ($parents[$parent] as $item) {

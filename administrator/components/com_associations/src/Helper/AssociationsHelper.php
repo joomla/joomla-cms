@@ -390,7 +390,7 @@ class AssociationsHelper extends ContentHelper
 
         // Get the translated titles.
         $languagePath = JPATH_ADMINISTRATOR . '/components/' . $extensionName;
-        $lang         = Factory::getLanguage();
+        $lang         = Factory::getApplication()->getLanguage();
 
         $lang->load($extensionName . '.sys', JPATH_ADMINISTRATOR);
         $lang->load($extensionName . '.sys', $languagePath);

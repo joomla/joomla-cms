@@ -82,7 +82,7 @@ class Query
             // Process the taxonomy branches.
             foreach ($query->filters as $branch => $nodes) {
                 // Process the taxonomy nodes.
-                $lang = Factory::getLanguage();
+                $lang = Factory::getApplication()->getLanguage();
 
                 foreach ($nodes as $id => $title) {
                     // Translate the title for Types

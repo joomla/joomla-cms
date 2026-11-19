@@ -190,7 +190,7 @@ abstract class ModulesHelper
 
         $db->setQuery($query);
         $modules = $db->loadObjectList();
-        $lang    = Factory::getLanguage();
+        $lang    = Factory::getApplication()->getLanguage();
 
         foreach ($modules as $module) {
             $extension = $module->value;
@@ -241,7 +241,7 @@ abstract class ModulesHelper
     public static function getTranslatedModulePosition($clientId, $template, $position)
     {
         // Template translation
-        $lang = Factory::getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
         $path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
         $loaded = $lang->getPaths('tpl_' . $template . '.sys');

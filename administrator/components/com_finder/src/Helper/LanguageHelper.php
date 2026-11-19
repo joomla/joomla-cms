@@ -103,7 +103,7 @@ class LanguageHelper
      */
     public static function loadComponentLanguage()
     {
-        Factory::getLanguage()->load('com_finder', JPATH_SITE);
+        Factory::getApplication()->getLanguage()->load('com_finder', JPATH_SITE);
     }
 
     /**
@@ -132,7 +132,7 @@ class LanguageHelper
         }
 
         // Load generic language strings.
-        $lang = Factory::getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
         $lang->load('plg_content_finder', JPATH_ADMINISTRATOR);
 
         // Load language file for each plugin.

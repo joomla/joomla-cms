@@ -57,7 +57,7 @@ class Finder
         // Compile the options.
         $options = [];
 
-        $lang = Factory::getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
 
         foreach ($rows as $row) {
             $key       = $lang->hasKey(LanguageHelper::branchPlural($row->text)) ? LanguageHelper::branchPlural($row->text) : $row->text;
@@ -92,7 +92,7 @@ class Finder
         }
 
         // Translate.
-        $lang = Factory::getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
 
         foreach ($branches as $branch) {
             $key                    = LanguageHelper::branchPlural($branch->text);
