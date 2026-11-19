@@ -14,6 +14,8 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Exception\DuplicateEntryException;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
@@ -133,6 +135,10 @@ class FieldTable extends Table implements CurrentUserInterface
     {
         // Check for valid name
         if (trim($this->title) == '') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
+            }
+
             $this->setError(Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
 
             return false;
@@ -154,6 +160,10 @@ class FieldTable extends Table implements CurrentUserInterface
         $table = new self($this->getDatabase(), $this->getDispatcher());
 
         if ($table->load(['name' => $this->name]) && ($table->id != $this->id || $this->id == 0)) {
+            if ($this->shouldUseExceptions()) {
+                throw new DuplicateEntryException(Text::_('COM_FIELDS_ERROR_UNIQUE_NAME'), 'name');
+            }
+
             $this->setError(Text::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
 
             return false;
