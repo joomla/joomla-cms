@@ -58,6 +58,16 @@ class ListField extends FormField
     protected $header;
 
     /**
+     * Whether the field should submit an empty value when nothing is selected in the <select multiple>.
+     * Because browser does not submit anything when <select multiple> is empty.
+     *
+     * @var    boolean
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $emptyValueWhenUnselected = false;
+
+    /**
      * Method to get the field input markup for a generic list.
      * Use the multiple attribute to enable multiselect.
      *
@@ -245,11 +255,37 @@ class ListField extends FormField
      */
     public function __get($name)
     {
-        if ($name === 'options') {
-            return $this->getOptions();
-        }
+        switch ($name) {
+            case 'options':
+                return $this->getOptions();
 
-        return parent::__get($name);
+            case 'emptyValueWhenUnselected':
+                return $this->emptyValueWhenUnselected;
+
+            default:
+                return parent::__get($name);
+        }
+    }
+
+    /**
+     * Method to set certain otherwise inaccessible properties of the form field object.
+     *
+     * @param   string  $name   The property name for which to set the value.
+     * @param   mixed   $value  The value of the property.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __set($name, $value)
+    {
+        switch ($name) {
+            case 'emptyValueWhenUnselected':
+                $this->emptyValueWhenUnselected = \is_bool($value) ? $value : ($value == 'true' || $value == '1');
+                break;
+            default:
+                parent::__set($name, $value);
+        }
     }
 
     /**
@@ -270,11 +306,33 @@ class ListField extends FormField
     {
         $return = parent::setup($element, $value, $group);
 
-        if ($return) {
-            // Check if it's using the old way
-            $this->header = (string) $this->element['header'] ?: false;
+        if (!$return) {
+            return $return;
+        }
+
+        // Check if it's using the old way
+        $this->header = (string) $this->element['header'] ?: false;
+
+        if ($element['emptyValueWhenUnselected']) {
+            $this->__set('emptyValueWhenUnselected', $element['emptyValueWhenUnselected']);
         }
 
         return $return;
+    }
+
+    /**
+     * Method to get the data to be passed to the layout for rendering.
+     *
+     * @return  array
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    protected function getLayoutData()
+    {
+        $data = parent::getLayoutData();
+
+        $data['emptyValueWhenUnselected'] = $this->emptyValueWhenUnselected;
+
+        return $data;
     }
 }
