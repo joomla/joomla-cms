@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Router\Route;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
@@ -67,6 +68,47 @@ class FieldController extends FormController
         $this->internalContext = $this->app->getUserStateFromRequest('com_fields.fields.context', 'context', 'com_content.article', 'CMD');
         $parts                 = FieldsHelper::extract($this->internalContext);
         $this->component       = $parts ? $parts[0] : null;
+    }
+
+    /**
+     * Override parent add method.
+     *
+     * When no field type has been selected yet, the user is redirected to the
+     * type selection view, otherwise the selected type is carried over to the
+     * edit form.
+     *
+     * @return  boolean  True if the record can be added, false if not.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function add()
+    {
+        $result = parent::add();
+
+        if ($result !== true) {
+            return $result;
+        }
+
+        // Look for the field type.
+        $type = $this->input->getWord('type');
+
+        if (!$type) {
+            // No type selected yet, show the type selection first.
+            $this->setRedirect(Route::_('index.php?option=com_fields&view=select&context=' . $this->internalContext, false));
+
+            return $result;
+        }
+
+        // Carry the selected type over the redirect to the edit form.
+        $this->setRedirect(
+            Route::_(
+                'index.php?option=' . $this->option . '&view=' . $this->view_item
+                    . $this->getRedirectToItemAppend() . '&type=' . $type,
+                false
+            )
+        );
+
+        return $result;
     }
 
     /**

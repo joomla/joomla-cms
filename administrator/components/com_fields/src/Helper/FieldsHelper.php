@@ -674,9 +674,10 @@ class FieldsHelper
      * Loads the fields plugins and returns an array of field types from the plugins.
      *
      * The returned array contains arrays with the following keys:
-     * - label: The label of the field
-     * - type:  The type of the field
-     * - path:  The path of the folder where the field can be found
+     * - label:       The label of the field
+     * - type:        The type of the field
+     * - path:        The path of the folder where the field can be found
+     * - description: The description of the field type
      *
      * @return  array
      *
@@ -699,6 +700,10 @@ class FieldsHelper
 
                 if (!\array_key_exists('rules', $fieldDescription)) {
                     $fieldDescription['rules'] = null;
+                }
+
+                if (!\array_key_exists('description', $fieldDescription)) {
+                    $fieldDescription['description'] = '';
                 }
 
                 $data[$fieldDescription['type']] = $fieldDescription;
