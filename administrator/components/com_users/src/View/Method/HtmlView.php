@@ -175,11 +175,11 @@ class HtmlView extends BaseHtmlView
         if ($this->isAdmin && $this->getLayout() === 'edit') {
             $button = (new BasicButton('user-mfa-edit-save'))
                 ->text($this->renderOptions['submit_text'])
-                ->icon($this->renderOptions['submit_icon'])
-                ->onclick('document.getElementById(\'user-mfa-edit-save\').click()');
+                ->icon($this->renderOptions['submit_icon']);
 
             if ($this->renderOptions['show_submit'] || $this->isEditExisting) {
                 $toolbar->appendButton($button);
+                $this->getDocument()->getWebAssetManager()->useScript('com_users.two-factor-edit');
             }
 
             $button = (new LinkButton('user-mfa-edit-cancel'))

@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 $text = Text::_('JTOOLBAR_CANCEL');
 ?>
 <joomla-toolbar-button>
-    <button onclick="location.href='index.php?option=com_modules&view=modules&client_id=<?php echo $displayData['client_id']; ?>'" class="btn btn-danger">
+    <a href="index.php?option=com_modules&amp;view=modules&amp;client_id=<?php echo (int) $displayData['client_id']; ?>" class="btn btn-danger">
         <span class="icon-times" aria-hidden="true"></span> <?php echo $text; ?>
-    </button>
+    </a>
 </joomla-toolbar-button>
