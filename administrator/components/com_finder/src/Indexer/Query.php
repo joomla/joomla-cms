@@ -674,10 +674,10 @@ class Query
     protected function processDates($date1, $date2, $when1, $when2)
     {
         // Clean up the inputs.
-        $date1 = trim(StringHelper::strtolower($date1));
-        $date2 = trim(StringHelper::strtolower($date2));
-        $when1 = trim(StringHelper::strtolower($when1));
-        $when2 = trim(StringHelper::strtolower($when2));
+        $date1 = trim(StringHelper::strtolower($date1 ?? ''));
+        $date2 = trim(StringHelper::strtolower($date2 ?? ''));
+        $when1 = trim(StringHelper::strtolower($when1 ?? ''));
+        $when2 = trim(StringHelper::strtolower($when2 ?? ''));
 
         // Get the time offset.
         $offset = Factory::getApplication()->get('offset');
