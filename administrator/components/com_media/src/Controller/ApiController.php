@@ -21,6 +21,9 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
+use Joomla\Component\Media\Administrator\File\TmpFileUpload;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -190,15 +193,55 @@ class ApiController extends BaseController
             throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'), 403);
         }
 
-        $adapter      = $this->getAdapter();
-        $path         = $this->getPath();
-        $content      = $this->input->json;
-        $name         = $content->getString('name');
-        $mediaContent = base64_decode($content->get('content', '', 'raw'));
-        $override     = $content->get('override', false);
+        $adapter = $this->getAdapter();
+        $path    = $this->getPath();
+        $tmpFile = '';
+
+        // Get the data depending on the request type
+        if ($this->input->json->count()) {
+            $content      = $this->input->json;
+            $name         = $content->getString('name');
+            $mediaContent = base64_decode($content->get('content', '', 'raw'));
+            $mediaLength  = 0;
+
+            // Create tmp file
+            if ($mediaContent) {
+                $tmpContent   = $mediaContent;
+                $tmpFile      = Path::clean($this->app->get('tmp_path') . '/tmp_upload/' . uniqid('tmp-', true));
+                $mediaLength  = \strlen($tmpContent);
+                $mediaContent = new TmpFileUpload([
+                    'name'     => $name,
+                    'tmp_name' => $tmpFile,
+                    'size'     => $mediaLength,
+                    'error'    => 0,
+                ]);
+
+                if (!File::write($tmpFile, $tmpContent)) {
+                    throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
+                }
+            }
+        } else {
+            $content      = $this->input->post;
+            $name         = $content->getString('name');
+            $mediaContent = null;
+            $mediaLength  = 0;
+            $file         = $this->input->files->get('content', []);
+
+            if ($file) {
+                $file['name'] = $name;
+                $mediaContent = new TmpFileUpload($file);
+                $mediaLength  = $mediaContent->getSize();
+
+                if ($mediaContent->getError()) {
+                    throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
+                }
+            }
+        }
+
+        $override = $content->getBool('override', false);
 
         if ($mediaContent) {
-            $this->checkFileSize(\strlen($mediaContent));
+            $this->checkFileSize($mediaLength);
 
             // A file needs to be created
             $name = $this->getModel()->createFile($adapter, $name, $path, $mediaContent, $override);
@@ -209,6 +252,13 @@ class ApiController extends BaseController
 
         $options        = [];
         $options['url'] = $this->input->getBool('url', false);
+
+        if ($tmpFile) {
+            try {
+                File::delete($tmpFile);
+            } catch (\Exception $e) {
+            }
+        }
 
         return $this->getModel()->getFile($adapter, $path . '/' . $name, $options);
     }
@@ -262,15 +312,53 @@ class ApiController extends BaseController
 
         $adapter = $this->getAdapter();
         $path    = $this->getPath();
+        $tmpFile = '';
 
-        $content      = $this->input->json;
+        // Get the data depending on the request type
+        if ($this->input->json->count()) {
+            $content      = $this->input->json;
+            $name         = $content->getString('name');
+            $mediaContent = base64_decode($content->get('content', '', 'raw'));
+            $mediaLength  = 0;
+
+            // Create tmp file
+            if ($mediaContent) {
+                $tmpContent   = $mediaContent;
+                $tmpFile      = Path::clean($this->app->get('tmp_path') . '/tmp_upload/' . uniqid('tmp-', true));
+                $mediaLength  = \strlen($tmpContent);
+                $mediaContent = new TmpFileUpload([
+                    'name'     => $name,
+                    'tmp_name' => $tmpFile,
+                    'size'     => $mediaLength,
+                    'error'    => 0,
+                ]);
+
+                if (!File::write($tmpFile, $tmpContent)) {
+                    throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
+                }
+            }
+        } else {
+            $content      = $this->input->post;
+            $mediaContent = null;
+            $mediaLength  = 0;
+            $file         = $this->input->files->get('content', []);
+
+            if ($file) {
+                $mediaContent = new TmpFileUpload($file);
+                $mediaLength  = $mediaContent->getSize();
+
+                if ($mediaContent->getError()) {
+                    throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
+                }
+            }
+        }
+
         $name         = basename($path);
-        $mediaContent = base64_decode($content->get('content', '', 'raw'));
         $newPath      = $content->getString('newPath', null);
         $move         = $content->get('move', true);
 
-        if ($mediaContent != null) {
-            $this->checkFileSize(\strlen($mediaContent));
+        if ($mediaContent) {
+            $this->checkFileSize($mediaLength);
 
             $this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
         }
@@ -285,6 +373,13 @@ class ApiController extends BaseController
             }
 
             $path = $destinationPath;
+        }
+
+        if ($tmpFile) {
+            try {
+                File::delete($tmpFile);
+            } catch (\Exception $e) {
+            }
         }
 
         return $this->getModel()->getFile($adapter, $path);

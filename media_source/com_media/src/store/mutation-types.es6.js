@@ -60,3 +60,6 @@ export const UPDATE_SORT_BY = 'UPDATE_SORT_BY';
 
 // Update sorting direction
 export const UPDATE_SORT_DIRECTION = 'UPDATE_SORT_DIRECTION';
+
+// Update list of files currently uploading and their progress
+export const UPDATE_ACTIVE_UPLOADS = 'UPDATE_ACTIVE_UPLOADS';
