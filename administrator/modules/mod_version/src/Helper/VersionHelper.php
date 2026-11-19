@@ -34,7 +34,7 @@ class VersionHelper
     {
         $version = new Version();
 
-        return '&#x200E;' . $version->getShortVersion();
+        return '<bdi>' . $version->getShortVersion() . '</bdi>';
     }
 
     /**
