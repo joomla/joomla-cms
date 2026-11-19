@@ -49,6 +49,8 @@ class FiltersModel extends ListModel
         }
 
         parent::__construct($config, $factory);
+
+        $this->localeOrderColumns = ['a.title', 'a.created_by_alias'];
     }
 
     /**
@@ -89,7 +91,10 @@ class FiltersModel extends ListModel
         }
 
         // Add the list ordering clause.
-        $query->order($db->escape($this->getState('list.ordering', 'a.title') . ' ' . $db->escape($this->getState('list.direction', 'ASC'))));
+        $query->order($this->getOrderByWithLocale(
+            $this->getState('list.ordering', 'a.title'),
+            $this->getState('list.direction', 'ASC')
+        ));
 
         return $query;
     }

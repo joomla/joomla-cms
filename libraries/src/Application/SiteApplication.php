@@ -13,6 +13,7 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Database\LocaleCollation;
 use Joomla\CMS\Event\Application\AfterDispatchEvent;
 use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Event\Application\AfterRouteEvent;
@@ -25,6 +26,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
@@ -426,6 +428,9 @@ final class SiteApplication extends CMSApplication
                 $options['language'] = 'en-GB';
             }
         }
+
+        // Ensure the collation exists for the language on startup
+        (new LocaleCollation(Factory::getContainer()->get(DatabaseInterface::class)))->ensureCollation($options['language']);
 
         // Finish initialisation
         parent::initialiseApp($options);
