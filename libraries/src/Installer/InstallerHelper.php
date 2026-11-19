@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Installer;
 
 use Joomla\Archive\Archive;
+use Joomla\CMS\Event\Installer\AfterPackageDownloadEvent;
 use Joomla\CMS\Event\Installer\BeforePackageDownloadEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -59,6 +60,15 @@ abstract class InstallerHelper
     public const HASH_NOT_PROVIDED = 2;
 
     /**
+     * Message displayed when download fails.
+     *
+     * @var    string
+
+     * @since  __DEPLOY_VERSION__
+     */
+    protected static $downloadFailMessage = 'COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED';
+
+    /**
      * Downloads a package
      *
      * @param   string       $url     URL of file to download
@@ -75,7 +85,10 @@ abstract class InstallerHelper
         ini_set('user_agent', $version->getUserAgent('Installer'));
 
         // Load installer plugins, and allow URL and headers modification
-        $headers    = [];
+        $headers           = [];
+        $headers['accept'] = 'application/json, application/zip';
+
+        // Load installer plugins, and allow URL and headers modification
         $dispatcher = Factory::getApplication()->getDispatcher();
         PluginHelper::importPlugin('installer', null, true, $dispatcher);
         $event = new BeforePackageDownloadEvent('onInstallerBeforePackageDownload', [
@@ -86,20 +99,64 @@ abstract class InstallerHelper
         $url     = $event->getArgument('url', $url);
         $headers = $event->getArgument('headers', $headers);
 
+        if (empty($url)) {
+            // Any logging and messaging of this are the responsibility of the event handlers.
+            return false;
+        }
+
+        // In the XML returned by the update server the downloadurl value may include optional values using escape fields.
+        // In the simplest case these values would be the Joomla version and the PHP version.
+        // Additionally, the value of a Joomla Text Override label could be used as a security token.
+        // https://...?task=product.download&element=plg_test_test2&file_id=400&updatetype=1&j={joomla_version}&p={php_version}&t={DEVELOPER_UPDATE_TOKEN}
+        $url = str_replace(
+            ['{joomla_version}', '{php_version}'],
+            [JVERSION, PHP_VERSION],
+            $url
+        );
+
+        preg_match('/{[^}]+}/', $url, $matches);
+        foreach ($matches as $match) {
+            $url = str_replace($match, Text::_(trim($match, '{}')), $url);
+        }
+
         $options = new Registry();
         $options->set('userAgent', $version->getUserAgent('Joomla', true, false));
 
         // Get the file
         try {
             $response = (new HttpFactory())->getHttp($options)->get($url, $headers);
+
+            // Convert keys of headers to lowercase, to accommodate for case variations
+            $headers = array_change_key_case($response->getHeaders(), CASE_LOWER);
         } catch (\RuntimeException $exception) {
+            $response = $exception;
+        }
+
+        // Load installer plugins, and check response
+        $dispatcher = Factory::getApplication()->getDispatcher();
+        PluginHelper::importPlugin('installer', null, true, $dispatcher);
+        $event = new AfterPackageDownloadEvent('onInstallerAfterPackageDownload', [
+            'url'      => &$url,
+            'response' => &$response,
+            'headers'  => &$headers,
+            'return'   => true,
+        ]);
+        $dispatcher->dispatch('onInstallerAfterPackageDownload', $event);
+        $return = $event->getArgument('return');
+
+        if ($return === false) {
+            return false;
+        }
+
+        if ($return !== true) {
+            return $return;
+        }
+
+        if ($response instanceof \Exception) {
             Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), Log::WARNING, 'jerror');
 
             return false;
         }
-
-        // Convert keys of headers to lowercase, to accommodate for case variations
-        $headers = array_change_key_case($response->getHeaders(), CASE_LOWER);
 
         if (302 == $response->getStatusCode() && !empty($headers['location'])) {
             return self::downloadPackage($headers['location']);
@@ -108,29 +165,82 @@ abstract class InstallerHelper
         if (200 != $response->getStatusCode()) {
             Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->getStatusCode()), Log::WARNING, 'jerror');
 
+            if (403 === $response->getStatusCode()) {
+                $body = (string) $response->getBody();
+
+                // Show response message, but ignore default server error pages
+                if ($body && !str_contains($body, '</body>')) {
+                    Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_MESSAGE', $url, $body), Log::WARNING, 'jerror');
+                }
+            }
+
             return false;
         }
 
-        // Parse the Content-Disposition header to get the file name
         if (
-            !empty($headers['content-disposition'])
-            && preg_match("/\s*filename\s?=\s?(.*)/", $headers['content-disposition'][0], $parts)
+            !empty($headers['content-type'])
+            && !empty($headers['content-type'][0])
+            && strpos($headers['content-type'][0], 'application/json') !== false
         ) {
-            $flds   = explode(';', $parts[1]);
-            $target = trim($flds[0], '"');
-        }
+            $response = json_decode((string)$response->getBody(), true);
 
-        $tmpPath = Factory::getApplication()->get('tmp_path');
+            /*
+            Typically this is used for an error response which will look like this:
+            array (
+              'message' => '<strong>plg_test_test2: </strong>The subscription key you provided is expired or invalid. Please purchase a new subscription key.',
+              'type' => 'info',  'success' => false, 'error' => true, 'downloadfailmessage' => '',
+            )
+            Json data can be used as an alternative success response in which case it will include package and target data.
+            */
 
-        // Set the target path if not given
-        if (!$target) {
-            $target = $tmpPath . '/' . self::getFilenameFromUrl($url);
+            if (isset($response['downloadfailmessage'])) {
+                // Empty string will disable the download fail message.
+                // The response message may be used on errors. Allows the message type to be customised.
+                self::$downloadFailMessage = $response['downloadfailmessage'];
+            }
+
+            if (!empty($response['message'])) {
+                Factory::getApplication()->enqueueMessage($response['message'], $response['type'] ?? 'info');
+
+                if (!empty($response['error'])) {
+                    return false;
+                }
+            }
+
+            if (
+                !empty($response['error'])
+                || empty($response['package'])
+                || empty($response['target'])
+            ) {
+                Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', ''), Log::WARNING, 'jerror');
+
+                return false;
+            }
+
+            $body   = base64_decode($response['package']);
+            $target = $response['target'];
         } else {
-            $target = $tmpPath . '/' . basename($target);
-        }
+            // Parse the Content-Disposition header to get the file name
+            if (
+                !empty($headers['content-disposition'])
+                && preg_match("/\s*filename\s?=\s?(.*)/", $headers['content-disposition'][0], $parts)
+            ) {
+                $flds   = explode(';', $parts[1]);
+                $target = trim($flds[0], '"');
+            }
 
-        // Fix Indirect Modification of Overloaded Property
-        $body = (string) $response->getBody();
+            $tmpPath = Factory::getApplication()->get('tmp_path');
+
+            // Set the target path if not given
+            if (!$target) {
+                $target = $tmpPath . '/' . self::getFilenameFromUrl($url);
+            } else {
+                $target = $tmpPath . '/' . basename($target);
+            }
+
+            // Fix Indirect Modification of Overloaded Property
+            $body = (string) $response->getBody();
+        }
 
         // Write buffer to file
         File::write($target, $body);
@@ -142,6 +252,24 @@ abstract class InstallerHelper
 
         // Return the name of the downloaded package
         return basename($target);
+    }
+
+    /*
+     * Enqueues the download fail message (if any).
+     *
+     * @param   string   $url    URL of file to download
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function enqueueDownloadFailMessage($url)
+    {
+        if (empty(self::$downloadFailMessage)) {
+            return;
+        }
+
+        Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED', $url), 'error');
     }
 
     /**
