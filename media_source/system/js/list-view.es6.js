@@ -90,6 +90,29 @@ function applyIsChecked(event) {
 }
 
 /*
+ * Submit the form of the current element, e.g. when the list limit changes
+ *
+ * @param {Event} event
+ */
+function gridSubmitOnChange(event) {
+  Joomla.submitform('', event.target.form);
+}
+
+/*
+ * Go to the page of the current pagination link
+ *
+ * @param {Event} event
+ */
+function gridPaginationAction(event) {
+  event.preventDefault();
+
+  const { limitstartField, limitstart } = event.currentTarget.dataset;
+
+  document.adminForm[limitstartField].value = limitstart;
+  Joomla.submitform();
+}
+
+/*
  * Set up an interactive list elements
  *
  * @param {Event} event
@@ -100,6 +123,8 @@ const setup = ({ target }) => {
   target.querySelectorAll('.js-grid-item-action').forEach((element) => element.addEventListener('click', gridItemAction));
   target.querySelectorAll('.js-grid-item-transition-action').forEach((element) => element.addEventListener('change', gridTransitionItemAction));
   target.querySelectorAll('.js-grid-button-transition-action').forEach((element) => element.addEventListener('click', gridTransitionButtonAction));
+  target.querySelectorAll('.js-grid-submit-on-change').forEach((element) => element.addEventListener('change', gridSubmitOnChange));
+  target.querySelectorAll('.js-grid-pagination-link').forEach((element) => element.addEventListener('click', gridPaginationAction));
 };
 
 setup({ target: document });
