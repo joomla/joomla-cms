@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Content\Site\View\Article;
 
-use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Event\Content;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -299,7 +298,7 @@ class HtmlView extends BaseHtmlView
             }
 
             $path     = [['title' => $this->item->title, 'link' => '']];
-            $category = Categories::getInstance('Content')->get($this->item->catid);
+            $category = $app->bootComponent('com_content')->getCategory()->get($this->item->catid);
 
             while ($category !== null && $category->id != $id && $category->id !== 'root') {
                 $path[]   = ['title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language)];

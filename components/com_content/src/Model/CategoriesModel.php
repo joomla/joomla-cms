@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
-use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -127,7 +126,7 @@ class CategoriesModel extends ListModel
             $options                  = [];
             $options['countItems']    = $params->get('show_cat_num_articles_cat', 1) || !$params->get('show_empty_categories_cat', 0);
             $options['accessOnItems'] = !$params->get('show_noauth', 0);
-            $categories               = Categories::getInstance('Content', $options);
+            $categories               = $app->bootComponent('com_content')->getCategory($options);
             $this->_parent            = $categories->get($this->getState('filter.parentId', 'root'));
 
             if (\is_object($this->_parent)) {

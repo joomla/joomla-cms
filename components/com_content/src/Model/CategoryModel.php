@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
-use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
@@ -369,7 +368,7 @@ class CategoryModel extends ListModel
                 $options['countItems'] = 0;
             }
 
-            $categories  = Categories::getInstance('Content', $options);
+            $categories  = Factory::getApplication()->bootComponent('com_content')->getCategory($options);
             $this->_item = $categories->get($this->getState('category.id', 'root'));
 
             // Compute selected asset permissions.

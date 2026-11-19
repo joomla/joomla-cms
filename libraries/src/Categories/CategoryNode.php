@@ -547,7 +547,7 @@ class CategoryNode implements NodeInterface
 
         // Restore constructor from array of options.
         if ($this->_constructor) {
-            $this->_constructor = Categories::getInstance($this->_constructor['extension'], $this->_constructor);
+            $this->_constructor = Factory::getApplication()->bootComponent($this->_constructor['extension'])->getCategory($this->_constructor);
         }
     }
 }
