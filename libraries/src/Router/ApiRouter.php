@@ -79,7 +79,7 @@ class ApiRouter extends Router
     /**
      * Parse the given route and return the name of a controller mapped to the given route.
      *
-     * @param   string  $method  Request method to match. One of GET, POST, PUT, DELETE, HEAD, OPTIONS, TRACE or PATCH
+     * @param   string  $method  Request method to match. One of GET, POST, PUT, DELETE, HEAD, TRACE, PATCH or QUERY.
      *
      * @return  array   An array containing the controller and the matched variables.
      *
@@ -90,7 +90,7 @@ class ApiRouter extends Router
     {
         $method = strtoupper($method);
 
-        $validMethods = ["GET", "POST", "PUT", "DELETE", "HEAD", "TRACE", "PATCH"];
+        $validMethods = ["GET", "POST", "PUT", "DELETE", "HEAD", "TRACE", "PATCH", "QUERY"];
 
         if (!\in_array($method, $validMethods)) {
             throw new \InvalidArgumentException(\sprintf('%s is not a valid HTTP method.', $method));
