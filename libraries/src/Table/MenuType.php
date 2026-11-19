@@ -11,6 +11,9 @@ namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\Exception\CheckinCheckoutException;
+use Joomla\CMS\Table\Exception\DuplicateEntryException;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseInterface;
@@ -56,6 +59,10 @@ class MenuType extends Table implements CurrentUserInterface
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -64,6 +71,10 @@ class MenuType extends Table implements CurrentUserInterface
         $this->menutype = ApplicationHelper::stringURLSafe($this->menutype);
 
         if (empty($this->menutype)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MENUTYPE_EMPTY'));
+            }
+
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MENUTYPE_EMPTY'));
 
             return false;
@@ -88,6 +99,10 @@ class MenuType extends Table implements CurrentUserInterface
         $db->setQuery($query);
 
         if ($db->loadResult()) {
+            if ($this->shouldUseExceptions()) {
+                throw new DuplicateEntryException(Text::sprintf('JLIB_DATABASE_ERROR_MENUTYPE_EXISTS', $this->menutype), 'menutype');
+            }
+
             $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENUTYPE_EXISTS', $this->menutype));
 
             return false;
@@ -130,6 +145,12 @@ class MenuType extends Table implements CurrentUserInterface
             $db->setQuery($query);
 
             if ($db->loadRowList()) {
+                if ($this->shouldUseExceptions()) {
+                    throw new CheckinCheckoutException(
+                        Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
+                    );
+                }
+
                 $this->setError(
                     Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
                 );
@@ -149,6 +170,12 @@ class MenuType extends Table implements CurrentUserInterface
             $db->setQuery($query);
 
             if ($db->loadRowList()) {
+                if ($this->shouldUseExceptions()) {
+                    throw new CheckinCheckoutException(
+                        Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
+                    );
+                }
+
                 $this->setError(
                     Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
                 );
@@ -229,6 +256,12 @@ class MenuType extends Table implements CurrentUserInterface
             $db->setQuery($query);
 
             if ($db->loadRowList()) {
+                if ($this->shouldUseExceptions()) {
+                    throw new CheckinCheckoutException(
+                        Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE'))
+                    );
+                }
+
                 $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
 
                 return false;
@@ -246,6 +279,12 @@ class MenuType extends Table implements CurrentUserInterface
             $db->setQuery($query);
 
             if ($db->loadRowList()) {
+                if ($this->shouldUseExceptions()) {
+                    throw new CheckinCheckoutException(
+                        Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE'))
+                    );
+                }
+
                 $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
 
                 return false;

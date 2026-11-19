@@ -12,6 +12,7 @@ namespace Joomla\CMS\Table;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
@@ -130,6 +131,10 @@ class Module extends Table
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -137,6 +142,10 @@ class Module extends Table
 
         // Check for valid name
         if (trim($this->title) === '') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MODULE'));
+            }
+
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MODULE'));
 
             return false;
@@ -153,6 +162,10 @@ class Module extends Table
 
         // Prevent to save too large content > 65535
         if ((!empty($this->content) && \strlen($this->content) > 65535) || (!empty($this->params) && \strlen($this->params) > 65535)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_MODULES_FIELD_CONTENT_TOO_LARGE'));
+            }
+
             $this->setError(Text::_('COM_MODULES_FIELD_CONTENT_TOO_LARGE'));
 
             return false;
