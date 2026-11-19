@@ -46,7 +46,7 @@ class PluginController extends BaseController
         try {
             // Load plugin names
             $pluginName = $this->input->getString('plugin', null);
-            $plugins    = PluginHelper::getPlugin('filesystem');
+            $plugins    = PluginHelper::getPlugins('filesystem');
 
             // If plugin name was not found in parameters redirect back to control panel
             if (!$pluginName || !$this->containsPlugin($plugins, $pluginName)) {
