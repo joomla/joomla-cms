@@ -1,0 +1,34 @@
+name: Greeting first time contributors
+
+on:
+  pull_request:
+    types:
+      - opened
+
+permissions:
+  pull-requests: write
+
+jobs:
+  greeting:
+    name: Greet First-Time Contributors
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/first-interaction@v3
+        with:
+          issue_message: |
+            blank
+          pr_message: |
+            Hello {{ github.event.pull_request.user.login }},
+            thank you for proposing your code change in this PR. We have a process how contributions are handled and would like to inform you what to expect:
+              1. We suggest starting your PR in draft mode, to give you the chance to fix things before our testers and maintainers 
+                start working on your PR. Make sure that your PR is ready before switching its status!
+              2. Does your PR need additional documentation? Does it adhere to our AI policy?
+              3. At the bottom of each PR you can find the status of our automated tests. Please check that all of these successfully passed. 
+                This makes sure that your contribution doesn't directly break anything and adheres to our quality standards.
+              4. When you've done all changes to your PR and all tests pass, please switch the status away from draft mode.
+              5. Now we will try to have a first look at your code as soon as possible to give you feedback and also to
+                assess if your contribution is a good fit for Joomla. This might take some time, but we will eventually 
+                get to you. Please refrain from using mentions to raise attention for your PR.
+              6. Besides a good review by a maintainer, your PR also needs two successfull tests by two separate testers to be accepted.
+              7. When we have the passing tests, two testers and a favourable review by at least one maintainer, your PR is ready to be accepted.
