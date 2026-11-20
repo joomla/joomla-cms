@@ -1,8 +1,8 @@
 describe('Test that the multi authentication plugin', () => {
-  afterEach(() => cy.task('queryDB', `INSERT INTO #__mail_templates (template_id, extension, language, subject, body, htmlbody, attachments, params) VALUES ('plg_multifactorauth_email.mail', 'plg_multifactorauth_email', '', 'PLG_MULTIFACTORAUTH_EMAIL_EMAIL_SUBJECT', 'PLG_MULTIFACTORAUTH_EMAIL_EMAIL_BODY', '', '', '{"tags":["code","sitename","siteurl","username","email","fullname"]}')`));
+  afterEach(() => cy.task('queryDB', 'INSERT INTO #__mail_templates (template_id, extension, language, subject, body, htmlbody, attachments, params) VALUES (\'plg_multifactorauth_email.mail\', \'plg_multifactorauth_email\', \'\', \'PLG_MULTIFACTORAUTH_EMAIL_EMAIL_SUBJECT\', \'PLG_MULTIFACTORAUTH_EMAIL_EMAIL_BODY\', \'\', \'\', \'{"tags":["code","sitename","siteurl","username","email","fullname"]}\')'));
 
   it('can send mail with mailer factory', () => {
-    cy.task('queryDB', `DELETE FROM #__mail_templates WHERE template_id = 'plg_multifactorauth_email.mail'`)
+    cy.task('queryDB', 'DELETE FROM #__mail_templates WHERE template_id = \'plg_multifactorauth_email.mail\'')
       .then(() => {
         cy.doFrontendLogin();
         cy.visit('/index.php?option=com_users&view=profile&layout=edit');

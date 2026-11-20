@@ -5,7 +5,10 @@
     role="list"
     aria-labelledby="canvas-controls-title"
   >
-    <span id="canvas-controls-title" class="visually-hidden">{{ translate('COM_WORKFLOW_GRAPH_CANVAS_VIEW_CONTROLS') }}</span>
+    <span
+      id="canvas-controls-title"
+      class="visually-hidden"
+    >{{ translate('COM_WORKFLOW_GRAPH_CANVAS_VIEW_CONTROLS') }}</span>
 
     <ul class="d-flex flex-column gap-1 list-unstyled mb-0 px-0">
       <li>
@@ -16,7 +19,10 @@
           @keydown.enter="zoomIn"
           @keydown.space.prevent="zoomIn"
         >
-          <span class="icon icon-plus" aria-hidden="true" />
+          <span
+            class="icon icon-plus"
+            aria-hidden="true"
+          />
           <span class="visually-hidden">{{ translate('COM_WORKFLOW_GRAPH_ZOOM_IN') }}</span>
         </button>
       </li>
@@ -28,7 +34,10 @@
           @keydown.enter="zoomOut"
           @keydown.space.prevent="zoomOut"
         >
-          <span class="icon icon-minus" aria-hidden="true" />
+          <span
+            class="icon icon-minus"
+            aria-hidden="true"
+          />
           <span class="visually-hidden">{{ translate('COM_WORKFLOW_GRAPH_ZOOM_OUT') }}</span>
         </button>
       </li>
@@ -40,7 +49,10 @@
           @keydown.enter="customFitView"
           @keydown.space.prevent="customFitView"
         >
-          <span class="icon icon-expand" aria-hidden="true" />
+          <span
+            class="icon icon-expand"
+            aria-hidden="true"
+          />
           <span class="visually-hidden">{{ translate('COM_WORKFLOW_GRAPH_FIT_VIEW') }}</span>
         </button>
       </li>

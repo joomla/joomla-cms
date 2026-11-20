@@ -13,6 +13,7 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Tree\NodeInterface;
 use Joomla\Component\Finder\Administrator\Table\MapTable;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -256,7 +257,7 @@ class Taxonomy
         $nodeTable->rebuildPath($nodeTable->id);
 
         // Add the node to the cache.
-        static::$nodes[$parentId . ':' . $nodeTable->title] = (object) $nodeTable->getProperties();
+        static::$nodes[$parentId . ':' . $nodeTable->title] = (object) ArrayHelper::fromObject($nodeTable, false);
 
         return static::$nodes[$parentId . ':' . $nodeTable->title]->id;
     }

@@ -11,6 +11,7 @@
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseAwareTrait;
@@ -598,6 +599,10 @@ abstract class DebugAdapter extends CMSPlugin
 
         // Get the item to index.
         $item = $this->getDatabase()->setQuery($query)->loadAssoc();
+
+        if (!$item) {
+            throw new \UnexpectedValueException(Text::_('COM_FINDER_INDEXER_ERROR_NO_ITEM'));
+        }
 
         // Convert the item to a result object.
         $item = ArrayHelper::toObject((array) $item, Result::class);

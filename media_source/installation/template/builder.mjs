@@ -2,14 +2,12 @@
  * Assets Builder
  */
 import path from 'node:path';
-import fsp from "node:fs/promises";
-import fs from "node:fs";
+import fsp from 'node:fs/promises';
+import fs from 'node:fs';
 
 import DefaultModuleBuilder from '../../../build/build-modules-js/builder/default-module-builder.mjs';
 
-
-export default class InstallationTmplModuleBuilder extends DefaultModuleBuilder
-{
+export default class InstallationTmplModuleBuilder extends DefaultModuleBuilder {
   /**
    * Class constructor.
    *

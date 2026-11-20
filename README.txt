@@ -4,10 +4,10 @@ The Joomla! 7.0 branch is under heavy development and not all links in this docu
 ------------------------------------------------------------------------------------------------------
 
 1- Overview
-	* This is a Joomla! 6.x installation/upgrade package.
+	* This is a Joomla! 7.x installation/upgrade package.
 	* Joomla! Official site: https://www.joomla.org
 	* Joomla! 7.0 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_7.0_version_history
-	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/6.1-dev
+	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/7.0-dev
 	* Release Managers responsible for Joomla! 7.0
   		* tbd
 
@@ -43,7 +43,7 @@ The Joomla! 7.0 branch is under heavy development and not all links in this docu
 
 8- Ready to install Joomla?
 	* Check the minimum requirements here: https://downloads.joomla.org/technical-requirements
-	* How do you install Joomla - https://docs.joomla.org/Special:MyLanguage/J5.x:Installing_Joomla
+	* How do you install Joomla - https://guide.joomla.org/user-manual/getting-started/getting-started-installing-joomla
 	* You could start your Joomla! experience building your site on a local test server.
 	When ready it can be moved to an online hosting account of your choice.
 	See the tutorial: https://docs.joomla.org/Special:MyLanguage/Installing_Joomla_locally

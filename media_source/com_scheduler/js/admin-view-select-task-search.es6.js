@@ -67,7 +67,8 @@ if (elSearch && elSearchContainer) {
 
       // If the task title and description don’t match add a class to hide it.
       if (title && !title.toLowerCase().includes(partialSearch.toLowerCase())
-          && description && !description.toLowerCase().includes(partialSearch.toLowerCase())) {
+        && description && !description.toLowerCase().includes(partialSearch.toLowerCase())
+      ) {
         card.classList.add('d-none');
       } else {
         hasSearchResults = true;

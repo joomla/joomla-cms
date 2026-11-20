@@ -5,7 +5,7 @@
  * @returns {string} HSL color string.
  */
 export function getColorForStage(stage) {
-  return stage?.color || "rgb(var(--primary-rgb))";
+  return stage?.color || 'rgb(var(--primary-rgb))';
 }
 
 /**

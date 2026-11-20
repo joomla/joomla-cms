@@ -433,7 +433,7 @@ class MailTemplate
 
                 $htmlBody = $layoutFile->render(['mail' => $htmlBody, 'extra' => $this->layoutTemplateData]);
 
-                $htmlBody = $this->replaceTags($language->_($htmlBody), $this->data);
+                $htmlBody = $this->replaceTags($language->_($htmlBody), $this->data, true);
             }
 
             $htmlBody = MailHelper::convertRelativeToAbsoluteUrls($htmlBody);

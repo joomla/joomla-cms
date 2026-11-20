@@ -1,5 +1,4 @@
 tinymce.PluginManager.add('abbr', function (editor) {
-
   function getCurrentAbbr() {
     const node = editor.selection.getNode();
     return editor.dom.getParent(node, 'abbr');
@@ -14,7 +13,7 @@ tinymce.PluginManager.add('abbr', function (editor) {
     if (!selectedText) {
       editor.notificationManager.open({
         text: Joomla.Text._('PLG_TINY_ABBREVIATION_WARNING_NO_SELECTION'),
-        type: 'warning'
+        type: 'warning',
       });
       return;
     }
@@ -22,9 +21,9 @@ tinymce.PluginManager.add('abbr', function (editor) {
     editor.windowManager.open({
       title: abbr ? Joomla.Text._('PLG_TINY_ABBREVIATION_EDIT') : Joomla.Text._('PLG_TINY_ABBREVIATION_INSERT'),
 
-    initialData: {
-      title: abbr ? abbr.getAttribute('title') || '' : ''
-    },
+      initialData: {
+        title: abbr ? abbr.getAttribute('title') || '' : '',
+      },
 
       body: {
         type: 'panel',
@@ -33,17 +32,17 @@ tinymce.PluginManager.add('abbr', function (editor) {
             type: 'input',
             name: 'title',
             label: Joomla.Text._('PLG_TINY_ABBREVIATION_DESCRIPTION_LABEL'),
-            placeholder: 'e.g. Web Content Accessibility Guidelines'
-          }
-        ]
+            placeholder: 'e.g. Web Content Accessibility Guidelines',
+          },
+        ],
       },
       buttons: [
         { type: 'cancel', text: 'Cancel' },
         {
           type: 'submit',
           text: abbr ? 'Update' : 'Insert',
-          primary: true
-        }
+          primary: true,
+        },
       ],
       onSubmit(api) {
         const data = api.getData();
@@ -51,7 +50,7 @@ tinymce.PluginManager.add('abbr', function (editor) {
         if (!data.title) {
           editor.notificationManager.open({
             text: Joomla.Text._('PLG_TINY_ABBREVIATION_WARNING_NO_DESCRIPTION'),
-            type: 'warning'
+            type: 'warning',
           });
           return;
         }
@@ -60,12 +59,12 @@ tinymce.PluginManager.add('abbr', function (editor) {
           editor.dom.setAttrib(abbr, 'title', data.title);
         } else {
           editor.insertContent(
-            `<abbr title="${editor.dom.encode(data.title)}">${editor.dom.encode(selectedText)}</abbr>`
+            `<abbr title="${editor.dom.encode(data.title)}">${editor.dom.encode(selectedText)}</abbr>`,
           );
         }
 
         api.close();
-      }
+      },
     });
   }
 
@@ -75,7 +74,7 @@ tinymce.PluginManager.add('abbr', function (editor) {
     if (!abbr) {
       editor.notificationManager.open({
         text: Joomla.Text._('PLG_TINY_ABBREVIATION_WARNING_REMOVE'),
-        type: 'warning'
+        type: 'warning',
       });
       return;
     }
@@ -109,8 +108,8 @@ tinymce.PluginManager.add('abbr', function (editor) {
     getMetadata() {
       return {
         name: 'Abbreviation Plugin (Joomla)',
-        url: 'https://www.joomla.org'
+        url: 'https://www.joomla.org',
       };
-    }
+    },
   };
 });

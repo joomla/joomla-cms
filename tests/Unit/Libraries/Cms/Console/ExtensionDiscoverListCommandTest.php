@@ -84,7 +84,7 @@ class ExtensionDiscoverListCommandTest extends \PHPUnit\Framework\TestCase
      */
     protected function createExtensionDiscoverListCommand(): ExtensionDiscoverListCommand
     {
-        $db = $this->createMock(DatabaseInterface::class);
+        $db = $this->createStub(DatabaseInterface::class);
         return new ExtensionDiscoverListCommand($db);
     }
 }

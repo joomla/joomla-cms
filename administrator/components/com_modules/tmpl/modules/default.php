@@ -98,7 +98,7 @@ $assoc   = Associations::isEnabled() && $clientId == 0;
                     </tr>
                 </thead>
                 <tbody <?php if ($saveOrder) :
-                    ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php
+                    ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
                        endif; ?>>
                 <?php foreach ($this->items as $i => $item) :
                     $ordering   = ($listOrder == 'a.ordering');
@@ -107,7 +107,7 @@ $assoc   = Associations::isEnabled() && $clientId == 0;
                     $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->id || is_null($item->checked_out);
                     $canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $item->id) && $canCheckin;
                     ?>
-                    <tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->position ?: 'none'; ?>">
+                    <tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $this->escape($item->position) ?: 'none'; ?>">
                         <td class="text-center">
                             <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
                         </td>

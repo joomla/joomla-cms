@@ -98,7 +98,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
             return false;
         }
 
-        $properties = $table->getProperties(1);
+        $properties = ArrayHelper::fromObject($table, false);
         $value      = ArrayHelper::toObject($properties);
 
         // Convert attrib field to Registry.
