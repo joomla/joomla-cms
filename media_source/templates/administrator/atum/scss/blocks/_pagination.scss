@@ -11,14 +11,25 @@
 }
 
 @container (max-width: 40rem) {
-  .pagination > .page-item:not(:where(:first-child, :nth-child(2), :nth-last-child(-n + 2), .active, :has(+ .page-item.active), .active + .page-item)) {
+  .pagination > .page-item:not(:where(
+    :first-child,
+    :nth-child(2),
+    :nth-last-child(-n + 2),
+    .active,
+    :has(+ .page-item.active),
+    .active + .page-item,
+    :has(+ .page-item:has(+ .page-item.active:nth-last-child(3))),
+    :nth-child(3).active + .page-item + .page-item
+  )) {
     display: none;
   }
 }
 
 @container (max-width: 28rem) {
   .pagination > .page-item:has(+ .page-item.active),
-  .pagination > .page-item.active + .page-item {
+  .pagination > .page-item.active + .page-item,
+  .pagination > .page-item:has(+ .page-item:has(+ .page-item.active)),
+  .pagination > .page-item.active + .page-item + .page-item {
     display: none;
   }
 }
