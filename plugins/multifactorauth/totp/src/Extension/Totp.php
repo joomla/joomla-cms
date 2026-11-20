@@ -27,7 +27,6 @@ use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -57,26 +56,6 @@ class Totp extends CMSPlugin implements SubscriberInterface
      * @since 4.2.0
      */
     private $mfaMethodName = 'totp';
-
-
-    /**
-     * Should I try to detect and register legacy event listeners, i.e. methods which accept unwrapped arguments? While
-     * this maintains a great degree of backwards compatibility to Joomla! 3.x-style plugins it is much slower. You are
-     * advised to implement your plugins using proper Listeners, methods accepting an AbstractEvent as their sole
-     * parameter, for best performance. Also bear in mind that Joomla! 5.x onwards will only allow proper listeners,
-     * removing support for legacy Listeners.
-     *
-     * @var    boolean
-     * @since  4.2.0
-     *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Implement your plugin methods accepting an AbstractEvent object
-     *              Example:
-     *              onEventTriggerName(AbstractEvent $event) {
-     *                  $context = $event->getArgument(...);
-     *              }
-     */
-    protected $allowLegacyListeners = false;
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -211,11 +190,12 @@ class Totp extends CMSPlugin implements SubscriberInterface
         // Generate a QR code for the key
         $user     = $this->getUserFactory()->loadUserById($record->user_id);
         $hostname = Uri::getInstance()->toString(['host']);
-        $otpURL   = sprintf("otpauth://totp/%s@%s?secret=%s", $user->username, $hostname, $key);
+        $otpURL   = \sprintf("otpauth://totp/%s@%s?secret=%s", $user->username, $hostname, $key);
         $document = $this->getApplication()->getDocument();
         $wam      = $document->getWebAssetManager();
 
         $document->addScriptOptions('plg_multifactorauth_totp.totp.qr', $otpURL);
+        Text::script('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_QR_ALT');
 
         $wam->getRegistry()->addExtensionRegistryFile('plg_multifactorauth_totp');
         $wam->useScript('plg_multifactorauth_totp.setup');
@@ -294,7 +274,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
          * If the code is empty but the key already existed in $options someone is simply changing the title / default
          * Method status. We can allow this and stop checking anything else now.
          */
-        $code = $input->getInt('code');
+        $code = $input->getCmd('code');
 
         if (empty($code) && !empty($optionsKey)) {
             $event->addResult($options);

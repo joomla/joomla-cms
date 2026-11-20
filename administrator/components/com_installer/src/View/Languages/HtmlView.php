@@ -14,8 +14,7 @@ use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
-use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\Component\Installer\Administrator\Model\LanguagesModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -40,6 +39,20 @@ class HtmlView extends InstallerViewDefault
     protected $pagination;
 
     /**
+     * Form object for search filters
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    public $filterForm;
+
+    /**
+     * The active search filters
+     *
+     * @var  array
+     */
+    public $activeFilters;
+
+    /**
      * Display the view.
      *
      * @param   string  $tpl  template to display
@@ -52,17 +65,25 @@ class HtmlView extends InstallerViewDefault
             throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
+        /** @var LanguagesModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
         // Get data from the model.
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
         $this->installedLang = LanguageHelper::getInstalledLanguages();
 
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task')
+            ->addControlField('boxchecked', '0')
+            ->addControlField('return', base64_encode('index.php?option=com_installer&view=languages'))
+            ->addControlField('install_url', '', ['id' => 'install_url'])
+            ->addControlField('installtype', 'url')
+            ->addControlField('package', 'language');
 
         parent::display($tpl);
     }
@@ -75,7 +96,7 @@ class HtmlView extends InstallerViewDefault
     protected function addToolbar()
     {
         $canDo   = ContentHelper::getActions('com_languages');
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         if ($canDo->get('core.manage')) {
             $toolbar->linkButton('list', 'COM_INSTALLER_TOOLBAR_MANAGE_LANGUAGES')

@@ -15,9 +15,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Contenthistory\Administrator\View\History\HtmlView $this */
+
 Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
-$hash           = $this->state->get('sha1_hash');
+$hash           = $this->currentVersionHash;
 $formUrl        = 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id=' . $this->state->get('item_id') . '&' . Session::getFormToken() . '=1';
 
 Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION', true);
@@ -32,7 +34,7 @@ document.querySelectorAll('.js-link-open-window').forEach((link) => link.addEven
 JS;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('multiselect')
     ->useScript('com_contenthistory.admin-history-modal')
     ->useScript('list-view')

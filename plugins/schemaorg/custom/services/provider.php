@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Schemaorg\Custom\Extension\Custom;
 
 return new class () implements ServiceProviderInterface {
@@ -26,23 +25,21 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function register(Container $container)
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
-                $plugin     = new Custom(
-                    $dispatcher,
+            $container->lazy(Custom::class, function (Container $container) {
+                $plugin = new Custom(
                     (array) PluginHelper::getPlugin('schemaorg', 'custom')
                 );
 
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

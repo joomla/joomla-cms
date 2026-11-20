@@ -17,8 +17,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Version;
 
+/** @var \Joomla\Component\Languages\Administrator\View\Installed\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns');
 
 $user      = $this->getCurrentUser();
@@ -107,7 +109,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                             <?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
                             <?php // Display a Note if language pack version is not equal to Joomla version ?>
                             <?php if (strpos($row->version, $minorVersion) !== 0 || strpos($row->version, $currentShortVersion) !== 0) : ?>
-                                <span class="badge bg-warning text-dark" title="<?php echo Text::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $row->version; ?></span>
+                                <span class="badge bg-warning" title="<?php echo Text::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $row->version; ?></span>
                             <?php else : ?>
                                 <span class="badge bg-success"><?php echo $row->version; ?></span>
                             <?php endif; ?>
@@ -133,9 +135,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     <?php echo $this->pagination->getListFooter(); ?>
 
                 <?php endif; ?>
-                <input type="hidden" name="task" value="">
-                <input type="hidden" name="boxchecked" value="0">
-                <?php echo HTMLHelper::_('form.token'); ?>
+
+                <?php echo $this->filterForm->renderControlFields(); ?>
             </div>
         </div>
     </div>

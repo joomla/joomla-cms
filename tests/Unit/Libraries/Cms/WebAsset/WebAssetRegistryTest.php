@@ -22,7 +22,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  WebAsset
- * @since       __DEPLOY_VERSION__
+ * @since       5.1.0
  */
 class WebAssetRegistryTest extends UnitTestCase
 {
@@ -31,7 +31,7 @@ class WebAssetRegistryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testAddGet(): void
     {
@@ -40,7 +40,7 @@ class WebAssetRegistryTest extends UnitTestCase
 
         $r->add('script', $a);
 
-        $this->assertTrue($r->get('script', 'test') === $a, 'Should return same instance');
+        $this->assertSame($a, $r->get('script', 'test'), 'Should return same instance');
 
         $this->expectException(UnknownAssetException::class);
         $r->get('script', 'test.nope');
@@ -51,7 +51,7 @@ class WebAssetRegistryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testExists(): void
     {
@@ -69,7 +69,7 @@ class WebAssetRegistryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testRemove(): void
     {
@@ -91,7 +91,7 @@ class WebAssetRegistryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testEvents(): void
     {
@@ -131,21 +131,21 @@ class WebAssetRegistryTest extends UnitTestCase
 
         // Test: new
         $r->add('script', $a1);
-        $this->assertEquals('onWebAssetRegistryChangedAssetNew', $eventName, 'Should trigger correct event');
-        $this->assertTrue($a1 === $eventAsset, 'Should provide correct asset instance');
-        $this->assertEquals('new', $change, 'Should provide correct "change"');
+        $this->assertSame('onWebAssetRegistryChangedAssetNew', $eventName, 'Should trigger correct event');
+        $this->assertSame($a1, $eventAsset, 'Should provide correct asset instance');
+        $this->assertSame('new', $change, 'Should provide correct "change"');
 
         // Test: override
         $r->add('script', $a2);
-        $this->assertEquals('onWebAssetRegistryChangedAssetOverride', $eventName, 'Should trigger correct event');
-        $this->assertTrue($a1 === $eventAsset, 'Should provide original asset instance');
-        $this->assertEquals('override', $change, 'Should provide correct "change"');
+        $this->assertSame('onWebAssetRegistryChangedAssetOverride', $eventName, 'Should trigger correct event');
+        $this->assertSame($a1, $eventAsset, 'Should provide original asset instance');
+        $this->assertSame('override', $change, 'Should provide correct "change"');
 
         // Test: remove
         $r->remove('script', $a2->getName());
-        $this->assertEquals('onWebAssetRegistryChangedAssetRemove', $eventName, 'Should trigger correct event');
-        $this->assertTrue($a2 === $eventAsset, 'Should provide original asset instance');
-        $this->assertEquals('remove', $change, 'Should provide correct "change"');
+        $this->assertSame('onWebAssetRegistryChangedAssetRemove', $eventName, 'Should trigger correct event');
+        $this->assertSame($a2, $eventAsset, 'Should provide original asset instance');
+        $this->assertSame('remove', $change, 'Should provide correct "change"');
     }
 
     /**
@@ -153,7 +153,7 @@ class WebAssetRegistryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testCreateAsset(): void
     {
@@ -161,9 +161,9 @@ class WebAssetRegistryTest extends UnitTestCase
         $a = $r->createAsset('test', 'test.js', ['foo' => 'bar'], ['type' => 'module'], ['core']);
 
         $this->assertInstanceOf(WebAssetItem::class, $a);
-        $this->assertEquals(['foo' => 'bar'], $a->getOptions());
-        $this->assertEquals(['type' => 'module'], $a->getAttributes());
-        $this->assertEquals(['core'], $a->getDependencies());
+        $this->assertSame(['foo' => 'bar'], $a->getOptions());
+        $this->assertSame(['type' => 'module'], $a->getAttributes());
+        $this->assertSame(['core'], $a->getDependencies());
 
         // Create with the specified class name
         $b = $r->createAsset(
@@ -183,7 +183,7 @@ class WebAssetRegistryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testParseRegistryFiles(): void
     {

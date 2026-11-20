@@ -11,7 +11,7 @@ describe('Test in backend that the article form', () => {
     cy.get('#jform_title').clear().type('Test article');
     cy.clickToolbarButton('Save & Close');
 
-    cy.get('#system-message-container').contains('Article saved.').should('exist');
+    cy.checkForSystemMessage('Article saved.');
     cy.contains('Test article');
   });
 

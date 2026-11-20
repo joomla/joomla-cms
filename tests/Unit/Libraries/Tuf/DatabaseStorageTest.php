@@ -12,59 +12,65 @@ namespace Joomla\Tests\Unit\Libraries\Tuf;
 
 use Joomla\CMS\Table\Tuf;
 use Joomla\CMS\TUF\DatabaseStorage;
+use Joomla\Test\TestHelper;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 
 /**
  * Test class for DatabaseStorage
  *
  * @package     Joomla.UnitTest
  * @subpackage  Tuf
- * @since       __DEPLOY_VERSION__
+ * @since       5.1.0
  */
 class DatabaseStorageTest extends UnitTestCase
 {
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testConstructorWritesColumnMetadataToInternalStorage()
     {
         $table  = $this->getTableMock(['root' => 'rootfoo']);
         $object = new DatabaseStorage($table);
 
-        $this->assertEquals('rootfoo', $this->getInternalStorageValue($object)['root']);
+        $this->assertSame('rootfoo', TestHelper::getValue($object, 'container')['root']);
     }
 
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testConstructorIgnoresNonMetadataColumns()
     {
         $table  = $this->getTableMock(['foobar' => 'aaa']);
         $object = new DatabaseStorage($table);
 
-        $this->assertArrayNotHasKey('foobar', $this->getInternalStorageValue($object));
+        $this->assertArrayNotHasKey('foobar', TestHelper::getValue($object, 'container'));
     }
 
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testReadReturnsStorageValueForExistingColumns()
     {
         $object = new DatabaseStorage($this->getTableMock(['root' => 'foobar']));
-        $this->assertEquals('foobar', $object->read('root'));
+        $this->assertSame('foobar', $object->read('root'));
     }
 
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testReadReturnsNullForNonexistentColumns()
     {
         $object = new DatabaseStorage($this->getTableMock([]));
@@ -74,46 +80,49 @@ class DatabaseStorageTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testWriteUpdatesGivenInternalStorageValue()
     {
         $object = new DatabaseStorage($this->getTableMock(['root' => 'foo']));
         $object->write('root', 'bar');
 
-        $this->assertEquals('bar', $this->getInternalStorageValue($object)['root']);
+        $this->assertSame('bar', TestHelper::getValue($object, 'container')['root']);
     }
 
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testWriteCreatesNewInternalStorageValue()
     {
         $object = new DatabaseStorage($this->getTableMock(['root' => 'foo']));
         $object->write('targets', 'bar');
 
-        $this->assertEquals('bar', $this->getInternalStorageValue($object)['targets']);
+        $this->assertSame('bar', TestHelper::getValue($object, 'container')['targets']);
     }
 
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testDeleteRemovesRowFromInternalStorage()
     {
         $object = new DatabaseStorage($this->getTableMock(['root' => 'foo']));
         $object->delete('root');
 
-        $this->assertArrayNotHasKey('root', $this->getInternalStorageValue($object));
+        $this->assertArrayNotHasKey('root', TestHelper::getValue($object, 'container'));
     }
 
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testPersistUpdatesTableObjectState()
     {
@@ -132,7 +141,7 @@ class DatabaseStorageTest extends UnitTestCase
     /**
      * @param array $mockData
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      *
      * @return Tuf|(Tuf&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
      */
@@ -146,19 +155,5 @@ class DatabaseStorageTest extends UnitTestCase
         }
 
         return $table;
-    }
-
-    /**
-     * @param $class
-     *
-     * @since   __DEPLOY_VERSION__
-     *
-     * @return mixed
-     */
-    protected function getInternalStorageValue($class)
-    {
-        $reflectionProperty = new \ReflectionProperty(DatabaseStorage::class, 'container');
-
-        return $reflectionProperty->getValue($class);
     }
 }

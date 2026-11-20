@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Mail;
 
-use Exception;
 use Joomla\CMS\Log\Log;
 use Joomla\Registry\Registry;
 
@@ -33,6 +32,11 @@ class MailerFactory implements MailerFactoryInterface
     private $defaultConfiguration;
 
     /**
+     * @var array Cached TokenProvider
+     */
+    private array $oauth2TokenProvider = [];
+
+    /**
      * The MailerFactory constructor.
      *
      * @param   Registry  $defaultConfiguration  The default configuration
@@ -54,7 +58,7 @@ class MailerFactory implements MailerFactoryInterface
      */
     public function createMailer(?Registry $settings = null): MailerInterface
     {
-        $configuration = clone $this->defaultConfiguration;
+        $configuration = new Registry($this->defaultConfiguration);
 
         if ($settings) {
             $configuration->merge($settings);
@@ -62,7 +66,7 @@ class MailerFactory implements MailerFactoryInterface
 
         $mailer = new Mail((bool) $configuration->get('throw_exceptions', true));
 
-        $smtpauth   = $configuration->get('smtpauth') == 0 ? null : 1;
+        $smtpauth   = (int) $configuration->get('smtpauth');
         $smtpuser   = $configuration->get('smtpuser');
         $smtppass   = $configuration->get('smtppass');
         $smtphost   = $configuration->get('smtphost');
@@ -83,7 +87,7 @@ class MailerFactory implements MailerFactoryInterface
                 if ($mailer->setFrom($mailfrom, MailHelper::cleanLine($fromname), false) === false) {
                     Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
                 }
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
             }
         }
@@ -91,7 +95,40 @@ class MailerFactory implements MailerFactoryInterface
         // Default mailer is to use PHP's mail function
         switch ($mailType) {
             case 'smtp':
-                $mailer->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);
+                $oauth2TokenProvider = null;
+
+                if ($smtpauth === 2) {
+                    $oauth2ClientId     = $configuration->get('smtp_oauth2_client_id');
+                    $oauth2ClientSecret = $configuration->get('smtp_oauth2_client_secret');
+                    $oauth2RefreshToken = $configuration->get('smtp_oauth2_refresh_token');
+                    $oauth2TokenUrl     = $configuration->get('smtp_oauth2_token_url');
+
+                    if (!$smtpuser || !$oauth2ClientId || !$oauth2ClientSecret || !$oauth2RefreshToken || !$oauth2TokenUrl) {
+                        throw new \RuntimeException('OAuth2 SMTP configuration is incomplete.');
+                    }
+
+                    $tokenProviderHash = md5(
+                        $oauth2TokenUrl . ':' .
+                        $oauth2ClientId . ':' .
+                        $oauth2ClientSecret . ':' .
+                        $oauth2RefreshToken . ':' .
+                        $smtpuser
+                    );
+
+                    if (empty($this->oauth2TokenProvider[$tokenProviderHash])) {
+                        $this->oauth2TokenProvider[$tokenProviderHash] = new MailOAuth2TokenProvider(
+                            $oauth2TokenUrl,
+                            $oauth2ClientId,
+                            $oauth2ClientSecret,
+                            $oauth2RefreshToken,
+                            $smtpuser
+                        );
+                    }
+
+                    $oauth2TokenProvider = $this->oauth2TokenProvider[$tokenProviderHash];
+                }
+
+                $mailer->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport, $oauth2TokenProvider);
                 break;
 
             case 'sendmail':

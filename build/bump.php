@@ -57,9 +57,10 @@ $languageXmlFiles = [
 
 $languagePackXmlFile = '/administrator/manifests/packages/pkg_en-GB.xml';
 
-$antJobFile = '/build.xml';
-
-$packageJsonFile = '/package.json';
+$packageJsonFiles = [
+    '/package.json',
+    '/package-lock.json',
+];
 
 $readMeFiles = [
     '/README.md',
@@ -159,7 +160,7 @@ $version = [
     'build'      => '',
     'reldate'    => $date->format('j-F-Y'),
     'reltime'    => $date->format('H:i'),
-    'reltz'      => 'GMT',
+    'reltz'      => 'UTC',
     'credate'    => $date->format('Y-m'),
 ];
 
@@ -240,20 +241,15 @@ if (file_exists($rootPath . $languagePackXmlFile)) {
     file_put_contents($rootPath . $languagePackXmlFile, $fileContents);
 }
 
-// Updates the version for the `phpdoc` task in the Ant job file.
-if (file_exists($rootPath . $antJobFile)) {
-    $fileContents = file_get_contents($rootPath . $antJobFile);
-    $fileContents = preg_replace('#<arg value="Joomla! CMS [^ ]* API" />#', '<arg value="Joomla! CMS ' . $version['main'] . ' API" />', $fileContents);
-    file_put_contents($rootPath . $antJobFile, $fileContents);
-}
-
 // Updates the version in the package.json file.
-if (file_exists($rootPath . $packageJsonFile)) {
-    $package          = json_decode(file_get_contents($rootPath . $packageJsonFile));
-    $package->version = $version['release'];
+foreach ($packageJsonFiles as $packageJsonFile) {
+    if (file_exists($rootPath . $packageJsonFile)) {
+        $package          = json_decode(file_get_contents($rootPath . $packageJsonFile));
+        $package->version = $version['release'];
 
-    // @todo use a native formatter whenever https://github.com/php/php-src/issues/8864 is resolved
-    file_put_contents($rootPath . $packageJsonFile, str_replace('    ', '  ', json_encode($package, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)));
+        // @todo use a native formatter whenever https://github.com/php/php-src/issues/8864 is resolved
+        file_put_contents($rootPath . $packageJsonFile, str_replace('    ', '  ', json_encode($package, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)) . "\n");
+    }
 }
 
 // Updates the version in readme files.

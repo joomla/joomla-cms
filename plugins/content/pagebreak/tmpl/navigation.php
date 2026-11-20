@@ -14,8 +14,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 /**
- * @var $links   array    Array with keys 'previous' and 'next' with non-SEO links to the previous and next pages
- * @var $page    integer  The page number
+ * @var \Joomla\Plugin\Content\PageBreak\Extension\PageBreak  $this
+ * @var array                                                 $links  Array with keys 'previous' and 'next' with non-SEO links to the previous and next pages
+ * @var integer                                               $page   The page number
  */
 
 $lang = $this->getApplication()->getLanguage();

@@ -38,7 +38,7 @@ class DebugHelper
     {
         // Initialise variable.
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('name AS text, element AS value')
             ->from('#__extensions')
             ->where('enabled >= 1')
@@ -85,6 +85,10 @@ class DebugHelper
             $component_actions = Access::getActionsFromFile(JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml');
 
             if (!empty($component_actions)) {
+                // Load language
+                $lang      = Factory::getApplication()->getLanguage();
+                $lang->load($component, JPATH_ADMINISTRATOR, null, false, false);
+
                 foreach ($component_actions as &$action) {
                     $descr = (string) $action->title;
 

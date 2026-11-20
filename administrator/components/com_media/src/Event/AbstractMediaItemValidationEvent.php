@@ -75,7 +75,7 @@ abstract class AbstractMediaItemValidationEvent extends AbstractImmutableEvent
         // An empty string or an integer
         if (
             !isset($item->size) ||
-            (!\is_integer($item->size) && !\is_string($item->size)) ||
+            (!\is_int($item->size) && !\is_string($item->size)) ||
             (\is_string($item->size) && $item->size !== '')
         ) {
             throw new \BadMethodCallException("Property 'size' of argument 'item' of event {$this->name} has a wrong item. Valid: empty string or integer");
@@ -87,12 +87,12 @@ abstract class AbstractMediaItemValidationEvent extends AbstractImmutableEvent
         }
 
         // An integer
-        if (!isset($item->width) || !\is_integer($item->width)) {
+        if (!isset($item->width) || !\is_int($item->width)) {
             throw new \BadMethodCallException("Property 'width' of argument 'item' of event {$this->name} has a wrong item. Valid: integer");
         }
 
         // An integer
-        if (!isset($item->height) || !\is_integer($item->height)) {
+        if (!isset($item->height) || !\is_int($item->height)) {
             throw new \BadMethodCallException("Property 'height' of argument 'item' of event {$this->name} has a wrong item. Valid: integer");
         }
 

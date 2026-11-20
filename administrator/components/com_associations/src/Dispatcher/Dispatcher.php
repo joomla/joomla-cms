@@ -43,7 +43,7 @@ class Dispatcher extends ComponentDispatcher
         $itemType = $this->input->get('itemtype', '', 'string');
 
         if ($itemType !== '') {
-            list($extensionName, $typeName) = explode('.', $itemType);
+            [$extensionName, $typeName] = explode('.', $itemType);
 
             if (!AssociationsHelper::hasSupport($extensionName)) {
                 throw new \Exception(

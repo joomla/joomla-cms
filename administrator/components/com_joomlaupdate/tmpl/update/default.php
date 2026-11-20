@@ -15,8 +15,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
+/** @var \Joomla\Component\Joomlaupdate\Administrator\View\Update\HtmlView $this */
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('core')
     ->useScript('com_joomlaupdate.admin-update')
     ->useScript('bootstrap.modal');
@@ -43,9 +45,9 @@ Text::script('JLIB_SIZE_YB');
 $password = Factory::getApplication()->getUserState('com_joomlaupdate.password', null);
 $filesize = Factory::getApplication()->getUserState('com_joomlaupdate.filesize', null);
 $ajaxUrl = Uri::base() . 'components/com_joomlaupdate/extract.php';
-$returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise&' . Factory::getSession()->getFormToken() . '=1';
+$returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise&' . Factory::getApplication()->getSession()->getFormToken() . '=1';
 
-$this->document->addScriptOptions(
+$this->getDocument()->addScriptOptions(
     'joomlaupdate',
     [
         'password' => $password,

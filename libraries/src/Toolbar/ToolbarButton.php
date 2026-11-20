@@ -249,7 +249,7 @@ abstract class ToolbarButton
      *
      * @since   3.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use render() instead.
      */
     abstract public function fetchButton();
@@ -448,9 +448,9 @@ abstract class ToolbarButton
             if ($fieldName !== false) {
                 if (!\array_key_exists(0, $args)) {
                     throw new \InvalidArgumentException(
-                        sprintf(
+                        \sprintf(
                             '%s::%s() miss first argument.',
-                            \get_called_class(),
+                            static::class,
                             $name
                         )
                     );
@@ -461,10 +461,10 @@ abstract class ToolbarButton
         }
 
         throw new \BadMethodCallException(
-            sprintf(
+            \sprintf(
                 'Method %s() not found in class: %s',
                 $name,
-                \get_called_class()
+                static::class
             )
         );
     }

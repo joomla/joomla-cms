@@ -19,14 +19,16 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Menus\Administrator\View\Items\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
 $user      = $this->getCurrentUser();
 $app       = Factory::getApplication();
-$userId    = $user->get('id');
+$userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.lft');
@@ -100,14 +102,14 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                         </tr>
                         </thead>
                         <tbody <?php if ($saveOrder && $menuType) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
                                endif; ?>>
                         <?php
                         foreach ($this->items as $i => $item) :
                             $orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
                             $canCreate = $user->authorise('core.create', 'com_menus.menu.' . $item->menutype_id);
                             $canEdit = $user->authorise('core.edit', 'com_menus.menu.' . $item->menutype_id);
-                            $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id') || is_null($item->checked_out);
+                            $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->id || is_null($item->checked_out);
                             $canChange = $user->authorise('core.edit.state', 'com_menus.menu.' . $item->menutype_id) && $canCheckin;
 
                             // Get the parents of item for sorting
@@ -273,9 +275,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                     <?php endif; ?>
                 <?php endif; ?>
 
-                <input type="hidden" name="task" value="">
-                <input type="hidden" name="boxchecked" value="0">
-                <?php echo HTMLHelper::_('form.token'); ?>
+                <?php echo $this->filterForm->renderControlFields(); ?>
             </div>
         </div>
     </div>

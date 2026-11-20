@@ -99,7 +99,7 @@ class UserController extends BaseController
         }
 
         // Success
-        if ($options['remember'] == true) {
+        if ($options['remember']) {
             $this->app->setUserState('rememberLogin', true);
         }
 

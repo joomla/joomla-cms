@@ -16,8 +16,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Version;
 
+/** @var \Joomla\Component\Installer\Administrator\View\Languages\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect')
     ->useScript('webcomponent.core-loader');
@@ -45,7 +47,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         </caption>
                         <thead>
                             <tr>
-                                <td class="w-5"></td>
+                                <th scope="col" class="w-5">
+                                    <?php echo Text::_('COM_INSTALLER_HEADING_LANGUAGE_ACTION'); ?>
+                                </th>
                                 <th scope="col">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
                                 </th>
@@ -91,8 +95,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                         <?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
                                         <?php // Display a Note if language pack version is not equal to Joomla version ?>
                                         <?php if (strpos($language->version, $minorVersion) !== 0 || strpos($language->version, $currentShortVersion) !== 0) : ?>
-                                            <span class="badge bg-warning text-dark"><?php echo $language->version; ?></span>
-                                            <span class="icon-info-circle" aria-hidden="true" tabindex="0"></span>
+                                            <span class="badge bg-warning"><?php echo $language->version; ?></span>
+                                            <span class="icon-info-circle" aria-label="<?php echo Text::_('INFO'); ?>" tabindex="0"></span>
                                             <div role="tooltip" class="text-start" id="tip<?php echo $language->code; ?>">
                                             <?php echo Text::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>
                                             </div>
@@ -113,13 +117,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         <?php echo $this->pagination->getListFooter(); ?>
 
                     <?php endif; ?>
-                    <input type="hidden" name="task" value="">
-                    <input type="hidden" name="return" value="<?php echo base64_encode('index.php?option=com_installer&view=languages') ?>">
-                    <input type="hidden" id="install_url" name="install_url">
-                    <input type="hidden" name="installtype" value="url">
-                    <input type="hidden" name="package" value="language">
-                    <input type="hidden" name="boxchecked" value="0">
-                    <?php echo HTMLHelper::_('form.token'); ?>
+
+                    <?php echo $this->filterForm->renderControlFields(); ?>
                 </div>
             </div>
         </div>

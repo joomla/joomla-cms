@@ -107,7 +107,7 @@ class SessionGcCommand extends AbstractCommand implements ContainerAwareInterfac
     {
         if (!$this->getContainer()->has("session.web.$application")) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     'The `%s` application is not a valid option.',
                     $application
                 )

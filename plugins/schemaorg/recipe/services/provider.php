@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Schemaorg\Recipe\Extension\Recipe;
 
 return new class () implements ServiceProviderInterface {
@@ -32,17 +31,15 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
-                $plugin     = new Recipe(
-                    $dispatcher,
+            $container->lazy(Recipe::class, function (Container $container) {
+                $plugin = new Recipe(
                     (array) PluginHelper::getPlugin('schemaorg', 'recipe')
                 );
 
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

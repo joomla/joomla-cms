@@ -1,0 +1,13 @@
+<?php
+
+namespace Joomla\CMS\Application;
+
+class CMSApplication
+{
+	/**
+     * @param   boolean  $params  True to return the template parameters
+     *
+     * @return  ($params is false ? string : \stdClass)
+     */
+    public function getTemplate($params = false);
+}

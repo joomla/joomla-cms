@@ -121,7 +121,7 @@ class Profiler
         ];
         $this->marks[] = $m;
 
-        $mark = sprintf(
+        $mark = \sprintf(
             '%s %.3f seconds (%.3f); %0.2f MB (%0.3f) - %s',
             $m->prefix,
             $m->totalTime / 1000,

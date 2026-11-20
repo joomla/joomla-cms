@@ -22,7 +22,7 @@ use Joomla\Database\DatabaseInterface;
 /**
  * Dispatcher class for mod_multilangstatus
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 class Dispatcher extends AbstractModuleDispatcher
 {
@@ -31,7 +31,7 @@ class Dispatcher extends AbstractModuleDispatcher
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function getLayoutData()
     {

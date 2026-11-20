@@ -49,9 +49,7 @@ class Dispatcher extends ComponentDispatcher
         parent::checkAccess();
 
         if (
-            $this->input->get('view') === 'modules'
-            && $this->input->get('layout') === 'modal'
-            && !$this->app->getIdentity()->authorise('core.create', 'com_modules')
+            !$this->app->getIdentity()->authorise('module.edit.frontend', 'com_modules')
         ) {
             throw new NotAllowed();
         }
@@ -71,7 +69,7 @@ class Dispatcher extends ComponentDispatcher
     public function getController(string $name, string $client = '', array $config = []): BaseController
     {
         if ($this->input->get('task') === 'orderPosition') {
-            $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+            $config['base_path'] = JPATH_ADMINISTRATOR . '/components/com_modules';
             $client              = 'Administrator';
         }
 

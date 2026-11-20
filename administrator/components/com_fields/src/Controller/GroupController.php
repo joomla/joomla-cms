@@ -49,16 +49,16 @@ class GroupController extends FormController
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * Recognized key values include 'name', 'default_task', 'model_path', and
-     * 'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    Input
+     * @param   array                 $config   An optional associative array of configuration settings.
+     *                                          Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                          'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    Input
      *
      * @since   3.7.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -117,12 +117,26 @@ class GroupController extends FormController
      */
     protected function allowEdit($data = [], $key = 'parent_id')
     {
-        $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+        $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
         $user     = $this->app->getIdentity();
 
         // Zero record (parent_id:0), return component edit permission by calling parent controller method
         if (!$recordId) {
             return parent::allowEdit($data, $key);
+        }
+
+        // Get existing record
+        $record = $this->getModel()->getItem($recordId);
+
+        if (empty($record)) {
+            return false;
+        }
+
+        [$recordOption] = explode('.', $record->context);
+
+        // Validate request context and field context match
+        if ($recordOption !== $this->component) {
+            return false;
         }
 
         // Check edit on the record asset (explicit or inherited)
@@ -132,13 +146,6 @@ class GroupController extends FormController
 
         // Check edit own on the record asset (explicit or inherited)
         if ($user->authorise('core.edit.own', $this->component . '.fieldgroup.' . $recordId) || $user->authorise('core.edit.own', $this->component)) {
-            // Existing record already has an owner, get it
-            $record = $this->getModel()->getItem($recordId);
-
-            if (empty($record)) {
-                return false;
-            }
-
             // Grant if current user is owner of the record
             return $user->id == $record->created_by;
         }

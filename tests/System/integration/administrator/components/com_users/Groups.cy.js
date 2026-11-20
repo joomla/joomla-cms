@@ -29,7 +29,7 @@ describe('Test in backend that the user group list', () => {
       cy.clickToolbarButton('Delete');
       cy.clickDialogConfirm(true);
 
-      cy.get('#system-message-container').contains('User Group deleted.').should('exist');
+      cy.checkForSystemMessage('User Group deleted.');
     });
   });
 });

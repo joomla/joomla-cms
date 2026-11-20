@@ -35,11 +35,8 @@ class HeadRenderer extends DocumentRenderer
      */
     public function render($head, $params = [], $content = null)
     {
-        $buffer  = '';
-        $buffer .= $this->_doc->loadRenderer('metas')->render($head, $params, $content);
-        $buffer .= $this->_doc->loadRenderer('styles')->render($head, $params, $content);
-        $buffer .= $this->_doc->loadRenderer('scripts')->render($head, $params, $content);
-
-        return $buffer;
+        return $this->_doc->loadRenderer('metas')->render($head, $params, $content)
+        . $this->_doc->loadRenderer('styles')->render($head, $params, $content)
+        . $this->_doc->loadRenderer('scripts')->render($head, $params, $content);
     }
 }

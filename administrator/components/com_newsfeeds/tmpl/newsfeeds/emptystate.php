@@ -12,11 +12,15 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Newsfeeds\Administrator\View\Newsfeeds\HtmlView $this */
+
 $displayData = [
     'textPrefix' => 'COM_NEWSFEEDS',
     'formURL'    => 'index.php?option=com_newsfeeds&view=newsfeeds',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help4.x:News_Feeds',
+    'helpURL'    => 'https://guide.joomla.org/user-manual/news-feeds/news-feeds-news-feeds',
     'icon'       => 'icon-rss newsfeeds',
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 $user = $this->getCurrentUser();

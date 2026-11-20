@@ -78,17 +78,17 @@ class WebAssetItem implements WebAssetItemInterface
     /**
      * Class constructor
      *
-     * @param   string  $name          The asset name
-     * @param   string  $uri           The URI for the asset
-     * @param   array   $options       Additional options for the asset
-     * @param   array   $attributes    Attributes for the asset
-     * @param   array   $dependencies  Asset dependencies
+     * @param   string   $name          The asset name
+     * @param   ?string  $uri           The URI for the asset
+     * @param   array    $options       Additional options for the asset
+     * @param   array    $attributes    Attributes for the asset
+     * @param   array    $dependencies  Asset dependencies
      *
      * @since   4.0.0
      */
     public function __construct(
         string $name,
-        string $uri = null,
+        ?string $uri = null,
         array $options = [],
         array $attributes = [],
         array $dependencies = []
@@ -177,7 +177,10 @@ class WebAssetItem implements WebAssetItemInterface
                     break;
                 default:
                     // Asset for the ES modules may give us a folder for ESM import map
-                    if (str_ends_with($path, '/') && !str_starts_with($path, '.')) {
+                    if (
+                        $this->getOption('importmap') && !$this->isPathExternal($path) &&
+                        str_ends_with($path, '/') && !str_starts_with($path, '.')
+                    ) {
                         $path = Uri::root(true) . '/' . $path;
                     }
                     break;
@@ -301,15 +304,17 @@ class WebAssetItem implements WebAssetItemInterface
 
         $file     = $path;
         $external = $this->isPathExternal($path);
+        $folders  = ['script' => 'js', 'stylesheet' => 'css'];
 
         if (!$external) {
             // Get the file path
             $file = HTMLHelper::_(
-                $type,
+                'mediaPath',
+                $folders[$type],
                 $path,
                 [
-                    'pathOnly' => true,
-                    'relative' => !$this->isPathAbsolute($path),
+                    'detectDebug' => $this->getOption('debug') ? 1 : true,
+                    'relative'    => !$this->isPathAbsolute($path),
                 ]
             );
         }
@@ -328,7 +333,7 @@ class WebAssetItem implements WebAssetItemInterface
      */
     protected function isPathExternal(string $path): bool
     {
-        return strpos($path, 'http://') === 0 || strpos($path, 'https://') === 0 || strpos($path, '//') === 0;
+        return str_starts_with($path, 'http://') || str_starts_with($path, 'https://') || str_starts_with($path, '//');
     }
 
     /**
@@ -343,6 +348,6 @@ class WebAssetItem implements WebAssetItemInterface
     protected function isPathAbsolute(string $path): bool
     {
         // We have a full path or not
-        return strpos($path, '/') !== false && is_file(JPATH_ROOT . '/' . $path);
+        return str_contains($path, '/') && is_file(JPATH_ROOT . '/' . $path);
     }
 }

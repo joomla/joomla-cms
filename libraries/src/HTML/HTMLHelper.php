@@ -11,10 +11,10 @@ namespace Joomla\CMS\HTML;
 
 use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
@@ -47,7 +47,7 @@ abstract class HTMLHelper
      *
      * @var    string[]
      * @since  1.5
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      */
     protected static $includePaths = [];
 
@@ -56,7 +56,7 @@ abstract class HTMLHelper
      *
      * @var    callable[]
      * @since  1.6
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      */
     protected static $registry = [];
 
@@ -77,7 +77,7 @@ abstract class HTMLHelper
      * @return  array  Contains lowercase key, prefix, file, function.
      *
      * @since       1.6
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the service registry instead
      *              HTMLHelper::getServiceRegistry()->getService($file);
      */
@@ -90,17 +90,17 @@ abstract class HTMLHelper
 
         if (\count($parts) === 3) {
             @trigger_error(
-                'Support for a three segment service key is deprecated and will be removed in Joomla 6.0, use the service registry instead',
+                'Support for a three segment service key is deprecated and will be removed in Joomla 7.0, use the service registry instead',
                 E_USER_DEPRECATED
             );
         }
 
-        $prefix = \count($parts) === 3 ? array_shift($parts) : 'Joomla\\CMS\\HTML\\HTMLHelper';
+        $prefix = \count($parts) === 3 ? array_shift($parts) : HTMLHelper::class;
         $file   = \count($parts) === 2 ? array_shift($parts) : '';
         $func   = array_shift($parts);
 
         if (strtolower($prefix) === 'jhtml') {
-            $prefix = 'Joomla\\CMS\\HTML\\HTMLHelper';
+            $prefix = HTMLHelper::class;
         }
 
         return [strtolower($prefix . '.' . $file . '.' . $func), $prefix, $file, $func];
@@ -124,7 +124,7 @@ abstract class HTMLHelper
      */
     final public static function _(string $key, ...$methodArgs)
     {
-        list($key, $prefix, $file, $func) = static::extract($key);
+        [$key, $prefix, $file, $func] = static::extract($key);
 
         if (\array_key_exists($key, static::$registry)) {
             $function = static::$registry[$key];
@@ -142,7 +142,7 @@ abstract class HTMLHelper
             $toCall = [$service, $func];
 
             if (!\is_callable($toCall)) {
-                throw new \InvalidArgumentException(sprintf('%s::%s not found.', $file, $func), 500);
+                throw new \InvalidArgumentException(\sprintf('%s::%s not found.', $file, $func), 500);
             }
 
             static::register($key, $toCall);
@@ -156,23 +156,23 @@ abstract class HTMLHelper
             $path = Path::find(static::$includePaths, strtolower($file) . '.php');
 
             if (!$path) {
-                throw new \InvalidArgumentException(sprintf('%s %s not found.', $prefix, $file), 500);
+                throw new \InvalidArgumentException(\sprintf('%s %s not found.', $prefix, $file), 500);
             }
 
             \JLoader::register($className, $path);
 
             if (!class_exists($className)) {
                 if ($prefix !== 'Joomla\\CMS\\HTML\\HTMLHelper') {
-                    throw new \InvalidArgumentException(sprintf('%s not found.', $className), 500);
+                    throw new \InvalidArgumentException(\sprintf('%s not found.', $className), 500);
                 }
 
-                // @deprecated with 5.0 remove with 6.0 or 7.0 (depends on other relevant code)
+                // @deprecated with 5.0 remove with 7.0 (depends on other relevant code)
                 $className = 'JHtml' . ucfirst($file);
 
                 \JLoader::register($className, $path);
 
                 if (!class_exists($className)) {
-                    throw new \InvalidArgumentException(sprintf('%s not found.', $className), 500);
+                    throw new \InvalidArgumentException(\sprintf('%s not found.', $className), 500);
                 }
             }
         }
@@ -187,7 +187,7 @@ abstract class HTMLHelper
         $toCall = [$className, $func];
 
         if (!\is_callable($toCall)) {
-            throw new \InvalidArgumentException(sprintf('%s::%s not found.', $className, $func), 500);
+            throw new \InvalidArgumentException(\sprintf('%s::%s not found.', $className, $func), 500);
         }
 
         static::register($key, $toCall);
@@ -204,18 +204,18 @@ abstract class HTMLHelper
      * @return  boolean  True if the function is callable
      *
      * @since       1.6
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the service registry instead
      *              HTMLHelper::getServiceRegistry()->register($key, $function);
      */
     public static function register($key, callable $function)
     {
         @trigger_error(
-            'Support for registering functions is deprecated and will be removed in Joomla 6.0, use the service registry instead',
+            'Support for registering functions is deprecated and will be removed in Joomla 7.0, use the service registry instead',
             E_USER_DEPRECATED
         );
 
-        list($key) = static::extract($key);
+        [$key] = static::extract($key);
 
         static::$registry[$key] = $function;
 
@@ -230,17 +230,17 @@ abstract class HTMLHelper
      * @return  boolean  True if a set key is unset
      *
      * @since       1.6
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the service registry instead
      */
     public static function unregister($key)
     {
         @trigger_error(
-            'Support for registering functions is deprecated and will be removed in Joomla 6.0, use the service registry instead',
+            'Support for registering functions is deprecated and will be removed in Joomla 7.0, use the service registry instead',
             E_USER_DEPRECATED
         );
 
-        list($key) = static::extract($key);
+        [$key] = static::extract($key);
 
         if (isset(static::$registry[$key])) {
             unset(static::$registry[$key]);
@@ -262,7 +262,7 @@ abstract class HTMLHelper
      */
     public static function isRegistered($key)
     {
-        list($key) = static::extract($key);
+        [$key] = static::extract($key);
 
         return isset(static::$registry[$key]);
     }
@@ -321,8 +321,10 @@ abstract class HTMLHelper
     public static function link($url, $text, $attribs = null)
     {
         if (\is_array($attribs)) {
-            $attribs = ArrayHelper::toString($attribs);
+            $attribs = ArrayHelper::toString(self::escapeAttributesArray($attribs));
         }
+
+        $url = htmlspecialchars((string) $url, ENT_QUOTES, 'UTF-8', false);
 
         return '<a href="' . $url . '" ' . $attribs . '>' . $text . '</a>';
     }
@@ -342,10 +344,38 @@ abstract class HTMLHelper
     public static function iframe($url, $name, $attribs = null, $noFrames = '')
     {
         if (\is_array($attribs)) {
-            $attribs = ArrayHelper::toString($attribs);
+            $attribs = ArrayHelper::toString(self::escapeAttributesArray($attribs));
         }
 
+        $url  = htmlspecialchars((string) $url, ENT_QUOTES, 'UTF-8', false);
+        $name = htmlspecialchars((string) $name, ENT_QUOTES, 'UTF-8', false);
+
         return '<iframe src="' . $url . '" ' . $attribs . ' name="' . $name . '">' . $noFrames . '</iframe>';
+    }
+
+    /**
+     * Look for path relatively to media folder.
+     *
+     * @param   string   $folder   Folder name to search in (i.e. images, css, js).
+     * @param   string   $file     Path to file to check.
+     * @param   array    $options  Array with additional options:
+     *                             relative: Flag if the path to the file is relative to the /media folder (and searches in template);
+     *                             detectBrowser: Flag if the browser should be detected to include specific browser file;
+     *                             detectDebug: Flag if debug mode is enabled to include uncompressed files (for css, js)
+     *                               (boolean) - will enable debugging depends on site configuration, (1) - force debug On, (-1) - force debug Off;
+     *
+     * @return string
+     * @since  5.3.0
+     */
+    final public static function mediaPath(string $folder, string $file, array $options = []): string
+    {
+        $relative      = $options['relative'] ?? false;
+        $detectBrowser = $options['detectBrowser'] ?? false;
+        $detectDebug   = $options['detectDebug'] ?? true;
+
+        $includes      = static::includeRelativeFiles($folder, $file, $relative, $detectBrowser, $detectDebug);
+
+        return $includes[0] ?? '';
     }
 
     /**
@@ -356,6 +386,7 @@ abstract class HTMLHelper
      * @param   boolean  $relative       Flag if the path to the file is relative to the /media folder (and searches in template).
      * @param   boolean  $detectBrowser  Flag if the browser should be detected to include specific browser files.
      * @param   boolean  $detectDebug    Flag if debug mode is enabled to include uncompressed files if debug is on.
+     *                                   (boolean) - will enable debugging depends on site configuration, (1) - force debug On, (-1) - force debug Off;
      *
      * @return  array    files to be included.
      *
@@ -364,16 +395,21 @@ abstract class HTMLHelper
      */
     protected static function includeRelativeFiles($folder, $file, $relative, $detectBrowser, $detectDebug)
     {
-        // Set debug flag
-        $debugMode = false;
-
         // Detect debug mode
-        if ($detectDebug && JDEBUG) {
-            $debugMode = true;
+        switch (true) {
+            case \is_bool($detectDebug):
+                $debugMode = $detectDebug && JDEBUG;
+                break;
+            case $detectDebug === 1:
+                $debugMode = true;
+                break;
+            case $detectDebug === -1:
+            default:
+                $debugMode = false;
         }
 
         // If http is present in filename
-        if (strpos($file, 'http') === 0 || strpos($file, '//') === 0) {
+        if (str_starts_with($file, 'http') || str_starts_with($file, '//')) {
             $includes = [$file];
         } else {
             // Extract extension and strip the file
@@ -449,12 +485,12 @@ abstract class HTMLHelper
                         // If the file contains any /: it can be in a media extension subfolder
                         if (strpos($file, '/')) {
                             // Divide the file extracting the extension as the first part before /
-                            list($extension, $file) = explode('/', $file, 2);
+                            [$extension, $file] = explode('/', $file, 2);
 
                             // If the file yet contains any /: it can be a plugin
                             if (strpos($file, '/')) {
                                 // Divide the file extracting the element as the first part before /
-                                list($element, $file) = explode('/', $file, 2);
+                                [$element, $file] = explode('/', $file, 2);
 
                                 // Try to deal with plugins group in the media folder
                                 $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/$extension/$element/$folder/$file", $ext, $debugMode);
@@ -697,11 +733,19 @@ abstract class HTMLHelper
 
         // Get the relative file name when requested
         if ($returnPath !== -1) {
+            // Decode spaces for filesystem lookup
+            $lookupPath = str_replace('%20', ' ', $path);
+
             // Search for relative file names
-            $includes = static::includeRelativeFiles('images', $path, $relative, false, false);
+            $includes = static::includeRelativeFiles('images', $lookupPath, $relative, false, false);
 
             // Grab the first found path and if none exists default to null
             $path = \count($includes) ? $includes[0] : null;
+
+            // Encode spaces for the URL
+            if ($path !== null) {
+                $path = str_replace(' ', '%20', $path);
+            }
         }
 
         // Compile the file name
@@ -724,14 +768,14 @@ abstract class HTMLHelper
             // Go through each argument
             foreach (explode(' ', $attribs) as $attribute) {
                 // When an argument without a value, default to an empty string
-                if (strpos($attribute, '=') === false) {
+                if (!str_contains($attribute, '=')) {
                     $attributes[$attribute] = '';
                     continue;
                 }
 
                 // Set the attribute
-                list($key, $value) = explode('=', $attribute);
-                $attributes[$key]  = trim($value, '"');
+                [$key, $value]    = explode('=', $attribute);
+                $attributes[$key] = trim($value, '"');
             }
 
             // Add the attributes from the string to the original attributes
@@ -757,13 +801,18 @@ abstract class HTMLHelper
      *
      * @see   Browser
      * @since 1.5
+     *
+     * @deprecated  5.3.0 will be removed in 7.0
+     *              Use WebAssetManager::useStyle() or WebAssetManager::registerAndUseStyle() instead.
      */
     public static function stylesheet($file, $options = [], $attribs = [])
     {
-        $options['relative']      = $options['relative'] ?? false;
-        $options['pathOnly']      = $options['pathOnly'] ?? false;
-        $options['detectBrowser'] = $options['detectBrowser'] ?? false;
-        $options['detectDebug']   = $options['detectDebug'] ?? true;
+        @trigger_error('Method HTMLHelper::stylesheet() is deprecated, and will be removed in 7.0', \E_USER_DEPRECATED);
+
+        $options['relative']      ??= false;
+        $options['pathOnly']      ??= false;
+        $options['detectBrowser'] ??= false;
+        $options['detectDebug']   ??= true;
 
         $includes = static::includeRelativeFiles('css', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
@@ -785,7 +834,7 @@ abstract class HTMLHelper
 
         foreach ($includes as $include) {
             // If there is already a version hash in the script reference (by using deprecated MD5SUM).
-            if ($pos = strpos($include, '?') !== false) {
+            if (($pos = strpos($include, '?')) !== false) {
                 $options['version'] = substr($include, $pos + 1);
             }
 
@@ -804,13 +853,18 @@ abstract class HTMLHelper
      *
      * @see   HTMLHelper::stylesheet()
      * @since 1.5
+     *
+     * @deprecated  5.3.0 will be removed in 7.0
+     *              Use WebAssetManager::useScript() or WebAssetManager::registerAndUseScript() instead.
      */
     public static function script($file, $options = [], $attribs = [])
     {
-        $options['relative']      = $options['relative'] ?? false;
-        $options['pathOnly']      = $options['pathOnly'] ?? false;
-        $options['detectBrowser'] = $options['detectBrowser'] ?? false;
-        $options['detectDebug']   = $options['detectDebug'] ?? true;
+        @trigger_error('Method HTMLHelper::script() is deprecated, and will be removed in 7.0', \E_USER_DEPRECATED);
+
+        $options['relative']      ??= false;
+        $options['pathOnly']      ??= false;
+        $options['detectBrowser'] ??= false;
+        $options['detectDebug']   ??= true;
 
         $includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
@@ -832,7 +886,7 @@ abstract class HTMLHelper
 
         foreach ($includes as $include) {
             // If there is already a version hash in the script reference (by using deprecated MD5SUM).
-            if ($pos = strpos($include, '?') !== false) {
+            if (($pos = strpos($include, '?')) !== false) {
                 $options['version'] = substr($include, $pos + 1);
             }
 
@@ -884,8 +938,10 @@ abstract class HTMLHelper
             // Get a date object based on UTC.
             $date = Factory::getDate($input, 'UTC');
 
-            // Set the correct time zone based on the user configuration.
-            $date->setTimezone($app->getIdentity()->getTimezone());
+            // Set the correct time zone based on the user configuration. CLI doesn't have a user
+            if ($app->getIdentity()) {
+                $date->setTimezone($app->getIdentity()->getTimezone());
+            }
         } elseif ($tz === false) {
             // UTC date converted to server time zone.
             // Get a date object based on UTC.
@@ -994,8 +1050,8 @@ abstract class HTMLHelper
         // Don't process empty strings
         if ($content !== '' || $title !== '') {
             // Split title into title and content if the title contains '::' (old Mootools format).
-            if ($content === '' && !(strpos($title, '::') === false)) {
-                list($title, $content) = explode('::', $title, 2);
+            if ($content === '' && !(!str_contains($title, '::'))) {
+                [$title, $content] = explode('::', $title, 2);
             }
 
             // Pass texts through Text if required.
@@ -1153,13 +1209,13 @@ abstract class HTMLHelper
      * @return  array  An array with directory elements
      *
      * @since       1.5
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the service registry instead
      */
     public static function addIncludePath($path = '')
     {
         @trigger_error(
-            'Support for registering lookup paths is deprecated and will be removed in Joomla 6.0, use the service registry instead',
+            'Support for registering lookup paths is deprecated and will be removed in Joomla 7.0, use the service registry instead',
             E_USER_DEPRECATED
         );
 
@@ -1220,10 +1276,43 @@ abstract class HTMLHelper
      */
     protected static function convertToRelativePath($path)
     {
-        $relativeFilePath = Uri::root(true) . str_replace(JPATH_PUBLIC, '', $path);
+        // Remove JPATH_PUBLIC only if it is at beginning of full path
+        $path = str_starts_with($path, JPATH_PUBLIC) ? substr_replace($path, '', 0, \strlen(JPATH_PUBLIC)) : $path;
+
+        $relativeFilePath = Uri::root(true) . $path;
 
         // On windows devices we need to replace "\" with "/" otherwise some browsers will not load the asset
         return str_replace(DIRECTORY_SEPARATOR, '/', $relativeFilePath);
+    }
+
+    /**
+     * Method that escapes attribute names and values of an array of HTML attributes
+     * This method does not remove potentially dangerous attribute names or values, it's escaping only!
+     *
+     * @param   array  $attributes  The associative array of attributes, potentially nested
+     *
+     * @return  array  The escaped array, potentially nested
+     *
+     * @since   6.1.4
+     */
+    protected static function escapeAttributesArray(array $attributes): array
+    {
+        foreach ($attributes as $attributeName => $attributeValue) {
+            // Skip invalid attribute names
+            if (!preg_match('/^[a-zA-Z][a-zA-Z0-9_:.-]*$/', (string) $attributeName)) {
+                unset($attributes[$attributeName]);
+                continue;
+            }
+
+            if (\is_array($attributeValue)) {
+                $attributes[$attributeName] = self::escapeAttributesArray($attributeValue);
+                continue;
+            }
+
+            $attributes[$attributeName] = htmlspecialchars((string) $attributeValue, ENT_QUOTES, 'UTF-8', false);
+        }
+
+        return $attributes;
     }
 
     /**
@@ -1269,6 +1358,18 @@ abstract class HTMLHelper
                 '%H',
                 '%M',
                 '%S',
+                '%a',
+                '%A',
+                '%e',
+                '%j',
+                '%u',
+                '%w',
+                '%W',
+                '%b',
+                '%B',
+                '%h',
+                '%g',
+                '%I',
             ],
             [
                 'Y',
@@ -1277,6 +1378,18 @@ abstract class HTMLHelper
                 'H',
                 'i',
                 's',
+                'D',
+                'l',
+                'j',
+                'z',
+                'N',
+                'w',
+                'W',
+                'M',
+                'F',
+                'M',
+                'y',
+                'h',
             ],
             $strftimeformat
         );
@@ -1285,7 +1398,7 @@ abstract class HTMLHelper
          * If there is % character left after replacing, that mean one of unsupported format is used
          * the conversion false
          */
-        if (strpos($format, '%') !== false) {
+        if (str_contains($format, '%')) {
             return false;
         }
 

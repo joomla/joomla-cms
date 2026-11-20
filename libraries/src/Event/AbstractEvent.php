@@ -84,7 +84,7 @@ abstract class AbstractEvent extends Event
          * the onTableBeforeLoad event name.
          */
         if (!$eventClassName || !class_exists($eventClassName, true)) {
-            $bareName       = strpos($eventName, 'on') === 0 ? substr($eventName, 2) : $eventName;
+            $bareName       = str_starts_with($eventName, 'on') ? substr($eventName, 2) : $eventName;
             $parts          = Normalise::fromCamelCase($bareName, true);
             $eventClassName = __NAMESPACE__ . '\\' . ucfirst(array_shift($parts)) . '\\';
             $eventClassName .= implode('', $parts);
@@ -144,8 +144,8 @@ abstract class AbstractEvent extends Event
             }
 
             @trigger_error(
-                sprintf(
-                    'Numeric access to named event arguments is deprecated, and will not work in Joomla 6. Event %s argument %s',
+                \sprintf(
+                    'Numeric access to named event arguments is deprecated, and will not work in Joomla 7. Event %s argument %s',
                     \get_class($this),
                     $name
                 ),
@@ -166,8 +166,8 @@ abstract class AbstractEvent extends Event
 
         if (method_exists($this, $methodName2)) {
             @trigger_error(
-                sprintf(
-                    'Use method "%s" for value pre-processing is deprecated, and will not work in Joomla 6. Use "%s" instead. Event %s',
+                \sprintf(
+                    'Use method "%s" for value pre-processing is deprecated, and will not work in Joomla 7. Use "%s" instead. Event %s',
                     $methodName2,
                     $methodName1,
                     \get_class($this)
@@ -209,8 +209,8 @@ abstract class AbstractEvent extends Event
             }
 
             @trigger_error(
-                sprintf(
-                    'Numeric access to named event arguments is deprecated, and will not work in Joomla 6. Event %s argument %s',
+                \sprintf(
+                    'Numeric access to named event arguments is deprecated, and will not work in Joomla 7. Event %s argument %s',
                     \get_class($this),
                     $name
                 ),
@@ -227,8 +227,8 @@ abstract class AbstractEvent extends Event
             $value = $this->{$methodName1}($value);
         } elseif (method_exists($this, $methodName2)) {
             @trigger_error(
-                sprintf(
-                    'Use method "%s" for value pre-processing is deprecated, and will not work in Joomla 6. Use "%s" instead. Event %s',
+                \sprintf(
+                    'Use method "%s" for value pre-processing is deprecated, and will not work in Joomla 7. Use "%s" instead. Event %s',
                     $methodName2,
                     $methodName1,
                     \get_class($this)

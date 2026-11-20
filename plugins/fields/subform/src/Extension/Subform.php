@@ -10,12 +10,15 @@
 
 namespace Joomla\Plugin\Fields\Subform\Extension;
 
-use DOMDocument;
-use DOMElement;
-use DOMXPath;
+use Joomla\CMS\Event\CustomFields\BeforePrepareFieldEvent;
+use Joomla\CMS\Event\CustomFields\PrepareDomEvent;
+use Joomla\CMS\Event\CustomFields\PrepareFieldEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
+use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -26,7 +29,7 @@ use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
  *
  * @since  3.7.0
  */
-final class Subform extends FieldsPlugin
+final class Subform extends FieldsPlugin implements SubscriberInterface
 {
     /**
      * Two-dimensional array to hold to do a fast in-memory caching of rendered
@@ -46,6 +49,20 @@ final class Subform extends FieldsPlugin
      * @since 4.0.0
      */
     protected static $customFieldsCache = null;
+
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return array_merge(parent::getSubscribedEvents(), [
+            'onCustomFieldsBeforePrepareField' => 'beforePrepareField',
+        ]);
+    }
 
     /**
      * Handles the onContentPrepareForm event. Adds form definitions to relevant forms.
@@ -109,16 +126,16 @@ final class Subform extends FieldsPlugin
      * Manipulates the $field->value before the field is being passed to
      * onCustomFieldsPrepareField.
      *
-     * @param   string     $context  The context
-     * @param   object     $item     The item
-     * @param   \stdClass  $field    The field
+     * @param   BeforePrepareFieldEvent $event    The event instance.
      *
      * @return  void
      *
      * @since 4.0.0
      */
-    public function onCustomFieldsBeforePrepareField($context, $item, $field)
+    public function beforePrepareField(BeforePrepareFieldEvent $event): void
     {
+        $field = $event->getField();
+
         if (!$this->isTypeSupported($field->type)) {
             return;
         }
@@ -143,7 +160,7 @@ final class Subform extends FieldsPlugin
      * @param   object     $item     The item
      * @param   \stdClass  $field    The field
      *
-     * @return  string
+     * @return  ?string
      *
      * @since 4.0.0
      */
@@ -151,12 +168,12 @@ final class Subform extends FieldsPlugin
     {
         // Check if the field should be processed by us
         if (!$this->isTypeSupported($field->type)) {
-            return;
+            return '';
         }
 
         // If we don't have any subfields (or values for them), nothing to do.
         if (!\is_array($field->value) || \count($field->value) < 1) {
-            return;
+            return '';
         }
 
         // Get the field params
@@ -175,6 +192,8 @@ final class Subform extends FieldsPlugin
         if ($field_params->get('repeat', '1') == '0') {
             $rows = [$field->value];
         }
+
+        $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
 
         // Iterate over each row of the data
         foreach ($rows as $row) {
@@ -209,10 +228,15 @@ final class Subform extends FieldsPlugin
                         $subfield->value = $this->renderCache[$renderCache_key];
                     } else {
                         // Render this virtual subfield
-                        $subfield->value = $this->getApplication()->triggerEvent(
+                        $subfield->value = $dispatcher->dispatch(
                             'onCustomFieldsPrepareField',
-                            [$context, $item, $subfield]
-                        );
+                            new PrepareFieldEvent('onCustomFieldsPrepareField', [
+                                'context' => $context,
+                                'item'    => $item,
+                                'subject' => $subfield,
+                            ])
+                        )->getArgument('result', []);
+
                         $this->renderCache[$renderCache_key] = $subfield->value;
                     }
                 }
@@ -245,7 +269,7 @@ final class Subform extends FieldsPlugin
      * @param   \DOMElement  $parent  The original parent element
      * @param   Form        $form    The form
      *
-     * @return  \DOMElement
+     * @return  ?\DOMElement
      *
      * @since 4.0.0
      */
@@ -298,13 +322,19 @@ final class Subform extends FieldsPlugin
             $parent_field->setAttribute('layout', 'joomla.form.field.subform.repeatable');
         }
 
+        $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+
         // Iterate over the sub fields to call prepareDom on each of those sub-fields
         foreach ($subfields as $subfield) {
             // Let the relevant plugins do their work and insert the correct
             // DOMElement's into our $parent_fieldset.
-            $this->getApplication()->triggerEvent(
+            $dispatcher->dispatch(
                 'onCustomFieldsPrepareDom',
-                [$subfield, $parent_fieldset, $form]
+                new PrepareDomEvent('onCustomFieldsPrepareDom', [
+                    'subject'  => $subfield,
+                    'fieldset' => $parent_fieldset,
+                    'form'     => $form,
+                ])
             );
         }
 

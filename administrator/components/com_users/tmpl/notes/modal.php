@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Component\Users\Administrator\View\Notes\HtmlView $this */
 ?>
 <div class="unotes">
     <h1><?php echo Text::sprintf('COM_USERS_NOTES_FOR_USER', $this->user->name, $this->user->id); ?></h1>

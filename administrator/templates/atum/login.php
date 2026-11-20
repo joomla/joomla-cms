@@ -75,7 +75,23 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
-$monochrome = (bool) $this->params->get('monochrome');
+$monochrome    = (bool) $this->params->get('monochrome');
+$colorScheme   = $this->params->get('colorScheme', 'os');
+$themeModeAttr = '';
+
+if ($colorScheme) {
+    $themeModes   = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
+    // Check for User choose, for now this have a priority over the parameters
+    $userColorScheme = $app->getInput()->cookie->get('userColorScheme', '');
+    if ($userColorScheme && !empty($themeModes[$userColorScheme])) {
+        $themeModeAttr = $themeModes[$userColorScheme];
+    } else {
+        // Check parameters first (User and Template), then look if we have detected the OS color scheme (if it set to 'os')
+        $colorScheme   = $app->getIdentity()->getParam('colorScheme', $colorScheme);
+        $osColorScheme = $colorScheme === 'os' ? $app->getInput()->cookie->get('osColorScheme', '') : '';
+        $themeModeAttr = ($themeModes[$colorScheme] ?? '') . ($themeModes[$osColorScheme] ?? '');
+    }
+}
 
 // Add cookie alert message
 Text::script('JGLOBAL_WARNCOOKIES');
@@ -87,7 +103,7 @@ HTMLHelper::_('bootstrap.dropdown');
 
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $themeModeAttr; ?>>
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />
@@ -118,29 +134,31 @@ HTMLHelper::_('bootstrap.dropdown');
     <div id="wrapper" class="wrapper flex-grow-1">
         <div class="container-fluid container-main">
             <section id="content" class="content h-100">
-                <div class="login_message">
-                    <jdoc:include type="message" />
-                </div>
-                <main class="d-flex justify-content-center align-items-center h-100">
+                <main class="d-flex flex-column justify-content-center align-items-center h-100">
+                    <div class="login_message w-100">
+                        <jdoc:include type="message" />
+                    </div>
                     <div class="login">
                         <div class="main-brand logo text-center">
                             <?php echo HTMLHelper::_('image', $loginLogo, $loginLogoAlt, ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                         </div>
+                        <h1 class="visually-hidden"><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h1>
                         <jdoc:include type="component" />
                     </div>
                 </main>
             </section>
         </div>
 
-        <div id="sidebar-wrapper" class="sidebar-wrapper px-3 pb-3">
+        <aside id="sidebar-wrapper" class="sidebar-wrapper px-3 pb-3" aria-labelledby="sidebar-section-heading">
+            <h2 id="sidebar-section-heading" class="visually-hidden"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_HEADING'); ?></h2>
             <div id="main-brand" class="main-brand">
-                <h1><?php echo $app->get('sitename'); ?></h1>
-                <h2><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h2>
+                <p class="h1"><?php echo $app->get('sitename'); ?></p>
+                <p class="h2"><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></p>
             </div>
             <div id="sidebar">
                 <jdoc:include type="modules" name="sidebar" style="body" />
             </div>
-        </div>
+        </aside>
     </div>
     <jdoc:include type="modules" name="debug" style="none" />
 </body>

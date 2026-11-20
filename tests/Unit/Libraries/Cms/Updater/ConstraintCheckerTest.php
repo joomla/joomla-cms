@@ -14,20 +14,22 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Updater\ConstraintChecker;
 use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Test\TestHelper;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for Constraint Checker.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Updater
- * @since       __DEPLOY_VERSION__
+ * @since       5.1.0
  */
 class ConstraintCheckerTest extends UnitTestCase
 {
     /**
      * @var    ConstraintChecker
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     protected $checker;
 
@@ -37,11 +39,11 @@ class ConstraintCheckerTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function setUp(): void
     {
-        $this->checker = new ConstraintChecker();
+        $this->checker = new ConstraintChecker(Version::MAJOR_VERSION . '.x');
     }
 
     /**
@@ -50,7 +52,7 @@ class ConstraintCheckerTest extends UnitTestCase
      * @return  void
      *
      * @see     \PHPUnit\Framework\TestCase::tearDown()
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function tearDown(): void
     {
@@ -61,7 +63,7 @@ class ConstraintCheckerTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testCheckMethodReturnsFalseIfPlatformIsMissing()
     {
@@ -72,7 +74,7 @@ class ConstraintCheckerTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testCheckMethodReturnsTrueIfPlatformIsOnlyConstraint()
     {
@@ -85,19 +87,17 @@ class ConstraintCheckerTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
-     *
-     * @dataProvider supportedDatabasesDataProvider
+     * @since   5.1.0
      */
+    #[DataProvider('supportedDatabasesDataProvider')]
     public function testCheckSupportedDatabases($currentDatabase, $supportedDatabases, $expectedResult)
     {
-        $dbMock = $this->createMock(DatabaseDriver::class);
+        $dbMock = $this->createStub(DatabaseDriver::class);
         $dbMock->method('getServerType')->willReturn($currentDatabase['type']);
         $dbMock->method('getVersion')->willReturn($currentDatabase['version']);
         Factory::$database = $dbMock;
 
-        $method = $this->getPublicMethod('checkSupportedDatabases');
-        $result = $method->invoke($this->checker, $supportedDatabases);
+        $result = TestHelper::invoke($this->checker, 'checkSupportedDatabases', $supportedDatabases);
 
         $this->assertSame($expectedResult, $result);
     }
@@ -107,15 +107,11 @@ class ConstraintCheckerTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
-     *
-     * @dataProvider targetplatformDataProvider
+     * @since   5.1.0
      */
     public function testCheckPhpMinimumReturnFalseForFuturePhp()
     {
-        $method = $this->getPublicMethod('checkPhpMinimum');
-
-        $this->assertFalse($method->invoke($this->checker, '99.9.9'));
+        $this->assertFalse(TestHelper::invoke($this->checker, 'checkPhpMinimum', '99.9.9'));
     }
 
     /**
@@ -123,26 +119,22 @@ class ConstraintCheckerTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
-     *
-     * @dataProvider targetplatformDataProvider
+     * @since   5.1.0
      */
+    #[DataProvider('targetplatformDataProvider')]
     public function testCheckTargetplatform($targetPlatform, $expectedResult)
     {
-        $method = $this->getPublicMethod('checkTargetplatform');
-        $result = $method->invoke($this->checker, $targetPlatform);
-
-        $this->assertSame($expectedResult, $result);
+        $this->assertSame($expectedResult, TestHelper::invoke($this->checker, 'checkTargetplatform', $targetPlatform));
     }
 
     /**
      * Data provider for testCheckSupportedDatabases method
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      *
      * @return array[]
      */
-    protected function supportedDatabasesDataProvider()
+    public static function supportedDatabasesDataProvider()
     {
         return [
             [
@@ -186,41 +178,22 @@ class ConstraintCheckerTest extends UnitTestCase
     /**
      * Data provider for testCheckTargetplatform method
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      *
      * @return array[]
      */
-    protected function targetplatformDataProvider()
+    public static function targetplatformDataProvider()
     {
         return [
             [(array) ["name" => "foobar", "version" => "1.*"], false],
             [(array) ["name" => "foobar", "version" => "4.*"], false],
             [(array) ["name" => "joomla", "version" => "1.*"], false],
             [(array) ["name" => "joomla", "version" => "3.1.2"], false],
-            [(array) ["name" => "joomla", "version" => "6.*"], false],
+            [(array) ["name" => "joomla", "version" => "6.*"], true],
             [(array) ["name" => "joomla", "version" => ""], true],
             [(array) ["name" => "joomla", "version" => ".*"], true],
             [(array) ["name" => "joomla", "version" => JVERSION], true],
-            [(array) ["name" => "joomla", "version" => "5.*"], true],
+            [(array) ["name" => "joomla", "version" => "5.*"], false],
         ];
-    }
-
-    /**
-     * Internal helper method to get access to protected methods
-     *
-     * @since   __DEPLOY_VERSION__
-     *
-     * @param $method
-     *
-     * @return \ReflectionMethod
-     * @throws \ReflectionException
-     */
-    protected function getPublicMethod($method)
-    {
-        $reflectionClass = new \ReflectionClass($this->checker);
-        $method          = $reflectionClass->getMethod($method);
-        $method->setAccessible(true);
-
-        return $method;
     }
 }

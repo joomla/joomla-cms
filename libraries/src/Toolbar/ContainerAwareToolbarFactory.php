@@ -60,7 +60,7 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
         }
 
         if (!class_exists($buttonClass)) {
-            throw new \InvalidArgumentException(sprintf('Class `%1$s` does not exist, could not create a toolbar button.', $buttonClass));
+            throw new \InvalidArgumentException(\sprintf('Class `%1$s` does not exist, could not create a toolbar button.', $buttonClass));
         }
 
         // Check for a possible service from the container otherwise manually instantiate the class
@@ -102,7 +102,7 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
         $buttonClasses = [
             'Joomla\\CMS\\Toolbar\\Button\\' . $type . 'Button',
             /**
-             * @deprecated  4.3 will be removed in 6.0
+             * @deprecated  4.3 will be removed in 7.0
              */
             'JToolbarButton' . $type,
         ];

@@ -11,6 +11,8 @@
 use Joomla\CMS\Language\Text;
 
 defined('_JEXEC') or die;
+
+/** @var \Joomla\Component\Config\Administrator\View\Component\HtmlView $this */
 ?>
 <ul class="nav flex-column">
     <?php if ($this->userIsSuperAdmin) : ?>

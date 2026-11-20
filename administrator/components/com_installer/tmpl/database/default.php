@@ -15,8 +15,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Installer\Administrator\View\Database\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
@@ -62,7 +64,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
                                     <th scope="col" class="w-10 d-none d-lg-table-cell text-end">
                                         <?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>
                                     </th>
-                                    <th scope="col" class="w-10 d-none d-lg-table-cell">
+                                    <th scope="col" class="w-10 d-none d-lg-table-cell text-end">
                                         <?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>
                                     </th>
                                     <th scope="col" class="w-10 d-none d-lg-table-cell">
@@ -95,7 +97,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
                                             <?php echo $extension->type_translated; ?>
                                         </td>
                                         <td>
-                                            <span class="badge bg-<?php echo count($item['results']['error']) ? 'danger' : ($item['errorsCount'] ? 'warning text-dark' : 'success'); ?>" tabindex="0">
+                                            <span class="badge bg-<?php echo count($item['results']['error']) ? 'danger' : ($item['errorsCount'] ? 'warning' : 'success'); ?>" tabindex="0">
                                                 <?php echo Text::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?>
                                             </span>
                                             <div role="tooltip" id="tip<?php echo $i; ?>">
@@ -106,7 +108,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
                                         <td class="d-none d-lg-table-cell text-end">
                                             <?php echo $extension->version_id; ?>
                                         </td>
-                                        <td class="d-none d-lg-table-cell">
+                                        <td class="d-none d-lg-table-cell text-end">
                                             <?php echo '&#x200E;' . $extension->version; ?>
                                         </td>
                                         <td class="d-none d-lg-table-cell">
@@ -124,9 +126,8 @@ $listDirection = $this->escape($this->state->get('list.direction'));
                         <?php echo $this->pagination->getListFooter(); ?>
 
                     <?php endif; ?>
-                    <input type="hidden" name="task" value="">
-                    <input type="hidden" name="boxchecked" value="0">
-                    <?php echo HTMLHelper::_('form.token'); ?>
+
+                    <?php echo $this->filterForm->renderControlFields(); ?>
                 </div>
             </div>
         </div>

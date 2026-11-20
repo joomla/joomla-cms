@@ -21,7 +21,7 @@ use Joomla\Component\Tags\Site\Helper\RouteHelper;
  *
  * @since  3.1
  *
- * @deprecated  4.3 will be removed in 6.0
+ * @deprecated  4.3 will be removed in 7.0
  *              Use \Joomla\Component\Tags\Site\Helper\RouteHelper instead
  */
 class TagsHelperRoute extends RouteHelper

@@ -10,8 +10,9 @@
 
 namespace Joomla\Plugin\WebServices\Config\Extension;
 
+use Joomla\CMS\Event\Application\BeforeApiRouteEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Router\ApiRouter;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Router\Route;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -23,27 +24,43 @@ use Joomla\Router\Route;
  *
  * @since  4.0.0
  */
-final class Config extends CMSPlugin
+final class Config extends CMSPlugin implements SubscriberInterface
 {
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.1.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onBeforeApiRoute' => 'onBeforeApiRoute',
+        ];
+    }
+
     /**
      * Registers com_config's API's routes in the application
      *
-     * @param   ApiRouter  &$router  The API Routing object
+     * @param   BeforeApiRouteEvent  $event  The event object
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onBeforeApiRoute(&$router)
+    public function onBeforeApiRoute(BeforeApiRouteEvent $event): void
     {
+        $router = $event->getRouter();
+
         $defaults    = ['component' => 'com_config'];
         $getDefaults = array_merge(['public' => false], $defaults);
 
         $routes = [
             new Route(['GET'], 'v1/config/application', 'application.displayList', [], $getDefaults),
             new Route(['PATCH'], 'v1/config/application', 'application.edit', [], $defaults),
-            new Route(['GET'], 'v1/config/:component_name', 'component.displayList', ['component_name' => '([A-Za-z_]+)'], $getDefaults),
-            new Route(['PATCH'], 'v1/config/:component_name', 'component.edit', ['component_name' => '([A-Za-z_]+)'], $defaults),
+            new Route(['GET'], 'v1/config/:component_name', 'component.displayList', ['component_name' => '([A-Za-z0-9_]+)'], $getDefaults),
+            new Route(['PATCH'], 'v1/config/:component_name', 'component.edit', ['component_name' => '([A-Za-z0-9_]+)'], $defaults),
         ];
 
         $router->addRoutes($routes);

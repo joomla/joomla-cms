@@ -16,6 +16,9 @@
 			<field
 				name="url"
 				type="url"
+				validate="url"
+				filter="url"
+				relative="true"
 				label="COM_WRAPPER_FIELD_URL_LABEL"
 				required="true"
 			/>

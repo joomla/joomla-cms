@@ -44,7 +44,7 @@ class UserIdRule extends FormRule implements DatabaseAwareInterface
      *
      * @since   4.0.0
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         // Check if the field is required.
         $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
@@ -56,7 +56,7 @@ class UserIdRule extends FormRule implements DatabaseAwareInterface
 
         // Get the database object and a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Build the query.
         $query->select('COUNT(*)')

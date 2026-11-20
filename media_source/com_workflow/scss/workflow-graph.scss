@@ -1,0 +1,220 @@
+/* ================================
+   Workflow Graph Styles
+   ================================ */
+
+/* Color Variables */
+:root {
+  --vf-black: #000;
+  --vf-custom-controls-bgcolor: var(--secondary);
+  --vf-edge-color: #2071c6;
+  --vf-white: #fff;
+  --vf-opacity-less: rgba(0, 0, 0, .1);
+  --vf-opacity-more: rgba(0, 0, 0, .6);
+}
+
+/* ================================
+   Vue Flow Core Components
+   ================================ */
+.vue-flow {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  direction: ltr;
+}
+
+[dir="rtl"] .vue-flow__node, [dir="rtl"] .edge-label, [dir="rtl"] .vue-flow__panel {
+  direction: rtl;
+}
+
+.vue-flow__container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.vue-flow__pane.draggable {
+  cursor: grab;
+}
+
+.vue-flow__pane.selection {
+  cursor: pointer;
+}
+
+.vue-flow__pane.dragging {
+  cursor: grabbing;
+}
+
+.vue-flow__transformationpane {
+  z-index: 2;
+  pointer-events: none;
+  transform-origin: 0 0;
+}
+
+.vue-flow__viewport {
+  z-index: 4;
+  overflow: clip;
+}
+
+.vue-flow__nodesselection-rect:focus,
+.vue-flow__nodesselection-rect:focus-visible,
+.vue-flow__edge.selected,
+.vue-flow__edge:focus,
+.vue-flow__edge:focus-visible {
+  outline: none;
+}
+
+.vue-flow .vue-flow__edges {
+  overflow: visible;
+  pointer-events: none;
+}
+
+.vue-flow__edge-path,
+.vue-flow__connection-path {
+  stroke: var(--success);
+  stroke-width: 3;
+  fill: none;
+}
+
+.vue-flow__edge.animated path {
+  stroke-dasharray: 5;
+  animation: dashdraw .5s linear infinite;
+}
+
+.vue-flow__edge.animated path.vue-flow__edge-interaction {
+  stroke-dasharray: none;
+  animation: none;
+}
+
+.vue-flow__edge.inactive {
+  pointer-events: none;
+}
+
+.vue-flow__connection {
+  pointer-events: none;
+}
+
+.vue-flow__connection .animated {
+  stroke-dasharray: 5;
+  animation: dashdraw .5s linear infinite;
+}
+
+.vue-flow__connectionline {
+  z-index: 1001;
+}
+
+.vue-flow__nodes {
+  pointer-events: none;
+  transform-origin: 0 0;
+}
+
+.vue-flow__node {
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: all;
+  cursor: default;
+  user-select: none;
+  transform-origin: 0 0;
+}
+
+
+.vue-flow__handle.connectable {
+  pointer-events: all;
+  cursor: crosshair;
+}
+
+.vue-flow__panel {
+  position: absolute;
+  z-index: 5;
+  margin: 15px;
+}
+
+.vue-flow__panel.top {
+  top: 0;
+}
+
+.vue-flow__panel.bottom {
+  bottom: 0;
+}
+
+.vue-flow__panel.left {
+  left: 0;
+}
+
+.vue-flow__panel.right {
+  right: 0;
+}
+
+.vue-flow__panel.center {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@keyframes dashdraw {
+  from {
+    stroke-dashoffset: 10;
+  }
+}
+
+/* ================================
+   Vue Flow Custom Components
+   ================================ */
+.min-vh-80 {
+  height: 80vh;
+}
+
+.end-20-px {
+  right: 20px !important;
+}
+
+.top-25-px {
+  top: 25px !important;
+}
+
+.z-10 {
+  z-index: 10;
+}
+
+.z-20 {
+  z-index: 20;
+}
+
+.custom-edge {
+  background: var(--vf-edge-color) !important;
+}
+
+.vue-flow__minimap {
+  box-shadow: 0 10px 15px -3px var(--vf-opacity-less);
+}
+
+.custom-controls {
+  right: 10px;
+  bottom: 10px;
+  background: var(--vf-custom-controls-bgcolor);
+}
+
+.vue-flow__minimap.pannable {
+  cursor: grab;
+}
+
+.stage-node .edge-handler {
+  width: 12px !important;
+  height: 12px !important;
+}
+
+.stage-node:hover .vue-flow__handle {
+  opacity: 1;
+}
+
+.vue-flow__node-stage {
+  max-width: 250px !important;
+}
+
+.workflow-browser-actions-list {
+  background-color: var(--vf-black);
+  box-shadow: 0 4px 10px var(--vf-opacity-more);
+}
+

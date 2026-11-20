@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
@@ -19,7 +19,7 @@ use Joomla\CMS\Router\Route;
 Text::script('COM_FINDER_INDEXER_MESSAGE_COMPLETE', true);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('com_finder.debug');
 
@@ -37,7 +37,7 @@ $wa->useScript('keepalive')
                     <?php echo $this->form->renderField('plugin'); ?>
                     <?php echo $this->form->renderField('id'); ?>
 
-                    <input id="finder-indexer-token" type="hidden" name="<?php echo Factory::getSession()->getFormToken(); ?>" value="1">
+                    <?php echo HTMLHelper::_('form.token', ['id' => 'finder-indexer-token']); ?>
                 </fieldset>
             </div>
         </div>

@@ -97,6 +97,6 @@ final class DelegatingPsrLogger extends AbstractLogger
             $date = $context['date'];
         }
 
-        $this->logger->add((string) $message, $priority, $category, $date, $context);
+        $this->logger::add((string) $message, $priority, $category, $date, $context);
     }
 }

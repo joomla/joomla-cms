@@ -12,11 +12,11 @@ namespace Joomla\Component\Workflow\Administrator\View\Transition;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Workflow\Administrator\Helper\StageHelper;
+use Joomla\Component\Workflow\Administrator\Model\TransitionModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -65,7 +65,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The application input object.
      *
-     * @var    \Joomla\CMS\Input\Input
+     * @var    \Joomla\Input\Input
      * @since  4.0.0
      */
     protected $input;
@@ -95,6 +95,15 @@ class HtmlView extends BaseHtmlView
     protected $section;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * Display item view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -108,15 +117,13 @@ class HtmlView extends BaseHtmlView
         $this->app   = Factory::getApplication();
         $this->input = $this->app->getInput();
 
-        // Get the Data
-        $this->state      = $this->get('State');
-        $this->form       = $this->get('Form');
-        $this->item       = $this->get('Item');
+        /** @var TransitionModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $this->state      = $model->getState();
+        $this->form       = $model->getForm();
+        $this->item       = $model->getItem();
 
         $extension = $this->state->get('filter.extension');
 
@@ -130,6 +137,10 @@ class HtmlView extends BaseHtmlView
 
         // Get the ID of workflow
         $this->workflowID = $this->input->getCmd("workflow_id");
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task', 'transition.edit');
 
         // Set the toolbar
         $this->addToolbar();
@@ -152,7 +163,7 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = empty($this->item->id);
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
         $canDo      = StageHelper::getActions($this->extension, 'transition', $this->item->id);
         $canCreate  = $canDo->get('core.create');
 

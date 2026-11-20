@@ -55,13 +55,13 @@ class GetSetup extends AbstractImmutableEvent implements ResultAwareInterface
      * @return  MfaTable
      * @since   4.2.0
      *
-     * @deprecated 4.4.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 7.0
      *                Use counterpart with onSet prefix
      */
     public function setRecord(MfaTable $value): MfaTable
     {
         if (empty($value)) {
-            throw new \DomainException(sprintf('Argument \'record\' of event %s must be a MfaTable object.', $this->name));
+            throw new \DomainException(\sprintf('Argument \'record\' of event %s must be a MfaTable object.', $this->name));
         }
 
         return $value;

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Access;
 
-use Joomla\CMS\Object\CMSObject;
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -163,18 +161,18 @@ class Rules
      *
      * @param   mixed  $identity  An integer representing the identity or an array of identities
      *
-     * @return  CMSObject  Allowed actions for the identity or identities
+     * @return  \stdClass  Allowed actions for the identity or identities
      *
      * @since   1.7.0
      */
     public function getAllowed($identity)
     {
         // Sweep for the allowed actions.
-        $allowed = new CMSObject();
+        $allowed = new \stdClass();
 
         foreach ($this->data as $name => &$action) {
             if ($action->allow($identity)) {
-                $allowed->set($name, true);
+                $allowed->$name = true;
             }
         }
 

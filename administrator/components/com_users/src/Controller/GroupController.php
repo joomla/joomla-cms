@@ -44,7 +44,7 @@ class GroupController extends FormController
      */
     protected function allowSave($data, $key = 'id')
     {
-        return ($this->app->getIdentity()->authorise('core.admin', $this->option) && parent::allowSave($data, $key));
+        return $this->app->getIdentity()->authorise('core.admin', $this->option) && parent::allowSave($data, $key);
     }
 
     /**

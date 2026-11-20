@@ -51,7 +51,7 @@ class Captcha implements DispatcherAwareInterface
     private $provider;
 
     /**
-     * Editor Plugin name
+     * Captcha Plugin name
      *
      * @var    string
      * @since  2.5
@@ -86,7 +86,7 @@ class Captcha implements DispatcherAwareInterface
             $this->provider = $registry->get($captcha);
         } else {
             @trigger_error(
-                'Use of legacy Captcha is deprecated. Use onCaptchaSetup event to register your Captcha provider.',
+                'Use of legacy Captcha is deprecated. Use onCaptchaSetup event to register your Captcha provider. Will be removed in 7.0.',
                 E_USER_DEPRECATED
             );
 
@@ -130,10 +130,10 @@ class Captcha implements DispatcherAwareInterface
      *
      * @return  boolean  True on success
      *
-     * @since   2.5
      * @throws  \RuntimeException
      *
-     * @deprecated  Without replacement
+     * @since   2.5
+     * @deprecated  Without replacement. Will be removed in 7.0.
      */
     public function initialise($id)
     {
@@ -253,7 +253,7 @@ class Captcha implements DispatcherAwareInterface
      *
      * @since   4.0.0
      *
-     * @deprecated  Without replacement
+     * @deprecated  Without replacement. Will be removed in 7.0.
      */
     private function update($name, &$args)
     {
@@ -271,20 +271,20 @@ class Captcha implements DispatcherAwareInterface
      *
      * @return  void
      *
-     * @since   2.5
      * @throws  \RuntimeException
      *
-     * @deprecated  Should use CaptchaRegistry
+     * @since   2.5
+     * @deprecated  Should use CaptchaRegistry. Will be removed in 7.0.
      */
     private function _load(array $options = [])
     {
         // Build the path to the needed captcha plugin
         $name = InputFilter::getInstance()->clean($this->name, 'cmd');
 
-        // Boot the editor plugin
+        // Boot the captcha plugin
         $this->captcha = Factory::getApplication()->bootPlugin($name, 'captcha');
 
-        // Check if the editor can be loaded
+        // Check if the captcha can be loaded
         if (!$this->captcha) {
             throw new \RuntimeException(Text::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
         }

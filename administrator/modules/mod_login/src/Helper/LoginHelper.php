@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\Login\Administrator\Helper;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
@@ -25,14 +26,18 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  1.6
  */
-abstract class LoginHelper
+class LoginHelper
 {
     /**
      * Get an HTML select list of the available languages.
      *
+     * @param   CMSApplicationInterface  $app  The application
+     *
      * @return  string
+     *
+     * @since   5.1.0
      */
-    public static function getLanguageList()
+    public function getLanguages(CMSApplicationInterface $app)
     {
         $languages = LanguageHelper::createLanguageList(null, JPATH_ADMINISTRATOR, false, true);
 
@@ -47,13 +52,6 @@ abstract class LoginHelper
             }
         );
 
-        // Fix wrongly set parentheses in RTL languages
-        if (Factory::getApplication()->getLanguage()->isRtl()) {
-            foreach ($languages as &$language) {
-                $language['text'] .= '&#x200E;';
-            }
-        }
-
         array_unshift($languages, HTMLHelper::_('select.option', '', Text::_('JDEFAULTLANGUAGE')));
 
         return HTMLHelper::_('select.genericlist', $languages, 'lang', 'class="form-select"', 'value', 'text', null);
@@ -63,8 +61,10 @@ abstract class LoginHelper
      * Get the redirect URI after login.
      *
      * @return  string
+     *
+     * @since   5.1.0
      */
-    public static function getReturnUri()
+    public function getReturnUriString()
     {
         $uri    = Uri::getInstance();
         $return = 'index.php' . $uri->toString(['query']);
@@ -74,5 +74,37 @@ abstract class LoginHelper
         }
 
         return base64_encode('index.php');
+    }
+
+    /**
+     * Get an HTML select list of the available languages.
+     *
+     * @return  string
+     *
+     * @deprecated 5.1.0 will be removed in 7.0
+     *             Use the non-static method getLanguages
+     *             Example: Factory::getApplication()->bootModule('mod_login', 'administrator')
+     *                            ->getHelper('LoginHelper')
+     *                            ->getLanguages(Factory::getApplication())
+     */
+    public static function getLanguageList()
+    {
+        return (new self())->getLanguages(Factory::getApplication());
+    }
+
+    /**
+     * Get the redirect URI after login.
+     *
+     * @return  string
+     *
+     * @deprecated 5.1.0 will be removed in 7.0
+     *             Use the non-static method getReturnUriString
+     *             Example: Factory::getApplication()->bootModule('mod_login', 'administrator')
+     *                            ->getHelper('LoginHelper')
+     *                            ->getReturnUriString()
+     */
+    public static function getReturnUri()
+    {
+        return (new self())->getReturnUriString();
     }
 }

@@ -25,7 +25,7 @@ use PHPMailer\PHPMailer\PHPMailer;
  *
  * @since  1.7.0
  */
-class Mail extends PHPMailer implements MailerInterface
+class Mail extends PHPMailer implements MailerInterface, TransportConfigurableMailerInterface, FormatConfigurableMailerInterface
 {
     /**
      * Mail instances container.
@@ -33,7 +33,7 @@ class Mail extends PHPMailer implements MailerInterface
      * @var    Mail[]
      * @since  1.7.3
      *
-     * @deprecated  4.4.0 will be removed in 6.0
+     * @deprecated  4.4.0 will be removed in 7.0
      *              See getInstance() for more details
      */
     public static $instances = [];
@@ -62,7 +62,7 @@ class Mail extends PHPMailer implements MailerInterface
 
         // Configure a callback function to handle errors when $this->debug() is called
         $this->Debugoutput = function ($message, $level) {
-            Log::add(sprintf('Error in Mail API: %s', $message), Log::ERROR, 'mail');
+            Log::add(\sprintf('Error in Mail API: %s', $message), Log::ERROR, 'mail');
         };
 
         // If debug mode is enabled then set SMTPDebug to the maximum level
@@ -105,7 +105,7 @@ class Mail extends PHPMailer implements MailerInterface
      *
      * @since   4.4.0
      *
-     * @deprecated  4.4.0 will be removed in 6.0
+     * @deprecated  4.4.0 will be removed in 7.0
      *              Use the mailer service in the DI container and create a mailer from there
      *              Example:
      *              Factory::getContainer()->get(MailerFactoryInterface::class)->createMailer();
@@ -211,7 +211,7 @@ class Mail extends PHPMailer implements MailerInterface
             // If it is neither, we log a message and throw an exception
             Log::add(Text::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from), Log::WARNING, 'jerror');
 
-            throw new \UnexpectedValueException(sprintf('Invalid email sender: %s', $from));
+            throw new \UnexpectedValueException(\sprintf('Invalid email sender: %s', $from));
         }
 
         if ($result === false) {
@@ -401,20 +401,12 @@ class Mail extends PHPMailer implements MailerInterface
             $result = true;
 
             if (\is_array($path)) {
-                if (!empty($name) && \count($path) != \count($name)) {
+                if (!empty($name) && \is_array($name) && \count($path) != \count($name)) {
                     throw new \InvalidArgumentException('The number of attachments must be equal with the number of name');
                 }
 
                 foreach ($path as $key => $file) {
-                    if (!empty($name)) {
-                        $result = parent::addAttachment($file, $name[$key], $encoding, $type);
-                    } else {
-                        if (!empty($name)) {
-                            $result = parent::addAttachment($file, $name[$key], $encoding, $type, $disposition);
-                        } else {
-                            $result = parent::addAttachment($file, $name, $encoding, $type, $disposition);
-                        }
-                    }
+                    $result = parent::addAttachment($file, $name[$key] ?? '', $encoding, $type, $disposition);
                 }
 
                 // Check for boolean false return if exception handling is disabled
@@ -422,7 +414,7 @@ class Mail extends PHPMailer implements MailerInterface
                     return false;
                 }
             } else {
-                $result = parent::addAttachment($path, $name, $encoding, $type);
+                $result = parent::addAttachment($path, $name, $encoding, $type, $disposition);
             }
 
             // Check for boolean false return if exception handling is disabled
@@ -549,20 +541,21 @@ class Mail extends PHPMailer implements MailerInterface
     /**
      * Use SMTP for sending the email
      *
-     * @param   string   $auth    SMTP Authentication [optional]
-     * @param   string   $host    SMTP Host [optional]
-     * @param   string   $user    SMTP Username [optional]
-     * @param   string   $pass    SMTP Password [optional]
-     * @param   string   $secure  Use secure methods
-     * @param   integer  $port    The SMTP port
+     * @param integer  $auth               SMTP Authentication [optional]
+     * @param string   $host               SMTP Host [optional]
+     * @param string   $user               SMTP Username [optional]
+     * @param string   $pass               SMTP Password [optional]
+     * @param string   $secure             Use secure methods
+     * @param integer  $port               The SMTP port
+     * @param object   $oauthTokenProvider The OAuth token provider
      *
-     * @return  boolean  True on success
+     * @return boolean  True on success
      *
      * @since   1.7.0
      */
-    public function useSmtp($auth = null, $host = null, $user = null, $pass = null, $secure = null, $port = 25)
+    public function useSmtp($auth = null, $host = null, $user = null, $pass = null, $secure = null, $port = 25, $oauthTokenProvider = null)
     {
-        $this->SMTPAuth = $auth;
+        $this->SMTPAuth = !empty($auth);
         $this->Host     = $host;
         $this->Username = $user;
         $this->Password = $pass;
@@ -572,9 +565,15 @@ class Mail extends PHPMailer implements MailerInterface
             $this->SMTPSecure = $secure;
         }
 
+        if ($oauthTokenProvider) {
+            $this->AuthType = 'XOAUTH2';
+            $this->setOAuth($oauthTokenProvider);
+        }
+
         if (
-            ($this->SMTPAuth !== null && $this->Host !== null && $this->Username !== null && $this->Password !== null)
-            || ($this->SMTPAuth === null && $this->Host !== null)
+            ($this->SMTPAuth && $this->Host !== null && $this->Username !== null && $this->Password !== null)
+            || ($this->SMTPAuth && $this->Host !== null && $this->Username !== null && $this->AuthType === 'XOAUTH2')
+            || (!$this->SMTPAuth && $this->Host !== null)
         ) {
             $this->isSMTP();
 

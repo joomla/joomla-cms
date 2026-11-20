@@ -55,20 +55,20 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
      */
     public function renderHead()
     {
-        list($cssFiles, $jsFiles, $inlineCss, $inlineJs, $inlineHead) = $this->getAssets(null, self::RELATIVE_URL);
-        $html                                                         = '';
-        $doc                                                          = Factory::getApplication()->getDocument();
+        [$cssFiles, $jsFiles, $inlineCss, $inlineJs, $inlineHead] = $this->getAssets(null, self::RELATIVE_URL);
+        $html                                                     = '';
+        $doc                                                      = Factory::getApplication()->getDocument();
 
         foreach ($cssFiles as $file) {
-            $html .= sprintf('<link rel="stylesheet" type="text/css" href="%s">' . "\n", $file);
+            $html .= \sprintf('<link rel="stylesheet" type="text/css" href="%s">' . "\n", $file);
         }
 
         foreach ($inlineCss as $content) {
-            $html .= sprintf('<style>%s</style>' . "\n", $content);
+            $html .= \sprintf('<style>%s</style>' . "\n", $content);
         }
 
         foreach ($jsFiles as $file) {
-            $html .= sprintf('<script type="text/javascript" src="%s" defer></script>' . "\n", $file);
+            $html .= \sprintf('<script type="text/javascript" src="%s" defer></script>' . "\n", $file);
         }
 
         $nonce = '';
@@ -78,7 +78,7 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
         }
 
         foreach ($inlineJs as $content) {
-            $html .= sprintf('<script type="module"%s>%s</script>' . "\n", $nonce, $content);
+            $html .= \sprintf('<script type="module"%s>%s</script>' . "\n", $nonce, $content);
         }
 
         foreach ($inlineHead as $content) {

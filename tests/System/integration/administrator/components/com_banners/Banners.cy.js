@@ -30,7 +30,7 @@ describe('Test in backend that the banners list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('Publish').click();
 
-      cy.get('#system-message-container').contains('Banner published.').should('exist');
+      cy.checkForSystemMessage('Banner published.');
     });
   });
 
@@ -42,7 +42,7 @@ describe('Test in backend that the banners list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('Unpublish').click();
 
-      cy.get('#system-message-container').contains('Banner unpublished.').should('exist');
+      cy.checkForSystemMessage('Banner unpublished.');
     });
   });
 
@@ -54,7 +54,7 @@ describe('Test in backend that the banners list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('Trash').click();
 
-      cy.get('#system-message-container').contains('Banner trashed.').should('exist');
+      cy.checkForSystemMessage('Banner trashed.');
     });
   });
 
@@ -67,7 +67,7 @@ describe('Test in backend that the banners list', () => {
       cy.clickToolbarButton('empty trash');
       cy.clickDialogConfirm(true);
 
-      cy.get('#system-message-container').contains('Banner deleted.').should('exist');
+      cy.checkForSystemMessage('Banner deleted.');
     });
   });
 });

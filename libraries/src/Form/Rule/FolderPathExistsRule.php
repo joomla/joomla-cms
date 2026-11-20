@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Form\Rule;
 
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
@@ -40,7 +39,7 @@ class FolderPathExistsRule extends FilePathRule
      *
      * @since   4.0.0
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         if (!parent::test($element, $value, $group, $input, $form)) {
             return false;
@@ -64,6 +63,6 @@ class FolderPathExistsRule extends FilePathRule
             return false;
         }
 
-        return Folder::exists($pathCleaned);
+        return is_dir(Path::clean($pathCleaned));
     }
 }

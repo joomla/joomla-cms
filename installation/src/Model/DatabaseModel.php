@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseFactory;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Utilities\ArrayHelper;
 
@@ -29,18 +29,6 @@ use Joomla\Utilities\ArrayHelper;
  */
 class DatabaseModel extends BaseInstallationModel
 {
-    /**
-     * Get the current setup options from the session.
-     *
-     * @return  array  An array of options from the session.
-     *
-     * @since   4.0.0
-     */
-    public function getOptions()
-    {
-        return Factory::getSession()->get('setup.options', []);
-    }
-
     /**
      * Method to initialise the database.
      *
@@ -143,7 +131,7 @@ class DatabaseModel extends BaseInstallationModel
                 || $type === 'pgsql' && strpos($e->getMessage(), 'database "' . $options->db_name . '" does not exist')
             ) {
                 /*
-                 * Now we're really getting insane here; we're going to try building a new JDatabaseDriver instance
+                 * Now we're really getting insane here; we're going to try building a new DatabaseDriver instance
                  * in order to trick the connection into creating the database
                  */
                 if ($type === 'mysql') {
@@ -171,7 +159,7 @@ class DatabaseModel extends BaseInstallationModel
                     ];
                 }
 
-                $altDB = DatabaseDriver::getInstance($altDBoptions);
+                $altDB = (new DatabaseFactory())->getDriver($altDBoptions['driver'], $altDBoptions);
 
                 // Check database server parameters
                 $dbServerCheck = DatabaseHelper::checkDbServerParameters($altDB, $options);
@@ -255,7 +243,7 @@ class DatabaseModel extends BaseInstallationModel
 
         $options = array_merge(['db_created' => 1], $options);
 
-        Factory::getSession()->set('setup.options', $options);
+        Factory::getApplication()->getSession()->set('setup.options', $options);
 
         return true;
     }
@@ -333,8 +321,8 @@ class DatabaseModel extends BaseInstallationModel
     /**
      * Method to backup all tables in a database with a given prefix.
      *
-     * @param   DatabaseDriver  $db      DatabaseDriver object.
-     * @param   string          $prefix  Database table prefix.
+     * @param   DatabaseInterface  $db      Database object.
+     * @param   string             $prefix  Database table prefix.
      *
      * @return  boolean  True on success.
      *

@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 use Joomla\Registry\Registry;
 
@@ -50,7 +51,7 @@ class QuickIconHelper
      *
      * @since   1.6
      */
-    public function getButtons(Registry $params, CMSApplication $application = null)
+    public function getButtons(Registry $params, ?CMSApplication $application = null)
     {
         if ($application == null) {
             $application = Factory::getApplication();
@@ -137,7 +138,7 @@ class QuickIconHelper
                 $tmp = [
                     'image'   => 'icon-folder-open',
                     'link'    => Route::_('index.php?option=com_categories&view=categories&extension=com_content'),
-                    'linkadd' => Route::_('index.php?option=com_categories&task=category.add'),
+                    'linkadd' => Route::_('index.php?option=com_categories&task=category.add&extension=com_content'),
                     'name'    => 'MOD_QUICKICON_CATEGORY_MANAGER',
                     'access'  => ['core.manage', 'com_content', 'core.create', 'com_content'],
                     'group'   => 'MOD_QUICKICON_SITE',
@@ -258,14 +259,14 @@ class QuickIconHelper
             if ($params->get('show_featured')) {
                 $tmp = [
                     'image'  => 'icon-star featured',
-                    'link'   => Route::_('index.php?option=com_content&view=featured'),
+                    'link'   => Route::_('index.php?option=com_content&view=articles&filter[featured]=1'),
                     'name'   => 'MOD_QUICKICON_FEATURED_MANAGER',
                     'access' => ['core.manage', 'com_content'],
                     'group'  => 'MOD_QUICKICON_SITE',
                 ];
 
                 if ($params->get('show_featured') == 2) {
-                    $tmp['ajaxurl'] = 'index.php?option=com_content&amp;task=featured.getQuickiconContent&amp;format=json';
+                    $tmp['ajaxurl'] = 'index.php?option=com_content&amp;task=articles.getQuickiconFeatured&amp;format=json';
                 }
 
                 $this->buttons[$key][] = $tmp;
@@ -382,10 +383,12 @@ class QuickIconHelper
             }
             PluginHelper::importPlugin('quickicon');
 
-            $arrays = (array) $application->triggerEvent(
-                'onGetIcons',
-                new QuickIconsEvent('onGetIcons', ['context' => $context])
-            );
+            $arrays = (array) Factory::getContainer()
+                ->get(DispatcherInterface::class)
+                ->dispatch(
+                    'onGetIcons',
+                    new QuickIconsEvent('onGetIcons', ['context' => $context])
+                )->getArgument('result', []);
 
             foreach ($arrays as $response) {
                 if (!\is_array($response)) {

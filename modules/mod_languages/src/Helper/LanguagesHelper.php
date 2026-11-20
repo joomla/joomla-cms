@@ -28,7 +28,7 @@ use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
  *
  * @since  1.6
  */
-abstract class LanguagesHelper
+class LanguagesHelper
 {
     /**
      * Gets a list of available languages
@@ -36,13 +36,16 @@ abstract class LanguagesHelper
      * @param   \Joomla\Registry\Registry  &$params  module params
      *
      * @return  array
+     *
+     * @since   5.1.0
      */
-    public static function getList(&$params)
+    public function getLanguages(&$params)
     {
-        $user       = Factory::getUser();
-        $lang       = Factory::getLanguage();
-        $languages  = LanguageHelper::getLanguages();
         $app        = Factory::getApplication();
+        $user       = $app->getIdentity();
+        $lang       = $app->getLanguage();
+        $languages  = LanguageHelper::getLanguages();
+
         $menu       = $app->getMenu();
         $active     = $menu->getActive();
 
@@ -59,14 +62,15 @@ abstract class LanguagesHelper
         }
 
         // Load associations
-        $assoc = Associations::isEnabled();
+        $assoc        = Associations::isEnabled();
+        $option       = $app->getInput()->get('option');
+        $associations = [];
 
-        if ($assoc) {
+        if ($assoc && $option) {
             if ($active) {
                 $associations = MenusHelper::getAssociations($active->id);
             }
 
-            $option    = $app->getInput()->get('option');
             $component = $app->bootComponent($option);
 
             if ($component instanceof AssociationServiceInterface) {
@@ -133,5 +137,23 @@ abstract class LanguagesHelper
         }
 
         return $languages;
+    }
+
+    /**
+     * Gets a list of available languages
+     *
+     * @param   \Joomla\Registry\Registry  &$params  module params
+     *
+     * @return  array
+     *
+     * @deprecated 5.1.0 will be removed in 7.0
+     *             Use the non-static method getLanguages
+     *             Example: Factory::getApplication()->bootModule('mod_languages', 'site')
+     *                          ->getHelper('LanguagesHelper')
+     *                          ->getLanguages($params)
+     */
+    public static function getList(&$params)
+    {
+        return (new self())->getLanguages($params);
     }
 }

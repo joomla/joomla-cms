@@ -19,7 +19,7 @@ use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
 /**
  * Dispatcher class for mod_title
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 class Dispatcher extends AbstractModuleDispatcher
 {
@@ -28,13 +28,14 @@ class Dispatcher extends AbstractModuleDispatcher
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function getLayoutData()
     {
         $data = parent::getLayoutData();
 
         // Get the component title div
+        // @deprecated 5.2.0 will be removed in 7.0 as this property is not used anymore see WebApplication
         if (isset($this->getApplication()->JComponentTitle)) {
             $data['title'] = $this->getApplication()->JComponentTitle;
         }

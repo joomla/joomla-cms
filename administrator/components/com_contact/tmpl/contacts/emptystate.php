@@ -12,11 +12,15 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Contact\Administrator\View\Contacts\HtmlView $this */
+
 $displayData = [
     'textPrefix' => 'COM_CONTACT',
     'formURL'    => 'index.php?option=com_contact',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help4.x:Contacts',
+    'helpURL'    => 'https://guide.joomla.org/user-manual/contacts',
     'icon'       => 'icon-address-book contact',
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 $user = $this->getCurrentUser();

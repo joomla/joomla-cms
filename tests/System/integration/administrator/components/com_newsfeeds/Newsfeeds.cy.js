@@ -30,7 +30,7 @@ describe('Test in backend that the newsfeeds list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('Publish').click();
 
-      cy.get('#system-message-container').contains('News feed published.').should('exist');
+      cy.checkForSystemMessage('News feed published.');
     });
   });
 
@@ -42,7 +42,7 @@ describe('Test in backend that the newsfeeds list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('Unpublish').click();
 
-      cy.get('#system-message-container').contains('News feed unpublished.').should('exist');
+      cy.checkForSystemMessage('News feed unpublished.');
     });
   });
 
@@ -54,7 +54,7 @@ describe('Test in backend that the newsfeeds list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('Trash').click();
 
-      cy.get('#system-message-container').contains('News feed trashed.').should('exist');
+      cy.checkForSystemMessage('News feed trashed.');
     });
   });
 
@@ -67,7 +67,7 @@ describe('Test in backend that the newsfeeds list', () => {
       cy.clickToolbarButton('empty trash');
       cy.clickDialogConfirm(true);
 
-      cy.get('#system-message-container').contains('News feed deleted.').should('exist');
+      cy.checkForSystemMessage('News feed deleted.');
     });
   });
 });

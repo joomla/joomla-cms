@@ -140,12 +140,12 @@ abstract class Select
         $id = str_replace(['[', ']', ' '], '', $id);
 
         // If the selectbox contains "form-select-color-state" then load the JS file
-        if (strpos($attribs, 'form-select-color-state') !== false) {
+        if (str_contains($attribs, 'form-select-color-state')) {
             Factory::getDocument()->getWebAssetManager()
                 ->registerAndUseScript(
                     'webcomponent.select-colour',
                     'system/fields/select-colour.min.js',
-                    ['dependencies' => ['wcpolyfill']],
+                    ['dependencies' => ['core']],
                     ['type'         => 'module']
                 );
         }
@@ -193,7 +193,7 @@ abstract class Select
         // Set default options and overwrite with anything passed in
         $options = array_merge(
             HTMLHelper::$formatOptions,
-            ['format.depth' => 0, 'group.items' => 'items', 'group.label' => 'text', 'group.label.toHtml' => true, 'id' => false],
+            ['format.depth' => 0, 'group.items' => 'items', 'group.label' => 'text', 'group.attr' => 'attr', 'group.class' => 'class', 'group.label.toHtml' => true, 'id' => false],
             $options
         );
 
@@ -228,9 +228,11 @@ abstract class Select
         $groupIndent = str_repeat($options['format.indent'], $options['format.depth']++);
 
         foreach ($data as $dataKey => $group) {
-            $label   = $dataKey;
-            $id      = '';
-            $noGroup = \is_int($dataKey);
+            $label        = $dataKey;
+            $id           = '';
+            $groupClass   = '';
+            $groupAttribs = '';
+            $noGroup      = \is_int($dataKey);
 
             if ($options['group.items'] == null) {
                 // Sub-list is an associative array
@@ -244,9 +246,19 @@ abstract class Select
                     $noGroup = false;
                 }
 
-                if (isset($options['group.id']) && isset($group[$options['group.id']])) {
+                if (isset($options['group.id'], $group[$options['group.id']])) {
                     $id      = $group[$options['group.id']];
                     $noGroup = false;
+                }
+
+                if (isset($options['group.class'], $group[$options['group.class']])) {
+                    $groupClass = $group[$options['group.class']];
+                    $noGroup    = false;
+                }
+
+                if (isset($options['group.attr'], $group[$options['group.attr']])) {
+                    $groupAttribs = $group[$options['group.attr']];
+                    $noGroup      = false;
                 }
             } elseif (\is_object($group)) {
                 // Sub-list is in a property of an object
@@ -257,9 +269,19 @@ abstract class Select
                     $noGroup = false;
                 }
 
-                if (isset($options['group.id']) && isset($group->{$options['group.id']})) {
+                if (isset($options['group.id'], $group->{$options['group.id']})) {
                     $id      = $group->{$options['group.id']};
                     $noGroup = false;
+                }
+
+                if (isset($options['group.class'], $group->{$options['group.class']})) {
+                    $groupClass = $group->{$options['group.class']};
+                    $noGroup    = false;
+                }
+
+                if (isset($options['group.attr'], $group->{$options['group.attr']})) {
+                    $groupAttribs = $group->{$options['group.attr']};
+                    $noGroup      = false;
                 }
             } else {
                 throw new \RuntimeException('Invalid group contents.', 1);
@@ -268,9 +290,22 @@ abstract class Select
             if ($noGroup) {
                 $html .= static::options($subList, $options);
             } else {
-                $html .= $groupIndent . '<optgroup' . (empty($id) ? '' : ' id="' . $id . '"') . ' label="'
-                    . ($options['group.label.toHtml'] ? htmlspecialchars($label, ENT_COMPAT, 'UTF-8') : $label) . '">' . $options['format.eol']
-                    . static::options($subList, $options) . $groupIndent . '</optgroup>' . $options['format.eol'];
+                if (\is_array($groupAttribs)) {
+                    $groupAttribs = ArrayHelper::toString($groupAttribs);
+                }
+
+                $html .= $groupIndent
+                    . '<optgroup'
+                    . (empty($id) ? '' : ' id="' . $id . '"')
+                    . ' label="' . ($options['group.label.toHtml'] ? htmlspecialchars($label, ENT_COMPAT, 'UTF-8') : $label) . '"'
+                    . (empty($groupClass) ? '' : ' class="' . $groupClass . '"')
+                    . (empty($groupAttribs) ? '' : ' ' . $groupAttribs)
+                    . '>'
+                    . $options['format.eol']
+                    . static::options($subList, $options)
+                    . $groupIndent
+                    . '</optgroup>'
+                    . $options['format.eol'];
             }
         }
 
@@ -321,7 +356,7 @@ abstract class Select
         $data = [];
 
         for ($i = $start; $i <= $end; $i += $inc) {
-            $data[$i] = $format ? sprintf($format, $i) : $i;
+            $data[$i] = $format ? \sprintf($format, $i) : $i;
         }
 
         // Tell genericlist() to use array keys
@@ -350,10 +385,10 @@ abstract class Select
      *                             option.label: The property in each option array to use as the
      *                             selection label attribute. If a "label" option is provided, defaults to
      *                             "label", if no label is given, defaults to null (none).
-     *                             option.text: The property that will hold the the displayed text.
+     *                             option.text: The property that will hold the displayed text.
      *                             Defaults to "text". If set to null, the option array is assumed to be a
      *                             list of displayable scalars.
-     * @param   string   $optText  The property that will hold the the displayed text. This
+     * @param   string   $optText  The property that will hold the displayed text. This
      *                             parameter is ignored if an options array is passed.
      * @param   boolean  $disable  Not used.
      *
@@ -385,7 +420,7 @@ abstract class Select
 
         $obj                            = new \stdClass();
         $obj->{$options['option.key']}  = $value;
-        $obj->{$options['option.text']} = trim($text) ? $text : $value;
+        $obj->{$options['option.text']} = trim($text) !== '' ? $text : $value;
 
         /*
          * If a label is provided, save it. If no label is provided and there is
@@ -445,7 +480,7 @@ abstract class Select
      *                                Defaults to "disable".
      *                               -option.key: The property that will hold the selection value.
      *                                Defaults to "value".
-     *                               -option.text: The property that will hold the the displayed text.
+     *                               -option.text: The property that will hold the displayed text.
      *                               Defaults to "text". If set to null, the option array is assumed to be a
      *                               list of displayable scalars.
      * @param   string   $optText    The name of the object variable for the option text.
@@ -488,46 +523,46 @@ abstract class Select
                 $key  = $options['option.key'] === null ? $elementKey : $element[$options['option.key']];
                 $text = $element[$options['option.text']];
 
-                if (isset($element[$options['option.attr']])) {
+                if ($options['option.attr'] !== null && isset($element[$options['option.attr']])) {
                     $attr = $element[$options['option.attr']];
                 }
 
-                if (isset($element[$options['option.id']])) {
+                if ($options['option.id'] !== null && isset($element[$options['option.id']])) {
                     $id = $element[$options['option.id']];
                 }
 
-                if (isset($element[$options['option.label']])) {
+                if ($options['option.label'] !== null && isset($element[$options['option.label']])) {
                     $label = $element[$options['option.label']];
                 }
 
-                if (isset($element[$options['option.disable']]) && $element[$options['option.disable']]) {
+                if ($options['option.disable'] !== null && isset($element[$options['option.disable']]) && $element[$options['option.disable']]) {
                     $extra .= ' disabled="disabled"';
                 }
             } elseif (\is_object($element)) {
                 $key  = $options['option.key'] === null ? $elementKey : $element->{$options['option.key']};
                 $text = $element->{$options['option.text']};
 
-                if (isset($element->{$options['option.attr']})) {
+                if ($options['option.attr'] !== null && isset($element->{$options['option.attr']})) {
                     $attr = $element->{$options['option.attr']};
                 }
 
-                if (isset($element->{$options['option.id']})) {
+                if ($options['option.id'] !== null && isset($element->{$options['option.id']})) {
                     $id = $element->{$options['option.id']};
                 }
 
-                if (isset($element->{$options['option.label']})) {
+                if ($options['option.label'] !== null && isset($element->{$options['option.label']})) {
                     $label = $element->{$options['option.label']};
                 }
 
-                if (isset($element->{$options['option.disable']}) && $element->{$options['option.disable']}) {
+                if ($options['option.disable'] !== null && isset($element->{$options['option.disable']}) && $element->{$options['option.disable']}) {
                     $extra .= ' disabled="disabled"';
                 }
 
-                if (isset($element->{$options['option.class']}) && $element->{$options['option.class']}) {
+                if ($options['option.class'] !== null && isset($element->{$options['option.class']}) && $element->{$options['option.class']}) {
                     $extra .= ' class="' . $element->{$options['option.class']} . '"';
                 }
 
-                if (isset($element->{$options['option.onclick']}) && $element->{$options['option.onclick']}) {
+                if ($options['option.onclick'] !== null && isset($element->{$options['option.onclick']}) && $element->{$options['option.onclick']}) {
                     $extra .= ' onclick="' . $element->{$options['option.onclick']} . '"';
                 }
             } else {
@@ -547,9 +582,19 @@ abstract class Select
             $key = (string) $key;
 
             if ($key === '<OPTGROUP>' && $options['groups']) {
+                @trigger_error(
+                    'Support for optgroup workaround is deprecated and will be removed in 8.0. Use select.groupedlist instead.',
+                    E_USER_DEPRECATED
+                );
+
                 $html .= $baseIndent . '<optgroup label="' . ($options['list.translate'] ? Text::_($text) : $text) . '">' . $options['format.eol'];
                 $baseIndent = str_repeat($options['format.indent'], ++$options['format.depth']);
             } elseif ($key === '</OPTGROUP>' && $options['groups']) {
+                @trigger_error(
+                    'Support for optgroup workaround is deprecated and will be removed in 8.0. Use select.groupedlist instead.',
+                    E_USER_DEPRECATED
+                );
+
                 $baseIndent = str_repeat($options['format.indent'], --$options['format.depth']);
                 $html .= $baseIndent . '</optgroup>' . $options['format.eol'];
             } else {
@@ -631,7 +676,14 @@ abstract class Select
         $idtag = false,
         $translate = false
     ) {
+        $class = '';
+
         if (\is_array($attribs)) {
+            if (\array_key_exists('class', $attribs)) {
+                $class = ' ' . $attribs['class'];
+                unset($attribs['class']);
+            }
+
             $attribs = ArrayHelper::toString($attribs);
         }
 
@@ -662,7 +714,7 @@ abstract class Select
                 $extra .= ((string) $k === (string) $selected ? ' checked="checked" ' : '');
             }
 
-            $html .= '<input type="radio" class="form-check-input" name="' . $name . '" id="' . $id . '" value="' . $k . '" '
+            $html .= '<input type="radio" class="form-check-input' . $class . '" name="' . $name . '" id="' . $id . '" value="' . $k . '" '
                     . $extra . $attribs . '>';
             $html .= '<label for="' . $id . '" class="form-check-label" id="' . $id . '-lbl">' . $t . '</label>';
             $html .= '</div>';

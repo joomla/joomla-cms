@@ -16,8 +16,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 $displayData = [
     'textPrefix' => 'COM_PRIVACY_REQUESTS',
     'formURL'    => 'index.php?option=com_privacy&view=requests',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Privacy:_Information_Requests',
+    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Privacy:_Information_Requests',
     'icon'       => 'icon-lock',
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 if (Factory::getApplication()->get('mailonline', 1)) {

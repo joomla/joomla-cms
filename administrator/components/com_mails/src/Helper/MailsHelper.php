@@ -11,6 +11,7 @@
 namespace Joomla\Component\Mails\Administrator\Helper;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -56,15 +57,18 @@ abstract class MailsHelper
     }
 
     /**
-     * Load the translation files for an extension
+     * Load the translation files for an extension. The language can either be a
+     * string or a language object. If it is an object, then the translations
+     * will be loaded into that instance instead of the global language.
      *
-     * @param   string  $extension  Extension name
+     * @param   string           $extension  Extension name
+     * @param   string|Language  $language   Language to load
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public static function loadTranslationFiles($extension)
+    public static function loadTranslationFiles($extension, $language = 'en-GB')
     {
         static $cache = [];
 
@@ -74,13 +78,22 @@ abstract class MailsHelper
             return;
         }
 
-        $lang   = Factory::getLanguage();
+        $lang   = Factory::getApplication()->getLanguage();
         $source = '';
+
+        if ($language instanceof Language) {
+            $lang     = $language;
+            $language = $language->getTag();
+        }
 
         switch (substr($extension, 0, 3)) {
             case 'com':
             default:
                 $source = JPATH_ADMINISTRATOR . '/components/' . $extension;
+
+                $lang->load($extension, JPATH_SITE, $language, true)
+                || $lang->load($extension, JPATH_SITE . '/components/' . $extension, $language, true);
+
                 break;
 
             case 'mod':
@@ -96,12 +109,12 @@ abstract class MailsHelper
                 break;
         }
 
-        $lang->load($extension, JPATH_ADMINISTRATOR)
-        || $lang->load($extension, $source);
+        $lang->load($extension, JPATH_ADMINISTRATOR, $language, true)
+        || $lang->load($extension, $source, $language, true);
 
         if (!$lang->hasKey(strtoupper($extension))) {
-            $lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
-            || $lang->load($extension . '.sys', $source);
+            $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $language, true)
+            || $lang->load($extension . '.sys', $source, $language, true);
         }
 
         $cache[$extension] = true;

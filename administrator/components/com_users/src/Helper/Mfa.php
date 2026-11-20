@@ -1,16 +1,15 @@
 <?php
 
 /**
- * @package        Joomla.Administrator
- * @subpackage     com_users
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
  *
- * @copyright  (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license        GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Users\Administrator\Helper;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Document\HtmlDocument;
@@ -78,7 +77,7 @@ abstract class Mfa
         /** @var CMSApplication $app */
         $app = Factory::getApplication();
 
-        if (!$app->getInput()->getCmd('option', '') === 'com_users') {
+        if ($app->getInput()->getCmd('option', '') !== 'com_users') {
             $app->getLanguage()->load('com_users');
             $app->getDocument()
                 ->getWebAssetManager()
@@ -110,10 +109,10 @@ abstract class Mfa
         $view->setModel($methodsModel, true);
         /** @noinspection PhpParamsInspection */
         $view->setModel($backupCodesModel);
-        $view->document  = $app->getDocument();
+        $view->setDocument($app->getDocument());
         $view->returnURL = base64_encode(Uri::getInstance()->toString());
         $view->user      = $user;
-        $view->set('forHMVC', true);
+        $view->forHMVC   = true;
         $view->setLanguage($app->getLanguage());
 
         @ob_start();
@@ -265,7 +264,7 @@ abstract class Mfa
 
         /** @var DatabaseInterface $db */
         $db    = Factory::getContainer()->get(DatabaseInterface::class);
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__user_mfa'))
             ->where($db->quoteName('user_id') . ' = :user_id')
@@ -273,7 +272,7 @@ abstract class Mfa
 
         try {
             $ids = $db->setQuery($query)->loadColumn() ?: [];
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $ids = [];
         }
 
@@ -318,6 +317,40 @@ abstract class Mfa
         }
 
         return $records;
+    }
+
+    /**
+     * Could the user still owe a Multi-factor Authentication step after their password login?
+     *
+     * This is a conservative check used to decide whether issuing a persistent credential
+     * (e.g. a Remember Me cookie) must be deferred until the login is fully complete. It
+     * returns true when the user either has MFA records or belongs to a user group which
+     * enforces MFA setup. The final decision on whether the captive MFA page or the
+     * mandatory setup page is actually shown lies with the MultiFactorAuthenticationHandler.
+     *
+     * @param   User  $user  The user to check
+     *
+     * @return  boolean
+     * @throws  \Exception
+     *
+     * @since   6.1.4
+     */
+    public static function userMayNeedMfaGate(User $user): bool
+    {
+        if ($user->guest) {
+            return false;
+        }
+
+        // The user has MFA records, so the captive MFA page may apply.
+        if (\count(self::getUserMfaRecords((int) $user->id))) {
+            return true;
+        }
+
+        // The user is in a group which enforces MFA, so the mandatory setup page may apply.
+        $forceMFAUserGroups = ComponentHelper::getParams('com_users')->get('forceMFAUserGroups', []);
+        $forceMFAUserGroups = \is_array($forceMFAUserGroups) ? $forceMFAUserGroups : [];
+
+        return \count(array_intersect($forceMFAUserGroups, $user->getAuthorisedGroups())) >= 1;
     }
 
     /**

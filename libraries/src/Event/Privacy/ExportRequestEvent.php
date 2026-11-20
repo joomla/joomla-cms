@@ -36,7 +36,7 @@ class ExportRequestEvent extends PrivacyEvent implements ResultAwareInterface
      * @var array
      *
      * @since  5.0.0
-     * @deprecated 5.0 will be removed in 6.0
+     * @deprecated 5.0 will be removed in 7.0
      */
     protected $legacyArgumentsOrder = ['subject', 'user'];
 
@@ -129,14 +129,14 @@ class ExportRequestEvent extends PrivacyEvent implements ResultAwareInterface
     public function typeCheckResult($data): void
     {
         if (!\is_array($data)) {
-            throw new \InvalidArgumentException(sprintf('Event %s only accepts Array results.', \get_class($this)));
+            throw new \InvalidArgumentException(\sprintf('Event %s only accepts Array results.', \get_class($this)));
         }
 
         // Validate items in array
         foreach ($data as $item) {
             if (!$item instanceof Domain) {
                 throw new \InvalidArgumentException(
-                    sprintf(
+                    \sprintf(
                         'Event %s only accepts Joomla\Component\Privacy\Administrator\Export\Domain in result array.',
                         \get_class($this)
                     )

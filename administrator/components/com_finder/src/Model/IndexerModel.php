@@ -38,13 +38,6 @@ class IndexerModel extends FormModel
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_finder.indexer', 'indexer', ['control' => '', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_finder.indexer', 'indexer', ['control' => '', 'load_data' => $loadData]);
     }
 }

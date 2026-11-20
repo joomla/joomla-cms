@@ -11,6 +11,10 @@
 namespace Joomla\Component\Contact\Site\View\Contact;
 
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Event\Content\AfterDisplayEvent;
+use Joomla\CMS\Event\Content\AfterTitleEvent;
+use Joomla\CMS\Event\Content\BeforeDisplayEvent;
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -21,6 +25,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
+use Joomla\Component\Contact\Site\Model\ContactModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -56,7 +61,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
     /**
      * The item object details
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var    \stdClass
      *
      * @since  1.6
      */
@@ -136,11 +141,13 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
      */
     public function display($tpl = null)
     {
+        /** @var ContactModel $model */
+        $model      = $this->getModel();
         $app        = Factory::getApplication();
         $user       = $this->getCurrentUser();
-        $state      = $this->get('State');
-        $item       = $this->get('Item');
-        $this->form = $this->get('Form');
+        $state      = $model->getState();
+        $item       = $model->getItem();
+        $this->form = $model->getForm();
         $params     = $state->get('params');
         $contacts   = [];
 
@@ -193,7 +200,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -237,79 +244,65 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         switch ($item->params->get('contact_icons')) {
             case 1:
                 // Text
-                $item->params->set('marker_address', Text::_('COM_CONTACT_ADDRESS') . ': ');
-                $item->params->set('marker_email', Text::_('JGLOBAL_EMAIL') . ': ');
-                $item->params->set('marker_telephone', Text::_('COM_CONTACT_TELEPHONE') . ': ');
-                $item->params->set('marker_fax', Text::_('COM_CONTACT_FAX') . ': ');
-                $item->params->set('marker_mobile', Text::_('COM_CONTACT_MOBILE') . ': ');
-                $item->params->set('marker_webpage', Text::_('COM_CONTACT_WEBPAGE') . ': ');
-                $item->params->set('marker_misc', Text::_('COM_CONTACT_OTHER_INFORMATION') . ': ');
                 $item->params->set('marker_class', 'jicons-text');
                 break;
 
             case 2:
                 // None
-                $item->params->set('marker_address', '');
-                $item->params->set('marker_email', '');
-                $item->params->set('marker_telephone', '');
-                $item->params->set('marker_mobile', '');
-                $item->params->set('marker_fax', '');
-                $item->params->set('marker_misc', '');
-                $item->params->set('marker_webpage', '');
-                $item->params->set('marker_class', 'jicons-none');
+                $item->params->set('marker_class', 'jicons-none visually-hidden');
                 break;
 
             default:
                 if ($item->params->get('icon_address')) {
                     $item->params->set(
                         'marker_address',
-                        HTMLHelper::_('image', $item->params->get('icon_address', ''), Text::_('COM_CONTACT_ADDRESS'), false)
+                        HTMLHelper::_('image', $item->params->get('icon_address', ''), '', false)
                     );
                 }
 
                 if ($item->params->get('icon_email')) {
                     $item->params->set(
                         'marker_email',
-                        HTMLHelper::_('image', $item->params->get('icon_email', ''), Text::_('COM_CONTACT_EMAIL'), false)
+                        HTMLHelper::_('image', $item->params->get('icon_email', ''), '', false)
                     );
                 }
 
                 if ($item->params->get('icon_telephone')) {
                     $item->params->set(
                         'marker_telephone',
-                        HTMLHelper::_('image', $item->params->get('icon_telephone', ''), Text::_('COM_CONTACT_TELEPHONE'), false)
+                        HTMLHelper::_('image', $item->params->get('icon_telephone', ''), '', false)
                     );
                 }
 
-                if ($item->params->get('icon_fax', '')) {
+                if ($item->params->get('icon_fax')) {
                     $item->params->set(
                         'marker_fax',
-                        HTMLHelper::_('image', $item->params->get('icon_fax', ''), Text::_('COM_CONTACT_FAX'), false)
+                        HTMLHelper::_('image', $item->params->get('icon_fax', ''), '', false)
                     );
                 }
 
                 if ($item->params->get('icon_misc')) {
                     $item->params->set(
                         'marker_misc',
-                        HTMLHelper::_('image', $item->params->get('icon_misc', ''), Text::_('COM_CONTACT_OTHER_INFORMATION'), false)
+                        HTMLHelper::_('image', $item->params->get('icon_misc', ''), '', false)
                     );
                 }
 
                 if ($item->params->get('icon_mobile')) {
                     $item->params->set(
                         'marker_mobile',
-                        HTMLHelper::_('image', $item->params->get('icon_mobile', ''), Text::_('COM_CONTACT_MOBILE'), false)
+                        HTMLHelper::_('image', $item->params->get('icon_mobile', ''), '', false)
                     );
                 }
 
                 if ($item->params->get('icon_webpage')) {
                     $item->params->set(
                         'marker_webpage',
-                        HTMLHelper::_('image', $item->params->get('icon_webpage', ''), Text::_('COM_CONTACT_WEBPAGE'), false)
+                        HTMLHelper::_('image', $item->params->get('icon_webpage', ''), '', false)
                     );
                 }
 
-                $item->params->set('marker_class', 'jicons-icons');
+                $item->params->set('marker_class', 'jicons-icons visually-hidden');
                 break;
         }
 
@@ -323,7 +316,8 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         }
 
         // Process the content plugins.
-        PluginHelper::importPlugin('content');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
         $offset = $state->get('list.offset');
 
         // Fix for where some plugins require a text attribute
@@ -333,18 +327,29 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
             $item->text = $item->misc;
         }
 
-        $app->triggerEvent('onContentPrepare', ['com_contact.contact', &$item, &$item->params, $offset]);
+        $contentEventArguments = [
+            'context' => 'com_contact.contact',
+            'subject' => $item,
+            'params'  => $item->params,
+            'page'    => $offset,
+        ];
+
+        $dispatcher->dispatch('onContentPrepare', new ContentPrepareEvent('onContentPrepare', $contentEventArguments));
 
         // Store the events for later
-        $item->event                    = new \stdClass();
-        $results                        = $app->triggerEvent('onContentAfterTitle', ['com_contact.contact', &$item, &$item->params, $offset]);
-        $item->event->afterDisplayTitle = trim(implode("\n", $results));
+        $item->event = new \stdClass();
 
-        $results                           = $app->triggerEvent('onContentBeforeDisplay', ['com_contact.contact', &$item, &$item->params, $offset]);
-        $item->event->beforeDisplayContent = trim(implode("\n", $results));
+        $contentEvents = [
+            'afterDisplayTitle'    => new AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
+            'beforeDisplayContent' => new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
+            'afterDisplayContent'  => new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
+        ];
 
-        $results                          = $app->triggerEvent('onContentAfterDisplay', ['com_contact.contact', &$item, &$item->params, $offset]);
-        $item->event->afterDisplayContent = trim(implode("\n", $results));
+        foreach ($contentEvents as $resultKey => $event) {
+            $results = $dispatcher->dispatch($event->getName(), $event)->getArgument('result', []);
+
+            $item->event->{$resultKey} = trim(implode("\n", $results));
+        }
 
         if (!empty($item->text)) {
             $item->misc = $item->text;
@@ -354,7 +359,12 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
 
         if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = $this->getUserFactory()->loadUserById($item->user_id)) {
             $contactUser->text = '';
-            $app->triggerEvent('onContentPrepare', ['com_users.user', &$contactUser, &$item->params, 0]);
+            $dispatcher->dispatch('onContentPrepare', new ContentPrepareEvent('onContentPrepare', [
+                'context' => 'com_users.user',
+                'subject' => $contactUser,
+                'params'  => $item->params,
+                'page'    => 0,
+            ]));
 
             if (!isset($contactUser->jcfields)) {
                 $contactUser->jcfields = [];
@@ -371,8 +381,10 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         $this->contacts    = &$contacts;
         $this->contactUser = $contactUser;
 
-        $model = $this->getModel();
-        $model->hit();
+        if (\in_array($app->getInput()->getMethod(), ['GET', 'POST'])) {
+            $model = $this->getModel();
+            $model->hit();
+        }
 
         $captchaSet = $item->params->get('captcha', $app->get('captcha', '0'));
 

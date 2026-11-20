@@ -10,12 +10,17 @@
 
 namespace Joomla\Component\Content\Site\View\Archive;
 
+use Joomla\CMS\Event\Content\AfterDisplayEvent;
+use Joomla\CMS\Event\Content\AfterTitleEvent;
+use Joomla\CMS\Event\Content\BeforeDisplayEvent;
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Content\Site\Model\ArchiveModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -115,12 +120,15 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        /** @var ArchiveModel $model */
+        $model      = $this->getModel();
+        $app        = Factory::getApplication();
         $user       = $this->getCurrentUser();
-        $state      = $this->get('State');
-        $items      = $this->get('Items');
-        $pagination = $this->get('Pagination');
+        $state      = $model->getState();
+        $items      = $model->getItems();
+        $pagination = $model->getPagination();
 
-        if ($errors = $this->getModel()->getErrors()) {
+        if ($errors = $model->getErrors()) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -128,9 +136,10 @@ class HtmlView extends BaseHtmlView
         $pagination->hideEmptyLimitstart = true;
 
         // Get the page/component configuration
-        $params = &$state->params;
+        $params = $state->get('params');
 
-        PluginHelper::importPlugin('content');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
         foreach ($items as $item) {
             $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
@@ -147,19 +156,32 @@ class HtmlView extends BaseHtmlView
                 $item->text = $item->introtext;
             }
 
-            Factory::getApplication()->triggerEvent('onContentPrepare', ['com_content.archive', &$item, &$item->params, 0]);
+            $contentEventArguments = [
+                'context' => 'com_content.archive',
+                'subject' => $item,
+                'params'  => $item->params,
+                'page'    => 0,
+            ];
+
+            $dispatcher->dispatch(
+                'onContentPrepare',
+                new ContentPrepareEvent('onContentPrepare', $contentEventArguments)
+            );
 
             // Old plugins: Use processed text as introtext
             $item->introtext = $item->text;
 
-            $results                        = Factory::getApplication()->triggerEvent('onContentAfterTitle', ['com_content.archive', &$item, &$item->params, 0]);
-            $item->event->afterDisplayTitle = trim(implode("\n", $results));
+            $contentEvents = [
+                'afterDisplayTitle'    => new AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
+                'beforeDisplayContent' => new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
+                'afterDisplayContent'  => new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
+            ];
 
-            $results                           = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_content.archive', &$item, &$item->params, 0]);
-            $item->event->beforeDisplayContent = trim(implode("\n", $results));
+            foreach ($contentEvents as $resultKey => $event) {
+                $results = $dispatcher->dispatch($event->getName(), $event)->getArgument('result', []);
 
-            $results                          = Factory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_content.archive', &$item, &$item->params, 0]);
-            $item->event->afterDisplayContent = trim(implode("\n", $results));
+                $item->event->{$resultKey} = trim(implode("\n", $results));
+            }
         }
 
         $form = new \stdClass();
@@ -196,8 +218,8 @@ class HtmlView extends BaseHtmlView
         $years       = [];
         $years[]     = HTMLHelper::_('select.option', null, Text::_('JYEAR'));
 
-        for ($i = 0, $iMax = \count($this->years); $i < $iMax; $i++) {
-            $years[] = HTMLHelper::_('select.option', $this->years[$i], $this->years[$i]);
+        foreach ($this->years as $year) {
+            $years[] = HTMLHelper::_('select.option', $year, $year);
         }
 
         $form->yearField = HTMLHelper::_(
@@ -219,6 +241,8 @@ class HtmlView extends BaseHtmlView
         $this->pagination = &$pagination;
         $this->pagination->setAdditionalUrlParam('month', $state->get('filter.month'));
         $this->pagination->setAdditionalUrlParam('year', $state->get('filter.year'));
+        $this->pagination->setAdditionalUrlParam('filter-search', $state->get('list.filter'));
+        $this->pagination->setAdditionalUrlParam('catid', $app->getInput()->get->get('catid', [], 'array'));
 
         $this->_prepareDocument();
 

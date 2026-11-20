@@ -14,11 +14,9 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\Component\Associations\Administrator\Model\AssociationModel;
@@ -224,11 +222,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var AssociationModel $model */
         $model = $this->getModel();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $model->setUseExceptions(true);
 
         $this->app  = Factory::getApplication();
         $this->form = $model->getForm();
@@ -255,6 +249,32 @@ class HtmlView extends BaseHtmlView
 
             if (!empty($this->typeSupports['save2copy'])) {
                 $this->save2copy = true;
+            }
+
+            if (\array_key_exists('urlOptions', $details)) {
+                $urlOptions     = $details['urlOptions'];
+                $specialOptions = [];
+
+                foreach ($urlOptions as $tag => $urlOption) {
+                    $helper = $extension->get('helper');
+
+                    if (\array_key_exists('functionName', $urlOption)) {
+                        $func = $urlOption['functionName'];
+                        $args = [];
+
+                        if (\array_key_exists('params', $urlOption)) {
+                            $params = $urlOption['params'];
+
+                            foreach ($params as $param) {
+                                $args[] = $input->get($param);
+                            }
+                        }
+
+                        $value = \call_user_func_array([$helper, $func], $args);
+                    }
+
+                    $specialOptions[$tag] = $value;
+                }
             }
         }
 
@@ -295,6 +315,10 @@ class HtmlView extends BaseHtmlView
             ];
         }
 
+        if (!empty($specialOptions)) {
+            $options = array_merge($options, $specialOptions);
+        }
+
         // Reference and target edit links.
         $this->editUri = 'index.php?' . http_build_query($options);
 
@@ -322,6 +346,11 @@ class HtmlView extends BaseHtmlView
         }
 
         $this->addToolbar();
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task')
+            ->addControlField('target-id', '', ['id' => 'target-id']);
 
         parent::display($tpl);
     }
@@ -358,7 +387,7 @@ class HtmlView extends BaseHtmlView
             'language assoc'
         );
 
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
         $toolbar->customButton('reference')
             ->html('<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'reference\')" '
             . 'class="btn btn-success"><span class="icon-save" aria-hidden="true"></span>'

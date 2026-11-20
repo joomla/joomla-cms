@@ -15,7 +15,7 @@ describe('Test in frontend that the login module', () => {
       cy.get('#modlgn-username-16').type('test');
       cy.get('#modlgn-passwd-16').type('test');
       cy.get('input[name="remember"]').check();
-      cy.get('.mod-login__submit > .btn').click();
+      cy.get('button[name="Submit"]').click();
 
       cy.get('.mod-login-logout').should('contain.text', 'Hi automated test user');
     });

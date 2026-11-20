@@ -16,13 +16,12 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Scheduler\Administrator\View\Select\HtmlView;
 
-/** @var  HtmlView  $this */
+/** @var  \Joomla\Component\Scheduler\Administrator\View\Select\HtmlView  $this */
 
 $app = $this->app;
 
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_scheduler.admin-view-select-task-search');
 
 ?>

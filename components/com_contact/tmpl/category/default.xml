@@ -138,6 +138,17 @@
 			</field>
 
 			<field
+				name="show_subcat_image"
+				type="list"
+				label="JGLOBAL_SHOW_SUBCATEGORIES_IMAGE_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
 				name="show_cat_items"
 				type="list"
 				label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
@@ -757,6 +768,7 @@
 				name="custom_reply"
 				type="list"
 				label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
+				description="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_DESC"
 				useglobal="true"
 				class="form-select-color-state"
 				validate="options"

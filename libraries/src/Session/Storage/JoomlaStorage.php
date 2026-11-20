@@ -68,12 +68,12 @@ class JoomlaStorage extends NativeStorage
      * Constructor
      *
      * @param   Input                     $input    Input object
-     * @param   \SessionHandlerInterface  $handler  Session save handler
+     * @param   ?\SessionHandlerInterface  $handler  Session save handler
      * @param   array                     $options  Session options
      *
      * @since   4.0.0
      */
-    public function __construct(Input $input, \SessionHandlerInterface $handler = null, array $options = [])
+    public function __construct(Input $input, ?\SessionHandlerInterface $handler = null, array $options = [])
     {
         // Disable transparent sid support and default use cookies
         $options += [
@@ -301,12 +301,12 @@ class JoomlaStorage extends NativeStorage
         // Get the cookie object
         $cookie = $this->input->cookie;
 
-        if (\is_null($cookie->get($session_name))) {
+        if (empty(\ini_get('session.use_only_cookies')) && \is_null($cookie->get($session_name))) {
             $session_clean = $this->input->getString($session_name);
 
             if ($session_clean) {
                 $this->setId($session_clean);
-                $cookie->set($session_name, '', time() - 3600);
+                $cookie->set($session_name, '', ['expires' => time() - 3600 ]);
             }
         }
 

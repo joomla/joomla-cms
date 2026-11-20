@@ -40,11 +40,11 @@ class RulesRule extends FormRule
      *
      * @since   1.7.0
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         // Get the possible field actions and the ones posted to validate them.
-        $fieldActions = self::getFieldActions($element);
-        $valueActions = self::getValueActions($value);
+        $fieldActions = $this->getFieldActions($element);
+        $valueActions = $this->getValueActions($value);
 
         // Make sure that all posted actions are in the list of possible actions for the field.
         foreach ($valueActions as $action) {

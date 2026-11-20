@@ -48,13 +48,13 @@ class FinderHelper
 
         // Initialise our variables
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Sanitise the term for the database
         $temp              = new \stdClass();
         $temp->input       = trim(strtolower((string) $searchquery->input));
         $entry             = new \stdClass();
-        $entry->searchterm = $temp->input;
+        $entry->searchterm = mb_substr(trim($temp->input), 0, 255);
         $entry->query      = serialize($temp);
         $entry->md5sum     = md5($entry->query);
         $entry->hits       = 1;

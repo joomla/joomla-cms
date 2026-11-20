@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Component\Templates\Administrator\View\Template\HtmlView $this */
 ?>
 <div id="template-manager-delete" class="container-fluid">
     <div class="mt-2">

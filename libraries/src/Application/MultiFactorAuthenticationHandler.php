@@ -9,11 +9,13 @@
 
 namespace Joomla\CMS\Application;
 
+use Joomla\CMS\Authentication\RememberMe;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Encrypt\Aes;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\User as UserTable;
 use Joomla\CMS\Uri\Uri;
@@ -21,6 +23,7 @@ use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -59,7 +62,7 @@ trait MultiFactorAuthenticationHandler
         // Multi-factor Authentication checks take place only for logged in users.
         try {
             $user = $this->getIdentity();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
@@ -161,6 +164,30 @@ trait MultiFactorAuthenticationHandler
             }
         }
 
+        /**
+         * Consume a deferred Remember Me request now that the captive MFA page turned out not to
+         * apply (no viable MFA records or the user's groups are exempt from MFA) and no mandatory
+         * MFA setup is pending. The cookie is minted here because the cookie authentication plugin
+         * intentionally defers it while an MFA step might still be outstanding.
+         */
+        if (
+            $session->get('com_users.remember_deferred', 0)
+            && $session->get('com_users.mfa_checked', 0) == 1
+        ) {
+            $session->set('com_users.remember_deferred', 0);
+
+            $plugin = PluginHelper::getPlugin('authentication', 'cookie');
+
+            if ($plugin && $this->isClient('site')) {
+                RememberMe::createOrUpdateCookie(
+                    $user,
+                    $this,
+                    Factory::getContainer()->get(DatabaseInterface::class),
+                    new Registry($plugin->params ?? '')
+                );
+            }
+        }
+
         // Do I need to redirect the user to the MFA setup page after they have fully logged in?
         $hasRejectedMultiFactorAuthenticationSetup = $this->hasRejectedMultiFactorAuthenticationSetup() && !$isMFAMandatory;
 
@@ -255,7 +282,7 @@ trait MultiFactorAuthenticationHandler
         // Make sure we are logged in
         try {
             $user = $this->getIdentity();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // This would happen if we are in CLI or under an old Joomla! version. Either case is not supported.
             return false;
         }
@@ -268,11 +295,6 @@ trait MultiFactorAuthenticationHandler
         // If we are in the administrator section we only kick in when the user has backend access privileges
         if ($isAdmin && !$user->authorise('core.login.admin')) {
             // @todo How exactly did you end up here if you didn't have the core.login.admin privilege to begin with?!
-            return false;
-        }
-
-        // Do not redirect if we are already in a MFA management or captive page
-        if ($this->isMultiFactorAuthenticationPage()) {
             return false;
         }
 
@@ -291,6 +313,13 @@ trait MultiFactorAuthenticationHandler
 
         // Allow the Joomla update finalisation to run
         if ($isAdmin && $option === 'com_joomlaupdate' && \in_array($task, ['update.finalise', 'update.cleanup', 'update.finaliseconfirm'])) {
+            return false;
+        }
+
+        // Do not redirect if we are already in a MFA management or captive page
+        $onlyCaptive = $this->isMultiFactorAuthenticationPending() && !$isMFASetupMandatory;
+
+        if ($this->isMultiFactorAuthenticationPage($onlyCaptive)) {
             return false;
         }
 
@@ -315,23 +344,27 @@ trait MultiFactorAuthenticationHandler
             return false;
         }
 
-        $allowedViews = ['captive', 'method', 'methods', 'callback'];
-        $allowedTasks = [
-            'captive.display', 'captive.captive', 'captive.validate',
-            'methods.display',
-        ];
+        $allowedTasks = ['captive.captive', 'captive.validate', 'callback.callback', 'captive.select', 'methods.display'];
+        $allowedViews = ['captive', 'methods'];
 
         if (!$onlyCaptive) {
             $allowedTasks = array_merge(
                 $allowedTasks,
                 [
-                    'method.display', 'method.add', 'method.edit', 'method.regenerateBackupCodes',
-                    'method.delete', 'method.save', 'methods.disable', 'methods.doNotShowThisAgain',
+                    'method.add', 'method.edit', 'method.regenerateBackupCodes',
+                    'method.delete', 'method.save', 'methods.doNotShowThisAgain',
+                ]
+            );
+
+            $allowedViews = array_merge(
+                $allowedViews,
+                [
+                    'method', 'methods',
                 ]
             );
         }
 
-        return \in_array($view, $allowedViews) || \in_array($task, $allowedTasks);
+        return \in_array($task, $allowedTasks) || (\in_array($view, $allowedViews) && !$task);
     }
 
     /**
@@ -346,7 +379,7 @@ trait MultiFactorAuthenticationHandler
         $profileKey = 'mfa.dontshow';
         /** @var DatabaseInterface $db */
         $db         = Factory::getContainer()->get(DatabaseInterface::class);
-        $query      = $db->getQuery(true)
+        $query      = $db->createQuery()
             ->select($db->quoteName('profile_value'))
             ->from($db->quoteName('#__user_profiles'))
             ->where($db->quoteName('user_id') . ' = :userId')
@@ -356,7 +389,7 @@ trait MultiFactorAuthenticationHandler
 
         try {
             $result = $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $result = 1;
         }
 
@@ -419,7 +452,7 @@ trait MultiFactorAuthenticationHandler
                     Factory::getApplication()->bootComponent('com_users')->getMVCFactory()->createTable('Mfa', 'Administrator')->save(
                         [
                             'user_id'    => $user->id,
-                            'title'      => sprintf("%s %s", Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_METHOD_TITLE'), $config['yubikey']),
+                            'title'      => \sprintf("%s %s", Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_METHOD_TITLE'), $config['yubikey']),
                             'method'     => 'yubikey',
                             'default'    => 0,
                             'created_on' => Date::getInstance()->toSql(),
@@ -442,7 +475,7 @@ trait MultiFactorAuthenticationHandler
             // Delete any other record with the same user_id and Method.
             $method = 'emergencycodes';
             $userId = $user->id;
-            $query  = $db->getQuery(true)
+            $query  = $db->createQuery()
                 ->delete($db->quoteName('#__user_mfa'))
                 ->where($db->quoteName('user_id') . ' = :user_id')
                 ->where($db->quoteName('method') . ' = :method')
@@ -491,7 +524,7 @@ trait MultiFactorAuthenticationHandler
         // Is this already decrypted?
         try {
             $decrypted = @json_decode($stringToDecrypt, true);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $decrypted = null;
         }
 

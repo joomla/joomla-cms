@@ -62,9 +62,9 @@ class AjaxController extends BaseController
             // Add the title to each of the associated records
             $contactTable = $this->factory->createTable('Contact', 'Administrator');
 
-            foreach ($associations as $lang => $association) {
+            foreach ($associations as $association) {
                 $contactTable->load($association->id);
-                $associations[$lang]->title = $contactTable->name;
+                $association->title = $contactTable->name;
             }
 
             $countContentLanguages = \count(LanguageHelper::getContentLanguages([0, 1], false));

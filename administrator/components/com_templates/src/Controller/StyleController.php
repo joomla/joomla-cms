@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Templates\Administrator\Controller;
 
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -57,9 +58,9 @@ class StyleController extends FormController
             $item = $model->getItem($this->app->getTemplate(true)->id);
 
             // Setting received params
-            $item->set('params', $data);
+            $item->params = $data;
 
-            $data = $item->getProperties();
+            $data = get_object_vars($item);
             unset($data['xml']);
 
             $key = $table->getKeyName();
@@ -93,9 +94,9 @@ class StyleController extends FormController
                 // Push up to three validation messages out to the user.
                 for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
                     if ($errors[$i] instanceof \Exception) {
-                        $this->app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+                        $this->app->enqueueMessage($errors[$i]->getMessage(), CMSWebApplicationInterface::MSG_ERROR);
                     } else {
-                        $this->app->enqueueMessage($errors[$i], 'warning');
+                        $this->app->enqueueMessage($errors[$i], CMSWebApplicationInterface::MSG_ERROR);
                     }
                 }
 

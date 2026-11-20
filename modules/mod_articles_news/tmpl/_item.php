@@ -17,10 +17,10 @@ use Joomla\CMS\Layout\LayoutHelper;
     <<?php echo $item_heading; ?> class="newsflash-title">
     <?php if ($item->link !== '' && $params->get('link_titles')) : ?>
         <a href="<?php echo $item->link; ?>">
-            <?php echo $item->title; ?>
+            <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
         </a>
     <?php else : ?>
-        <?php echo $item->title; ?>
+        <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
     <?php endif; ?>
     </<?php echo $item_heading; ?>>
 <?php endif; ?>
@@ -36,7 +36,7 @@ use Joomla\CMS\Layout\LayoutHelper;
         ); ?>
         <?php if (!empty($item->imageCaption)) : ?>
             <figcaption>
-                <?php echo $item->imageCaption; ?>
+                <?php echo htmlspecialchars($item->imageCaption, ENT_QUOTES, 'UTF-8'); ?>
             </figcaption>
         <?php endif; ?>
     </figure>
@@ -55,5 +55,9 @@ use Joomla\CMS\Layout\LayoutHelper;
 <?php echo $item->afterDisplayContent; ?>
 
 <?php if (isset($item->link) && $item->readmore != 0 && $params->get('readmore')) : ?>
+    <?php // Overwrite global article setting if needed ?>
+    <?php if ($params->get('readmore_title', '') !== '') : ?>
+        <?php $item->params->set('show_readmore_title', $params->get('readmore_title')); ?>
+    <?php endif; ?>
     <?php echo LayoutHelper::render('joomla.content.readmore', ['item' => $item, 'params' => $item->params, 'link' => $item->link]); ?>
 <?php endif; ?>

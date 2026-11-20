@@ -10,6 +10,7 @@
 
 namespace Joomla\CMS\Installation\Model;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -218,20 +219,6 @@ class ChecksModel extends BaseInstallationModel
     }
 
     /**
-     * Get the current setup options from the session.
-     *
-     * @return  array  An array of options from the session.
-     *
-     * @since   3.1
-     */
-    public function getOptions()
-    {
-        if (!empty(Factory::getSession()->get('setup.options', []))) {
-            return Factory::getSession()->get('setup.options', []);
-        }
-    }
-
-    /**
      * Method to get the form.
      *
      * @param   string|null  $view  The view being processed.
@@ -247,7 +234,7 @@ class ChecksModel extends BaseInstallationModel
         }
 
         // Get the form.
-        Form::addFormPath(JPATH_COMPONENT . '/forms');
+        Form::addFormPath(JPATH_BASE . '/forms');
 
         try {
             $form = Form::getInstance('jform', $view, ['control' => 'jform']);
@@ -266,5 +253,19 @@ class ChecksModel extends BaseInstallationModel
         }
 
         return $form;
+    }
+
+    /**
+     * Check if auto updates are disabled
+     *
+     * @return  boolean
+     *
+     * @since   5.4.1
+     */
+    public function getAutoUpdatesDisabled(): bool
+    {
+        $updates = ComponentHelper::getParams('com_joomlaupdate');
+
+        return !$updates->get('autoupdate', 0) && !$updates->get('autoupdate_status', 0);
     }
 }

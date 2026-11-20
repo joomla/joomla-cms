@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
+/** @var \Joomla\Component\Finder\Site\View\Search\HtmlView $this */
 ?>
 <?php // Display the suggested search if it is different from the current search. ?>
 <?php if (($this->suggested && $this->params->get('show_suggested_query', 1)) || ($this->explained && $this->params->get('show_explained_query', 1))) : ?>
@@ -56,8 +57,8 @@ use Joomla\CMS\Uri\Uri;
 <?php if (!empty($this->query->highlight) && $this->params->get('highlight_terms', 1)) : ?>
     <?php
         // Allow a maximum of 10 tokens to be highlighted. Otherwise the URL can get too long.
-        $this->document->getWebAssetManager()->useScript('highlight');
-        $this->document->addScriptOptions(
+        $this->getDocument()->getWebAssetManager()->useScript('highlight');
+        $this->getDocument()->addScriptOptions(
             'highlight',
             [[
                     'class'      => 'js-highlight',

@@ -4,7 +4,7 @@ describe('Test in frontend that the feed module', () => {
       cy.db_createModule({
         title: 'automated test feed',
         module: 'mod_feed',
-        params: `{"rssurl": "${Cypress.config('baseUrl')}/tests/System/data/com_newsfeeds/${file}.xml" }`,
+        params: `{"rssurl": "${Cypress.config('baseUrl').replace('https://', 'http://')}/tests/System/data/com_newsfeeds/${file}.xml" }`,
       })
         .then(() => {
           cy.visit('/');

@@ -19,6 +19,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Categories\Administrator\View\Categories\HtmlView $this */
+
 $app = Factory::getApplication();
 
 if ($app->isClient('site')) {
@@ -26,12 +28,12 @@ if ($app->isClient('site')) {
 }
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('core')
     ->useScript('modal-content-select');
 
 $extension = $this->escape($this->state->get('filter.extension'));
-// @todo: Use of Function is deprecated and should be removed in 6.0. It stays only for backward compatibility.
+// @todo: Use of Function is deprecated and should be removed in 7.0. It stays only for backward compatibility.
 $function  = $app->getInput()->getCmd('function', 'jSelectCategory');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -77,9 +79,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     <?php
                     $iconStates = [
                         -2 => 'icon-trash',
-                        0  => 'icon-times',
-                        1  => 'icon-check',
-                        2  => 'icon-folder',
+                        0  => 'icon-unpublish',
+                        1  => 'icon-publish',
+                        2  => 'icon-archive',
                     ];
                     ?>
                     <?php foreach ($this->items as $i => $item) : ?>
@@ -141,11 +143,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
         <?php endif; ?>
 
-        <input type="hidden" name="extension" value="<?php echo $extension; ?>">
-        <input type="hidden" name="task" value="">
-        <input type="hidden" name="boxchecked" value="0">
-        <input type="hidden" name="forcedLanguage" value="<?php echo $app->getInput()->get('forcedLanguage', '', 'CMD'); ?>">
-        <?php echo HTMLHelper::_('form.token'); ?>
+        <?php echo $this->filterForm->renderControlFields(); ?>
 
     </form>
 </div>

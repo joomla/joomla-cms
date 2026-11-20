@@ -19,8 +19,9 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Contact\Site\View\Category\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_contact.contacts-list')
     ->useScript('core');
 
@@ -55,7 +56,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                     name="filter-search"
                     id="filter-search"
                     value="<?php echo $this->escape($this->state->get('list.filter')); ?>"
-                    class="inputbox" onchange="document.adminForm.submit();"
+                    class="inputbox"
                     placeholder="<?php echo Text::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
                 >
                 <button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>

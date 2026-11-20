@@ -11,7 +11,7 @@ describe('Test in backend that the module form', () => {
     cy.get('#jform_title').clear().type('Test module');
     cy.clickToolbarButton('Save & Close');
 
-    cy.get('#system-message-container').contains('Module saved').should('exist');
+    cy.checkForSystemMessage('Module saved');
     cy.contains('Test module');
   });
 

@@ -62,6 +62,6 @@ class ArrayReadOnlyProxy extends ArrayProxy implements ReadOnlyProxyInterface
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
-        throw new \RuntimeException(sprintf('ArrayReadOnlyProxy: trying to modify read-only element, by key "%s"', $offset));
+        throw new \RuntimeException(\sprintf('ArrayReadOnlyProxy: trying to modify read-only element, by key "%s"', $offset));
     }
 }

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Menus\Administrator\Controller;
 
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
@@ -394,9 +395,9 @@ class ItemController extends FormController
             // Push up to three validation messages out to the user.
             for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
                 if ($errors[$i] instanceof \Exception) {
-                    $app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+                    $app->enqueueMessage($errors[$i]->getMessage(), CMSWebApplicationInterface::MSG_ERROR);
                 } else {
-                    $app->enqueueMessage($errors[$i], 'warning');
+                    $app->enqueueMessage($errors[$i], CMSWebApplicationInterface::MSG_ERROR);
                 }
             }
 
@@ -563,22 +564,16 @@ class ItemController extends FormController
         $app = $this->app;
 
         $results  = [];
-        $menutype = $this->input->get->get('menutype');
+        $menutype = $this->input->getCmd('menutype');
 
         if ($menutype) {
-            /** @var \Joomla\Component\Menus\Administrator\Model\ItemsModel $model */
-            $model = $this->getModel('Items', 'Administrator', []);
-            $model->getState();
-            $model->setState('filter.menutype', $menutype);
-            $model->setState('list.select', 'a.id, a.title, a.level');
-            $model->setState('list.start', '0');
-            $model->setState('list.limit', '0');
-
-            $results = $model->getItems();
+            /** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
+            $model   = $this->getModel('Item', 'Administrator', []);
+            $results = $model->getParentItems($menutype);
 
             // Pad the option text with spaces using depth level as a multiplier.
-            for ($i = 0, $n = \count($results); $i < $n; $i++) {
-                $results[$i]->title = str_repeat(' - ', $results[$i]->level) . $results[$i]->title;
+            foreach ($results as $result) {
+                $result->title = str_repeat(' - ', $result->level) . $result->title;
             }
         }
 

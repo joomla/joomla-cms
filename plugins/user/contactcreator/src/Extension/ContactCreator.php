@@ -10,8 +10,10 @@
 
 namespace Joomla\Plugin\User\ContactCreator\Extension;
 
+use Joomla\CMS\Event\User\AfterSaveEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Contact\Administrator\Table\ContactTable;
+use Joomla\Event\SubscriberInterface;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -25,24 +27,39 @@ use Joomla\String\StringHelper;
  *
  * @since  1.6
  */
-final class ContactCreator extends CMSPlugin
+final class ContactCreator extends CMSPlugin implements SubscriberInterface
 {
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onUserAfterSave' => 'onUserAfterSave',
+        ];
+    }
+
     /**
      * Utility method to act on a user after it has been saved.
      *
      * This method creates a contact for the saved user
      *
-     * @param   array    $user     Holds the new user data.
-     * @param   boolean  $isnew    True if a new user is stored.
-     * @param   boolean  $success  True if user was successfully stored in the database.
-     * @param   string   $msg      Message.
+     * @param   AfterSaveEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   1.6
      */
-    public function onUserAfterSave($user, $isnew, $success, $msg): void
+    public function onUserAfterSave(AfterSaveEvent $event): void
     {
+        $user    = $event->getUser();
+        $isnew   = $event->getIsNew();
+        $success = $event->getSavingResult();
+
         // If the user wasn't stored we don't resync
         if (!$success) {
             return;
@@ -91,7 +108,7 @@ final class ContactCreator extends CMSPlugin
 
             // Check if the contact already exists to generate new name & alias if required
             if ($contact->id == 0) {
-                list($name, $alias) = $this->generateAliasAndName($contact->alias, $contact->name, $categoryId);
+                [$name, $alias] = $this->generateAliasAndName($contact->alias, $contact->name, $categoryId);
 
                 $contact->name  = $name;
                 $contact->alias = $alias;

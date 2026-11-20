@@ -8,7 +8,7 @@ describe('Test in backend that the user access level form', () => {
     cy.get('#jform_title').clear().type('test level');
     cy.clickToolbarButton('Save & Close');
 
-    cy.get('#system-message-container').contains('Access level saved.').should('exist');
+    cy.checkForSystemMessage('Access level saved.');
     cy.contains('test level');
   });
 
@@ -19,7 +19,7 @@ describe('Test in backend that the user access level form', () => {
       cy.get('#jform_title').clear().type('test level edited');
       cy.clickToolbarButton('Save');
 
-      cy.get('#system-message-container').contains('Access level saved.').should('exist');
+      cy.checkForSystemMessage('Access level saved.');
     });
   });
 

@@ -13,11 +13,12 @@ namespace Joomla\Tests\Unit\Plugin\Authentication\Ldap;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Authentication\AuthenticationResponse;
+use Joomla\CMS\Event\User\AuthenticationEvent;
 use Joomla\CMS\Language\Language;
-use Joomla\Event\Dispatcher;
 use Joomla\Plugin\Authentication\Ldap\Extension\Ldap;
 use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactoryInterface;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 use Symfony\Component\Ldap\Adapter\CollectionInterface;
 use Symfony\Component\Ldap\Adapter\EntryManagerInterface;
 use Symfony\Component\Ldap\Adapter\QueryInterface;
@@ -31,38 +32,35 @@ use Symfony\Component\Ldap\LdapInterface;
  * @package     Joomla.UnitTest
  * @subpackage  Ldap
  *
- * @testdox     The Ldap plugin
- *
  * @since       4.3.0
  */
+#[TestDox('The Ldap plugin')]
 class LdapPluginTest extends UnitTestCase
 {
     /**
-     * @testdox  when no host is set
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('when no host is set')]
     public function testNoHost()
     {
-        $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => []]);
+        $plugin = new Ldap($this->createFactory(), ['params' => []]);
         $plugin->setApplication($this->createStub(CMSApplicationInterface::class));
 
         $response = new AuthenticationResponse();
-        $result   = $plugin->onUserAuthenticate([], [], $response);
+        $event    = new AuthenticationEvent('onUserAuthenticate', ['credentials' => [], 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
-        $this->assertFalse($result);
-        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+        $this->assertSame(Authentication::STATUS_FAILURE, $response->status);
     }
 
     /**
-     * @testdox  when no credentials are set
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('when no credentials are set')]
     public function testNoCredentials()
     {
         $language = $this->createStub(Language::class);
@@ -71,23 +69,22 @@ class LdapPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(), ['params' => ['host' => 'test']]);
         $plugin->setApplication($app);
 
         $response = new AuthenticationResponse();
-        $result   = $plugin->onUserAuthenticate(['password' => ''], [], $response);
+        $event    = new AuthenticationEvent('onUserAuthenticate', ['credentials' => ['password' => ''], 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
-        $this->assertFalse($result);
-        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+        $this->assertSame(Authentication::STATUS_FAILURE, $response->status);
     }
 
     /**
-     * @testdox  can perform no authentication
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can perform no authentication')]
     public function testNoAuthenticationMethod()
     {
         $language = $this->createStub(Language::class);
@@ -96,39 +93,41 @@ class LdapPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(), ['params' => ['host' => 'test']]);
         $plugin->setApplication($app);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+        $this->assertSame(Authentication::STATUS_FAILURE, $response->status);
     }
 
     /**
-     * @testdox  can perform an authentication using search
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can perform an authentication using search')]
     public function testSearchAuthenticationMethod()
     {
-        $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
+        $this->assertSame(Authentication::STATUS_SUCCESS, $response->status);
     }
 
     /**
-     * @testdox  can perform an authentication using search when no entry is found
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can perform an authentication using search when no entry is found')]
     public function testSearchAuthenticationMethodNoEntry()
     {
         $language = $this->createStub(Language::class);
@@ -137,22 +136,23 @@ class LdapPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Ldap($this->createFactory(false, false, false), new Dispatcher(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(false, false, false), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
         $plugin->setApplication($app);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+        $this->assertSame(Authentication::STATUS_FAILURE, $response->status);
     }
 
     /**
-     * @testdox  can not perform an authentication using search when bind fails
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can not perform an authentication using search when bind fails')]
     public function testSearchAuthenticationMethodWithBindException()
     {
         $language = $this->createStub(Language::class);
@@ -161,22 +161,23 @@ class LdapPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Ldap($this->createFactory(true, false), new Dispatcher(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(true, false), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
         $plugin->setApplication($app);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+        $this->assertSame(Authentication::STATUS_FAILURE, $response->status);
     }
 
     /**
-     * @testdox  can not perform an authentication using search when query fails
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can not perform an authentication using search when query fails')]
     public function testSearchAuthenticationMethodWithQueryException()
     {
         $language = $this->createStub(Language::class);
@@ -185,39 +186,41 @@ class LdapPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Ldap($this->createFactory(false, true), new Dispatcher(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(false, true), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
         $plugin->setApplication($app);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+        $this->assertSame(Authentication::STATUS_FAILURE, $response->status);
     }
 
     /**
-     * @testdox  can perform an authentication using bind
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can perform an authentication using bind')]
     public function testBindAuthenticationMethod()
     {
-        $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
+        $this->assertSame(Authentication::STATUS_SUCCESS, $response->status);
     }
 
     /**
-     * @testdox  can perform an authentication using bind when no entry is found
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can perform an authentication using bind when no entry is found')]
     public function testBindAuthenticationMethodNoEntry()
     {
         $language = $this->createStub(Language::class);
@@ -226,39 +229,41 @@ class LdapPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Ldap($this->createFactory(false, false, false), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(false, false, false), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
         $plugin->setApplication($app);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+        $this->assertSame(Authentication::STATUS_FAILURE, $response->status);
     }
 
     /**
-     * @testdox  can perform an authentication using bind with a DN
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can perform an authentication using bind with a DN')]
     public function testBindAuthenticationMethodWithDN()
     {
-        $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'users_dn' => 'test', 'host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(), ['params' => ['auth_method' => 'bind', 'users_dn' => 'test', 'host' => 'test']]);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
+        $this->assertSame(Authentication::STATUS_SUCCESS, $response->status);
     }
 
     /**
-     * @testdox  can not perform an authentication using bind when bind fails
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can not perform an authentication using bind when bind fails')]
     public function testBindAuthenticationMethodWithBindException()
     {
         $language = $this->createStub(Language::class);
@@ -267,22 +272,23 @@ class LdapPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Ldap($this->createFactory(true, false), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(true, false), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
         $plugin->setApplication($app);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+        $this->assertSame(Authentication::STATUS_FAILURE, $response->status);
     }
 
     /**
-     * @testdox  can not perform an authentication using bind when query fails
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('can not perform an authentication using bind when query fails')]
     public function testBindAuthenticationMethodWithQueryException()
     {
         $language = $this->createStub(Language::class);
@@ -291,13 +297,15 @@ class LdapPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Ldap($this->createFactory(false, true), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(false, true), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
         $plugin->setApplication($app);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+        $this->assertSame(Authentication::STATUS_FAILURE, $response->status);
     }
 
     /**
@@ -335,7 +343,7 @@ class LdapPluginTest extends UnitTestCase
                         $this->hasEntry  = $hasEntry;
                     }
 
-                    public function bind(string $dn = null, string $password = null)
+                    public function bind(?string $dn = null, ?string $password = null): void
                     {
                         if ($this->failBind) {
                             throw new LdapException();

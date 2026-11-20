@@ -21,7 +21,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 /**
  * Dispatcher class for mod_custom
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 class Dispatcher extends AbstractModuleDispatcher
 {
@@ -30,7 +30,7 @@ class Dispatcher extends AbstractModuleDispatcher
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function getLayoutData()
     {

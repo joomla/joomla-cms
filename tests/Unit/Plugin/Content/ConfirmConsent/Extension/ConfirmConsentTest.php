@@ -11,12 +11,14 @@
 namespace Joomla\Tests\Unit\Plugin\Content\ConfirmConsent\Extension;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\User\User;
 use Joomla\Event\Dispatcher;
 use Joomla\Plugin\Content\ConfirmConsent\Extension\ConfirmConsent;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for ConfirmConsent plugin
@@ -24,19 +26,17 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  ConfirmConsent
  *
- * @testdox     The ConfirmConsent plugin
- *
  * @since       4.3.0
  */
+#[TestDox('The ConfirmConsent plugin')]
 class ConfirmConsentTest extends UnitTestCase
 {
     /**
-     * @testdox  that the consent field is loaded into the form
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('that the consent field is loaded into the form')]
     public function testLoadConsentFieldInForm()
     {
         $form = new Form('com_contact.contact');
@@ -48,18 +48,20 @@ class ConfirmConsentTest extends UnitTestCase
         $dispatcher = new Dispatcher();
         $plugin     = new ConfirmConsent($dispatcher, ['params' => []]);
         $plugin->setApplication($app);
-        $plugin->onContentPrepareForm($form, []);
+        $plugin->onContentPrepareForm(new PrepareFormEvent('onContentPrepareForm', [
+            'subject' => $form,
+            'data'    => [],
+        ]));
 
         $this->assertNotFalse($form->getField('consentbox'));
     }
 
     /**
-     * @testdox  that the consent field is not loaded into the form when wrong form name
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('that the consent field is not loaded into the form when wrong form name')]
     public function testLoadConsentFieldInFormWrongContext()
     {
         $form = new Form('invalid');
@@ -68,18 +70,20 @@ class ConfirmConsentTest extends UnitTestCase
         $dispatcher = new Dispatcher();
         $plugin     = new ConfirmConsent($dispatcher, ['params' => []]);
         $plugin->setApplication($this->createStub(CMSApplicationInterface::class));
-        $plugin->onContentPrepareForm($form, []);
+        $plugin->onContentPrepareForm(new PrepareFormEvent('onContentPrepareForm', [
+            'subject' => $form,
+            'data'    => [],
+        ]));
 
         $this->assertFalse($form->getField('consentbox'));
     }
 
     /**
-     * @testdox  that the consent field is not loaded into the form when wrong application
-     *
      * @return  void
      *
      * @since   4.3.0
      */
+    #[TestDox('that the consent field is not loaded into the form when wrong application')]
     public function testLoadConsentFieldInFormWrongApplication()
     {
         $form = new Form('com_contact.contact');
@@ -91,7 +95,10 @@ class ConfirmConsentTest extends UnitTestCase
         $dispatcher = new Dispatcher();
         $plugin     = new ConfirmConsent($dispatcher, ['params' => []]);
         $plugin->setApplication($app);
-        $plugin->onContentPrepareForm($form, []);
+        $plugin->onContentPrepareForm(new PrepareFormEvent('onContentPrepareForm', [
+            'subject' => $form,
+            'data'    => [],
+        ]));
 
         $this->assertFalse($form->getField('consentbox'));
     }

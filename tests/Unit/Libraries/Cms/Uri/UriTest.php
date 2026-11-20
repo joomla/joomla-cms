@@ -12,6 +12,8 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Uri;
 
 use Joomla\CMS\Uri\Uri;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\CoversMethod;
 
 /**
  * Test class for Uri.
@@ -20,20 +22,20 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @subpackage  Uri
  * @since       1.7.0
  */
+#[BackupGlobals(true)]
+#[CoversMethod(Uri::class, 'getInstance')]
+#[CoversMethod(Uri::class, 'root')]
+#[CoversMethod(Uri::class, 'current')]
+#[CoversMethod(Uri::class, 'parse')]
+#[CoversMethod(Uri::class, 'buildQuery')]
+#[CoversMethod(Uri::class, 'setPath')]
+#[CoversMethod(Uri::class, 'isInternal')]
 class UriTest extends UnitTestCase
 {
     /**
      * @var    Uri
      */
     protected $object;
-
-    /**
-     * Backup of the SERVER superglobal
-     *
-     * @var    array
-     * @since  3.6
-     */
-    protected $backupServer;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -46,7 +48,6 @@ class UriTest extends UnitTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->backupServer = $_SERVER;
         Uri::reset();
 
         $_SERVER['HTTP_HOST']   = 'www.example.com:80';
@@ -68,8 +69,6 @@ class UriTest extends UnitTestCase
      */
     protected function tearDown(): void
     {
-        $_SERVER = $this->backupServer;
-        unset($this->backupServer);
         unset($this->object);
         parent::tearDown();
     }
@@ -80,7 +79,6 @@ class UriTest extends UnitTestCase
      * @return  void
      *
      * @since   1.7.0
-     * @covers  Uri::getInstance
      */
     public function testGetInstance(): void
     {
@@ -100,7 +98,6 @@ class UriTest extends UnitTestCase
      * @return  void
      *
      * @since   1.7.0
-     * @covers  Uri::root
      */
     public function testRoot(): void
     {
@@ -116,7 +113,6 @@ class UriTest extends UnitTestCase
      * @return  void
      *
      * @since   1.7.0
-     * @covers  Uri::current
      */
     public function testCurrent(): void
     {
@@ -132,7 +128,6 @@ class UriTest extends UnitTestCase
      * @return  void
      *
      * @since   1.7.0
-     * @covers  Uri::parse
      */
     public function testParse(): void
     {
@@ -145,7 +140,6 @@ class UriTest extends UnitTestCase
      * @return  void
      *
      * @since   1.7.0
-     * @covers  Uri::buildQuery
      */
     public function testBuildQuery(): void
     {
@@ -161,7 +155,7 @@ class UriTest extends UnitTestCase
         ];
 
         $expected = 'field[price][from]=5&field[price][to]=10&field[name]=foo&v=45';
-        $this->assertEquals($expected, Uri::buildQuery($params), 'The query string was not built correctly.');
+        $this->assertSame($expected, Uri::buildQuery($params), 'The query string was not built correctly.');
     }
 
     /**
@@ -170,7 +164,6 @@ class UriTest extends UnitTestCase
      * @return  void
      *
      * @since   1.7.0
-     * @covers  Uri::setPath
      */
     public function testSetPath(): void
     {
@@ -187,8 +180,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testParseWhenNoSchemeGiven(): void
     {
@@ -200,8 +191,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWithSefUrl(): void
     {
@@ -213,8 +202,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWithNoSchemeAndNotInternal(): void
     {
@@ -228,8 +215,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWithNoSchemeAndNoHostnameAndNotInternal(): void
     {
@@ -243,8 +228,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWithSchemeAndNotInternal(): void
     {
@@ -258,8 +241,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWhenInternalWithNoDomainOrScheme(): void
     {
@@ -273,8 +254,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWhenInternalWithDomainAndSchemeAndPort(): void
     {
@@ -288,8 +267,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWhenInternalWithDomainAndSchemeAndPortNoSubFolder(): void
     {
@@ -312,8 +289,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWhenNOTInternalWithDomainAndSchemeAndPortAndIndex(): void
     {
@@ -327,8 +302,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWhenNOTInternalWithDomainAndNoSchemeAndPortAndIndex(): void
     {
@@ -342,8 +315,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternal3rdPartyDevs(): void
     {
@@ -357,8 +328,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalAppendingOfBaseToTheEndOfTheUrl(): void
     {
@@ -372,8 +341,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalAppendingOfBaseToTheEndOfTheUrl2(): void
     {
@@ -387,14 +354,12 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalSchemeEmptyButHostAndPortMatch(): void
     {
-        $this->assertTrue(
+        $this->assertFalse(
             Uri::isInternal('www.example.com:80'),
-            'www.example.com:80 should be internal'
+            'www.example.com:80 should NOT be internal'
         );
     }
 
@@ -402,8 +367,32 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
+     */
+    public function testIsInternalWithSchemeAndHostAndPortMatch(): void
+    {
+        $this->assertTrue(
+            Uri::isInternal('http://www.example.com:80'),
+            'http://www.example.com:80 should be internal'
+        );
+    }
+
+    /**
+     * Test hardening of Uri::isInternal against non internal links
      *
-     * @covers Uri::isInternal
+     * @return void
+     */
+    public function testIsInternalWithSchemeNotMatch(): void
+    {
+        $this->assertFalse(
+            Uri::isInternal('https://www.example.com:80'),
+            'https://www.example.com:80 should NOT be internal'
+        );
+    }
+
+    /**
+     * Test hardening of Uri::isInternal against non internal links
+     *
+     * @return void
      */
     public function testIsInternalPregMatch(): void
     {
@@ -417,8 +406,6 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWithUser(): void
     {
@@ -432,14 +419,55 @@ class UriTest extends UnitTestCase
      * Test hardening of Uri::isInternal against non internal links
      *
      * @return void
-     *
-     * @covers Uri::isInternal
      */
     public function testIsInternalWithBackslashInUser(): void
     {
         $this->assertFalse(
             Uri::isInternal('http://someuser.com\@www.example.com:80'),
             'http://someuser\@www.example.com:80 should NOT be internal'
+        );
+    }
+
+    /**
+     * Test hardening of Uri::isInternal against non internal links
+     *
+     * @return void
+     */
+    public function testIsInternalWithUrlInPath(): void
+    {
+        $this->assertFalse(
+            Uri::isInternal('http://evil.com/' . Uri::base()),
+            'http://www.evil.com/' . Uri::base() . ' should not be internal'
+        );
+    }
+
+    /**
+     * Test hardening of Uri::isInternal against non internal links
+     *
+     * @return void
+     *
+     * @covers Uri::isInternal
+     */
+    public function testIsInternalWithAbsoluteXssPayloads(): void
+    {
+        $this->assertFalse(
+            Uri::isInternal('http://www.example.com/ "'),
+            'http://www.example.com " should not be internal'
+        );
+    }
+
+    /**
+     * Test hardening of Uri::isInternal against non internal links
+     *
+     * @return void
+     *
+     * @covers Uri::isInternal
+     */
+    public function testIsInternalWithRelativeXssPayloads(): void
+    {
+        $this->assertFalse(
+            Uri::isInternal('index.php?<script>alert(1)</script>'),
+            'index.php?<script>alert(1)</script> should not be internal'
         );
     }
 }

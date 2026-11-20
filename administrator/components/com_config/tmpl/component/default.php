@@ -16,6 +16,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Config\Administrator\View\Component\HtmlView $this */
+
 $app = Factory::getApplication();
 $template = $app->getTemplate();
 
@@ -23,9 +25,10 @@ Text::script('ERROR');
 Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
+Text::script('SUCCESS');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('form.validate')
     ->useScript('keepalive');
 
@@ -72,7 +75,7 @@ $xml = $this->form->getXml();
                     <?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
 
                     <?php if (!$isGrandchild && $hasParent) : ?>
-                        <fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-menu options-form">
+                        <fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-menu options-form"<?php echo $dataShowOn; ?>>
                             <legend><?php echo Text::_($fieldSet->label); ?></legend>
                             <div class="form-grid">
                     <?php elseif (!$hasParent) : ?>
@@ -91,7 +94,7 @@ $xml = $this->form->getXml();
                         <?php $opentab = 1; ?>
 
                         <?php if (!$hasChildren) : ?>
-                        <fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-menu options-form">
+                        <fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-menu options-form"<?php echo $dataShowOn; ?>>
                             <legend><?php echo Text::_($fieldSet->label); ?></legend>
                             <div class="form-grid">
                             <?php $opentab = 2; ?>
@@ -133,10 +136,6 @@ $xml = $this->form->getXml();
             <?php endif; ?>
         </div>
 
-        <input type="hidden" name="id" value="<?php echo $this->component->id; ?>">
-        <input type="hidden" name="component" value="<?php echo $this->component->option; ?>">
-        <input type="hidden" name="return" value="<?php echo $this->return; ?>">
-        <input type="hidden" name="task" value="">
-        <?php echo HTMLHelper::_('form.token'); ?>
+        <?php echo $this->form->renderControlFields(); ?>
     </div>
 </form>

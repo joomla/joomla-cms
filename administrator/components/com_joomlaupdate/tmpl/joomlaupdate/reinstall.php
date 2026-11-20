@@ -17,7 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 /** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('core')
     ->useScript('com_joomlaupdate.default')
     ->useScript('bootstrap.popover');
@@ -28,7 +28,7 @@ $displayData = [
     'textPrefix' => 'COM_JOOMLAUPDATE_REINSTALL',
     'content'    => Text::sprintf($this->langKey, $this->updateSourceKey),
     'formURL'    => 'index.php?option=com_joomlaupdate&view=joomlaupdate',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Updating_from_an_existing_version',
+    'helpURL'    => 'https://guide.joomla.org/user-manual/migration',
     'icon'       => 'icon-loop joomlaupdate',
     'createURL'  => '#'
 ];

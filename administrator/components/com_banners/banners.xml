@@ -23,9 +23,6 @@
 	<files folder="site">
 		<folder>src</folder>
 	</files>
-	<languages folder="site">
-		<language tag="en-GB">language/en-GB/com_banners.ini</language>
-	</languages>
 	<media destination="com_banners" folder="media">
 		<folder>js</folder>
 	</media>

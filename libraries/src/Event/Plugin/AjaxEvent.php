@@ -82,7 +82,7 @@ class AjaxEvent extends AbstractImmutableEvent implements ResultAwareInterface
      */
     public function addResult($data): void
     {
-        $this->arguments['result'] = $this->arguments['result'] ?? [];
+        $this->arguments['result'] ??= [];
 
         if (\is_array($this->arguments['result'])) {
             $this->arguments['result'][] = $data;

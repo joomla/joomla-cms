@@ -15,10 +15,12 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Templates\Administrator\View\Template\HtmlView $this */
+
 HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns');
 
 $input = Factory::getApplication()->getInput();
@@ -81,7 +83,7 @@ $input = Factory::getApplication()->getInput();
                                 </td>
                                 <td>
                                     <?php if (is_null($value->modified_date)) : ?>
-                                        <span class="badge bg-warning text-dark"><?php echo Text::_('COM_TEMPLATES_OVERRIDE_CORE_REMOVED'); ?></span>
+                                        <span class="badge bg-warning"><?php echo Text::_('COM_TEMPLATES_OVERRIDE_CORE_REMOVED'); ?></span>
                                     <?php else : ?>
                                         <?php echo HTMLHelper::_('date', $value->modified_date, Text::_('DATE_FORMAT_FILTER_DATETIME')); ?>
                                     <?php endif; ?>

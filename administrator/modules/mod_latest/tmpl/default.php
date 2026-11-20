@@ -25,7 +25,9 @@ $moduleId = str_replace(' ', '', $module->title) . $module->id;
                 <th scope="col" class="w-20"><?php echo Text::_('JSTAGE'); ?></th>
             <?php endif; ?>
             <th scope="col" class="w-20"><?php echo Text::_('JAUTHOR'); ?></th>
-            <th scope="col" class="w-20"><?php echo Text::_('JDATE'); ?></th>
+            <th scope="col" class="w-20">
+                <?php echo ($params->get('ordering', 'c_dsc') == 'm_dsc') ? Text::_('MOD_LATEST_HEADING_DATE_MODIFIED') : Text::_('MOD_LATEST_HEADING_DATE_CREATED'); ?>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -53,7 +55,7 @@ $moduleId = str_replace(' ', '', $module->title) . $module->id;
                 <?php echo $item->author_name; ?>
             </td>
             <td>
-                <?php echo HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')); ?>
+                <?php echo ($params->get('ordering', 'c_dsc') == 'm_dsc') ? HTMLHelper::_('date', $item->modified, Text::_('DATE_FORMAT_LC4')) : HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')); ?>
             </td>
         </tr>
             <?php endforeach; ?>

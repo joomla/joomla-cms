@@ -73,13 +73,13 @@ class PopupButton extends ToolbarButton
      */
     protected function prepareOptions(array &$options)
     {
-        $options['icon'] = $options['icon'] ?? 'icon-square';
+        $options['icon'] ??= 'icon-square';
 
         parent::prepareOptions($options);
 
         $options['doTask'] = $this->_getCommand($this->getUrl());
 
-        $options['selector'] = $options['selector'] ?? 'modal-' . $this->getName();
+        $options['selector'] ??= 'modal-' . $this->getName();
     }
 
     /**
@@ -150,7 +150,7 @@ class PopupButton extends ToolbarButton
         }
 
         @trigger_error(
-            'Use of BS Modal is deprecated in Joomla\CMS\Toolbar\Button\PopupButton, and will be removed in 6.0',
+            'Use of BS Modal is deprecated in Joomla\CMS\Toolbar\Button\PopupButton, and will be removed in 7.0',
             E_USER_DEPRECATED
         );
 
@@ -221,9 +221,9 @@ JS
      */
     private function _getCommand($url)
     {
-        $url = $url ?? '';
+        $url ??= '';
 
-        if (strpos($url, 'http') !== 0) {
+        if (!str_starts_with($url, 'http')) {
             $url = Uri::base() . $url;
         }
 

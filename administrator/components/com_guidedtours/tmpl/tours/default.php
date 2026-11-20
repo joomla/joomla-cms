@@ -13,17 +13,16 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\Helpers\StringHelper;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\Component\Guidedtours\Administrator\View\Tours\HtmlView;
 
-/** @var  HtmlView  $this */
+/** @var  \Joomla\Component\Guidedtours\Administrator\View\Tours\HtmlView  $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
@@ -34,7 +33,7 @@ try {
 }
 
 $user = $app->getIdentity();
-$userId = $user->get('id');
+$userId = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
@@ -221,7 +220,7 @@ if ($saveOrder && !empty($this->items)) {
                         </td>
 
                         <td class="text-center btns d-none d-md-table-cell itemnumber">
-                            <a class="btn btn-info" href="index.php?option=com_guidedtours&view=steps&tour_id=<?php echo $item->id; ?>">
+                            <a class="btn btn-secondary" href="index.php?option=com_guidedtours&view=steps&tour_id=<?php echo $item->id; ?>">
                                 <?php echo $item->steps_count; ?>
                             </a>
                         </td>
@@ -252,8 +251,6 @@ if ($saveOrder && !empty($this->items)) {
             ?>
         <?php endif; ?>
 
-        <input type="hidden" name="task" value="">
-        <input type="hidden" name="boxchecked" value="0">
-        <?php echo HTMLHelper::_('form.token'); ?>
+        <?php echo $this->filterForm->renderControlFields(); ?>
     </div>
 </form>

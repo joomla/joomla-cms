@@ -10,14 +10,18 @@
 
 namespace Joomla\Component\Tags\Site\View\Tag;
 
+use Joomla\CMS\Event\Content\AfterDisplayEvent;
+use Joomla\CMS\Event\Content\AfterTitleEvent;
+use Joomla\CMS\Event\Content\BeforeDisplayEvent;
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\MenuItem;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
+use Joomla\Component\Tags\Site\Model\TagModel;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -52,7 +56,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Tag data for the current tag or tags (on success, false on failure)
      *
-     * @var    CMSObject[]|boolean
+     * @var    array
      *
      * @since  3.1
      */
@@ -134,19 +138,22 @@ class HtmlView extends BaseHtmlView
     {
         $app    = Factory::getApplication();
 
+        /** @var TagModel $model */
+        $model = $this->getModel();
+
         // Get some data from the models
-        $this->state      = $this->get('State');
-        $this->items      = $this->get('Items');
-        $this->item       = $this->get('Item');
+        $this->state      = $model->getState();
+        $this->items      = $model->getItems();
+        $this->item       = $model->getItem();
         $this->children   = $this->get('Children');
         $this->parent     = $this->get('Parent');
-        $this->pagination = $this->get('Pagination');
+        $this->pagination = $model->getPagination();
         $this->user       = $this->getCurrentUser();
 
         // Flag indicates to not add limitstart=0 to URL
         $this->pagination->hideEmptyLimitstart = true;
 
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -184,7 +191,8 @@ class HtmlView extends BaseHtmlView
             $itemElement->metadata = new Registry($itemElement->metadata);
         }
 
-        PluginHelper::importPlugin('content');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
         foreach ($this->items as $itemElement) {
             $itemElement->event = new \stdClass();
@@ -194,25 +202,29 @@ class HtmlView extends BaseHtmlView
 
             $itemElement->core_params = new Registry($itemElement->core_params);
 
-            $app->triggerEvent('onContentPrepare', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
+            $contentEventArguments = [
+                'context' => 'com_tags.tag',
+                'subject' => $itemElement,
+                'params'  => $itemElement->core_params,
+                'page'    => 0,
+            ];
 
-            $results = $app->triggerEvent(
-                'onContentAfterTitle',
-                ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]
+            $dispatcher->dispatch(
+                'onContentPrepare',
+                new ContentPrepareEvent('onContentPrepare', $contentEventArguments)
             );
-            $itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
 
-            $results = $app->triggerEvent(
-                'onContentBeforeDisplay',
-                ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]
-            );
-            $itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
+            $contentEvents = [
+                'afterDisplayTitle'    => new AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
+                'beforeDisplayContent' => new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
+                'afterDisplayContent'  => new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
+            ];
 
-            $results = $app->triggerEvent(
-                'onContentAfterDisplay',
-                ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]
-            );
-            $itemElement->event->afterDisplayContent = trim(implode("\n", $results));
+            foreach ($contentEvents as $resultKey => $event) {
+                $results = $dispatcher->dispatch($event->getName(), $event)->getArgument('result', []);
+
+                $itemElement->event->{$resultKey} = trim(implode("\n", $results));
+            }
 
             // Write the results back into the body
             if (!empty($itemElement->core_body)) {

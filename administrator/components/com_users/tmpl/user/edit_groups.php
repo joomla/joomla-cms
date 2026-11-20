@@ -12,4 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
+/** @var \Joomla\Component\Users\Administrator\View\User\HtmlView $this */
+
 echo HTMLHelper::_('access.usergroups', 'jform[groups]', $this->groups, true);

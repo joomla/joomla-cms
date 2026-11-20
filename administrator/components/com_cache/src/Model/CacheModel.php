@@ -10,13 +10,12 @@
 
 namespace Joomla\Component\Cache\Administrator\Model;
 
-use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheController;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Event\Cache\AfterPurgeEvent;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\Utilities\ArrayHelper;
@@ -56,11 +55,12 @@ class CacheModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   3.5
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -71,7 +71,7 @@ class CacheModel extends ListModel
             ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -88,9 +88,6 @@ class CacheModel extends ListModel
      */
     protected function populateState($ordering = 'group', $direction = 'asc')
     {
-        // Load the filter state.
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-
         parent::populateState($ordering, $direction);
     }
 
@@ -154,10 +151,10 @@ class CacheModel extends ListModel
                 } else {
                     $this->_data = [];
                 }
-            } catch (CacheConnectingException $exception) {
+            } catch (CacheConnectingException) {
                 $this->setError(Text::_('COM_CACHE_ERROR_CACHE_CONNECTION_FAILED'));
                 $this->_data = [];
-            } catch (UnsupportedCacheException $exception) {
+            } catch (UnsupportedCacheException) {
                 $this->setError(Text::_('COM_CACHE_ERROR_CACHE_DRIVER_UNSUPPORTED'));
                 $this->_data = [];
             }
@@ -173,16 +170,13 @@ class CacheModel extends ListModel
      */
     public function getCache()
     {
-        $app = Factory::getApplication();
-
         $options = [
             'defaultgroup' => '',
-            'storage'      => $app->get('cache_handler', ''),
             'caching'      => true,
-            'cachebase'    => $app->get('cache_path', JPATH_CACHE),
         ];
 
-        return Cache::getInstance('', $options);
+        return $this->getCacheControllerFactory()
+            ->createCacheController('output', $options);
     }
 
     /**
@@ -225,9 +219,9 @@ class CacheModel extends ListModel
     {
         try {
             $this->getCache()->clean($group);
-        } catch (CacheConnectingException $exception) {
+        } catch (CacheConnectingException) {
             return false;
-        } catch (UnsupportedCacheException $exception) {
+        } catch (UnsupportedCacheException) {
             return false;
         }
 
@@ -264,10 +258,10 @@ class CacheModel extends ListModel
     public function purge()
     {
         try {
-            Factory::getCache('')->gc();
-        } catch (CacheConnectingException $exception) {
+            $this->getCache()->gc();
+        } catch (CacheConnectingException) {
             return false;
-        } catch (UnsupportedCacheException $exception) {
+        } catch (UnsupportedCacheException) {
             return false;
         }
 

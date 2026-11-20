@@ -136,6 +136,6 @@ class JsonapiView extends BaseApiView
 
         $this->fieldsToRenderList = ['id', 'name', 'module', 'xml', 'desc'];
 
-        return parent::displayList($items);
+        return $this->displayList($items);
     }
 }

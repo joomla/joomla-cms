@@ -32,7 +32,7 @@ final class Imagelist extends FieldsPlugin implements SubscriberInterface
      * @param   \DOMElement  $parent  The field node parent.
      * @param   Form         $form    The form.
      *
-     * @return  \DOMElement
+     * @return  ?\DOMElement
      *
      * @since   3.7.0
      */
@@ -44,8 +44,13 @@ final class Imagelist extends FieldsPlugin implements SubscriberInterface
             return $fieldNode;
         }
 
+        $multiple = $field->params->get('multiple', '0') === '1';
+
+        $fieldNode->setAttribute('hide_none', $multiple ? 'true' : 'false');
         $fieldNode->setAttribute('hide_default', 'true');
-        $fieldNode->setAttribute('directory', '/images/' . $fieldNode->getAttribute('directory'));
+        $directory = trim((string) $fieldNode->getAttribute('directory'), '/');
+        $fieldNode->setAttribute('directory', $directory === '' ? 'images' : 'images/' . $directory);
+        $fieldNode->setAttribute('layout', 'joomla.form.field.list-fancy-select');
 
         return $fieldNode;
     }

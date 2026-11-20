@@ -10,12 +10,14 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
-use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Media\Administrator\Exception\ProviderAccountNotFoundException;
+use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -59,10 +61,12 @@ trait DisplayTrait
         $csrf            = Session::getFormToken();
 
         // Editor variables
+        $defaultWidth    = $this->params->get('html_width', '100%');
+        $defaultHeight   = $this->params->get('html_height', '550px');
         $col             = $attributes['col'] ?? '';
         $row             = $attributes['row'] ?? '';
-        $width           = $attributes['width'] ?? '';
-        $height          = $attributes['height'] ?? '';
+        $width           = ($attributes['width'] ?? '') ?: $defaultWidth;
+        $height          = ($attributes['height'] ?? '') ?: $defaultHeight;
         $id              = $attributes['id'] ?? $name;
         $id              = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
         $nameGroup       = explode('[', preg_replace('/\[\]|\]/', '', $name));
@@ -100,13 +104,13 @@ trait DisplayTrait
             $options['tinyMCE'][$fieldName] = [];
         }
 
-        // Width and height
+        // Add editor Width and height to options if not already set
         if ($width && empty($options['tinyMCE'][$fieldName]['width'])) {
-            $options['tinyMCE'][$fieldName]['width'] = $width;
+            $options['tinyMCE'][$fieldName]['width'] = $textarea->width;
         }
 
         if ($height && empty($options['tinyMCE'][$fieldName]['height'])) {
-            $options['tinyMCE'][$fieldName]['height'] = $height;
+            $options['tinyMCE'][$fieldName]['height'] = $textarea->height;
         }
 
         // Set editor to readonly mode
@@ -164,7 +168,7 @@ trait DisplayTrait
 
                 // if we have a name and path, add it to the list
                 if ($external['name'] != '' && $path != '') {
-                    $externalPlugins[$external['name']] = substr($path, 0, 1) == '/' ? Uri::root() . substr($path, 1) : $path;
+                    $externalPlugins[$external['name']] = str_starts_with($path, '/') ? Uri::root() . substr($path, 1) : $path;
                 }
             }
         }
@@ -178,8 +182,8 @@ trait DisplayTrait
         $skinDark = $levelParams->get($app->isClient('administrator') ? 'skin_admin_dark' : 'skin_dark', 'oxide-dark');
 
         // Check that selected skin exists.
-        $skin     = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
-        $skinDark = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skinDark) ? $skinDark : 'oxide-dark';
+        $skin     = is_dir(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
+        $skinDark = is_dir(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skinDark) ? $skinDark : 'oxide-dark';
 
         if (!$levelParams->get('lang_mode', 1)) {
             // Admin selected language
@@ -205,7 +209,7 @@ trait DisplayTrait
              * If URL, just pass it to $content_css
              * else, assume it is a file name in the current template folder
              */
-            $content_css = strpos($content_css_custom, 'http') !== false
+            $content_css = str_contains($content_css_custom, 'http')
                 ? $content_css_custom
                 : $this->includeRelativeFiles('css', $content_css_custom);
         } else {
@@ -216,7 +220,7 @@ trait DisplayTrait
         $ignore_filter = false;
 
         // Text filtering
-        if ($levelParams->get('use_config_textfilters', 0)) {
+        if ($levelParams->get('use_config_textfilters', 1)) {
             // Use filters from com_config
             $filter            = static::getGlobalFilters($user);
             $ignore_filter     = $filter === false;
@@ -253,8 +257,22 @@ trait DisplayTrait
             'importcss',
             'quickbars',
             'jxtdbuttons',
+            'jfilepicker',
+            'pasteword',
         ];
         $wa->useScript('plg_editors_tinymce.jxtdbuttons');
+        $wa->useScript('plg_editors_tinymce.jfilepicker');
+        $wa->useScript('plg_editors_tinymce.pasteword');
+
+        // The link picker for the native Link dialog (registers the 'file' picker)
+        $wa->useStyle('plg_editors_tinymce.linkpicker');
+        $wa->useScript('plg_editors_tinymce.linkpicker');
+
+        // UI strings for the link picker
+        Text::script('PLG_TINY_LINK_PICKER_TITLE');
+        Text::script('PLG_TINY_LINK_MEDIA');
+        Text::script('JSELECT');
+        Text::script('JCLOSE');
 
         // Allowed elements
         $elements = [
@@ -295,6 +313,11 @@ trait DisplayTrait
         $toolbar1 = (array) $levelParams->get('toolbar1', []);
         $toolbar2 = (array) $levelParams->get('toolbar2', []);
 
+        // Make sure that we load the help plugin if the help menu is enabled
+        if (\in_array('help', $menubar, true)) {
+            $plugins[] = 'help';
+        }
+
         // Make an easy way to check which button is enabled
         $allButtons = array_merge($toolbar1, $toolbar2);
         $allButtons = array_combine($allButtons, $allButtons);
@@ -325,8 +348,36 @@ trait DisplayTrait
 
         if ($dragdrop && $user->authorise('core.create', 'com_media')) {
             $wa->useScript('plg_editors_tinymce.jdragndrop');
-            $plugins[] = 'jdragndrop';
-            $uploadUrl = Uri::base(true) . '/index.php?option=com_media&format=json&url=1&task=api.files';
+            $plugins[]  = 'jdragndrop';
+            $uploadUrl  = Uri::base(true) . '/index.php?option=com_media&format=json&url=1&task=api.files';
+            $uploadPath = $levelParams->get('path', ComponentHelper::getParams('com_media')->get('image_path', 'images'));
+
+            // Make sure the path is full, and contain the media adapter in it.
+            $mediaHelper = new class () {
+                use ProviderManagerHelperTrait;
+
+                public function prepareTinyMCEUploadPath(string $path): string
+                {
+                    // Check for the path includes the adapter
+                    if (!str_contains($path, ':')) {
+                        try {
+                            /*
+                             * We got old folder name without adapter eg "images".
+                             * Look whether the adapter exists for this folder, otherwise everything will fallback to default.
+                             */
+                            $this->getAdapter('local-' . $path);
+                            // Adapter exists, update the path
+                            $path = 'local-' . $path . ':/';
+                        } catch (ProviderAccountNotFoundException) {
+                            // Nothing found
+                        }
+                    }
+
+                    $result = $this->resolveAdapterAndPath($path);
+
+                    return implode(':', $result);
+                }
+            };
 
             Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
             Text::script('ERROR');
@@ -334,13 +385,10 @@ trait DisplayTrait
             Text::script('PLG_TINY_DND_ALTTEXT');
             Text::script('PLG_TINY_DND_LAZYLOADED');
             Text::script('PLG_TINY_DND_EMPTY_ALT');
+            Text::script('PLG_TINY_DND_FILE_EXISTS_ERROR');
 
-            $scriptOptions['parentUploadFolder'] = $levelParams->get('path', '');
-            $scriptOptions['csrfToken']          = $csrf;
+            $scriptOptions['parentUploadFolder'] = $mediaHelper->prepareTinyMCEUploadPath($uploadPath);
             $scriptOptions['uploadUri']          = $uploadUrl;
-
-            // @TODO have a way to select the adapter, similar to $levelParams->get('path', '');
-            $scriptOptions['comMediaAdapter']    = 'local-images:';
         }
 
         // Convert pt to px in dropdown
@@ -359,7 +407,7 @@ trait DisplayTrait
             }
         }
 
-        // Should load the template plugin?
+        // Load the template plugin?
         if (!empty($allButtons['jtemplate'])) {
             $wa->useScript('plg_editors_tinymce.jtemplate');
             $plugins[] = 'jtemplate';
@@ -368,20 +416,94 @@ trait DisplayTrait
                 . $levelParams->get('content_template_path') . '&' . $csrf . '=1';
         }
 
+        // Load the abbreviation plugin?
+        if (!empty($allButtons['abbr'])) {
+            $wa->useScript('plg_editors_tinymce.abbr');
+            $plugins[] = 'abbr';
+            Text::script('PLG_TINY_ABBREVIATION_DESCRIPTION_LABEL');
+            Text::script('PLG_TINY_ABBREVIATION_EDIT');
+            Text::script('PLG_TINY_ABBREVIATION_INSERT');
+            Text::script('PLG_TINY_ABBREVIATION_WARNING_NO_DESCRIPTION');
+            Text::script('PLG_TINY_ABBREVIATION_WARNING_NO_SELECTION');
+            Text::script('PLG_TINY_ABBREVIATION_WARNING_REMOVE');
+            Text::script('PLG_TINY_TOOLBAR_BUTTON_ABBREVIATION');
+            Text::script('PLG_TINY_TOOLBAR_BUTTON_REMOVE_ABBREVIATION');
+        }
+
+        // Load the readmore plugin?
+        if (!empty($allButtons['readmore'])) {
+            $wa->useScript('plg_editors_tinymce.readmore');
+            $plugins[] = 'readmore';
+            Text::script('PLG_TINY_TOOLBAR_BUTTON_READMORE');
+        }
+
         // User custom plugins and buttons
         $custom_plugin = trim($levelParams->get('custom_plugin', ''));
         $custom_button = trim($levelParams->get('custom_button', ''));
 
         if ($custom_plugin) {
-            $plugins   = array_merge($plugins, explode(strpos($custom_plugin, ',') !== false ? ',' : ' ', $custom_plugin));
+            $plugins   = array_merge($plugins, explode(str_contains($custom_plugin, ',') ? ',' : ' ', $custom_plugin));
         }
 
         if ($custom_button) {
-            $toolbar1  = array_merge($toolbar1, explode(strpos($custom_button, ',') !== false ? ',' : ' ', $custom_button));
+            $toolbar1  = array_merge($toolbar1, explode(str_contains($custom_button, ',') ? ',' : ' ', $custom_button));
         }
 
         // Merge the two toolbars for backwards compatibility
         $toolbar = array_merge($toolbar1, $toolbar2);
+
+        // Set default classes to empty
+        $linkClasses = [];
+
+        // Load the link classes list
+        if (isset($extraOptions->link_classes_list) && $extraOptions->link_classes_list) {
+            $linksClassesList = $extraOptions->link_classes_list;
+
+            if ($linksClassesList) {
+                $linkClasses = [['title' => TEXT::_('PLG_TINY_FIELD_LINK_CLASS_NONE'), 'value' => '']];
+
+                // Create an array for the link classes
+                foreach ($linksClassesList as $linksClassList) {
+                    array_push($linkClasses, ['title' => $linksClassList->class_name, 'value' => $linksClassList->class_list]);
+                }
+            }
+        }
+
+        // Set the default classes for the image class dropdown
+        $imgClasses = [
+            ['title' => TEXT::_('PLG_TINY_FIELD_IMG_CLASS_NO_CLASS'), 'value' => ''],
+            ['title' => 'None', 'value' => 'float-none'],
+            ['title' => 'Left', 'value' => 'float-start'],
+            ['title' => 'Right', 'value' => 'float-end'],
+            ['title' => 'Center', 'value' => 'mx-auto d-block'],
+        ];
+
+        // Load the image classes list
+        if (isset($extraOptions->img_classes_list) && $extraOptions->img_classes_list) {
+            $imgClassesList = $extraOptions->img_classes_list;
+
+            if ($imgClassesList) {
+                // Create an array for the image classes
+                foreach ($imgClassesList as $imgClassList) {
+                    array_push($imgClasses, ['title' => $imgClassList->img_class_name, 'value' => $imgClassList->img_class_list]);
+                }
+            }
+        }
+
+        // Add the current domain to the sandbox_iframes_exclusions list
+        $sandboxIframesExclusions = Uri::getInstance()->getHost();
+
+        // Build the list of additional domains to add to the sandbox_iframes_exclusions list
+        if (isset($extraOptions->sandbox_iframes_exclusions) && $extraOptions->sandbox_iframes_exclusions) {
+            $exclusionsArray = [];
+            foreach ($extraOptions->sandbox_iframes_exclusions as $value) {
+                if (isset($value->exclusion_domain)) {
+                    $exclusionsArray[] = $value->exclusion_domain;
+                }
+            }
+            // Join the URLs into a comma-separated string and add to the sandbox_iframes_exclusions list
+            $sandboxIframesExclusions .= ', ' . implode(', ', $exclusionsArray);
+        }
 
         // Build the final options set
         $scriptOptions   = array_merge(
@@ -425,6 +547,9 @@ trait DisplayTrait
                 'relative_urls'      => (bool) $levelParams->get('relative_urls', true),
                 'remove_script_host' => false,
 
+                // Link classes
+                'link_class_list' => $linkClasses,
+
                 // Drag and drop Images always FALSE, reverting this allows for inlining the images
                 'paste_data_images' => false,
 
@@ -433,8 +558,8 @@ trait DisplayTrait
                 'document_base_url' => Uri::root(true) . '/',
                 'image_caption'     => true,
                 'importcss_append'  => true,
-                'height'            => $this->params->get('html_height', '550px'),
-                'width'             => $this->params->get('html_width', ''),
+                'height'            => $defaultHeight,
+                'width'             => $defaultWidth,
                 'elementpath'       => (bool) $levelParams->get('element_path', true),
                 'resize'            => $resizing,
                 'external_plugins'  => empty($externalPlugins) ? null : $externalPlugins,
@@ -446,12 +571,7 @@ trait DisplayTrait
                 'a11y_advanced_options' => true,
                 'image_advtab'          => (bool) $levelParams->get('image_advtab', false),
                 'image_title'           => true,
-                'image_class_list'      => [
-                    ['title' => 'None', 'value' => 'float-none'],
-                    ['title' => 'Left', 'value' => 'float-start'],
-                    ['title' => 'Right', 'value' => 'float-end'],
-                    ['title' => 'Center', 'value' => 'mx-auto d-block'],
-                ],
+                'image_class_list'      => $imgClasses,
 
                 // Drag and drop specific
                 'dndEnabled' => $dragdrop,
@@ -459,6 +579,14 @@ trait DisplayTrait
                 // Disable TinyMCE Branding
                 'branding'  => false,
                 'promotion' => false,
+
+                // Set License
+                'license_key' => 'gpl',
+
+                // Hardened security
+                'sandbox_iframes'            => (bool) $levelParams->get('sandbox_iframes', true),
+                'sandbox_iframes_exclusions' => $sandboxIframesExclusions,
+                'convert_unsafe_embeds'      => true,
 
                 // Specify the attributes to be used when previewing a style. This prevents white text on a white background making the preview invisible.
                 'preview_styles' => 'font-family font-size font-weight font-style text-decoration text-transform background-color border border-radius outline text-shadow',

@@ -40,7 +40,8 @@ extract($displayData);
  * @var  integer  $size            The size text
  * @var  string   $value           The value text
  * @var  string   $src             The path and filename of the image
- * @var  array    $mediaTypes      The supported media types for the Media Manager
+ * @var  string   $mediaTypes      The ids of supported media types for the Media Manager
+ * @var  array    $mediaTypeNames  The names of supported media types for the Media Manager
  * @var  array    $imagesExt       The supported extensions for images
  * @var  array    $audiosExt       The supported extensions for audios
  * @var  array    $videosExt       The supported extensions for videos
@@ -113,28 +114,27 @@ if (!$readonly) {
     $url = Route::_($url);
 }
 
-Text::script('JSELECT');
 Text::script('JCLOSE');
-Text::script('JFIELD_MEDIA_LAZY_LABEL');
-Text::script('JFIELD_MEDIA_ALT_LABEL');
-Text::script('JFIELD_MEDIA_ALT_CHECK_LABEL');
 Text::script('JFIELD_MEDIA_ALT_CHECK_DESC_LABEL');
+Text::script('JFIELD_MEDIA_ALT_CHECK_LABEL');
+Text::script('JFIELD_MEDIA_ALT_LABEL');
 Text::script('JFIELD_MEDIA_CLASS_LABEL');
-Text::script('JFIELD_MEDIA_FIGURE_CLASS_LABEL');
-Text::script('JFIELD_MEDIA_FIGURE_CAPTION_LABEL');
-Text::script('JFIELD_MEDIA_LAZY_LABEL');
-Text::script('JFIELD_MEDIA_SUMMARY_LABEL');
-Text::script('JFIELD_MEDIA_EMBED_CHECK_DESC_LABEL');
 Text::script('JFIELD_MEDIA_DOWNLOAD_CHECK_DESC_LABEL');
 Text::script('JFIELD_MEDIA_DOWNLOAD_CHECK_LABEL');
-Text::script('JFIELD_MEDIA_EMBED_CHECK_LABEL');
-Text::script('JFIELD_MEDIA_WIDTH_LABEL');
-Text::script('JFIELD_MEDIA_TITLE_LABEL');
-Text::script('JFIELD_MEDIA_HEIGHT_LABEL');
-Text::script('JFIELD_MEDIA_UNSUPPORTED');
 Text::script('JFIELD_MEDIA_DOWNLOAD_FILE');
+Text::script('JFIELD_MEDIA_EMBED_CHECK_DESC_LABEL');
+Text::script('JFIELD_MEDIA_EMBED_CHECK_LABEL');
+Text::script('JFIELD_MEDIA_FIGURE_CAPTION_LABEL');
+Text::script('JFIELD_MEDIA_FIGURE_CLASS_LABEL');
+Text::script('JFIELD_MEDIA_HEIGHT_LABEL');
+Text::script('JFIELD_MEDIA_LAZY_LABEL');
+Text::script('JFIELD_MEDIA_SUMMARY_LABEL');
+Text::script('JFIELD_MEDIA_TITLE_LABEL');
+Text::script('JFIELD_MEDIA_UNSUPPORTED');
+Text::script('JFIELD_MEDIA_WIDTH_LABEL');
 Text::script('JLIB_APPLICATION_ERROR_SERVER');
 Text::script('JLIB_FORM_MEDIA_PREVIEW_EMPTY', true);
+Text::script('JSELECT');
 
 $doc = Factory::getApplication()->getDocument();
 $wam = $doc->getWebAssetManager();
@@ -154,15 +154,35 @@ if (!$doc->getScriptOptions('media-picker')) {
     ]);
 }
 
+$imagesOnly      = count($mediaTypeNames) === 1 && in_array('images', $mediaTypeNames);
+$videosOnly      = count($mediaTypeNames) === 1 && in_array('videos', $mediaTypeNames);
+$directoriesOnly = count($mediaTypeNames) === 1 && in_array('directories', $mediaTypeNames);
+
+$modalTitleSelect = match (true) {
+    $imagesOnly      => 'JLIB_FORM_SELECT_IMAGE',
+    $videosOnly      => 'JLIB_FORM_SELECT_VIDEO',
+    $directoriesOnly => 'JLIB_FORM_SELECT_DIRECTORY',
+    default          => 'JLIB_FORM_SELECT_FILE',
+};
+
+$modalTitleChange = match (true) {
+    $imagesOnly      => 'JLIB_FORM_CHANGE_IMAGE',
+    $videosOnly      => 'JLIB_FORM_CHANGE_VIDEO',
+    $directoriesOnly => 'JLIB_FORM_CHANGE_DIRECTORY',
+    default          => 'JLIB_FORM_CHANGE_FILE',
+};
+
 ?>
-<joomla-field-media class="field-media-wrapper" type="image" <?php // @TODO add this attribute to the field in order to use it for all media types ?>
+<joomla-field-media class="field-media-wrapper"
+    types="<?php echo $this->escape(implode(',', $mediaTypeNames)); ?>"
     base-path="<?php echo $this->escape(Uri::root()); ?>"
-    root-folder="<?php echo $this->escape(ComponentHelper::getParams('com_media')->get('file_path', 'images')); ?>"
+    root-folder="<?php echo $this->escape(ComponentHelper::getParams('com_media')->get('image_path', 'images')); ?>"
     url="<?php echo $url; ?>"
     input=".field-media-input"
     button-select=".button-select"
     button-clear=".button-clear"
-    modal-title="<?php echo $this->escape(Text::_('JLIB_FORM_CHANGE_IMAGE')); ?>"
+    modal-title-select="<?php echo $this->escape(Text::_($modalTitleSelect)); ?>"
+    modal-title-change="<?php echo $this->escape(Text::_($modalTitleChange)); ?>"
     preview="static"
     preview-container=".field-media-preview"
     preview-width="<?php echo $previewWidth; ?>"

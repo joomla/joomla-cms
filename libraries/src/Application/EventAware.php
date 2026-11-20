@@ -60,7 +60,7 @@ trait EventAware
     {
         try {
             $this->getDispatcher()->addListener($event, $handler);
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // No dispatcher is registered, don't throw an error (mimics old behavior)
         }
 
@@ -72,7 +72,7 @@ trait EventAware
      *
      * This is a legacy method, implementing old-style (Joomla! 3.x) plugin calls. It's best to go directly through the
      * Dispatcher and handle the returned EventInterface object instead of going through this method. This method is
-     * deprecated and will be removed in Joomla! 5.x.
+     * deprecated and will be removed in Joomla! 7.0.
      *
      * This method will only return the 'result' argument of the event
      *
@@ -84,7 +84,7 @@ trait EventAware
      * @since       4.0.0
      * @throws      \InvalidArgumentException
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the Dispatcher method instead
      *              Example: Factory::getApplication()->getDispatcher()->dispatch($eventName, $event);
      *
@@ -93,8 +93,8 @@ trait EventAware
     {
         try {
             $dispatcher = $this->getDispatcher();
-        } catch (\UnexpectedValueException $exception) {
-            $this->getLogger()->error(sprintf('Dispatcher not set in %s, cannot trigger events.', \get_class($this)));
+        } catch (\UnexpectedValueException) {
+            $this->getLogger()->error(\sprintf('Dispatcher not set in %s, cannot trigger events.', \get_class($this)));
 
             return [];
         }

@@ -34,20 +34,17 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
-
+            $container->lazy(Schemaorg::class, function (Container $container) {
                 $plugin = new Schemaorg(
-                    $dispatcher,
                     (array) PluginHelper::getPlugin('system', 'schemaorg')
                 );
-
+                $plugin->setDispatcher($container->get(DispatcherInterface::class));
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

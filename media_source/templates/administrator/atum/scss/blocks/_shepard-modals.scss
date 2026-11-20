@@ -1,0 +1,39 @@
+.shepherd-element, .shepherd-arrow:before {
+  background-color: var(--body-bg) !important;
+}
+
+.shepherd-text, .shepherd-title {
+  color: var(--body-color) !important;
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .shepherd-element, .shepherd-arrow:before {
+      background-color: #2f4156 !important;
+    }
+
+    .shepherd-has-title .shepherd-content .shepherd-header, .shepherd-element.shepherd-has-title[data-popper-placement^=bottom] > .shepherd-arrow:before {
+      background-color: #222f3e !important;
+    }
+
+    .shepherd-has-title .shepherd-content .shepherd-cancel-icon {
+      color: var(--template-link-color) !important;
+
+      &:hover {
+        color: var(--template-link-hover-color) !important;
+      }
+    }
+
+    body .shepherd-button.shepherd-button-secondary:not(:disabled) {
+
+      color: var(--btn-secondary-color) !important;
+      background-color: var(--btn-secondary-bg) !important;
+      border: var(--btn-secondary-border) !important;
+
+      &:hover {
+        color: var(--btn-secondary-color-hvr) !important;
+        background-color: var(--btn-secondary-bg-hvr) !important;
+      }
+    }
+  }
+}

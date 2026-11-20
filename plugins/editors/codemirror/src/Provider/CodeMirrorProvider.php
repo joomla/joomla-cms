@@ -91,6 +91,14 @@ final class CodeMirrorProvider extends AbstractEditorProvider
         $asset   = $params['asset'] ?? 0;
         $author  = $params['author'] ?? 0;
 
+        if (!$width && !$col) {
+            $width = '100%';
+        }
+
+        if (!$height && !$row) {
+            $height = '500px';
+        }
+
         // Must pass the field id to the buttons in this editor.
         $buttonsStr = $this->displayButtons($buttons, ['asset' => $asset, 'author' => $author, 'editorId' => $id]);
 
@@ -117,6 +125,7 @@ final class CodeMirrorProvider extends AbstractEditorProvider
             'scss' => 'css',
             'sass' => 'css',
             'less' => 'css',
+            'js'   => 'javascript',
         ];
         $options->mode = !empty($params['syntax']) ? $params['syntax'] : $this->params->get('syntax', 'html');
         $options->mode = $modeAlias[$options->mode] ?? $options->mode;

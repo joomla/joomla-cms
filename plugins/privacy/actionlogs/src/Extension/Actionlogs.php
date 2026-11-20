@@ -50,7 +50,7 @@ final class Actionlogs extends PrivacyPlugin implements SubscriberInterface
      *
      * @since   3.9.0
      */
-    public function onPrivacyExportRequest(ExportRequestEvent $event)
+    public function onPrivacyExportRequest(ExportRequestEvent $event): void
     {
         $user = $event->getUser();
 
@@ -63,7 +63,7 @@ final class Actionlogs extends PrivacyPlugin implements SubscriberInterface
         $db     = $this->getDatabase();
         $userId = (int) $user->id;
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(['a.*', $db->quoteName('u.name')])
             ->from($db->quoteName('#__action_logs', 'a'))
             ->join('INNER', $db->quoteName('#__users', 'u'), $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'))

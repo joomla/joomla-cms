@@ -19,7 +19,8 @@ use Joomla\CMS\Component\Router\RouterServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Fields\FieldsFormServiceInterface;
+use Joomla\CMS\Fields\FieldsServiceTrait;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper as LibraryContentHelper;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
@@ -28,11 +29,13 @@ use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
 use Joomla\CMS\Schemaorg\SchemaorgServiceTrait;
 use Joomla\CMS\Tag\TagServiceInterface;
 use Joomla\CMS\Tag\TagServiceTrait;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\CMS\Workflow\WorkflowServiceTrait;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
+use Joomla\Database\DatabaseInterface;
 use Psr\Container\ContainerInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -47,7 +50,7 @@ use Psr\Container\ContainerInterface;
 class ContentComponent extends MVCComponent implements
     BootableExtensionInterface,
     CategoryServiceInterface,
-    FieldsServiceInterface,
+    FieldsFormServiceInterface,
     AssociationServiceInterface,
     SchemaorgServiceInterface,
     WorkflowServiceInterface,
@@ -59,9 +62,10 @@ class ContentComponent extends MVCComponent implements
     use HTMLRegistryAwareTrait;
     use WorkflowServiceTrait;
     use SchemaorgServiceTrait;
-    use CategoryServiceTrait, TagServiceTrait {
+    use CategoryServiceTrait, TagServiceTrait, FieldsServiceTrait {
         CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
         CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
+        CategoryServiceTrait::prepareForm insteadof FieldsServiceTrait;
     }
 
     /** @var array Supported functionality */
@@ -125,8 +129,13 @@ class ContentComponent extends MVCComponent implements
      */
     public function boot(ContainerInterface $container)
     {
-        $this->getRegistry()->register('contentadministrator', new AdministratorService());
-        $this->getRegistry()->register('contenticon', new Icon());
+        $contentAdministrator = new AdministratorService();
+        $contentAdministrator->setDatabase($container->get(DatabaseInterface::class));
+        $this->getRegistry()->register('contentadministrator', $contentAdministrator);
+
+        $icon = new Icon();
+        $icon->setUserFactory($container->get(UserFactoryInterface::class));
+        $this->getRegistry()->register('contenticon', $icon);
 
         // The layout joomla.content.icons does need a general icon service
         $this->getRegistry()->register('icon', $this->getRegistry()->getService('contenticon'));
@@ -223,7 +232,7 @@ class ContentComponent extends MVCComponent implements
     /**
      * Returns the workflow context based on the given category section
      *
-     * @param   string  $section  The section
+     * @param   ?string  $section  The section
      *
      * @return  string|null
      *
@@ -239,13 +248,13 @@ class ContentComponent extends MVCComponent implements
     /**
      * Returns the table for the count items functions for the given section.
      *
-     * @param   string  $section  The section
+     * @param   ?string  $section  The section
      *
      * @return  string|null
      *
      * @since   4.0.0
      */
-    protected function getTableNameForSection(string $section = null)
+    protected function getTableNameForSection(?string $section = null)
     {
         return '#__content';
     }
@@ -253,7 +262,7 @@ class ContentComponent extends MVCComponent implements
     /**
      * Returns a table name for the state association
      *
-     * @param   string  $section  An optional section to separate different areas in the component
+     * @param   ?string  $section  An optional section to separate different areas in the component
      *
      * @return  string
      *

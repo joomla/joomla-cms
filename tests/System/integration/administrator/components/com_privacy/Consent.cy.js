@@ -1,4 +1,4 @@
-describe('Test in backend that privacy consent component', () => {
+describe('Test in backend that the privacy consent component', () => {
   beforeEach(() => cy.doAdministratorLogin());
   afterEach(() => {
     cy.task('queryDB', 'DELETE FROM #__privacy_consents');
@@ -203,7 +203,10 @@ describe('Test in backend that privacy consent component', () => {
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
     cy.get('tbody > tr > :nth-child(4)').should('contain', 'test user');
     cy.get('table').find('tr').should('have.length', 4);
+    cy.intercept('POST', '**/administrator/index.php?option=com_privacy&view=consents').as('sort');
     cy.get('#list_fullordering').select('Status ascending');
+    // wait for the table to be updated with the new sort order
+    cy.wait('@sort');
     cy.get('tbody > :nth-child(1) > :nth-child(7)').should('contain', 'invalidated consent user');
     cy.get('tbody > :nth-child(2) > :nth-child(7)').should('contain', 'obsolete consent user');
     cy.get('tbody > :nth-child(3) > :nth-child(7)').should('contain', 'valid consent user');
@@ -220,7 +223,10 @@ describe('Test in backend that privacy consent component', () => {
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
     cy.get('tbody > tr > :nth-child(4)').should('contain', 'test user');
     cy.get('table').find('tr').should('have.length', 4);
+    cy.intercept('POST', '**/administrator/index.php?option=com_privacy&view=consents').as('sort');
     cy.get('#list_fullordering').select('Status descending');
+    // wait for the table to be updated with the new sort order
+    cy.wait('@sort');
     cy.get('tbody > :nth-child(1) > :nth-child(7)').should('contain', 'valid consent user');
     cy.get('tbody > :nth-child(2) > :nth-child(7)').should('contain', 'obsolete consent user');
     cy.get('tbody > :nth-child(3) > :nth-child(7)').should('contain', 'invalidated consent user');
@@ -240,7 +246,10 @@ describe('Test in backend that privacy consent component', () => {
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
     cy.get('table').find('tr').should('have.length', 4);
+    cy.intercept('POST', '**/administrator/index.php?option=com_privacy&view=consents').as('sort');
     cy.get('#list_fullordering').select('Username ascending');
+    // wait for the table to be updated with the new sort order
+    cy.wait('@sort');
     cy.get('tbody > :nth-child(1) > :nth-child(4)').should('contain', 'a test user');
     cy.get('tbody > :nth-child(2) > :nth-child(4)').should('contain', 'b test user');
     cy.get('tbody > :nth-child(3) > :nth-child(4)').should('contain', 'c test user');
@@ -260,7 +269,10 @@ describe('Test in backend that privacy consent component', () => {
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
     cy.get('table').find('tr').should('have.length', 4);
+    cy.intercept('POST', '**/administrator/index.php?option=com_privacy&view=consents').as('sort');
     cy.get('#list_fullordering').select('Username descending');
+    // wait for the table to be updated with the new sort order
+    cy.wait('@sort');
     cy.get('tbody > :nth-child(1) > :nth-child(4)').should('contain', 'c test user');
     cy.get('tbody > :nth-child(2) > :nth-child(4)').should('contain', 'b test user');
     cy.get('tbody > :nth-child(3) > :nth-child(4)').should('contain', 'a test user');
@@ -280,7 +292,10 @@ describe('Test in backend that privacy consent component', () => {
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
     cy.get('table').find('tr').should('have.length', 4);
+    cy.intercept('POST', '**/administrator/index.php?option=com_privacy&view=consents').as('sort');
     cy.get('#list_fullordering').select('Name descending');
+    // wait for the table to be updated with the new sort order
+    cy.wait('@sort');
     cy.get('tbody > :nth-child(1) > th').should('contain', 'c test user');
     cy.get('tbody > :nth-child(2) > th').should('contain', 'b test user');
     cy.get('tbody > :nth-child(3) > th').should('contain', 'a test user');
@@ -300,7 +315,10 @@ describe('Test in backend that privacy consent component', () => {
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
     cy.get('table').find('tr').should('have.length', 4);
+    cy.intercept('POST', '**/administrator/index.php?option=com_privacy&view=consents').as('sort');
     cy.get('#list_fullordering').select('Name ascending');
+    // wait for the table to be updated with the new sort order
+    cy.wait('@sort');
     cy.get('tbody > :nth-child(1) > th').should('contain', 'a test user');
     cy.get('tbody > :nth-child(2) > th').should('contain', 'b test user');
     cy.get('tbody > :nth-child(3) > th').should('contain', 'c test user');
@@ -321,7 +339,10 @@ describe('Test in backend that privacy consent component', () => {
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
     cy.get('table').find('tr').should('have.length', 4);
 
+    cy.intercept('POST', '**/administrator/index.php?option=com_privacy&view=consents').as('sort');
     cy.get('#list_fullordering').select('User ID ascending');
+    // wait for the table to be updated with the new sort order
+    cy.wait('@sort');
 
     const cellData = [];
 
@@ -362,7 +383,10 @@ describe('Test in backend that privacy consent component', () => {
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
     cy.get('table').find('tr').should('have.length', 4);
+    cy.intercept('POST', '**/administrator/index.php?option=com_privacy&view=consents').as('sort');
     cy.get('#list_fullordering').select('User ID descending');
+    // wait for the table to be updated with the new sort order
+    cy.wait('@sort');
 
     const cellData = [];
 
@@ -396,7 +420,10 @@ describe('Test in backend that privacy consent component', () => {
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
     cy.get('table').find('tr').should('have.length', 4);
+    cy.intercept('POST', '**/administrator/index.php?option=com_privacy&view=consents').as('sort');
     cy.get('#list_fullordering').select('Subject ascending');
+    // wait for the table to be updated with the new sort order
+    cy.wait('@sort');
     cy.get('tbody > :nth-child(1) > :nth-child(6)').should('contain', 'a test subject');
     cy.get('tbody > :nth-child(2) > :nth-child(6)').should('contain', 'b test subject');
     cy.get('tbody > :nth-child(3) > :nth-child(6)').should('contain', 'c test subject');
@@ -413,6 +440,9 @@ describe('Test in backend that privacy consent component', () => {
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
     cy.get('table').find('tr').should('have.length', 4);
     cy.get('#list_fullordering').select('Subject descending');
+    cy.intercept('POST', '**/administrator/index.php?option=com_privacy&view=consents').as('sort');
+    // wait for the table to be updated with the new sort order
+    cy.wait('@sort');
     cy.get('tbody > :nth-child(1) > :nth-child(6)').should('contain', 'c test subject');
     cy.get('tbody > :nth-child(2) > :nth-child(6)').should('contain', 'b test subject');
     cy.get('tbody > :nth-child(3) > :nth-child(6)').should('contain', 'a test subject');
@@ -429,7 +459,10 @@ describe('Test in backend that privacy consent component', () => {
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
     cy.get('table').find('tr').should('have.length', 4);
 
+    cy.intercept('POST', '**/administrator/index.php?option=com_privacy&view=consents').as('sort');
     cy.get('#list_fullordering').select('Consented descending');
+    // wait for the table to be updated with the new sort order
+    cy.wait('@sort');
 
     const cellData = [];
 
@@ -465,7 +498,10 @@ describe('Test in backend that privacy consent component', () => {
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
     cy.get('table').find('tr').should('have.length', 4);
 
+    cy.intercept('POST', '**/administrator/index.php?option=com_privacy&view=consents').as('sort');
     cy.get('#list_fullordering').select('Consented ascending');
+    // wait for the table to be updated with the new sort order
+    cy.wait('@sort');
 
     const cellData = [];
 
@@ -502,7 +538,10 @@ describe('Test in backend that privacy consent component', () => {
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
     cy.get('tbody > tr > :nth-child(4)').should('contain', 'test user');
     cy.get('table').find('tr').should('have.length', 4);
+    cy.intercept('POST', '**/administrator/index.php?option=com_privacy&view=consents').as('sort');
     cy.get('#list_fullordering').select('ID descending');
+    // wait for the table to be updated with the new sort order
+    cy.wait('@sort');
 
     const cellData = [];
 
@@ -539,7 +578,10 @@ describe('Test in backend that privacy consent component', () => {
     cy.get('tbody > tr > :nth-child(4)').should('contain', 'test user');
     cy.get('table').find('tr').should('have.length', 4);
 
+    cy.intercept('POST', '**/administrator/index.php?option=com_privacy&view=consents').as('sort');
     cy.get('#list_fullordering').select('ID ascending');
+    // wait for the table to be updated with the new sort order
+    cy.wait('@sort');
     const cellData = [];
     for (let i = 1; i < 4; i += 1) {
       cy.get(`tbody > :nth-child(${i}) > :nth-child(9)`)

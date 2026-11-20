@@ -11,11 +11,15 @@
 namespace Joomla\Component\Finder\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model\AfterChangeStateEvent;
+use Joomla\CMS\Event\Model\AfterDeleteEvent;
+use Joomla\CMS\Event\Model\BeforeDeleteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -61,7 +65,7 @@ class IndexModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.7
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -122,7 +126,8 @@ class IndexModel extends ListModel
         $table = $this->getTable();
 
         // Include the content plugins for the on delete events.
-        PluginHelper::importPlugin('content');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
         // Iterate the items to delete each one.
         foreach ($pks as $i => $pk) {
@@ -131,7 +136,13 @@ class IndexModel extends ListModel
                     $context = $this->option . '.' . $this->name;
 
                     // Trigger the onContentBeforeDelete event.
-                    $result = Factory::getApplication()->triggerEvent($this->event_before_delete, [$context, $table]);
+                    $result = $dispatcher->dispatch(
+                        $this->event_before_delete,
+                        new BeforeDeleteEvent($this->event_before_delete, [
+                            'context' => $context,
+                            'subject' => $table,
+                        ])
+                    )->getArgument('result', []);
 
                     if (\in_array(false, $result, true)) {
                         $this->setError($table->getError());
@@ -146,7 +157,13 @@ class IndexModel extends ListModel
                     }
 
                     // Trigger the onContentAfterDelete event.
-                    Factory::getApplication()->triggerEvent($this->event_after_delete, [$context, $table]);
+                    $dispatcher->dispatch(
+                        $this->event_after_delete,
+                        new AfterDeleteEvent($this->event_after_delete, [
+                            'context' => $context,
+                            'subject' => $table,
+                        ])
+                    );
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
@@ -174,14 +191,14 @@ class IndexModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   2.5
      */
     protected function getListQuery()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('l.*')
             ->select($db->quoteName('t.title', 't_title'))
             ->from($db->quoteName('#__finder_links', 'l'))
@@ -227,7 +244,7 @@ class IndexModel extends ListModel
 
             // Filter by indexdate only if $search doesn't contains non-ascii characters
             if (!preg_match('/[^\x00-\x7F]/', $search)) {
-                $orSearchSql .= ' OR ' . $query->castAsChar($db->quoteName('l.indexdate')) . ' LIKE ' . $search;
+                $orSearchSql .= ' OR ' . $query->castAs('CHAR', $db->quoteName('l.indexdate')) . ' LIKE ' . $search;
             }
 
             $query->where('(' . $orSearchSql . ')');
@@ -258,7 +275,7 @@ class IndexModel extends ListModel
     public function getPluginState()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('name, enabled')
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -303,7 +320,7 @@ class IndexModel extends ListModel
     public function getTotalIndexed()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(link_id)')
             ->from($db->quoteName('#__finder_links'));
         $db->setQuery($query);
@@ -393,13 +410,6 @@ class IndexModel extends ListModel
      */
     protected function populateState($ordering = 'l.title', $direction = 'asc')
     {
-        // Load the filter state.
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-        $this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
-        $this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'cmd'));
-        $this->setState('filter.content_map', $this->getUserStateFromRequest($this->context . '.filter.content_map', 'filter_content_map', '', 'cmd'));
-        $this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', ''));
-
         // Load the parameters.
         $params = ComponentHelper::getParams('com_finder');
         $this->setState('params', $params);
@@ -425,7 +435,8 @@ class IndexModel extends ListModel
         $pks   = (array) $pks;
 
         // Include the content plugins for the change of state event.
-        PluginHelper::importPlugin('content');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
         // Access checks.
         foreach ($pks as $i => $pk) {
@@ -441,7 +452,7 @@ class IndexModel extends ListModel
         }
 
         // Attempt to change the state of the records.
-        if (!$table->publish($pks, $value, $user->get('id'))) {
+        if (!$table->publish($pks, $value, $user->id)) {
             $this->setError($table->getError());
 
             return false;
@@ -450,7 +461,14 @@ class IndexModel extends ListModel
         $context = $this->option . '.' . $this->name;
 
         // Trigger the onContentChangeState event.
-        $result = Factory::getApplication()->triggerEvent('onContentChangeState', [$context, $pks, $value]);
+        $result = $dispatcher->dispatch(
+            'onContentChangeState',
+            new AfterChangeStateEvent('onContentChangeState', [
+                'context' => $context,
+                'subject' => $pks,
+                'value'   => $value,
+            ])
+        )->getArgument('result', []);
 
         if (\in_array(false, $result, true)) {
             $this->setError($table->getError());

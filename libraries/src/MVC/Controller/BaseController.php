@@ -12,6 +12,8 @@ namespace Joomla\CMS\MVC\Controller;
 use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Document\DocumentAwareInterface;
 use Joomla\CMS\Factory;
@@ -49,10 +51,15 @@ use Psr\Log\NullLogger;
  *
  * @since  2.5.5
  */
-class BaseController implements ControllerInterface, DispatcherAwareInterface, LoggerAwareInterface
+class BaseController implements
+    ControllerInterface,
+    DispatcherAwareInterface,
+    LoggerAwareInterface,
+    CacheControllerFactoryAwareInterface
 {
     use LoggerAwareTrait;
     use DispatcherAwareTrait;
+    use CacheControllerFactoryAwareTrait;
 
     /**
      * The base path of the controller
@@ -200,7 +207,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      *
      * @since   3.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Will be removed without replacement. Get the model through the MVCFactory instead
      */
     public static function addModelPath($path, $prefix = '')
@@ -261,7 +268,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      *
      * @since       3.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Get the controller through the MVCFactory instead
      *              Example: Factory::getApplication()->bootComponent($option)->getMVCFactory()->createController(...);
      *
@@ -274,7 +281,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         }
 
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s::getInstance() is deprecated. Load it through the MVC factory.',
                 self::class
             ),
@@ -300,9 +307,9 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         }
 
         // Check for a controller.task command.
-        if (strpos($command, '.') !== false) {
+        if (str_contains($command, '.')) {
             // Explode the controller.task command.
-            list($type, $task) = explode('.', $command);
+            [$type, $task] = explode('.', $command);
 
             // Define the controller filename and path.
             $file       = self::createFileName('controller', ['name' => $type, 'format' => $format]);
@@ -365,7 +372,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      *
      * @since   3.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, ?CMSApplicationInterface $app = null, ?Input $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?CMSApplicationInterface $app = null, ?Input $input = null)
     {
         $this->methods     = [];
         $this->message     = null;
@@ -378,7 +385,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         $this->input = $input ?: $this->app->getInput();
 
         /**
-         * @deprecated This is to maintain b/c with the J4.0 implementation of BaseController. In Joomla 6.0 this will be
+         * @deprecated This is to maintain b/c with the J4.0 implementation of BaseController. In Joomla 7.0 this will be
          *             removed and instead the logger should be injected by the MVCFactory using
          *             BaseController::setLogger()
          */
@@ -391,7 +398,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         }
 
         // Determine the methods to exclude from the base class.
-        $xMethods = get_class_methods('\\Joomla\\CMS\\MVC\\Controller\\BaseController');
+        $xMethods = get_class_methods(BaseController::class);
 
         // Get the public methods in this class using reflection.
         $r        = new \ReflectionClass($this);
@@ -445,9 +452,9 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         // Set the default model search path
         if (\array_key_exists('model_path', $config)) {
             // User-defined dirs
-            $this->addModelPath($config['model_path'], $this->model_prefix);
+            static::addModelPath($config['model_path'], $this->model_prefix);
         } else {
-            $this->addModelPath($this->basePath . '/models', $this->model_prefix);
+            static::addModelPath($this->basePath . '/models', $this->model_prefix);
         }
 
         // Set the default view search path
@@ -524,7 +531,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
     {
         if (!($this->app instanceof CMSWebApplicationInterface)) {
             throw new \Exception(
-                sprintf(
+                \sprintf(
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
@@ -540,12 +547,12 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
 
             if (\defined('JDEBUG') && JDEBUG) {
                 $this->getLogger()->info(
-                    sprintf(
+                    \sprintf(
                         'Checking edit ID %s.%s: %d %s',
                         $context,
                         $id,
                         (int) $result,
-                        str_replace("\n", ' ', print_r($values, 1))
+                        json_encode($values)
                     ),
                     ['category' => 'controller']
                 );
@@ -638,7 +645,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
     {
         if (!($this->app instanceof CMSWebApplicationInterface)) {
             throw new \Exception(
-                sprintf(
+                \sprintf(
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
@@ -688,9 +695,10 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
 
             try {
                 /** @var \Joomla\CMS\Cache\Controller\ViewController $cache */
-                $cache = Factory::getCache($option, 'view');
+                $cache = $this->getCacheControllerFactory()
+                    ->createCacheController('view', ['defaultgroup' => $option]);
                 $cache->get($view, 'display');
-            } catch (CacheExceptionInterface $exception) {
+            } catch (CacheExceptionInterface) {
                 $view->display();
             }
         } else {
@@ -750,7 +758,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         if (!$prefix) {
             if ($this->factory instanceof LegacyFactory) {
                 $prefix = $this->model_prefix;
-            } elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0) {
+            } elseif (!empty($config['base_path']) && str_starts_with(Path::clean($config['base_path']), JPATH_ADMINISTRATOR)) {
                 // When the frontend uses an administrator model
                 $prefix = 'Administrator';
             } else {
@@ -773,15 +781,10 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                 $menu = $this->app->getMenu();
 
                 if (\is_object($menu) && $item = $menu->getActive()) {
-                    // Let's get the application object and set menu information if it's available
-                    $menu = $this->app->getMenu();
+                    $params = $menu->getParams($item->id);
 
-                    if (\is_object($menu) && $item = $menu->getActive()) {
-                        $params = $menu->getParams($item->id);
-
-                        // Set default state data
-                        $model->setState('parameters.menu', $params);
-                    }
+                    // Set default state data
+                    $model->setState('parameters.menu', $params);
                 }
             }
         }
@@ -866,7 +869,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         if (!$prefix) {
             if ($this->factory instanceof LegacyFactory) {
                 $prefix = $this->getName() . 'View';
-            } elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0) {
+            } elseif (!empty($config['base_path']) && str_starts_with(Path::clean($config['base_path']), JPATH_ADMINISTRATOR)) {
                 // When the front uses an administrator view
                 $prefix = 'Administrator';
             } else {
@@ -900,7 +903,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
     {
         if (!($this->app instanceof CMSWebApplicationInterface)) {
             throw new \Exception(
-                sprintf(
+                \sprintf(
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
@@ -919,11 +922,11 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
 
             if (\defined('JDEBUG') && JDEBUG) {
                 $this->getLogger()->info(
-                    sprintf(
+                    \sprintf(
                         'Holding edit ID %s.%s %s',
                         $context,
                         $id,
-                        str_replace("\n", ' ', print_r($values, 1))
+                        json_encode($values)
                     ),
                     ['category' => 'controller']
                 );
@@ -943,7 +946,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
     {
         if (!($this->app instanceof CMSWebApplicationInterface)) {
             throw new \Exception(
-                sprintf(
+                \sprintf(
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
@@ -1029,7 +1032,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
     {
         if (!($this->app instanceof CMSWebApplicationInterface)) {
             throw new \Exception(
-                sprintf(
+                \sprintf(
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
@@ -1049,11 +1052,11 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
 
             if (\defined('JDEBUG') && JDEBUG) {
                 $this->getLogger()->info(
-                    sprintf(
+                    \sprintf(
                         'Releasing edit ID %s.%s %s',
                         $context,
                         $id,
-                        str_replace("\n", ' ', print_r($values, 1))
+                        json_encode($values)
                     ),
                     ['category' => 'controller']
                 );
@@ -1134,7 +1137,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
     {
         if (!($this->app instanceof CMSWebApplicationInterface)) {
             throw new \Exception(
-                sprintf(
+                \sprintf(
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
@@ -1225,7 +1228,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      * Get the event dispatcher.
      *
      * The override was made to keep a backward compatibility for legacy component.
-     * TODO: Remove the override in 6.0
+     * TODO: Remove the override in 7.0
      *
      * @return  DispatcherInterface
      *
@@ -1236,7 +1239,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
     {
         if (!$this->dispatcher) {
             @trigger_error(
-                sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 7.0', __CLASS__),
                 E_USER_DEPRECATED
             );
 

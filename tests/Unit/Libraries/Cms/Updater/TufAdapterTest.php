@@ -11,6 +11,7 @@
 namespace Joomla\Tests\Unit\Libraries\Cms\Updater;
 
 use Joomla\CMS\Updater\Adapter\TufAdapter;
+use Joomla\Test\TestHelper;
 use Joomla\Tests\Unit\UnitTestCase;
 use Joomla\Utilities\ArrayHelper;
 use Tuf\Exception\MetadataException;
@@ -20,41 +21,35 @@ use Tuf\Exception\MetadataException;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Updater
- * @since       __DEPLOY_VERSION__
+ * @since       5.1.0
  */
 class TufAdapterTest extends UnitTestCase
 {
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testProcessTufTargetThrowsExceptionIfHashesAreMissing()
     {
         $this->expectException(MetadataException::class);
         $this->expectExceptionMessage("No trusted hashes are available for 'nohash.json'");
 
-        $object = $this->getMockBuilder(TufAdapter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $object = $this->createStub(TufAdapter::class);
 
-        $method = $this->getPublicMethod($object, 'processTufTarget');
-        $method->invoke($object, 'nohash.json', []);
+        TestHelper::invoke($object, 'processTufTarget', 'nohash.json', []);
     }
 
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testProcesstuftargetAssignsCustomTargetKeys()
     {
-        $object = $this->getMockBuilder(TufAdapter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $object = $this->createStub(TufAdapter::class);
 
-        $method = $this->getPublicMethod($object, 'processTufTarget');
-        $result = $method->invoke($object, 'targets.json', $this->getMockTarget([
+        $result = TestHelper::invoke($object, 'processTufTarget', 'targets.json', $this->getMockTarget([
             'custom' => [
                 'name'    => 'Testupdate',
                 'version' => '1.2.3',
@@ -68,17 +63,13 @@ class TufAdapterTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testProcesstuftargetAssignsClientId()
     {
-        $object = $this->getMockBuilder(TufAdapter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $object = $this->createStub(TufAdapter::class);
 
-
-        $method = $this->getPublicMethod($object, 'processTufTarget');
-        $result = $method->invoke($object, 'targets.json', $this->getMockTarget([
+        $result = TestHelper::invoke($object, 'processTufTarget', 'targets.json', $this->getMockTarget([
             'client' => 'site',
         ]));
 
@@ -88,17 +79,13 @@ class TufAdapterTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testProcesstuftargetAssignsInfoUrl()
     {
-        $object = $this->getMockBuilder(TufAdapter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $object = $this->createStub(TufAdapter::class);
 
-
-        $method = $this->getPublicMethod($object, 'processTufTarget');
-        $result = $method->invoke($object, 'targets.json', $this->getMockTarget([
+        $result = TestHelper::invoke($object, 'processTufTarget', 'targets.json', $this->getMockTarget([
             'custom' => [
                 'infourl' => [
                     'url' => 'https://example.org',
@@ -110,33 +97,13 @@ class TufAdapterTest extends UnitTestCase
     }
 
     /**
-     * Internal helper method to get access to protected methods
-     *
-     * @since   __DEPLOY_VERSION__
-     *
-     * @param $object
-     * @param $method
-     *
-     * @return \ReflectionMethod
-     * @throws \ReflectionException
-     */
-    protected function getPublicMethod($object, $method)
-    {
-        $reflectionClass = new \ReflectionClass($object);
-        $method          = $reflectionClass->getMethod($method);
-        $method->setAccessible(true);
-
-        return $method;
-    }
-
-    /**
      * Target override data
      *
      * @param array $overrides
      *
      * @return array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     protected function getMockTarget(array $overrides)
     {

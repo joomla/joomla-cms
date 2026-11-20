@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Multifactorauth\Webauthn\Extension;
 
-use Exception;
 use Joomla\CMS\Event\MultiFactor\Captive;
 use Joomla\CMS\Event\MultiFactor\GetMethod;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
@@ -29,7 +28,6 @@ use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
 use Joomla\Plugin\Multifactorauth\Webauthn\Helper\Credentials;
-use RuntimeException;
 use Webauthn\PublicKeyCredentialRequestOptions;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -346,7 +344,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
             ob_start();
             include $layoutPath;
             $html = ob_get_clean();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return;
         }
 
@@ -424,7 +422,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
         } catch (\Exception $e) {
             try {
                 $this->getApplication()->enqueueMessage($e->getMessage(), 'error');
-            } catch (\Exception $e) {
+            } catch (\Exception) {
             }
 
             $event->addResult(false);

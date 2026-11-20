@@ -16,8 +16,9 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Tags\Site\View\Tag\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_tags.tag-default');
 
 // Get the user object.
@@ -42,7 +43,7 @@ $canEditState = $user->authorise('core.edit.state', 'com_tags');
                         name="filter-search"
                         id="filter-search"
                         value="<?php echo $this->escape($this->state->get('list.filter')); ?>"
-                        class="inputbox" onchange="document.adminForm.submit();"
+                        class="inputbox"
                         placeholder="<?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>"
                     >
                     <button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
@@ -72,7 +73,7 @@ $canEditState = $user->authorise('core.edit.state', 'com_tags');
         <ul class="com-tags-tag__category category list-group">
             <?php foreach ($this->items as $i => $item) : ?>
                 <?php if ($item->core_state == 0) : ?>
-                    <li class="list-group-item-danger">
+                    <li class="list-group-item list-group-item-danger">
                 <?php else : ?>
                     <li class="list-group-item list-group-item-action">
                 <?php endif; ?>

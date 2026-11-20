@@ -14,6 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Component\Config\Site\View\Modules\HtmlView $this */
 $fieldSets = $this->form->getFieldsets('params');
 
 echo HTMLHelper::_('bootstrap.startAccordion', 'collapseTypes');

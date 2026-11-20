@@ -11,13 +11,20 @@
 namespace Joomla\Plugin\Authentication\Cookie\Extension;
 
 use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Authentication\RememberMe;
+use Joomla\CMS\Event\Privacy\CollectCapabilitiesEvent;
+use Joomla\CMS\Event\User\AfterLoginEvent;
+use Joomla\CMS\Event\User\AfterLogoutEvent;
+use Joomla\CMS\Event\User\AuthenticationEvent;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -30,47 +37,62 @@ use Joomla\Database\DatabaseAwareTrait;
  * @note   Code based on http://jaspan.com/improved_persistent_login_cookie_best_practice
  *         and http://fishbowl.pastiche.org/2004/01/19/persistent_login_cookie_best_practice/
  */
-final class Cookie extends CMSPlugin
+final class Cookie extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;
 
     /**
-     * Reports the privacy related capabilities for this plugin to site administrators.
+     * Returns an array of events this subscriber will listen to.
      *
      * @return  array
      *
+     * @since   5.2.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onPrivacyCollectAdminCapabilities' => 'onPrivacyCollectAdminCapabilities',
+            'onUserAuthenticate'                => 'onUserAuthenticate',
+            'onUserAfterLogin'                  => 'onUserAfterLogin',
+            'onUserAfterLogout'                 => 'onUserAfterLogout',
+        ];
+    }
+
+    /**
+     * Reports the privacy related capabilities for this plugin to site administrators.
+     *
+     * @return  void
+     *
      * @since   3.9.0
      */
-    public function onPrivacyCollectAdminCapabilities()
+    public function onPrivacyCollectAdminCapabilities(CollectCapabilitiesEvent $event): void
     {
         $this->loadLanguage();
 
-        return [
+        $event->addResult([
             $this->getApplication()->getLanguage()->_('PLG_AUTHENTICATION_COOKIE') => [
                 $this->getApplication()->getLanguage()->_('PLG_AUTHENTICATION_COOKIE_PRIVACY_CAPABILITY_COOKIE'),
             ],
-        ];
+        ]);
     }
 
     /**
      * This method should handle any authentication and report back to the subject
      *
-     * @param   array   $credentials  Array holding the user credentials
-     * @param   array   $options      Array of extra options
-     * @param   object  &$response    Authentication response object
+     * @param   AuthenticationEvent  $event    Authentication event
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   3.2
      */
-    public function onUserAuthenticate($credentials, $options, &$response)
+    public function onUserAuthenticate(AuthenticationEvent $event): void
     {
         $app = $this->getApplication();
 
         // No remember me for admin
         if ($app->isClient('administrator')) {
-            return false;
+            return;
         }
 
         // Get cookie
@@ -84,20 +106,31 @@ final class Cookie extends CMSPlugin
         }
 
         if (!$cookieValue) {
-            return false;
+            return;
         }
+
+        $this->loadLanguage();
 
         $cookieArray = explode('.', $cookieValue);
 
         // Check for valid cookie value
         if (\count($cookieArray) !== 2) {
             // Destroy the cookie in the browser.
-            $app->getInput()->cookie->set($cookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
+            $app->getInput()->cookie->set(
+                $cookieName,
+                '',
+                [
+                    'expires' => 1,
+                    'path'    => $app->get('cookie_path', '/'),
+                    'domain'  => $app->get('cookie_domain', ''),
+                ]
+            );
             Log::add('Invalid cookie detected.', Log::WARNING, 'error');
 
-            return false;
+            return;
         }
 
+        $response       = $event->getAuthenticationResponse();
         $response->type = 'Cookie';
 
         // Filter series since we're going to use it in the query
@@ -107,7 +140,7 @@ final class Cookie extends CMSPlugin
 
         // Remove expired tokens
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__user_keys'))
             ->where($db->quoteName('time') . ' < :now')
             ->bind(':now', $now);
@@ -119,7 +152,7 @@ final class Cookie extends CMSPlugin
         }
 
         // Find the matching record if it exists.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['user_id', 'token', 'series', 'time']))
             ->from($db->quoteName('#__user_keys'))
             ->where($db->quoteName('series') . ' = :series')
@@ -133,15 +166,23 @@ final class Cookie extends CMSPlugin
         } catch (\RuntimeException $e) {
             $response->status = Authentication::STATUS_FAILURE;
 
-            return false;
+            return;
         }
 
         if (\count($results) !== 1) {
             // Destroy the cookie in the browser.
-            $app->getInput()->cookie->set($cookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
+            $app->getInput()->cookie->set(
+                $cookieName,
+                '',
+                [
+                    'expires' => 1,
+                    'path'    => $app->get('cookie_path', '/'),
+                    'domain'  => $app->get('cookie_domain', ''),
+                ]
+            );
             $response->status = Authentication::STATUS_FAILURE;
 
-            return false;
+            return;
         }
 
         // We have a user with one cookie with a valid series and a corresponding record in the database.
@@ -151,7 +192,7 @@ final class Cookie extends CMSPlugin
              * Either the series was guessed correctly or a cookie was stolen and used twice (once by attacker and once by victim).
              * Delete all tokens for this user!
              */
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__user_keys'))
                 ->where($db->quoteName('user_id') . ' = :userid')
                 ->bind(':userid', $results[0]->user_id);
@@ -161,24 +202,32 @@ final class Cookie extends CMSPlugin
             } catch (\RuntimeException $e) {
                 // Log an alert for the site admin
                 Log::add(
-                    sprintf('Failed to delete cookie token for user %s with the following error: %s', $results[0]->user_id, $e->getMessage()),
+                    \sprintf('Failed to delete cookie token for user %s with the following error: %s', $results[0]->user_id, $e->getMessage()),
                     Log::WARNING,
                     'security'
                 );
             }
 
             // Destroy the cookie in the browser.
-            $app->getInput()->cookie->set($cookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
+            $app->getInput()->cookie->set(
+                $cookieName,
+                '',
+                [
+                    'expires' => 1,
+                    'path'    => $app->get('cookie_path', '/'),
+                    'domain'  => $app->get('cookie_domain', ''),
+                ]
+            );
 
             // Issue warning by email to user and/or admin?
             Log::add(Text::sprintf('PLG_AUTHENTICATION_COOKIE_ERROR_LOG_LOGIN_FAILED', $results[0]->user_id), Log::WARNING, 'security');
             $response->status = Authentication::STATUS_FAILURE;
 
-            return false;
+            return;
         }
 
         // Make sure there really is a user with this name and get the data for the session.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['id', 'username', 'password']))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('username') . ' = :userid')
@@ -187,10 +236,10 @@ final class Cookie extends CMSPlugin
 
         try {
             $result = $db->setQuery($query)->loadObject();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response->status = Authentication::STATUS_FAILURE;
 
-            return false;
+            return;
         }
 
         if ($result) {
@@ -207,6 +256,9 @@ final class Cookie extends CMSPlugin
             // Set response status.
             $response->status        = Authentication::STATUS_SUCCESS;
             $response->error_message = '';
+
+            // Stop event propagation when status is STATUS_SUCCESS
+            $event->stopPropagation();
         } else {
             $response->status        = Authentication::STATUS_FAILURE;
             $response->error_message = $app->getLanguage()->_('JGLOBAL_AUTH_NO_USER');
@@ -218,22 +270,24 @@ final class Cookie extends CMSPlugin
      * We set a new cookie either for a user with no cookies or one
      * where the user used a cookie to authenticate.
      *
-     * @param   array  $options  Array holding options
+     * @param   AfterLoginEvent  $event  Login event
      *
-     * @return  boolean  True on success
+     * @return  void
      *
      * @since   3.2
      */
-    public function onUserAfterLogin($options)
+    public function onUserAfterLogin(AfterLoginEvent $event): void
     {
         $app = $this->getApplication();
 
         // No remember me for admin
         if ($app->isClient('administrator')) {
-            return false;
+            return;
         }
 
-        $db = $this->getDatabase();
+        $db      = $this->getDatabase();
+        $options = $event->getOptions();
+
         if (isset($options['responseType']) && $options['responseType'] === 'Cookie') {
             // Logged in using a cookie
             $cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
@@ -247,7 +301,15 @@ final class Cookie extends CMSPlugin
                 $cookieValue   = $app->getInput()->cookie->get($oldCookieName);
 
                 // Destroy the old cookie in the browser
-                $app->getInput()->cookie->set($oldCookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
+                $app->getInput()->cookie->set(
+                    $oldCookieName,
+                    '',
+                    [
+                        'expires' => 1,
+                        'path'    => $app->get('cookie_path', '/'),
+                        'domain'  => $app->get('cookie_domain', ''),
+                    ]
+                );
             }
 
             $cookieArray = explode('.', $cookieValue);
@@ -256,117 +318,49 @@ final class Cookie extends CMSPlugin
             $filter = new InputFilter();
             $series = $filter->clean($cookieArray[1], 'ALNUM');
         } elseif (!empty($options['remember'])) {
-            // Remember checkbox is set
-            $cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
+            // Remember checkbox is set. Do not mint a persistent credential while MFA is still outstanding.
+            $mfaChecked = (int) $app->getSession()->get('com_users.mfa_checked', 0);
 
-            // Create a unique series which will be used over the lifespan of the cookie
-            $unique     = false;
-            $errorCount = 0;
+            if (!$mfaChecked && MfaHelper::userMayNeedMfaGate($options['user'])) {
+                /**
+                 * The user may still need to complete an MFA step (captive validation or mandatory setup).
+                 * Defer the cookie creation; it is minted once the login is fully complete,
+                 * either by the captive MFA success handler or by the MFA handler when the
+                 * captive page turns out not to apply.
+                 */
+                $app->getSession()->set('com_users.remember_deferred', 1);
 
-            do {
-                $series = UserHelper::genRandomPassword(20);
-                $query  = $db->getQuery(true)
-                    ->select($db->quoteName('series'))
-                    ->from($db->quoteName('#__user_keys'))
-                    ->where($db->quoteName('series') . ' = :series')
-                    ->bind(':series', $series);
+                return;
+            }
 
-                try {
-                    $results = $db->setQuery($query)->loadResult();
+            // No MFA obligation or MFA already verified - create the cookie immediately
+            RememberMe::createOrUpdateCookie($options['user'], $app, $db, $this->params);
 
-                    if ($results === null) {
-                        $unique = true;
-                    }
-                } catch (\RuntimeException $e) {
-                    $errorCount++;
-
-                    // We'll let this query fail up to 5 times before giving up, there's probably a bigger issue at this point
-                    if ($errorCount === 5) {
-                        return false;
-                    }
-                }
-            } while ($unique === false);
+            return;
         } else {
-            return false;
+            return;
         }
 
-        // Get the parameter values
-        $lifetime = $this->params->get('cookie_lifetime', 60) * 24 * 60 * 60;
-        $length   = $this->params->get('key_length', 16);
-
-        // Generate new cookie
-        $token       = UserHelper::genRandomPassword($length);
-        $cookieValue = $token . '.' . $series;
-
-        // Overwrite existing cookie with new value
-        $app->getInput()->cookie->set(
-            $cookieName,
-            $cookieValue,
-            time() + $lifetime,
-            $app->get('cookie_path', '/'),
-            $app->get('cookie_domain', ''),
-            $app->isHttpsForced(),
-            true
-        );
-
-        $query = $db->getQuery(true);
-
-        if (!empty($options['remember'])) {
-            $future = (time() + $lifetime);
-
-            // Create new record
-            $query
-                ->insert($db->quoteName('#__user_keys'))
-                ->set($db->quoteName('user_id') . ' = :userid')
-                ->set($db->quoteName('series') . ' = :series')
-                ->set($db->quoteName('uastring') . ' = :uastring')
-                ->set($db->quoteName('time') . ' = :time')
-                ->bind(':userid', $options['user']->username)
-                ->bind(':series', $series)
-                ->bind(':uastring', $cookieName)
-                ->bind(':time', $future);
-        } else {
-            // Update existing record with new token
-            $query
-                ->update($db->quoteName('#__user_keys'))
-                ->where($db->quoteName('user_id') . ' = :userid')
-                ->where($db->quoteName('series') . ' = :series')
-                ->where($db->quoteName('uastring') . ' = :uastring')
-                ->bind(':userid', $options['user']->username)
-                ->bind(':series', $series)
-                ->bind(':uastring', $cookieName);
-        }
-
-        $hashedToken = UserHelper::hashPassword($token);
-
-        $query->set($db->quoteName('token') . ' = :token')
-            ->bind(':token', $hashedToken);
-
-        try {
-            $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
-            return false;
-        }
-
-        return true;
+        // Logged in using a cookie - update the existing record with a fresh token
+        RememberMe::createOrUpdateCookie($options['user'], $app, $db, $this->params, $series);
     }
 
     /**
      * This is where we delete any authentication cookie when a user logs out
      *
-     * @param   array  $options  Array holding options (length, timeToExpiration)
+     * @param   AfterLogoutEvent  $event  Logout event
      *
-     * @return  boolean  True on success
+     * @return  void
      *
      * @since   3.2
      */
-    public function onUserAfterLogout($options)
+    public function onUserAfterLogout(AfterLogoutEvent $event): void
     {
         $app = $this->getApplication();
 
         // No remember me for admin
         if ($app->isClient('administrator')) {
-            return false;
+            return;
         }
 
         $cookieName  = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
@@ -374,7 +368,7 @@ final class Cookie extends CMSPlugin
 
         // There are no cookies to delete.
         if (!$cookieValue) {
-            return true;
+            return;
         }
 
         $cookieArray = explode('.', $cookieValue);
@@ -385,20 +379,26 @@ final class Cookie extends CMSPlugin
 
         // Remove the record from the database
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__user_keys'))
             ->where($db->quoteName('series') . ' = :series')
             ->bind(':series', $series);
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // We aren't concerned with errors from this query, carry on
         }
 
         // Destroy the cookie
-        $app->getInput()->cookie->set($cookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
-
-        return true;
+        $app->getInput()->cookie->set(
+            $cookieName,
+            '',
+            [
+                'expires' => 1,
+                'path'    => $app->get('cookie_path', '/'),
+                'domain'  => $app->get('cookie_domain', ''),
+            ]
+        );
     }
 }

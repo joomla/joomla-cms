@@ -36,13 +36,13 @@ class CheckinModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -102,11 +102,11 @@ class CheckinModel extends ListModel
 
             $fields = $db->getTableColumns($tn, false);
 
-            if (!(isset($fields['checked_out']) && isset($fields['checked_out_time']))) {
+            if (!(isset($fields['checked_out'], $fields['checked_out_time']))) {
                 continue;
             }
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName($tn))
                 ->set($db->quoteName('checked_out') . ' = DEFAULT');
 
@@ -119,11 +119,8 @@ class CheckinModel extends ListModel
                     ->bind(':checkouttime', $nullDate);
             }
 
-            if ($fields['checked_out']->Null === 'YES') {
-                $query->where($db->quoteName('checked_out') . ' IS NOT NULL');
-            } else {
-                $query->where($db->quoteName('checked_out') . ' > 0');
-            }
+            // The following expression evaluates to false for values <= 0 as well as for NULL values
+            $query->where($db->quoteName('checked_out') . ' > 0');
 
             $db->setQuery($query);
 
@@ -183,19 +180,16 @@ class CheckinModel extends ListModel
 
                 $fields = $db->getTableColumns($tn, false);
 
-                if (!(isset($fields['checked_out']) && isset($fields['checked_out_time']))) {
+                if (!(isset($fields['checked_out'], $fields['checked_out_time']))) {
                     continue;
                 }
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('COUNT(*)')
                     ->from($db->quoteName($tn));
 
-                if ($fields['checked_out']->Null === 'YES') {
-                    $query->where($db->quoteName('checked_out') . ' IS NOT NULL');
-                } else {
-                    $query->where($db->quoteName('checked_out') . ' > 0');
-                }
+                // The following expression evaluates to false for values <= 0 as well as for NULL values
+                $query->where($db->quoteName('checked_out') . ' > 0');
 
                 $db->setQuery($query);
                 $count = $db->loadResult();

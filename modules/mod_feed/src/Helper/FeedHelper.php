@@ -31,7 +31,7 @@ class FeedHelper
      *
      * @return  \Joomla\CMS\Feed\Feed|string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function getFeedInformation($params)
     {
@@ -42,7 +42,7 @@ class FeedHelper
         try {
             $feed   = new FeedFactory();
             $rssDoc = $feed->getFeed($rssurl);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return Text::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
         }
 
@@ -62,7 +62,7 @@ class FeedHelper
      *
      * @return  \Joomla\CMS\Feed\Feed|string
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.1.0 will be removed in 7.0
      *              Use the non-static method getFeedInformation
      *              Example: Factory::getApplication()->bootModule('mod_feed', 'site')
      *                           ->getHelper('FeedHelper')

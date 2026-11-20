@@ -121,7 +121,7 @@ class ArticlesPopularHelper
             $items      = [];
             $itemParams = new \stdClass();
 
-            $itemParams->authorised = Access::getAuthorisedViewLevels($app->getIdentity()->get('id'));
+            $itemParams->authorised = Access::getAuthorisedViewLevels($app->getIdentity()->id);
             $itemParams->access     = $access;
 
             foreach ($articlesModel->getItems() as $item) {
@@ -171,7 +171,7 @@ class ArticlesPopularHelper
      *
      * @since  4.3.0
      *
-     * @deprecated 4.3 will be removed in 6.0
+     * @deprecated 4.3 will be removed in 7.0
      *             Use the non-static method getArticles
      *             Example: Factory::getApplication()->bootModule('mod_articles_popular', 'site')
      *                          ->getHelper('ArticlesPopularHelper')

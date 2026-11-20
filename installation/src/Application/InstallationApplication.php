@@ -18,8 +18,6 @@ use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -27,6 +25,8 @@ use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
+use Joomla\Filesystem\Folder;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 
@@ -46,20 +46,20 @@ final class InstallationApplication extends CMSApplication
     /**
      * Class constructor.
      *
-     * @param   Input|null      $input      An optional argument to provide dependency injection for the application's input
-     *                                      object.  If the argument is a JInput object that object will become the
-     *                                      application's input object, otherwise a default input object is created.
-     * @param   Registry|null   $config     An optional argument to provide dependency injection for the application's
-     *                                      config object.  If the argument is a Registry object that object will become
-     *                                      the application's config object, otherwise a default config object is created.
-     * @param   WebClient|null  $client     An optional argument to provide dependency injection for the application's
-     *                                      client object.  If the argument is a WebClient object that object will become the
-     *                                      application's client object, otherwise a default client object is created.
-     * @param   Container|null  $container  Dependency injection container.
+     * @param   ?Input      $input      An optional argument to provide dependency injection for the application's input
+     *                                  object.  If the argument is a Input object that object will become the
+     *                                  application's input object, otherwise a default input object is created.
+     * @param   ?Registry   $config     An optional argument to provide dependency injection for the application's
+     *                                  config object.  If the argument is a Registry object that object will become
+     *                                  the application's config object, otherwise a default config object is created.
+     * @param   ?WebClient  $client     An optional argument to provide dependency injection for the application's
+     *                                  client object.  If the argument is a WebClient object that object will become the
+     *                                  application's client object, otherwise a default client object is created.
+     * @param   ?Container  $container  Dependency injection container.
      *
      * @since   3.1
      */
-    public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
+    public function __construct(?Input $input = null, ?Registry $config = null, ?WebClient $client = null, ?Container $container = null)
     {
         // Register the application name.
         $this->name = 'installation';
@@ -187,11 +187,6 @@ final class InstallationApplication extends CMSApplication
         // Register the document object with Factory.
         Factory::$document = $document;
 
-        // Define component path.
-        \define('JPATH_COMPONENT', JPATH_BASE);
-        \define('JPATH_COMPONENT_SITE', JPATH_SITE);
-        \define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
-
         // Execute the task.
         ob_start();
         $this->executeController();
@@ -294,14 +289,14 @@ final class InstallationApplication extends CMSApplication
 
         // Parse task in format controller.task
         if ($task !== '') {
-            list($controllerName, $task) = explode('.', $task, 2);
+            [$controllerName, $task] = explode('.', $task, 2);
         }
 
         $factory = new MVCFactory('Joomla\\CMS', $this->getLogger());
         $factory->setDatabase($this->getContainer()->get(DatabaseInterface::class));
 
         // Create the instance
-        $controller = $factory->createController($controllerName, 'Installation', [], $this, $this->input);
+        $controller = $factory->createController($controllerName, 'Installation', ['base_path' => JPATH_INSTALLATION], $this, $this->input);
 
         // Execute the task
         $controller->execute($task);
@@ -340,13 +335,13 @@ final class InstallationApplication extends CMSApplication
     /**
      * Returns the installed language files in the administrative and frontend area.
      *
-     * @param   DatabaseInterface|null  $db  Database driver.
+     * @param   ?DatabaseInterface  $db  Database driver.
      *
      * @return  array  Array with installed language packs in admin and site area.
      *
      * @since   3.1
      */
-    public function getLocaliseAdmin(DatabaseInterface $db = null)
+    public function getLocaliseAdmin(?DatabaseInterface $db = null)
     {
         $langfiles = [];
 
@@ -366,30 +361,6 @@ final class InstallationApplication extends CMSApplication
         }
 
         return $langfiles;
-    }
-
-    /**
-     * Gets the name of the current template.
-     *
-     * @param   boolean  $params  True to return the template parameters
-     *
-     * @return  string|\stdClass  The name of the template.
-     *
-     * @since   3.1
-     */
-    public function getTemplate($params = false)
-    {
-        if ($params) {
-            $template              = new \stdClass();
-            $template->template    = 'template';
-            $template->params      = new Registry();
-            $template->inheritable = 0;
-            $template->parent      = '';
-
-            return $template;
-        }
-
-        return 'template';
     }
 
     /**
@@ -471,13 +442,13 @@ final class InstallationApplication extends CMSApplication
      * but for many applications it will make sense to override this method and create a document,
      * if required, based on more specific needs.
      *
-     * @param   Document|null  $document  An optional document object. If omitted, the factory document is created.
+     * @param   ?Document  $document  An optional document object. If omitted, the factory document is created.
      *
      * @return  InstallationApplication This method is chainable.
      *
      * @since   3.2
      */
-    public function loadDocument(Document $document = null)
+    public function loadDocument(?Document $document = null)
     {
         if ($document === null) {
             $lang = $this->getLanguage();
@@ -567,5 +538,22 @@ final class InstallationApplication extends CMSApplication
     public function getMenu($name = null, $options = [])
     {
         return null;
+    }
+
+    /**
+     * Initialise the template.
+     *
+     * @return  void
+     *
+     * @since   6.1.0
+     */
+    protected function initialiseTemplate(): void
+    {
+        $this->template = (object) [
+            'template'    => 'template',
+            'params'      => new Registry(),
+            'inheritable' => 0,
+            'parent'      => '',
+        ];
     }
 }

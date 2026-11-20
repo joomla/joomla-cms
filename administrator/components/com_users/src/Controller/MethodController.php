@@ -44,14 +44,14 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
     /**
      * Public constructor
      *
-     * @param   array                     $config   Plugin configuration
-     * @param   MVCFactoryInterface|null  $factory  MVC Factory for the com_users component
-     * @param   CMSApplication|null       $app      CMS application object
-     * @param   Input|null                $input    Joomla CMS input object
+     * @param   array                 $config   Plugin configuration
+     * @param   ?MVCFactoryInterface  $factory  MVC Factory for the com_users component
+     * @param   ?CMSApplication       $app      CMS application object
+     * @param   ?Input                $input    Joomla CMS input object
      *
      * @since 4.2.0
      */
-    public function __construct(array $config = [], MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
+    public function __construct(array $config = [], ?MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
     {
         // We have to tell Joomla what is the name of the view, otherwise it defaults to the name of the *component*.
         $config['default_view'] = 'method';
@@ -110,6 +110,12 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
 
         // Pass the return URL to the view
         $returnURL  = $this->input->getBase64('returnurl');
+
+        // Validate and - if necessary - reset the return url
+        if (empty($returnURL) || !Uri::isInternal(base64_decode($returnURL))) {
+            $returnURL = base64_encode(Uri::base());
+        }
+
         $viewLayout = $this->input->get('layout', 'default', 'string');
         $view       = $this->getView('Method', 'html');
         $view->setLayout($viewLayout);
@@ -159,6 +165,12 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
 
         // Pass the return URL to the view
         $returnURL  = $this->input->getBase64('returnurl');
+
+        // Validate and - if necessary - reset the return url
+        if (empty($returnURL) || !Uri::isInternal(base64_decode($returnURL))) {
+            $returnURL = base64_encode(Uri::base());
+        }
+
         $viewLayout = $this->input->get('layout', 'default', 'string');
         $view       = $this->getView('Method', 'html');
         $view->setLayout($viewLayout);

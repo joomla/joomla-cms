@@ -15,14 +15,13 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Users\Administrator\View\Debuguser\HtmlView $this */
+
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-$loginActions = [];
-$actions = [];
-
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns');
 
 ?>
@@ -37,6 +36,8 @@ $wa->useScript('table.columns');
         <?php else : ?>
             <?php
             // Split the actions table
+            $loginActions = [];
+            $actions      = [];
             foreach ($this->actions as $action) :
                 $name = $action[0];
                 if (in_array($name, ['core.login.site', 'core.login.admin', 'core.login.api', 'core.login.offline'])) :
@@ -156,9 +157,7 @@ $wa->useScript('table.columns');
             <?php // load the pagination. ?>
             <?php echo $this->pagination->getListFooter(); ?>
 
-            <input type="hidden" name="task" value="">
-            <input type="hidden" name="boxchecked" value="0">
-            <?php echo HTMLHelper::_('form.token'); ?>
+            <?php echo $this->filterForm->renderControlFields(); ?>
         <?php endif; ?>
     </div>
 </form>

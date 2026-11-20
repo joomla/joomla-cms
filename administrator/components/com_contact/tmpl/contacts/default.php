@@ -18,13 +18,15 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Contact\Administrator\View\Contacts\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
 $user      = $this->getCurrentUser();
-$userId    = $user->get('id');
+$userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
@@ -153,7 +155,11 @@ if ($saveOrder && !empty($this->items)) {
                                 </th>
                                 <td class="small d-none">
                                     <?php if (!empty($item->linked_user)) : ?>
-                                        <a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . $item->user_id); ?>"><?php echo $item->linked_user; ?></a>
+                                        <?php if ($item->user_id == $userId || ($user->authorise('core.manage', 'com_users') && $user->authorise('core.edit', 'com_users'))) : ?>
+                                            <a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . $item->user_id); ?>"><?php echo $this->escape($item->linked_user); ?></a>
+                                        <?php else : ?>
+                                            <?php echo $this->escape($item->linked_user); ?>
+                                        <?php endif; ?>
                                         <div class="small"><?php echo $item->email; ?></div>
                                     <?php endif; ?>
                                 </td>
@@ -185,17 +191,12 @@ if ($saveOrder && !empty($this->items)) {
 
                     <?php // Load the batch processing form. ?>
                     <?php
-                    if (
-                        $user->authorise('core.create', 'com_contact')
-                        && $user->authorise('core.edit', 'com_contact')
-                        && $user->authorise('core.edit.state', 'com_contact')
-                    ) : ?>
+                    if ($this->batchAllowed) : ?>
                         <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
                     <?php endif; ?>
                 <?php endif; ?>
-                <input type="hidden" name="task" value="">
-                <input type="hidden" name="boxchecked" value="0">
-                <?php echo HTMLHelper::_('form.token'); ?>
+
+                <?php echo $this->filterForm->renderControlFields(); ?>
             </div>
         </div>
     </div>

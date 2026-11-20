@@ -64,7 +64,7 @@ class ObjectReadOnlyProxy extends ObjectProxy implements ReadOnlyProxyInterface
      */
     public function __set($key, $value): void
     {
-        throw new \RuntimeException(sprintf('ObjectReadOnlyProxy: trying to modify read-only element, by key "%s"', $key));
+        throw new \RuntimeException(\sprintf('ObjectReadOnlyProxy: trying to modify read-only element, by key "%s"', $key));
     }
 
     /**

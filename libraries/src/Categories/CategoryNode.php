@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Categories;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Tree\NodeInterface;
 use Joomla\CMS\Tree\NodeTrait;
@@ -28,7 +27,6 @@ use Joomla\Registry\Registry;
 #[\AllowDynamicProperties]
 class CategoryNode implements NodeInterface
 {
-    use LegacyErrorHandlingTrait;
     use LegacyPropertyManagementTrait;
     use NodeTrait;
 
@@ -283,7 +281,9 @@ class CategoryNode implements NodeInterface
     public function __construct($category = null, $constructor = null)
     {
         if ($category) {
-            $this->setProperties($category);
+            foreach ($category as $key => $value) {
+                $this->$key = $value;
+            }
 
             if ($constructor) {
                 $this->_constructor = $constructor;
@@ -488,6 +488,31 @@ class CategoryNode implements NodeInterface
         }
 
         return $this->numitems;
+    }
+
+    /**
+     * Check whether this category has a child that is visible to the user.
+     *
+     * @param   array  $groups               The user's authorised view levels.
+     * @param   bool   $showEmptyCategories  Whether empty categories should be displayed.
+     *
+     * @return  bool  True if a visible child should be displayed.
+     *
+     * @since   6.2.0
+     */
+    public function hasVisibleChildren(array $groups, bool $showEmptyCategories): bool
+    {
+        foreach ($this->getChildren() as $child) {
+            if (!\in_array($child->access, $groups)) {
+                continue;
+            }
+
+            if ($showEmptyCategories || $child->getNumItems(true) || \count($child->getChildren())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

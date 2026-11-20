@@ -78,7 +78,7 @@ final class CaptchaRegistry implements DispatcherAwareInterface
     public function get(string $name): CaptchaProviderInterface
     {
         if (empty($this->registry[$name])) {
-            throw new CaptchaNotFoundException(sprintf('Captcha element "%s" not found in the registry.', $name));
+            throw new CaptchaNotFoundException(\sprintf('Captcha element "%s" not found in the registry.', $name));
         }
 
         return $this->registry[$name];

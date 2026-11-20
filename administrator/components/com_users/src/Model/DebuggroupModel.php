@@ -15,10 +15,9 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Users\Administrator\Helper\DebugHelper;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -34,13 +33,13 @@ class DebuggroupModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -81,14 +80,15 @@ class DebuggroupModel extends ListModel
         $groupId = $this->getState('group_id');
 
         if (($assets = parent::getItems()) && $groupId) {
-            $actions = $this->getDebugActions();
+            $actions          = $this->getDebugActions();
+            $isSuperUserGroup = Access::checkGroup($groupId, 'core.admin');
 
             foreach ($assets as &$asset) {
                 $asset->checks = [];
 
                 foreach ($actions as $action) {
                     $name                 = $action[0];
-                    $asset->checks[$name] = Access::checkGroup($groupId, $name, $asset->name);
+                    $asset->checks[$name] = $isSuperUserGroup ?: Access::checkGroup($groupId, $name, $asset->name);
                 }
             }
         }
@@ -120,7 +120,6 @@ class DebuggroupModel extends ListModel
         }
 
         // Load the filter state.
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
         $this->setState('group_id', $this->getUserStateFromRequest($this->context . '.group_id', 'group_id', 0, 'int', false));
 
         $levelStart = $this->getUserStateFromRequest($this->context . '.filter.level_start', 'filter_level_start', '', 'cmd');
@@ -170,7 +169,7 @@ class DebuggroupModel extends ListModel
     /**
      * Get the group being debugged.
      *
-     * @return  CMSObject
+     * @return  \stdClass
      *
      * @since   1.6
      */
@@ -179,7 +178,7 @@ class DebuggroupModel extends ListModel
         $groupId = (int) $this->getState('group_id');
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['id', 'title']))
             ->from($db->quoteName('#__usergroups'))
             ->where($db->quoteName('id') . ' = :id')
@@ -201,7 +200,7 @@ class DebuggroupModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   1.6
      */
@@ -209,7 +208,7 @@ class DebuggroupModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields from the table.
         $query->select(
