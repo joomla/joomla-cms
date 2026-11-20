@@ -31,6 +31,10 @@
                 class="form-control"
                 type="text"
                 :placeholder="translate('COM_MEDIA_NAME')"
+                :disabled="isSaving"
+                :class="{ 'is-invalid': renameError }"
+                :aria-invalid="renameError ? 'true' : undefined"
+                :aria-describedby="renameError ? 'renameFeedback' : undefined"
                 required
                 autocomplete="off"
               >
@@ -41,6 +45,14 @@
                 {{ extension }}
               </span>
             </div>
+            <div
+              v-if="renameError"
+              id="renameFeedback"
+              class="invalid-feedback d-block"
+              role="alert"
+            >
+              {{ renameError }}
+            </div>
           </div>
         </form>
       </div>
@@ -50,6 +62,7 @@
         <button
           type="button"
           class="btn btn-secondary"
+          :disabled="isSaving"
           @click="close()"
           @keyup.enter="close()"
         >
@@ -58,7 +71,7 @@
         <button
           type="button"
           class="btn btn-success"
-          :disabled="!isValid()"
+          :disabled="isSaving || !isValid()"
           @click="save()"
           @keyup.enter="save()"
         >
@@ -81,6 +94,8 @@ export default {
   data() {
     return {
       editedName: '',
+      renameError: '',
+      isSaving: false,
     };
   },
   computed: {
@@ -95,11 +110,15 @@ export default {
     },
   },
   watch: {
+    editedName() {
+      this.renameError = '';
+    },
     '$store.state.showRenameModal': {
       immediate: true,
       handler(show) {
         if (show) {
           this.editedName = this.name;
+          this.renameError = '';
           this.$nextTick(() => this.$refs.nameField?.focus());
         }
       },
@@ -112,12 +131,15 @@ export default {
     },
     /* Close the modal instance */
     close() {
+      if (this.isSaving) {
+        return;
+      }
       this.$store.commit(types.HIDE_RENAME_MODAL);
     },
     /* Save the form and create the folder */
     save() {
       // Check if the form is valid
-      if (!this.isValid()) {
+      if (this.isSaving || !this.isValid()) {
         // @todo mark the field as invalid
         return;
       }
@@ -131,12 +153,26 @@ export default {
         newPath += '/';
       }
 
+      this.renameError = '';
+      this.isSaving = true;
+
       // Rename the item
-      this.$store.dispatch('renameItem', {
+      return this.$store.dispatch('renameItem', {
         item: this.item,
         newPath: newPath + newName,
         newName,
-      });
+      })
+        .catch((error) => {
+          this.renameError = this.translate('COM_MEDIA_RENAME_ERROR');
+          if (error.response) {
+            const response = JSON.parse(error.response);
+            this.renameError = response.message || this.renameError;
+          }
+        })
+        .finally(() => {
+          this.isSaving = false;
+          this.$nextTick(() => this.$refs.nameField?.focus());
+        });
     },
   },
 };

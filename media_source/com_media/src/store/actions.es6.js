@@ -166,7 +166,7 @@ export const renameItem = (context, payload) => {
     return;
   }
   context.commit(types.SET_IS_LOADING, true);
-  api.rename(payload.item.path, payload.newPath)
+  return api.rename(payload.item.path, payload.newPath)
     .then((item) => {
       context.commit(types.RENAME_SUCCESS, {
         item,
@@ -177,9 +177,8 @@ export const renameItem = (context, payload) => {
       context.commit(types.SET_IS_LOADING, false);
     })
     .catch((error) => {
-      // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
-      throw new Error(error);
+      throw error;
     });
 };
 
