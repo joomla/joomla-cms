@@ -232,25 +232,19 @@ class PluginAdapter extends InstallerAdapter
      */
     public function getElement($element = null)
     {
-        if ($element || !$this->getManifest()) {
-            return $element;
-        }
+        if (!$element) {
+            // Backward Compatibility
+            // @todo Deprecate in future version
+            foreach ($this->getManifest()->files->children() as $file) {
+                if ((string)$file->attributes()->plugin) {
+                    $element = (string)$file->attributes()->plugin;
 
-        // Backward Compatibility
-        // @todo Deprecate in future version
-        if (!\count($this->getManifest()->files->children())) {
-            return $element;
-        }
-
-        $type = (string) $this->getManifest()->attributes()->type;
-
-        foreach ($this->getManifest()->files->children() as $file) {
-            if ((string) $file->attributes()->$type) {
-                $element = (string) $file->attributes()->$type;
-
-                break;
+                    break;
+                }
             }
         }
+
+        $element = $this->getElement($element);
 
         return $element;
     }
