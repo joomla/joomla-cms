@@ -152,11 +152,13 @@ describe('Test in backend that the media manager', () => {
 
         cy.contains('.media-browser-item', item.name).find('.action-toggle .image-browser-action').click({ force: true });
         cy.contains('.media-browser-item', item.name).find('.action-rename').click();
+        cy.window().then((win) => cy.spy(win.Joomla, 'renderMessages').as('renderMessages'));
         cy.get('[aria-labelledby="renameTitle"]').within(() => {
           cy.get('#name').clear().type('        rejected-name');
           cy.get('.modal-footer .btn-success').click();
         });
         cy.wait('@renameRejected').its('request.body.newPath').should('eq', `local-images:/        rejected-name${item.extension}`);
+        cy.get('@renderMessages').should('not.have.been.called');
 
         cy.get('[aria-labelledby="renameTitle"]').within(() => {
           cy.get('#renameFeedback').should('be.visible').and('contain.text', 'Filename rejected by the server.');
@@ -171,6 +173,7 @@ describe('Test in backend that the media manager', () => {
         cy.wait('@renameRetry').its('response.statusCode').should('eq', 200);
         cy.get('[aria-labelledby="renameTitle"]').should('not.exist');
         cy.contains('.media-browser-item', `${item.newName}${item.extension}`).should('be.visible');
+        cy.get('@renderMessages').should('have.been.calledOnce');
       });
     });
   });

@@ -244,12 +244,9 @@ class Api {
           notifications.success('COM_MEDIA_RENAME_SUCCESS');
           resolve(normalizeItem(JSON.parse(response).data));
         },
-        onError: (xhr) => {
-          notifications.error('COM_MEDIA_RENAME_ERROR');
-          reject(xhr);
-        },
+        onError: reject,
       });
-    }).catch(handleError);
+    });
   }
 
   /**

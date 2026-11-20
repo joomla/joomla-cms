@@ -163,11 +163,13 @@ export default {
         newName,
       })
         .catch((error) => {
-          this.renameError = this.translate('COM_MEDIA_RENAME_ERROR');
-          if (error.response) {
-            const response = JSON.parse(error.response);
-            this.renameError = response.message || this.renameError;
+          let response;
+          try {
+            response = JSON.parse(error.response);
+          } catch {
+            response = null;
           }
+          this.renameError = response?.message || this.translate('COM_MEDIA_RENAME_ERROR');
         })
         .finally(() => {
           this.isSaving = false;
