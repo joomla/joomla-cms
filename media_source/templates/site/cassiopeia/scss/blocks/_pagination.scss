@@ -1,0 +1,30 @@
+// Responsive pagination
+
+.pagination__wrapper {
+  container-type: inline-size;
+}
+
+.pagination {
+  flex-wrap: nowrap;
+  align-items: center;
+  white-space: nowrap;
+}
+
+@container (max-width: 40rem) {
+  .pagination > .page-item:not(:first-child):not(:nth-child(2)):not(:nth-last-child(-n + 2)) {
+    display: none;
+  }
+
+  .pagination > .page-item:has(+ .page-item.active),
+  .pagination > .page-item.active,
+  .pagination > .page-item.active + .page-item {
+    display: list-item;
+  }
+}
+
+@container (max-width: 28rem) {
+  .pagination > .page-item:has(+ .page-item.active),
+  .pagination > .page-item.active + .page-item {
+    display: none;
+  }
+}
