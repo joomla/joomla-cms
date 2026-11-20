@@ -11,14 +11,8 @@
 }
 
 @container (max-width: 40rem) {
-  .pagination > .page-item:not(:first-child):not(:nth-child(2)):not(:nth-last-child(-n + 2)) {
+  .pagination > .page-item:not(:where(:first-child, :nth-child(2), :nth-last-child(-n + 2), .active, :has(+ .page-item.active), .active + .page-item)) {
     display: none;
-  }
-
-  .pagination > .page-item:has(+ .page-item.active),
-  .pagination > .page-item.active,
-  .pagination > .page-item.active + .page-item {
-    display: list-item;
   }
 }
 
