@@ -18,7 +18,6 @@
     .active,
     :has(+ .page-item.active),
     .active + .page-item,
-    :nth-last-child(5),
     :nth-child(3).active + .page-item + .page-item
   )) {
     display: none;
