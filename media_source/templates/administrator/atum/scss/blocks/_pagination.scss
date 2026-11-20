@@ -1,12 +1,16 @@
 // Responsive pagination
 
+.pagination__wrapper {
+  container-type: inline-size;
+}
+
 .pagination {
   flex-wrap: nowrap;
   align-items: center;
   white-space: nowrap;
 }
 
-@media (max-width: 40rem) {
+@container (max-width: 40rem) {
   .pagination > .page-item:not(:where(
     :first-child,
     :nth-child(2),
@@ -18,13 +22,15 @@
   )) {
     display: none;
   }
+}
 
+@container (max-width: 40rem) {
   .pagination > .page-item:nth-last-child(5):has(~ .page-item.active:nth-last-child(3)) {
     display: list-item;
   }
 }
 
-@media (max-width: 28rem) {
+@container (max-width: 28rem) {
   .pagination > .page-item:has(+ .page-item.active),
   .pagination > .page-item.active + .page-item,
   .pagination > .page-item:has(+ .page-item:has(+ .page-item.active)),
