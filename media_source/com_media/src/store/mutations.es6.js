@@ -279,7 +279,10 @@ export default {
    * @param payload the item
    */
   [types.SELECT_BROWSER_ITEM]: (state, payload) => {
-    state.selectedItems.push(payload);
+    const isSelected = state.selectedItems.some((item) => item.path === payload.path);
+    if (!isSelected) {
+      state.selectedItems.push(payload);
+    }
   },
 
   /**
