@@ -236,7 +236,7 @@ class MailTest extends UnitTestCase
     }
 
     /**
-     * Tests the IsHTML method.
+     * Tests the isHtml method.
      *
      * @return void
      *
@@ -250,7 +250,7 @@ class MailTest extends UnitTestCase
     }
 
     /**
-     * Tests the IsHTML method.
+     * Tests the isHtml method.
      *
      * @return void
      *
