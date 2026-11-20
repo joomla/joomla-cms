@@ -73,6 +73,15 @@ class DisplayController extends BaseController
             if ($vName !== $defaultView && !$model->getOptions() && $defaultView !== 'remove') {
                 $app->redirect('index.php');
             }
+
+            if ($vName === 'setup') {
+                $model->checkEnvironmentVariables();
+            }
+
+            // Check for leftover .env file that should have been removed during config() task
+            if ($vName === 'remove' && ($_ENV['JOOMLA_ENV'] ?? '') === 'prod' && is_file(JPATH_ROOT . '/.env')) {
+                $app->enqueueMessage('Were unable to delete .env file. Please remove it manually.', 'warning');
+            }
         }
 
         $this->input->set('view', $vName);

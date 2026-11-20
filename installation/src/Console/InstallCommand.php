@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Installation\Console;
 
+use Joomla\CMS\Console\DotenvDumpCommand;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Form\FormHelper;
@@ -20,7 +21,9 @@ use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Version;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Filesystem\File;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -94,6 +97,8 @@ class InstallCommand extends AbstractCommand
             }
         }
 
+        $checkModel->checkEnvironmentVariables();
+
         $this->ioStyle->writeln('OK');
 
         // Collect the configuration
@@ -103,16 +108,25 @@ class InstallCommand extends AbstractCommand
         $cfg['admin_password_plain'] = $cfg['admin_password'];
         $cfg['language']             = 'en-GB';
         $cfg['helpurl']              = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
+
+        $envOptions = $checkModel->getEnvironmentOptions();
+        $cfgWithEnv = array_merge($cfg, $envOptions);
+
         $this->ioStyle->writeln('OK');
 
         /** @var SetupModel $setupModel */
         $setupModel = $app->getMVCFactory()->createModel('Setup', 'Installation');
 
+        // Validate environment options
+        if ($envOptions && $setupModel->validate($cfgWithEnv, 'setup') === false) {
+            return Command::FAILURE;
+        }
+
         // Validate DB connection
         $this->ioStyle->write('Validating DB connection...');
 
         try {
-            $setupModel->validateDbConnection($cfg);
+            $setupModel->validateDbConnection($cfgWithEnv);
         } catch (\Exception $e) {
             $this->ioStyle->error($e->getMessage());
 
@@ -125,18 +139,18 @@ class InstallCommand extends AbstractCommand
 
         // Create and populate database
         $this->ioStyle->write('Creating and populating the database...');
-        $databaseModel->createDatabase($cfg);
-        $db = $databaseModel->initialise($cfg);
+        $databaseModel->createDatabase($cfgWithEnv);
+        $db = $databaseModel->initialise($cfgWithEnv);
 
         // Set the character set to UTF-8 for pre-existing databases.
         try {
-            $db->alterDbCharacterSet($cfg['db_name']);
+            $db->alterDbCharacterSet($cfgWithEnv['db_name']);
         } catch (\RuntimeException $e) {
             // Continue Anyhow
         }
 
         // Backup any old database.
-        if (!$databaseModel->backupDatabase($db, $cfg['db_prefix'])) {
+        if (!$databaseModel->backupDatabase($db, $cfgWithEnv['db_prefix'])) {
             return Command::FAILURE;
         }
 
@@ -155,7 +169,7 @@ class InstallCommand extends AbstractCommand
                 continue;
             }
 
-            $databaseModel->createTables($schema, $cfg);
+            $databaseModel->createTables($schema, $cfgWithEnv);
         }
 
         $this->ioStyle->writeln('OK');
@@ -165,7 +179,7 @@ class InstallCommand extends AbstractCommand
 
         // Attempt to setup the configuration.
         $this->ioStyle->write('Writing configuration.php and additional setup ...');
-        $configurationModel->setup($cfg);
+        $configurationModel->setup($cfg, $envOptions);
         $this->ioStyle->writeln('OK');
 
         if (!(new Version())->isInDevelopmentState()) {
@@ -183,11 +197,11 @@ class InstallCommand extends AbstractCommand
             $this->ioStyle->writeln('OK');
         }
 
-        if (!empty($cfg['public_folder'])) {
+        if (!empty($cfgWithEnv['public_folder'])) {
             $this->ioStyle->write('Creating the public folder...');
 
             try {
-                (new PublicFolderGeneratorHelper())->createPublicFolder($cfg['public_folder']);
+                (new PublicFolderGeneratorHelper())->createPublicFolder($cfgWithEnv['public_folder']);
             } catch (\Exception $e) {
                 $this->ioStyle->error($e->getMessage());
 
@@ -195,6 +209,20 @@ class InstallCommand extends AbstractCommand
             }
 
             $this->ioStyle->writeln('OK');
+        }
+
+        // When environment variables in use then generate a cache and remove raw .env for production environment
+        if ($envOptions && $_ENV['JOOMLA_ENV'] === 'prod') {
+            $dumpCmd    = new DotenvDumpCommand();
+            $dumpResult = $dumpCmd->execute(new ArrayInput([]), $output);
+
+            if ($dumpResult === 0 && is_file(JPATH_ROOT . '/.env')) {
+                try {
+                    File::delete(JPATH_ROOT . '/.env');
+                } catch (\Exception) {
+                    $this->ioStyle->error('Unable to delete .env file. Please remove it manually.');
+                }
+            }
         }
 
         $this->ioStyle->success('Joomla has been installed');
@@ -258,13 +286,17 @@ class InstallCommand extends AbstractCommand
                     $cfg[$field->fieldname] = $field->filter($field->default);
                 }
             } else {
-                $cfg[$field->fieldname] = $field->filter(
-                    $this->getStringFromOption(
-                        str_replace('_', '-', $field->fieldname),
-                        Text::_((string)$field->getAttribute('label')),
-                        $field
-                    )
-                );
+                if ($field->hidden) {
+                    $cfg[$field->fieldname] = $field->filter($field->default);
+                } else {
+                    $cfg[$field->fieldname] = $field->filter(
+                        $this->getStringFromOption(
+                            str_replace('_', '-', $field->fieldname),
+                            Text::_((string)$field->getAttribute('label')),
+                            $field
+                        )
+                    );
+                }
             }
         }
 
