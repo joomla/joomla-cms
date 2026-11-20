@@ -1160,10 +1160,14 @@ class Indexer
                 . ' VALUES (' . implode('), (', $values) . ')'
                 . ' ON CONFLICT (' . $db->quoteName('term') . ', ' . $db->quoteName('language') . ') DO NOTHING';
         } else {
-            // Unlike INSERT IGNORE, this only skips duplicates and doesn't turn other errors into warnings.
+            /*
+             * Unlike INSERT IGNORE, this only skips duplicates and doesn't turn other errors into warnings.
+             * The no-op update must not touch term_id: MySQL refuses to assign the auto-increment column
+             * when the duplicate was inserted by the same statement.
+             */
             $sql = 'INSERT INTO ' . $db->quoteName('#__finder_terms') . ' (' . $columns . ')'
                 . ' VALUES (' . implode('), (', $values) . ')'
-                . ' ON DUPLICATE KEY UPDATE ' . $db->quoteName('term_id') . ' = ' . $db->quoteName('term_id');
+                . ' ON DUPLICATE KEY UPDATE ' . $db->quoteName('links') . ' = ' . $db->quoteName('links');
         }
 
         $db->setQuery($sql)->execute();
