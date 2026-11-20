@@ -17,8 +17,11 @@
     }
 
     .filter-group {
+      margin-block-start: 1rem;
+      padding-block-start: 0;
       padding-inline-start: .75rem;
-      border-inline-start: 2px solid var(--border-color);
+      border-block-start: 0;
+      border-inline-start: 2px solid var(--gray-600);
     }
   }
 
