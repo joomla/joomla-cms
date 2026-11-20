@@ -44,9 +44,13 @@ final class Imagelist extends FieldsPlugin implements SubscriberInterface
             return $fieldNode;
         }
 
+        $multiple = $field->params->get('multiple', '0') === '1';
+
+        $fieldNode->setAttribute('hide_none', $multiple ? 'true' : 'false');
         $fieldNode->setAttribute('hide_default', 'true');
         $directory = trim((string) $fieldNode->getAttribute('directory'), '/');
         $fieldNode->setAttribute('directory', $directory === '' ? 'images' : 'images/' . $directory);
+        $fieldNode->setAttribute('layout', 'joomla.form.field.list-fancy-select');
 
         return $fieldNode;
     }
