@@ -1,0 +1,39 @@
+// Responsive pagination
+
+.pagination__wrapper {
+  container-type: inline-size;
+}
+
+.pagination {
+  flex-wrap: nowrap;
+  align-items: center;
+  white-space: nowrap;
+}
+
+@container (max-width: 40rem) {
+  .pagination > .page-item:not(:where(
+    :first-child,
+    :nth-child(2),
+    :nth-last-child(-n + 2),
+    .active,
+    :has(+ .page-item.active),
+    .active + .page-item,
+    :nth-child(3).active + .page-item + .page-item)) {
+    display: none;
+  }
+}
+
+@container (max-width: 40rem) {
+  .pagination > .page-item:nth-last-child(5):has(~ .page-item.active:nth-last-child(3)) {
+    display: list-item;
+  }
+}
+
+@container (max-width: 28rem) {
+  .pagination > .page-item:has(+ .page-item.active):not(:nth-child(-n + 2)),
+  .pagination > .page-item.active + .page-item:not(:nth-last-child(-n + 2)),
+  .pagination > .page-item:has(+ .page-item + .page-item.active):not(:nth-child(-n + 2)),
+  .pagination > .page-item.active + .page-item + .page-item:not(:nth-last-child(-n + 2)) {
+    display: none;
+  }
+}
