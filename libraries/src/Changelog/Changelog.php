@@ -158,6 +158,14 @@ class Changelog
     protected $folder;
 
     /**
+     * Text content of the current item.
+     *
+     * @var    string
+     * @since  6.2.1
+     */
+    private $currentItem = '';
+
+    /**
      * Gets the reference to the current direct parent
      *
      * @return  string
@@ -201,6 +209,10 @@ class Changelog
         // Reset the data
         if (isset($this->$tag)) {
             $this->$tag->data = '';
+        }
+
+        if ($name === 'ITEM') {
+            $this->currentItem = '';
         }
 
         // Skip technical elements
@@ -256,6 +268,15 @@ class Changelog
                 $this->currentChangelog                                = new \stdClass();
                 break;
             case 'CHANGELOGS':
+                break;
+            case 'ITEM':
+                $item = trim($this->currentItem);
+
+                if ($item !== '') {
+                    $this->items[] = $item;
+                }
+
+                $this->currentItem = '';
                 break;
         }
     }

@@ -258,9 +258,11 @@ trait DisplayTrait
             'quickbars',
             'jxtdbuttons',
             'jfilepicker',
+            'pasteword',
         ];
         $wa->useScript('plg_editors_tinymce.jxtdbuttons');
         $wa->useScript('plg_editors_tinymce.jfilepicker');
+        $wa->useScript('plg_editors_tinymce.pasteword');
 
         // The link picker for the native Link dialog (registers the 'file' picker)
         $wa->useStyle('plg_editors_tinymce.linkpicker');

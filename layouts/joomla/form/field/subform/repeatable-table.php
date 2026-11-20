@@ -52,7 +52,8 @@ if (!empty($groupByFieldset)) {
         $table_head .= '<th scope="col">' . Text::_($fieldset->label);
 
         if ($fieldset->description) {
-            $table_head .= '<span class="icon-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-th-' . $fieldId . '-' . $k . '">' . Text::_($fieldset->description) . '</div>';
+            $tipId = 'tip-th-' . $fieldId . '-' . $k;
+            $table_head .= '<span class="icon-info-circle" aria-labelledby="' . $tipId . '" tabindex="0"></span><div role="tooltip" id="' . $tipId . '">' . Text::_($fieldset->description) . '</div>';
         }
 
         $table_head .= '</th>';
@@ -66,7 +67,8 @@ if (!empty($groupByFieldset)) {
         $table_head .= '<th scope="col" style="width:' . $th_width . '%">' . strip_tags($field->label);
 
         if ($field->description) {
-            $table_head .= '<span class="icon-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-' . $field->id . '">' . Text::_($field->description) . '</div>';
+            $tipId = 'tip-' . $field->id;
+            $table_head .= '<span class="icon-info-circle" aria-labelledby="' . $tipId . '" tabindex="0"></span><div role="tooltip" id="' . $tipId . '">' . Text::_($field->description) . '</div>';
         }
 
         $table_head .= '</th>';
