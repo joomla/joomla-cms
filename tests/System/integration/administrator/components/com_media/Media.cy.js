@@ -90,6 +90,94 @@ describe('Test in backend that the media manager', () => {
     cy.checkForSystemMessage('File or Folder not found');
   });
 
+  ['joomla_black.png', 'banners'].forEach((name) => {
+    it(`rejects an empty name when renaming ${name}`, () => {
+      cy.visit('/administrator/index.php?option=com_media&path=local-images:/');
+      cy.wait('@getMedia');
+      cy.intercept('PUT', '*format=json*task=api.files*').as('renameMedia');
+
+      cy.contains('.media-browser-item', name).find('.action-toggle .image-browser-action').click({ force: true });
+      cy.contains('.media-browser-item', name).find('.action-rename').click();
+      cy.get('[role="dialog"]').within(() => {
+        cy.get('#name').clear();
+        cy.get('.modal-footer .btn-success').should('be.disabled');
+        cy.get('#name').type('{enter}').should('have.value', '');
+        cy.get('form').submit();
+        cy.get('#name').should('have.value', '');
+        cy.get('#name').type('   ');
+        cy.get('.modal-footer .btn-success').should('be.disabled');
+        cy.get('#name').type('{enter}');
+        cy.get('form').submit();
+        cy.get('#name').should('have.value', '   ');
+        cy.get('#name').clear().type('valid-name');
+        cy.get('.modal-footer .btn-success').should('be.enabled');
+        cy.contains('button', 'Cancel').click();
+      });
+      cy.get('@renameMedia.all').should('have.length', 0);
+
+      cy.contains('.media-browser-item', name).find('.action-toggle .image-browser-action').click({ force: true });
+      cy.contains('.media-browser-item', name).find('.action-rename').click();
+      cy.get('#name').should('have.value', name === 'joomla_black.png' ? 'joomla_black' : name);
+      cy.contains('[role="dialog"] button', 'Cancel').click();
+    });
+  });
+
+  describe('rename error recovery', () => {
+    const items = [
+      { name: 'test-48883-rename.png', newName: 'test-48883-renamed-image', extension: '.png' },
+      { name: 'test-48883-rename-folder', newName: 'test-48883-renamed-folder', extension: '' },
+    ];
+
+    afterEach(() => {
+      items.forEach((item) => {
+        cy.task('deleteRelativePath', `images/${item.name}`);
+        cy.task('deleteRelativePath', `images/${item.newName}${item.extension}`);
+      });
+    });
+
+    items.forEach((item) => {
+      it(`shows server errors inside the dialog and allows retrying ${item.name}`, () => {
+        if (item.extension) {
+          cy.task('copyRelativeFile', { source: 'images/joomla_black.png', destination: `images/${item.name}` });
+        } else {
+          cy.task('writeRelativeFile', { path: `images/${item.name}/keep.txt`, content: 'Rename test' });
+        }
+
+        cy.visit('/administrator/index.php?option=com_media&path=local-images:/');
+        cy.wait('@getMedia');
+        cy.intercept(
+          { method: 'PUT', url: '*format=json*task=api.files*', times: 1 },
+          { statusCode: 400, body: { success: false, message: 'Filename rejected by the server.' } },
+        ).as('renameRejected');
+
+        cy.contains('.media-browser-item', item.name).find('.action-toggle .image-browser-action').click({ force: true });
+        cy.contains('.media-browser-item', item.name).find('.action-rename').click();
+        cy.window().then((win) => cy.spy(win.Joomla, 'renderMessages').as('renderMessages'));
+        cy.get('[aria-labelledby="renameTitle"]').within(() => {
+          cy.get('#name').clear().type('        rejected-name');
+          cy.get('.modal-footer .btn-success').click();
+        });
+        cy.wait('@renameRejected').its('request.body.newPath').should('eq', `local-images:/        rejected-name${item.extension}`);
+        cy.get('@renderMessages').should('not.have.been.called');
+
+        cy.get('[aria-labelledby="renameTitle"]').within(() => {
+          cy.get('#renameFeedback').should('be.visible').and('contain.text', 'Filename rejected by the server.');
+          cy.get('#name').should('have.value', '        rejected-name').and('have.attr', 'aria-invalid', 'true');
+          cy.get('.modal-footer .btn-success').should('be.enabled');
+          cy.get('#name').clear().type(item.newName);
+          cy.get('#renameFeedback').should('not.exist');
+        });
+
+        cy.intercept('PUT', '*format=json*task=api.files*').as('renameRetry');
+        cy.get('#name').type('{enter}');
+        cy.wait('@renameRetry').its('response.statusCode').should('eq', 200);
+        cy.get('[aria-labelledby="renameTitle"]').should('not.exist');
+        cy.contains('.media-browser-item', `${item.newName}${item.extension}`).should('be.visible');
+        cy.get('@renderMessages').should('have.been.calledOnce');
+      });
+    });
+  });
+
   it('can not rename to malicious file', () => {
     cy.visit('/administrator/index.php?option=com_media');
     cy.wait('@getMedia');
