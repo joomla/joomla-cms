@@ -13,6 +13,10 @@
       margin-inline-end: 8px;
     }
 
+    .js-stools-btn-filter[aria-expanded="true"] .icon-angle-down {
+      transform: rotate(180deg);
+    }
+
     .js-stools-btn-clear {
       background-color: $cyan;
       border: 0;
