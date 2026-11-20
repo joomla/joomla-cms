@@ -36,6 +36,28 @@ class JFormValidator {
       return regex.test(newValue);
     });
 
+    // Compare the value with the field named in data-compare-field, which is in the same group as the element
+    const getCompareValue = (element) => {
+      const compareField = element.getAttribute('data-compare-field');
+
+      if (!compareField || !element.form) {
+        return null;
+      }
+
+      const name = /\[[^\]]*\]$/.test(element.name) ? element.name.replace(/\[[^\]]*\]$/, `[${compareField}]`) : compareField;
+      const compareElement = element.form.elements.namedItem(name);
+
+      return compareElement ? compareElement.value : null;
+    };
+    this.setHandler('equals', (value, element) => {
+      const compareValue = getCompareValue(element);
+      return compareValue === null || value === compareValue;
+    });
+    this.setHandler('notequals', (value, element) => {
+      const compareValue = getCompareValue(element);
+      return compareValue === null || value !== compareValue;
+    });
+
     // Attach all forms with a class 'form-validate'
     document.querySelectorAll('form').forEach((form) => {
       if (form.classList.contains('form-validate')) {
@@ -345,7 +367,15 @@ class JFormValidator {
 
     if (element.getAttribute('pattern') && element.getAttribute('pattern') !== '') {
       if (element.value.length) {
-        const isValid = new RegExp(`^${element.getAttribute('pattern')}$`).test(element.value);
+        let isValid = true;
+
+        // Match the whole value like the browser does. An invalid pattern is ignored, like the browser does.
+        try {
+          isValid = new RegExp(`^(?:${element.getAttribute('pattern')})$`).test(element.value);
+        } catch (e) {
+          isValid = true;
+        }
+
         this.handleResponse(isValid, element, 'empty');
         return isValid;
       }
