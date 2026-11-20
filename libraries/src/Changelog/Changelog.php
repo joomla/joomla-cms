@@ -142,20 +142,12 @@ class Changelog
     protected $currentChangelog;
 
     /**
-     * The version to match the changelog
+     * Array containing all the changelog data
      *
-     * @var    string
-     * @since  4.0.0
+     * @var    array
+     * @since  __DEPLOY_VERSION__
      */
-    private $matchVersion = '';
-
-    /**
-     * Object containing the latest changelog data
-     *
-     * @var    \stdClass
-     * @since  4.0.0
-     */
-    protected $latest;
+    public $changes = [];
 
     /**
      * Update manifest `<folder>` element
@@ -195,20 +187,6 @@ class Changelog
     protected function getLastTag()
     {
         return $this->stack[\count($this->stack) - 1];
-    }
-
-    /**
-     * Set the version to match.
-     *
-     * @param   string  $version  The version to match
-     *
-     * @return  void
-     *
-     * @since   4.0.0
-     */
-    public function setVersion(string $version)
-    {
-        $this->matchVersion = $version;
     }
 
     /**
@@ -279,30 +257,17 @@ class Changelog
             case 'CHANGE':
             case 'REMOVE':
             case 'NOTE':
-                $name                                = strtolower($name);
-                $this->currentChangelog->$name->data = $this->items;
-                $this->items                         = [];
+                $name = strtolower($name);
+                if (\count($this->items)) {
+                    $this->currentChangelog->$name->data = $this->items;
+                    $this->items                         = [];
+                }
                 break;
             case 'CHANGELOG':
-                if (version_compare($this->currentChangelog->version->data, $this->matchVersion, '==') === true) {
-                    $this->latest = $this->currentChangelog;
-                }
-
-                // No version match, empty it
-                $this->currentChangelog = new \stdClass();
+                $this->changes[$this->currentChangelog->version->data] = $this->refine($this->currentChangelog);
+                $this->currentChangelog                                = new \stdClass();
                 break;
             case 'CHANGELOGS':
-                // If the latest item is set then we transfer it to where we want to
-                if (isset($this->latest)) {
-                    foreach (get_object_vars($this->latest) as $key => $val) {
-                        $this->$key = $val;
-                    }
-
-                    unset($this->latest, $this->currentChangelog);
-                } elseif (isset($this->currentChangelog)) {
-                    // The update might be for an older version of j!
-                    unset($this->currentChangelog);
-                }
                 break;
             case 'ITEM':
                 $item = trim($this->currentItem);
@@ -314,6 +279,28 @@ class Changelog
                 $this->currentItem = '';
                 break;
         }
+    }
+
+    /**
+     * Strip out object properties that hold no data.
+     *
+     * @param   object  $rawData
+     *
+     * @return  object
+     * @since   __DEPLOY_VERSION__
+     */
+    private function refine($rawData)
+    {
+        foreach ($rawData as $key => $value) {
+            if (
+                \getType($value->data) === 'string' && $value->data == '' ||
+                \getType($value->data) === 'array' && \count($value->data) == 0
+            ) {
+                unset($rawData->$key);
+            }
+        }
+
+        return $rawData;
     }
 
     /**
@@ -333,7 +320,9 @@ class Changelog
 
         switch ($tag) {
             case 'ITEM':
-                $this->currentItem .= $data;
+                if (!empty($data)) {
+                    $this->items[] = $data;
+                }
                 break;
             case 'SECURITY':
             case 'FIX':
