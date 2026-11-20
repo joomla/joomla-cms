@@ -27,6 +27,10 @@
       }
     }
 
+    .js-stools-btn-filter[aria-expanded="true"] .icon-angle-down {
+      transform: rotate(180deg);
+    }
+
     .js-stools-btn-clear {
       background-color: $js-stools-btn-clear-bg;
       &[disabled],
