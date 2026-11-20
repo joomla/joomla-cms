@@ -1209,18 +1209,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 7\.0
-				             Use the MvcFactory instead or instantiate the table class directly\.
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
-				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_contenthistory/src/Model/CompareModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -1264,18 +1252,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 7\.0
-				             Use the MvcFactory instead or instantiate the table class directly\.
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
-				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_contenthistory/src/Model/HistoryModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -1284,18 +1260,6 @@ parameters:
 			identifier: method.deprecated
 			count: 4
 			path: administrator/components/com_contenthistory/src/Model/HistoryModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 7\.0
-				             Use the MvcFactory instead or instantiate the table class directly\.
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
-				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_contenthistory/src/Model/PreviewModel.php
 
 		-
 			message: '''

@@ -105,7 +105,9 @@ class PreviewModel extends ItemModel
      */
     public function getTable($type = 'ContentHistory', $prefix = 'Joomla\\CMS\\Table\\', $config = [])
     {
-        return Table::getInstance($type, $prefix, $config);
+        $className = $prefix . $type;
+
+        return new $className($this->getDatabase());
     }
 
     /**
