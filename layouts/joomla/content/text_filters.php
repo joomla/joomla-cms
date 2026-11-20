@@ -35,7 +35,7 @@ use Joomla\CMS\Language\Text;
     <?php $fieldsnames = explode(',', $displayData->fieldsname); ?>
     <?php foreach ($fieldsnames as $fieldname) : ?>
         <?php foreach ($displayData->form->getFieldset($fieldname) as $field) : ?>
-            <div class="table-responsive"><?php echo $field->input; ?></div>
+            <?php echo $field->input; ?>
         <?php endforeach; ?>
     <?php endforeach; ?>
 </fieldset>
