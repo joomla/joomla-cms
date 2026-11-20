@@ -33,7 +33,7 @@
 @container (max-width: 28rem) {
   .pagination > .page-item:has(+ .page-item.active),
   .pagination > .page-item.active + .page-item,
-  .pagination > .page-item:has(+ .page-item:has(+ .page-item.active)),
+  .pagination > .page-item:has(+ .page-item + .page-item.active),
   .pagination > .page-item.active + .page-item + .page-item {
     display: none;
   }
