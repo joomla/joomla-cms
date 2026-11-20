@@ -37,6 +37,7 @@
 				name="validate_regex"
 				type="text"
 				label="PLG_FIELDS_TEXT_PARAMS_VALIDATE_REGEX_LABEL"
+				description="PLG_FIELDS_TEXT_PARAMS_VALIDATE_REGEX_DESC"
 				showon="validate:regex"
 			/>
 
@@ -44,6 +45,7 @@
 				name="field"
 				type="text"
 				label="PLG_FIELDS_TEXT_PARAMS_VALIDATE_EQUALS_LABEL"
+				description="PLG_FIELDS_TEXT_PARAMS_VALIDATE_EQUALS_DESC"
 				showon="validate:equals[OR]validate:notequals"
 			/>
 
@@ -51,6 +53,7 @@
 				name="message"
 				type="text"
 				label="PLG_FIELDS_TEXT_PARAMS_MESSAGE_LABEL"
+				description="PLG_FIELDS_TEXT_PARAMS_MESSAGE_DESC"
 				showon="validate!:"
 			/>
 
