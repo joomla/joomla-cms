@@ -115,7 +115,8 @@ class HtmlView extends BaseHtmlView
         ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'sync install');
 
         $arrow = $this->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
-        $toolbar->link('index.php?option=com_joomlaupdate&' . ($this->getLayout() == 'captive' ? 'view=upload' : ''), 'JTOOLBAR_BACK', $arrow);
+        $toolbar->link('JTOOLBAR_BACK', 'index.php?option=com_joomlaupdate&' . ($this->getLayout() == 'captive' ? 'view=upload' : ''))
+            ->icon('icon-' . $arrow);
         $toolbar->divider();
         $toolbar->help('Joomla_Update');
     }

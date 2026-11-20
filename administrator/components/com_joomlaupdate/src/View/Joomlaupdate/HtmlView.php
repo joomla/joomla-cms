@@ -290,11 +290,14 @@ class HtmlView extends BaseHtmlView
         if (\in_array($this->getLayout(), ['update', 'complete'])) {
             $arrow = $this->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
-            $toolbar->link('index.php?option=com_joomlaupdate', 'JTOOLBAR_BACK', $arrow);
+            $toolbar->link('JTOOLBAR_BACK', 'index.php?option=com_joomlaupdate')
+                ->icon('icon-' . $arrow);
 
             ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD'), 'joomla install');
         } elseif (!$this->selfUpdateAvailable) {
-            $toolbar->custom('update.purge', 'loop', '', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', false);
+            $toolbar->standardButton('loop', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', 'update.purge')
+                ->icon('icon-loop')
+                ->listCheck(false);
         }
 
         // Add toolbar buttons.

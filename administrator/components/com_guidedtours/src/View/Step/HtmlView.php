@@ -121,9 +121,7 @@ class HtmlView extends BaseHtmlView
                 'btn-success'
             );
 
-            $toolbar->cancel(
-                'step.cancel'
-            );
+            $toolbar->cancel('step.cancel', 'JTOOLBAR_CANCEL');
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);

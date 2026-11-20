@@ -144,11 +144,8 @@ class HtmlView extends BaseHtmlView
         ToolbarHelper::title(Text::sprintf('COM_GUIDEDTOURS_STEPS_LIST', Text::_($title)), 'map-signs');
         $arrow  = $this->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
-        $toolbar->link(
-            Route::_('index.php?option=com_guidedtours&view=tours'),
-            'JTOOLBAR_BACK',
-            $arrow
-        );
+        $toolbar->link('JTOOLBAR_BACK', Route::_('index.php?option=com_guidedtours&view=tours'))
+            ->icon('icon-' . $arrow);
 
         if ($canDo->get('core.create')) {
             $toolbar->addNew('step.add');
