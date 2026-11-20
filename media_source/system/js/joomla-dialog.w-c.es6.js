@@ -391,6 +391,7 @@ class JoomlaDialog extends HTMLElement {
       // Create an IFrame content
       case 'iframe': {
         const frame = document.createElement('iframe');
+        frame.title = this.textHeader;
         frame.addEventListener('load', onLoad);
         frame.src = this.src;
         // Enlarge default size of iframe, make sure it is usable without extra styling
