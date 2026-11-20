@@ -277,7 +277,7 @@ class ConsentBoxField extends CheckboxesField
         }
 
         $associatedArticles = Associations::getAssociations('com_content', '#__content', 'com_content.item', $article->id);
-        $currentLang        = Factory::getLanguage()->getTag();
+        $currentLang        = Factory::getApplication()->getLanguage()->getTag();
 
         if (isset($associatedArticles) && $currentLang !== $article->language && \array_key_exists($currentLang, $associatedArticles)) {
             return Route::_(
@@ -312,7 +312,7 @@ class ConsentBoxField extends CheckboxesField
 
         if ($itemId > 0 && Associations::isEnabled()) {
             $privacyAssociated = Associations::getAssociations('com_menus', '#__menu', 'com_menus.item', $itemId, 'id', '', '');
-            $currentLang       = Factory::getLanguage()->getTag();
+            $currentLang       = Factory::getApplication()->getLanguage()->getTag();
 
             if (isset($privacyAssociated[$currentLang])) {
                 $itemId = $privacyAssociated[$currentLang]->id;

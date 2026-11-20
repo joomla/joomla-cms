@@ -77,7 +77,7 @@ class TosField extends RadioField
                 'UTF-8'
             ) . '"';
 
-            if (Factory::getLanguage()->isRtl()) {
+            if (Factory::getApplication()->getLanguage()->isRtl()) {
                 $label .= ' data-bs-placement="left"';
             }
         }
@@ -103,7 +103,7 @@ class TosField extends RadioField
                 $tosAssociated = Associations::getAssociations('com_content', '#__content', 'com_content.item', $tosArticle);
             }
 
-            $currentLang = Factory::getLanguage()->getTag();
+            $currentLang = Factory::getApplication()->getLanguage()->getTag();
 
             if (isset($tosAssociated) && $currentLang !== $article->language && \array_key_exists($currentLang, $tosAssociated)) {
                 $url  = RouteHelper::getArticleRoute(
