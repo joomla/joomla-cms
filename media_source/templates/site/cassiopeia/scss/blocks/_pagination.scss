@@ -25,6 +25,12 @@
   }
 }
 
+@container (max-width: 40rem) {
+  .pagination > .page-item:has(+ .page-item:has(+ .page-item.active:nth-last-child(3))) {
+    display: list-item;
+  }
+}
+
 @container (max-width: 28rem) {
   .pagination > .page-item:has(+ .page-item.active),
   .pagination > .page-item.active + .page-item,
