@@ -988,7 +988,7 @@ class Indexer
     {
         $result = [];
 
-        // Find the terms which the index already knows.
+        // Find the terms which the index already knows in exactly this spelling.
         foreach (array_chunk(array_keys($terms), 500) as $chunk) {
             $result += $this->loadTermIds($language, $chunk);
         }
@@ -999,7 +999,11 @@ class Indexer
             return $result;
         }
 
-        // Create the ones which are new.
+        /*
+         * Create the ones which are new. A term which the collation of the term column treats
+         * as equal to an existing term, for example "koriscenja" for "korišćenja" with
+         * utf8mb4_unicode_ci, is skipped as a duplicate here.
+         */
         foreach (array_chunk($missing, 500, true) as $chunk) {
             $this->createTerms($language, $chunk);
         }
@@ -1014,11 +1018,22 @@ class Indexer
             $result += $this->loadTermIds($language, $chunk);
         }
 
+        $missing = array_diff_key($terms, $result);
+
+        // What is still missing now is stored in another spelling, so let the database match it.
+        foreach (array_chunk(array_keys($missing), 500) as $chunk) {
+            $result += $this->loadTermIdsByCollation($language, $chunk);
+        }
+
         return $result;
     }
 
     /**
      * Method to load the ids of the given terms from the terms table.
+     *
+     * Only terms which are stored in exactly the given spelling are returned. The database
+     * might return rows in another spelling which its collation treats as equal, those are
+     * left to loadTermIdsByCollation().
      *
      * @param   string  $language  The language the terms belong to.
      * @param   array   $terms     The terms to look up.
@@ -1030,15 +1045,71 @@ class Indexer
      */
     private function loadTermIds($language, array $terms)
     {
+        if (!$terms) {
+            return [];
+        }
+
         $db    = $this->db;
         $query = $db->createQuery()
             ->select($db->quoteName(['term', 'term_id']))
             ->from($db->quoteName('#__finder_terms'))
+            ->whereIn($db->quoteName('term'), array_map('strval', $terms), ParameterType::STRING)
             ->where($db->quoteName('language') . ' = :language')
-            ->bind(':language', $language)
-            ->whereIn($db->quoteName('term'), array_map('strval', $terms), ParameterType::STRING);
+            ->bind(':language', $language);
 
-        return $db->setQuery($query)->loadAssocList('term', 'term_id') ?: [];
+        $stored = $db->setQuery($query)->loadAssocList('term', 'term_id') ?: [];
+        $result = [];
+
+        foreach ($terms as $term) {
+            if (isset($stored[$term])) {
+                $result[$term] = $stored[$term];
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Method to load the ids of terms which are stored in another spelling.
+     *
+     * Whether two spellings are the same term is decided by the collation of the term column,
+     * which differs between sites and database servers. utf8mb4_unicode_ci for example treats
+     * "korišćenja" and "koriscenja" as the same term, utf8mb4_bin does not. Instead of
+     * recreating the collation in PHP, the terms are compared in the database and the result is
+     * keyed by the spelling we asked for, not by the spelling stored in the table. That way all
+     * spellings which the database considers equal get the same term id.
+     *
+     * Each term gets its own SELECT, so that the literal is compared directly with the column
+     * and the collation of the column applies on every database server. This is slower than
+     * loadTermIds(), so it is only used for the terms which that method could not find.
+     *
+     * @param   string  $language  The language the terms belong to.
+     * @param   array   $terms     The terms to look up.
+     *
+     * @return  array  The term ids, keyed by the given term.
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception on database error.
+     */
+    private function loadTermIdsByCollation($language, array $terms)
+    {
+        if (!$terms) {
+            return [];
+        }
+
+        $db       = $this->db;
+        $selects  = [];
+        $language = $db->quote($language);
+
+        foreach ($terms as $term) {
+            $term      = $db->quote((string) $term);
+            $selects[] = 'SELECT ' . $term . ' AS ' . $db->quoteName('input_term') . ', ' . $db->quoteName('term_id')
+                . ' FROM ' . $db->quoteName('#__finder_terms')
+                . ' WHERE ' . $db->quoteName('term') . ' = ' . $term
+                . ' AND ' . $db->quoteName('language') . ' = ' . $language;
+        }
+
+        return $db->setQuery(implode(' UNION ALL ', $selects))->loadAssocList('input_term', 'term_id') ?: [];
     }
 
     /**
@@ -1048,7 +1119,9 @@ class Indexer
      * do not agree on the result and the search side computes it with SQL as well.
      *
      * Terms that a concurrent request created in the meantime are ignored rather than
-     * aborting the insert, the caller reads the ids back afterwards either way.
+     * aborting the insert, the caller reads the ids back afterwards either way. The same
+     * applies to two spellings in this batch which the collation of the term column treats
+     * as the same term: the first one is stored and both are mapped to it afterwards.
      *
      * @param   string  $language  The language the terms belong to.
      * @param   array   $terms     The aggregated terms to create, keyed by term.
@@ -1087,8 +1160,10 @@ class Indexer
                 . ' VALUES (' . implode('), (', $values) . ')'
                 . ' ON CONFLICT (' . $db->quoteName('term') . ', ' . $db->quoteName('language') . ') DO NOTHING';
         } else {
-            $sql = 'INSERT IGNORE INTO ' . $db->quoteName('#__finder_terms') . ' (' . $columns . ')'
-                . ' VALUES (' . implode('), (', $values) . ')';
+            // Unlike INSERT IGNORE, this only skips duplicates and doesn't turn other errors into warnings.
+            $sql = 'INSERT INTO ' . $db->quoteName('#__finder_terms') . ' (' . $columns . ')'
+                . ' VALUES (' . implode('), (', $values) . ')'
+                . ' ON DUPLICATE KEY UPDATE ' . $db->quoteName('term_id') . ' = ' . $db->quoteName('term_id');
         }
 
         $db->setQuery($sql)->execute();
