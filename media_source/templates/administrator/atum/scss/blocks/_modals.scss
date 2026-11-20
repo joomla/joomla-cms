@@ -228,6 +228,10 @@ joomla-dialog {
   }
 }
 
+joomla-dialog[type="inline"] dialog {
+  overflow: visible;
+}
+
 // Dialog animation
 joomla-dialog dialog[open] {
   animation: dialog-show .4s ease normal;
