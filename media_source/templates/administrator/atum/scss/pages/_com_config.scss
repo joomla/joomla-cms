@@ -6,8 +6,36 @@
     grid-template-columns: 1fr;
   }
 
-  #page-filters .form-select {
-    inline-size: auto;
+  .filter-group {
+    padding-block-start: 1rem;
+    border-block-start: 1px solid var(--border-color);
+
+    legend {
+      margin-block-end: .5rem;
+      font-size: 1rem;
+      font-weight: $font-weight-bold;
+    }
+
+    .filter-group {
+      padding-inline-start: .75rem;
+      border-inline-start: 2px solid var(--border-color);
+    }
+  }
+
+  .filter-group-fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem 1rem;
+    margin-block-end: 1rem;
+
+    > div {
+      flex: 1 1 9rem;
+      min-inline-size: 0;
+    }
+
+    > div:first-child {
+      flex-basis: 14.5rem;
+    }
   }
 
   .tab-description {

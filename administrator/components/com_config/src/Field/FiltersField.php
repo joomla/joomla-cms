@@ -13,7 +13,6 @@ namespace Joomla\Component\Config\Administrator\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\LayoutHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -57,30 +56,10 @@ class FiltersField extends FormField
         // Build the form control.
         $html = [];
 
-        // Open the table.
-        $html[] = '<table id="filter-config" class="table">';
-        $html[] = '<caption class="visually-hidden">' . Text::_('COM_CONFIG_TEXT_FILTERS') . '</caption>';
+        $html[] = '<div id="filter-config">';
 
-        // The table heading.
-        $html[] = '	<thead>';
-        $html[] = '	<tr>';
-        $html[] = '		<th scope="col">';
-        $html[] = '			<span class="acl-action">' . Text::_('JGLOBAL_FILTER_GROUPS_LABEL') . '</span>';
-        $html[] = '		</th>';
-        $html[] = '		<th scope="col">';
-        $html[] = '			<span class="acl-action">' . Text::_('JGLOBAL_FILTER_TYPE_LABEL') . '</span>';
-        $html[] = '		</th>';
-        $html[] = '		<th scope="col">';
-        $html[] = '			<span class="acl-action">' . Text::_('JGLOBAL_FILTER_TAGS_LABEL') . '</span>';
-        $html[] = '		</th>';
-        $html[] = '		<th scope="col">';
-        $html[] = '			<span class="acl-action">' . Text::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</span>';
-        $html[] = '		</th>';
-        $html[] = '	</tr>';
-        $html[] = '	</thead>';
-
-        // The table body.
-        $html[] = '	<tbody>';
+        // The number of group fieldsets that are still open.
+        $depth = 0;
 
         foreach ($groups as $group) {
             if (!isset($this->value[$group->value])) {
@@ -92,12 +71,20 @@ class FiltersField extends FormField
             $group_filter['filter_tags']       = !empty($group_filter['filter_tags']) ? $group_filter['filter_tags'] : '';
             $group_filter['filter_attributes'] = !empty($group_filter['filter_attributes']) ? $group_filter['filter_attributes'] : '';
 
-            $html[] = '	<tr>';
-            $html[] = '		<th class="acl-groups left" scope="row">';
-            $html[] = '			' . LayoutHelper::render('joomla.html.treeprefix', ['level' => $group->level + 1]) . $group->text;
-            $html[] = '		</th>';
-            $html[] = '		<td>';
-            $html[] = '			<label for="' . $this->id . $group->value . '_filter_type" class="visually-hidden">'
+            // Close the fieldsets of the previous groups that are not parents of this group.
+            while ($depth > $group->level) {
+                $html[] = '	</fieldset>';
+                $depth--;
+            }
+
+            $depth++;
+
+            // Child groups are nested inside the fieldset of their parent group.
+            $html[] = '	<fieldset class="filter-group">';
+            $html[] = '		<legend>' . $group->text . '</legend>';
+            $html[] = '		<div class="filter-group-fields">';
+            $html[] = '			<div>';
+            $html[] = '				<label for="' . $this->id . $group->value . '_filter_type" class="form-label">'
                 . Text::_('JGLOBAL_FILTER_TYPE_LABEL') . '</label>';
             $html[] = '				<select'
                 . ' name="' . $this->name . '[' . $group->value . '][filter_type]"'
@@ -117,9 +104,9 @@ class FiltersField extends FormField
             $html[] = '					<option value="NONE"' . ($group_filter['filter_type'] == 'NONE' ? ' selected="selected"' : '') . '>'
                 . Text::_('COM_CONFIG_FIELD_FILTERS_NO_FILTER') . '</option>';
             $html[] = '				</select>';
-            $html[] = '		</td>';
-            $html[] = '		<td>';
-            $html[] = '			<label for="' . $this->id . $group->value . '_filter_tags" class="visually-hidden">'
+            $html[] = '			</div>';
+            $html[] = '			<div>';
+            $html[] = '				<label for="' . $this->id . $group->value . '_filter_tags" class="form-label">'
                 . Text::_('JGLOBAL_FILTER_TAGS_LABEL') . '</label>';
             $html[] = '				<input'
                 . ' name="' . $this->name . '[' . $group->value . '][filter_tags]"'
@@ -127,24 +114,27 @@ class FiltersField extends FormField
                 . ' id="' . $this->id . $group->value . '_filter_tags" class="novalidate form-control"'
                 . ' value="' . htmlspecialchars($group_filter['filter_tags'], ENT_QUOTES) . '"'
                 . '>';
-            $html[] = '		</td>';
-            $html[] = '		<td>';
-            $html[] = '			<label for="' . $this->id . $group->value . '_filter_attributes"'
-                . ' class="visually-hidden">' . Text::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</label>';
+            $html[] = '			</div>';
+            $html[] = '			<div>';
+            $html[] = '				<label for="' . $this->id . $group->value . '_filter_attributes" class="form-label">'
+                . Text::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</label>';
             $html[] = '				<input'
                 . ' name="' . $this->name . '[' . $group->value . '][filter_attributes]"'
                 . ' type="text"'
                 . ' id="' . $this->id . $group->value . '_filter_attributes" class="novalidate form-control"'
                 . ' value="' . htmlspecialchars($group_filter['filter_attributes'], ENT_QUOTES) . '"'
                 . '>';
-            $html[] = '		</td>';
-            $html[] = '	</tr>';
+            $html[] = '			</div>';
+            $html[] = '		</div>';
         }
 
-        $html[] = '	</tbody>';
+        // Close the fieldsets that are still open.
+        while ($depth > 0) {
+            $html[] = '	</fieldset>';
+            $depth--;
+        }
 
-        // Close the table.
-        $html[] = '</table>';
+        $html[] = '</div>';
 
         return implode("\n", $html);
     }
