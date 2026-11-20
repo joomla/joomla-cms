@@ -25,7 +25,7 @@
 }
 
 @container (max-width: 40rem) {
-  .pagination > .page-item:has(+ .page-item:has(+ .page-item.active:nth-last-child(3))) {
+  .pagination > .page-item:nth-last-child(5):has(~ .page-item.active:nth-last-child(3)) {
     display: list-item;
   }
 }
