@@ -83,11 +83,13 @@ final class Extensionupdate extends CMSPlugin implements SubscriberInterface
 
         Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE');
         Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND');
+        Text::script('PLG_QUICKICON_EXTENSIONUPDATE_SECURITY_UPDATEFOUND');
         Text::script('PLG_QUICKICON_EXTENSIONUPDATE_ERROR');
         Text::script('MESSAGE');
         Text::script('ERROR');
         Text::script('INFO');
         Text::script('WARNING');
+        Text::script('SUCCESS');
 
         $this->getApplication()->getDocument()->getWebAssetManager()
             ->registerAndUseScript(

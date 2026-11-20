@@ -138,7 +138,7 @@ class ArticleField extends ModalSelectField
         if ($value) {
             try {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName('title'))
                     ->from($db->quoteName('#__content'))
                     ->where($db->quoteName('id') . ' = :value')

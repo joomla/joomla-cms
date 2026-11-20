@@ -1,9 +1,17 @@
+---
 kind: pipeline
 name: package
 
 steps:
   - name: packager
     image: joomlaprojects/docker-images:packager
+    volumes:
+      - name: composer-cache
+        path: /tmp/composer-cache
+      - name: npm-cache
+        path: /tmp/npm-cache
+      - name: fido-cache
+        path: /drone/src/build/fido/
     environment:
       HTTP_ROOT: "https://artifacts.joomla.org/drone"
       DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
@@ -35,6 +43,17 @@ steps:
       - rclone copy ./upload/ package:$package_root/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/downloads/$DRONE_BUILD_NUMBER
       - /bin/add_github_status.sh "Download" "Prebuilt packages are available for download." "https://artifacts.joomla.org/drone/${DRONE_REPO}/${DRONE_BRANCH}/${DRONE_PULL_REQUEST}/downloads/${DRONE_BUILD_NUMBER}"
 
+volumes:
+  - name: composer-cache
+    host:
+      path: /tmp/composer-cache
+  - name: fido-cache
+    host:
+      path: /tmp/fido-cache
+  - name: npm-cache
+    host:
+      path: /tmp/npm-cache
+
 trigger:
   repo:
     - joomla/joomla-cms
@@ -46,15 +65,21 @@ name: nightly_build
 steps:
   - name: prepare
     image: joomlaprojects/docker-images:packager
+    volumes:
+      - name: composer-cache
+        path: /tmp/composer-cache
+      - name: npm-cache
+        path: /tmp/npm-cache
+      - name: fido-cache
+        path: /drone/src/build/fido/
     commands:
-      - export MINORVERSION=${DRONE_BRANCH%-*}
       - composer --version
       - mkdir -p transfer
-      - date +%s > transfer/$MINORVERSION-time.txt
-      - git rev-parse origin/$MINORVERSION-dev > transfer/$MINORVERSION.txt
-      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --disable-patch-packages
+      - date +%s > transfer/${DRONE_BRANCH%%-dev}-time.txt
+      - git rev-parse origin/${DRONE_BRANCH} > transfer/${DRONE_BRANCH%%-dev}.txt
+      - php build/build.php --remote=origin/${DRONE_BRANCH} --exclude-gzip --disable-patch-packages
       - mv build/tmp/packages/* transfer/
-      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-zip --exclude-gzip --exclude-bzip2 --debug-build
+      - php build/build.php --remote=origin/${DRONE_BRANCH} --exclude-zip --exclude-gzip --exclude-bzip2 --debug-build
       - mv build/tmp/packages/* transfer/
 
   - name: upload
@@ -69,7 +94,6 @@ steps:
       MATTERMOST_NIGHTLY_HOOK:
         from_secret: mattermost_nightly_hook
     commands:
-      - export MINORVERSION=${DRONE_BRANCH%-*}
       - mkdir -p ~/.ssh
       - eval $(ssh-agent -s)
       - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
@@ -77,10 +101,10 @@ steps:
       - chmod 600 ~/.ssh/id_rsa
       - ssh-add
       - rclone config create nightly sftp host $nightly_host user $nightly_user port 22
-      - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
+      - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_${DRONE_BRANCH%%-dev}.*"
       - rclone delete nightly:/home/devj/public_html/cache/com_content/
       - rclone copy ./transfer/ nightly:/home/devj/public_html/nightlies/
-      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla ${MINORVERSION}](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla '"${DRONE_BRANCH%%-dev}"'](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
 
   - name: buildfailure
     image: joomlaprojects/docker-images:packager
@@ -88,11 +112,21 @@ steps:
       MATTERMOST_NIGHTLY_HOOK:
         from_secret: mattermost_nightly_hook
     commands:
-      - export MINORVERSION=${DRONE_BRANCH%-*}
-      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla ${MINORVERSION}](https://developer.joomla.org/nightly-builds.html) FAILED to built."}' $MATTERMOST_NIGHTLY_HOOK
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla '"${DRONE_BRANCH%%-dev}"'](https://developer.joomla.org/nightly-builds.html) FAILED to build."}' $MATTERMOST_NIGHTLY_HOOK
     when:
       status:
         - failure
+
+volumes:
+  - name: composer-cache
+    host:
+      path: /tmp/composer-cache
+  - name: fido-cache
+    host:
+      path: /tmp/fido-cache
+  - name: npm-cache
+    host:
+      path: /tmp/npm-cache
 
 trigger:
   event:
@@ -103,6 +137,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 8c9f8d28fda74e2a6fc508602dd07e9af7d9f4a5a13af769c6a53e6bd6e91389
+hmac: b35a8a70b20200d91799b8251df1cae7313c8ca78bd2ccc889c29fb10940d5c8
 
 ...

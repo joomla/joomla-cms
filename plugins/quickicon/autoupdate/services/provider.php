@@ -31,7 +31,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Autoupdate::class, function (Container $container) {
                 $plugin = new Autoupdate(
                     Factory::getApplication()->getDocument(),
                     (array) PluginHelper::getPlugin('quickicon', 'autoupdate')
@@ -39,7 +39,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

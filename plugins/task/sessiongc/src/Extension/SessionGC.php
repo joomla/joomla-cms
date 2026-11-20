@@ -100,15 +100,16 @@ final class SessionGC extends CMSPlugin implements SubscriberInterface
     private function sessionGC(ExecuteTaskEvent $event): int
     {
         $enableGC = (int) $event->getArgument('params')->enable_session_gc ?? 1;
+        $app      = $this->getApplication();
 
         if ($enableGC) {
-            $this->getApplication()->getSession()->gc();
+            $app->getSession()->gc();
         }
 
         $enableMetadata = (int) $event->getArgument('params')->enable_session_metadata_gc ?? 1;
 
-        if ($this->getApplication()->get('session_handler', 'none') !== 'database' && $enableMetadata) {
-            $this->metadataManager->deletePriorTo(time() - $this->getApplication()->getSession()->getExpire());
+        if ($enableMetadata) {
+            $this->metadataManager->deletePriorTo(time() - $app->getSession()->getExpire());
         }
 
         $this->logTask('SessionGC end');

@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -64,9 +65,7 @@ $this->useCoreUI        = true;
             <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
             <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
-            <input type="hidden" name="task" value=""/>
-            <input type="hidden" name="return" value="<?php echo $this->return_page; ?>"/>
-            <?php echo HTMLHelper::_('form.token'); ?>
+            <?php echo $this->form->renderControlFields(); ?>
         </fieldset>
         <div class="d-grid gap-2 d-sm-block mb-2">
             <button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('contact.save')">
@@ -77,7 +76,7 @@ $this->useCoreUI        = true;
                 <span class="icon-times" aria-hidden="true"></span>
                 <?php echo Text::_('JCANCEL'); ?>
             </button>
-            <?php if ($this->params->get('save_history', 0) && $this->item->id) : ?>
+            <?php if ($this->params->get('save_history', 0) && $this->item->id && ComponentHelper::isEnabled('com_contenthistory')) : ?>
                 <?php echo $this->form->getInput('contenthistory'); ?>
             <?php endif; ?>
         </div>

@@ -11,6 +11,7 @@
 namespace Joomla\Component\Languages\Administrator\Model;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -34,18 +35,15 @@ class OverrideModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure.
+     * @return  Form  A Form object
      *
      * @since   2.5
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm('com_languages.override', 'override', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         $client   = $this->getState('filter.client', 'site');
         $language = $this->getState('filter.language', 'en-GB');
@@ -74,10 +72,38 @@ class OverrideModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_languages.edit.override.data', []);
+        $data  = Factory::getApplication()->getUserState('com_languages.edit.override.data', []);
+        $input = Factory::getApplication()->getInput();
 
         if (empty($data)) {
             $data = $this->getItem();
+        }
+
+        $currentKey      = \is_object($data) ? ($data->key ?? '') : ($data['key'] ?? '');
+        $currentOverride = \is_object($data) ? ($data->override ?? '') : ($data['override'] ?? '');
+
+        if ($currentKey === '') {
+            $sourceKey = $input->get('source_key', '', 'cmd');
+
+            if ($sourceKey !== '') {
+                if (\is_object($data)) {
+                    $data->key = $sourceKey;
+                } else {
+                    $data['key'] = $sourceKey;
+                }
+            }
+        }
+
+        if ($currentOverride === '') {
+            $sourceText = $input->getString('source_text', '');
+
+            if ($sourceText !== '') {
+                if (\is_object($data)) {
+                    $data->override = $sourceText;
+                } else {
+                    $data['override'] = $sourceText;
+                }
+            }
         }
 
         $this->preprocessData('com_languages.override', $data);
@@ -97,7 +123,7 @@ class OverrideModel extends AdminModel
     public function getItem($pk = null)
     {
         $input    = Factory::getApplication()->getInput();
-        $pk       = !empty($pk) ? $pk : $input->get('id');
+        $pk       = !empty($pk) ? $pk : $input->get('id', '');
         $fileName = \constant('JPATH_' . strtoupper($this->getState('filter.client')))
             . '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
         $strings  = LanguageHelper::parseIniFile($fileName);
@@ -114,7 +140,7 @@ class OverrideModel extends AdminModel
         $oppositeFileName = \constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site'))
             . '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
         $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFileName);
-        $result->both     = isset($oppositeStrings[$pk]) && ($oppositeStrings[$pk] == $strings[$pk]);
+        $result->both     = isset($oppositeStrings[$pk], $strings[$pk]) && ($oppositeStrings[$pk] == $strings[$pk]);
 
         return $result;
     }
@@ -160,16 +186,17 @@ class OverrideModel extends AdminModel
         // Parse the override.ini file in order to get the keys and strings.
         $fileName = \constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini';
         $strings  = LanguageHelper::parseIniFile($fileName);
+        $id       = $data['id'] ?? '';
 
-        if (isset($strings[$data['id']])) {
+        if (isset($strings[$id])) {
             // If an existent string was edited check whether
             // the name of the constant is still the same.
-            if ($data['key'] == $data['id']) {
+            if ($data['key'] == $id) {
                 // If yes, simply override it.
                 $strings[$data['key']] = $data['override'];
             } else {
                 // If no, delete the old string and prepend the new one.
-                unset($strings[$data['id']]);
+                unset($strings[$id]);
                 $strings = [$data['key'] => $data['override']] + $strings;
             }
         } else {

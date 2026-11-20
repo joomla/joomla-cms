@@ -10,10 +10,13 @@
 
 namespace Joomla\Plugin\System\Sef\Extension;
 
+use Joomla\CMS\Document\ErrorDocument;
 use Joomla\CMS\Event\Application\AfterDispatchEvent;
 use Joomla\CMS\Event\Application\AfterInitialiseEvent;
 use Joomla\CMS\Event\Application\AfterRenderEvent;
 use Joomla\CMS\Event\Application\AfterRouteEvent;
+use Joomla\CMS\Event\Application\BeforeRespondEvent;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
@@ -36,6 +39,15 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     use SiteRouterAwareTrait;
 
     /**
+     * Internal flag to make sure we don't process the buffer twice
+     *
+     * @var bool
+     *
+     * @since  5.4.4
+     */
+    protected $isRewritten = false;
+
+    /**
      * Returns an array of CMS events this plugin will listen to and the respective handlers.
      *
      * @return  array
@@ -54,6 +66,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
             'onAfterRoute'      => 'onAfterRoute',
             'onAfterDispatch'   => 'onAfterDispatch',
             'onAfterRender'     => 'onAfterRender',
+            'onBeforeRespond'   => 'onBeforeRespond',
         ];
     }
 
@@ -118,7 +131,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         if ($router->isTainted()) {
             $parsedVars = $router->getVars();
 
-            if ($app->getLanguageFilter()) {
+            if ($app->getLanguageFilter() && isset($parsedVars['language'])) {
                 $parsedVars['lang'] = $parsedVars['language'];
                 unset($parsedVars['language']);
             }
@@ -217,6 +230,50 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         if (!$app->isClient('site')) {
             return;
         }
+
+        $this->rewriteUrls($app);
+    }
+
+    /**
+     * Handle URL rewriting for error pages since they skip the normal render flow
+     *
+     * @param   BeforeRespondEvent $event  The event instance
+     *
+     * @return  void
+     *
+     * @since   5.4.4
+     */
+    public function onBeforeRespond(BeforeRespondEvent $event)
+    {
+        $app = $event->getApplication();
+
+        if (!$app->isClient('site')) {
+            return;
+        }
+
+        // Only run this specifically for Error pages, as normal pages are handled in onAfterRender
+        if ($app->getDocument() instanceof ErrorDocument) {
+            $this->rewriteUrls($app);
+        }
+    }
+
+    /**
+     * Core logic to rewrite relative URLs in the body buffer
+     *
+     * @param   mixed  $app  The application object
+     *
+     * @return  void
+     *
+     * @since   5.4.4
+     */
+    protected function rewriteUrls($app)
+    {
+        // Prevent rewriting from running multiple times
+        if ($this->isRewritten) {
+            return;
+        }
+
+        $this->isRewritten = true;
 
         // Replace src links.
         $base   = Uri::base(true) . '/';
@@ -336,6 +393,15 @@ final class Sef extends CMSPlugin implements SubscriberInterface
 
         if (str_ends_with($route, 'index.php') || str_ends_with($route, '/')) {
             // We don't want suffixes when the URL ends in index.php or with a /
+            return;
+        }
+
+        // We don't force a suffix for the language homepage
+        $segments = explode('/', $route);
+        $last     = array_pop($segments);
+        $sefs     = LanguageHelper::getLanguages('sef');
+
+        if ($this->getApplication()->getLanguageFilter() && isset($sefs[$last])) {
             return;
         }
 

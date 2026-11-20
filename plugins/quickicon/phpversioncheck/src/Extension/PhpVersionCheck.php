@@ -119,30 +119,6 @@ final class PhpVersionCheck extends CMSPlugin implements SubscriberInterface
     private function getPhpSupport()
     {
         $phpSupportData = [
-            '7.2' => [
-                'security' => '2019-11-30',
-                'eos'      => '2020-11-30',
-            ],
-            '7.3' => [
-                'security' => '2020-12-06',
-                'eos'      => '2021-12-06',
-            ],
-            '7.4' => [
-                'security' => '2021-11-28',
-                'eos'      => '2022-11-28',
-            ],
-            '8.0' => [
-                'security' => '2022-11-26',
-                'eos'      => '2023-11-26',
-            ],
-            '8.1' => [
-                'security' => '2023-11-25',
-                'eos'      => '2025-12-31',
-            ],
-            '8.2' => [
-                'security' => '2024-12-31',
-                'eos'      => '2026-12-31',
-            ],
             '8.3' => [
                 'security' => '2025-12-31',
                 'eos'      => '2027-12-31',
@@ -150,6 +126,10 @@ final class PhpVersionCheck extends CMSPlugin implements SubscriberInterface
             '8.4' => [
                 'security' => '2026-12-31',
                 'eos'      => '2028-12-31',
+            ],
+            '8.5' => [
+                'security' => '2027-12-31',
+                'eos'      => '2029-12-31',
             ],
         ];
 

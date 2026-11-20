@@ -109,7 +109,7 @@ use Joomla\CMS\Language\Text;
                     <?php echo Text::_('COM_ADMIN_SESSION_AUTO_START'); ?>
                 </th>
                 <td>
-                    <?php echo (int) $this->phpSettings['session.auto_start']; ?>
+                    <?php echo HTMLHelper::_('phpsetting.enabled', $this->phpSettings['session.auto_start']); ?>
                 </td>
             </tr>
             <tr>

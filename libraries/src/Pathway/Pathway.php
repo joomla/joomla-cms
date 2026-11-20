@@ -59,7 +59,7 @@ class Pathway
      * @since       1.5
      * @throws      \RuntimeException
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Get the instance from the application
      *              Example:
      *              $app->getPathway()

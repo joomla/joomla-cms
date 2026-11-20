@@ -192,6 +192,14 @@ class CalendarField extends FormField
     public function __set($name, $value)
     {
         switch ($name) {
+            case 'value':
+                if ($value instanceof \DateTimeInterface) {
+                    $this->value = $value->format('Y-m-d H:i:s');
+                } else {
+                    $this->value = (string) $value;
+                }
+                break;
+
             case 'maxlength':
             case 'maxyear':
             case 'minyear':
@@ -402,7 +410,12 @@ class CalendarField extends FormField
         }
 
         if ($this->filterFormat) {
-            $value = \DateTime::createFromFormat($this->filterFormat, $value)->format('Y-m-d H:i:s');
+            $date = \DateTime::createFromFormat($this->filterFormat, $value);
+            if ($date === false) {
+                // Result: Exception
+                throw new \Exception(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $this->title));
+            }
+            $value = $date->format('Y-m-d H:i:s');
         }
 
         $app = Factory::getApplication();

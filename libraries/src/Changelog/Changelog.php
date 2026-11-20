@@ -9,12 +9,11 @@
 
 namespace Joomla\CMS\Changelog;
 
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Version;
+use Joomla\Http\HttpFactory;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -28,7 +27,6 @@ use Joomla\Registry\Registry;
  */
 class Changelog
 {
-    use LegacyErrorHandlingTrait;
     use LegacyPropertyManagementTrait;
 
     /**
@@ -168,6 +166,14 @@ class Changelog
     protected $folder;
 
     /**
+     * Text content of the current item.
+     *
+     * @var    string
+     * @since  6.2.1
+     */
+    private $currentItem = '';
+
+    /**
      * Gets the reference to the current direct parent
      *
      * @return  string
@@ -225,6 +231,10 @@ class Changelog
         // Reset the data
         if (isset($this->$tag)) {
             $this->$tag->data = '';
+        }
+
+        if ($name === 'ITEM') {
+            $this->currentItem = '';
         }
 
         // Skip technical elements
@@ -294,6 +304,15 @@ class Changelog
                     unset($this->currentChangelog);
                 }
                 break;
+            case 'ITEM':
+                $item = trim($this->currentItem);
+
+                if ($item !== '') {
+                    $this->items[] = $item;
+                }
+
+                $this->currentItem = '';
+                break;
         }
     }
 
@@ -314,7 +333,7 @@ class Changelog
 
         switch ($tag) {
             case 'ITEM':
-                $this->items[] = $data;
+                $this->currentItem .= $data;
                 break;
             case 'SECURITY':
             case 'FIX':
@@ -351,7 +370,7 @@ class Changelog
         $httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
 
         try {
-            $http     = HttpFactory::getHttp($httpOption);
+            $http     = (new HttpFactory())->getHttp($httpOption);
             $response = $http->get($url);
         } catch (\RuntimeException) {
             $response = null;

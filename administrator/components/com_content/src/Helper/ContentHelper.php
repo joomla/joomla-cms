@@ -41,7 +41,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
     public static function canDeleteState(int $id): bool
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select('id')
             ->from($db->quoteName('#__content'))
@@ -70,7 +70,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
             array_filter(
                 $transitions,
                 function ($var) use ($pk, $workflowId) {
-                    return \in_array($var['from_stage_id'], [-1, $pk]) && $workflowId == $var['workflow_id'];
+                    return \in_array($var['from_stage_id'] ?? 0, [-1, $pk]) && $workflowId == $var['workflow_id'];
                 }
             )
         );
@@ -110,7 +110,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
             return;
         }
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select($db->quoteName('title'))
             ->from($db->quoteName('#__workflows'))
@@ -139,7 +139,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
             if (!empty($categories)) {
                 $categories = array_reverse($categories);
 
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
 
                 $query->select($db->quoteName('title'))
                     ->from($db->quoteName('#__workflows'))

@@ -14,7 +14,7 @@ describe('Test in frontend that the users reset view', () => {
           expect(mails.length).to.equal(1);
           cy.wrap(mails[0].body).should('have.string', 'To reset your password, you will need to submit this verification code');
           cy.wrap(mails[0].body).should('have.string', '/component/users/reset');
-          cy.wrap(mails[0].sender).should('equal', Cypress.env('email'));
+          cy.wrap(mails[0].sender).should('equal', Cypress.expose('email'));
           cy.wrap(mails[0].receivers).should('have.property', 'test@example.com');
         });
       });
@@ -37,7 +37,7 @@ describe('Test in frontend that the users reset view', () => {
           expect(mails.length).to.equal(1);
           cy.wrap(mails[0].body).should('have.string', 'To reset your password, you will need to submit this verification code');
           cy.wrap(mails[0].body).should('have.string', '/test-reset');
-          cy.wrap(mails[0].sender).should('equal', Cypress.env('email'));
+          cy.wrap(mails[0].sender).should('equal', Cypress.expose('email'));
           cy.wrap(mails[0].receivers).should('have.property', 'test@example.com');
         });
       });

@@ -30,13 +30,13 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Taggable::class, function (Container $container) {
                 $plugin     = new Taggable(
                     (array) PluginHelper::getPlugin('behaviour', 'taggable')
                 );
 
                 return $plugin;
-            }
+            })
         );
     }
 };

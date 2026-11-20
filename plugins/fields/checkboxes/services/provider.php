@@ -31,14 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Checkboxes::class, function (Container $container) {
                 $plugin     = new Checkboxes(
                     (array) PluginHelper::getPlugin('fields', 'checkboxes')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

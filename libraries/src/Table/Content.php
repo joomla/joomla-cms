@@ -17,7 +17,6 @@ use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\Tag\TaggableTableTrait;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
-use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
@@ -33,7 +32,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.5
  */
-class Content extends Table implements VersionableTableInterface, TaggableTableInterface, CurrentUserInterface
+class Content extends Table implements TaggableTableInterface, CurrentUserInterface
 {
     use TaggableTableTrait;
     use CurrentUserTrait;
@@ -112,7 +111,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
 
             // Build the query to get the asset id for the parent category.
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('asset_id'))
                 ->from($db->quoteName('#__categories'))
                 ->where($db->quoteName('id') . ' = :catid')
