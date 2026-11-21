@@ -108,6 +108,7 @@ class Autoupdate extends CMSPlugin implements SubscriberInterface
         Text::script('ERROR');
         Text::script('INFO');
         Text::script('WARNING');
+        Text::script('SUCCESS');
 
         $this->document->addScriptOptions(
             'js-auto-update',

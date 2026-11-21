@@ -45,6 +45,7 @@
 			length="50"
 			showon="updatesource:custom"
 			validate="url"
+			schemes="http,https,ftp,ftps"
 		/>
 
 		<field
@@ -109,6 +110,7 @@
 			type="calendar"
 			showtime="true"
 			filter="user_utc"
+			translateformat="true"
 			label="COM_JOOMLAUPDATE_CONFIG_UPDATE_LAST_CHECK_LABEL"
 			description="COM_JOOMLAUPDATE_CONFIG_UPDATE_LAST_CHECK_DESC"
 			readonly="true"

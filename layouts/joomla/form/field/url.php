@@ -43,7 +43,7 @@ extract($displayData);
  * @var   array    $checkedOptions  Options that will be set as checked.
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
- * @var   array    $inputType       Options available for this field.
+ * @var   string   $inputType       The input type.
  * @var   string   $accept          File types that are accepted.
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
@@ -65,7 +65,7 @@ $attributes = [
 ];
 
 /**
- * @deprecated  4.3 will be removed in 6.0
+ * @deprecated  4.3 will be removed in 7.0
  *              The unicode conversion of the URL will be moved to \Joomla\CMS\Form\Field\UrlField::getLayoutData
  */
 if ($value !== null) {

@@ -12,7 +12,6 @@
 	<namespace path="src">Joomla\Component\Users</namespace>
 	<files folder="site">
 		<folder>forms</folder>
-		<folder>layouts</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
@@ -30,6 +29,7 @@
 			<folder>forms</folder>
 			<folder>helpers</folder>
 			<folder>postinstall</folder>
+			<folder>presets</folder>
 			<folder>services</folder>
 			<folder>src</folder>
 			<folder>tmpl</folder>

@@ -12,12 +12,12 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Document\HtmlDocument;
+use Joomla\CMS\Event\User\LoginButtonsEvent;
 use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Event\Event;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -50,7 +50,7 @@ trait AdditionalLoginButtons
     /**
      * Creates additional login buttons
      *
-     * @param   Event  $event  The event we are handling
+     * @param   LoginButtonsEvent  $event  The event we are handling
      *
      * @return  void
      *
@@ -58,10 +58,9 @@ trait AdditionalLoginButtons
      *
      * @since   4.0.0
      */
-    public function onUserLoginButtons(Event $event): void
+    public function onUserLoginButtons(LoginButtonsEvent $event): void
     {
-        /** @var string $form The HTML ID of the form we are enclosed in */
-        [$form] = array_values($event->getArguments());
+        $formId = $event->getFormId();
 
         // If we determined we should not inject a button return early
         if (!$this->mustDisplayButton()) {
@@ -87,16 +86,16 @@ trait AdditionalLoginButtons
         // Extract image if it exists
         $image = file_exists($image) ? file_get_contents($image) : '';
 
-        $this->returnFromEvent($event, [
+        $event->addResult([
             [
                 'label'              => 'PLG_SYSTEM_WEBAUTHN_LOGIN_LABEL',
                 'tooltip'            => 'PLG_SYSTEM_WEBAUTHN_LOGIN_DESC',
                 'id'                 => $randomId,
-                'data-webauthn-form' => $form,
+                'data-webauthn-form' => $formId,
                 'svg'                => $image,
                 'class'              => 'plg_system_webauthn_login_button',
             ],
-            ]);
+        ]);
     }
 
     /**

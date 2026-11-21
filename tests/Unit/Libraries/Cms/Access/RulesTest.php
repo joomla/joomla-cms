@@ -12,7 +12,6 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Access;
 
 use Joomla\CMS\Access\Rule;
 use Joomla\CMS\Access\Rules;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
@@ -23,7 +22,6 @@ use Joomla\Tests\Unit\UnitTestCase;
 class RulesTest extends UnitTestCase
 {
     /**
-     *
      * @return void
      * @since   4.0.0
      */
@@ -44,11 +42,10 @@ class RulesTest extends UnitTestCase
 
         $editRule = $rules->getData()['edit'];
         $this->assertInstanceOf(Rule::class, $editRule);
-        $this->assertEquals($ruleIdentities, $editRule->getData());
+        $this->assertSame($ruleIdentities, $editRule->getData());
     }
 
     /**
-     *
      * @return void
      * @since   4.0.0
      */
@@ -68,7 +65,7 @@ class RulesTest extends UnitTestCase
 
         $editRule = $rules->getData()['edit'];
         $this->assertInstanceOf(Rule::class, $editRule);
-        $this->assertEquals($ruleIdentities, $editRule->getData());
+        $this->assertSame($ruleIdentities, $editRule->getData());
     }
 
     /**
@@ -94,7 +91,7 @@ class RulesTest extends UnitTestCase
 
         $editRule = $rules->getData()['edit'];
         $this->assertInstanceOf(Rule::class, $editRule);
-        $this->assertEquals($ruleIdentities, $editRule->getData());
+        $this->assertSame($ruleIdentities, $editRule->getData());
     }
 
     /**
@@ -118,7 +115,7 @@ class RulesTest extends UnitTestCase
 
         $editRule = $rules->getData()['edit'];
         $this->assertInstanceOf(Rule::class, $editRule);
-        $this->assertEquals($ruleIdentities, $editRule->getData());
+        $this->assertSame($ruleIdentities, $editRule->getData());
 
         // Merge a new set, flipping some bits.
         // Ident 3 should remain false, 4 should be added.
@@ -131,7 +128,7 @@ class RulesTest extends UnitTestCase
         $rules->mergeAction('edit', $newRuleIdentities);
 
         $editRule = $rules->getData()['edit'];
-        $this->assertEquals(
+        $this->assertSame(
             [
                 -42 => 0,
                 2   => 1,
@@ -193,9 +190,9 @@ class RulesTest extends UnitTestCase
         $this->assertInstanceOf(Rule::class, $editRule);
         $this->assertInstanceOf(Rule::class, $deleteRule);
         $this->assertInstanceOf(Rule::class, $createRule);
-        $this->assertEquals($expectedResult['edit'], $editRule->getData());
-        $this->assertEquals($expectedResult['delete'], $deleteRule->getData());
-        $this->assertEquals($expectedResult['create'], $createRule->getData());
+        $this->assertSame($expectedResult['edit'], $editRule->getData());
+        $this->assertSame($expectedResult['delete'], $deleteRule->getData());
+        $this->assertSame($expectedResult['create'], $createRule->getData());
     }
 
     /**
@@ -225,8 +222,8 @@ class RulesTest extends UnitTestCase
 
         $this->assertInstanceOf(Rule::class, $editRule);
         $this->assertInstanceOf(Rule::class, $deleteRule);
-        $this->assertEquals($ruleData['edit'], $editRule->getData());
-        $this->assertEquals($ruleData['delete'], $deleteRule->getData());
+        $this->assertSame($ruleData['edit'], $editRule->getData());
+        $this->assertSame($ruleData['delete'], $deleteRule->getData());
     }
 
     /**
@@ -279,9 +276,9 @@ class RulesTest extends UnitTestCase
         $this->assertInstanceOf(Rule::class, $editRule);
         $this->assertInstanceOf(Rule::class, $deleteRule);
         $this->assertInstanceOf(Rule::class, $createRule);
-        $this->assertEquals($expectedResult['edit'], $editRule->getData());
-        $this->assertEquals($expectedResult['delete'], $deleteRule->getData());
-        $this->assertEquals($expectedResult['create'], $createRule->getData());
+        $this->assertSame($expectedResult['edit'], $editRule->getData());
+        $this->assertSame($expectedResult['delete'], $deleteRule->getData());
+        $this->assertSame($expectedResult['create'], $createRule->getData());
     }
 
     /**
@@ -340,14 +337,13 @@ class RulesTest extends UnitTestCase
         $rules   = new Rules($ruleData);
         $allowed = $rules->getAllowed(-42);
 
-        $this->assertInstanceOf(CMSObject::class, $allowed);
-        $this->assertTrue($allowed->get('create'));
-        $this->assertTrue($allowed->get('edit'));
-        $this->assertNull($allowed->get('delete'));
+        $this->assertInstanceOf(\stdClass::class, $allowed);
+        $this->assertTrue($allowed->create);
+        $this->assertTrue($allowed->edit);
+        $this->assertFalse(isset($allowed->delete));
     }
 
     /**
-     *
      * @return void
      * @since   4.0.0
      */
@@ -368,6 +364,6 @@ class RulesTest extends UnitTestCase
 
         $rules = new Rules($ruleData);
 
-        $this->assertEquals(json_encode($ruleData), (string) $rules);
+        $this->assertSame(json_encode($ruleData), (string) $rules);
     }
 }

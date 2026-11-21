@@ -131,7 +131,7 @@ final class Downloadkey extends CMSPlugin implements SubscriberInterface
             'missing'   => 0,
         ];
 
-        if (!class_exists('Joomla\Component\Installer\Administrator\Helper\InstallerHelper')) {
+        if (!class_exists(ComInstallerHelper::class)) {
             require_once JPATH_ADMINISTRATOR . '/components/com_installer/Helper/InstallerHelper.php';
         }
 

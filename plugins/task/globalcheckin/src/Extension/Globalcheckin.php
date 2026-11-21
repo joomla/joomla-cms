@@ -92,16 +92,13 @@ class Globalcheckin extends CMSPlugin implements SubscriberInterface
                 continue;
             }
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName($tn))
-                ->set($db->quoteName('checked_out') . ' = NULL')
+                ->set($db->quoteName('checked_out') . ' = DEFAULT')
                 ->set($db->quoteName('checked_out_time') . ' = NULL');
 
-            if ($fields['checked_out']->Null === 'YES') {
-                $query->where($db->quoteName('checked_out') . ' IS NOT NULL');
-            } else {
-                $query->where($db->quoteName('checked_out') . ' > 0');
-            }
+            // The following expression evaluates to false for values <= 0 as well as for NULL values
+            $query->where($db->quoteName('checked_out') . ' > 0');
 
             if ($delay > 0) {
                 $delayTime = Factory::getDate('now', 'UTC')->sub(new \DateInterval('PT' . $delay . 'H'))->toSql();

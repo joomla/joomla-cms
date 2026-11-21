@@ -15,6 +15,8 @@
 		<files folder="admin">
 			<filename>workflow.xml</filename>
 			<folder>forms</folder>
+			<folder>layouts</folder>
+			<folder>resources</folder>
 			<folder>services</folder>
 			<folder>src</folder>
 			<folder>tmpl</folder>

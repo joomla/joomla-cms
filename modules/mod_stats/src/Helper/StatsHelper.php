@@ -47,7 +47,7 @@ class StatsHelper implements DatabaseAwareInterface
     {
         $db         = $this->getDatabase();
         $rows       = [];
-        $query      = $db->getQuery(true);
+        $query      = $db->createQuery();
         $serverinfo = $params->get('serverinfo', 0);
         $siteinfo   = $params->get('siteinfo', 0);
         $counter    = $params->get('counter', 0);
@@ -58,7 +58,7 @@ class StatsHelper implements DatabaseAwareInterface
         if ($serverinfo) {
             $rows[$i]        = new \stdClass();
             $rows[$i]->title = Text::_('MOD_STATS_OS');
-            $rows[$i]->data  = substr(php_uname(), 0, 7);
+            $rows[$i]->data  = \function_exists('php_uname') ? substr(php_uname(), 0, 7) : '';
             $i++;
 
             $rows[$i]        = new \stdClass();

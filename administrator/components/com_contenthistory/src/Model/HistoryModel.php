@@ -305,7 +305,6 @@ class HistoryModel extends ListModel
         $itemId = $input->get('item_id', '', 'string');
 
         $this->setState('item_id', $itemId);
-        $this->setState('sha1_hash', $this->getSha1Hash());
 
         // Load the parameters.
         $params = ComponentHelper::getParams('com_contenthistory');
@@ -326,7 +325,7 @@ class HistoryModel extends ListModel
     {
         // Create a new query object.
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true);
+        $query  = $db->createQuery();
         $itemId = $this->getState('item_id');
 
         // Select the required fields from the table.
@@ -343,6 +342,7 @@ class HistoryModel extends ListModel
                     $db->quoteName('h.sha1_hash'),
                     $db->quoteName('h.version_data'),
                     $db->quoteName('h.keep_forever'),
+                    $db->quoteName('h.is_current'),
                 ]
             )
         )
@@ -373,17 +373,33 @@ class HistoryModel extends ListModel
      *
      * @since   3.2
      */
-    protected function getSha1Hash()
+    public function getSha1Hash()
     {
+        /**
+         * From Joomla 6, we use is_current field to determine the current version, so no need to calculate sha1 hash
+         * if there is already a current version
+         */
+
+        $items = $this->getItems();
+
+        foreach ($items as $item) {
+            if ($item->is_current == 1) {
+                return $item->sha1_hash;
+            }
+        }
+
+        // Legacy code for history concept before 6.0.0, deprecated 6.0.0 will be removed with 8.0.0
         $result    = false;
-        $item_id   = Factory::getApplication()->getInput()->getCmd('item_id', '');
-        $typeAlias = explode('.', $item_id);
-        Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $typeAlias[0] . '/tables');
+        $item_id   = $this->state->get('item_id', '');
+
+        [$extension, $type, $id] = explode('.', $item_id);
+
+        Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $extension . '/tables');
         $typeTable = $this->getTable('ContentType');
-        $typeTable->load(['type_alias' => $typeAlias[0] . '.' . $typeAlias[1]]);
+        $typeTable->load(['type_alias' => $extension . '.' . $type]);
         $contentTable = $typeTable->getContentTable();
 
-        if ($contentTable && $contentTable->load($typeAlias[2])) {
+        if ($contentTable && $contentTable->load($id)) {
             $helper = new CMSHelper();
 
             $dataObject = $helper->getDataObject($contentTable);

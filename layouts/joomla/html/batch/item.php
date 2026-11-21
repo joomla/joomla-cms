@@ -32,6 +32,13 @@ $options = [
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->useScript('joomla.batch-copymove');
 
+// Get category options
+if (isset($addRoot) && $addRoot) {
+    $categoryOptions = HTMLHelper::_('category.categories', $extension, ['filter.published' => [0, 1, 2]]);
+} else {
+    $categoryOptions = HTMLHelper::_('category.options', $extension, ['filter.published' => [0, 1, 2]]);
+}
+
 ?>
 <label id="batch-choose-action-lbl" for="batch-category-id">
     <?php echo Text::_('JLIB_HTML_BATCH_MENU_LABEL'); ?>
@@ -39,11 +46,7 @@ $wa->useScript('joomla.batch-copymove');
 <div id="batch-choose-action" class="control-group">
     <select name="batch[category_id]" class="form-select" id="batch-category-id">
         <option value=""><?php echo Text::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
-        <?php if (isset($addRoot) && $addRoot) : ?>
-            <?php echo HTMLHelper::_('select.options', HTMLHelper::_('category.categories', $extension)); ?>
-        <?php else : ?>
-            <?php echo HTMLHelper::_('select.options', HTMLHelper::_('category.options', $extension)); ?>
-        <?php endif; ?>
+        <?php echo HTMLHelper::_('select.options', $categoryOptions); ?>
     </select>
 </div>
 <div id="batch-copy-move" class="control-group radio">

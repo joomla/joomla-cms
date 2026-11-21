@@ -27,6 +27,12 @@
 				label="PLG_FIELDS_MEDIA_PARAMS_IMAGE_CLASS_LABEL"
 				validate="CssIdentifier"
 			/>
+
+			<field
+				type="hidden"
+				name="types"
+				default="images"
+			/>
 		</fieldset>
 	</fields>
 </form>

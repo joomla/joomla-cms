@@ -19,7 +19,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AdministratorMenuItem;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Menu;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
@@ -72,7 +72,7 @@ class MenusHelper extends ContentHelper
         if (\is_string($request)) {
             $args = [];
 
-            if (str_starts_with($request, 'index.php')) {
+            if (str_starts_with($request, 'index.php?')) {
                 parse_str(parse_url(htmlspecialchars_decode($request), PHP_URL_QUERY), $args);
             } else {
                 parse_str($request, $args);
@@ -106,9 +106,10 @@ class MenusHelper extends ContentHelper
     public static function getMenuTypes($clientId = 0)
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('a.menutype'))
-            ->from($db->quoteName('#__menu_types', 'a'));
+            ->from($db->quoteName('#__menu_types', 'a'))
+            ->order($db->quoteName('ordering'));
 
         if (isset($clientId)) {
             $clientId = (int) $clientId;
@@ -142,7 +143,7 @@ class MenusHelper extends ContentHelper
         $clientId    = (int) $clientId;
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     'DISTINCT ' . $db->quoteName('a.id', 'value'),
@@ -217,13 +218,13 @@ class MenusHelper extends ContentHelper
 
         if (empty($menuType)) {
             // If the menutype is empty, group the items by menutype.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('*')
                 ->from($db->quoteName('#__menu_types'))
                 ->where($db->quoteName('menutype') . ' <> ' . $db->quote(''))
                 ->order(
                     [
-                        $db->quoteName('title'),
+                        $db->quoteName('ordering'),
                         $db->quoteName('menutype'),
                     ]
                 );
@@ -302,7 +303,7 @@ class MenusHelper extends ContentHelper
     {
         $root  = new AdministratorMenuItem();
         $db    = Factory::getContainer()->get(DatabaseInterface::class);
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Prepare the query.
         $query->select($db->quoteName('m') . '.*')
@@ -428,7 +429,7 @@ class MenusHelper extends ContentHelper
     protected static function installPresetItems($node, $menutype)
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $items = $node->getChildren();
 
         static $components = [];
@@ -455,8 +456,7 @@ class MenusHelper extends ContentHelper
         ]))->getArgument('subject', $items);
 
         foreach ($items as $item) {
-            /** @var \Joomla\CMS\Table\Menu $table */
-            $table = Table::getInstance('Menu');
+            $table = new Menu($db);
 
             $item->alias = $menutype . '-' . $item->title;
 
@@ -509,7 +509,7 @@ class MenusHelper extends ContentHelper
                     }
                 }
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName('id'))
                     ->from($db->quoteName('#__menu'))
                     ->whereIn($db->quoteName('component_id'), $hideitems);
@@ -697,7 +697,7 @@ class MenusHelper extends ContentHelper
             $aliasTo = (int) $obj->getParams()->get('aliasoptions');
 
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
             $query->select(
                 [
                     $db->quoteName('a.id'),
@@ -790,7 +790,7 @@ class MenusHelper extends ContentHelper
                 $iJoin  = (string) $element['sql_innerjoin'];
 
                 $db    = Factory::getDbo();
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
                 $query->select($select)->from($from);
 
                 if ($where) {
