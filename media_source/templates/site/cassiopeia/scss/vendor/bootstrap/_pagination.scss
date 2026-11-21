@@ -16,11 +16,36 @@
   white-space: nowrap;
 }
 
+// Keep navigation controls visible regardless of their position or whether
+// Previous/Next have been removed by a child template.
 @container (max-width: 40rem) {
   .pagination > .page-item:not(
     .active,
-    :has(.active),
-    .active ~ .page-item
+    :has(+ .active),
+    .active + .page-item,
+    :has([class^="icon-angle-"])
+  ) {
+    display: none;
+  }
+}
+
+// Give a little more room to the current page on narrower containers.
+@container (max-width: 30rem) {
+  .pagination > .page-item:not(
+    .active,
+    :has(+ .active),
+    .active + .page-item,
+    :has([class^="icon-angle-"])
+  ) {
+    display: none;
+  }
+}
+
+// On very narrow containers, show only the current page and navigation controls.
+@container (max-width: 22rem) {
+  .pagination > .page-item:not(
+    .active,
+    :has([class^="icon-angle-"])
   ) {
     display: none;
   }
