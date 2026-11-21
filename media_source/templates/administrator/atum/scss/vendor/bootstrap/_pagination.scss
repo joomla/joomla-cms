@@ -41,8 +41,7 @@
     .active,
     :has(+ .active),
     .active + .page-item,
-    :has([class^="icon-angle-"])
-  ) {
+    :has([class^="icon-angle-"])) {
     display: none;
   }
 }
@@ -51,8 +50,7 @@
 @container (max-width: 22rem) {
   .pagination > .page-item:not(
     .active,
-    :has([class^="icon-angle-"])
-  ) {
+    :has([class^="icon-angle-"])) {
     display: none;
   }
 }
