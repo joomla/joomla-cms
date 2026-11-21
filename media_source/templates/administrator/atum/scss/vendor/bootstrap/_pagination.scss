@@ -27,14 +27,16 @@
   .pagination > .page-item:not(
     .active,
     :has(+ .active),
+    :has(+ .page-item + .active),
     .active + .page-item,
+    .active + .page-item + .page-item,
     :has([class^="icon-angle-"])
   ) {
     display: none;
   }
 }
 
-// Give a little more room to the current page on narrower containers.
+// Reduce the numbered links to the current page and its immediate neighbours.
 @container (max-width: 30rem) {
   .pagination > .page-item:not(
     .active,
