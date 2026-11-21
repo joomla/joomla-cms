@@ -106,6 +106,17 @@ abstract class InstallerHelper
             return false;
         }
 
+        // Detect CAPTCHA/firewall HTML responses that are not valid packages (see #48866)
+        if (self::isBlockedResponse($response)) {
+            Log::add(
+                Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_BLOCKED', $url),
+                Log::WARNING,
+                'jerror'
+            );
+
+            return false;
+        }
+
         // Parse the Content-Disposition header to get the file name
         if (
             !empty($headers['content-disposition'])
@@ -332,6 +343,76 @@ abstract class InstallerHelper
             // It might also be just a base filename
             File::delete(Path::clean(Factory::getApplication()->get('tmp_path') . '/' . $package));
         }
+    }
+
+    /**
+     * Checks whether a download response is a blocked response from a CAPTCHA or firewall
+     * instead of a valid package file.
+     *
+     * When an extension update server or CDN returns a CAPTCHA challenge, WAF block page,
+     * or other HTML response instead of the expected archive file, this method detects it
+     * by inspecting the Content-Type header and the response body's magic bytes.
+     *
+     * @param   \Joomla\Http\Response  $response  The HTTP response object
+     *
+     * @return  boolean  True if the response appears to be a blocked/CAPTCHA response, false if it looks like a valid package
+     *
+     * @since   5.4.0
+     * @see     https://github.com/joomla/joomla-cms/issues/48866
+     */
+    public static function isBlockedResponse($response)
+    {
+        // Get the response body
+        $body = (string) $response->getBody();
+
+        // Empty responses are not packages
+        if ($body === '') {
+            return true;
+        }
+
+        // Check the Content-Type header for HTML responses
+        $headers = array_change_key_case($response->getHeaders(), CASE_LOWER);
+
+        if (!empty($headers['content-type'])) {
+            $contentType = \is_array($headers['content-type'])
+                ? $headers['content-type'][0]
+                : $headers['content-type'];
+
+            // If the Content-Type is text/html or application/xhtml+xml, it's likely a CAPTCHA/firewall page
+            if (preg_match('#\b(text/html|application/xhtml\+xml)\b#i', $contentType)) {
+                return true;
+            }
+        }
+
+        // Check magic bytes for known archive formats
+        // ZIP: PK\x03\x04 or PK\x05\x06 (empty) or PK\x07\x08 (spanned)
+        // GZIP: \x1f\x8b
+        // TAR: "ustar" at offset 257
+        // BZ2: BZ
+        $magicBytes = substr($body, 0, 4);
+
+        // ZIP magic bytes
+        if ($magicBytes === "PK\x03\x04" || $magicBytes === "PK\x05\x06" || $magicBytes === "PK\x07\x08") {
+            return false;
+        }
+
+        // GZIP magic bytes
+        if (substr($body, 0, 2) === "\x1f\x8b") {
+            return false;
+        }
+
+        // BZ2 magic bytes
+        if (substr($body, 0, 2) === "BZ") {
+            return false;
+        }
+
+        // TAR format - check for "ustar" at offset 257
+        if (\strlen($body) > 262 && substr($body, 257, 5) === 'ustar') {
+            return false;
+        }
+
+        // If none of the archive magic bytes matched, it's likely a blocked response
+        return true;
     }
 
     /**
