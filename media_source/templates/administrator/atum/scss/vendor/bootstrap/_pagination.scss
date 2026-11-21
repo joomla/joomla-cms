@@ -9,3 +9,25 @@
   }
 }
 
+
+
+// Responsive pagination
+.pagination__wrapper {
+  container-type: inline-size;
+}
+
+.pagination {
+  flex-wrap: nowrap;
+  align-items: center;
+  white-space: nowrap;
+}
+
+@container (max-width: 40rem) {
+  .pagination > .page-item:not(
+    .active,
+    :has(.active),
+    .active ~ .page-item
+  ) {
+    display: none;
+  }
+}
