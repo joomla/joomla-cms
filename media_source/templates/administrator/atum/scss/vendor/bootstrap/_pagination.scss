@@ -30,8 +30,7 @@
     :has(+ .page-item + .active),
     .active + .page-item,
     .active + .page-item + .page-item,
-    :has([class^="icon-angle-"])
-  ) {
+    :has([class^="icon-angle-"])) {
     display: none;
   }
 }
