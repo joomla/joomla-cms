@@ -154,7 +154,23 @@ if (!$doc->getScriptOptions('media-picker')) {
     ]);
 }
 
-$imagesOnly = count($mediaTypeNames) === 1 && in_array('images', $mediaTypeNames);
+$imagesOnly      = count($mediaTypeNames) === 1 && in_array('images', $mediaTypeNames);
+$videosOnly      = count($mediaTypeNames) === 1 && in_array('videos', $mediaTypeNames);
+$directoriesOnly = count($mediaTypeNames) === 1 && in_array('directories', $mediaTypeNames);
+
+$modalTitleSelect = match (true) {
+    $imagesOnly      => 'JLIB_FORM_SELECT_IMAGE',
+    $videosOnly      => 'JLIB_FORM_SELECT_VIDEO',
+    $directoriesOnly => 'JLIB_FORM_SELECT_DIRECTORY',
+    default          => 'JLIB_FORM_SELECT_FILE',
+};
+
+$modalTitleChange = match (true) {
+    $imagesOnly      => 'JLIB_FORM_CHANGE_IMAGE',
+    $videosOnly      => 'JLIB_FORM_CHANGE_VIDEO',
+    $directoriesOnly => 'JLIB_FORM_CHANGE_DIRECTORY',
+    default          => 'JLIB_FORM_CHANGE_FILE',
+};
 
 ?>
 <joomla-field-media class="field-media-wrapper"
@@ -165,7 +181,8 @@ $imagesOnly = count($mediaTypeNames) === 1 && in_array('images', $mediaTypeNames
     input=".field-media-input"
     button-select=".button-select"
     button-clear=".button-clear"
-    modal-title="<?php echo $this->escape(Text::_($imagesOnly ? 'JLIB_FORM_CHANGE_IMAGE' : 'JLIB_FORM_CHANGE_FILE')); ?>"
+    modal-title-select="<?php echo $this->escape(Text::_($modalTitleSelect)); ?>"
+    modal-title-change="<?php echo $this->escape(Text::_($modalTitleChange)); ?>"
     preview="static"
     preview-container=".field-media-preview"
     preview-width="<?php echo $previewWidth; ?>"

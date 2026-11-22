@@ -91,13 +91,13 @@ class OverridesModel extends ListModel
 
         // Consider the ordering
         if ($this->getState('list.ordering') == 'text') {
-            if (strtoupper($this->getState('list.direction')) == 'DESC') {
+            if (strtoupper((string) $this->getState('list.direction')) == 'DESC') {
                 arsort($strings);
             } else {
                 asort($strings);
             }
         } else {
-            if (strtoupper($this->getState('list.direction')) == 'DESC') {
+            if (strtoupper((string) $this->getState('list.direction')) == 'DESC') {
                 krsort($strings);
             } else {
                 ksort($strings);
