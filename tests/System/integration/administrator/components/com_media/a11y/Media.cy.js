@@ -1,5 +1,5 @@
 ['light', 'dark'].forEach((theme) => {
-  describe(`Test that Media managment has no detectable a11y violations - ${theme} mode`, () => {
+  describe(`Test that the Media manager has no detectable a11y violations - ${theme} mode`, () => {
     beforeEach(() => {
       cy.doAdministratorLogin();
       cy.setCookie('userColorScheme', theme);
