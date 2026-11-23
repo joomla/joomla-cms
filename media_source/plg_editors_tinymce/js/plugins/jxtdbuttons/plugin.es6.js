@@ -37,6 +37,33 @@ const pluginSetUp = (editor) => {
     }
 
     button.onAction = () => {
+      // The menu item is removed when the menu closes, so the dialog cannot return focus to it.
+      // When the dialog is dismissed without inserting content, return focus to the CMS Content button.
+      const onDialogOpen = ({ target }) => {
+        let escapeDown = false;
+        const returnFocus = () => editor.getContainer().querySelector('[data-mce-name="jxtdbuttons"]')?.focus();
+
+        target.addEventListener('keydown', ({ key }) => {
+          if (key === 'Escape') {
+            escapeDown = true;
+            document.addEventListener('keyup', () => { escapeDown = false; }, { once: true });
+          }
+        });
+        target.addEventListener('joomla-dialog:close', () => {
+          if (document.activeElement !== document.body) {
+            return;
+          }
+
+          if (escapeDown) {
+            // The TinyMCE toolbar handles Escape on keyup and would move focus to the editor, so wait for the key release
+            document.addEventListener('keyup', returnFocus, { once: true });
+          } else {
+            returnFocus();
+          }
+        }, { once: true });
+      };
+      document.addEventListener('joomla-dialog:open', onDialogOpen, { once: true });
+
       JoomlaEditor.setActive(editor.id);
       if (xtdButton.action) {
         JoomlaEditorButton.runAction(xtdButton.action, xtdButton.options || {});
@@ -45,6 +72,8 @@ const pluginSetUp = (editor) => {
       } else if (xtdButton.click) {
         new Function(xtdButton.click)();
       }
+
+      document.removeEventListener('joomla-dialog:open', onDialogOpen);
     };
 
     subMenu.push(button);
