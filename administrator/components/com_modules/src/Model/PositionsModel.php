@@ -88,7 +88,7 @@ class PositionsModel extends ListModel
     public function getItems()
     {
         if (!isset($this->items)) {
-            $lang            = Factory::getLanguage();
+            $lang            = Factory::getApplication()->getLanguage();
             $search          = $this->getState('filter.search');
             $state           = $this->getState('filter.state');
             $clientId        = $this->getState('client_id');

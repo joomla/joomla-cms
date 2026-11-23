@@ -183,7 +183,7 @@ class PluginsModel extends ListModel
      */
     protected function translate(&$items)
     {
-        $lang = Factory::getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
 
         foreach ($items as &$item) {
             $source    = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
