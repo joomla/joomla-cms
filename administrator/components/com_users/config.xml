@@ -124,7 +124,7 @@
 			label="COM_USERS_CONFIG_FIELD_DOMAINS_LABEL"
 			hiddenLabel="true"
 			multiple="true"
-			layout="joomla.form.field.subform.repeatable-table"
+			layout="joomla.form.field.subform.repeatable-grid"
 			formsource="administrator/components/com_users/forms/config_domain.xml"
 		/>
 	</fieldset>
@@ -258,7 +258,6 @@
 			label="COM_USERS_CONFIG_NEVERMFAUSERGROUPS_LABEL"
 			description="COM_USERS_CONFIG_NEVERMFAUSERGROUPS_DESC"
 			layout="joomla.form.field.list-fancy-select"
-			checksuperusergroup="1"
 			default=""
 			multiple="1"
 			>
@@ -271,7 +270,6 @@
 			label="COM_USERS_CONFIG_FORCEMFAUSERGROUPS_LABEL"
 			description="COM_USERS_CONFIG_FORCEMFAUSERGROUPS_DESC"
 			layout="joomla.form.field.list-fancy-select"
-			checksuperusergroup="1"
 			default=""
 			multiple="1"
 			>

@@ -75,7 +75,7 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
             $user       = $app->getIdentity();
             $lang       = $app->getLanguage();
             $now        = Factory::getDate()->toSql();
-            $query      = $db->getQuery(true);
+            $query      = $db->createQuery();
             $uid        = $row->id;
             $option     = 'com_content';
             $canPublish = $user->authorise('core.edit.state', $option . '.article.' . $row->id);

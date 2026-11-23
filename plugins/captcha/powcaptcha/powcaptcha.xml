@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="captcha" method="upgrade">
+	<name>plg_captcha_powcaptcha</name>
+	<version>6.1.0</version>
+	<creationDate>2025-12</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>(C) 2025 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>PLG_CAPTCHA_POWCAPTCHA_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Captcha\POWCaptcha</namespace>
+	<files>
+		<folder plugin="powcaptcha">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_captcha_powcaptcha.ini</language>
+		<language tag="en-GB">language/en-GB/plg_captcha_powcaptcha.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="difficulty"
+					type="list"
+					label="PLG_CAPTCHA_POWCAPTCHA_DIFFICULTY_LABEL"
+					description="PLG_CAPTCHA_POWCAPTCHA_DIFFICULTY_DESC"
+					default="MODERATE"
+					validate="options"
+					>
+					<option value="easy">PLG_CAPTCHA_POWCAPTCHA_DIFFICULTY_EASY</option>
+					<option value="moderate">PLG_CAPTCHA_POWCAPTCHA_DIFFICULTY_MODERATE</option>
+					<option value="hard">PLG_CAPTCHA_POWCAPTCHA_DIFFICULTY_HARD</option>
+					<option value="custom">PLG_CAPTCHA_POWCAPTCHA_DIFFICULTY_CUSTOM</option>
+				</field>
+
+				<field
+					name="maxnumber"
+					type="number"
+					label="PLG_CAPTCHA_POWCAPTCHA_MAXNUMBER_LABEL"
+					description="PLG_CAPTCHA_POWCAPTCHA_MAXNUMBER_DESC"
+					min="10000"
+					max="1000000"
+					default="250000"
+					showon="difficulty:custom"
+				/>
+
+				<field
+					name="autosolve"
+					type="list"
+					label="PLG_CAPTCHA_POWCAPTCHA_AUTOSOLVE_LABEL"
+					description="PLG_CAPTCHA_POWCAPTCHA_AUTOSOLVE_DESC"
+					default="onfocus"
+					validate="options"
+				>
+					<option value="off">PLG_CAPTCHA_POWCAPTCHA_AUTOSOLVE_OFF</option>
+					<option value="onfocus">PLG_CAPTCHA_POWCAPTCHA_AUTOSOLVE_ONFOCUS</option>
+					<option value="onload">PLG_CAPTCHA_POWCAPTCHA_AUTOSOLVE_ONLOAD</option>
+					<option value="onsubmit">PLG_CAPTCHA_POWCAPTCHA_AUTOSOLVE_ONSUBMIT</option>
+				</field>
+
+				<field
+					name="expiration"
+					type="list"
+					label="PLG_CAPTCHA_POWCAPTCHA_EXPIRATION_LABEL"
+					description="PLG_CAPTCHA_POWCAPTCHA_EXPIRATION_DESC"
+					default="300"
+					validate="options"
+				>
+					<option value="60">PLG_CAPTCHA_POWCAPTCHA_EXPIRATION_1MIN</option>
+					<option value="300">PLG_CAPTCHA_POWCAPTCHA_EXPIRATION_5MIN</option>
+					<option value="600">PLG_CAPTCHA_POWCAPTCHA_EXPIRATION_10MIN</option>
+					<option value="3600">PLG_CAPTCHA_POWCAPTCHA_EXPIRATION_1HOUR</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

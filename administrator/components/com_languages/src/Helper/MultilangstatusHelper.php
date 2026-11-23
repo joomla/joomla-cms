@@ -36,7 +36,7 @@ abstract class MultilangstatusHelper
     {
         // Check for multiple Home pages.
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__menu'))
             ->where(
@@ -61,7 +61,7 @@ abstract class MultilangstatusHelper
     {
         // Check if switcher is published.
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__modules'))
             ->where(
@@ -86,7 +86,7 @@ abstract class MultilangstatusHelper
     {
         // Check for published Content Languages.
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('lang_code'),
@@ -110,7 +110,7 @@ abstract class MultilangstatusHelper
     {
         // Check for combined status.
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select all fields from the languages table.
         $query->select(
@@ -156,7 +156,7 @@ abstract class MultilangstatusHelper
         $languages = \count(LanguageHelper::getLanguages());
 
         // Get the number of contact with all as language
-        $alang = $db->getQuery(true)
+        $alang = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__contact_details', 'cd'))
             ->where(
@@ -168,7 +168,7 @@ abstract class MultilangstatusHelper
             );
 
         // Get the number of languages for the contact
-        $slang = $db->getQuery(true)
+        $slang = $db->createQuery()
             ->select('COUNT(DISTINCT ' . $db->quoteName('l.lang_code') . ')')
             ->from($db->quoteName('#__languages', 'l'))
             ->join('LEFT', $db->quoteName('#__contact_details', 'cd'), $db->quoteName('cd.language') . ' = ' . $db->quoteName('l.lang_code'))
@@ -181,7 +181,7 @@ abstract class MultilangstatusHelper
             );
 
         // Get the number of multiple contact/language
-        $mlang = $db->getQuery(true)
+        $mlang = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__languages', 'l'))
             ->join('LEFT', $db->quoteName('#__contact_details', 'cd'), $db->quoteName('cd.language') . ' = ' . $db->quoteName('l.lang_code'))
@@ -196,12 +196,12 @@ abstract class MultilangstatusHelper
             ->having('COUNT(*) > 1');
 
         // Get the contacts
-        $subQuery = $db->getQuery(true)
+        $subQuery = $db->createQuery()
             ->select('1')
             ->from($db->quoteName('#__content', 'c'))
             ->where($db->quoteName('c.created_by') . ' = ' . $db->quoteName('u.id'));
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('u.name'),
@@ -251,7 +251,7 @@ abstract class MultilangstatusHelper
     {
         // Find Default Home menutype.
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('menutype'))
             ->from($db->quoteName('#__menu'))
             ->where(
@@ -311,7 +311,7 @@ abstract class MultilangstatusHelper
     {
         $db = Factory::getDbo();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('id'),

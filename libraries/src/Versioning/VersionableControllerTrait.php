@@ -36,9 +36,9 @@ trait VersionableControllerTrait
         $table     = $model->getTable();
         $historyId = $this->input->getInt('version_id', null);
 
-        if (!$model->loadhistory($historyId, $table)) {
-            $this->setMessage($model->getError(), 'error');
+        $id = $model->getItemIdFromHistory($historyId);
 
+        if (false === $id) {
             $this->setRedirect(
                 Route::_(
                     'index.php?option=' . $this->option . '&view=' . $this->view_list
@@ -51,17 +51,13 @@ trait VersionableControllerTrait
         }
 
         // Determine the name of the primary key for the data.
-        if (empty($key)) {
-            $key = $table->getKeyName();
-        }
-
-        $recordId = $table->$key;
+        $key = $table->getKeyName();
 
         // To avoid data collisions the urlVar may be different from the primary key.
         $urlVar = empty($this->urlVar) ? $key : $this->urlVar;
 
         // Access check.
-        if (!$this->allowEdit([$key => $recordId], $key)) {
+        if (!$this->allowEdit([$key => $id], $key)) {
             $this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
 
             $this->setRedirect(
@@ -79,13 +75,21 @@ trait VersionableControllerTrait
         $this->setRedirect(
             Route::_(
                 'index.php?option=' . $this->option . '&view=' . $this->view_item
-                . $this->getRedirectToItemAppend($recordId, $urlVar),
+                . $this->getRedirectToItemAppend($id, $urlVar),
                 false
             )
         );
 
-        if (!$table->check() || !$table->store()) {
-            $this->setMessage($table->getError(), 'error');
+        if (!$model->loadhistory($historyId, $table)) {
+            $this->setMessage($model->getError(), 'error');
+
+            $this->setRedirect(
+                Route::_(
+                    'index.php?option=' . $this->option . '&view=' . $this->view_list
+                    . $this->getRedirectToListAppend(),
+                    false
+                )
+            );
 
             return false;
         }

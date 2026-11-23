@@ -15,17 +15,17 @@ describe('Test in frontend that the users registration view', () => {
     cy.get('.com-users-registration__form').should('contain.text', 'User Registration');
     cy.get('#jform_name').clear().type('test user');
     cy.get('#jform_username').clear().type('testuser');
-    cy.get('#jform_password1').clear().type(`${Cypress.env('password')}-test`);
-    cy.get('#jform_password2').clear().type(`${Cypress.env('password')}-test`);
+    cy.get('#jform_password1').clear().type(`${Cypress.expose('password')}-test`);
+    cy.get('#jform_password2').clear().type(`${Cypress.expose('password')}-test`);
     cy.get('#jform_email1').clear().type('testuser@example.com');
     cy.get('#member-registration').submit();
     cy.checkForSystemMessage('Your account has been created and a verification link has been sent to the email address you entered.');
 
     cy.task('getMails').then((mails) => {
       cy.wrap(mails).should('have.lengthOf', 1);
-      cy.wrap(mails[0].headers.subject).should('have.string', `Account Details for test user at ${Cypress.env('sitename')}`);
+      cy.wrap(mails[0].headers.subject).should('have.string', `Account Details for test user at ${Cypress.expose('sitename')}`);
       cy.wrap(mails[0].headers.to).should('equal', 'testuser@example.com');
-      cy.wrap(mails[0].body).should('have.string', `Hello test user,\n\nThank you for registering at ${Cypress.env('sitename')}.`);
+      cy.wrap(mails[0].body).should('have.string', `Hello test user,\n\nThank you for registering at ${Cypress.expose('sitename')}.`);
       cy.wrap(mails[0].body).should('match', /http\S+\?task=registration\.activate&token=[a-z0-9]+/);
       cy.wrap(/http\S+\?task=registration\.activate&token=[a-z0-9]+/.exec(mails[0].body)[0]).as('activatelink');
       cy.wrap(mails[0].html).should('be.false');
@@ -35,9 +35,9 @@ describe('Test in frontend that the users registration view', () => {
 
     cy.task('getMails').then((mails) => {
       cy.wrap(mails).should('have.lengthOf', 2);
-      cy.wrap(mails[1].headers.subject).should('have.string', `Registration approval required for account of test user at ${Cypress.env('sitename')}`);
-      cy.wrap(mails[1].headers.to).should('equal', Cypress.env('email'));
-      cy.wrap(mails[1].body).should('have.string', `Hello administrator,\n\nA new user has registered at ${Cypress.env('sitename')}.`);
+      cy.wrap(mails[1].headers.subject).should('have.string', `Registration approval required for account of test user at ${Cypress.expose('sitename')}`);
+      cy.wrap(mails[1].headers.to).should('equal', Cypress.expose('email'));
+      cy.wrap(mails[1].body).should('have.string', `Hello administrator,\n\nA new user has registered at ${Cypress.expose('sitename')}.`);
       cy.wrap(mails[1].body).should('have.string', 'Name :  test user');
       cy.wrap(mails[1].body).should('have.string', 'email:  testuser@example.com');
       cy.wrap(mails[1].body).should('have.string', 'Username:  testuser');
@@ -54,12 +54,12 @@ describe('Test in frontend that the users registration view', () => {
     cy.doFrontendLogout();
     cy.task('getMails').then((mails) => {
       cy.wrap(mails).should('have.lengthOf', 3);
-      cy.wrap(mails[2].headers.subject).should('have.string', `Account activated for test user at ${Cypress.env('sitename')}`);
+      cy.wrap(mails[2].headers.subject).should('have.string', `Account activated for test user at ${Cypress.expose('sitename')}`);
       cy.wrap(mails[2].headers.to).should('equal', 'testuser@example.com');
       cy.wrap(mails[2].body).should('have.string', 'Hello test user,\n\nYour account has been activated by an administrator.');
       cy.wrap(mails[2].html).should('be.false');
     });
-    cy.doFrontendLogin('testuser', `${Cypress.env('password')}-test`);
+    cy.doFrontendLogin('testuser', `${Cypress.expose('password')}-test`);
     cy.doFrontendLogout();
   });
 

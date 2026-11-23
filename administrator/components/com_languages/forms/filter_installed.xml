@@ -19,7 +19,6 @@
 			label="COM_LANGUAGES_INSTALLED_FILTER_SEARCH_LABEL"
 			description="COM_LANGUAGES_INSTALLED_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
-			noresults="JGLOBAL_NO_MATCHING_RESULTS"
 		/>
 	</fields>
 	<fields name="list">

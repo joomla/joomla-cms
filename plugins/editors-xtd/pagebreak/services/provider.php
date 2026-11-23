@@ -31,14 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(PageBreak::class, function (Container $container) {
                 $plugin     = new PageBreak(
                     (array) PluginHelper::getPlugin('editors-xtd', 'pagebreak')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

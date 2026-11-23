@@ -253,7 +253,7 @@ class RulesField extends FormField
         if (empty($this->assetId)) {
             // Get the component asset id as fallback.
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__assets'))
                 ->where($db->quoteName('name') . ' = :component')
@@ -276,7 +276,7 @@ class RulesField extends FormField
             // In this case we need to get the component rules too.
             $db = $this->getDatabase();
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('parent_id'))
                 ->from($db->quoteName('#__assets'))
                 ->where($db->quoteName('id') . ' = :assetId')

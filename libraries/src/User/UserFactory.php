@@ -65,7 +65,7 @@ class UserFactory implements UserFactoryInterface
     public function loadUserByUsername(string $username): User
     {
         // Initialise some variables
-        $query = $this->db->getQuery(true)
+        $query = $this->db->createQuery()
             ->select($this->db->quoteName('id'))
             ->from($this->db->quoteName('#__users'))
             ->where($this->db->quoteName('username') . ' = :username')

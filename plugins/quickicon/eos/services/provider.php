@@ -34,7 +34,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Eos::class, function (Container $container) {
                 $plugin     = new Eos(
                     (array) PluginHelper::getPlugin('quickicon', 'eos')
                 );
@@ -42,7 +42,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

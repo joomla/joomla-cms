@@ -38,7 +38,7 @@ class OutputFilter extends BaseOutputFilter
     {
         $regex = 'href="([^"]*(&(amp;){0})[^"]*)*?"';
 
-        return preg_replace_callback("#$regex#i", ['\\Joomla\\CMS\\Filter\\OutputFilter', 'ampReplaceCallback'], $input);
+        return preg_replace_callback("#$regex#i", [static::class, 'ampReplaceCallback'], $input);
     }
 
     /**

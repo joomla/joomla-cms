@@ -155,7 +155,7 @@ class SearchModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields from the table.
         $query->select(
@@ -302,7 +302,7 @@ class SearchModel extends ListModel
 
         // Check if there are any excluded terms to deal with.
         if (\count($this->excludedTerms)) {
-            $query2 = $db->getQuery(true);
+            $query2 = $db->createQuery();
             $query2->select('e.link_id')
                 ->from($db->quoteName('#__finder_links_terms', 'e'))
                 ->where('e.term_id IN (' . implode(',', $this->excludedTerms) . ')');

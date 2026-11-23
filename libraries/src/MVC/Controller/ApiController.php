@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
@@ -18,8 +19,9 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Model\State;
 use Joomla\CMS\MVC\View\JsonApiView;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\Input\Input;
-use Joomla\String\Inflector;
+use Joomla\Registry\Registry;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -108,7 +110,7 @@ class ApiController extends BaseController
      */
     public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?CMSWebApplicationInterface $app = null, ?Input $input = null)
     {
-        $this->modelState = new State();
+        $this->modelState = new Registry();
 
         parent::__construct($config, $factory, $app, $input);
 
@@ -165,7 +167,8 @@ class ApiController extends BaseController
             throw new \RuntimeException($e->getMessage());
         }
 
-        $modelName = $this->input->get('model', Inflector::singularize($this->contentType));
+        $inflector = InflectorFactory::create()->build();
+        $modelName = $this->input->get('model', $inflector->singularize($this->contentType));
 
         // Create the model, ignoring request data so we can safely set the state in the request from the controller
         $model = $this->getModel($modelName, '', ['ignore_request' => true, 'state' => $this->modelState]);
@@ -296,7 +299,9 @@ class ApiController extends BaseController
      */
     public function delete($id = null)
     {
-        if (!$this->app->getIdentity()->authorise('core.delete', $this->option)) {
+        if (
+            !$this->allowDelete()
+        ) {
             throw new NotAllowed('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED', 403);
         }
 
@@ -304,7 +309,8 @@ class ApiController extends BaseController
             $id = $this->input->get('id', 0, 'int');
         }
 
-        $modelName = $this->input->get('model', Inflector::singularize($this->contentType));
+        $inflector = InflectorFactory::create()->build();
+        $modelName = $this->input->get('model', $inflector->singularize($this->contentType));
 
         /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
         $model = $this->getModel($modelName, '', ['ignore_request' => true]);
@@ -318,6 +324,36 @@ class ApiController extends BaseController
             if ($model->getError() !== false) {
                 throw new \RuntimeException($model->getError(), 500);
             }
+
+            // If the model has set a 409 status code in the session, we return a 409 http status codee
+            if ($this->app->getSession()->get('http_status_code_409', false)) {
+                $this->app->getSession()->clear('http_status_code_409');
+                $this->app->setHeader('status', 409, true);
+                $this->app->setHeader('Content-Type', 'application/json');
+                $this->app->sendHeaders();
+                $body = [
+                    'status'  => 'Conflict',
+                    'code'    => 409,
+                    'message' => 'Resource not in state that can be deleted, must be trashed before it can be deleted',
+                ];
+                echo new JsonResponse($body);
+                $this->app->close();
+            }
+        }
+
+        // If the model has set a 404 status code in the session, we return a 404 http status codee
+        if ($this->app->getSession()->get('http_status_code_404', false)) {
+            $this->app->getSession()->clear('http_status_code_404');
+            $this->app->setHeader('status', 404, true);
+            $this->app->setHeader('Content-Type', 'application/json');
+            $this->app->sendHeaders();
+            $body = [
+                'status'  => 'not found',
+                'code'    => 404,
+                'message' => 'Resource not found',
+            ];
+            echo new JsonResponse($body);
+            $this->app->close();
         }
 
         $this->app->setHeader('status', 204);
@@ -354,7 +390,8 @@ class ApiController extends BaseController
     public function edit()
     {
         /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
-        $model = $this->getModel(Inflector::singularize($this->contentType));
+        $inflector = InflectorFactory::create()->build();
+        $model     = $this->getModel($inflector->singularize($this->contentType));
 
         if (!$model) {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
@@ -403,7 +440,8 @@ class ApiController extends BaseController
     protected function save($recordKey = null)
     {
         /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
-        $model = $this->getModel(Inflector::singularize($this->contentType));
+        $inflector = InflectorFactory::create()->build();
+        $model     = $this->getModel($inflector->singularize($this->contentType));
 
         if (!$model) {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
@@ -420,6 +458,9 @@ class ApiController extends BaseController
         $checkin    = property_exists($table, $table->getColumnAlias('checked_out'));
         $data[$key] = $recordKey;
 
+        // Stored values of the fields which are not in the PATCH request
+        $storedValues = [];
+
         if ($this->input->getMethod() === 'PATCH') {
             if ($recordKey && $table->load($recordKey)) {
                 $fields = $table->getFields();
@@ -429,7 +470,8 @@ class ApiController extends BaseController
                         continue;
                     }
 
-                    $data[$field->Field] = $table->{$field->Field};
+                    $data[$field->Field]         = $table->{$field->Field};
+                    $storedValues[$field->Field] = $table->{$field->Field};
                 }
             }
         }
@@ -467,6 +509,17 @@ class ApiController extends BaseController
             }
 
             throw new InvalidParameterException(implode("\n", $messages));
+        }
+
+        // Stored values are already in UTC, so don't let the SERVER_UTC / USER_UTC form filter convert them a second time
+        foreach ($storedValues as $field => $value) {
+            if (!\array_key_exists($field, $validData)) {
+                continue;
+            }
+
+            if (\in_array(strtoupper($form->getFieldAttribute($field, 'filter', '')), ['SERVER_UTC', 'USER_UTC'], true)) {
+                $validData[$field] = $value;
+            }
         }
 
         if (!isset($validData['tags'])) {
@@ -513,7 +566,42 @@ class ApiController extends BaseController
      */
     protected function allowEdit($data = [], $key = 'id')
     {
-        return $this->app->getIdentity()->authorise('core.edit', $this->option);
+        $user     = $this->app->getIdentity();
+        $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
+
+        if (!$user->authorise('core.manage', $this->option)) {
+            return false;
+        }
+
+        // No record: fall back to the component permission.
+        if (!$recordId) {
+            return $user->authorise('core.edit', $this->option);
+        }
+
+        $inflector = InflectorFactory::create()->build();
+        $asset     = $this->option . '.' . $inflector->singularize($this->contentType) . '.' . $recordId;
+
+        // Check edit on the record asset (explicit or inherited)
+        if ($user->authorise('core.edit', $asset)) {
+            return true;
+        }
+
+        $table = $this->getModel($inflector->singularize($this->contentType))->getTable();
+
+        // Check edit own on the record asset (explicit or inherited)
+        if ($table->hasField('created_by') && $user->authorise('core.edit.own', $asset)) {
+            // Existing record already has an owner, get it
+            $table->load($recordId);
+
+            if (empty($table->getId())) {
+                return false;
+            }
+
+            // Grant if current user is owner of the record
+            return $user->id == $table->created_by;
+        }
+
+        return false;
     }
 
     /**
@@ -531,7 +619,31 @@ class ApiController extends BaseController
     {
         $user = $this->app->getIdentity();
 
+        if (!$user->authorise('core.manage', $this->option)) {
+            return false;
+        }
+
         return $user->authorise('core.create', $this->option) || \count($user->getAuthorisedCategories($this->option, 'core.create'));
+    }
+
+    /**
+     * Method to check if it's allowed to delete a record
+     *
+     * @return  boolean
+     *
+     * @since   5.4.8
+     * @since   6.1.3
+     */
+    protected function allowDelete(): bool
+    {
+        $user = $this->app->getIdentity();
+
+        // Require generic management permissions for the component
+        if (!$user->authorise('core.manage', $this->option)) {
+            return false;
+        }
+
+        return $user->authorise('core.delete', $this->option);
     }
 
     /**

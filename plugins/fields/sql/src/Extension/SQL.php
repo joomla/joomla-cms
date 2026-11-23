@@ -14,6 +14,7 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Form\Form;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -27,6 +28,8 @@ use Joomla\Event\SubscriberInterface;
  */
 final class SQL extends FieldsListPlugin implements SubscriberInterface
 {
+    use DatabaseAwareTrait;
+
     /**
      * Returns an array of events this subscriber will listen to.
      *

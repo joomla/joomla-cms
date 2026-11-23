@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package    Joomla.Site
  *
@@ -10,7 +11,7 @@
  * This is the configuration file for php-cs-fixer
  *
  * @link https://github.com/FriendsOfPHP/PHP-CS-Fixer
- * @link https://mlocati.github.io/php-cs-fixer-configurator/#version:3.0
+ * @link https://mlocati.github.io/php-cs-fixer-configurator/#version:3.95
  *
  *
  * If you would like to run the automated clean up, then open a command line and type one of the commands below
@@ -29,39 +30,75 @@
  *        ./libraries/vendor/bin/php-cs-fixer fix administrator/index.php
  */
 
-// Add all the core Joomla folders
-$finder = PhpCsFixer\Finder::create()
-    ->in(
-        [
-            __DIR__ . '/administrator',
-            __DIR__ . '/api',
-            __DIR__ . '/build',
-            __DIR__ . '/cache',
-            __DIR__ . '/cli',
-            __DIR__ . '/components',
-            __DIR__ . '/includes',
-            __DIR__ . '/installation',
-            __DIR__ . '/language',
-            __DIR__ . '/libraries/src',
-            __DIR__ . '/modules',
-            __DIR__ . '/plugins',
-            __DIR__ . '/templates',
-            __DIR__ . '/tests',
-        ]
-    )
-    // Ignore template files as PHP CS fixer can't handle them properly
-    // https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/3702#issuecomment-396717120
-    ->notPath('/tmpl/')
-    ->notPath('/layouts/')
-    ->notPath('/cassiopeia/')
-    ->notPath('/atum/')
-    // Ignore psr12 scripts because they contain invalid syntax
-    ->notPath('/psr12/')
-    ->notName('github_rebase.php');
+declare(strict_types=1);
 
-$config = new PhpCsFixer\Config();
-$config
-    ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
+use PhpCsFixer\Config;
+use PhpCsFixer\Config\RuleCustomisationPolicyInterface;
+use PhpCsFixer\Finder;
+
+// Add all the core Joomla folders
+$finder = (new Finder())
+    ->in(__DIR__)
+    ->exclude([
+        'administrator/cache',
+        'administrator/logs',
+        'build/psr12',
+        'node_modules',
+        'libraries/php-encryption',
+        'libraries/phpass',
+    ])
+    ->notPath([
+        'configuration.php',
+    ])
+;
+
+final class JoomlaPolicy implements RuleCustomisationPolicyInterface
+{
+    public function getPolicyVersionForCache(): string
+    {
+        return hash_file('xxh128', __FILE__);
+    }
+
+    public function getRuleCustomisers(): array
+    {
+        $disableLayoutFile = [
+            'binary_operator_spaces',
+            'native_function_invocation',
+            'no_trailing_whitespace_in_comment',
+            'single_space_around_construct',
+            'statement_indentation',
+            // @todo Remove in next major version to avoid having to update too many template overrides.
+            'braces_position',
+            'combine_consecutive_issets',
+            'no_spaces_after_function_name',
+            'no_unneeded_control_parentheses',
+            'single_line_after_imports',
+            'spaces_inside_parentheses',
+            'ternary_operator_spaces',
+            'trailing_comma_in_multiline',
+        ];
+
+        $ruleCustomisers = [];
+        foreach ($disableLayoutFile as $rule) {
+            $ruleCustomisers[$rule] = static function (\SplFileInfo $file): bool {
+                return !self::isLayoutFile($file);
+            };
+        }
+
+        return $ruleCustomisers;
+    }
+
+    private static function isLayoutFile(\SplFileInfo $file): bool
+    {
+        return str_contains($file->getPathname(), \DIRECTORY_SEPARATOR . 'tmpl' . \DIRECTORY_SEPARATOR)
+            || str_contains($file->getPathname(), \DIRECTORY_SEPARATOR . 'layouts' . \DIRECTORY_SEPARATOR)
+            || str_contains($file->getPathname(), \DIRECTORY_SEPARATOR . 'templates' . \DIRECTORY_SEPARATOR . 'atum' . \DIRECTORY_SEPARATOR)
+            || str_contains($file->getPathname(), \DIRECTORY_SEPARATOR . 'templates' . \DIRECTORY_SEPARATOR . 'cassiopeia' . \DIRECTORY_SEPARATOR)
+            || str_contains($file->getPathname(), \DIRECTORY_SEPARATOR . 'templates' . \DIRECTORY_SEPARATOR . 'cassiopeia_extended' . \DIRECTORY_SEPARATOR);
+    }
+}
+
+$config = (new Config())
     ->setRiskyAllowed(true)
     ->setHideProgress(false)
     ->setUsingCache(false)
@@ -101,6 +138,8 @@ $config
             'no_useless_sprintf'                               => true,
         ]
     )
-    ->setFinder($finder);
+    ->setRuleCustomisationPolicy(new JoomlaPolicy())
+    ->setFinder($finder)
+;
 
 return $config;
