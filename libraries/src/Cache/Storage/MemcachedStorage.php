@@ -401,11 +401,19 @@ class MemcachedStorage extends CacheStorage
 
         if (\is_array($indexes)) {
             foreach ($indexKeys as $indexKey) {
-                if (!isset($indexes[$indexKey]) || !\is_array($indexes[$indexKey])) {
+                if (!isset($indexes[$indexKey])) {
                     continue;
                 }
 
-                $index   = $indexes[$indexKey];
+                $index = $indexes[$indexKey];
+
+                if (!\is_array($index)) {
+                    // An unusable index (e.g. an empty legacy index) tracks nothing, so drop it instead of keeping it forever.
+                    static::$_db->delete($indexKey);
+
+                    continue;
+                }
+
                 $changed = false;
 
                 foreach ($index as $key => $value) {
@@ -416,7 +424,14 @@ class MemcachedStorage extends CacheStorage
                     }
                 }
 
-                if ($changed) {
+                if (!$changed) {
+                    continue;
+                }
+
+                // Index items never expire, so delete an emptied index instead of storing an empty array permanently.
+                if ($index === []) {
+                    static::$_db->delete($indexKey);
+                } else {
                     static::$_db->set($indexKey, $index, 0);
                 }
             }
