@@ -366,16 +366,16 @@ class ContactsModel extends ListModel
         if (\count($categoryId)) {
             $categoryId          = ArrayHelper::toInteger($categoryId);
             $categoryTable       = new Category($db);
-            $subCatItemsWhere    = [];
+            $primaryWhereParts   = [];
             $secondaryWhereParts = [];
 
             // @todo: Convert to prepared statement
             foreach ($categoryId as $filter_catid) {
                 $categoryTable->load($filter_catid);
-                $subCatItemsWhere[] = '(' .
-                    ($level ? 'c.level <= ' . ((int) $level + (int) $categoryTable->level - 1) . ' AND ' : '') .
-                    'c.lft >= ' . (int) $categoryTable->lft . ' AND ' .
-                    'c.rgt <= ' . (int) $categoryTable->rgt . ')';
+                $primaryWhereParts[] = '(' .
+                    ($level ? 'pc.level <= ' . ((int) $level + (int) $categoryTable->level - 1) . ' AND ' : '') .
+                    'pc.lft >= ' . (int) $categoryTable->lft . ' AND ' .
+                    'pc.rgt <= ' . (int) $categoryTable->rgt . ')';
 
                 $secondaryWhereParts[] = '(' .
                     ($level ? 'sc.level <= ' . ((int) $level + (int) $categoryTable->level - 1) . ' AND ' : '') .
@@ -394,13 +394,23 @@ class ContactsModel extends ListModel
                 ->where('(' . implode(' OR ', $secondaryWhereParts) . ')');
 
             if (!$user->authorise('core.admin')) {
-                $secondaryQuery->whereIn(
-                    $db->quoteName('sc.access'),
-                    $user->getAuthorisedViewLevels()
+                $secondaryQuery->where(
+                    $db->quoteName('sc.access') . ' IN ('
+                    . implode(',', ArrayHelper::toInteger($user->getAuthorisedViewLevels())) . ')'
                 );
             }
 
-            $query->where('(' . implode(' OR ', $subCatItemsWhere) . ' OR ' . $db->quoteName('a.id') . ' IN (' . $secondaryQuery . ')' . ')');
+            $primaryQuery = $db->createQuery()
+                ->select($db->quoteName('p.id', 'item_id'))
+                ->from($db->quoteName('#__contact_details', 'p'))
+                ->innerJoin($db->quoteName('#__categories', 'pc'), $db->quoteName('pc.id') . ' = ' . $db->quoteName('p.catid'))
+                ->where('(' . implode(' OR ', $primaryWhereParts) . ')')
+                ->union($secondaryQuery);
+
+            $query->innerJoin(
+                '(' . $primaryQuery . ') AS ' . $db->quoteName('catmatch_admin_contact'),
+                $db->quoteName('catmatch_admin_contact.item_id') . ' = ' . $db->quoteName('a.id')
+            );
         } elseif ($level) {
             // Case: Using only the by level filter
             $query->where($db->quoteName('c.level') . ' <= :level');
