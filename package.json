@@ -114,6 +114,7 @@
     "ini": "^6.0.0",
     "jasmine-core": "^5.13.0",
     "joomla-cypress": "^2.0.0",
+    "js-yaml": "^4.3.2",
     "lightningcss": "^1.32.0",
     "mysql2": "^3.19.1",
     "pg": "^8.20.0",
