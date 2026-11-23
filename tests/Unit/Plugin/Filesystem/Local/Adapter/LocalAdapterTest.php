@@ -210,7 +210,7 @@ class LocalAdapterTest extends UnitTestCase
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public static function buriedExecutableProvider(): array
     {
@@ -229,7 +229,7 @@ class LocalAdapterTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[DataProvider('buriedExecutableProvider')]
     #[TestDox('refuses to move a file to a name with a buried executable extension ($destination)')]
@@ -257,7 +257,7 @@ class LocalAdapterTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[DataProvider('buriedExecutableProvider')]
     #[TestDox('refuses to copy a file to a name with a buried executable extension ($destination)')]
@@ -282,7 +282,7 @@ class LocalAdapterTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[TestDox('still moves and copies files with ordinary multi-dot names')]
     public function testMoveAndCopyAllowOrdinaryNames()
@@ -305,7 +305,7 @@ class LocalAdapterTest extends UnitTestCase
      *
      * @return  LocalAdapter
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     private function adapterWithOutsideFile(): LocalAdapter
     {
@@ -331,7 +331,7 @@ class LocalAdapterTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[TestDox('matches the search path literally instead of as a glob pattern')]
     public function testSearchDoesNotExpandThePath()
@@ -348,7 +348,7 @@ class LocalAdapterTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[TestDox('still finds files in the root and in subfolders')]
     public function testSearchFindsFilesInsideTheRoot()

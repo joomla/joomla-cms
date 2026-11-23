@@ -198,7 +198,7 @@ class StageModel extends AdminModel
      *
      * @return  string  The asset name, or an empty string if the stage or its workflow does not exist.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     private function getStageAssetName(int $stageId): string
     {

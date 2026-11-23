@@ -563,7 +563,7 @@ class LanguageHelper
      *
      * @return  boolean  True if the value looks like a language tag.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public static function isValidTag($lang): bool
     {

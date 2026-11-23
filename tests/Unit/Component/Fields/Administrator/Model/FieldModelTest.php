@@ -22,7 +22,7 @@ use PHPUnit\Framework\Attributes\TestDox;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Fields
- * @since       __DEPLOY_VERSION__
+ * @since       6.2.1
  */
 class FieldModelTest extends UnitTestCase
 {
@@ -33,7 +33,7 @@ class FieldModelTest extends UnitTestCase
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public static function batchMoveProvider(): array
     {
@@ -84,7 +84,7 @@ class FieldModelTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[TestDox('batchMove checks the stored context and permissions of every field: $_dataName')]
     #[DataProvider('batchMoveProvider')]
@@ -173,7 +173,7 @@ class FieldModelTest extends UnitTestCase
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public static function canSaveContextProvider(): array
     {
@@ -199,7 +199,7 @@ class FieldModelTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[TestDox('canSaveContext checks the stored context and core.manage on its component: $_dataName')]
     #[DataProvider('canSaveContextProvider')]
@@ -216,7 +216,7 @@ class FieldModelTest extends UnitTestCase
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public static function canManageRecordsProvider(): array
     {
@@ -235,7 +235,7 @@ class FieldModelTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[TestDox('canManageRecords requires core.manage on the component of every field: $_dataName')]
     #[DataProvider('canManageRecordsProvider')]
@@ -249,7 +249,7 @@ class FieldModelTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public function testBatchRejectsFieldOfNotManagedComponent(): void
     {
@@ -263,7 +263,7 @@ class FieldModelTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public function testStateAndDeleteRequireManageOnTheFieldComponent(): void
     {
@@ -280,7 +280,7 @@ class FieldModelTest extends UnitTestCase
      *
      * @return  FieldModel
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     private function createManageModel(): FieldModel
     {

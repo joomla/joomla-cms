@@ -88,7 +88,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface,
      *
      * @return  string[]  The names of the protected configuration fields.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public function getProtectedConfigurationFields(): array
     {

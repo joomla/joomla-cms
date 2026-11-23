@@ -141,7 +141,7 @@ class ItemsController extends ApiController
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     protected function allowAdd($data = [])
     {
@@ -160,7 +160,7 @@ class ItemsController extends ApiController
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     protected function allowEdit($data = [], $key = 'id')
     {
@@ -192,7 +192,7 @@ class ItemsController extends ApiController
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     protected function allowDelete(): bool
     {
@@ -213,7 +213,7 @@ class ItemsController extends ApiController
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     private function authoriseMenuType(string $action, string $menuType): bool
     {

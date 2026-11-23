@@ -24,7 +24,7 @@ use PHPUnit\Framework\Attributes\TestDox;
  * @package     Joomla.UnitTest
  * @subpackage  Helper
  *
- * @since       __DEPLOY_VERSION__
+ * @since       6.2.1
  */
 #[TestDox('The MediaHelper')]
 class MediaHelperTest extends UnitTestCase
@@ -34,7 +34,7 @@ class MediaHelperTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     protected function tearDown(): void
     {
@@ -48,7 +48,7 @@ class MediaHelperTest extends UnitTestCase
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public static function allowedFileNameProvider(): array
     {
@@ -65,7 +65,7 @@ class MediaHelperTest extends UnitTestCase
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public static function refusedFileNameProvider(): array
     {
@@ -87,7 +87,7 @@ class MediaHelperTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[DataProvider('allowedFileNameProvider')]
     #[TestDox('accepts the file name $fileName')]
@@ -103,7 +103,7 @@ class MediaHelperTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[DataProvider('refusedFileNameProvider')]
     #[TestDox('refuses the file name $fileName')]
@@ -117,7 +117,7 @@ class MediaHelperTest extends UnitTestCase
     /**
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[TestDox('accepts a buried executable extension only when it is explicitly allowed')]
     public function testCheckFileNameHonoursAllowedExecutables()
@@ -132,7 +132,7 @@ class MediaHelperTest extends UnitTestCase
     /**
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[TestDox('uses the configured allowed and ignored extensions of the component')]
     public function testCheckFileNameUsesComponentParameters()
@@ -152,7 +152,7 @@ class MediaHelperTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     private function setMediaParams(?Registry $params): void
     {

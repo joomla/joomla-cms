@@ -146,7 +146,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     private function replaceAll(string $pattern, string $text, callable $callback): string
     {

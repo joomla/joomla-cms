@@ -240,7 +240,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public static function formSourceProvider(): array
     {
@@ -278,7 +278,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[TestDox('setup escapes the parameters in the form source: $_dataName')]
     #[DataProvider('formSourceProvider')]

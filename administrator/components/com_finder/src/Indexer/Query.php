@@ -112,7 +112,7 @@ class Query
      * The tokens whose data has been loaded already.
      *
      * @var    \WeakMap|null
-     * @since  __DEPLOY_VERSION__
+     * @since  6.2.1
      */
     private $loadedTokens;
 
@@ -120,7 +120,7 @@ class Query
      * The tokens which have been added to the included tokens already.
      *
      * @var    \WeakMap|null
-     * @since  __DEPLOY_VERSION__
+     * @since  6.2.1
      */
     private $includedTokens;
 
@@ -1269,7 +1269,7 @@ class Query
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     private function addIncluded($token): void
     {

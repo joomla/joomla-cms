@@ -157,7 +157,7 @@ class GroupModel extends AdminModel
      *
      * @return  boolean  True if the field group may be saved.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     protected function canSaveContext(array $data): bool
     {
@@ -191,7 +191,7 @@ class GroupModel extends AdminModel
      *
      * @return  boolean  True if the user has core.manage on the component of the context.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     protected function canManageContext(?string $context): bool
     {
@@ -211,7 +211,7 @@ class GroupModel extends AdminModel
      *
      * @return  boolean  Returns true on success, false on failure.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public function batch($commands, $pks, $contexts)
     {
@@ -231,7 +231,7 @@ class GroupModel extends AdminModel
      *
      * @return  boolean  True if the user may manage all field groups.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     protected function canManageRecords(array $pks): bool
     {

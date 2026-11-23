@@ -21,7 +21,7 @@ use PHPUnit\Framework\Attributes\TestDox;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Fields
- * @since       __DEPLOY_VERSION__
+ * @since       6.2.1
  */
 class GroupModelTest extends UnitTestCase
 {
@@ -32,7 +32,7 @@ class GroupModelTest extends UnitTestCase
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public static function canSaveContextProvider(): array
     {
@@ -58,7 +58,7 @@ class GroupModelTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[TestDox('canSaveContext checks the stored context and core.manage on its component: $_dataName')]
     #[DataProvider('canSaveContextProvider')]
@@ -75,7 +75,7 @@ class GroupModelTest extends UnitTestCase
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public static function canManageRecordsProvider(): array
     {
@@ -94,7 +94,7 @@ class GroupModelTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[TestDox('canManageRecords requires core.manage on the component of every group: $_dataName')]
     #[DataProvider('canManageRecordsProvider')]
@@ -108,7 +108,7 @@ class GroupModelTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public function testBatchRejectsGroupOfNotManagedComponent(): void
     {
@@ -122,7 +122,7 @@ class GroupModelTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public function testStateAndDeleteRequireManageOnTheGroupComponent(): void
     {
@@ -139,7 +139,7 @@ class GroupModelTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public function testStateAndDeleteOfManagedComponent(): void
     {
@@ -155,7 +155,7 @@ class GroupModelTest extends UnitTestCase
      *
      * @return  GroupModel
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     private function createManageModel(): GroupModel
     {

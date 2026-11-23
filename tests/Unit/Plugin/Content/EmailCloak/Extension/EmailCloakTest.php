@@ -26,27 +26,27 @@ use PHPUnit\Framework\Attributes\TestDox;
 /**
  * Test class for the EmailCloak plugin
  *
- * @since       __DEPLOY_VERSION__
+ * @since       6.2.1
  */
 #[TestDox('The EmailCloak plugin')]
 class EmailCloakTest extends UnitTestCase
 {
     /**
      * @var    mixed
-     * @since  __DEPLOY_VERSION__
+     * @since  6.2.1
      */
     private $backupDocument;
 
     /**
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  6.2.1
      */
     private $backupServer;
 
     /**
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     protected function setUp(): void
     {
@@ -81,7 +81,7 @@ class EmailCloakTest extends UnitTestCase
     /**
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     protected function tearDown(): void
     {
@@ -97,7 +97,7 @@ class EmailCloakTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     private function resetUri(): void
     {
@@ -113,7 +113,7 @@ class EmailCloakTest extends UnitTestCase
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     private function prepare(string $text): string
     {
@@ -140,7 +140,7 @@ class EmailCloakTest extends UnitTestCase
     /**
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[TestDox('cloaks plain addresses and mailto links')]
     public function testCloaksAddressesAndLinks()
@@ -156,7 +156,7 @@ class EmailCloakTest extends UnitTestCase
     /**
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[TestDox('cloaks links with a line break or a tab after the tag name')]
     public function testCloaksLinksWithWhitespaceAfterTagName()
@@ -172,7 +172,7 @@ class EmailCloakTest extends UnitTestCase
     /**
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[TestDox('keeps the markup around the cloaked addresses')]
     public function testKeepsSurroundingMarkup()
@@ -188,7 +188,7 @@ class EmailCloakTest extends UnitTestCase
     /**
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[TestDox('removes the {emailcloak=off} marker and does not cloak the text')]
     public function testEmailcloakOff()
@@ -199,7 +199,7 @@ class EmailCloakTest extends UnitTestCase
     /**
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[TestDox('leaves the text unchanged when it is not valid UTF-8')]
     public function testInvalidUtf8()
@@ -212,7 +212,7 @@ class EmailCloakTest extends UnitTestCase
     /**
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[TestDox('cloaks many addresses in linear time')]
     public function testManyAddresses()
@@ -231,7 +231,7 @@ class EmailCloakTest extends UnitTestCase
     /**
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[TestDox('runs in linear time for many unclosed tags without JIT')]
     #[RunInSeparateProcess]

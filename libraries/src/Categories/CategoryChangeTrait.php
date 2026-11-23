@@ -21,7 +21,7 @@ use Joomla\CMS\Table\Table;
  * The using class has to provide the application (`$this->app`) and the component name (`$this->option`), as
  * the MVC controllers do.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  6.2.1
  */
 trait CategoryChangeTrait
 {
@@ -35,7 +35,7 @@ trait CategoryChangeTrait
      *
      * @return  integer|null  The category id, 0 if there is none, null if the value is not a scalar.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     private function getTargetCategoryId(array $data): ?int
     {
@@ -60,7 +60,7 @@ trait CategoryChangeTrait
      *
      * @return  boolean  True if a record may be created with the given category.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     protected function allowCategoryAdd(array $data): bool
     {
@@ -91,7 +91,7 @@ trait CategoryChangeTrait
      *
      * @return  boolean  True if the record may be saved with the given category.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     protected function allowCategoryChange(Table $table, int $recordId, array $data): bool
     {

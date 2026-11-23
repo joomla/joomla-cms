@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Language
- * @since       __DEPLOY_VERSION__
+ * @since       6.2.1
  */
 class LanguageHelperTest extends UnitTestCase
 {
@@ -29,7 +29,7 @@ class LanguageHelperTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[DataProvider('tagProvider')]
     public function testIsValidTag($tag, bool $expected): void
@@ -40,7 +40,7 @@ class LanguageHelperTest extends UnitTestCase
     /**
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public static function tagProvider(): array
     {
@@ -68,7 +68,7 @@ class LanguageHelperTest extends UnitTestCase
     /**
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public function testExistsRejectsTraversal(): void
     {

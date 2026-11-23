@@ -71,7 +71,7 @@ class BannersController extends ApiController
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     protected function allowAdd($data = [])
     {
@@ -93,7 +93,7 @@ class BannersController extends ApiController
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     protected function allowEdit($data = [], $key = 'id')
     {

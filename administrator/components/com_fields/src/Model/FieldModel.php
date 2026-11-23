@@ -832,7 +832,7 @@ class FieldModel extends AdminModel
      *
      * @return  boolean  True if the field may be saved.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     protected function canSaveContext(array $data): bool
     {
@@ -866,7 +866,7 @@ class FieldModel extends AdminModel
      *
      * @return  boolean  True if the user has core.manage on the component of the context.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     protected function canManageContext(?string $context): bool
     {
@@ -886,7 +886,7 @@ class FieldModel extends AdminModel
      *
      * @return  boolean  Returns true on success, false on failure.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public function batch($commands, $pks, $contexts)
     {
@@ -906,7 +906,7 @@ class FieldModel extends AdminModel
      *
      * @return  boolean  True if the user may manage all fields.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     protected function canManageRecords(array $pks): bool
     {

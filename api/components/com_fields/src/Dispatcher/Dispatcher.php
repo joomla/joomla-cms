@@ -23,14 +23,14 @@ use Joomla\Registry\Registry;
 /**
  * ComponentDispatcher class for com_fields
  *
- * @since  __DEPLOY_VERSION__
+ * @since  6.2.1
  */
 class Dispatcher extends ApiDispatcher
 {
     /**
      * Method to check component access permission
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      *
      * @return  void
      */

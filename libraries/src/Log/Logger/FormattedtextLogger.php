@@ -260,7 +260,7 @@ class FormattedtextLogger extends Logger
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      * @throws  FilesystemException  If the folder of the log file can not be created
      */
     protected function appendToFile(string $data): void

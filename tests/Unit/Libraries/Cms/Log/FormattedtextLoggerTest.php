@@ -18,7 +18,7 @@ use Joomla\Tests\Unit\UnitTestCase;
 /**
  * Test class for FormattedtextLogger
  *
- * @since  __DEPLOY_VERSION__
+ * @since  6.2.1
  */
 class FormattedtextLoggerTest extends UnitTestCase
 {

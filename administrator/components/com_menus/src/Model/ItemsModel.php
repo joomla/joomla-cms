@@ -37,7 +37,7 @@ class ItemsModel extends ListModel
      * by the filter array of the request.
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  6.2.1
      */
     protected $filterForbiddenList = ['menutype', 'client_id'];
 

@@ -59,7 +59,7 @@ final class ApiApplication extends CMSApplication
      * The active route
      *
      * @var    ?Registry
-     * @since  __DEPLOY_VERSION__
+     * @since  6.2.1
      */
     private ?Registry $activeRoute = null;
 
@@ -449,7 +449,7 @@ final class ApiApplication extends CMSApplication
      *
      * @return  Registry|null
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public function getActiveRoute(): ?Registry
     {

@@ -84,7 +84,7 @@ class RequestsPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     private function assertResponseFileEquals(string $expected): void
     {

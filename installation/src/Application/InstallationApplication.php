@@ -321,7 +321,7 @@ final class InstallationApplication extends CMSApplication
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     private function isInstallerAllowed(): bool
     {

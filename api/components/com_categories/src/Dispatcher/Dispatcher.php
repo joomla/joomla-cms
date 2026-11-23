@@ -22,7 +22,7 @@ use Joomla\Registry\Registry;
 /**
  * ComponentDispatcher class for com_categories
  *
- * @since  __DEPLOY_VERSION__
+ * @since  6.2.1
  */
 class Dispatcher extends ApiDispatcher
 {

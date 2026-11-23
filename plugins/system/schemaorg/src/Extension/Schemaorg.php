@@ -562,7 +562,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
      *
      * @return  integer
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     private function getResponseStatus(): int
     {

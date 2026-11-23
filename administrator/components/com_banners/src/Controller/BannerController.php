@@ -122,7 +122,7 @@ class BannerController extends FormController
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     protected function allowSave($data, $key = 'id')
     {

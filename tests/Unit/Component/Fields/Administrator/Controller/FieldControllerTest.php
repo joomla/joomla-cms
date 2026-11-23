@@ -21,7 +21,7 @@ use PHPUnit\Framework\Attributes\TestDox;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Fields
- * @since       __DEPLOY_VERSION__
+ * @since       6.2.1
  */
 class FieldControllerTest extends UnitTestCase
 {
@@ -30,7 +30,7 @@ class FieldControllerTest extends UnitTestCase
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public static function allowSaveProvider(): array
     {
@@ -66,7 +66,7 @@ class FieldControllerTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     #[TestDox('allowSave rejects a posted context of another component: $_dataName')]
     #[DataProvider('allowSaveProvider')]
@@ -87,7 +87,7 @@ class FieldControllerTest extends UnitTestCase
      *
      * @return  object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     private function createController(string $class): object
     {

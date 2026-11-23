@@ -20,7 +20,7 @@ use Joomla\CMS\Dispatcher\ApiDispatcher;
 /**
  * Component dispatcher class for com_privacy
  *
- * @since  __DEPLOY_VERSION__
+ * @since  6.2.1
  */
 class Dispatcher extends ApiDispatcher
 {

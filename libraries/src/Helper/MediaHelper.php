@@ -166,7 +166,7 @@ class MediaHelper
      *
      * @since   4.0.0
      *
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 8.0
+     * @deprecated  6.2.1 will be removed in 8.0
      *              Only the given extension is checked, executable extensions buried in the
      *              file name (e.g. "image.php.gif") are not detected.
      *              Use MediaHelper::checkFileName() with the full file name instead.
@@ -209,7 +209,7 @@ class MediaHelper
      *
      * @return  boolean  true if it passes the checks else false
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.1
      */
     public static function checkFileName(string $fileName, string $component = 'com_media', array $allowedExecutables = []): bool
     {
