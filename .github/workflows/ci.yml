@@ -440,6 +440,13 @@ jobs:
           name: system-test-output
           path: tests/System/output
           if-no-files-found: ignore
+      - name: Archive accessibility violations
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: ${{ always() && matrix.browser == 'chrome' && matrix.config.test_group == 'cmysql' }}
+        with:
+          name: a11y-violations
+          path: tests/System/output/a11y-violations.yml
+          if-no-files-found: error
     services:
       mysql:
         image: mysql:${{ matrix.config.my_version || '9' }}
@@ -461,6 +468,34 @@ jobs:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: joomla_ut
           POSTGRES_DB: test_joomla
+
+  tests-a11y-baseline:
+    name: Compare accessibility violations against the baseline
+    runs-on: ubuntu-latest
+    container: joomlaprojects/docker-images:php8.5
+    needs: [npm, tests-system]
+    if: ${{ !cancelled() && needs.npm.result == 'success' }}
+    steps:
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: latest
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: |
+            node_modules
+            media
+            installation/template/css
+            installation/template/images
+            installation/template/js
+            installation/template/scss
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/build.mjs', 'build/build-modules-js/**', 'media_source/**') }}
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: a11y-violations
+          path: tests/System/output
+      - name: Compare accessibility violations against the baseline
+        run: node tests/System/a11y-compare.mjs a11y-baseline.yml tests/System/output/a11y-violations.yml
 
   typos:
     name: Check for typos
