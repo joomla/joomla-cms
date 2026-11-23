@@ -631,7 +631,15 @@ class TagsHelper extends CMSHelper
 
         $groups   = array_values(array_unique($user->getAuthorisedViewLevels()));
         $groups[] = 0;
-        $query->whereIn($db->quoteName('c.core_access'), $groups);
+        $query->whereIn($db->quoteName('c.core_access'), $groups)
+            ->extendWhere(
+                'AND',
+                [
+                    $db->quoteName('c.core_catid') . ' = 0',
+                    $db->quoteName('tc.access') . ' IN (' . implode(',', ArrayHelper::toInteger($groups)) . ')',
+                ],
+                'OR'
+            );
 
         if (!\in_array(0, $stateFilters, true)) {
             $query->extendWhere(
@@ -910,16 +918,17 @@ class TagsHelper extends CMSHelper
                 }
 
                 $query = $db->createQuery()
-                    ->select($db->quoteName('ucm_id'))
-                    ->from($db->quoteName('#__ucm_base'))
+                    ->select($db->quoteName('core_content_id'))
+                    ->from($db->quoteName('#__ucm_content'))
+
                     ->where(
                         [
-                            $db->quoteName('ucm_item_id') . ' = :itemId',
-                            $db->quoteName('ucm_type_id') . ' = :typeId',
+                            $db->quoteName('core_content_item_id') . ' = :itemId',
+                            $db->quoteName('core_type_alias') . ' = :typeAlias',
                         ]
                     )
                     ->bind(':itemId', $ucmData['common']['core_content_item_id'], ParameterType::INTEGER)
-                    ->bind(':typeId', $ucmData['common']['core_type_id'], ParameterType::INTEGER);
+                    ->bind(':typeAlias', $ucmData['common']['core_type_alias']);
                 $db->setQuery($query);
 
                 $primaryId = $db->loadResult();

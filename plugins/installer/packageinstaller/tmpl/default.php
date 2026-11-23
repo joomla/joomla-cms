@@ -76,12 +76,12 @@ $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
                     <?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_DRAG_FILE_HERE'); ?>
                 </p>
                 <p>
-                    <button id="select-file-button" type="button" class="btn btn-success">
+                    <button id="select-file-button" type="button" aria-describedby="install-package-upload-limit-global" class="btn btn-success">
                         <span class="icon-copy" aria-hidden="true"></span>
                         <?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_SELECT_FILE'); ?>
                     </button>
                 </p>
-                <p>
+                <p id="install-package-upload-limit-global">
                     <?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?>
                 </p>
             </div>
