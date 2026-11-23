@@ -61,7 +61,7 @@
 
 		<field
 			name="type"
-			type="type"
+			type="hidden"
 			label="COM_FIELDS_FIELD_TYPE_LABEL"
 			default="text"
 			required="true"
