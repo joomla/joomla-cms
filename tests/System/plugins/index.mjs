@@ -3,6 +3,7 @@ import { copyRelativeFile, deleteRelativePath, writeRelativeFile } from './fs.mj
 import { deleteInsertedItems, queryTestDB } from './db.mjs';
 import { checkForLogs, clearLogs } from './logs.mjs';
 import setupA11yLog from './a11yLog.mjs';
+import { executeCli } from './cli.mjs';
 
 /**
  * Does the setup of the plugins.
@@ -24,6 +25,7 @@ export default function setupPlugins(on, config) {
     getMails: () => getMails(),
     clearEmails: () => clearEmails(),
     startMailServer: () => startMailServer(config),
+    executeCli: (options) => executeCli(options, config),
   });
 
   setupA11yLog(on, config);

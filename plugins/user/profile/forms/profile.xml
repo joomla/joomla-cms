@@ -68,6 +68,7 @@
 				filter="url"
 				size="30"
 				validate="url"
+				schemes="http,https"
 			/>
 
 			<field

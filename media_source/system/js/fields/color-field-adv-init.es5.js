@@ -4,35 +4,40 @@
  */
 
 !(function(document, $) {
-	"use strict";
+  "use strict";
 
-	function initMinicolorsField (event) {
-		$(event.target).find('.minicolors').each(function() {
-			$(this).minicolors({
-				control: $(this).attr('data-control') || 'hue',
-				format: $(this).attr('data-validate') === 'color'
-					? 'hex'
-					: ($(this).attr('data-format') === 'rgba'
-					? 'rgb'
-					: $(this).attr('data-format'))
-					|| 'hex',
-				keywords: $(this).attr('data-keywords') || '',
-				opacity:  $(this).attr('data-format') === 'rgba',
-				position: $(this).attr('data-position') || 'default',
-				swatches: $(this).attr('data-colors') ? $(this).attr('data-colors').split(",") : [],
-				theme: 'bootstrap'
-			});
-		});
-	}
+  function initMinicolorsField (event) {
+    $(event.target).find('.minicolors').each(function () {
+      const position = $(this).attr('data-position') || 'default';
+      const isRtl = document.documentElement.dir === 'rtl';
 
-	/**
-	 * Initialize at an initial page load
-	 */
-	document.addEventListener("DOMContentLoaded", initMinicolorsField);
+      $(this).minicolors({
+        control: $(this).attr('data-control') || 'hue',
+        format: $(this).attr('data-validate') === 'color'
+          ? 'hex'
+          : ($(this).attr('data-format') === 'rgba'
+            ? 'rgb'
+            : $(this).attr('data-format'))
+          || 'hex',
+        keywords: $(this).attr('data-keywords') || '',
+        opacity: $(this).attr('data-format') === 'rgba',
+        position: isRtl
+          ? (position === 'left' ? 'right' : position === 'right' ? 'left' : position)
+          : position,
+        swatches: $(this).attr('data-colors') ? $(this).attr('data-colors').split(',') : [],
+        theme: 'bootstrap'
+      });
+    });
+  }
 
-	/**
-	 * Initialize when a part of the page was updated
-	 */
-	document.addEventListener("joomla:updated", initMinicolorsField);
+  /**
+   * Initialize at an initial page load
+   */
+  document.addEventListener("DOMContentLoaded", initMinicolorsField);
+
+  /**
+   * Initialize when a part of the page was updated
+   */
+  document.addEventListener("joomla:updated", initMinicolorsField);
 
 })(document, jQuery);
