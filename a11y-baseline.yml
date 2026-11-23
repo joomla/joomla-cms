@@ -1,0 +1,4 @@
+# Known accessibility violations of the system tests.
+# Violations listed here don't fail the accessibility check in CI, new ones do.
+# The format is the same as tests/System/output/a11y-violations.yml, written by the system tests.
+violations: []

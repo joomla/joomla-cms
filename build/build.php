@@ -443,6 +443,7 @@ $doNotPackage = [
     '.github',
     '.gitignore',
     '.php-cs-fixer.dist.php',
+    'a11y-baseline.yml',
     'acceptance.suite.yml',
     'build',
     'CODE_OF_CONDUCT.md',
