@@ -814,6 +814,7 @@ abstract class AdminModel extends FormModel
 
         // Initialize the Helper
         $helper = new SecondaryCategoriesHelper($typeAlias);
+        $eligible = [];
         foreach ($pks as $pk) {
             if (!$this->user->authorise('core.edit', $contexts[$pk])) {
                 throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
@@ -839,9 +840,11 @@ abstract class AdminModel extends FormModel
                 if (!$this->user->authorise('core.create', $targetAsset)) {
                     throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
                 }
-                $helper->addMappings((int) $pk, [$secondaryCategoryId]);
+                $eligible[] = (int) $pk;
             }
         }
+
+        $helper->addMappingsToItems($eligible, $secondaryCategoryId);
 
         // Clean the cache.
         $this->cleanCache();

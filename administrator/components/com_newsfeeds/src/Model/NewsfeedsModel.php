@@ -240,7 +240,7 @@ class NewsfeedsModel extends ListModel
 
             if ($categoryId) {
                 $helper = new SecondaryCategoriesHelper('com_newsfeeds.newsfeed');
-                $query->where($helper->buildCategoryMembershipCondition($categoryId));
+                $helper->applyCategoryMembershipFilter($query, '#__newsfeeds', $categoryId, false, 1, 'a');
             }
         }
 

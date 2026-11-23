@@ -935,12 +935,10 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             $context = $supportedTables[$table];
 
             // Reuse the centralized helper to check primary AND secondary mappings
-            $helper    = new SecondaryCategoriesHelper($context);
-            $condition = $helper->buildCategoryMembershipCondition([(int) $catid], false, 1, 'a');
+            $helper = new SecondaryCategoriesHelper($context);
 
-            $query->select('COUNT(DISTINCT ' . $db->quoteName('a.id') . ')')
-                ->from($db->quoteName($table, 'a'))
-                ->where($condition);
+            $query->select('COUNT(' . $db->quoteName('a.id') . ')')->from($db->quoteName($table, 'a'));
+            $helper->applyCategoryMembershipFilter($query, $table, [(int) $catid], false, 1, 'a');
         } else {
             // Count the items in this category
             $query->select('COUNT(' . $db->quoteName('id') . ')')
@@ -1058,13 +1056,12 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                 $context = $supportedTables[$table];
 
                 // Reuse the centralized helper to check primary AND secondary mappings
-                $helper    = new SecondaryCategoriesHelper($context);
-                $condition = $helper->buildCategoryMembershipCondition($childCategoryIds, false, 1, 'a');
+                $helper = new SecondaryCategoriesHelper($context);
 
                 $query = $db->createQuery()
-                    ->select('COUNT(DISTINCT ' . $db->quoteName('a.id') . ')')
-                    ->from($db->quoteName($table, 'a'))
-                    ->where($condition);
+                    ->select('COUNT(' . $db->quoteName('a.id') . ')')
+                    ->from($db->quoteName($table, 'a'));
+                $helper->applyCategoryMembershipFilter($query, $table, $childCategoryIds, false, 1, 'a');
             } else {
                 // Count the items in this category
                 $query = $db->createQuery()

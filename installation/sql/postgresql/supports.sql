@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS "#__category_item_map" (
     PRIMARY KEY ("context", "item_id", "category_id")
 );
 
-CREATE INDEX "idx_context_category" ON "#__category_item_map" ("context", "category_id");
+CREATE INDEX "idx_context_category" ON "#__category_item_map" ("context", "category_id", "item_id");
 
 COMMENT ON COLUMN "#__category_item_map"."context" IS 'Item type, e.g. com_content.article';
 COMMENT ON COLUMN "#__category_item_map"."item_id" IS 'ID of the item, e.g. content.id, contact.id, etc.';

@@ -146,16 +146,22 @@ class BannersModel extends ListModel
         $includeSubcats    = (bool) $this->getState('filter.subcategories', false);
         $maxCategoryLevels = (int) $this->getState('filter.max_category_levels', 1);
         if (is_numeric($categoryId)) {
-            $helper    = new SecondaryCategoriesHelper('com_banners.banner');
-            $condition = $helper->buildCategoryMembershipCondition([(int) $categoryId], $includeSubcats, $maxCategoryLevels);
-            $query->where($includeCategory ? $condition : 'NOT (' . $condition . ')');
+            $helper = new SecondaryCategoriesHelper('com_banners.banner');
+            if ($includeCategory) {
+                $helper->applyCategoryMembershipFilter($query, '#__banners', [(int) $categoryId], $includeSubcats, $maxCategoryLevels, 'a');
+            } else {
+                $query->where('NOT (' . $helper->buildCategoryMembershipCondition([(int) $categoryId], $includeSubcats, $maxCategoryLevels) . ')');
+            }
         } elseif (\is_array($categoryId) && (\count($categoryId) > 0)) {
             $categoryId = SecondaryCategoriesHelper::normalizeCategoryIds($categoryId);
 
             if ($categoryId) {
-                $helper    = new SecondaryCategoriesHelper('com_banners.banner');
-                $condition = $helper->buildCategoryMembershipCondition($categoryId);
-                $query->where($includeCategory ? $condition : 'NOT (' . $condition . ')');
+                $helper = new SecondaryCategoriesHelper('com_banners.banner');
+                if ($includeCategory) {
+                    $helper->applyCategoryMembershipFilter($query, '#__banners', $categoryId, false, 1, 'a');
+                } else {
+                    $query->where('NOT (' . $helper->buildCategoryMembershipCondition($categoryId) . ')');
+                }
             }
         }
 

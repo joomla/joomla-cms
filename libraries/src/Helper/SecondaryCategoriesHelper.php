@@ -143,6 +143,45 @@ class SecondaryCategoriesHelper extends CMSHelper
     }
 
     /**
+     * Apply an index-friendly primary and secondary category filter.
+     *
+     * @param   QueryInterface  $query                 The query to filter.
+     * @param   string          $itemTable             Item table name.
+     * @param   array           $categoryIds           Category IDs to match.
+     * @param   bool            $includeSubcategories  Include child categories.
+     * @param   int             $levels                Maximum child depth.
+     * @param   string          $tableAlias            Item table alias.
+     * @param   string          $categoryColumn        Primary category column.
+     * @param   string          $keyColumn             Item key column.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function applyCategoryMembershipFilter(QueryInterface $query, string $itemTable, array $categoryIds, bool $includeSubcategories = false, int $levels = 1, string $tableAlias = 'a', string $categoryColumn = 'catid', string $keyColumn = 'id'): void
+    {
+        $db          = $this->getDb();
+        $categoryIds = static::normalizeCategoryIds($categoryIds);
+
+        if (!$categoryIds) {
+            $query->where('1 = 0');
+            return;
+        }
+
+        $primary = $db->createQuery()
+            ->select($db->quoteName('p.' . $keyColumn, 'item_id'))
+            ->from($db->quoteName($itemTable, 'p'))
+            ->where($this->buildPrimaryCategoryCondition($db->quoteName('p.' . $categoryColumn), implode(',', $categoryIds), $categoryIds, $includeSubcategories, $levels));
+        $secondary = $this->getMappedItemIdsQuery($categoryIds, $includeSubcategories, $levels);
+
+        // UNION is required: one item can be in both sets.
+        $query->innerJoin(
+            '(' . $primary . ' UNION ' . $secondary . ') AS ' . $db->quoteName('catmatch'),
+            $db->quoteName('catmatch.item_id') . ' = ' . $db->quoteName($tableAlias . '.' . $keyColumn)
+        );
+    }
+
+    /**
      * Build the primary category condition portion.
      *
      * @param   string             $catidColumn          The quoted catid column name.
@@ -237,6 +276,42 @@ class SecondaryCategoriesHelper extends CMSHelper
                 ->bind($orderingKey, $boundValues[$orderingKey], ParameterType::INTEGER);
         }
 
+        $db->setQuery($query)->execute();
+    }
+
+    /** Add one category mapping to multiple items in three queries. */
+    public function addMappingsToItems(array $itemIds, int $catId): void
+    {
+        $itemIds = static::normalizeCategoryIds($itemIds);
+        if (!$itemIds || $catId <= 0) {
+            return;
+        }
+
+        $db = $this->getDb();
+        $existing = array_map('intval', $db->setQuery($db->createQuery()
+            ->select($db->quoteName('item_id'))->from($db->quoteName('#__category_item_map'))
+            ->where($db->quoteName('context') . ' = ' . $db->quote($this->typeAlias))
+            ->where($db->quoteName('category_id') . ' = ' . $catId)
+            ->whereIn($db->quoteName('item_id'), $itemIds, ParameterType::INTEGER))->loadColumn());
+        $itemIds = array_values(array_diff($itemIds, $existing));
+        if (!$itemIds) {
+            return;
+        }
+
+        $max = $db->setQuery($db->createQuery()
+            ->select([$db->quoteName('item_id'), 'MAX(' . $db->quoteName('ordering') . ') AS ' . $db->quoteName('maxo')])
+            ->from($db->quoteName('#__category_item_map'))
+            ->where($db->quoteName('context') . ' = ' . $db->quote($this->typeAlias))
+            ->whereIn($db->quoteName('item_id'), $itemIds, ParameterType::INTEGER)
+            ->group($db->quoteName('item_id')))->loadAssocList('item_id', 'maxo');
+        $query = $db->createQuery()->insert($db->quoteName('#__category_item_map'))
+            ->columns($db->quoteName(['context', 'item_id', 'category_id', 'ordering']));
+        foreach ($itemIds as $i => $itemId) {
+            $keys = [':context' . $i, ':item' . $i, ':category' . $i, ':ordering' . $i];
+            $query->values(implode(',', $keys))
+                ->bind($keys[0], $this->typeAlias, ParameterType::STRING)->bind($keys[1], $itemId, ParameterType::INTEGER)
+                ->bind($keys[2], $catId, ParameterType::INTEGER)->bind($keys[3], ((int) ($max[$itemId] ?? 0)) + 1, ParameterType::INTEGER);
+        }
         $db->setQuery($query)->execute();
     }
 
@@ -416,12 +491,8 @@ class SecondaryCategoriesHelper extends CMSHelper
         $categoryIds = static::normalizeCategoryIds($categoryIds);
 
         $query = $db->createQuery()
-            ->select('DISTINCT ' . $db->quoteName('m.item_id'))
+            ->select((\count($categoryIds) > 1 || $includeSubcategories ? 'DISTINCT ' : '') . $db->quoteName('m.item_id'))
             ->from($db->quoteName('#__category_item_map', 'm'))
-            ->innerJoin(
-                $db->quoteName('#__categories', 'mapcat'),
-                $db->quoteName('mapcat.id') . ' = ' . $db->quoteName('m.category_id')
-            )
             ->where($db->quoteName('m.context') . ' = ' . $db->quote($this->typeAlias));
 
         if (empty($categoryIds)) {
@@ -444,6 +515,7 @@ class SecondaryCategoriesHelper extends CMSHelper
         $app = Factory::getApplication();
 
         if ($app->isClient('site')) {
+            $query->innerJoin($db->quoteName('#__categories', 'mapcat'), $db->quoteName('mapcat.id') . ' = ' . $db->quoteName('m.category_id'));
             $user = $app->getIdentity();
 
             $query->where($db->quoteName('mapcat.published') . ' = 1');

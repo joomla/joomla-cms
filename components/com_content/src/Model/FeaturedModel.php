@@ -162,9 +162,8 @@ class FeaturedModel extends ArticlesModel
         $featuredCategories = SecondaryCategoriesHelper::normalizeCategoryIds($featuredCategories ?? []);
 
         if (!empty($featuredCategories)) {
-            $helper    = new SecondaryCategoriesHelper('com_content.article');
-            $condition = $helper->buildCategoryMembershipCondition($featuredCategories);
-            $query->where($condition);
+            $helper = new SecondaryCategoriesHelper('com_content.article');
+            $helper->applyCategoryMembershipFilter($query, '#__content', $featuredCategories, false, 1, 'a');
         }
 
         return $query;

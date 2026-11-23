@@ -172,7 +172,7 @@ class BannersModel extends ListModel
 
             if ($categoryId) {
                 $helper = new SecondaryCategoriesHelper('com_banners.banner');
-                $query->where($helper->buildCategoryMembershipCondition($categoryId));
+                $helper->applyCategoryMembershipFilter($query, '#__banners', $categoryId, false, 1, 'a');
             }
         }
 

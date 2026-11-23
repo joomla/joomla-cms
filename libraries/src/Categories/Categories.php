@@ -376,60 +376,45 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         if ($this->_options['countItems'] == 1) {
             $context = $this->getCategoryMappingContext();
 
-            $subQuery = $db->createQuery()
-                ->select('COUNT(DISTINCT ' . $db->quoteName($db->escape('i.' . $this->_key)) . ')')
-                ->from($db->quoteName($db->escape($this->_table), 'i'));
-
             if ($context !== null) {
-                $subQuery->join(
-                    'LEFT',
-                    $db->quoteName('#__category_item_map', 'm'),
-                    $db->quoteName('m.item_id') . ' = ' . $db->quoteName($db->escape('i.' . $this->_key))
-                    . ' AND '
-                    . $db->quoteName('m.context') . ' = ' . $db->quote($context)
-                );
-
-                $subQuery->where(
-                    '(' . $db->quoteName($db->escape('i.' . $this->_field)) . ' = ' . $db->quoteName('c.id') . ' OR ' . $db->quoteName('m.category_id') . ' = ' . $db->quoteName('c.id') . ')'
-                );
+                $counts = [
+                    $db->createQuery()->select('COUNT(*)')->from($db->quoteName($db->escape($this->_table), 'i'))
+                        ->where($db->quoteName($db->escape('i.' . $this->_field)) . ' = ' . $db->quoteName('c.id')),
+                    $db->createQuery()->select('COUNT(*)')->from($db->quoteName('#__category_item_map', 'm'))
+                        ->innerJoin($db->quoteName($db->escape($this->_table), 'i'), $db->quoteName('i.' . $this->_key) . ' = ' . $db->quoteName('m.item_id'))
+                        ->where($db->quoteName('m.context') . ' = ' . $db->quote($context))
+                        ->where($db->quoteName('m.category_id') . ' = ' . $db->quoteName('c.id'))
+                        ->where($db->quoteName('i.' . $this->_field) . ' <> ' . $db->quoteName('c.id')),
+                ];
             } else {
-                $subQuery->where(
-                    $db->quoteName($db->escape('i.' . $this->_field)) . ' = ' . $db->quoteName('c.id')
-                );
+                $counts = [$db->createQuery()->select('COUNT(*)')->from($db->quoteName($db->escape($this->_table), 'i'))
+                    ->where($db->quoteName($db->escape('i.' . $this->_field)) . ' = ' . $db->quoteName('c.id'))];
             }
 
-            if ($this->_accessfield && $this->_options['accessOnItems']) {
-                $subQuery->where(
-                    $db->quoteName($db->escape('i.' . $this->_accessfield))
-                    . ' IN (' . implode(',', $query->bindArray($user->getAuthorisedViewLevels())) . ')'
-                );
-            }
+            foreach ($counts as $subQuery) {
+                if ($this->_accessfield && $this->_options['accessOnItems']) {
+                    $subQuery->where($db->quoteName($db->escape('i.' . $this->_accessfield)) . ' IN (' . implode(',', array_map('intval', $user->getAuthorisedViewLevels())) . ')');
+                }
 
-            if ($this->_options['published'] == 1) {
-                $subQuery->where($db->quoteName($db->escape('i.' . $this->_statefield)) . ' = 1');
+                if ($this->_options['published'] == 1) {
+                    $subQuery->where($db->quoteName($db->escape('i.' . $this->_statefield)) . ' = 1');
 
                 if (isset($this->_options['check_dates']) && $this->_options['check_dates']) {
-                    $nullDate = $db->getNullDate();
-                    $nowDate  = Factory::getDate()->toSql();
+                    $nullDate = $db->quote($db->getNullDate());
+                    $nowDate  = $db->quote(Factory::getDate()->toSql());
 
-                    $subQuery->where('(' . $db->quoteName('i.publish_up') . ' IS NULL OR ' . $db->quoteName('i.publish_up') . ' = :nullDate1 OR ' . $db->quoteName('i.publish_up') . ' <= :nowDate1)')
-                        ->where('(' . $db->quoteName('i.publish_down') . ' IS NULL OR ' . $db->quoteName('i.publish_down') . ' = :nullDate2 OR ' . $db->quoteName('i.publish_down') . ' >= :nowDate2)');
-
-                    $query->bind(':nullDate1', $nullDate)
-                        ->bind(':nowDate1', $nowDate)
-                        ->bind(':nullDate2', $nullDate)
-                        ->bind(':nowDate2', $nowDate);
+                    $subQuery->where('(' . $db->quoteName('i.publish_up') . ' IS NULL OR ' . $db->quoteName('i.publish_up') . ' = ' . $nullDate . ' OR ' . $db->quoteName('i.publish_up') . ' <= ' . $nowDate . ')')
+                        ->where('(' . $db->quoteName('i.publish_down') . ' IS NULL OR ' . $db->quoteName('i.publish_down') . ' = ' . $nullDate . ' OR ' . $db->quoteName('i.publish_down') . ' >= ' . $nowDate . ')');
                 }
             }
 
-            if ($this->_options['currentlang'] !== 0) {
-                $subQuery->where(
-                    $db->quoteName('i.language')
-                    . ' IN (' . implode(',', $query->bindArray([$this->_options['currentlang'], '*'], ParameterType::STRING)) . ')'
-                );
+                if ($this->_options['currentlang'] !== 0) {
+                    $subQuery->where($db->quoteName('i.language') . ' IN (' . $db->quote($this->_options['currentlang']) . ',' . $db->quote('*') . ')');
+                }
             }
 
-            $query->select('(' . $subQuery . ') AS ' . $db->quoteName('numitems'));
+            $expression = \count($counts) === 2 ? '((' . $counts[0] . ') + (' . $counts[1] . '))' : '(' . $counts[0] . ')';
+            $query->select($expression . ' AS ' . $db->quoteName('numitems'));
         }
 
         // Get the results
