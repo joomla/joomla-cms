@@ -19,6 +19,10 @@ const debounceReInit = (editor, element, pluginOptions) => {
   }, 500);
 };
 
+// A docked (sticky) toolbar can take most of a small viewport, hiding the editing area behind it.
+// Keep it sticky only when the viewport is at least as wide and as high as the Bootstrap "sm" breakpoint.
+const stickyToolbarQuery = window.matchMedia('(min-width: 576px) and (min-height: 576px)');
+
 /**
  * TinyMCE Decorator for JoomlaEditor
  */
@@ -173,6 +177,11 @@ Joomla.JoomlaTinyMCE = {
       options.content_css = options.content_css ? `${options.content_css},dark` : 'dark';
     }
 
+    // The sticky toolbar is fixed when the editor is created, so it has to be decided here
+    if (!stickyToolbarQuery.matches) {
+      options.toolbar_sticky = false;
+    }
+
     // Ensure tinymce is initialised in readonly mode if the textarea has readonly applied
     let readOnlyMode = false;
 
@@ -222,6 +231,15 @@ Joomla.JoomlaTinyMCE = {
       ed.on('load', checkInitIsCompleted);
       ed.on('init', checkInitIsCompleted);
     }
+
+    // Re-create the editor when the viewport crosses the sticky toolbar breakpoint, e.g. on zoom or rotation
+    const onViewportChange = () => {
+      if (!!options.toolbar_sticky !== stickyToolbarQuery.matches) {
+        debounceReInit(ed, element, pluginOptions);
+      }
+    };
+    stickyToolbarQuery.addEventListener('change', onViewportChange);
+    ed.on('remove', () => stickyToolbarQuery.removeEventListener('change', onViewportChange));
 
     // Find out when editor is interacted
     ed.on('focus', () => {
