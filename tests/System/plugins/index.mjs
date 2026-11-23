@@ -1,7 +1,7 @@
-import {clearEmails, getMails, startMailServer} from './mail.mjs';
-import {copyRelativeFile, deleteRelativePath, writeRelativeFile} from './fs.mjs';
-import {deleteInsertedItems, queryTestDB} from './db.mjs';
-import {checkForLogs, clearLogs} from './logs.mjs';
+import { clearEmails, getMails, startMailServer } from './mail.mjs';
+import { copyRelativeFile, deleteRelativePath, writeRelativeFile } from './fs.mjs';
+import { deleteInsertedItems, queryTestDB } from './db.mjs';
+import { checkForLogs, clearLogs } from './logs.mjs';
 import setupA11yLog from './a11yLog.mjs';
 
 /**

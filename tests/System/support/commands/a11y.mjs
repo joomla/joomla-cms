@@ -1,4 +1,4 @@
-import {logViolations} from '..';
+import { logViolations } from '..';
 
 /**
  * Checks if accessibility violations should fail the test through `--expose a11yFailOnViolation=true`.

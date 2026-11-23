@@ -10,7 +10,7 @@
  *
  * When running on GitHub Actions, annotations and a job summary are written.
  */
-import {appendFileSync, existsSync, readFileSync} from 'node:fs';
+import { appendFileSync, existsSync, readFileSync } from 'node:fs';
 import yaml from 'js-yaml';
 
 const [baselineFile, resultFile] = process.argv.slice(2);
