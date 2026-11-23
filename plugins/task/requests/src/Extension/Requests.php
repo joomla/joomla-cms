@@ -142,8 +142,9 @@ final class Requests extends CMSPlugin implements SubscriberInterface
         $responseCode = $response->getStatusCode();
         $responseBody = (string) $response->getBody();
 
-        // @todo this handling must be rethought and made safe. stands as a good demo right now.
-        $responseFilename = Path::clean($this->rootDirectory . "/task_{$id}_response.html");
+        // The folder can be publicly accessible: the random part of the file name can not be guessed and the .txt extension
+        // keeps a web server from delivering the response as an HTML document
+        $responseFilename = Path::clean($this->rootDirectory . '/task_' . (int) $id . '_response_' . bin2hex(random_bytes(16)) . '.txt');
 
         try {
             File::write($responseFilename, $responseBody);
