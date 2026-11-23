@@ -113,10 +113,10 @@ abstract class Grid
     {
         Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('list-view');
 
-        return $checkedOut ? '' : '<label for="' . $stub . $rowNum . '"><span class="visually-hidden">' . Text::_('JSELECT')
-        . ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
-        . '<input class="form-check-input js-grid-item-is-checked" autocomplete="off" type="checkbox" id="' . $stub . $rowNum
-            . '" name="' . $name . '[]" value="' . $recId . '"' . ($formId !== null ? ' data-item-form-id="' . $formId . '"' : '') . '>';
+        return $checkedOut ? '' : '<input class="form-check-input js-grid-item-is-checked" autocomplete="off" type="checkbox" id="' . $stub . $rowNum
+            . '" name="' . $name . '[]" value="' . $recId . '"' . ($formId !== null ? ' data-item-form-id="' . $formId . '"' : '') . '>'
+            . '<label for="' . $stub . $rowNum . '"><span class="visually-hidden">' . Text::_('JSELECT')
+            . ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>';
     }
 
     /**

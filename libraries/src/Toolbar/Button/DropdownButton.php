@@ -47,6 +47,9 @@ class DropdownButton extends AbstractGroupButton
      */
     protected function prepareOptions(array &$options)
     {
+        // Preserve the original language string before the parent translates it.
+        $text = $this->getText();
+
         parent::prepareOptions($options);
 
         $childToolbar          = $this->getChildToolbar();
@@ -66,10 +69,11 @@ class DropdownButton extends AbstractGroupButton
             } else {
                 $options['dropdownItems'] = $childToolbar->render(['is_child' => true]);
 
-                $button = new BasicButton($this->getName(), $this->getText(), $options);
+                $button = new BasicButton($this->getName(), $text, $options);
 
                 $options['button'] = $button
                     ->setParent($this->parent)
+                    ->text($text)
                     ->buttonClass($button->getButtonClass() . ' dropdown-toggle')
                     ->attributes(
                         [

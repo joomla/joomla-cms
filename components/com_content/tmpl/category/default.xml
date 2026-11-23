@@ -147,7 +147,6 @@
 				label="JGLOBAL_SHOW_SUBCATEGORIES_IMAGE_LABEL"
 				useglobal="true"
 				class="form-select-color-state"
-				default="0"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>

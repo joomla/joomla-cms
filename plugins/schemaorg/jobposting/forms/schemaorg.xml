@@ -202,6 +202,7 @@
 								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_URL_LABEL"
 								filter="url"
 								validate="url"
+								schemes="http,https"
 							/>
 
 							<field

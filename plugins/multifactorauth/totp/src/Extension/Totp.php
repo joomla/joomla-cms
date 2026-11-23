@@ -195,6 +195,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
         $wam      = $document->getWebAssetManager();
 
         $document->addScriptOptions('plg_multifactorauth_totp.totp.qr', $otpURL);
+        Text::script('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_QR_ALT');
 
         $wam->getRegistry()->addExtensionRegistryFile('plg_multifactorauth_totp');
         $wam->useScript('plg_multifactorauth_totp.setup');
@@ -273,7 +274,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
          * If the code is empty but the key already existed in $options someone is simply changing the title / default
          * Method status. We can allow this and stop checking anything else now.
          */
-        $code = $input->getInt('code');
+        $code = $input->getCmd('code');
 
         if (empty($code) && !empty($optionsKey)) {
             $event->addResult($options);
