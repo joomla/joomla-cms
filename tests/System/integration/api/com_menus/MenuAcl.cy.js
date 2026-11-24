@@ -80,9 +80,9 @@ describe('Test that the menu items API endpoint checks the permissions of the me
   it('allows to create, edit and delete menu items in a menu with the permission', () => {
     cy.api_requestAs(manager.token, 'POST', '/menus/site/items', itemData('ci-acl-allowed', 'ci acl created'))
       .its('status').should('eq', 200);
-    cy.api_requestAs(manager.token, 'PATCH', `/menus/site/items/${allowedItem}`, { title: 'ci acl allowed edited', type: 'component' })
+    cy.api_requestAs(manager.token, 'PATCH', `/menus/site/items/${allowedItem}`, { title: 'ci acl allowed edited', type: 'component', menuordering: allowedItem })
       .its('status').should('eq', 200);
-    cy.api_requestAs(manager.token, 'PATCH', `/menus/site/items/${allowedItem}`, { published: -2, type: 'component' })
+    cy.api_requestAs(manager.token, 'PATCH', `/menus/site/items/${allowedItem}`, { published: -2, type: 'component', menuordering: allowedItem })
       .its('status').should('eq', 200);
     cy.api_requestAs(manager.token, 'DELETE', `/menus/site/items/${allowedItem}`)
       .its('status').should('eq', 204);
