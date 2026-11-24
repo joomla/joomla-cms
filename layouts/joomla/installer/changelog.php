@@ -25,20 +25,12 @@ $changelogFilter = InputFilter::getInstance(
     InputFilter::ONLY_ALLOW_DEFINED_ATTRIBUTES
 );
 
-array_walk(
-    $displayData,
-    function ($items, $changeType) use ($changelogFilter) {
-        // If there are no items, continue
-        if (empty($items)) {
-            return;
-        }
-
     // If there are no items, continue
 if (empty($displayData)) {
     return;
 }
 
-foreach ($displayData as $key => $row) {
+foreach ($displayData as $key => $row) use ($changelogFilter) {
     ?>
     <div id="<?php echo $this->escape($key); ?>" class="changelog">
         <div class="changelog__item justify-content-xxl-around">
