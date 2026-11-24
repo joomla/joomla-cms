@@ -10,9 +10,9 @@
 
 namespace Joomla\Component\Newsfeeds\Api\Controller;
 
+use Joomla\CMS\Categories\CategoryChangeTrait;
 use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\Categories\CategoryChangeTrait;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Utilities\ArrayHelper;
 
@@ -74,7 +74,7 @@ class FeedsController extends ApiController
         return parent::preprocessSaveData($data);
     }
 
-    /** 
+    /**
      * Method to check if you can add a new record.
      *
      * Like in the administrator, the create permission is checked in the target category.
