@@ -109,8 +109,12 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
             $query->select($db->quoteName(['a.id', 'a.title', 'a.catid', 'a.language']))
                 ->select([$case_when, $case_when1])
                 ->from($db->quoteName('#__content', 'a'))
-                ->join('LEFT', $db->quoteName('#__categories', 'cc'), $db->quoteName('cc.id') . ' = ' . $db->quoteName('a.catid'))
-                ->join('LEFT', $db->quoteName('#__content_frontpage', 'fp'), $db->quoteName('fp.content_id') . ' = ' . $db->quoteName('a.id'));
+                ->join('LEFT', $db->quoteName('#__categories', 'cc'), $db->quoteName('cc.id') . ' = ' . $db->quoteName('a.catid'));
+            if (($navigationContext['view'] ?? 'article') === 'featured'
+                || (($navigationContext['view'] ?? '') === 'category' && ($navigationContext['featured'] ?? 'show') !== 'show')
+                || $order_method === 'front') {
+                $query->join('LEFT', $db->quoteName('#__content_frontpage', 'fp'), $db->quoteName('fp.content_id') . ' = ' . $db->quoteName('a.id'));
+            }
             if ($order_method === 'author' || $order_method === 'rauthor') {
                 $query->select($db->quoteName(['a.created_by', 'u.name']));
                 $query->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('a.created_by'));
@@ -369,14 +373,7 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
 
         $helper = new SecondaryCategoriesHelper('com_content.article');
 
-        $query->where(
-            $helper->buildCategoryMembershipCondition(
-                $categoryIds,
-                (bool) ($context['includeSubcategories'] ?? false),
-                (int) ($context['maxCategoryLevels'] ?? 1),
-                'a'
-            )
-        );
+        $helper->applyCategoryMembershipFilter($query, '#__content', $categoryIds, (bool) ($context['includeSubcategories'] ?? false), (int) ($context['maxCategoryLevels'] ?? 1), 'a');
     }
 
     /**

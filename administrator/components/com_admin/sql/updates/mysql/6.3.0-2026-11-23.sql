@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `#__category_item_map` (
     `category_id` int NOT NULL COMMENT 'ID of the category from #__categories',
     `ordering` int NOT NULL DEFAULT 0 COMMENT 'Display order of categories',
     PRIMARY KEY (`context`, `item_id`, `category_id`),
-    KEY `idx_context_category` (`context`, `category_id`)
+    KEY `idx_context_category` (`context`, `category_id`, `item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- Display additional category titles in content version history.

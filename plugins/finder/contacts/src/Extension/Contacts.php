@@ -36,6 +36,28 @@ final class Contacts extends Adapter implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
+    /** @var array<int, array<int, int>> */
+    private array $secondaryCategoryChunk = [];
+
+    protected function getItems($offset, $limit, $query = null)
+    {
+        $items                        = parent::getItems($offset, $limit, $query);
+        $this->secondaryCategoryChunk = [];
+
+        if (\in_array('category', $this->params->get('taxonomies', ['type', 'author', 'category', 'language']), true)) {
+            $this->secondaryCategoryChunk = (new SecondaryCategoriesHelper('com_contact.contact'))
+                ->getSecondaryCategoriesForItems(array_column($items, 'id'));
+        }
+
+        return $items;
+    }
+
+    protected function reindex($id)
+    {
+        $this->secondaryCategoryChunk = [];
+        parent::reindex($id);
+    }
+
     /**
      * The plugin identifier.
      *
@@ -383,8 +405,9 @@ final class Contacts extends Adapter implements SubscriberInterface
             $categoryIds = [$item->catid];
 
             if (!empty($item->id)) {
-                $helper      = new SecondaryCategoriesHelper('com_contact.contact');
-                $categoryIds = [...$categoryIds, ...$helper->getCurrentSecondaryCategoriesByItem((int) $item->id)];
+                $helper       = new SecondaryCategoriesHelper('com_contact.contact');
+                $secondaryIds = $this->secondaryCategoryChunk[(int) $item->id] ?? $helper->getCurrentSecondaryCategoriesByItem((int) $item->id);
+                $categoryIds  = [...$categoryIds, ...$secondaryIds];
             }
 
             foreach ($categoryIds as $categoryId) {

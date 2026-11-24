@@ -428,14 +428,12 @@ class ArticlesModel extends ListModel
             $includeSubcategories       = $this->getState('filter.subcategories', false);
             $levels                     = (int) $this->getState('filter.max_category_levels', 1);
 
-            $helper       = new SecondaryCategoriesHelper('com_content.article');
-            $allCondition = $helper->buildCategoryMembershipCondition(
-                $categoryIds,
-                $includeSubcategories,
-                $levels
-            );
-
-            $query->where($include ? $allCondition : 'NOT (' . $allCondition . ')');
+            $helper = new SecondaryCategoriesHelper('com_content.article');
+            if ($include) {
+                $helper->applyCategoryMembershipFilter($query, '#__content', $categoryIds, $includeSubcategories, $levels, 'a');
+            } else {
+                $query->where('NOT (' . $helper->buildCategoryMembershipCondition($categoryIds, $includeSubcategories, $levels) . ')');
+            }
         }
 
         // Filter by author

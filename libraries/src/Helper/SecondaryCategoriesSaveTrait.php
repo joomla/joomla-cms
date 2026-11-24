@@ -24,6 +24,9 @@ use Joomla\Database\ParameterType;
  */
 trait SecondaryCategoriesSaveTrait
 {
+    /** @var array<string, array<int, int>> */
+    private static array $manageableSecondaryCategoriesCache = [];
+
     /**
      * Get the secondary category ids the current user is allowed to manage.
      *
@@ -38,6 +41,11 @@ trait SecondaryCategoriesSaveTrait
         $db        = $this->getDatabase();
         $user      = $this->getCurrentUser();
         $extension = explode('.', $this->typeAlias)[0];
+        $cacheKey  = $this->typeAlias . '|' . $currentCategoryId . '|' . $user->id;
+
+        if (isset(self::$manageableSecondaryCategoriesCache[$cacheKey])) {
+            return self::$manageableSecondaryCategoriesCache[$cacheKey];
+        }
 
         $publishedStates = [0, 1, 2];
         $publishedKeys   = [];
@@ -79,17 +87,16 @@ trait SecondaryCategoriesSaveTrait
                 }
             }
 
-            return $manageable;
+            return self::$manageableSecondaryCategoriesCache[$cacheKey] = $manageable;
         }
 
         $currentAsset = $extension . '.category.' . $currentCategoryId;
+        if (!$user->authorise('core.edit.state', $currentAsset)) {
+            return self::$manageableSecondaryCategoriesCache[$cacheKey] = [];
+        }
 
         foreach ($categories as $categoryId) {
             if ($categoryId === $currentCategoryId) {
-                continue;
-            }
-
-            if (!$user->authorise('core.edit.state', $currentAsset)) {
                 continue;
             }
 
@@ -100,7 +107,7 @@ trait SecondaryCategoriesSaveTrait
             $manageable[] = $categoryId;
         }
 
-        return $manageable;
+        return self::$manageableSecondaryCategoriesCache[$cacheKey] = $manageable;
     }
 
     /**
@@ -190,6 +197,12 @@ trait SecondaryCategoriesSaveTrait
                 $categoryModel->save($category);
             } catch (\Throwable $e) {
                 throw new \RuntimeException('Failed to create secondary category "' . $category['title'] . '"');
+            }
+
+            foreach (array_keys(self::$manageableSecondaryCategoriesCache) as $cacheKey) {
+                if (str_starts_with($cacheKey, $this->typeAlias . '|')) {
+                    unset(self::$manageableSecondaryCategoriesCache[$cacheKey]);
+                }
             }
 
             $categories[$key] = $categoryModel->getState('category.id');

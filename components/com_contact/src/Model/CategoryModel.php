@@ -201,11 +201,7 @@ class CategoryModel extends ListModel
         $includeSubcategories       = $levels !== 0;
         $helper                     = new SecondaryCategoriesHelper('com_contact.contact');
 
-        $query->where($helper->buildCategoryMembershipCondition(
-            [$categoryId],
-            $includeSubcategories,
-            $levels
-        ));
+        $helper->applyCategoryMembershipFilter($query, '#__contact_details', [$categoryId], $includeSubcategories, $levels, 'a');
 
         // Join over the users for the author and modified_by names.
         $query->select("CASE WHEN a.created_by_alias > ' ' THEN a.created_by_alias ELSE ua.name END AS author")

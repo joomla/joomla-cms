@@ -382,7 +382,7 @@ class ArticlesModel extends ListModel
         if (\count($categoryId)) {
             $categoryId          = ArrayHelper::toInteger($categoryId);
             $categoryTable       = new Category($db);
-            $subCatItemsWhere    = [];
+            $primaryWhereParts   = [];
             $secondaryWhereParts = [];
 
             foreach ($categoryId as $key => $filter_catid) {
@@ -398,14 +398,14 @@ class ArticlesModel extends ListModel
                 // Bind values and get parameter names.
                 $bounded = $query->bindArray($valuesToBind);
 
-                // Primary category condition
-                $categoryWhere = $db->quoteName('c.lft') . ' >= ' . $bounded[0] . ' AND ' . $db->quoteName('c.rgt') . ' <= ' . $bounded[1];
+                // Primary category condition in the derived membership set.
+                $categoryWhere = $db->quoteName('pc.lft') . ' >= ' . $bounded[0] . ' AND ' . $db->quoteName('pc.rgt') . ' <= ' . $bounded[1];
 
                 if ($level) {
-                    $categoryWhere .= ' AND ' . $db->quoteName('c.level') . ' <= ' . $bounded[2];
+                    $categoryWhere .= ' AND ' . $db->quoteName('pc.level') . ' <= ' . $bounded[2];
                 }
 
-                $subCatItemsWhere[] = '(' . $categoryWhere . ')';
+                $primaryWhereParts[] = '(' . $categoryWhere . ')';
 
                 // Secondary category condition
                 $secondaryWhere = $db->quoteName('sc.lft') . ' >= ' . $bounded[0] . ' AND ' . $db->quoteName('sc.rgt') . ' <= ' . $bounded[1];
@@ -429,7 +429,17 @@ class ArticlesModel extends ListModel
                 ->where($db->quoteName('map.context') . ' = ' . $db->quote('com_content.article'))
                 ->where('(' . implode(' OR ', $secondaryWhereParts) . ')');
 
-            $query->where('(' . implode(' OR ', $subCatItemsWhere) . ' OR ' . $db->quoteName('a.id') . ' IN (' . $secondaryQuery . ')' . ')');
+            $primaryQuery = $db->createQuery()
+                ->select($db->quoteName('p.id', 'item_id'))
+                ->from($db->quoteName('#__content', 'p'))
+                ->innerJoin($db->quoteName('#__categories', 'pc'), $db->quoteName('pc.id') . ' = ' . $db->quoteName('p.catid'))
+                ->where('(' . implode(' OR ', $primaryWhereParts) . ')')
+                ->union($secondaryQuery);
+
+            $query->innerJoin(
+                '(' . $primaryQuery . ') AS ' . $db->quoteName('catmatch_admin_content'),
+                $db->quoteName('catmatch_admin_content.item_id') . ' = ' . $db->quoteName('a.id')
+            );
         } elseif ($level = (int) $level) {
             // Case: Using only the level filter
             $query->where($db->quoteName('c.level') . ' <= :level')

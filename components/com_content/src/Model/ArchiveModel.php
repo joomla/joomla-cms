@@ -126,9 +126,8 @@ class ArchiveModel extends ArticlesModel
 
         // Apply category filter using helper (primary + secondary)
         if (\count($catids) > 0) {
-            $helper    = new SecondaryCategoriesHelper('com_content.article');
-            $condition = $helper->buildCategoryMembershipCondition($catids);
-            $query->where($condition);
+            $helper = new SecondaryCategoriesHelper('com_content.article');
+            $helper->applyCategoryMembershipFilter($query, '#__content', $catids, false, 1, 'a');
         }
 
         return $query;

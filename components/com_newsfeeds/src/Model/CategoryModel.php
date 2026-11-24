@@ -172,8 +172,8 @@ class CategoryModel extends ListModel
         if ($categoryId = (int) $this->getState('category.id')) {
             $helper = new SecondaryCategoriesHelper('com_newsfeeds.newsfeed');
 
-            $query->where($helper->buildCategoryMembershipCondition([$categoryId]))
-                ->whereIn($db->quoteName('c.access'), $groups);
+            $helper->applyCategoryMembershipFilter($query, '#__newsfeeds', [$categoryId], false, 1, 'a');
+            $query->whereIn($db->quoteName('c.access'), $groups);
         }
 
         // Filter by state

@@ -103,7 +103,7 @@ class FeaturedModel extends ListModel
         // Filter by category.
         if ($categoryId = $this->getState('category.id')) {
             $helper = new SecondaryCategoriesHelper('com_contact.contact');
-            $query->where($helper->buildCategoryMembershipCondition([(int) $categoryId]));
+            $helper->applyCategoryMembershipFilter($query, '#__contact_details', [(int) $categoryId], false, 1, 'a');
         }
 
         $query->select('c.published as cat_published, c.published AS parents_published')
