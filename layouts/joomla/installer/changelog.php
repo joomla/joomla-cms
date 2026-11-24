@@ -13,6 +13,11 @@ use Joomla\CMS\Language\Text;
 
 \defined('_JEXEC') or die;
 
+    // If there are no items, continue
+if (empty($displayData)) {
+    return;
+}
+
 /*
  * The items of a changelog come from a remote server and may contain HTML (see the documentation of the
  * changelog file). Only a small set of formatting tags and the href and title attributes is kept, everything
@@ -25,12 +30,7 @@ $changelogFilter = InputFilter::getInstance(
     InputFilter::ONLY_ALLOW_DEFINED_ATTRIBUTES
 );
 
-    // If there are no items, continue
-if (empty($displayData)) {
-    return;
-}
-
-foreach ($displayData as $key => $row) use ($changelogFilter) {
+foreach ($displayData as $key => $row) {
     ?>
     <div id="<?php echo $this->escape($key); ?>" class="changelog">
         <div class="changelog__item justify-content-xxl-around">
@@ -40,7 +40,7 @@ foreach ($displayData as $key => $row) use ($changelogFilter) {
     <?php
     \array_walk(
         $row,
-        function ($item, $changeType) {
+        function ($item, $changeType) use ($changelogFilter) {
 
             switch ($changeType) {
                 case 'security':
