@@ -291,7 +291,7 @@ class MediaHelper
             return false;
         }
 
-         // Also needed after the restrict_uploads block for the SVG check
+        // Also needed after the restrict_uploads block for the SVG check
         $filetype = strtolower(array_pop($filetypes));
 
         $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,jxl,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
