@@ -45,7 +45,7 @@ class ApiDispatcher extends ComponentDispatcher
      *
      * @return  void
      *
-     * @since   4.0.0
+     * @since   5.4.11
      *
      * @throws  NotAllowed
      */
