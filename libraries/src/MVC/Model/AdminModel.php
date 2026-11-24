@@ -813,7 +813,7 @@ abstract class AdminModel extends FormModel
         $typeAlias    = $contextParts[0] . '.' . $contextParts[1];
 
         // Initialize the Helper
-        $helper = new SecondaryCategoriesHelper($typeAlias);
+        $helper   = new SecondaryCategoriesHelper($typeAlias);
         $eligible = [];
         foreach ($pks as $pk) {
             if (!$this->user->authorise('core.edit', $contexts[$pk])) {

@@ -299,7 +299,7 @@ class SecondaryCategoriesHelper extends CMSHelper
             return;
         }
 
-        $db = $this->getDb();
+        $db       = $this->getDb();
         $existing = array_map('intval', $db->setQuery($db->createQuery()
             ->select($db->quoteName('item_id'))->from($db->quoteName('#__category_item_map'))
             ->where($db->quoteName('context') . ' = ' . $db->quote($this->typeAlias))
