@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -41,7 +42,15 @@ class LanguageController extends JSONController
         $session = $this->app->getSession();
 
         if ($session->isNew()) {
-            $this->sendJsonResponse(new \Exception(Text::_('INSTL_COOKIES_NOT_ENABLED'), 500));
+            $cookieParams   = session_get_cookie_params();
+            $isSecureCookie = !empty($cookieParams['secure']) || filter_var(\ini_get('session.cookie_secure'), FILTER_VALIDATE_BOOLEAN);
+            $isSsl          = Uri::getInstance()->isSsl();
+
+            if ($isSecureCookie && !$isSsl) {
+                $this->sendJsonResponse(new \Exception(Text::_('INSTL_COOKIES_SECURE_OVER_HTTP'), 500));
+            } else {
+                $this->sendJsonResponse(new \Exception(Text::_('INSTL_COOKIES_NOT_ENABLED'), 500));
+            }
         }
 
         /** @var SetupModel $model */

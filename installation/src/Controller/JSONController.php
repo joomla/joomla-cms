@@ -15,6 +15,7 @@ use Joomla\CMS\Installation\Response\JsonResponse;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -73,7 +74,18 @@ abstract class JSONController extends BaseController
     {
         // Check for request forgeries.
         if (!Session::checkToken()) {
-            $this->sendJsonResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+            $cookieParams   = session_get_cookie_params();
+            $isSecureCookie = !empty($cookieParams['secure']) || filter_var(\ini_get('session.cookie_secure'), FILTER_VALIDATE_BOOLEAN);
+            $isSsl          = Uri::getInstance()->isSsl();
+            $session        = $this->app->getSession();
+
+            if ($isSecureCookie && !$isSsl) {
+                $this->sendJsonResponse(new \Exception(Text::_('INSTL_COOKIES_SECURE_OVER_HTTP'), 403));
+            } elseif ($session->isNew()) {
+                $this->sendJsonResponse(new \Exception(Text::_('INSTL_COOKIES_NOT_ENABLED'), 403));
+            } else {
+                $this->sendJsonResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+            }
 
             $this->app->close();
         }
