@@ -147,6 +147,8 @@ class HtmlView extends BaseHtmlView
 
         $toolbar->divider();
 
+        $toolbar->inlinehelp();
+
         // Get the help information for the template item.
         $lang = $this->getLanguage();
 
