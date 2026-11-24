@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Banners\Administrator\Controller;
 
+use Joomla\CMS\Categories\CategoryChangeTrait;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
@@ -26,6 +27,7 @@ use Joomla\Utilities\ArrayHelper;
  */
 class BannerController extends FormController
 {
+    use CategoryChangeTrait;
     use VersionableControllerTrait;
 
     /**
@@ -107,5 +109,27 @@ class BannerController extends FormController
         $this->setRedirect(Route::_('index.php?option=com_banners&view=banners' . $this->getRedirectToListAppend(), false));
 
         return parent::batch($model);
+    }
+
+    /**
+     * Method to check if you can save a record.
+     *
+     * Moving an existing item to another category requires the create permission in the target category. The
+     * category field only offers allowed categories, but the submitted value has to be checked as well.
+     *
+     * @param   array   $data  An array of input data.
+     * @param   string  $key   The name of the key for the primary key; default is id.
+     *
+     * @return  boolean
+     *
+     * @since   6.2.1
+     */
+    protected function allowSave($data, $key = 'id')
+    {
+        if (!$this->allowCategoryChange($this->getModel()->getTable(), (int) ($data[$key] ?? 0), $data)) {
+            return false;
+        }
+
+        return parent::allowSave($data, $key);
     }
 }

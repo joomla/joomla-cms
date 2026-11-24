@@ -193,7 +193,8 @@ class CategoryModel extends ListModel
          */
             ->from($db->quoteName('#__contact_details', 'a'))
             ->leftJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
-            ->whereIn($db->quoteName('a.access'), $groups);
+            ->whereIn($db->quoteName('a.access'), $groups)
+            ->whereIn($db->quoteName('c.access'), $groups);
 
         // Filter by category.
         $categoryId                 = (int) $this->getState('category.id');

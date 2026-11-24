@@ -52,7 +52,7 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                         <?php if (is_array($value1['value'])) : ?>
                             <tr>
                                 <td colspan="4">
-                                    <strong><?php echo $value1['label']; ?></strong>
+                                    <strong><?php echo $this->escape($value1['label']); ?></strong>
                                 </td>
                             </tr>
                             <?php $keys = array_keys($value1['value']); ?>
@@ -86,8 +86,10 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                                                     <?php echo htmlspecialchars($prefix2 . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
                                                 <?php else : ?>
                                                     <?php echo htmlspecialchars($prefix2 . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
+
                                                 <?php endif;?>
                                             <?php endif; ?>
+                                        </td>
                                         <td class="diff">&nbsp;</td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -95,14 +97,14 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                             <tr>
                                 <th scope="row">
                                     <?php
-                                    echo $value1['label']; ?>
+                                    echo $this->escape($value1['label']); ?>
                                 </th>
                                 <?php $currentvalue1 = is_array($value1['value']) ? json_encode($value1['value']) : $value1['value']; ?>
                                 <td class="original"><?php
-                                    echo htmlspecialchars($currentvalue1); ?></td>
+                                    echo $this->escape($currentvalue1); ?></td>
                                 <?php $currentvalue2 = is_array($value2['value']) ? json_encode($value2['value']) : $value2['value']; ?>
                                 <td class="changed"><?php
-                                    echo htmlspecialchars($currentvalue2, ENT_COMPAT, 'UTF-8'); ?></td>
+                                    echo $this->escape($currentvalue2); ?></td>
                                 <td class="diff">&nbsp;</td>
                             </tr>
                         <?php endif; ?>

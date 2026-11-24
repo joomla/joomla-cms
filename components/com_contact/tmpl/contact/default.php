@@ -41,7 +41,7 @@ $icon    = $this->params->get('contact_icons') == 0;
                 <?php if ($this->item->published == 0) : ?>
                     <span class="badge bg-warning text-light"><?php echo Text::_('JUNPUBLISHED'); ?></span>
                 <?php endif; ?>
-                <span class="contact-name"><?php echo $this->item->name; ?></span>
+                <span class="contact-name"><?php echo $this->escape($this->item->name); ?></span>
             </<?php echo $htag; ?>>
         </div>
     <?php endif; ?>
