@@ -117,7 +117,7 @@ $popupOptions = json_encode([
                     <li>
                         <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id; ?>">
                             <span class="icon-star icon-fw" aria-hidden="true"></span>
-                            <?php echo $tour->title; ?>
+                            <?php echo htmlspecialchars($tour->title, ENT_QUOTES, 'UTF-8'); ?>
                         </button>
                     </li>
                 <?php endforeach; ?>
@@ -130,7 +130,7 @@ $popupOptions = json_encode([
                     <li>
                         <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id; ?>">
                             <span class="icon-map-signs icon-fw" aria-hidden="true"></span>
-                            <?php echo $tour->title; ?>
+                            <?php echo htmlspecialchars($tour->title, ENT_QUOTES, 'UTF-8'); ?>
                         </button>
                     </li>
                 <?php endforeach; ?>

@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\Schemaorg\Extension;
 
+use Joomla\CMS\Document\ErrorDocument;
 use Joomla\CMS\Event\Application\BeforeCompileHeadEvent as BeforeCompileHeadApplicationEvent;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
@@ -287,6 +288,11 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
             return;
         }
 
+        // Do not add the item schema when the item is not shown (error page, 403 response)
+        if ($doc instanceof ErrorDocument || $this->getResponseStatus() >= 400) {
+            $itemId = 0;
+        }
+
         $domain = Uri::root();
 
         $isPerson = $baseType === 'person';
@@ -549,6 +555,26 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         }
 
         return $result;
+    }
+
+    /**
+     * Returns the HTTP status code set on the application response
+     *
+     * @return  integer
+     *
+     * @since   6.2.1
+     */
+    private function getResponseStatus(): int
+    {
+        $status = 200;
+
+        foreach ($this->getApplication()->getHeaders() as $header) {
+            if (strtolower($header['name']) === 'status') {
+                $status = (int) $header['value'];
+            }
+        }
+
+        return $status;
     }
 
     /**

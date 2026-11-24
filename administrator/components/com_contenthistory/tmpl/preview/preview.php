@@ -43,14 +43,14 @@ Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
             <?php if (is_object($value->value)) : ?>
                 <tr>
                     <td colspan="2">
-                        <?php echo $value->label; ?>
+                        <?php echo $this->escape($value->label); ?>
                     </td>
                 </tr>
                 <?php foreach ($value->value as $subName => $subValue) : ?>
                     <?php if ($subValue && isset($subValue->value)) : ?>
                         <?php $subValue->value = (\is_object($subValue->value) || \is_array($subValue->value)) ? \json_encode($subValue->value, \JSON_UNESCAPED_UNICODE) : $subValue->value; ?>
                         <tr>
-                            <th scope="row"><em>&nbsp;&nbsp;<?php echo $subValue->label; ?></em></th>
+                            <th scope="row"><em>&nbsp;&nbsp;<?php echo $this->escape($subValue->label); ?></em></th>
                             <td>
                                 <?php if (\is_array($subValue->value)) : ?>
                                     <?php echo $this->escape(json_decode($subValue->value)); ?>
@@ -64,7 +64,7 @@ Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
                 <?php endforeach; ?>
             <?php else : ?>
                 <tr>
-                    <th scope="row"><?php echo $value->label; ?></th>
+                    <th scope="row"><?php echo $this->escape($value->label); ?></th>
                     <td>
                         <?php if (\is_array($value->value)) : ?>
                             <?php echo $this->escape(json_encode($value->value)); ?>
