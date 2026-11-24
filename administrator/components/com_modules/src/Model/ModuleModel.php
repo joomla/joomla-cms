@@ -796,7 +796,9 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
      */
     public function getTable($type = 'Module', $prefix = '\\Joomla\\CMS\\Table\\', $config = [])
     {
-        return Table::getInstance($type, $prefix, $config);
+        $className = $prefix . $type;
+
+        return new $className($this->getDatabase());
     }
 
     /**
