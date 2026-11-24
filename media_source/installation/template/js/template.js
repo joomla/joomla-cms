@@ -169,7 +169,7 @@
     Joomla.request({
       method: 'POST',
       url: Joomla.baseUrl + '?task=installation.' + task + '&format=json',
-      data: data,
+      data: `${data}&task=installation.${task}&format=json`,
       perform: true,
       onSuccess: function (response, xhr) {
         try {
@@ -178,11 +178,16 @@
           if (progress_text) {
             progress_text.setAttribute('role', 'alert');
             progress_text.classList.add('error');
-            progress_text.innerText = response;
+            progress_text.innerText = Joomla.Text._('INSTL');
           }
           console.error('Error in ' + task + ' Endpoint');
           console.error(response);
           Joomla.renderMessages({ error: [Joomla.Text._('INSTL_DATABASE_RESPONSE_ERROR')] });
+
+          if (document.getElementById('installStep3')) {
+            document.getElementById('installStep3').classList.add('active');
+            document.getElementById('installStep4').classList.remove('active');
+          }
 
           return false;
         }

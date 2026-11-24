@@ -118,6 +118,8 @@ class DatabaseModel extends BaseInstallationModel
         try {
             $db_version = $db->getVersion();
         } catch (\RuntimeException $e) {
+            $msg = $e->getMessage();
+
             /*
              * We may get here if the database doesn't exist, if so then explain that to users instead of showing the database connector's error
              * This only supports PDO PostgreSQL and the PDO MySQL drivers presently
@@ -127,27 +129,26 @@ class DatabaseModel extends BaseInstallationModel
              * PDO PostgreSQL: database "database_name" does not exist
              */
             if (
-                $type === 'mysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42
-                || $type === 'pgsql' && strpos($e->getMessage(), 'database "' . $options->db_name . '" does not exist')
+                \in_array($type, ['mysql', 'mysqli']) && (str_contains($msg, '[1049]') || str_contains($msg, 'Unknown database'))
+                || $type === 'pgsql' && (str_contains($msg, 'does not exist') || str_contains($msg, 'database "' . $options->db_name . '" does not exist'))
             ) {
                 /*
                  * Now we're really getting insane here; we're going to try building a new DatabaseDriver instance
                  * in order to trick the connection into creating the database
                  */
-                if ($type === 'mysql') {
-                    // MySQL (PDO): Don't specify database name
-                    $altDBoptions = [
+                if (\in_array($type, ['mysql', 'mysqli'])) {
+                    // MySQL (PDO / MySQLi): Don't specify database name
+                    $altDBoptions = array_merge([
                         'driver'   => $options->db_type,
                         'host'     => $options->db_host,
                         'user'     => $options->db_user,
                         'password' => $options->db_pass_plain,
                         'prefix'   => $options->db_prefix,
                         'select'   => false,
-                        DatabaseHelper::getEncryptionSettings($options),
-                    ];
+                    ], DatabaseHelper::getEncryptionSettings($options));
                 } else {
                     // PostgreSQL (PDO): Use 'postgres'
-                    $altDBoptions = [
+                    $altDBoptions = array_merge([
                         'driver'   => $options->db_type,
                         'host'     => $options->db_host,
                         'user'     => $options->db_user,
@@ -155,8 +156,7 @@ class DatabaseModel extends BaseInstallationModel
                         'database' => 'postgres',
                         'prefix'   => $options->db_prefix,
                         'select'   => false,
-                        DatabaseHelper::getEncryptionSettings($options),
-                    ];
+                    ], DatabaseHelper::getEncryptionSettings($options));
                 }
 
                 $altDB = (new DatabaseFactory())->getDriver($altDBoptions['driver'], $altDBoptions);
