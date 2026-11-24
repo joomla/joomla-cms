@@ -18,7 +18,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterSaveConfigurationEvent;
 use Joomla\CMS\Event\Application\BeforeSaveConfigurationEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\LanguageFactoryInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
@@ -50,9 +51,10 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  *
  * @since  3.2
  */
-class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
+class ApplicationModel extends FormModel implements MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
     use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * Array of protected password fields from the configuration.php
@@ -60,7 +62,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
      * @var    array
      * @since  3.9.23
      */
-    private $protectedConfigurationFields = ['password', 'secret', 'smtppass', 'redis_server_auth', 'session_redis_server_auth'];
+    private $protectedConfigurationFields = ['password', 'secret', 'smtppass', 'smtp_oauth2_client_secret', 'smtp_oauth2_refresh_token', 'redis_server_auth', 'session_redis_server_auth'];
 
     /**
      * Method to get a form object.
@@ -341,8 +343,8 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             return false;
         }
 
-        // Check if we can set the Force SSL option
-        if ((int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) $app->get('force_ssl', '0')) {
+        // Check if we can set the Force SSL option unless we are in CLI mode, in which case we skip this check
+        if (!$app->isClient('cli') && (int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) $app->get('force_ssl', '0')) {
             try {
                 // Make an HTTPS request to check if the site is available in HTTPS.
                 $host    = Uri::getInstance()->getHost();
@@ -1205,6 +1207,14 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $config->set('mailer', $input->get('mailer'));
         $config->set('mailonline', $input->get('mailonline'));
 
+        // We do not load the current oauth2 information since this information needs to be already saved after authorization
+        $config->set('smtp_oauth2_client_id', $app->get('smtp_oauth2_client_id', ''));
+        $config->set('smtp_oauth2_client_secret', $app->get('smtp_oauth2_client_secret', ''));
+        $config->set('smtp_oauth2_scope', $app->get('smtp_oauth2_scope', ''));
+        $config->set('smtp_oauth2_authorize_url', $app->get('smtp_oauth2_authorize_url', ''));
+        $config->set('smtp_oauth2_token_url', $app->get('smtp_oauth2_token_url', ''));
+        $config->set('smtp_oauth2_refresh_token', $app->get('smtp_oauth2_refresh_token', ''));
+
         // Use smtppass only if it was submitted
         if ($smtppass !== null) {
             $config->set('smtppass', $smtppass);
@@ -1217,7 +1227,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             'com_config.test_mail',
             $user->getParam('language', $app->get('language')),
             $mail,
-            Factory::getContainer()->get(LanguageFactoryInterface::class),
+            $this->getLanguageFactory(),
             $this->getDatabase()
         );
         $mailer->addTemplateData(

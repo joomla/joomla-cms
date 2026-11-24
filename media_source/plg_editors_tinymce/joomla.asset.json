@@ -119,6 +119,17 @@
       "dependencies": [
         "tinymce"
       ]
+    },
+    {
+      "name": "plg_editors_tinymce.pasteword",
+      "type": "script",
+      "uri": "plg_editors_tinymce/plugins/pasteword/plugin.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "tinymce"
+      ]
     }
   ]
 }

@@ -84,7 +84,7 @@ class TransitionController extends FormController
 
         // If extension is not set try to get it from input or throw an exception
         if (empty($this->extension)) {
-            $extension = $this->input->getCmd('extension');
+            $extension = $this->input->getCmd('extension', '');
 
             $parts = explode('.', $extension);
 
@@ -163,7 +163,7 @@ class TransitionController extends FormController
     protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
     {
         $append = parent::getRedirectToItemAppend($recordId);
-        $append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension;
+        $append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '');
 
         return $append;
     }
@@ -178,7 +178,7 @@ class TransitionController extends FormController
     protected function getRedirectToListAppend()
     {
         $append = parent::getRedirectToListAppend();
-        $append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension;
+        $append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '');
 
         return $append;
     }

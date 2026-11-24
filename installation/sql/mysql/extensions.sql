@@ -259,7 +259,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_filters` (
 CREATE TABLE IF NOT EXISTS `#__finder_links` (
   `link_id` int unsigned NOT NULL AUTO_INCREMENT,
   `url` varchar(255) NOT NULL,
-  `route` varchar(400) NOT NULL,
+  `route` varchar(2048) NOT NULL,
   `title` varchar(400) DEFAULT NULL,
   `description` text,
   `indexdate` datetime NOT NULL,
@@ -947,7 +947,7 @@ CREATE TABLE IF NOT EXISTS `#__scheduler_logs` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `taskname` varchar(255) NOT NULL DEFAULT '',
   `tasktype` varchar(128) NOT NULL COMMENT 'unique identifier for job defined by plugin',
-  `duration` DECIMAL(5,3) NOT NULL,
+  `duration` DECIMAL(8,3) NOT NULL,
   `jobid` int UNSIGNED NOT NULL,
   `taskid` int UNSIGNED NOT NULL,
   `exitcode` int NOT NULL,
