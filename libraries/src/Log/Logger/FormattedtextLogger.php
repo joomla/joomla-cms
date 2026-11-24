@@ -321,7 +321,7 @@ class FormattedtextLogger extends Logger
      *
      * @return  void
      *
-     * @since   1.7.0
+     * @since   6.2.1
      */
     protected function initFile()
     {
