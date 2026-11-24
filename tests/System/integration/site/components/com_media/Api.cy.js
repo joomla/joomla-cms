@@ -61,23 +61,23 @@ describe('Test that the media site API endpoint', () => {
     });
 
     // The original file is untouched
-    cy.readFile(`${dir}/target.jpg`, 'base64').then((current) => {
+    cy.readFile(`${Cypress.env('cmsPath')}/${dir}/target.jpg`, 'base64').then((current) => {
       cy.readFile(`${mediaFixturesFolder}/test-image-1.jpg`, 'base64').should('eq', current);
     });
   });
 
   it('does not allow a user without core.edit to use override on a new file', () => {
     postFile({ name: 'new.jpg', override: true }).its('status').should('eq', 403);
-    cy.readFile(`${dir}/new.jpg`, { timeout: 500 }).should('not.exist');
+    cy.readFile(`${Cypress.env('cmsPath')}/${dir}/new.jpg`, { timeout: 500 }).should('not.exist');
   });
 
   it('allows a user without core.edit to create a new file', () => {
     postFile({ name: 'new.jpg' }).its('status').should('eq', 200);
-    cy.readFile(`${dir}/new.jpg`, 'base64').should('eq', newContent);
+    cy.readFile(`${Cypress.env('cmsPath')}/${dir}/new.jpg`, 'base64').should('eq', newContent);
   });
 
   it('normalises the name of a new file', () => {
     postFile({ name: 'new image!.JPG' }).its('status').should('eq', 200);
-    cy.readFile(`${dir}/new image.jpg`, 'base64').should('eq', newContent);
+    cy.readFile(`${Cypress.env('cmsPath')}/${dir}/new image.jpg`, 'base64').should('eq', newContent);
   });
 });

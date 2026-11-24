@@ -33,7 +33,7 @@ describe('Test that config API endpoint', () => {
   });
 
   it('keeps the secrets in the configuration when the application config is modified', () => {
-    cy.readFile('configuration.php').then((before) => {
+    cy.readFile(`${Cypress.env('cmsPath')}/configuration.php`).then((before) => {
       const secrets = ['password', 'secret', 'smtppass', 'proxy_pass']
         .map((field) => before.match(new RegExp(`public \\$${field} = .*;`))?.[0])
         .filter(Boolean);
@@ -42,7 +42,7 @@ describe('Test that config API endpoint', () => {
 
       cy.api_patch('/config/application', { offline: true })
         .then((response) => cy.wrap(response).its('status').should('equal', 200));
-      cy.readFile('configuration.php').then((after) => secrets.forEach((line) => expect(after).to.include(line)));
+      cy.readFile(`${Cypress.env('cmsPath')}/configuration.php`).then((after) => secrets.forEach((line) => expect(after).to.include(line)));
       cy.config_setParameter('offline', false);
     });
   });
