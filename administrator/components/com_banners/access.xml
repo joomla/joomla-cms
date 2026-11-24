@@ -17,6 +17,11 @@
 		/>
 
 		<action
+			name="core.api"
+			title="JACTION_API"
+		/>
+
+		<action
 			name="core.create"
 			title="JACTION_CREATE"
 		/>

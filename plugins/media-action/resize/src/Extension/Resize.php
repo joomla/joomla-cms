@@ -119,7 +119,7 @@ final class Resize extends MediaActionPlugin implements SubscriberInterface
      *
      * @return  int[]  The maximum width and height, 0 meaning no resizing
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.3.0
      */
     private function getMaxSize(string $adapter, string $path): array
     {

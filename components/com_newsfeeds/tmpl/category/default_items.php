@@ -64,7 +64,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     <span class="list float-start">
                         <div class="list-title">
                             <a href="<?php echo Route::_(RouteHelper::getNewsfeedRoute($item->slug, $item->catid)); ?>">
-                                <?php echo $item->name; ?>
+                                <?php echo $this->escape($item->name); ?>
                             </a>
                         </div>
                     </span>
