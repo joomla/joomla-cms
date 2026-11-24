@@ -258,9 +258,11 @@ trait DisplayTrait
             'quickbars',
             'jxtdbuttons',
             'jfilepicker',
+            'pasteword',
         ];
         $wa->useScript('plg_editors_tinymce.jxtdbuttons');
         $wa->useScript('plg_editors_tinymce.jfilepicker');
+        $wa->useScript('plg_editors_tinymce.pasteword');
 
         // The link picker for the native Link dialog (registers the 'file' picker)
         $wa->useStyle('plg_editors_tinymce.linkpicker');
@@ -310,6 +312,11 @@ trait DisplayTrait
         $menubar  = (array) $levelParams->get('menu', []);
         $toolbar1 = (array) $levelParams->get('toolbar1', []);
         $toolbar2 = (array) $levelParams->get('toolbar2', []);
+
+        // Make sure that we load the help plugin if the help menu is enabled
+        if (\in_array('help', $menubar, true)) {
+            $plugins[] = 'help';
+        }
 
         // Make an easy way to check which button is enabled
         $allButtons = array_merge($toolbar1, $toolbar2);
