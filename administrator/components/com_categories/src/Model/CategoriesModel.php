@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Category;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -117,6 +118,10 @@ class CategoriesModel extends ListModel
         // Extract the optional section name
         $this->setState('filter.section', (\count($parts) > 1) ? $parts[1] : null);
 
+        foreach (FieldsHelper::getFilterFields($extension . '.categories') as $fieldId => $field) {
+            $this->getUserStateFromRequest($this->context . '.filter.customfield_' . $fieldId, 'filter_customfield_' . $fieldId);
+        }
+
         // List state information.
         parent::populateState($ordering, $direction);
 
@@ -149,6 +154,14 @@ class CategoriesModel extends ListModel
         $id .= ':' . $this->getState('filter.language');
         $id .= ':' . $this->getState('filter.level');
         $id .= ':' . serialize($this->getState('filter.tag'));
+
+        foreach (FieldsHelper::getFilterFields($this->getState('filter.extension') . '.categories') as $fieldId => $field) {
+            $values = FieldsHelper::getListFilterValues($this->getState('filter.customfield_' . $fieldId));
+
+            if ($values) {
+                $id .= ':' . $fieldId . ':' . serialize($values);
+            }
+        }
 
         return parent::getStoreId($id);
     }
@@ -408,6 +421,14 @@ class CategoriesModel extends ListModel
             }
         }
 
+        foreach (FieldsHelper::getFilterFields($this->getState('filter.extension') . '.categories') as $fieldId => $field) {
+            $values = FieldsHelper::getListFilterValues($this->getState('filter.customfield_' . $fieldId));
+
+            if ($values) {
+                FieldsHelper::applyListFilter($query, (int) $fieldId, $values, $query->castAs('CHAR', $db->quoteName('a.id')));
+            }
+        }
+
         // Add the list ordering clause
         $listOrdering = $this->getState('list.ordering', 'a.lft');
         $listDirn     = $db->escape($this->getState('list.direction', 'ASC'));
@@ -441,6 +462,28 @@ class CategoriesModel extends ListModel
                 ua.name');
 
         return $query;
+    }
+
+    /**
+     * Get the active filters, including custom-field filters.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getActiveFilters()
+    {
+        $activeFilters = parent::getActiveFilters();
+
+        foreach (FieldsHelper::getFilterFields($this->getState('filter.extension') . '.categories') as $fieldId => $field) {
+            $values = FieldsHelper::getListFilterValues($this->getState('filter.customfield_' . $fieldId));
+
+            if ($values) {
+                $activeFilters['customfield_' . $fieldId] = $values;
+            }
+        }
+
+        return $activeFilters;
     }
 
     /**

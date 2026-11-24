@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Category;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -99,6 +100,10 @@ class ContactsModel extends ListModel
             $this->context .= '.' . $forcedLanguage;
         }
 
+        foreach (FieldsHelper::getFilterFields('com_contact.contact') as $fieldId => $field) {
+            $this->getUserStateFromRequest($this->context . '.filter.customfield_' . $fieldId, 'filter_customfield_' . $fieldId);
+        }
+
         // List state information.
         parent::populateState($ordering, $direction);
 
@@ -131,6 +136,14 @@ class ContactsModel extends ListModel
         $id .= ':' . $this->getState('filter.language');
         $id .= ':' . serialize($this->getState('filter.tag'));
         $id .= ':' . $this->getState('filter.level');
+
+        foreach (FieldsHelper::getFilterFields('com_contact.contact') as $fieldId => $field) {
+            $values = FieldsHelper::getListFilterValues($this->getState('filter.customfield_' . $fieldId));
+
+            if ($values) {
+                $id .= ':' . $fieldId . ':' . serialize($values);
+            }
+        }
 
         return parent::getStoreId($id);
     }
@@ -384,6 +397,14 @@ class ContactsModel extends ListModel
             $query->bind(':level', $level, ParameterType::INTEGER);
         }
 
+        foreach (FieldsHelper::getFilterFields('com_contact.contact') as $fieldId => $field) {
+            $values = FieldsHelper::getListFilterValues($this->getState('filter.customfield_' . $fieldId));
+
+            if ($values) {
+                FieldsHelper::applyListFilter($query, (int) $fieldId, $values, $query->castAs('CHAR', $db->quoteName('a.id')));
+            }
+        }
+
         // Add the list ordering clause.
         $orderCol  = $this->state->get('list.ordering', 'a.name');
         $orderDirn = $this->state->get('list.direction', 'asc');
@@ -395,5 +416,27 @@ class ContactsModel extends ListModel
         $query->order($db->escape($orderCol . ' ' . $orderDirn));
 
         return $query;
+    }
+
+    /**
+     * Get the active filters, including custom-field filters.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getActiveFilters()
+    {
+        $activeFilters = parent::getActiveFilters();
+
+        foreach (FieldsHelper::getFilterFields('com_contact.contact') as $fieldId => $field) {
+            $values = FieldsHelper::getListFilterValues($this->getState('filter.customfield_' . $fieldId));
+
+            if ($values) {
+                $activeFilters['customfield_' . $fieldId] = $values;
+            }
+        }
+
+        return $activeFilters;
     }
 }

@@ -19,6 +19,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Category;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
@@ -149,6 +150,10 @@ class ArticlesModel extends ListModel
         $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
         $this->getUserStateFromRequest($this->context . '.filter.checked_out', 'filter_checked_out', '');
 
+        foreach (FieldsHelper::getFilterFields('com_content.article') as $fieldId => $field) {
+            $this->getUserStateFromRequest($this->context . '.filter.customfield_' . $fieldId, 'filter_customfield_' . $fieldId);
+        }
+
         // List state information.
         parent::populateState($ordering, $direction);
 
@@ -189,6 +194,14 @@ class ArticlesModel extends ListModel
         $id .= ':' . $this->getState('filter.start_date_range');
         $id .= ':' . $this->getState('filter.end_date_range');
         $id .= ':' . $this->getState('filter.relative_date');
+
+        foreach (FieldsHelper::getFilterFields('com_content.article') as $fieldId => $field) {
+            $values = FieldsHelper::getListFilterValues($this->getState('filter.customfield_' . $fieldId));
+
+            if ($values) {
+                $id .= ':' . $fieldId . ':' . serialize($values);
+            }
+        }
 
         return parent::getStoreId($id);
     }
@@ -663,6 +676,14 @@ class ArticlesModel extends ListModel
                 break;
         }
 
+        foreach (FieldsHelper::getFilterFields('com_content.article') as $fieldId => $field) {
+            $values = FieldsHelper::getListFilterValues($this->getState('filter.customfield_' . $fieldId));
+
+            if ($values) {
+                FieldsHelper::applyListFilter($query, (int) $fieldId, $values, $query->castAs('CHAR', $db->quoteName('a.id')));
+            }
+        }
+
         // Add the list ordering clause.
         $orderCol  = $this->state->get('list.ordering', $defaultOrdering);
         $orderDirn = $this->state->get('list.direction', 'DESC');
@@ -679,6 +700,28 @@ class ArticlesModel extends ListModel
         $query->order($ordering);
 
         return $query;
+    }
+
+    /**
+     * Get the active filters, including custom-field filters.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getActiveFilters()
+    {
+        $activeFilters = parent::getActiveFilters();
+
+        foreach (FieldsHelper::getFilterFields('com_content.article') as $fieldId => $field) {
+            $values = FieldsHelper::getListFilterValues($this->getState('filter.customfield_' . $fieldId));
+
+            if ($values) {
+                $activeFilters['customfield_' . $fieldId] = $values;
+            }
+        }
+
+        return $activeFilters;
     }
 
     /**
