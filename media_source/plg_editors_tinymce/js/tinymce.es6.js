@@ -234,7 +234,7 @@ Joomla.JoomlaTinyMCE = {
 
     // Re-create the editor when the viewport crosses the sticky toolbar breakpoint, e.g. on zoom or rotation
     const onViewportChange = () => {
-      if (!!options.toolbar_sticky !== stickyToolbarQuery.matches) {
+      if (options.toolbar_sticky !== stickyToolbarQuery.matches) {
         debounceReInit(ed, element, pluginOptions);
       }
     };
