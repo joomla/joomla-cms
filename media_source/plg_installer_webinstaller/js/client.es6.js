@@ -101,6 +101,17 @@ class WebInstaller {
 
           const jedContainer = document.getElementById('jed-container');
           jedContainer.innerHTML = Joomla.sanitizeHtml(response.data.html, allowList);
+
+          // The extension list has no heading, so add one to make the results navigable
+          const resultsArea = jedContainer.querySelector('.item-view');
+
+          if (resultsArea && resultsArea.querySelector('.items')) {
+            const resultsHeading = document.createElement('h3');
+            resultsHeading.className = 'visually-hidden';
+            resultsHeading.textContent = Joomla.Text._('PLG_INSTALLER_WEBINSTALLER_RESULTS');
+            resultsArea.prepend(resultsHeading);
+          }
+
           if (webInstallerOptions.view === 'extension' || webInstallerOptions.view === 'category') {
             window.scrollTo(0, 0);
           }
