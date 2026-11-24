@@ -37,6 +37,10 @@
         } else {
           list.classList.remove('hidden');
         }
+
+        if (event.currentTarget.hasAttribute('aria-expanded')) {
+          event.currentTarget.setAttribute('aria-expanded', !list.classList.contains('hidden'));
+        }
       });
     });
 

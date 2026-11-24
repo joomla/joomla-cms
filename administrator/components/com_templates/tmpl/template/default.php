@@ -282,7 +282,7 @@ if ($this->type == 'font') {
                             $overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $module->path
                                 . '&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0) . '&' . $token;
                             ?>
-                            <a href="<?php echo Route::_($overrideLinkUrl); ?>">
+                            <a href="<?php echo Route::_($overrideLinkUrl); ?>" aria-label="<?php echo $this->escape(Text::sprintf('COM_TEMPLATES_CREATE_OVERRIDE_FOR', $module->name)); ?>">
                                 <span class="icon-copy" aria-hidden="true"></span>&nbsp;<?php echo $module->name; ?>
                             </a>
                         </li>
@@ -297,17 +297,17 @@ if ($this->type == 'font') {
                     <?php $token = Session::getFormToken() . '=' . 1; ?>
                     <?php foreach ($this->overridesList['components'] as $key => $value) : ?>
                         <li class="component-folder">
-                            <a href="#" class="component-folder-url">
+                            <button type="button" class="component-folder-url btn btn-link p-0 border-0 align-top" aria-expanded="false" aria-controls="overrides-components-<?php echo $key; ?>">
                                 <span class="icon-folder icon-fw" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
-                            </a>
-                            <ul class="list-unstyled">
+                            </button>
+                            <ul class="list-unstyled mt-1" id="overrides-components-<?php echo $key; ?>">
                                 <?php foreach ($value as $view) : ?>
                                     <li>
                                         <?php
                                         $overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $view->path
                                             . '&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0) . '&' . $token;
                                         ?>
-                                        <a class="component-file-url" href="<?php echo Route::_($overrideLinkUrl); ?>">
+                                        <a class="component-file-url" href="<?php echo Route::_($overrideLinkUrl); ?>" aria-label="<?php echo $this->escape(Text::sprintf('COM_TEMPLATES_CREATE_OVERRIDE_FOR', $view->name)); ?>">
                                             <span class="icon-copy" aria-hidden="true"></span>&nbsp;<?php echo $view->name; ?>
                                         </a>
                                     </li>
@@ -325,17 +325,17 @@ if ($this->type == 'font') {
                     <?php $token = Session::getFormToken() . '=' . 1; ?>
                     <?php foreach ($this->overridesList['plugins'] as $key => $group) : ?>
                         <li class="plugin-folder">
-                            <a href="#" class="plugin-folder-url">
+                            <button type="button" class="plugin-folder-url btn btn-link p-0 border-0 align-top" aria-expanded="false" aria-controls="overrides-plugins-<?php echo $key; ?>">
                                 <span class="icon-folder icon-fw" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
-                            </a>
-                            <ul class="list-unstyled">
+                            </button>
+                            <ul class="list-unstyled mt-1" id="overrides-plugins-<?php echo $key; ?>">
                                 <?php foreach ($group as $plugin) : ?>
                                     <li>
                                         <?php
                                         $overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $plugin->path
                                             . '&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0) . '&' . $token;
                                         ?>
-                                        <a class="plugin-file-url" href="<?php echo Route::_($overrideLinkUrl); ?>">
+                                        <a class="plugin-file-url" href="<?php echo Route::_($overrideLinkUrl); ?>" aria-label="<?php echo $this->escape(Text::sprintf('COM_TEMPLATES_CREATE_OVERRIDE_FOR', $plugin->name)); ?>">
                                             <span class="icon-copy" aria-hidden="true"></span> <?php echo $plugin->name; ?>
                                         </a>
                                     </li>
@@ -353,17 +353,17 @@ if ($this->type == 'font') {
                     <?php $token = Session::getFormToken() . '=' . 1; ?>
                     <?php foreach ($this->overridesList['layouts'] as $key => $value) : ?>
                         <li class="layout-folder">
-                            <a href="#" class="layout-folder-url">
+                            <button type="button" class="layout-folder-url btn btn-link p-0 border-0 align-top" aria-expanded="false" aria-controls="overrides-layouts-<?php echo $key; ?>">
                                 <span class="icon-folder icon-fw" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
-                            </a>
-                            <ul class="list-unstyled">
+                            </button>
+                            <ul class="list-unstyled mt-1" id="overrides-layouts-<?php echo $key; ?>">
                                 <?php foreach ($value as $layout) : ?>
                                     <li>
                                         <?php
                                         $overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path
                                             . '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token . '&isMedia=' . $input->get('isMedia', 0);
                                         ?>
-                                        <a href="<?php echo Route::_($overrideLinkUrl); ?>">
+                                        <a href="<?php echo Route::_($overrideLinkUrl); ?>" aria-label="<?php echo $this->escape(Text::sprintf('COM_TEMPLATES_CREATE_OVERRIDE_FOR', $layout->name)); ?>">
                                             <span class="icon-copy" aria-hidden="true"></span>&nbsp;<?php echo $layout->name; ?>
                                         </a>
                                     </li>
