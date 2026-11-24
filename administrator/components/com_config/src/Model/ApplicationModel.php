@@ -154,7 +154,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface,
      * @return  void
      *
      * @see     FormField
-     * @since   4.0.0
+     * @since   6.2.1
      * @throws  \Exception if there is an error in the form event.
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
