@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
-	<fieldset name="rotate" label="PLG_MEDIA-ACTION_ROTATE_LABEL">
+	<fieldset name="rotate" label="PLG_MEDIA-ACTION_ROTATE_LABEL" addfieldprefix="Joomla\Plugin\MediaAction\Rotate\Field">
 		<field
 			name="rotate_quality"
 			type="number"
@@ -22,6 +22,7 @@
 			name="rotate_a"
 			type="number"
 			label="PLG_MEDIA-ACTION_ROTATE_PARAM_ANGLE"
+			description="PLG_MEDIA-ACTION_ROTATE_PARAM_ANGLE_DESC"
 			min="0"
 			max="360"
 			step="1"
@@ -41,6 +42,14 @@
 			<option value="180">180</option>
 			<option value="270">270</option>
 		</field>
+
+		<field
+			name="rotate_apply"
+			type="applybutton"
+			label="PLG_MEDIA-ACTION_ROTATE_APPLY"
+			text="PLG_MEDIA-ACTION_ROTATE_APPLY"
+			hiddenLabel="true"
+		/>
 
 	</fieldset>
 </form>
