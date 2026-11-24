@@ -132,6 +132,107 @@ class ItemsController extends ApiController
     }
 
     /**
+     * Method to check if it's allowed to add a new menu item.
+     *
+     * Like in the administrator, create permission is checked on the menu type of the new item and the protected
+     * administrator menu "main" can not be used.
+     *
+     * @param   array  $data  An array of input data.
+     *
+     * @return  boolean
+     *
+     * @since   6.2.1
+     */
+    protected function allowAdd($data = [])
+    {
+        return $this->authoriseMenuType('core.create', $this->input->getCmd('menutype', $data['menutype'] ?? ''));
+    }
+
+    /**
+     * Method to check if it's allowed to edit an existing menu item.
+     *
+     * Like in the administrator, edit permission is checked on the menu type of the item and items of the protected
+     * administrator menu "main" can not be edited. Moving an item to another menu requires create permission on
+     * the target menu.
+     *
+     * @param   array   $data  An array of input data.
+     * @param   string  $key   The name of the key for the primary key; default is id.
+     *
+     * @return  boolean
+     *
+     * @since   6.2.1
+     */
+    protected function allowEdit($data = [], $key = 'id')
+    {
+        $table = $this->getModel('item', '', ['ignore_request' => true])->getTable();
+
+        if (!isset($data[$key]) || !$table->load((int) $data[$key])) {
+            return false;
+        }
+
+        if (!$this->authoriseMenuType('core.edit', (string) $table->menutype)) {
+            return false;
+        }
+
+        // Moving the item to another menu
+        $newMenuType = $this->input->getCmd('menutype', '');
+
+        if ($newMenuType !== '' && $newMenuType !== $table->menutype) {
+            return $this->authoriseMenuType('core.create', $newMenuType);
+        }
+
+        return true;
+    }
+
+    /**
+     * Method to check if it's allowed to delete a menu item.
+     *
+     * Like in the administrator, delete permission is checked on the menu type of the item and items of the
+     * protected administrator menu "main" can not be deleted.
+     *
+     * @return  boolean
+     *
+     * @since   6.2.1
+     */
+    protected function allowDelete(): bool
+    {
+        $table = $this->getModel('item', '', ['ignore_request' => true])->getTable();
+
+        if (!$table->load($this->input->get('id', 0, 'int'))) {
+            return false;
+        }
+
+        return $this->authoriseMenuType('core.delete', (string) $table->menutype);
+    }
+
+    /**
+     * Check a permission on the asset of a menu type. The protected administrator menu "main" is always denied.
+     *
+     * @param   string  $action    The action to check, e.g. core.edit
+     * @param   string  $menuType  The menu type
+     *
+     * @return  boolean
+     *
+     * @since   6.2.1
+     */
+    private function authoriseMenuType(string $action, string $menuType): bool
+    {
+        // Protected menu type, do not allow any change
+        if ($menuType === '' || $menuType === 'main') {
+            return false;
+        }
+
+        $menuTypeTable = $this->getModel('item', '', ['ignore_request' => true])->getTable('MenuType');
+        $menuTypeTable->load(['menutype' => $menuType]);
+
+        if (!$menuTypeTable->id) {
+            return false;
+        }
+
+        return $this->app->getIdentity()->authorise($action, 'com_menus.menu.' . (int) $menuTypeTable->id);
+    }
+
+    /**
      * Return menu items types
      *
      * @return  static  A \JControllerLegacy object to support chaining.

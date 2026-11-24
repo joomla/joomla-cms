@@ -28,7 +28,7 @@ $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
             <?php $dataShowOn = ''; ?>
             <?php if ($field->showon) : ?>
                 <?php $wa->useScript('showon'); ?>
-                <?php $dataShowOn = " data-showon='" . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . "'"; ?>
+                <?php $dataShowOn = " data-showon='" . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group), JSON_HEX_APOS | JSON_HEX_AMP) . "'"; ?>
             <?php endif; ?>
             <div class="js-stools-field-filter"<?php echo $dataShowOn; ?>>
                 <span class="visually-hidden"><?php echo $field->label; ?></span>

@@ -35,7 +35,7 @@ $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
                 <?php $groupClass = $field->type === 'Spacer' ? ' field-spacer' : ''; ?>
                 <?php if ($field->showon) : ?>
                     <?php $wa->useScript('showon'); ?>
-                    <?php $datashowon = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
+                    <?php $datashowon = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group), JSON_HEX_APOS | JSON_HEX_AMP) . '\''; ?>
                 <?php endif; ?>
 
                     <?php if (isset($displayData->showlabel)) : ?>
