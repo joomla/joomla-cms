@@ -41,6 +41,17 @@ class RequestController extends BaseController
         // Check the request token.
         $this->checkToken('post');
 
+        // Submitting and confirming information requests is restricted to authenticated users
+        if ($this->app->getIdentity()->guest) {
+            $this->setRedirect(
+                Route::_('index.php?option=com_users&view=login&return=' . base64_encode('index.php?option=com_privacy&view=confirm'), false),
+                Text::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'),
+                'error'
+            );
+
+            return false;
+        }
+
         /** @var ConfirmModel $model */
         $model = $this->getModel('Confirm', 'Site');
         $data  = $this->input->post->get('jform', [], 'array');
@@ -88,6 +99,17 @@ class RequestController extends BaseController
     {
         // Check the request token.
         $this->checkToken('post');
+
+        // Submitting and confirming information requests is restricted to authenticated users
+        if ($this->app->getIdentity()->guest) {
+            $this->setRedirect(
+                Route::_('index.php?option=com_users&view=login&return=' . base64_encode('index.php?option=com_privacy&view=request'), false),
+                Text::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'),
+                'error'
+            );
+
+            return false;
+        }
 
         /** @var RequestModel $model */
         $model = $this->getModel('Request', 'Site');

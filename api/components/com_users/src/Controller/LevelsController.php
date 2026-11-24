@@ -60,11 +60,14 @@ class LevelsController extends ApiController
     /**
      * Method to check if it's allowed to delete a record
      *
+     * @param array  $data An array of input data.
+     * @param string  $key The name of the key for the primary key; default is id.
+     *
      * @return  boolean
      *
      * @since   6.1.4
      */
-    protected function allowDelete(): bool
+    protected function allowDelete($data = [], $key = 'id'): bool
     {
         // Overrides the default behavior to check the core.admin permission.
         return $this->app->getIdentity()->authorise('core.admin', $this->option);

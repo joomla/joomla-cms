@@ -125,7 +125,7 @@ class Language extends BaseLanguage
     {
         $this->strings = [];
 
-        if ($lang == null) {
+        if ($lang == null || !LanguageHelper::isValidTag($lang)) {
             $lang = $this->default;
         }
 

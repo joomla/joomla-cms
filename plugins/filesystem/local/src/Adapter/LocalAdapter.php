@@ -529,7 +529,7 @@ class LocalAdapter implements AdapterInterface
             $destinationPath .= '/' . $this->getFileName($sourcePath);
         }
 
-        if (!MediaHelper::checkFileExtension(pathinfo($destinationPath, PATHINFO_EXTENSION))) {
+        if (!MediaHelper::checkFileName($this->getFileName($destinationPath))) {
             throw new \Exception(Text::_('COM_MEDIA_MOVE_FILE_EXTENSION_INVALID'));
         }
 
@@ -650,7 +650,7 @@ class LocalAdapter implements AdapterInterface
             $destinationPath .= '/' . $this->getFileName($sourcePath);
         }
 
-        if (!MediaHelper::checkFileExtension(pathinfo($destinationPath, PATHINFO_EXTENSION))) {
+        if (!MediaHelper::checkFileName($this->getFileName($destinationPath))) {
             throw new \Exception(Text::_('COM_MEDIA_MOVE_FILE_EXTENSION_INVALID'));
         }
 
@@ -757,14 +757,15 @@ class LocalAdapter implements AdapterInterface
         }
 
         // Escape glob metacharacters so the term is matched literally
-        $needle = addcslashes($needle, '*?[]{}\\');
+        $needle = $this->escapeGlob($needle);
 
-        $pattern = Path::clean($this->getLocalPath($path) . '/*' . $needle . '*');
+        // The path is a literal directory, not a pattern: a segment like ".*" must not expand to "." and ".."
+        $localPath = rtrim(Path::clean($this->getLocalPath($path), '/'), '/');
 
         if ($recursive) {
-            $results = $this->rglob($pattern);
+            $results = $this->rglob($localPath, '*' . $needle . '*');
         } else {
-            $results = glob($pattern);
+            $results = glob($this->escapeGlob($localPath) . '/*' . $needle . '*');
         }
 
         $searchResults = [];
@@ -779,22 +780,37 @@ class LocalAdapter implements AdapterInterface
     /**
      * Do a recursive search on a given path
      *
-     * @param   string  $pattern  The pattern for search
+     * @param   string  $path     The directory to search in, taken literally
+     * @param   string  $pattern  The glob pattern for the file names
      * @param   int     $flags    Flags for search
      *
      * @return  array
      *
      * @since   4.0.0
      */
-    private function rglob(string $pattern, int $flags = 0): array
+    private function rglob(string $path, string $pattern, int $flags = 0): array
     {
-        $files = glob($pattern, $flags);
+        $files = glob($this->escapeGlob($path) . '/' . $pattern, $flags);
 
-        foreach (glob(\dirname($pattern) . '/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
-            $files = array_merge($files, $this->rglob($dir . '/' . $this->getFileName($pattern), $flags));
+        foreach (glob($this->escapeGlob($path) . '/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
+            $files = array_merge($files, $this->rglob($dir, $pattern, $flags));
         }
 
         return $files;
+    }
+
+    /**
+     * Escape the glob metacharacters of a string, so that glob() matches it literally
+     *
+     * @param   string  $value  The string to escape
+     *
+     * @return  string
+     *
+     * @since   6.2.1
+     */
+    private function escapeGlob(string $value): string
+    {
+        return addcslashes($value, '*?[]{}\\');
     }
 
     /**
