@@ -111,6 +111,13 @@ abstract class InstallerHelper
             return false;
         }
 
+        // Detect HTML error or challenge pages (e.g. CAPTCHA, firewall block) returned instead of packages
+        if (self::isHtmlResponse($response)) {
+            Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_HTML_RESPONSE', $url), Log::WARNING, 'installer');
+
+            return false;
+        }
+
         // Parse the Content-Disposition header to get the file name
         if (
             !empty($headers['content-disposition'])
@@ -371,5 +378,45 @@ abstract class InstallerHelper
         }
 
         return self::HASH_NOT_PROVIDED;
+    }
+
+    /**
+     * Checks if a download response is an HTML page (e.g. CAPTCHA or firewall block).
+     *
+     * @param   \Joomla\Http\Response  $response  The HTTP response object.
+     *
+     * @return  boolean  True if the response is confirmed HTML, false otherwise.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function isHtmlResponse($response): bool
+    {
+        $headers = array_change_key_case($response->getHeaders(), CASE_LOWER);
+
+        if (!empty($headers['content-type'])) {
+            $contentType = \is_array($headers['content-type'])
+                ? $headers['content-type'][0]
+                : $headers['content-type'];
+
+            if (preg_match('#\b(text/html|application/xhtml\+xml)\b#i', $contentType)) {
+                return true;
+            }
+        }
+
+        $body = (string) $response->getBody();
+
+        if ($body !== '') {
+            $bodyStart = strtolower(ltrim(substr($body, 0, 1024)));
+
+            if (
+                str_starts_with($bodyStart, '<!doctype html')
+                || str_starts_with($bodyStart, '<html')
+                || str_starts_with($bodyStart, '<head')
+            ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
