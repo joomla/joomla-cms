@@ -393,10 +393,10 @@ class User
             // Check for the configuration file failsafe.
             $rootUser = Factory::getApplication()->get('root_user');
 
-            // The root_user variable can be a numeric user ID or a username.
-            if (is_numeric($rootUser) && $this->id > 0 && $this->id == $rootUser) {
+            // The root_user variable can be a user ID (integer) or a username (string).
+            if (\is_int($rootUser) && $this->id > 0 && $this->id === $rootUser) {
                 $this->isRoot = true;
-            } elseif ($this->username && $this->username == $rootUser) {
+            } elseif (\is_string($rootUser) && $this->username && $this->username === $rootUser) {
                 $this->isRoot = true;
             } elseif ($this->id > 0) {
                 // Get all groups against which the user is mapped.
@@ -730,7 +730,8 @@ class User
             }
 
             // Get the old user
-            $oldUser = new User($this->id);
+            $oldUser         = new User($this->id);
+            $passwordChanged = !$isNew && $this->password !== $oldUser->password;
 
             // Access Checks
 
@@ -763,8 +764,9 @@ class User
                 }
             }
 
-            // Unset the activation token, if the mail address changes - that affects both, activation and PW resets
-            if ($this->email !== $oldUser->email && $this->id !== 0 && !empty($this->activation) && !$this->block) {
+            // Unset the activation token, if the mail address or the password changes - that affects both, activation and PW resets.
+            // A blocked user (pending registration activation) keeps the token.
+            if (!$isNew && !empty($this->activation) && !$this->block && ($passwordChanged || $this->email !== $oldUser->email)) {
                 $table->activation = '';
             }
 

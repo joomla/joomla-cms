@@ -109,6 +109,22 @@ class Query
     public $highlight = [];
 
     /**
+     * The tokens whose data has been loaded already.
+     *
+     * @var    \WeakMap|null
+     * @since  6.2.1
+     */
+    private $loadedTokens;
+
+    /**
+     * The tokens which have been added to the included tokens already.
+     *
+     * @var    \WeakMap|null
+     * @since  6.2.1
+     */
+    private $includedTokens;
+
+    /**
      * The number of matching terms for the query input.
      *
      * @var    integer
@@ -978,8 +994,7 @@ class Query
                     $token->required = true;
 
                     // Add the current token to the stack.
-                    $this->included[] = $token;
-                    $this->highlight  = array_merge($this->highlight, array_keys($token->matches));
+                    $this->addIncluded($token);
 
                     // Skip the next token (the mode operator).
                     $this->operators[] = $terms[$i + 1];
@@ -996,8 +1011,7 @@ class Query
                     $other->required = true;
 
                     // Add the token after the next token to the stack.
-                    $this->included[] = $other;
-                    $this->highlight  = array_merge($this->highlight, array_keys($other->matches));
+                    $this->addIncluded($other);
 
                     // Remove the processed phrases if possible.
                     if (($pk = array_search($terms[$i], $phrases, true)) !== false) {
@@ -1035,8 +1049,7 @@ class Query
 
                     // Add the current token to the stack.
                     if ((bool) $token->matches) {
-                        $this->included[] = $token;
-                        $this->highlight  = array_merge($this->highlight, array_keys($token->matches));
+                        $this->addIncluded($token);
                     } else {
                         $this->ignored[] = $token;
                     }
@@ -1056,8 +1069,7 @@ class Query
 
                     // Add the token after the next token to the stack.
                     if ((bool) $other->matches) {
-                        $this->included[] = $other;
-                        $this->highlight  = array_merge($this->highlight, array_keys($other->matches));
+                        $this->addIncluded($other);
                     } else {
                         $this->ignored[] = $other;
                     }
@@ -1102,8 +1114,7 @@ class Query
 
                 // Add the token after the next token to the stack.
                 if ((bool) $other->matches) {
-                    $this->included[] = $other;
-                    $this->highlight  = array_merge($this->highlight, array_keys($other->matches));
+                    $this->addIncluded($other);
                 } else {
                     $this->ignored[] = $other;
                 }
@@ -1187,8 +1198,7 @@ class Query
             $token->required = true;
 
             // Add the current token to the stack.
-            $this->included[] = $token;
-            $this->highlight  = array_merge($this->highlight, array_keys($token->matches));
+            $this->addIncluded($token);
 
             // Remove the processed term if possible.
             if (($pk = array_search($phrases[$i], $terms, true)) !== false) {
@@ -1211,7 +1221,18 @@ class Query
             $tokens = \is_array($tokens) ? $tokens : [$tokens];
 
             // Get the token data and required state for all the tokens.
+            $processed = [];
+
             foreach ($tokens as $token) {
+                // Helper::tokenize() returns the same cached Token object for repeated words. Process each one only once.
+                $tokenId = spl_object_id($token);
+
+                if (isset($processed[$tokenId])) {
+                    continue;
+                }
+
+                $processed[$tokenId] = true;
+
                 // Get the token data.
                 $token = $this->getTokenData($token);
 
@@ -1228,8 +1249,7 @@ class Query
 
                 // Add the token to the appropriate stack.
                 if ($token->required || (bool) $token->matches) {
-                    $this->included[] = $token;
-                    $this->highlight  = array_merge($this->highlight, array_keys($token->matches));
+                    $this->addIncluded($token);
                 } else {
                     $this->ignored[] = $token;
                 }
@@ -1237,6 +1257,31 @@ class Query
         }
 
         return true;
+    }
+
+    /**
+     * Method to add a token to the included tokens and to the terms to highlight. A token which is
+     * included already is not added a second time, Helper::tokenize() returns the same cached Token
+     * object for a repeated word and adding it again would only make the later processing
+     * slower with every repetition in the search query.
+     *
+     * @param   Token  $token  A Token object.
+     *
+     * @return  void
+     *
+     * @since   6.2.1
+     */
+    private function addIncluded($token): void
+    {
+        $this->includedTokens ??= new \WeakMap();
+
+        if (isset($this->includedTokens[$token])) {
+            return;
+        }
+
+        $this->includedTokens[$token] = true;
+        $this->included[]             = $token;
+        $this->highlight              = array_merge($this->highlight, array_keys($token->matches));
     }
 
     /**
@@ -1256,6 +1301,18 @@ class Query
      */
     protected function getTokenData($token)
     {
+        /*
+         * Helper::tokenize() returns the same cached Token object for a repeated word. Load the data of
+         * a token only once, otherwise its matches grow with every repetition in the search query.
+         */
+        $this->loadedTokens ??= new \WeakMap();
+
+        if (isset($this->loadedTokens[$token])) {
+            return $token;
+        }
+
+        $this->loadedTokens[$token] = true;
+
         // Get the database object.
         $db = $this->getDatabase();
 

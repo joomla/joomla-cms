@@ -66,7 +66,10 @@ class ArticlesPopularHelper
      */
     public function getArticles(Registry $moduleParams, SiteApplication $app)
     {
-        $cacheKey = md5(serialize([$moduleParams->toString(), $this->module->module, $this->module->id]));
+        $access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
+        $authorised = Access::getAuthorisedViewLevels($app->getIdentity()->id);
+
+        $cacheKey = md5(serialize([$moduleParams->toString(), $this->module->module, $this->module->id, $access, $authorised]));
 
         /** @var OutputController $cache */
         $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
@@ -93,7 +96,6 @@ class ArticlesPopularHelper
             $articlesModel->setState('load_tags', false);
 
             // Access filter
-            $access = !ComponentHelper::getParams('com_content')->get('show_noauth');
             $articlesModel->setState('filter.access', $access);
 
             // Category filter
@@ -121,7 +123,7 @@ class ArticlesPopularHelper
             $items      = [];
             $itemParams = new \stdClass();
 
-            $itemParams->authorised = Access::getAuthorisedViewLevels($app->getIdentity()->id);
+            $itemParams->authorised = $authorised;
             $itemParams->access     = $access;
 
             foreach ($articlesModel->getItems() as $item) {
