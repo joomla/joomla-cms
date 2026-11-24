@@ -148,7 +148,9 @@ class InputFilter extends BaseInputFilter
      */
     public function emailToPunycode($text)
     {
-        $pattern = '/(("mailto:)+[\w\.\-\+]+\@[^"?]+\.+[^."?]+("|\?))/';
+        // A single dot (not "\.+") keeps the split between the domain and the last label unambiguous, so matching stays linear.
+        // The lookbehind starts a match only at the first of several repeated prefixes, a later start cannot succeed when the first failed.
+        $pattern = '/((?<!"mailto:)("mailto:)+[\w\.\-\+]+\@[^"?]+\.[^."?]+("|\?))/';
 
         if (preg_match_all($pattern, $text, $matches)) {
             foreach ($matches[0] as $match) {

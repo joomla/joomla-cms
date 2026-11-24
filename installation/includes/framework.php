@@ -20,11 +20,11 @@ if (
     exit();
 }
 
-// Import the Joomla Platform.
-require_once JPATH_LIBRARIES . '/bootstrap.php';
-
 // Ensure sensible default for JDEBUG is set.
 \define('JDEBUG', ($_ENV['JOOMLA_DEBUG'] ?? '') === '1');
+
+// Import the Joomla Platform.
+require_once JPATH_LIBRARIES . '/bootstrap.php';
 
 // If debug mode enabled, set new Exception handler with debug enabled.
 if (JDEBUG) {

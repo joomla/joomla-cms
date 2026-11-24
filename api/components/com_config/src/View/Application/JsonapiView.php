@@ -43,7 +43,10 @@ class JsonapiView extends BaseApiView
         $model = $this->getModel();
         $items = [];
 
-        foreach ($model->getData() as $key => $value) {
+        // Never return secrets like the database password, the site secret or the SMTP credentials
+        $data = array_diff_key($model->getData(), array_flip($model->getProtectedConfigurationFields()));
+
+        foreach ($data as $key => $value) {
             $item    = (object) [$key => $value];
             $items[] = $this->prepareItem($item);
         }
