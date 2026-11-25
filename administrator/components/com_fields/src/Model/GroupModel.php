@@ -18,6 +18,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -58,6 +59,13 @@ class GroupModel extends AdminModel
      */
     public function save($data)
     {
+        // The user must manage the component of the context the record is saved in
+        if (!$this->canSaveContext($data)) {
+            $this->setError(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+
+            return false;
+        }
+
         // Alter the title for save as copy
         $input = Factory::getApplication()->getInput();
 
@@ -142,6 +150,109 @@ class GroupModel extends AdminModel
     }
 
     /**
+     * Method to check that a field group may be saved: it must keep its stored context and the user must
+     * manage the component of the context, the request context alone is not enough.
+     *
+     * @param   array  $data  The form data.
+     *
+     * @return  boolean  True if the field group may be saved.
+     *
+     * @since   6.2.1
+     */
+    protected function canSaveContext(array $data): bool
+    {
+        $context  = isset($data['context']) && \is_string($data['context']) ? $data['context'] : '';
+        $recordId = isset($data['id']) ? (int) $data['id'] : 0;
+
+        if ($recordId) {
+            $table = $this->getTable();
+
+            if ($table->load($recordId)) {
+                // An existing field group must not be moved into another context
+                if ($context !== '' && $context !== $table->context) {
+                    return false;
+                }
+
+                $context = (string) $table->context;
+            }
+        }
+
+        if ($context === '') {
+            $context = (string) $this->getState('filter.context');
+        }
+
+        return $this->canManageContext($context);
+    }
+
+    /**
+     * Method to check that the current user may manage the component of a context.
+     *
+     * @param   ?string  $context  The context, e.g. com_content.article.
+     *
+     * @return  boolean  True if the user has core.manage on the component of the context.
+     *
+     * @since   6.2.1
+     */
+    protected function canManageContext(?string $context): bool
+    {
+        $component = explode('.', (string) $context)[0];
+
+        return $component !== '' && $this->getCurrentUser()->authorise('core.manage', $component);
+    }
+
+    /**
+     * Method to perform batch operations on a set of field groups.
+     *
+     * Every field group must belong to a component the user may manage, before any batch command runs.
+     *
+     * @param   array  $commands  An array of commands to perform.
+     * @param   array  $pks       An array of item ids.
+     * @param   array  $contexts  An array of item contexts.
+     *
+     * @return  boolean  Returns true on success, false on failure.
+     *
+     * @since   6.2.1
+     */
+    public function batch($commands, $pks, $contexts)
+    {
+        if (!$this->canManageRecords((array) $pks)) {
+            $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
+            return false;
+        }
+
+        return parent::batch($commands, $pks, $contexts);
+    }
+
+    /**
+     * Method to check that every field group exists and belongs to a component the user may manage.
+     *
+     * @param   array  $pks  An array of item ids.
+     *
+     * @return  boolean  True if the user may manage all field groups.
+     *
+     * @since   6.2.1
+     */
+    protected function canManageRecords(array $pks): bool
+    {
+        $table = $this->getTable();
+
+        foreach (ArrayHelper::toInteger($pks) as $pk) {
+            if (!$pk) {
+                continue;
+            }
+
+            $table->reset();
+
+            if (!$table->load($pk) || !$this->canManageContext($table->context)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Method to test whether a record can be deleted.
      *
      * @param   object  $record  A record object.
@@ -152,7 +263,7 @@ class GroupModel extends AdminModel
      */
     protected function canDelete($record)
     {
-        if (empty($record->id) || $record->state != -2) {
+        if (empty($record->id) || $record->state != -2 || !$this->canManageContext($record->context ?? '')) {
             return false;
         }
 
@@ -173,6 +284,11 @@ class GroupModel extends AdminModel
      */
     protected function canEditState($record)
     {
+        // The user must manage the component of the record, not only the one of the request
+        if (!$this->canManageContext($record->context ?? '')) {
+            return false;
+        }
+
         $user = $this->getCurrentUser();
 
         $component = explode('.', $record->context)[0];

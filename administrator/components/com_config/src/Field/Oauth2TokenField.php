@@ -49,16 +49,15 @@ class Oauth2TokenField extends FormField
      */
     protected function getInput()
     {
-
         $formData      = $this->form->getData();
         $clientId      = (string) $formData->get('smtp_oauth2_client_id');
-        $refreshToken  = (string) $formData->get('smtp_oauth2_refresh_token');
+        $refreshToken  = (string) $this->getAttribute('refreshToken');
         $tokenIssuedAt = (string) $formData->get('smtp_oauth2_token_issued_at');
 
         $data = $this->getLayoutData();
 
         $data['clientId']      = $clientId;
-        $data['refreshToken']  = !empty($refreshToken);
+        $data['refreshToken']  = strtolower($refreshToken) === 'true';
         $data['tokenIssuedAt'] = $tokenIssuedAt;
         $data['callbackUrl']   = Uri::base() . 'index.php?option=com_config&task=mail.oauth2callback&format=raw';
         $data['issueUrl']      = 'index.php?option=com_config&task=mail.oauth2auth';

@@ -13,6 +13,7 @@ namespace Joomla\Component\Contact\Site\Helper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\Component\Categories\Administrator\Helper\CategoryAssociationHelper;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -41,18 +42,51 @@ abstract class AssociationHelper extends CategoryAssociationHelper
         $view   ??= $jinput->get('view');
         $id     = empty($id) ? $jinput->getInt('id') : $id;
 
-        if ($view === 'contact') {
-            if ($id) {
-                $associations = Associations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $id);
+        if ($view === 'contact' && $id) {
+            $user      = Factory::getApplication()->getIdentity();
+            $groups    = implode(',', $user->getAuthorisedViewLevels());
+            $db        = Factory::getContainer()->get(DatabaseInterface::class);
+            $advClause = [];
 
-                $return = [];
+            // Filter by user groups
+            $advClause[] = 'c2.access IN (' . $groups . ')';
 
-                foreach ($associations as $tag => $item) {
-                    $return[$tag] = RouteHelper::getContactRoute($item->id, (int) $item->catid, $item->language);
-                }
+            // Filter by current language
+            $advClause[] = 'c2.language != ' . $db->quote(Factory::getApplication()->getLanguage()->getTag());
 
-                return $return;
+            if (!$user->authorise('core.edit.state', 'com_contact') && !$user->authorise('core.edit', 'com_contact')) {
+                // Filter by start and end dates.
+                $date = Factory::getDate();
+
+                $nowDate = $db->quote($date->toSql());
+
+                $advClause[] = '(c2.publish_up IS NULL OR c2.publish_up <= ' . $nowDate . ')';
+                $advClause[] = '(c2.publish_down IS NULL OR c2.publish_down >= ' . $nowDate . ')';
+
+                // Filter by published
+                $advClause[] = 'c2.published = 1';
             }
+
+            $associations = Associations::getAssociations(
+                'com_contact',
+                '#__contact_details',
+                'com_contact.item',
+                (array) $id,
+                'id',
+                'alias',
+                'catid',
+                $advClause
+            );
+
+            $return = [];
+
+            foreach ($associations as $itemId => $itemAssociations) {
+                foreach ($itemAssociations as $tag => $item) {
+                    $return[$itemId][$tag] = RouteHelper::getContactRoute($item->id, (int) $item->catid, $item->language);
+                }
+            }
+
+            return \is_array($id) ? $return : ($return[$id] ?? []);
         }
 
         if ($view === 'category' || $view === 'categories') {
