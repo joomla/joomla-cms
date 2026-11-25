@@ -18,6 +18,10 @@ use Joomla\Database\QueryInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Prototype debug adapter class for the Finder indexer package.
  * THIS CLASS IS ONLY TO BE USED FOR DEBUGGING PURPOSES! DON'T

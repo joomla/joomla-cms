@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Event\Mail;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Class for MailTemplate events
  * Example:

@@ -16,6 +16,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Editor provider class
  *

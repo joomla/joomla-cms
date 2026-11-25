@@ -12,6 +12,10 @@ namespace Joomla\CMS\Event\Editor;
 use Joomla\CMS\Editor\Button\ButtonsRegistryInterface;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Editor setup event
  *
