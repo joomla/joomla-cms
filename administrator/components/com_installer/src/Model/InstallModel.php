@@ -428,10 +428,10 @@ class InstallModel extends BaseDatabaseModel
             unset($update);
         }
         try {
-        // Download the package at the URL given.
+            // Download the package at the URL given.
             $p_file = InstallerHelper::downloadPackage($url);
         } catch (\RuntimeException $exception) {
-        // Was the package downloaded?
+            // Was the package downloaded?
             Factory::getApplication()->enqueueMessage(
                 $exception->getMessage(),
                 'error'
