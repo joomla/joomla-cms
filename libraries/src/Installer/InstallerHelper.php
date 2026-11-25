@@ -67,6 +67,7 @@ abstract class InstallerHelper
      * @return  string|boolean  Path to downloaded package or boolean false on failure
      *
      * @since   3.1
+     * @throws  \RuntimeException
      */
     public static function downloadPackage($url, $target = false)
     {
@@ -138,7 +139,7 @@ abstract class InstallerHelper
         if (!$res) {
             Log::add(Text::_('JLIB_INSTALLER_ABORT_DISK_FULL'), Log::WARNING, 'jerror');
 
-            return false;
+            throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_DISK_FULL'));
         }
 
         // Bump the max execution time because not using built in php zip libs are slow

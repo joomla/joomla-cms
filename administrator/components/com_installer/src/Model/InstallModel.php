@@ -427,11 +427,19 @@ class InstallModel extends BaseDatabaseModel
 
             unset($update);
         }
-
+        try {
         // Download the package at the URL given.
-        $p_file = InstallerHelper::downloadPackage($url);
-
+            $p_file = InstallerHelper::downloadPackage($url);
+        } catch (\RuntimeException $exception) {
         // Was the package downloaded?
+            Factory::getApplication()->enqueueMessage(
+                $exception->getMessage(),
+                'error'
+            );
+
+            return false;
+        }
+
         if (!$p_file) {
             Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'error');
 
