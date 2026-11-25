@@ -89,6 +89,85 @@ describe('Install Joomla', () => {
     cy.get('#installStep3').should('be.visible');
   });
 
+  it('shows a meaningful error and keeps the database step on wrong database credentials', () => {
+    cy.task('deleteRelativePath', 'configuration.php');
+    cy.visit('/installation/index.php');
+    cy.get('#jform_site_name').clear().type(Cypress.expose('sitename'));
+    cy.get('#step1').click();
+    cy.get('#jform_admin_user').clear().type(Cypress.expose('name'));
+    cy.get('#jform_admin_username').clear().type(Cypress.expose('username'));
+    cy.get('#jform_admin_email').clear().type(Cypress.expose('email'));
+    cy.get('#jform_admin_password').clear().type(Cypress.expose('password'));
+    cy.get('#step2').click();
+    cy.get('#installStep3').should('be.visible');
+
+    cy.get('#jform_db_type').select('mysqli');
+    cy.get('#jform_db_host').clear().type(Cypress.expose('db_host'));
+    cy.get('#jform_db_user').clear().type(Cypress.expose('db_user'));
+    cy.get('#jform_db_pass').clear().type('this-is-not-the-password');
+    cy.get('#jform_db_name').clear().type(Cypress.expose('db_name'));
+    cy.get('#setupButton').click();
+
+    // The error message from the server is shown and the database step is revealed again
+    cy.contains('Could not connect to the database');
+    cy.get('#installStep3').should('be.visible');
+    cy.get('#jform_db_name').should('have.value', Cypress.expose('db_name'));
+  });
+
+  it('handles an unexpected non-JSON server response without leaking its content', () => {
+    cy.task('deleteRelativePath', 'configuration.php');
+    cy.visit('/installation/index.php');
+    cy.get('#jform_site_name').clear().type(Cypress.expose('sitename'));
+    cy.get('#step1').click();
+    cy.get('#jform_admin_user').clear().type(Cypress.expose('name'));
+    cy.get('#jform_admin_username').clear().type(Cypress.expose('username'));
+    cy.get('#jform_admin_email').clear().type(Cypress.expose('email'));
+    cy.get('#jform_admin_password').clear().type(Cypress.expose('password'));
+    cy.get('#step2').click();
+    cy.get('#installStep3').should('be.visible');
+
+    // Simulate a server error returning an HTML page instead of the expected JSON
+    cy.get('#jform_db_user').clear().type(Cypress.expose('db_user'));
+    cy.get('#jform_db_name').clear().type(Cypress.expose('db_name'));
+
+    cy.intercept('POST', /installation\/index\.php\?task=installation\.dbcheck/, {
+      statusCode: 503,
+      headers: { 'Content-Type': 'text/html' },
+      body: '<!DOCTYPE html><html><body>simulated-proxy-error-leaked-content</body></html>',
+    }).as('dbcheck');
+
+    cy.get('#setupButton').click();
+    cy.wait('@dbcheck');
+
+    cy.contains('unexpected HTTP status code: 503');
+    cy.get('#installStep3').should('be.visible');
+    cy.contains('simulated-proxy-error-leaked-content').should('not.exist');
+  });
+
+  it('keeps the database prefix when navigating back and forth between steps', () => {
+    cy.task('deleteRelativePath', 'configuration.php');
+    cy.visit('/installation/index.php');
+    cy.get('#jform_site_name').clear().type(Cypress.expose('sitename'));
+    cy.get('#step1').click();
+    cy.get('#jform_admin_user').clear().type(Cypress.expose('name'));
+    cy.get('#jform_admin_username').clear().type(Cypress.expose('username'));
+    cy.get('#jform_admin_email').clear().type(Cypress.expose('email'));
+    cy.get('#jform_admin_password').clear().type(Cypress.expose('password'));
+    cy.get('#step2').click();
+    cy.get('#installStep3').should('be.visible');
+
+    cy.get('#jform_db_prefix').clear().type('cus_');
+    cy.get('.previous-step[data-previous="installStep2"]').click();
+    cy.get('#installStep2').should('be.visible');
+    cy.get('.previous-step[data-previous="installStep1"]').click();
+    cy.get('#installStep1').should('be.visible');
+    cy.get('#step1').click();
+    cy.get('#jform_admin_user').should('have.value', Cypress.expose('name'));
+    cy.get('#step2').click();
+    cy.get('#installStep3').should('be.visible');
+    cy.get('#jform_db_prefix').should('have.value', 'cus_');
+  });
+
   it('Install Joomla', () => {
     const config = {
       sitename: Cypress.expose('sitename'),
