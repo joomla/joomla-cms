@@ -14,9 +14,7 @@ use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The Joomla Core confirm consent plugin

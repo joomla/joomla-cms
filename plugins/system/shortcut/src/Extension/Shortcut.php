@@ -21,9 +21,7 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Shortcut plugin to add accessible keyboard shortcuts to the administrator templates.

@@ -18,9 +18,7 @@ use Joomla\CMS\Tag\TagServiceInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Tags Component Tags Model

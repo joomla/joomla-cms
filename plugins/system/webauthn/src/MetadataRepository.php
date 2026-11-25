@@ -16,9 +16,7 @@ use Lcobucci\JWT\Token\Plain;
 use Webauthn\MetadataService\MetadataStatementRepository;
 use Webauthn\MetadataService\Statement\MetadataStatement;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Authenticator metadata repository.

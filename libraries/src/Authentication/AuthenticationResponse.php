@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Authentication;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Authentication response class, provides an object for storing user and error details

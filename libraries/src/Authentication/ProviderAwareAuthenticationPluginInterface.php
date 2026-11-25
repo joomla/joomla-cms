@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Authentication;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface class defining the necessary methods for an authentication plugin to be provider aware

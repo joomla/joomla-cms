@@ -16,9 +16,7 @@ use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Content Component Archive Model

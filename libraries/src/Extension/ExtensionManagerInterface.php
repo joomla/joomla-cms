@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Extension;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Loads extensions.

@@ -11,9 +11,7 @@ namespace Joomla\CMS\Editor;
 
 use Joomla\CMS\Editor\Exception\EditorNotFoundException;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface for Editor Registry classes

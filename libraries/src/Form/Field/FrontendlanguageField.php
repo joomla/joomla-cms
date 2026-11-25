@@ -11,9 +11,7 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Factory;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Provides a list of published content languages with home pages

@@ -19,9 +19,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Filter\InputFilter;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla Token Authentication plugin

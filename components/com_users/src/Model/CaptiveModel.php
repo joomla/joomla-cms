@@ -10,9 +10,7 @@
 
 namespace Joomla\Component\Users\Site\Model;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Captive Multi-factor Authentication page's model

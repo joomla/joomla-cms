@@ -14,9 +14,7 @@ use DebugBar\HttpDriverInterface;
 use Joomla\Application\WebApplicationInterface;
 use Joomla\CMS\Application\CMSApplicationInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla HTTP driver for DebugBar

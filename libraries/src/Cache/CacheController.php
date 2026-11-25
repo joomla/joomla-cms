@@ -12,9 +12,7 @@ namespace Joomla\CMS\Cache;
 use Joomla\CMS\Factory;
 use Joomla\Filesystem\Path;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Public cache handler

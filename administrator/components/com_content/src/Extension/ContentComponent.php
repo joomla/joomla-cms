@@ -38,9 +38,7 @@ use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 use Joomla\Database\DatabaseInterface;
 use Psr\Container\ContainerInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Component class for com_content

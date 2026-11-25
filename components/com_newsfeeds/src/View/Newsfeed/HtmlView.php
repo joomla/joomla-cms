@@ -20,9 +20,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 use Joomla\Component\Newsfeeds\Site\Model\NewsfeedModel;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML View class for the Newsfeeds component

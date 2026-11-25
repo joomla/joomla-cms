@@ -15,9 +15,7 @@ use Joomla\CMS\Feed\FeedLink;
 use Joomla\CMS\Feed\FeedParser;
 use Joomla\CMS\Feed\FeedPerson;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * RSS Feed Parser class.

@@ -53,9 +53,7 @@ function insertDefineOrDie($file, $keyword)
 
     array_splice($currentcontent, $insert + 1, $distance, [
         \chr(10),
-        "// phpcs:disable PSR1.Files.SideEffects" . \chr(10),
         "\defined('" . $keyword . "') or die;" . \chr(10),
-        "// phpcs:enable PSR1.Files.SideEffects" . \chr(10),
     ]);
 
     file_put_contents($realfile, implode('', $currentcontent));

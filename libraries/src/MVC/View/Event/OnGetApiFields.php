@@ -11,9 +11,7 @@ namespace Joomla\CMS\MVC\View\Event;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Event for getting extra API Fields and Relations to render with an entity

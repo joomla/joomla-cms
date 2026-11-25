@@ -16,9 +16,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Menu;
 use Joomla\CMS\Table\Table;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Menu associations helper.

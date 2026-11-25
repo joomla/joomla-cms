@@ -31,9 +31,7 @@ use Joomla\Session\HandlerInterface;
 use Joomla\Session\SessionEvents;
 use Joomla\Session\Storage\RuntimeStorage;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Service provider for the application's session dependency

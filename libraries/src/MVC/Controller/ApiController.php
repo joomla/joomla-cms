@@ -24,9 +24,7 @@ use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Base class for a Joomla API Controller

@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Editor\Exception;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Exception class defining a missing element

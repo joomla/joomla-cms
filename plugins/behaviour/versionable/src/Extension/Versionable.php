@@ -20,9 +20,7 @@ use Joomla\CMS\Versioning\Versioning;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Filter\InputFilter;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Implements the Versionable behaviour which allows extensions to automatically support content history for their content items.

@@ -12,9 +12,7 @@ namespace Joomla\CMS\Helper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Admin Component Public Folder Generator Helper

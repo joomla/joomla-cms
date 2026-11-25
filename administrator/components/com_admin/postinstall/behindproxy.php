@@ -15,9 +15,7 @@ use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Notifies users of the new Behind Load Balancer option in Global Config, if we detect they might be behind a proxy

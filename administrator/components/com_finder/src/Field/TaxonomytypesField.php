@@ -12,9 +12,7 @@ namespace Joomla\Component\Finder\Administrator\Field;
 
 use Joomla\CMS\Form\Field\CheckboxesField;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Taxonomy Types field for the Finder package.

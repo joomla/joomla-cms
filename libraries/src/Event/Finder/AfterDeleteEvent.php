@@ -11,9 +11,7 @@ namespace Joomla\CMS\Event\Finder;
 
 use Joomla\CMS\Event\Model\DeleteEvent;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Class for Model event.

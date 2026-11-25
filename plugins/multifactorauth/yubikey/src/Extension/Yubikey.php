@@ -30,9 +30,7 @@ use Joomla\Http\HttpFactory;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Multi-factor Authentication using Yubikey Plugin

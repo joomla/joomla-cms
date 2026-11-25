@@ -11,9 +11,7 @@ namespace Joomla\CMS\Error\JsonApi;
 
 use Tobscure\JsonApi\Exception\Handler\ResponseBag;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Handler for invalid param

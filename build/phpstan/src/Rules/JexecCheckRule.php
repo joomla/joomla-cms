@@ -11,6 +11,7 @@
 namespace Joomla\PHPStan\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\BinaryOp\BooleanOr;
 use PhpParser\Node\Expr\BinaryOp\LogicalOr;
 use PhpParser\Node\Expr\Exit_;
 use PhpParser\Node\Expr\FuncCall;
@@ -32,6 +33,11 @@ use PHPStan\Rules\RuleErrorBuilder;
  */
 class JexecCheckRule implements Rule
 {
+    /**
+     * The exact code of the check.
+     */
+    private const CHECK = "\\defined('_JEXEC') or die;";
+
     public function getNodeType(): string
     {
         return FileNode::class;
@@ -72,7 +78,19 @@ class JexecCheckRule implements Rule
         }
 
         if ($first !== null && $this->isJexecCheck($first)) {
-            return [];
+            $lines = file($scope->getFile(), FILE_IGNORE_NEW_LINES);
+            $code  = implode("\n", \array_slice($lines, $first->getStartLine() - 1, $first->getEndLine() - $first->getStartLine() + 1));
+
+            if ($code === self::CHECK) {
+                return [];
+            }
+
+            return [
+                RuleErrorBuilder::message(\sprintf('The _JEXEC check must be written exactly as %s', self::CHECK))
+                    ->identifier('joomla.jexecCheck')
+                    ->line($first->getStartLine())
+                    ->build(),
+            ];
         }
 
         return [
@@ -89,7 +107,10 @@ class JexecCheckRule implements Rule
      */
     private function isJexecCheck(Stmt $statement): bool
     {
-        if (!$statement instanceof Stmt\Expression || !$statement->expr instanceof LogicalOr) {
+        if (
+            !$statement instanceof Stmt\Expression
+            || (!$statement->expr instanceof LogicalOr && !$statement->expr instanceof BooleanOr)
+        ) {
             return false;
         }
 

@@ -11,9 +11,7 @@ namespace Joomla\CMS\TUF;
 
 use Tuf\Exception\TufException;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * @since  5.1.1

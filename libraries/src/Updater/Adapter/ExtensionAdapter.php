@@ -18,9 +18,7 @@ use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Version;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Extension class for updater

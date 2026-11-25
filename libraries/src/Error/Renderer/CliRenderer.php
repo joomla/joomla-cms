@@ -11,9 +11,7 @@ namespace Joomla\CMS\Error\Renderer;
 
 use Joomla\CMS\Error\AbstractRenderer;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Cli error renderer

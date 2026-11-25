@@ -31,9 +31,7 @@ use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Installation Application class.

@@ -18,9 +18,7 @@ use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Utility class for all HTML drawing classes

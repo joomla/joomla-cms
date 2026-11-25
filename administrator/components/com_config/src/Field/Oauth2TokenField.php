@@ -10,9 +10,7 @@
 
 namespace Joomla\Component\Config\Administrator\Field;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Uri\Uri;

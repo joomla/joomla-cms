@@ -11,9 +11,7 @@ namespace Joomla\CMS\MVC\View;
 
 use Joomla\Registry\Registry;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * A simple state holder class. This class acts for transition from CMSObject to Registry

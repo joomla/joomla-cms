@@ -18,9 +18,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Version;
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Update's Default View

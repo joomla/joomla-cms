@@ -22,9 +22,7 @@ use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The extension plugin for com_joomlaupdate

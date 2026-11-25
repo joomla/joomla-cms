@@ -11,7 +11,7 @@
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /*
  * The items of a changelog come from a remote server and may contain HTML (see the documentation of the

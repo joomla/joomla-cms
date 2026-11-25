@@ -12,9 +12,7 @@ namespace Joomla\CMS\Event\Plugin\System\Schemaorg;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\Registry\Registry;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Class for SchemaBeforeCompileHeadEvent event

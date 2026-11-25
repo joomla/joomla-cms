@@ -14,9 +14,7 @@ use Joomla\CMS\Form\FormFilterInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Form Filter class for integer arrays

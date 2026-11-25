@@ -18,9 +18,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\Uri\Uri;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Displays the custom error page when an uncaught exception occurs.

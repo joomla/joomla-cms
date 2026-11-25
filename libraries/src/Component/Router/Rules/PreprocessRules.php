@@ -13,9 +13,7 @@ use Joomla\CMS\Component\Router\RouterViewConfiguration;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Rule to prepare the query and add missing information

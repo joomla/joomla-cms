@@ -31,9 +31,7 @@ use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 use Joomla\Database\Exception\ExecutionFailureException;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Request model class.

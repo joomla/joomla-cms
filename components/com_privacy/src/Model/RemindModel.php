@@ -19,9 +19,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Remind confirmation model class.

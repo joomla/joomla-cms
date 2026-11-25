@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Event;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * This class gives a concrete implementation of the AbstractEvent class.

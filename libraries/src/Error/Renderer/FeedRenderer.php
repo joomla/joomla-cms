@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Error\Renderer;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * RSS/Atom feed error page renderer

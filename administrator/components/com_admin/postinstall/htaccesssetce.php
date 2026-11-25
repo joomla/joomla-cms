@@ -11,9 +11,7 @@
  * in the default .htaccess file regarding setting the Content-Encoding header.
  */
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Notifies users of a change in the default .htaccess file regarding setting the Content-Encoding header

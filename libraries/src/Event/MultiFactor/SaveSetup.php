@@ -16,9 +16,7 @@ use Joomla\CMS\Event\Result\ResultTypeArrayAware;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Input\Input;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Concrete Event class for the onUserMultifactorSaveSetup event

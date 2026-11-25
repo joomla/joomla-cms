@@ -12,9 +12,7 @@ namespace Joomla\CMS\Event\Table;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Table\TableInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Event class for the Table's events

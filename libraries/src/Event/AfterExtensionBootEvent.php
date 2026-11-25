@@ -11,9 +11,7 @@ namespace Joomla\CMS\Event;
 
 use Joomla\DI\Container;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Event class for representing the extensions's `onBeforeExtensionBoot` event

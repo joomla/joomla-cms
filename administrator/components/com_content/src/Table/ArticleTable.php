@@ -10,9 +10,7 @@
 
 namespace Joomla\Component\Content\Administrator\Table;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Article table

@@ -13,9 +13,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\ReshapeArgumentsAware;
 use Joomla\CMS\Mail\MailTemplate;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Base class for MailTemplate events

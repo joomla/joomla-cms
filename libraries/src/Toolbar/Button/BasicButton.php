@@ -11,9 +11,7 @@ namespace Joomla\CMS\Toolbar\Button;
 
 use Joomla\CMS\Toolbar\ToolbarButton;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Renders a basic button.

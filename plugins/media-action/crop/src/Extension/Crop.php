@@ -15,9 +15,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\Component\Media\Administrator\Plugin\MediaActionPlugin;
 use Joomla\Event\SubscriberInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Media Manager Crop Action

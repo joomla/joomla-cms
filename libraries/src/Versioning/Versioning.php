@@ -18,9 +18,7 @@ use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Database\ParameterType;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Handle the versioning of content items

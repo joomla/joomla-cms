@@ -15,9 +15,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\Registry\Registry;
 use Joomla\Uri\Uri;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper for mod_guidedtours

@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Session;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Manager for interacting with the session handler to perform updates on sessions.

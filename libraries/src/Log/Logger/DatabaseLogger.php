@@ -15,9 +15,7 @@ use Joomla\CMS\Log\Logger;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseFactory;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! MySQL Database Log class

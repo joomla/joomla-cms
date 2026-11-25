@@ -11,9 +11,7 @@ namespace Joomla\CMS\Extension;
 
 use Joomla\Event\DispatcherAwareInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Access to plugin specific services.

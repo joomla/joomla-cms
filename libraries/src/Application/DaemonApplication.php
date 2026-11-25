@@ -19,9 +19,7 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Class to turn CliApplication applications into daemons.  It requires CLI and PCNTL support built into PHP.

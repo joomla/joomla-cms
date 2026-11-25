@@ -11,9 +11,7 @@ namespace Joomla\CMS\HTML\Helpers;
 
 use Joomla\CMS\Factory;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Utility class for the Joomla core UI Tab element.

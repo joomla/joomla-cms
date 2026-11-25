@@ -10,7 +10,7 @@
 
 use Joomla\CMS\Language\Text;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /** @var \Joomla\Component\Config\Administrator\View\Application\HtmlView $this */
 ?>

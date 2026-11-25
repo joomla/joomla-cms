@@ -11,9 +11,7 @@ namespace Joomla\CMS\Event\Result;
 
 use Joomla\Event\Event as BaseEvent;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * This Trait partially implements the ResultAwareInterface for mutable and immutable events.

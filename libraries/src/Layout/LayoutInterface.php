@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Layout;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface to handle display layout

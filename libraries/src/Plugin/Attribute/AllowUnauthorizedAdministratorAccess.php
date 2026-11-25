@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Plugin\Attribute;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * This attribute allows the plugin listener to handle AJAX requests in the backend of the site,

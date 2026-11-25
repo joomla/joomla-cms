@@ -14,9 +14,7 @@ use Joomla\CMS\Event\CustomFields\BeforePrepareFieldEvent;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin;
 use Joomla\Event\SubscriberInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Fields Checkboxes Plugin

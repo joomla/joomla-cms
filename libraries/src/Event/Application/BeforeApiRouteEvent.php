@@ -11,9 +11,7 @@ namespace Joomla\CMS\Event\Application;
 
 use Joomla\CMS\Router\ApiRouter;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Class for BeforeApiRoute event

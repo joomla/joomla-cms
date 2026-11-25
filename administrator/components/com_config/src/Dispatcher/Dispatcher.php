@@ -14,9 +14,7 @@ use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * ComponentDispatcher class for com_config

@@ -28,9 +28,7 @@ use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper for mod_articles_news

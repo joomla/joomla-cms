@@ -12,9 +12,7 @@ namespace Joomla\CMS\Pathway;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Class to maintain a pathway.

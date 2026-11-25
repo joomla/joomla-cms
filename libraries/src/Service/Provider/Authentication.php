@@ -21,9 +21,7 @@ use Joomla\CMS\Authentication\Password\PHPassHandler;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Service provider for the authentication dependencies

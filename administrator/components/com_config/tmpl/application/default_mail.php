@@ -13,7 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /** @var \Joomla\Component\Config\Administrator\View\Application\HtmlView $this */
 

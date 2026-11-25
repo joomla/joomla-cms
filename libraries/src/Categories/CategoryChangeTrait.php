@@ -11,9 +11,7 @@ namespace Joomla\CMS\Categories;
 
 use Joomla\CMS\Table\Table;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Trait for controllers of components which assign records to categories.

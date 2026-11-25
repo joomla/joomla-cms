@@ -13,9 +13,7 @@ use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\ApiApplication;
 use Joomla\Registry\Registry;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * API Implementation for our dispatcher. It loads a component's administrator language files, and calls the API

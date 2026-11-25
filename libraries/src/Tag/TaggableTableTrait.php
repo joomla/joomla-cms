@@ -11,9 +11,7 @@ namespace Joomla\CMS\Tag;
 
 use Joomla\CMS\Helper\TagsHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Defines the trait for a Taggable Table Class.

@@ -19,9 +19,7 @@ use Joomla\Component\Users\Administrator\Helper\DebugHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Methods supporting a list of User ACL permissions

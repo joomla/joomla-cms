@@ -24,9 +24,7 @@ use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Extension;
 use Joomla\Filesystem\Path;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Model for component configuration

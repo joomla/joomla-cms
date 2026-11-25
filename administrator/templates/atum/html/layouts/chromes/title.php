@@ -10,7 +10,7 @@
  * Module chrome for rendering the module in a submenu
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 $module = $displayData['module'];
 

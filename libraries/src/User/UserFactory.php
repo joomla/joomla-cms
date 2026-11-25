@@ -11,9 +11,7 @@ namespace Joomla\CMS\User;
 
 use Joomla\Database\DatabaseInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Default factory for creating User objects

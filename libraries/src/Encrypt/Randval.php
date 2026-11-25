@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Encrypt;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Generates cryptographically-secure random values.

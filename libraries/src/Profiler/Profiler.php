@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Profiler;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Utility class to assist in the process of benchmarking the execution

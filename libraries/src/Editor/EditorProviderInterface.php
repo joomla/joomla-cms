@@ -11,9 +11,7 @@ namespace Joomla\CMS\Editor;
 
 use Joomla\CMS\Editor\Button\ButtonInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Editor provider interface

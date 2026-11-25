@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Log\Logger;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! W3C Logging class

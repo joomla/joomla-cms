@@ -11,9 +11,7 @@ namespace Joomla\CMS\Error;
 
 use Joomla\CMS\Document\Document;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface defining the rendering engine for the error handling layer

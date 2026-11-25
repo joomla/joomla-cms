@@ -30,9 +30,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Utilities\ArrayHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Authorisation helper class, provides static methods to perform various tasks relevant

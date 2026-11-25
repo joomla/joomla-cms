@@ -33,9 +33,7 @@ use Joomla\Component\Contact\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Contact\Administrator\Service\HTML\Icon;
 use Psr\Container\ContainerInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Component class for com_contact

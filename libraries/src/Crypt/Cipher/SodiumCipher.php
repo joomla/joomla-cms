@@ -11,9 +11,7 @@ namespace Joomla\CMS\Crypt\Cipher;
 
 use Joomla\Crypt\Cipher\Sodium;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * JCrypt cipher for sodium algorithm encryption, decryption and key generation.

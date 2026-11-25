@@ -19,9 +19,7 @@ use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Task plugin with routines to change the offline status of the site. These routines can be used to control planned

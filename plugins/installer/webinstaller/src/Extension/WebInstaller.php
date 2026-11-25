@@ -20,9 +20,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
 use Joomla\Event\SubscriberInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Support for the "Install from Web" tab

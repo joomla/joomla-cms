@@ -17,7 +17,7 @@
  *                             $displayData['source'] = [ ['src' => 'path/to/video.mp4', 'type' => 'video/mp4'] ];
  *                             See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video
  */
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 

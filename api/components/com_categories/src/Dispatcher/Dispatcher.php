@@ -15,9 +15,7 @@ use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Dispatcher\ApiDispatcher;
 use Joomla\Registry\Registry;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * ComponentDispatcher class for com_categories

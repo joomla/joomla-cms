@@ -15,9 +15,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\View\ListView;
 use Joomla\Component\Banners\Administrator\Model\BannersModel;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class for a list of banners.

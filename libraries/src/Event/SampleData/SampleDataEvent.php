@@ -11,9 +11,7 @@ namespace Joomla\CMS\Event\SampleData;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Base class for Sample data events

@@ -15,9 +15,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\WebAsset\WebAssetAttachBehaviorInterface;
 use Joomla\CMS\WebAsset\WebAssetItem;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Web Asset Item class for Keepalive asset

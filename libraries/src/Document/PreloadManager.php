@@ -13,9 +13,7 @@ use Fig\Link\GenericLinkProvider;
 use Fig\Link\Link;
 use Psr\Link\EvolvableLinkProviderInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Preload Manager

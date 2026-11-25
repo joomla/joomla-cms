@@ -23,9 +23,7 @@ use Joomla\Filesystem\Path;
 use Joomla\Http\HttpFactory;
 use Joomla\Registry\Registry;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Installer helper class

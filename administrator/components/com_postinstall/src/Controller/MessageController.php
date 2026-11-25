@@ -14,9 +14,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
 use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Postinstall message controller.

@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\MVC\Model\Exception;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface that all exceptions stemming from the model should implement for processing by the controller.

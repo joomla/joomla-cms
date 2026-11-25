@@ -18,9 +18,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Scheduler\Administrator\Model\SelectModel;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The MVC View for the routine selection page (SelectView).

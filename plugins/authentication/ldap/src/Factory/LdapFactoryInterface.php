@@ -11,9 +11,7 @@ namespace Joomla\Plugin\Authentication\Ldap\Factory;
 
 use Symfony\Component\Ldap\LdapInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Factory to create Ldap clients.

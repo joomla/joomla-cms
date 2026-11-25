@@ -18,9 +18,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Component\Contact\Administrator\Table\ContactTable;
 use Joomla\Component\Contact\Site\Helper\AssociationHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Content associations helper.

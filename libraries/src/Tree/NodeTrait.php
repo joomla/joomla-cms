@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Tree;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Defines the trait for a Node Interface Trait Class.

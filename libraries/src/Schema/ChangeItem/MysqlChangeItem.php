@@ -11,9 +11,7 @@ namespace Joomla\CMS\Schema\ChangeItem;
 
 use Joomla\CMS\Schema\ChangeItem;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Checks the database schema against one MySQL DDL query to see if it has been run.

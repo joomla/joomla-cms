@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Router;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface for site router aware classes.

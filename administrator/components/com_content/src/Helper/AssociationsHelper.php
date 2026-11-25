@@ -18,9 +18,7 @@ use Joomla\CMS\Table\Content;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Content associations helper.

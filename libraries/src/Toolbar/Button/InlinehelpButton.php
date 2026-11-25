@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Toolbar\Button;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Renders a button to show / hide the inline help text

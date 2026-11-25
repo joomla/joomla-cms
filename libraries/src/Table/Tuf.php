@@ -9,11 +9,9 @@
 
 namespace Joomla\CMS\Table;
 
-// phpcs:disable PSR1.Files.SideEffects
 use Joomla\Database\DatabaseInterface;
 
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * TUF map table

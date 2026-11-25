@@ -14,9 +14,7 @@ use Joomla\Event\Dispatcher;
 use Joomla\Event\Event;
 use Joomla\Utilities\ArrayHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Table class supporting modified pre-order tree traversal behavior.

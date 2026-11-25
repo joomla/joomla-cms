@@ -13,9 +13,7 @@ use Joomla\Application\AbstractApplication;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla Platform Base Application Class

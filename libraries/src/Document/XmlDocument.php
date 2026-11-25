@@ -11,9 +11,7 @@ namespace Joomla\CMS\Document;
 
 use Joomla\CMS\Factory as CmsFactory;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * XmlDocument class, provides an easy interface to parse and display XML output

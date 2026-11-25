@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Event\Table;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Event class for Table onBeforeBind event

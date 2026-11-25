@@ -17,9 +17,7 @@ use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Menus\Api\View\Items\JsonapiView;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The items controller

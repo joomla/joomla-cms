@@ -14,9 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Component\Joomlaupdate\Administrator\Model\NotificationModel;
 use Joomla\Component\Joomlaupdate\Api\View\Updates\JsonapiView;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The updates controller

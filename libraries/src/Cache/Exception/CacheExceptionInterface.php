@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Cache\Exception;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Exception interface defining a cache storage error

@@ -17,9 +17,7 @@ use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\Component\Installer\Administrator\Model\UpdatesitesModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Extension Manager Update Sites View

@@ -16,9 +16,7 @@ use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * FileSystem Local plugin.

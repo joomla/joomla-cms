@@ -11,9 +11,7 @@ namespace Joomla\CMS\Event;
 
 use Joomla\Event\Event;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Returns the most suitable event class for a Joomla core event name

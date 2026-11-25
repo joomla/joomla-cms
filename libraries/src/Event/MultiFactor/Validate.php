@@ -16,9 +16,7 @@ use Joomla\CMS\Event\Result\ResultTypeBooleanAware;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Concrete Event class for the onUserMultifactorValidate event

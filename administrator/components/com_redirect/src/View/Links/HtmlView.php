@@ -21,9 +21,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 use Joomla\Component\Redirect\Administrator\Model\LinksModel;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class for a list of redirection links.
