@@ -218,7 +218,8 @@ class JoomlaDialog extends HTMLElement {
     // Set the header
     if (this.popupTmplH && this.textHeader) {
       const h = document.createElement('h3');
-      h.insertAdjacentHTML('afterbegin', this.textHeader);
+      // The header is plain text, it can contain data from untrusted sources
+      h.textContent = this.textHeader;
       this.popupTmplH.insertAdjacentElement('afterbegin', h);
 
       if (this.iconHeader) {

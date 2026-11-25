@@ -98,8 +98,6 @@ class TourModel extends AdminModel
     {
         $date = Factory::getDate()->toSql();
 
-        $table->title = htmlspecialchars_decode($table->title, ENT_QUOTES);
-
         if (empty($table->id)) {
             // Set the values
             $table->created = $date;

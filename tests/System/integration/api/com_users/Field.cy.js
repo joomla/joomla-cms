@@ -61,7 +61,7 @@ describe('Test that field users API endpoint', () => {
   });
 
   it('can delete a field', () => {
-    cy.db_createField({ title: 'automated test field', state: -2 })
+    cy.db_createField({ title: 'automated test field', context: 'com_users.user', state: -2 })
       .then((id) => cy.api_delete(`/fields/users/${id}`));
   });
 });

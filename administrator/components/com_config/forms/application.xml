@@ -674,12 +674,7 @@
 			type="Oauth2Token"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_OAUTH2_GET_TOKEN_LABEL"
 			showon="mailonline:1[AND]mailer:smtp[AND]smtpauth:2"
-		/>
-
-		<field
-			name="smtp_oauth2_refresh_token"
-			type="hidden"
-			readonly="true"
+			refreshToken="false"
 		/>
 
 		<field
@@ -1347,6 +1342,10 @@
 			<action
 				name="core.manage"
 				title="JACTION_MANAGE"
+			/>
+			<action
+				name="core.api"
+				title="JACTION_API"
 			/>
 			<action
 				name="core.create"

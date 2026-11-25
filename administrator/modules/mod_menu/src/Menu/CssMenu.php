@@ -497,6 +497,15 @@ class CssMenu implements DatabaseAwareInterface
         if ($last && $last->type === 'separator' && $last->getSibling(false) && $last->getSibling(false)->type === 'separator') {
             $parent->removeChild($last);
         }
+
+        // If only separators are left, remove them too, so that the caller removes the then empty heading or container
+        $children = $parent->getChildren();
+
+        if ($children && !array_filter($children, static fn ($child) => $child->type !== 'separator')) {
+            foreach ($children as $child) {
+                $parent->removeChild($child);
+            }
+        }
     }
 
     /**
