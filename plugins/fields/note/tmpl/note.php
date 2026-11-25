@@ -11,7 +11,7 @@
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 if (empty($field->params->get('display_frontend', 0))) {
     return;

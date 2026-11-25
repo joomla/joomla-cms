@@ -8,17 +8,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Users\Administrator\Model\CaptiveModel;
+use Joomla\Component\Users\Administrator\View\Captive\HtmlView;
 use Joomla\Utilities\ArrayHelper;
 
+\defined('_JEXEC') or die;
+
 /**
- * @var \Joomla\Component\Users\Administrator\View\Captive\HtmlView  $this  View object
- * @var \Joomla\Component\Users\Administrator\Model\CaptiveModel     $model The model
+ * @var HtmlView     $this  View object
+ * @var CaptiveModel $model The model
  */
 $model = $this->getModel();
 

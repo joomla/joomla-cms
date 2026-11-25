@@ -10,7 +10,7 @@
  * @deprecated  5.3 without replacement will be removed in 7.0
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;

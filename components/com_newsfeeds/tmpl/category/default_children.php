@@ -14,7 +14,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 /** @var \Joomla\Component\Newsfeeds\Site\View\Category\HtmlView $this */
 ?>

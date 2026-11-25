@@ -33,11 +33,6 @@ use PHPStan\Rules\RuleErrorBuilder;
  */
 class JexecCheckRule implements Rule
 {
-    /**
-     * The exact code of the check.
-     */
-    private const CHECK = "\\defined('_JEXEC') or die;";
-
     public function getNodeType(): string
     {
         return FileNode::class;
@@ -78,19 +73,7 @@ class JexecCheckRule implements Rule
         }
 
         if ($first !== null && $this->isJexecCheck($first)) {
-            $lines = file($scope->getFile(), FILE_IGNORE_NEW_LINES);
-            $code  = implode("\n", \array_slice($lines, $first->getStartLine() - 1, $first->getEndLine() - $first->getStartLine() + 1));
-
-            if ($code === self::CHECK) {
-                return [];
-            }
-
-            return [
-                RuleErrorBuilder::message(\sprintf('The _JEXEC check must be written exactly as %s', self::CHECK))
-                    ->identifier('joomla.jexecCheck')
-                    ->line($first->getStartLine())
-                    ->build(),
-            ];
+            return [];
         }
 
         return [

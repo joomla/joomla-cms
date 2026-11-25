@@ -10,7 +10,7 @@
 
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 if (!$context || empty($field->subform_rows)) {
     return;

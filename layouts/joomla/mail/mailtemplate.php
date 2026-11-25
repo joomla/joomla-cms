@@ -10,7 +10,7 @@
 
 use Joomla\CMS\Uri\Uri;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 // Check if we have all the data
 if (!array_key_exists('mail', $displayData)) {
