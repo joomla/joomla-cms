@@ -76,7 +76,7 @@ foreach ($displayData as $key => $row) {
                     </div>
                     <div class="changelog__list">
                         <ul>
-                            <li><?php echo implode('</li><li>', array_map(static fn ($item) => $changelogFilter->clean($item, 'html'), $items)); ?></li>
+                            <li><?php echo implode('</li><li>', $changelogFilter->clean($item, 'html')); ?></li>
                         </ul>
                     </div>
                 </div>
