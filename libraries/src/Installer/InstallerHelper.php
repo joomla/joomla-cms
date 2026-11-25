@@ -21,6 +21,7 @@ use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 use Joomla\Http\HttpFactory;
+use Joomla\Http\Response;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -107,6 +108,13 @@ abstract class InstallerHelper
 
         if (200 != $response->getStatusCode()) {
             Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->getStatusCode()), Log::WARNING, 'jerror');
+
+            return false;
+        }
+
+        // Detect HTML error or challenge pages (e.g. CAPTCHA, firewall block) returned instead of packages
+        if (self::isHtmlResponse($response)) {
+            Log::add(Text::_('JLIB_INSTALLER_ERROR_DOWNLOAD_HTML_RESPONSE'), Log::WARNING, 'jerror');
 
             return false;
         }
@@ -371,5 +379,46 @@ abstract class InstallerHelper
         }
 
         return self::HASH_NOT_PROVIDED;
+    }
+
+    /**
+     * Checks if a download response is an HTML page (e.g. CAPTCHA or firewall block).
+     *
+     * @param   Response  $response  The HTTP response object.
+     *
+     * @return  boolean  True if the response is confirmed HTML, false otherwise.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function isHtmlResponse(Response $response): bool
+    {
+        $headers = array_change_key_case($response->getHeaders(), CASE_LOWER);
+
+        if (!empty($headers['content-type'])) {
+            $contentType = \is_array($headers['content-type'])
+                ? $headers['content-type'][0]
+                : $headers['content-type'];
+
+            if (preg_match('#\b(text/html|application/xhtml\+xml)\b#i', $contentType)) {
+                return true;
+            }
+        }
+
+        $body = (string) $response->getBody();
+
+        if ($body !== '') {
+            $sample = preg_replace('/^\xEF\xBB\xBF/', '', $body);
+            $sample = strtolower(ltrim(substr($sample, 0, 1024)));
+
+            if (
+                str_starts_with($sample, '<!doctype html')
+                || str_starts_with($sample, '<html')
+                || str_starts_with($sample, '<head')
+            ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
