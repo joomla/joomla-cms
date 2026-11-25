@@ -23,6 +23,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Version;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\Filesystem\Folder;
@@ -292,6 +293,14 @@ final class InstallationApplication extends CMSApplication
             [$controllerName, $task] = explode('.', $task, 2);
         }
 
+        // On an already installed site only the session that wrote the configuration may continue
+        if (!$this->isInstallerAllowed()) {
+            $this->setHeader('status', '403 Forbidden', true);
+            echo Text::_('INSTL_ALREADY_INSTALLED_FORBIDDEN');
+
+            return;
+        }
+
         $factory = new MVCFactory('Joomla\\CMS', $this->getLogger());
         $factory->setDatabase($this->getContainer()->get(DatabaseInterface::class));
 
@@ -300,6 +309,36 @@ final class InstallationApplication extends CMSApplication
 
         // Execute the task
         $controller->execute($task);
+    }
+
+    /**
+     * Checks whether the installer may be used in the current installation state.
+     *
+     * Once a valid configuration exists, the installer must not be usable anymore, except for the session that
+     * wrote the configuration. That session may continue, to finish or repeat a core installation that did not
+     * complete and to run the follow-up actions (installing languages, removing the installation folder).
+     * Development builds are exempt so that the installation can be repeated.
+     *
+     * @return  boolean
+     *
+     * @since   6.2.1
+     */
+    private function isInstallerAllowed(): bool
+    {
+        $configuration = JPATH_CONFIGURATION . '/configuration.php';
+
+        // Not installed yet, nothing to protect
+        if (!is_file($configuration) || filesize($configuration) <= 10) {
+            return true;
+        }
+
+        // Development builds allow repeating the installation
+        if ((new Version())->isInDevelopmentState()) {
+            return true;
+        }
+
+        // Only the session that wrote the configuration may continue
+        return (bool) $this->getSession()->get('setup.started', false);
     }
 
     /**

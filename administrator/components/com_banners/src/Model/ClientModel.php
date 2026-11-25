@@ -13,7 +13,6 @@ namespace Joomla\Component\Banners\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 
@@ -116,19 +115,5 @@ class ClientModel extends AdminModel implements VersionableModelInterface
         $this->preprocessData('com_banners.client', $data);
 
         return $data;
-    }
-
-    /**
-     * Prepare and sanitise the table prior to saving.
-     *
-     * @param   Table  $table  A Table object.
-     *
-     * @return  void
-     *
-     * @since   1.6
-     */
-    protected function prepareTable($table)
-    {
-        $table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
     }
 }
