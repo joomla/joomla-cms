@@ -372,55 +372,73 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
             }
         }
 
-        // Note: i for item
-        if ($this->_options['countItems'] == 1) {
-            $context = $this->getCategoryMappingContext();
+        // Get the results
+        $db->setQuery($query);
+        $results        = $db->loadObjectList('id');
+        $childrenLoaded = false;
 
-            if ($context !== null) {
-                $counts = [
-                    $db->createQuery()->select('COUNT(*)')->from($db->quoteName($db->escape($this->_table), 'i'))
-                        ->where($db->quoteName($db->escape('i.' . $this->_field)) . ' = ' . $db->quoteName('c.id')),
-                    $db->createQuery()->select('COUNT(*)')->from($db->quoteName('#__category_item_map', 'm'))
-                        ->innerJoin($db->quoteName($db->escape($this->_table), 'i'), $db->quoteName('i.' . $this->_key) . ' = ' . $db->quoteName('m.item_id'))
-                        ->where($db->quoteName('m.context') . ' = ' . $db->quote($context))
-                        ->where($db->quoteName('m.category_id') . ' = ' . $db->quoteName('c.id'))
-                        ->where($db->quoteName('i.' . $this->_field) . ' <> ' . $db->quoteName('c.id')),
-                ];
-            } else {
-                $counts = [$db->createQuery()->select('COUNT(*)')->from($db->quoteName($db->escape($this->_table), 'i'))
-                    ->where($db->quoteName($db->escape('i.' . $this->_field)) . ' = ' . $db->quoteName('c.id'))];
-            }
+        if ($this->_options['countItems'] == 1 && \count($results)) {
+            // Count the items of the loaded categories with two grouped queries
+            // instead of two correlated COUNT(*) subqueries per category row.
+            // The grouped queries use exactly the same item conditions (access,
+            // published state, publish dates, language) as the subqueries they
+            // replace, so the numbers are identical. Categories without any
+            // items get 0, as before.
+            $categoryIds = implode(',', array_map('intval', array_keys($results)));
 
-            foreach ($counts as $subQuery) {
+            $applyItemConditions = function ($countQuery) use ($db, $user) {
                 if ($this->_accessfield && $this->_options['accessOnItems']) {
-                    $subQuery->where($db->quoteName($db->escape('i.' . $this->_accessfield)) . ' IN (' . implode(',', array_map('intval', $user->getAuthorisedViewLevels())) . ')');
+                    $countQuery->where($db->quoteName($db->escape('i.' . $this->_accessfield)) . ' IN (' . implode(',', array_map('intval', $user->getAuthorisedViewLevels())) . ')');
                 }
 
                 if ($this->_options['published'] == 1) {
-                    $subQuery->where($db->quoteName($db->escape('i.' . $this->_statefield)) . ' = 1');
+                    $countQuery->where($db->quoteName($db->escape('i.' . $this->_statefield)) . ' = 1');
 
                     if (isset($this->_options['check_dates']) && $this->_options['check_dates']) {
                         $nullDate = $db->quote($db->getNullDate());
                         $nowDate  = $db->quote(Factory::getDate()->toSql());
 
-                        $subQuery->where('(' . $db->quoteName('i.publish_up') . ' IS NULL OR ' . $db->quoteName('i.publish_up') . ' = ' . $nullDate . ' OR ' . $db->quoteName('i.publish_up') . ' <= ' . $nowDate . ')')
+                        $countQuery->where('(' . $db->quoteName('i.publish_up') . ' IS NULL OR ' . $db->quoteName('i.publish_up') . ' = ' . $nullDate . ' OR ' . $db->quoteName('i.publish_up') . ' <= ' . $nowDate . ')')
                             ->where('(' . $db->quoteName('i.publish_down') . ' IS NULL OR ' . $db->quoteName('i.publish_down') . ' = ' . $nullDate . ' OR ' . $db->quoteName('i.publish_down') . ' >= ' . $nowDate . ')');
                     }
                 }
 
                 if ($this->_options['currentlang'] !== 0) {
-                    $subQuery->where($db->quoteName('i.language') . ' IN (' . $db->quote($this->_options['currentlang']) . ',' . $db->quote('*') . ')');
+                    $countQuery->where($db->quoteName('i.language') . ' IN (' . $db->quote($this->_options['currentlang']) . ',' . $db->quote('*') . ')');
                 }
+            };
+
+            // Items whose primary category is one of the loaded categories.
+            $primaryQuery = $db->createQuery()
+                ->select($db->quoteName($db->escape('i.' . $this->_field), 'category_id') . ', COUNT(*) AS ' . $db->quoteName('item_count'))
+                ->from($db->quoteName($db->escape($this->_table), 'i'))
+                ->where($db->quoteName($db->escape('i.' . $this->_field)) . ' IN (' . $categoryIds . ')')
+                ->group($db->quoteName($db->escape('i.' . $this->_field)));
+            $applyItemConditions($primaryQuery);
+            $primaryCounts = $db->setQuery($primaryQuery)->loadAssocList('category_id', 'item_count');
+
+            $secondaryCounts = [];
+            $context         = $this->getCategoryMappingContext();
+
+            if ($context !== null) {
+                // Items secondarily mapped to one of the loaded categories,
+                // excluding items whose primary category is that same category.
+                $mappedQuery = $db->createQuery()
+                    ->select($db->quoteName('m.category_id', 'category_id') . ', COUNT(*) AS ' . $db->quoteName('item_count'))
+                    ->from($db->quoteName('#__category_item_map', 'm'))
+                    ->innerJoin($db->quoteName($db->escape($this->_table), 'i'), $db->quoteName('i.' . $this->_key) . ' = ' . $db->quoteName('m.item_id'))
+                    ->where($db->quoteName('m.context') . ' = ' . $db->quote($context))
+                    ->where($db->quoteName('m.category_id') . ' IN (' . $categoryIds . ')')
+                    ->where($db->quoteName('i.' . $this->_field) . ' <> ' . $db->quoteName('m.category_id'))
+                    ->group($db->quoteName('m.category_id'));
+                $applyItemConditions($mappedQuery);
+                $secondaryCounts = $db->setQuery($mappedQuery)->loadAssocList('category_id', 'item_count');
             }
 
-            $expression = \count($counts) === 2 ? '((' . $counts[0] . ') + (' . $counts[1] . '))' : '(' . $counts[0] . ')';
-            $query->select($expression . ' AS ' . $db->quoteName('numitems'));
+            foreach ($results as $result) {
+                $result->numitems = (int) ($primaryCounts[$result->id] ?? 0) + (int) ($secondaryCounts[$result->id] ?? 0);
+            }
         }
-
-        // Get the results
-        $db->setQuery($query);
-        $results        = $db->loadObjectList('id');
-        $childrenLoaded = false;
 
         if (\count($results)) {
             // Foreach categories
