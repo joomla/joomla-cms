@@ -26,6 +26,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Component\Fields\Administrator\Model\FieldsModel;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 use Joomla\Event\DispatcherInterface;
@@ -327,6 +328,9 @@ class FieldsHelper
             return;
         }
 
+        // The filters are shown in the lists of other components
+        Factory::getApplication()->getLanguage()->load('com_fields', JPATH_ADMINISTRATOR);
+
         /** @var DispatcherInterface $dispatcher */
         $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
         PluginHelper::importPlugin('fields', null, true, $dispatcher);
@@ -362,7 +366,7 @@ class FieldsHelper
             $node->setAttribute('multiple', 'true');
             $node->setAttribute('layout', 'joomla.form.field.list-fancy-select');
             $node->setAttribute('class', 'js-select-submit-on-change');
-            $node->setAttribute('hint', '- ' . Text::_($node->getAttribute('label')) . ' -');
+            $node->setAttribute('hint', Text::sprintf('COM_FIELDS_FILTER_SELECT_FIELD', Text::_($node->getAttribute('label'))));
 
             // A filter is never required
             $node->setAttribute('required', 'false');
@@ -391,30 +395,35 @@ class FieldsHelper
     /**
      * Adds a filter on the values of a field to a list query.
      *
-     * @param   QueryInterface  $query             The list query.
-     * @param   integer         $fieldId           The field id.
-     * @param   array           $values            The selected values.
-     * @param   string          $itemIdExpression  The item id of the list query, cast to a string.
+     * @param   DatabaseInterface  $db                The database driver.
+     * @param   QueryInterface     $query             The list query.
+     * @param   integer            $fieldId           The field id.
+     * @param   array              $values            The selected values.
+     * @param   string             $itemIdExpression  The item id of the list query, cast to a string.
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
-    public static function applyListFilter(QueryInterface $query, int $fieldId, array $values, string $itemIdExpression): void
+    public static function applyListFilter(DatabaseInterface $db, QueryInterface $query, int $fieldId, array $values, string $itemIdExpression): void
     {
         if (!$values) {
             return;
         }
 
-        $fieldParameter  = $query->bindArray([$fieldId], ParameterType::INTEGER)[0];
-        $valueParameters = $query->bindArray(array_values($values), ParameterType::STRING);
+        // The values are bound to the list query, as the subquery is added as a string
+        $subQuery = $db->createQuery()
+            ->select('1')
+            ->from($db->quoteName('#__fields_values', 'fv'))
+            ->where(
+                [
+                    $db->quoteName('fv.field_id') . ' = ' . $query->bindArray([$fieldId], ParameterType::INTEGER)[0],
+                    $db->quoteName('fv.item_id') . ' = ' . $itemIdExpression,
+                    $db->quoteName('fv.value') . ' IN (' . implode(',', $query->bindArray(array_values($values), ParameterType::STRING)) . ')',
+                ]
+            );
 
-        $query->where(
-            'EXISTS (SELECT 1 FROM ' . $query->quoteName('#__fields_values', 'fv')
-            . ' WHERE ' . $query->quoteName('fv.field_id') . ' = ' . $fieldParameter
-            . ' AND ' . $query->quoteName('fv.item_id') . ' = ' . $itemIdExpression
-            . ' AND ' . $query->quoteName('fv.value') . ' IN (' . implode(',', $valueParameters) . '))'
-        );
+        $query->where('EXISTS (' . $subQuery . ')');
     }
 
     /**

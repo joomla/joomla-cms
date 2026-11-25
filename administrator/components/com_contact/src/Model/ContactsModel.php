@@ -401,7 +401,7 @@ class ContactsModel extends ListModel
             $values = FieldsHelper::getListFilterValues($this->getState('filter.customfield_' . $fieldId));
 
             if ($values) {
-                FieldsHelper::applyListFilter($query, (int) $fieldId, $values, $query->castAs('CHAR', $db->quoteName('a.id')));
+                FieldsHelper::applyListFilter($db, $query, (int) $fieldId, $values, $query->castAs('CHAR', $db->quoteName('a.id')));
             }
         }
 

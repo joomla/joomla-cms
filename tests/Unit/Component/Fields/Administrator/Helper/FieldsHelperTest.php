@@ -54,13 +54,15 @@ class FieldsHelperTest extends UnitTestCase
      */
     public function testApplyListFilterBindsEachFieldAndItsSelectedValues(): void
     {
-        $query = $this->getWorkingQuery();
+        $db    = $this->getDatabase();
+        $query = $this->getWorkingQuery($db);
 
-        FieldsHelper::applyListFilter($query, 7, ['0', "O'Reilly"], 'CAST(`a`.`id` AS CHAR)');
-        FieldsHelper::applyListFilter($query, 8, ['B'], 'CAST(`a`.`id` AS CHAR)');
+        FieldsHelper::applyListFilter($db, $query, 7, ['0', "O'Reilly"], 'CAST(`a`.`id` AS CHAR)');
+        FieldsHelper::applyListFilter($db, $query, 8, ['B'], 'CAST(`a`.`id` AS CHAR)');
 
         $sql = (string) $query;
-        $this->assertSame(2, substr_count($sql, 'EXISTS (SELECT 1 FROM'));
+        $this->assertSame(2, substr_count($sql, 'EXISTS ('));
+        $this->assertSame(2, substr_count($sql, '`#__fields_values` AS `fv`'));
         $this->assertSame(2, substr_count($sql, '`fv`.`field_id` = '));
         $this->assertStringContainsString('`fv`.`item_id` = CAST(`a`.`id` AS CHAR)', $sql);
         $this->assertSame(2, substr_count($sql, '`fv`.`value` IN ('));
@@ -84,23 +86,24 @@ class FieldsHelperTest extends UnitTestCase
      */
     public function testEmptySelectionDoesNotChangeTheQuery(): void
     {
-        $query = $this->getWorkingQuery();
+        $db    = $this->getDatabase();
+        $query = $this->getWorkingQuery($db);
         $sql   = (string) $query;
 
-        FieldsHelper::applyListFilter($query, 7, [], 'CAST(`a`.`id` AS CHAR)');
+        FieldsHelper::applyListFilter($db, $query, 7, [], 'CAST(`a`.`id` AS CHAR)');
 
         $this->assertSame($sql, (string) $query);
         $this->assertSame([], $query->getBounded());
     }
 
     /**
-     * Returns a query for a list of items.
+     * Returns a database stub which quotes names and creates queries.
      *
-     * @return  MysqliQuery
+     * @return  DatabaseInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    private function getWorkingQuery(): MysqliQuery
+    private function getDatabase(): DatabaseInterface
     {
         $db = $this->createStub(DatabaseInterface::class);
         $db->method('quoteName')->willReturnCallback(static function ($name, $alias = null): string {
@@ -108,7 +111,22 @@ class FieldsHelperTest extends UnitTestCase
 
             return $alias === null ? $quoted : $quoted . ' AS `' . $alias . '`';
         });
+        $db->method('createQuery')->willReturnCallback(static fn () => new MysqliQuery($db));
 
+        return $db;
+    }
+
+    /**
+     * Returns a query for a list of items.
+     *
+     * @param   DatabaseInterface  $db  The database stub.
+     *
+     * @return  MysqliQuery
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function getWorkingQuery(DatabaseInterface $db): MysqliQuery
+    {
         return (new MysqliQuery($db))->select('a.id')->from('items AS a');
     }
 }
