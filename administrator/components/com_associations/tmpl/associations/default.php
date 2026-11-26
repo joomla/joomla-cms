@@ -96,7 +96,6 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
                         </thead>
                         <tbody>
                         <?php foreach ($this->items as $i => $item) :
-                            $canCheckin = true;
                             $canEdit    = AssociationsHelper::allowEdit($this->extensionName, $this->typeName, $item->id);
                             $canCheckin = $canManageCheckin || AssociationsHelper::canCheckinItem($this->extensionName, $this->typeName, $item->id);
                             $isCheckout = AssociationsHelper::isCheckoutItem($this->extensionName, $this->typeName, $item->id);
@@ -109,10 +108,11 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
                                 <?php endif; ?>
                                 <th scope="row" class="has-context">
                                     <div class="break-word">
+                                        <span hidden><?php echo HTMLHelper::_('grid.id', $i, $item->id); ?></span>
                                         <?php if (isset($item->level)) : ?>
                                             <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
                                         <?php endif; ?>
-                                        <?php if ($canCheckin && $isCheckout) : ?>
+                                        <?php if ($isCheckout) : ?>
                                             <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>
                                         <?php endif; ?>
                                         <?php if ($canEdit) : ?>
@@ -165,7 +165,9 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
 
                 <?php endif; ?>
 
+                <input type="hidden" name="boxchecked" value="0">
                 <?php echo $this->filterForm->renderControlFields(); ?>
+                <?php echo HTMLHelper::_('form.token'); ?>
             </div>
         </div>
     </div>
