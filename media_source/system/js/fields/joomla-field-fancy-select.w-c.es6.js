@@ -152,6 +152,28 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       labelId: this.select.labels?.[0]?.id ?? '',
     });
 
+    // The choices.js sets the input min-width to the full placeholder width,
+    // which can be wider than the field. Limit it to the field width.
+    //
+    // This workaround can be removed when choices.js
+    // limits the input min-width to the field width.
+    const { input } = this.choicesInstance;
+
+    if (input && typeof input.setWidth === 'function') {
+      const limitMinWidth = () => {
+        if (input.element.style.minWidth) {
+          input.element.style.minWidth = `min(${input.element.style.minWidth}, 100%)`;
+        }
+      };
+      const setWidth = input.setWidth.bind(input);
+
+      input.setWidth = () => {
+        setWidth();
+        limitMinWidth();
+      };
+      limitMinWidth();
+    }
+
     // Handle typing of custom Term
     if (this.allowCustom) {
       // START Work around for issue https://github.com/joomla/joomla-cms/issues/29459
