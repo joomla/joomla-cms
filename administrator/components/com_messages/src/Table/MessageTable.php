@@ -69,7 +69,7 @@ class MessageTable extends Table
 
         if (empty($user->id)) {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('COM_MESSAGES_ERROR_INVALID_FROM_USER'));
+                throw new ValidationException($this, Text::_('COM_MESSAGES_ERROR_INVALID_FROM_USER'));
             }
 
             $this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_FROM_USER'));
@@ -81,7 +81,7 @@ class MessageTable extends Table
 
         if (empty($user->id)) {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('COM_MESSAGES_ERROR_INVALID_TO_USER'));
+                throw new ValidationException($this, Text::_('COM_MESSAGES_ERROR_INVALID_TO_USER'));
             }
 
             $this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_TO_USER'));
@@ -91,7 +91,7 @@ class MessageTable extends Table
 
         if (empty($this->subject)) {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('COM_MESSAGES_ERROR_INVALID_SUBJECT'));
+                throw new ValidationException($this, Text::_('COM_MESSAGES_ERROR_INVALID_SUBJECT'));
             }
 
             $this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_SUBJECT'));
@@ -101,7 +101,7 @@ class MessageTable extends Table
 
         if (empty($this->message)) {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('COM_MESSAGES_ERROR_INVALID_MESSAGE'));
+                throw new ValidationException($this, Text::_('COM_MESSAGES_ERROR_INVALID_MESSAGE'));
             }
 
             $this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_MESSAGE'));
