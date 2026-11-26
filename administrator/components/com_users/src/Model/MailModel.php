@@ -25,7 +25,7 @@ use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\MVC\Model\Exception\BatchOperationException;
-use Joomla\CMS\Table\Exception\ValidationException;
+use Joomla\CMS\MVC\Model\Exception\ValidationException;
 use Joomla\Database\ParameterType;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 

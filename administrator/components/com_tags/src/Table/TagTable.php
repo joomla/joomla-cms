@@ -209,7 +209,7 @@ class TagTable extends Nested implements CurrentUserInterface
                     ? Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS_TRASHED')
                     : Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS');
 
-                throw new DuplicateEntryException($message, 'alias');
+                throw new DuplicateEntryException($this, $message, 'alias');
             }
 
             $this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
