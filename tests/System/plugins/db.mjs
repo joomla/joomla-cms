@@ -126,7 +126,7 @@ function queryTestDB(joomlaQuery, config) {
       connection.end();
 
       // Reject when an error
-      if (error && error.errno) {
+      if (error) {
         return reject(error);
       }
 
@@ -159,31 +159,38 @@ function deleteInsertedItems(config) {
       return;
     }
 
+    const ids = item.rows.join(',');
+
     // Delete the items from the database
-    promises.push(queryTestDB(`DELETE FROM ${item.table} WHERE id IN (${item.rows.join(',')})`, config).then(() => {
+    promises.push(queryTestDB(`DELETE FROM ${item.table} WHERE id IN (${ids})`, config).then(() => {
       // Cleanup some tables we do not have control over from inserted items
+      const childPromises = [];
+
       if (item.table === `${config.expose.db_prefix}users`) {
-        promises.push(queryTestDB(`DELETE FROM #__user_usergroup_map WHERE user_id IN (${item.rows.join(',')})`, config));
-        promises.push(queryTestDB(`DELETE FROM #__user_profiles WHERE user_id IN (${item.rows.join(',')})`, config));
-        promises.push(queryTestDB(`DELETE FROM #__session WHERE userid IN (${item.rows.join(',')})`, config));
+        childPromises.push(queryTestDB(`DELETE FROM #__user_usergroup_map WHERE user_id IN (${ids})`, config));
+        childPromises.push(queryTestDB(`DELETE FROM #__user_profiles WHERE user_id IN (${ids})`, config));
+        childPromises.push(queryTestDB(`DELETE FROM #__session WHERE userid IN (${ids})`, config));
       }
 
       if (item.table === `${config.expose.db_prefix}content`) {
-        promises.push(queryTestDB(`DELETE FROM #__content_frontpage WHERE content_id IN (${item.rows.join(',')})`, config));
-        promises.push(queryTestDB(`DELETE FROM #__contentitem_tag_map WHERE content_item_id IN (${item.rows.join(',')}) AND type_alias = 'com_content.article'`, config));
-        promises.push(queryTestDB(`DELETE FROM #__workflow_associations WHERE item_id IN (${item.rows.join(',')}) AND extension = 'com_content.article'`, config));
+        childPromises.push(queryTestDB(`DELETE FROM #__content_frontpage WHERE content_id IN (${ids})`, config));
+        childPromises.push(queryTestDB(`DELETE FROM #__contentitem_tag_map WHERE content_item_id IN (${ids}) AND type_alias = 'com_content.article'`, config));
+        childPromises.push(queryTestDB(`DELETE FROM #__workflow_associations WHERE item_id IN (${ids}) AND extension = 'com_content.article'`, config));
       }
 
       if (item.table === `${config.expose.db_prefix}modules`) {
-        promises.push(queryTestDB(`DELETE FROM #__modules_menu WHERE moduleid IN (${item.rows.join(',')})`, config));
+        childPromises.push(queryTestDB(`DELETE FROM #__modules_menu WHERE moduleid IN (${ids})`, config));
       }
+
+      // Wait for the dependent cleanup queries as well
+      return Promise.all(childPromises);
     }));
   });
 
   // Clear the cache
   insertedItems = [];
 
-  // Return the promise which waits for all delete queries
+  // Return the promise which waits for all delete queries, including the dependent ones
   return Promise.all(promises);
 }
 
