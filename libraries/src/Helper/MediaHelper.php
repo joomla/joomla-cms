@@ -54,7 +54,7 @@ class MediaHelper
      */
     public static function isImage($fileName)
     {
-        static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp|webp|avif';
+        static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp|webp|avif|jxl';
 
         return (bool) preg_match("/\.(?:$imageTypes)$/i", $fileName);
     }
@@ -141,7 +141,7 @@ class MediaHelper
         if ($params->get('check_mime', 1)) {
             $allowedMime = $params->get(
                 'upload_mime',
-                'image/jpeg,image/gif,image/png,image/bmp,image/webp,image/avif,application/msword,' .
+                'image/jpeg,image/gif,image/png,image/bmp,image/webp,image/avif,image/jxl,application/msword,' .
                     'application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip'
             );
 
@@ -187,7 +187,7 @@ class MediaHelper
             return false;
         }
 
-        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')));
+        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,jxl,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')));
         $ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
 
         if ($extension === '' || (!\in_array($extension, $allowable, true) && !\in_array($extension, $ignored, true))) {
@@ -293,6 +293,15 @@ class MediaHelper
 
         // Also needed after the restrict_uploads block for the SVG check
         $filetype = strtolower(array_pop($filetypes));
+
+        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,jxl,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
+        $ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
+
+        if ($filetype === '' || !$filetype || (!\in_array($filetype, $allowable) && !\in_array($filetype, $ignored))) {
+            $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
+
+            return false;
+        }
 
         $maxSize = (int) ($params->get('upload_maxsize', 0) * 1024 * 1024);
 
