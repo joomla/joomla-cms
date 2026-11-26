@@ -92,7 +92,7 @@ $attributes = [
     $spellcheck ? '' : 'spellcheck="false"',
     !empty($inputmode) ? $inputmode : '',
     !empty($counterlabel) ? $counterlabel : '',
-    !empty($pattern) ? 'pattern="' . $pattern . '"' : '',
+    !empty($pattern) ? 'pattern="' . $this->escape($pattern) . '"' : '',
 
     // @TODO add a proper string here!!!
     !empty($validationtext) ? 'data-validation-text="' . $this->escape(Text::_($validationtext)) . '"' : '',
