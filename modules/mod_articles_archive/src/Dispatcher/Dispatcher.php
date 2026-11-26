@@ -6,6 +6,8 @@
  *
  * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * @deprecated  6.2 will be removed in 8.0 without replacement. Use mod_article.
  */
 
 namespace Joomla\Module\ArticlesArchive\Site\Dispatcher;
@@ -22,6 +24,8 @@ use Joomla\CMS\Helper\HelperFactoryAwareTrait;
  * Dispatcher class for mod_articles_archive
  *
  * @since  4.4.0
+ *
+ * @deprecated  6.2 will be removed in 8.0 without replacement.
  */
 class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareInterface
 {
