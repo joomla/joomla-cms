@@ -163,6 +163,9 @@ class ContentHelper
 
         if ($section && $id) {
             $assetName .= '.' . $section . '.' . (int) $id;
+
+            // Preload access rules for the item
+            Access::preloadItems($component, [$assetName]);
         }
 
         // Return a CanDo object to prevent any BC break, will be changed in 7.0 to Registry

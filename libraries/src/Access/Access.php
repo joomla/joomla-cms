@@ -210,6 +210,59 @@ class Access
     }
 
     /**
+     * Method to preload the Rules objects for given list of assets (names or ids).
+     *
+     * @param  string  $extensionName  Extension name.
+     * @param  array   $assetsList     Assets list. Either list of asset names or asset ids.
+     * @param  string  $key            The key to use in the filter:
+     *                                 id - When $assetsList is list of asset ids;
+     *                                 name - When $assetsList is list of asset names;
+     *
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function preloadItems(string $extensionName, array $assetsList, string $key = 'name'): void
+    {
+        // Compare to skip already preloaded
+        if ($key === 'id') {
+            $assetsList = array_diff($assetsList, array_keys(self::$preloadedAssets));
+            $bindAs     = \Joomla\Database\ParameterType::INTEGER;
+        } else {
+            $assetsList = array_diff($assetsList, self::$preloadedAssets);
+            $bindAs     = \Joomla\Database\ParameterType::STRING;
+        }
+
+        if (!$assetsList) {
+            return;
+        }
+
+        $db    = Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
+        $query = $db->getQuery(true);
+        $query->select($db->quoteName(['id', 'name', 'rules', 'parent_id']))
+            ->from($db->quoteName('#__assets'))
+            ->whereIn($db->quoteName($key), $assetsList, $bindAs);
+
+        $assets = $db->setQuery($query)->loadObjectList();
+        $pids   = [];
+
+        foreach ($assets as $asset) {
+            self::$assetPermissionsParentIdMapping[$extensionName][$asset->id] = $asset;
+            self::$preloadedAssets[$asset->id]                                 = $asset->name;
+
+            if ($asset->parent_id) {
+                $pids[$asset->parent_id] = $asset->parent_id;
+            }
+        }
+
+        if ($pids) {
+            // Make sure parents also loaded
+            // Multiple queries seems faster than use lft, rgt query
+            static::preloadItems($extensionName, $pids, 'id');
+        }
+    }
+
+    /**
      * Method to recursively retrieve the list of parent Asset IDs
      * for a particular Asset.
      *
@@ -458,7 +511,12 @@ class Access
 
         // Auto preloads assets for the asset type (if chosen).
         if ($preload) {
-            self::preload(self::getAssetType($assetKey));
+            // Check whether the $assetKey already loaded before pulling large preload
+            $preloadedAssetsByName = array_flip(self::$preloadedAssets);
+
+            if (empty($preloadedAssetsByName[$assetKey]) && empty(self::$preloadedAssets[$assetKey])) {
+                self::preload(self::getAssetType($assetKey));
+            }
         }
 
         // Get the asset id and name.
