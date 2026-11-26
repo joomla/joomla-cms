@@ -247,7 +247,7 @@ CREATE TABLE IF NOT EXISTS "#__finder_filters" (
 CREATE TABLE IF NOT EXISTS "#__finder_links" (
   "link_id" serial NOT NULL,
   "url" varchar(255) NOT NULL,
-  "route" varchar(400) NOT NULL,
+  "route" varchar(2048) NOT NULL,
   "title" varchar(400) DEFAULT NULL,
   "description" text,
   "indexdate" timestamp without time zone NOT NULL,
@@ -910,7 +910,7 @@ CREATE TABLE IF NOT EXISTS "#__scheduler_logs" (
   "id" serial NOT NULL,
   "taskname" varchar(255) DEFAULT '' NOT NULL,
   "tasktype" varchar(128) NOT NULL,
-  "duration" NUMERIC(5,3) NOT NULL,
+  "duration" NUMERIC(8,3) NOT NULL,
   "jobid" integer NOT NULL,
   "taskid" integer NOT NULL,
   "exitcode" integer NOT NULL,

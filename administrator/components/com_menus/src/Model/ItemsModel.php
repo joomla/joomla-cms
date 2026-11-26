@@ -33,6 +33,15 @@ use Joomla\Database\QueryInterface;
 class ItemsModel extends ListModel
 {
     /**
+     * The menu type and the client are set by populateState() with their own checks, they must not be overridden
+     * by the filter array of the request.
+     *
+     * @var    array
+     * @since  6.2.1
+     */
+    protected $filterForbiddenList = ['menutype', 'client_id'];
+
+    /**
      * Constructor.
      *
      * @param   array                 $config   An optional associative array of configuration settings.

@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\Schemaorg\Extension;
 
+use Joomla\CMS\Document\ErrorDocument;
 use Joomla\CMS\Event\Application\BeforeCompileHeadEvent as BeforeCompileHeadApplicationEvent;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
@@ -287,6 +288,11 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
             return;
         }
 
+        // Do not add the item schema when the item is not shown (error page, 403 response)
+        if ($doc instanceof ErrorDocument || $this->getResponseStatus() >= 400) {
+            $itemId = 0;
+        }
+
         $domain = Uri::root();
 
         $isPerson = $baseType === 'person';
@@ -321,14 +327,21 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         $siteSchema['url'] = $domain;
 
         // Image
-        $image = $this->params->get('image') ? HTMLHelper::_('cleanimageUrl', $this->params->get('image')) : false;
+        $image = $this->params->get('image') ? HTMLHelper::_('cleanImageUrl', $this->params->get('image')) : false;
 
         if ($image !== false) {
+            $logoUrl = $image->url;
+
+            // Ensure absolute URL for schema logo
+            if (!preg_match('#^(https?:)?//#i', $logoUrl)) {
+                $logoUrl = Uri::root() . ltrim($logoUrl, '/');
+            }
+
             $siteSchema['logo'] = [
                 '@type'      => 'ImageObject',
                 '@id'        => $domain . '#/schema/ImageObject/logo',
-                'url'        => $image->url,
-                'contentUrl' => $image->url,
+                'url'        => $logoUrl,
+                'contentUrl' => $logoUrl,
                 'width'      => $image->attributes['width'] ?? 0,
                 'height'     => $image->attributes['height'] ?? 0,
             ];
@@ -468,7 +481,14 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         $schema->set('@graph', $data);
 
         $prettyPrint  = JDEBUG ? JSON_PRETTY_PRINT : 0;
-        $schemaString = $schema->toString('JSON', ['bitmask' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | $prettyPrint]);
+        $bitmask      = JSON_UNESCAPED_SLASHES
+            | JSON_HEX_TAG
+            | JSON_HEX_AMP
+            | JSON_HEX_APOS
+            | JSON_HEX_QUOT
+            | JSON_UNESCAPED_UNICODE
+            | $prettyPrint;
+        $schemaString = $schema->toString('JSON', ['bitmask' => $bitmask]);
 
         if ($schemaString !== '{}') {
             $wa->addInlineScript($schemaString, ['name' => 'inline.schemaorg'], ['type' => 'application/ld+json']);
@@ -535,6 +555,26 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         }
 
         return $result;
+    }
+
+    /**
+     * Returns the HTTP status code set on the application response
+     *
+     * @return  integer
+     *
+     * @since   6.2.1
+     */
+    private function getResponseStatus(): int
+    {
+        $status = 200;
+
+        foreach ($this->getApplication()->getHeaders() as $header) {
+            if (strtolower($header['name']) === 'status') {
+                $status = (int) $header['value'];
+            }
+        }
+
+        return $status;
     }
 
     /**

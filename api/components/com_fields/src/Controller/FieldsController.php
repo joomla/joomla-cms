@@ -10,7 +10,7 @@
 
 namespace Joomla\Component\Fields\Api\Controller;
 
-use Joomla\CMS\Access\Exception\NotAllowed;
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\MVC\Controller\ApiController;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -79,8 +79,8 @@ class FieldsController extends ApiController
      */
     private function getContextFromInput()
     {
-        return $this->input->exists('context') ?
-            $this->input->get('context') : $this->input->post->get('context');
+        return $this->input->getMethod() === 'POST' ?
+            $this->input->post->get('context') : $this->input->get('context');
     }
 
     /**
@@ -92,13 +92,23 @@ class FieldsController extends ApiController
      *
      * @return  boolean
      *
+     * @since   5.4.7
      * @since   6.1.2
      */
     protected function allowAdd($data = [])
     {
+        $user     = $this->app->getIdentity();
         [$option] = explode('.', $this->getContextFromInput());
 
-        return $this->app->getIdentity()->authorise('core.create', $option);
+        /**
+         * @deprecated Remove in Joomla 8.0
+         * This check acts as a safety net for third-party extensions that do not extend ApiDispatcher.
+         */
+        if (!$user->authorise('core.api', $option)) {
+            return false;
+        }
+
+        return $user->authorise('core.create', $option);
     }
 
     /**
@@ -111,6 +121,7 @@ class FieldsController extends ApiController
      *
      * @return  boolean
      *
+     * @since   5.4.7
      * @since   6.1.2
      */
     protected function allowEdit($data = [], $key = 'id')
@@ -119,9 +130,32 @@ class FieldsController extends ApiController
         $user     = $this->app->getIdentity();
         [$option] = explode('.', $this->getContextFromInput());
 
+        /**
+         * @deprecated Remove in Joomla 8.0
+         * This check acts as a safety net for third-party extensions that do not extend ApiDispatcher.
+         */
+        if (!$user->authorise('core.api', $option)) {
+            return false;
+        }
+
         // Zero record (id:0), return component edit permission by calling parent controller method
         if (!$recordId) {
             return $user->authorise('core.edit', $option);
+        }
+
+        // Get existing record
+        $inflector = InflectorFactory::create()->build();
+        $record    = $this->getModel($inflector->singularize($this->contentType))->getItem($recordId);
+
+        if (empty($record)) {
+            return false;
+        }
+
+        [$recordOption] = explode('.', $record->context);
+
+        // Validate request context and field context match
+        if ($recordOption !== $option) {
+            return false;
         }
 
         // Check edit on the record asset (explicit or inherited)
@@ -131,13 +165,6 @@ class FieldsController extends ApiController
 
         // Check edit own on the record asset (explicit or inherited)
         if ($user->authorise('core.edit.own', $option . '.field.' . $recordId)) {
-            // Existing record already has an owner, get it
-            $record = $this->getModel()->getItem($recordId);
-
-            if (empty($record)) {
-                return false;
-            }
-
             // Grant if current user is owner of the record
             return $user->id == $record->created_user_id;
         }
@@ -146,22 +173,45 @@ class FieldsController extends ApiController
     }
 
     /**
-     * Removes an item.
+     * Method to check if it's allowed to delete a record
      *
-     * @param   integer  $id  The primary key to delete item.
+     * @param array  $data An array of input data.
+     * @param string  $key The name of the key for the primary key; default is id.
      *
-     * @return  void
+     * @return  boolean
      *
-     * @since   6.1.2
+     * @since   5.4.8
+     * @since   6.1.3
      */
-    public function delete($id = null)
+    protected function allowDelete($data = [], $key = 'id'): bool
     {
         [$option] = explode('.', $this->getContextFromInput());
+        $user     = $this->app->getIdentity();
+        $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
 
-        if (!$this->app->getIdentity()->authorise('core.delete', $option)) {
-            throw new NotAllowed('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED', 403);
+        /**
+         * @deprecated Remove in Joomla 8.0
+         * This check acts as a safety net for third-party extensions that do not extend ApiDispatcher.
+         */
+        if (!$user->authorise('core.api', $option)) {
+            return false;
         }
 
-        parent::delete($id);
+        // Get existing record
+        $inflector = InflectorFactory::create()->build();
+        $record    = $this->getModel($inflector->singularize($this->contentType))->getItem($recordId);
+
+        if (empty($record)) {
+            return false;
+        }
+
+        [$recordOption] = explode('.', $record->context);
+
+        // Validate request context and field context match
+        if ($recordOption !== $option) {
+            return false;
+        }
+
+        return $user->authorise('core.delete', $option);
     }
 }

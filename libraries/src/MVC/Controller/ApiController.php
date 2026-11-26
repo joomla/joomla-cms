@@ -299,14 +299,6 @@ class ApiController extends BaseController
      */
     public function delete($id = null)
     {
-        if (!$this->app->getIdentity()->authorise('core.delete', $this->option)) {
-            throw new NotAllowed('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED', 403);
-        }
-
-        if ($id === null) {
-            $id = $this->input->get('id', 0, 'int');
-        }
-
         $inflector = InflectorFactory::create()->build();
         $modelName = $this->input->get('model', $inflector->singularize($this->contentType));
 
@@ -317,8 +309,34 @@ class ApiController extends BaseController
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
         }
 
+        try {
+            $table = $model->getTable();
+        } catch (\Exception $e) {
+            throw new \RuntimeException($e->getMessage());
+        }
+
+        if ($id === null) {
+            $id = $this->input->getInt('id');
+        }
+
+        if (empty($id)) {
+            throw new Exception\ResourceNotFound(Text::_('JLIB_APPLICATION_ERROR_RECORD'), 404);
+        }
+
+        // Not every key is an integer, e.g. language overrides use the constant as key
+        $recordIds = (array) $id;
+
+        $key = $table->getKeyName();
+
+        // Access check.
+        foreach ($recordIds as $recordId) {
+            if (!$this->allowDelete([$key => $recordId], $key)) {
+                throw new NotAllowed('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED', 403);
+            }
+        }
+
         // Remove the item.
-        if (!$model->delete($id)) {
+        if (!$model->delete($recordIds)) {
             if ($model->getError() !== false) {
                 throw new \RuntimeException($model->getError(), 500);
             }
@@ -337,6 +355,18 @@ class ApiController extends BaseController
                 echo new JsonResponse($body);
                 $this->app->close();
             }
+
+            // The delete was refused without an error (e.g. vetoed by a plugin), so it must not be reported as success
+            $this->app->setHeader('status', 409, true);
+            $this->app->setHeader('Content-Type', 'application/json');
+            $this->app->sendHeaders();
+            $body = [
+                'status'  => 'Conflict',
+                'code'    => 409,
+                'message' => Text::_('JLIB_APPLICATION_ERROR_DELETE'),
+            ];
+            echo new JsonResponse($body);
+            $this->app->close();
         }
 
         // If the model has set a 404 status code in the session, we return a 404 http status codee
@@ -368,8 +398,10 @@ class ApiController extends BaseController
      */
     public function add()
     {
+        $data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
+
         // Access check.
-        if (!$this->allowAdd()) {
+        if (!$this->allowAdd($data)) {
             throw new NotAllowed('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED', 403);
         }
 
@@ -456,6 +488,9 @@ class ApiController extends BaseController
         $checkin    = property_exists($table, $table->getColumnAlias('checked_out'));
         $data[$key] = $recordKey;
 
+        // Stored values of the fields which are not in the PATCH request
+        $storedValues = [];
+
         if ($this->input->getMethod() === 'PATCH') {
             if ($recordKey && $table->load($recordKey)) {
                 $fields = $table->getFields();
@@ -465,7 +500,8 @@ class ApiController extends BaseController
                         continue;
                     }
 
-                    $data[$field->Field] = $table->{$field->Field};
+                    $data[$field->Field]         = $table->{$field->Field};
+                    $storedValues[$field->Field] = $table->{$field->Field};
                 }
             }
         }
@@ -503,6 +539,17 @@ class ApiController extends BaseController
             }
 
             throw new InvalidParameterException(implode("\n", $messages));
+        }
+
+        // Stored values are already in UTC, so don't let the SERVER_UTC / USER_UTC form filter convert them a second time
+        foreach ($storedValues as $field => $value) {
+            if (!\array_key_exists($field, $validData)) {
+                continue;
+            }
+
+            if (\in_array(strtoupper($form->getFieldAttribute($field, 'filter', '')), ['SERVER_UTC', 'USER_UTC'], true)) {
+                $validData[$field] = $value;
+            }
         }
 
         if (!isset($validData['tags'])) {
@@ -549,7 +596,46 @@ class ApiController extends BaseController
      */
     protected function allowEdit($data = [], $key = 'id')
     {
-        return $this->app->getIdentity()->authorise('core.edit', $this->option);
+        $user     = $this->app->getIdentity();
+        $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
+
+        /**
+         * @deprecated Remove in Joomla 8.0
+         * This check acts as a safety net for third-party extensions that do not extend ApiDispatcher.
+         */
+        if (!$user->authorise('core.api', $this->option)) {
+            return false;
+        }
+
+        // No record: fall back to the component permission.
+        if (!$recordId) {
+            return $user->authorise('core.edit', $this->option);
+        }
+
+        $inflector = InflectorFactory::create()->build();
+        $asset     = $this->option . '.' . $inflector->singularize($this->contentType) . '.' . $recordId;
+
+        // Check edit on the record asset (explicit or inherited)
+        if ($user->authorise('core.edit', $asset)) {
+            return true;
+        }
+
+        $table = $this->getModel($inflector->singularize($this->contentType))->getTable();
+
+        // Check edit own on the record asset (explicit or inherited)
+        if ($table->hasField('created_by') && $user->authorise('core.edit.own', $asset)) {
+            // Existing record already has an owner, get it
+            $table->load($recordId);
+
+            if (empty($table->getId())) {
+                return false;
+            }
+
+            // Grant if current user is owner of the record
+            return $user->id == $table->created_by;
+        }
+
+        return false;
     }
 
     /**
@@ -567,7 +653,44 @@ class ApiController extends BaseController
     {
         $user = $this->app->getIdentity();
 
+        /**
+         * @deprecated Remove in Joomla 8.0
+         * This check acts as a safety net for third-party extensions that do not extend ApiDispatcher.
+         */
+        if (!$user->authorise('core.api', $this->option)) {
+            return false;
+        }
+
         return $user->authorise('core.create', $this->option) || \count($user->getAuthorisedCategories($this->option, 'core.create'));
+    }
+
+    /**
+     * Method to check if it's allowed to delete a record
+     *
+     * @param array  $data An array of input data.
+     * @param string  $key The name of the key for the primary key; default is id.
+     *
+     * @return  boolean
+     *
+     * @note    Parameters will be extended in Joomla 8.0, update definition to allowDelete($data = [], $key = 'id').
+     *          Reference CategoriesController::allowDelete() and FieldsController::allowDelete() for examples.
+     *
+     * @since   5.4.8
+     * @since   6.1.3
+     */
+    protected function allowDelete(): bool
+    {
+        $user = $this->app->getIdentity();
+
+        /**
+         * @deprecated Remove in Joomla 8.0
+         * This check acts as a safety net for third-party extensions that do not extend ApiDispatcher.
+         */
+        if (!$user->authorise('core.api', $this->option)) {
+            return false;
+        }
+
+        return $user->authorise('core.delete', $this->option);
     }
 
     /**
