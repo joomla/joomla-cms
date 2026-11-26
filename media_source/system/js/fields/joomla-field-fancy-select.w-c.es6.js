@@ -130,6 +130,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     this.choicesInstance = new Choices(this.select, {
       placeholderValue: this.placeholder,
       searchPlaceholderValue: this.searchPlaceholder,
+      appendGroupInSearch: true,
       removeItemButton: true,
       searchFloor: this.minTermLength,
       searchResultLimit: parseInt(this.select.dataset.maxResults, 10) || 10,
@@ -148,6 +149,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       classNames: {
         button: 'choices__button_joomla', // It is need because an original styling use unavailable Icon.svg file
       },
+      labelId: this.select.labels?.[0]?.id ?? '',
     });
 
     // Handle typing of custom Term

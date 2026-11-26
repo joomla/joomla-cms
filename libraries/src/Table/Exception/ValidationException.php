@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Table\Exception;
 
+use Joomla\CMS\Table\Table;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -22,6 +24,14 @@ namespace Joomla\CMS\Table\Exception;
 class ValidationException extends \RuntimeException implements TableExceptionInterface
 {
     /**
+     * The table object the exception relates to.
+     *
+     * @var    Table
+     * @since  __DEPLOY_VERSION__
+     */
+    private Table $table;
+
+    /**
      * Validation error messages, keyed by field name where known.
      *
      * @var    string[]
@@ -32,6 +42,7 @@ class ValidationException extends \RuntimeException implements TableExceptionInt
     /**
      * Constructor.
      *
+     * @param   Table        $table        The table object the exception relates to.
      * @param   string       $message      The exception message.
      * @param   string[]     $fieldErrors  Validation error messages, keyed by field name where known.
      * @param   integer      $code         The exception code.
@@ -39,11 +50,24 @@ class ValidationException extends \RuntimeException implements TableExceptionInt
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function __construct(string $message, array $fieldErrors = [], int $code = 0, ?\Throwable $previous = null)
+    public function __construct(Table $table, string $message, array $fieldErrors = [], int $code = 0, ?\Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
 
+        $this->table       = $table;
         $this->fieldErrors = $fieldErrors;
+    }
+
+    /**
+     * Get the table object the exception relates to.
+     *
+     * @return  Table
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getTable(): Table
+    {
+        return $this->table;
     }
 
     /**

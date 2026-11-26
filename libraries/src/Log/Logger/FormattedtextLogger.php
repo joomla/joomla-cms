@@ -14,7 +14,6 @@ use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
 use Joomla\CMS\Version;
 use Joomla\Filesystem\Exception\FilesystemException;
-use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Utilities\IpHelper;
 
@@ -131,17 +130,10 @@ class FormattedtextLogger extends Logger
             return;
         }
 
-        // Initialise the file if not already done.
-        $this->initFile();
-
         // Format all lines and write to file.
         $lines = array_map([$this, 'formatLine'], $this->deferredEntries);
 
-        try {
-            File::write($this->path, implode("\n", $lines) . "\n", false, true);
-        } catch (FilesystemException $exception) {
-            throw new \RuntimeException('Cannot write to log file.', 500, $exception);
-        }
+        $this->appendToFile(implode("\n", $lines) . "\n");
     }
 
     /**
@@ -174,19 +166,11 @@ class FormattedtextLogger extends Logger
         if ($this->defer) {
             $this->deferredEntries[] = $entry;
         } else {
-            // Write it immediately.
-            // Initialise the file if not already done.
-            $this->initFile();
-
             // Write the new entry to the file.
             $line = $this->formatLine($entry);
             $line .= "\n";
 
-            try {
-                File::write($this->path, $line, false, true);
-            } catch (FilesystemException $exception) {
-                throw new \RuntimeException('Cannot write to log file.', 500, $exception);
-            }
+            $this->appendToFile($line);
         }
     }
 
@@ -266,33 +250,82 @@ class FormattedtextLogger extends Logger
     }
 
     /**
-     * Method to initialise the log file.  This will create the folder path to the file if it doesn't already
-     * exist and also get a new file header if the file doesn't already exist.  If the file already exists it
-     * will simply open it for writing.
+     * Method to append data to the log file. If the file does not exist or is empty, the file header is written
+     * in the same write operation. Opening, locking, the emptiness check and the write all use one file handle,
+     * so the file can never be (re)created without its header, even if it is removed concurrently.
+     *
+     * If the file can not be opened or written, the data is dropped, nothing is written in this case.
+     *
+     * @param   string  $data  The formatted log lines to append.
+     *
+     * @return  void
+     *
+     * @since   6.2.1
+     * @throws  FilesystemException  If the folder of the log file can not be created
+     */
+    protected function appendToFile(string $data): void
+    {
+        // Make sure the folder exists in which to create the log file.
+        if (!is_dir(\dirname($this->path))) {
+            Folder::create(\dirname($this->path));
+        }
+
+        // "c+" creates the file if missing without truncating it and keeps the pointer at the start.
+        $handle = fopen($this->path, 'c+');
+
+        if ($handle === false) {
+            return;
+        }
+
+        try {
+            if (!flock($handle, LOCK_EX)) {
+                return;
+            }
+
+            $stat = fstat($handle);
+
+            if ($stat === false) {
+                return;
+            }
+
+            // A new (or emptied) file always starts with the header, written together with the data.
+            if ($stat['size'] === 0) {
+                $data = $this->generateFileHeader() . $data;
+            } elseif (fseek($handle, 0, SEEK_END) !== 0) {
+                return;
+            }
+
+            $length  = \strlen($data);
+            $written = 0;
+
+            while ($written < $length) {
+                $result = fwrite($handle, substr($data, $written));
+
+                if ($result === false || $result === 0) {
+                    return;
+                }
+
+                $written += $result;
+            }
+
+            fflush($handle);
+            flock($handle, LOCK_UN);
+        } finally {
+            fclose($handle);
+        }
+    }
+
+    /**
+     * Method to initialise the log file. Kept for backwards compatibility with classes extending this logger,
+     * the folder and the file with its header are created as part of appendToFile() now.
      *
      * @return  void
      *
      * @since   1.7.0
-     * @throws  \RuntimeException
      */
     protected function initFile()
     {
-        // We only need to make sure the file exists
-        if (is_file($this->path)) {
-            return;
-        }
-
-        // Make sure the folder exists in which to create the log file.
-        Folder::create(\dirname($this->path));
-
-        // Build the log file header.
-        $head = $this->generateFileHeader();
-
-        try {
-            File::write($this->path, $head);
-        } catch (FilesystemException $exception) {
-            throw new \RuntimeException('Cannot write to log file.', 500, $exception);
-        }
+        $this->appendToFile('');
     }
 
     /**

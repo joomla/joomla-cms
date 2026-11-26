@@ -192,7 +192,8 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
             'com_actionlogs.notification',
             $app->getLanguage()->getTag(),
             $this->getMailerFactory()->createMailer(),
-            $this->getLanguageFactory()
+            $this->getLanguageFactory(),
+            $this->getDatabase()
         );
         $mailer->addTemplateData($templateData);
         $mailer->addTemplateData($templateDataPlain, true);

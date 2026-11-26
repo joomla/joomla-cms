@@ -78,7 +78,8 @@ abstract class JGrid
         if ($tip) {
             $title  = $enabled ? $activeTitle : $inactiveTitle;
             $title  = $translate ? Text::_($title) : $title;
-            $ariaid = $checkbox . $task . $i . '-desc';
+            // Escaped once, used for aria-labelledby and the tooltip id
+            $ariaid = htmlspecialchars($checkbox . $task . $i . '-desc', ENT_QUOTES, 'UTF-8');
 
             // Don't show empty tooltip.
             if ($title === '') {
@@ -90,7 +91,9 @@ abstract class JGrid
             Factory::getDocument()->getWebAssetManager()->useScript('list-view');
 
             $html[] = '<a href="#" class="js-grid-item-action tbody-icon' . ($activeClass === 'publish' ? ' active' : '') . '"';
-            $html[] = ' data-item-id="' . $checkbox . $i . '" data-item-task="' . $prefix . $task . '" data-item-form-id="' . $formId . '"';
+            $html[] = ' data-item-id="' . htmlspecialchars($checkbox . $i, ENT_QUOTES, 'UTF-8') . '"'
+                . ' data-item-task="' . htmlspecialchars($prefix . $task, ENT_QUOTES, 'UTF-8') . '"'
+                . ' data-item-form-id="' . htmlspecialchars((string) $formId, ENT_QUOTES, 'UTF-8') . '"';
             $html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
             $html[] = '>';
             $html[] = LayoutHelper::render('joomla.icon.iconclass', ['icon' => $activeClass]);
@@ -98,7 +101,7 @@ abstract class JGrid
             $html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
         } else {
             $html[] = '<span class="tbody-icon jgrid"';
-            $html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
+            $html[] = $tip ? ' tabindex="0" aria-labelledby="' . $ariaid . '"' : '';
             $html[] = '>';
             $html[] = LayoutHelper::render('joomla.icon.iconclass', ['icon' => $inactiveClass]);
             $html[] = '</span>';

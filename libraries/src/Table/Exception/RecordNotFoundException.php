@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Table\Exception;
 
+use Joomla\CMS\Table\Table;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -20,4 +22,40 @@ namespace Joomla\CMS\Table\Exception;
  */
 class RecordNotFoundException extends \RuntimeException implements TableExceptionInterface
 {
+    /**
+     * The table object the exception relates to.
+     *
+     * @var    Table
+     * @since  __DEPLOY_VERSION__
+     */
+    private Table $table;
+
+    /**
+     * Constructor.
+     *
+     * @param   Table        $table     The table object the exception relates to.
+     * @param   string       $message   The exception message.
+     * @param   integer      $code      The exception code.
+     * @param   ?\Throwable  $previous  The previous throwable used for exception chaining.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct(Table $table, string $message = '', int $code = 0, ?\Throwable $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+
+        $this->table = $table;
+    }
+
+    /**
+     * Get the table object the exception relates to.
+     *
+     * @return  Table
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getTable(): Table
+    {
+        return $this->table;
+    }
 }
