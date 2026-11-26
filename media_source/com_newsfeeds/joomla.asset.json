@@ -1,0 +1,22 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "com_newsfeeds",
+  "version": "6.3.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "com_newsfeeds.admin-newsfeeds-modal",
+      "type": "script",
+      "uri": "com_newsfeeds/admin-newsfeeds-modal.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "deprecated": true,
+      "deprecatedMsg": "Use postMessage() directly or with help of [modal-content-select] asset. To post the modal selection."
+    }
+  ]
+}

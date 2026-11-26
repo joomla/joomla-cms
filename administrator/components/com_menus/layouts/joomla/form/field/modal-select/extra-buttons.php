@@ -75,11 +75,16 @@ Text::script('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED');
 $tagLength            = strlen($language);
 $callbackFunctionStem = substr("jSelectMenu_" . $id, 0, -$tagLength);
 
+// The Propagate button sends the command --propagate-association to the field, and
+// associations-edit.js finds the callback name here by the field's id
+Factory::getApplication()->getDocument()->addScriptOptions('associations-propagate', [$id => $callbackFunctionStem]);
+
 ?>
 
 <button type="button" class="btn btn-primary" <?php echo $value ? '' : 'hidden'; ?>
         title="<?php echo $this->escape(Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_TIP')); ?>"
         data-show-when-value="1"
-        onclick="Joomla.propagateAssociation('<?php echo $id; ?>', '<?php echo $callbackFunctionStem; ?>')">
+        commandfor="<?php echo $this->escape($id); ?>"
+        command="--propagate-association">
     <span class="icon-sync" aria-hidden="true"></span> <?php echo Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_BUTTON'); ?>
 </button>

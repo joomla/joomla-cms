@@ -40,4 +40,20 @@
       window.parent.Joomla.Modal.getCurrent().close();
     }
   };
+
+  document.addEventListener('click', ({ target }) => {
+    const button = target.closest('[data-field-insert], [data-fieldgroup-insert]');
+
+    if (!button) {
+      return;
+    }
+
+    const { editor } = Joomla.getOptions('xtd-fields', {});
+
+    if (button.hasAttribute('data-field-insert')) {
+      Joomla.fieldIns(button.dataset.fieldInsert, editor);
+    } else {
+      Joomla.fieldgroupIns(button.dataset.fieldgroupInsert, editor);
+    }
+  });
 })(Joomla);

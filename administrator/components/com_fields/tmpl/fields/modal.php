@@ -30,6 +30,11 @@ $wa->useScript('com_fields.admin-fields-modal')->useScript('modal-content-select
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $editor    = Factory::getApplication()->getInput()->get('editor', '', 'cmd');
+
+// @TODO: Remove after full transition to postMessage()
+if (!empty($editor)) {
+    $this->getDocument()->addScriptOptions('xtd-fields', ['editor' => $editor]);
+}
 ?>
 <div class="container-popup">
 
@@ -93,7 +98,7 @@ $editor    = Factory::getApplication()->getInput()->get('editor', '', 'cmd');
                         $attrs2 = $attrs;
                         $attrs2 .= ' data-html="{fieldgroup ' . ((int) $item->group_id) . '}"';
 
-                        // @TODO: Remove onclick="" after full transition to postMessage()
+                        // @TODO: Remove data-field-insert and data-fieldgroup-insert after full transition to postMessage()
                         ?>
                     <tr class="row<?php echo $i % 2; ?>">
                         <td class="text-center">
@@ -103,13 +108,13 @@ $editor    = Factory::getApplication()->getInput()->get('editor', '', 'cmd');
                         </td>
                         <th scope="row" class="has-context">
                             <button type="button" class="btn btn-sm btn-success w-100" <?php echo $attrs1; ?>
-                                    onclick="Joomla.fieldIns('<?php echo $this->escape($item->id); ?>', '<?php echo $this->escape($editor); ?>');">
+                                    data-field-insert="<?php echo $this->escape($item->id); ?>">
                                 <?php echo $this->escape($item->title); ?>
                             </button>
                         </th>
                         <td class="small d-none d-md-table-cell">
                             <button type="button" class="btn btn-sm btn-warning w-100" <?php echo $item->group_id ? $attrs2 : ''; ?>
-                                    onclick="Joomla.fieldgroupIns('<?php echo $this->escape($item->group_id); ?>', '<?php echo $this->escape($editor); ?>');">
+                                    data-fieldgroup-insert="<?php echo $this->escape($item->group_id); ?>">
                                 <?php echo $item->group_id ? $this->escape($item->group_title) : Text::_('JNONE'); ?>
                             </button>
                         </td>
