@@ -93,6 +93,24 @@ class RouterViewConfiguration
     public $path = [];
 
     /**
+     * Callback to transform a segment into the ID-representation.
+     * Input is the segment and the query we discovered so far
+     *
+     * @var    callable(string, array):?int
+     * @since  __DEPLOY_VERSION__
+     */
+    public $parseCallback;
+
+    /**
+     * Callback to transform an ID into the segment-representation.
+     * Input is the ID and the query left until now
+     *
+     * @var    callable(string, array):?int
+     * @since  __DEPLOY_VERSION__
+     */
+    public $buildCallback;
+
+    /**
      * Constructor for the View-configuration class
      *
      * @param   string  $name  Name of the view
@@ -229,6 +247,36 @@ class RouterViewConfiguration
         if ($key !== false) {
             unset($this->layouts[$key]);
         }
+
+        return $this;
+    }
+
+    /**
+     * Set the callback to parse a segment to an ID
+     *
+     * @param    callable  $callback  (string, <string, string|array>):?int
+     *
+     * @return  RouterViewConfiguration  This object for chaining
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setParseCallback(callable $callback)
+    {
+        $this->parseCallback = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Set the callback to build a segment from an ID
+     *
+     * @param   callable  $callback  (int|string, <string, string|array>:string
+     *
+     * @return  RouterViewConfiguration  This object for chaining
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setBuildCallback(callable $callback)
+    {
+        $this->buildCallback = $callback;
 
         return $this;
     }
