@@ -278,7 +278,7 @@ class TaskTable extends Table implements CurrentUserInterface
                 } else {
                     // We don't have a full primary key - return false.
                     if ($this->shouldUseExceptions()) {
-                        throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+                        throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
                     }
 
                     $this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));

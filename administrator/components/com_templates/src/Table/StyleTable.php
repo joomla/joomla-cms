@@ -62,7 +62,7 @@ class StyleTable extends Table
         // Verify that the default style is not unset
         if ($array['home'] == '0' && $this->home == '1') {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
+                throw new ValidationException($this, Text::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
             }
 
             $this->setError(Text::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
@@ -96,7 +96,7 @@ class StyleTable extends Table
 
         if (empty($this->title)) {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('COM_TEMPLATES_ERROR_STYLE_REQUIRES_TITLE'));
+                throw new ValidationException($this, Text::_('COM_TEMPLATES_ERROR_STYLE_REQUIRES_TITLE'));
             }
 
             $this->setError(Text::_('COM_TEMPLATES_ERROR_STYLE_REQUIRES_TITLE'));
@@ -164,7 +164,7 @@ class StyleTable extends Table
 
             if (\count($results) == 1 && $results[0] == $pk) {
                 if ($this->shouldUseExceptions()) {
-                    throw new ValidationException(Text::_('COM_TEMPLATES_ERROR_CANNOT_DELETE_LAST_STYLE'));
+                    throw new ValidationException($this, Text::_('COM_TEMPLATES_ERROR_CANNOT_DELETE_LAST_STYLE'));
                 }
 
                 $this->setError(Text::_('COM_TEMPLATES_ERROR_CANNOT_DELETE_LAST_STYLE'));

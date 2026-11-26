@@ -304,7 +304,7 @@ class StageModel extends AdminModel
         if ($table->load($pk)) {
             if (!$table->published) {
                 if ($this->shouldUseExceptions()) {
-                    throw new WorkflowStateException(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
+                    throw new WorkflowStateException($table, Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
                 }
 
                 $this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));

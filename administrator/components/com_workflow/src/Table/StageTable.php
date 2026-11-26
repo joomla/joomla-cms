@@ -129,7 +129,7 @@ class StageTable extends Table
 
         if (trim($this->title) === '') {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_STATE'));
+                throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_STATE'));
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_STATE'));
@@ -140,7 +140,7 @@ class StageTable extends Table
         if (!empty($this->default)) {
             if ((int) $this->published !== 1) {
                 if ($this->shouldUseExceptions()) {
-                    throw new WorkflowStateException(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
+                    throw new WorkflowStateException($this, Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
                 }
 
                 $this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
@@ -170,7 +170,7 @@ class StageTable extends Table
             } elseif ($id === $this->id) {
                 // This stage is the default, but someone has tried to disable it => not allowed
                 if ($this->shouldUseExceptions()) {
-                    throw new WorkflowStateException(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'));
+                    throw new WorkflowStateException($this, Text::_('COM_WORKFLOW_DISABLE_DEFAULT'));
                 }
 
                 $this->setError(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'));
