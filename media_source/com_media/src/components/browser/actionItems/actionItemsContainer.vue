@@ -3,9 +3,13 @@
     class="media-browser-select"
     :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
     :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
+    role="checkbox"
+    :aria-checked="isSelected"
     tabindex="0"
     @focusin="focused(true)"
     @focusout="focused(false)"
+    @keydown.space.prevent
+    @keyup.space="$event.currentTarget.click()"
   />
   <div
     class="media-browser-actions"
@@ -181,6 +185,9 @@ export default {
     };
   },
   computed: {
+    isSelected() {
+      return this.$store.state.selectedItems.some((selected) => selected.path === this.item.path);
+    },
     canEdit() {
       return api.canEdit && (typeof this.item.canEdit !== 'undefined' ? this.item.canEdit : true);
     },
