@@ -67,6 +67,7 @@ class ModulesModel extends ListModel
 
             if (Associations::isEnabled()) {
                 $config['filter_fields'][] = 'association';
+                $config['filter_fields'][] = 'translation';
             }
         }
 
@@ -161,6 +162,7 @@ class ModulesModel extends ListModel
         $id .= ':' . $this->getState('filter.menuitem');
         $id .= ':' . $this->getState('filter.access');
         $id .= ':' . $this->getState('filter.language');
+        $id .= ':' . $this->getState('filter.translation');
 
         return parent::getStoreId($id);
     }
@@ -440,6 +442,23 @@ class ModulesModel extends ListModel
                 );
 
             $query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
+
+            $query->select($db->quoteName('assoc.outdated', 'association_outdated'))
+                ->join(
+                    'LEFT',
+                    $db->quoteName('#__associations', 'assoc'),
+                    $db->quoteName('assoc.id') . ' = ' . $db->quoteName('a.id')
+                    . ' AND ' . $db->quoteName('assoc.context') . ' = ' . $db->quote('com_modules.item')
+                )
+                ->group($db->quoteName('assoc.outdated'));
+
+            $translation = $this->getState('filter.translation');
+
+            if ($translation === 'outdated') {
+                $query->where($db->quoteName('assoc.outdated') . ' = 1');
+            } elseif ($translation === 'uptodate') {
+                $query->where($db->quoteName('assoc.outdated') . ' = 0');
+            }
         }
 
         return $query;

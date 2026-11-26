@@ -13,6 +13,7 @@ namespace Joomla\Component\Modules\Administrator\View\Modules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\View\ListView;
@@ -112,6 +113,11 @@ class HtmlView extends ListView
         if ($this->clientId == 1 && !ModuleHelper::isAdminMultilang()) {
             unset($this->activeFilters['language']);
             $this->filterForm->removeField('language', 'filter');
+        }
+
+        if (!Associations::isEnabled()) {
+            unset($this->activeFilters['translation']);
+            $this->filterForm->removeField('translation', 'filter');
         }
 
         // We don't need the toolbar in the modal window.

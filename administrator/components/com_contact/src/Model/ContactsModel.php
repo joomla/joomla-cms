@@ -65,6 +65,7 @@ class ContactsModel extends ListModel
 
             if (Associations::isEnabled()) {
                 $config['filter_fields'][] = 'association';
+                $config['filter_fields'][] = 'translation';
             }
         }
 
@@ -129,6 +130,7 @@ class ContactsModel extends ListModel
         $id .= ':' . serialize($this->getState('filter.category_id'));
         $id .= ':' . $this->getState('filter.access');
         $id .= ':' . $this->getState('filter.language');
+        $id .= ':' . $this->getState('filter.translation');
         $id .= ':' . serialize($this->getState('filter.tag'));
         $id .= ':' . $this->getState('filter.level');
 
@@ -220,6 +222,25 @@ class ContactsModel extends ListModel
                 );
 
             $query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
+
+            $query->select($db->quoteName('assoc.outdated', 'association_outdated'))
+                ->join(
+                    'LEFT',
+                    $db->quoteName('#__associations', 'assoc'),
+                    $db->quoteName('assoc.id') . ' = ' . $db->quoteName('a.id')
+                    . ' AND ' . $db->quoteName('assoc.context') . ' = ' . $db->quote('com_contact.item')
+                );
+
+            $translation = $this->getState('filter.translation');
+
+            switch ($translation) {
+                case 'outdated':
+                    $query->where($db->quoteName('assoc.outdated') . ' = 1');
+                    break;
+                case 'uptodate':
+                    $query->where($db->quoteName('assoc.outdated') . ' = 0');
+                    break;
+            }
         }
 
         // Filter by featured.

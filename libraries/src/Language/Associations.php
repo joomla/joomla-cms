@@ -71,7 +71,13 @@ class Associations
                 $query->bind(':extension1', $extension);
             }
 
-            $query->select([$db->quoteName('c2.language'), $db->quoteName('c.' . $pk) . ' AS ' . $db->quoteName('pk')])
+            $query->select(
+                [
+                    $db->quoteName('c2.language'),
+                    $db->quoteName('c.' . $pk) . ' AS ' . $db->quoteName('pk'),
+                    $db->quoteName('a2.outdated'),
+                ]
+            )
                 ->from($db->quoteName($tablename, 'c'))
                 ->join(
                     'INNER',
@@ -80,7 +86,13 @@ class Associations
                     . ' AND ' . $db->quoteName('a.context') . ' = :context'
                 )
                 ->bind(':context', $context)
-                ->join('INNER', $db->quoteName('#__associations', 'a2'), $db->quoteName('a.key') . ' = ' . $db->quoteName('a2.key'))
+                ->join(
+                    'INNER',
+                    $db->quoteName('#__associations', 'a2'),
+                    $db->quoteName('a.key') . ' = ' . $db->quoteName('a2.key')
+                    . ' AND ' . $db->quoteName('a2.context') . ' = :context2'
+                )
+                ->bind(':context2', $context)
                 ->join(
                     'INNER',
                     $db->quoteName($tablename, 'c2'),

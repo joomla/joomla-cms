@@ -3426,7 +3426,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 36
+			count: 35
 			path: administrator/components/com_menus/src/Model/ItemModel.php
 
 		-
