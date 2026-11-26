@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\MailHelper;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Contact\Site\Model\FeaturedModel;
 
@@ -85,32 +84,26 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $app    = Factory::getApplication();
-        $params = $app->getParams();
+        $app          = Factory::getApplication();
+        $this->params = $app->getParams();
 
         /** @var FeaturedModel $model */
-        $model      = $this->getModel();
-        $state      = $model->getState();
-        $items      = $model->getItems();
-        $category   = $this->get('Category');
-        $children   = $this->get('Children');
-        $parent     = $this->get('Parent');
-        $pagination = $model->getPagination();
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
+        $this->state      = $model->getState();
+        $this->items      = $model->getItems();
+        $this->pagination = $model->getPagination();
 
         // Flag indicates to not add limitstart=0 to URL
-        $pagination->hideEmptyLimitstart = true;
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $this->pagination->hideEmptyLimitstart = true;
 
         // Prepare the data.
         // Compute the contact slug.
-        foreach ($items as $item) {
+        foreach ($this->items as $item) {
             $item->slug   = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
             $temp         = $item->params;
-            $item->params = clone $params;
+            $item->params = clone $this->params;
             $item->params->merge($temp);
 
             if ($item->params->get('show_email', 0) == 1) {
@@ -125,17 +118,9 @@ class HtmlView extends BaseHtmlView
         }
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
+        $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
 
-        $maxLevel         = $params->get('maxLevel', -1);
-        $this->maxLevel   = &$maxLevel;
-        $this->state      = &$state;
-        $this->items      = &$items;
-        $this->category   = &$category;
-        $this->children   = &$children;
-        $this->params     = &$params;
-        $this->parent     = &$parent;
-        $this->pagination = &$pagination;
+        $this->maxLevel = $this->params->get('maxLevel', -1);
 
         $this->_prepareDocument();
 
