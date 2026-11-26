@@ -163,14 +163,6 @@
 			label="COM_TAGS_LIST_ALL_SELECTION_OPTIONS">
 
 			<field
-				name="maximum"
-				type="number"
-				label="COM_TAGS_LIST_MAX_LABEL"
-				default="200"
-				filter="integer"
-			/>
-
-			<field
 				name="filter_field"
 				type="list"
 				label="JGLOBAL_FILTER_FIELD_LABEL"
@@ -194,6 +186,15 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
+			
+			<field
+				name="maximum"
+				type="number"
+				label="COM_TAGS_LIST_MAX_LABEL"
+				default="200"
+				filter="integer"
+				showon="show_pagination_limit:0"
+			/>
 
 			<field
 				name="show_pagination"
