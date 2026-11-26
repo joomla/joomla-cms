@@ -12,6 +12,7 @@ namespace Joomla\Plugin\Content\LoadModule\Extension;
 
 use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
 
@@ -112,12 +113,6 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
             // No matches, skip this
             if ($matches) {
                 foreach ($matches as $match) {
-                    if (isset(self::$recursionProtection[$match[1]])) {
-                        continue;
-                    }
-
-                    self::$recursionProtection[$match[1]] = true;
-
                     $matcheslist = explode(',', $match[1]);
 
                     // We may not have a module style so fall back to the plugin default.
@@ -127,15 +122,32 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
 
                     $position = trim($matcheslist[0]);
                     $style    = trim($matcheslist[1]);
+                    $key      = 'position:' . strtolower($position);
 
-                    $output = $this->load($position, $style);
+                    if (isset(self::$recursionProtection[$key])) {
+                        $this->loadLanguage();
+                        $output = Text::sprintf('PLG_LOADMODULE_ERROR_RECURSION_POSITION', $position);
+                        $this->getApplication()->enqueueMessage($output, 'warning');
+
+                        if (($start = strpos($article->text, $match[0])) !== false) {
+                            $article->text = substr_replace($article->text, $output, $start, \strlen($match[0]));
+                        }
+
+                        continue;
+                    }
+
+                    self::$recursionProtection[$key] = true;
+
+                    try {
+                        $output = $this->load($position, $style);
+                    } finally {
+                        unset(self::$recursionProtection[$key]);
+                    }
 
                     // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
                     if (($start = strpos($article->text, $match[0])) !== false) {
                         $article->text = substr_replace($article->text, $output, $start, \strlen($match[0]));
                     }
-
-                    unset(self::$recursionProtection[$match[1]]);
                 }
             }
         }
@@ -147,12 +159,6 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
             // If no matches, skip this
             if ($matchesmod) {
                 foreach ($matchesmod as $matchmod) {
-                    if (isset(self::$recursionProtection[$matchmod[1]])) {
-                        continue;
-                    }
-
-                    self::$recursionProtection[$matchmod[1]] = true;
-
                     $matchesmodlist = explode(',', $matchmod[1]);
 
                     // First parameter is the module, will be prefixed with mod_ later
@@ -172,14 +178,34 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
                         $stylemod = trim($matchesmodlist[2]);
                     }
 
-                    $output = $this->loadModule($module, $title, $stylemod);
+                    $normalizedModule = str_starts_with($module, 'mod_') ? $module : 'mod_' . $module;
+                    $key              = 'module:' . strtolower($normalizedModule) . ':' . $title;
+
+                    if (isset(self::$recursionProtection[$key])) {
+                        $this->loadLanguage();
+                        $moduleLabel = $title !== '' ? $module . ' (' . $title . ')' : $module;
+                        $output      = Text::sprintf('PLG_LOADMODULE_ERROR_RECURSION_MODULE', $moduleLabel);
+                        $this->getApplication()->enqueueMessage($output, 'warning');
+
+                        if (($start = strpos($article->text, $matchmod[0])) !== false) {
+                            $article->text = substr_replace($article->text, $output, $start, \strlen($matchmod[0]));
+                        }
+
+                        continue;
+                    }
+
+                    self::$recursionProtection[$key] = true;
+
+                    try {
+                        $output = $this->loadModule($module, $title, $stylemod);
+                    } finally {
+                        unset(self::$recursionProtection[$key]);
+                    }
 
                     // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
                     if (($start = strpos($article->text, $matchmod[0])) !== false) {
                         $article->text = substr_replace($article->text, $output, $start, \strlen($matchmod[0]));
                     }
-
-                    unset(self::$recursionProtection[$matchmod[1]]);
                 }
             }
         }
@@ -191,21 +217,33 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
             // If no matches, skip this
             if ($matchesmodid) {
                 foreach ($matchesmodid as $match) {
-                    if (isset(self::$recursionProtection[$match[1]])) {
+                    $id  = trim($match[1]);
+                    $key = 'id:' . $id;
+
+                    if (isset(self::$recursionProtection[$key])) {
+                        $this->loadLanguage();
+                        $output = Text::sprintf('PLG_LOADMODULE_ERROR_RECURSION_ID', $id);
+                        $this->getApplication()->enqueueMessage($output, 'warning');
+
+                        if (($start = strpos($article->text, $match[0])) !== false) {
+                            $article->text = substr_replace($article->text, $output, $start, \strlen($match[0]));
+                        }
+
                         continue;
                     }
 
-                    self::$recursionProtection[$match[1]] = true;
+                    self::$recursionProtection[$key] = true;
 
-                    $id     = trim($match[1]);
-                    $output = $this->loadID($id);
+                    try {
+                        $output = $this->loadID($id);
+                    } finally {
+                        unset(self::$recursionProtection[$key]);
+                    }
 
                     // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
                     if (($start = strpos($article->text, $match[0])) !== false) {
                         $article->text = substr_replace($article->text, $output, $start, \strlen($match[0]));
                     }
-
-                    unset(self::$recursionProtection[$match[1]]);
                 }
             }
         }
