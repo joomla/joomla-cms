@@ -102,7 +102,7 @@ class GroupTable extends Table implements CurrentUserInterface
         // Check for a title.
         if (trim($this->title) == '') {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_GROUP'));
+                throw new ValidationException($this, Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_GROUP'));
             }
 
             $this->setError(Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_GROUP'));

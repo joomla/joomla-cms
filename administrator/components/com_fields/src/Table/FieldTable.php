@@ -136,7 +136,7 @@ class FieldTable extends Table implements CurrentUserInterface
         // Check for valid name
         if (trim($this->title) == '') {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
+                throw new ValidationException($this, Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
             }
 
             $this->setError(Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
@@ -161,7 +161,7 @@ class FieldTable extends Table implements CurrentUserInterface
 
         if ($table->load(['name' => $this->name]) && ($table->id != $this->id || $this->id == 0)) {
             if ($this->shouldUseExceptions()) {
-                throw new DuplicateEntryException(Text::_('COM_FIELDS_ERROR_UNIQUE_NAME'), 'name');
+                throw new DuplicateEntryException($this, Text::_('COM_FIELDS_ERROR_UNIQUE_NAME'), 'name');
             }
 
             $this->setError(Text::_('COM_FIELDS_ERROR_UNIQUE_NAME'));

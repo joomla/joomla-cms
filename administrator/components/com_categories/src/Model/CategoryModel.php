@@ -1164,7 +1164,7 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
 
                 if ($table->load($conditions)) {
                     if ($this->shouldUseExceptions()) {
-                        throw new DuplicateEntryException(Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'), 'alias');
+                        throw new DuplicateEntryException($this->table, Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'), 'alias');
                     }
 
                     $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
