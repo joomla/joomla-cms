@@ -65,19 +65,6 @@ class PageController extends CacheController
             $id = $this->_makeId();
         }
 
-        // If the etag matches the page id ... set a no change header and exit : utilize browser cache
-        if (!headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH'])) {
-            $etag = stripslashes($_SERVER['HTTP_IF_NONE_MATCH']);
-
-            if ($etag == $id) {
-                $browserCache = $this->options['browsercache'] ?? false;
-
-                if ($browserCache) {
-                    $this->_noChange();
-                }
-            }
-        }
-
         // We got a cache hit... set the etag header and echo the page data
         $data = $this->cache->get($id, $group);
 
@@ -98,9 +85,37 @@ class PageController extends CacheController
             }
 
             $data = unserialize(trim($data));
+
+            // Bind the ETag to the time the page was cached, so it changes whenever the cached page is refreshed.
+            // Entries stored without a timestamp fall back to the request-derived id.
+            $etag = isset($data['time']) ? md5($id . (int) $data['time']) : $id;
+
+            // If the etag matches the cached page ... set a no change header and exit : utilize browser cache
+            if (!headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH']) && ($this->options['browsercache'] ?? false)) {
+                // RFC 9110 Section 13.1.2: 1#entity-tag evaluated via weak comparison
+                foreach (explode(',', $_SERVER['HTTP_IF_NONE_MATCH']) as $tag) {
+                    $tag = trim($tag);
+
+                    // Strip the case-sensitive weak indicator added by compressing proxies
+                    if (str_starts_with($tag, 'W/')) {
+                        $tag = substr($tag, 2);
+                    }
+
+                    // Strip the surrounding quotes
+                    $tag = trim($tag, '"');
+
+                    // Strip encoding suffixes added by Apache mod_deflate/mod_brotli
+                    $tag = preg_replace('/-(gzip|br)$/', '', $tag);
+
+                    if ($tag === $etag) {
+                        $this->_noChange();
+                    }
+                }
+            }
+
             $data = Cache::getWorkarounds($data);
 
-            $this->_setEtag($id);
+            $this->_setEtag($etag);
 
             return $data;
         }
@@ -160,6 +175,11 @@ class PageController extends CacheController
                     'headers'   => true,
                 ]
             );
+        }
+
+        // Remember when the page was cached, the ETag is derived from it
+        if (\is_array($data)) {
+            $data['time'] = time();
         }
 
         $result = $this->cache->store(serialize($data), $id, $group);
