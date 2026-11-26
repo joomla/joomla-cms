@@ -1063,7 +1063,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 
         if ($this->showon || $hasOptionShowOn) {
             $options['rel']           = ' data-showon=\'' .
-                json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
+                json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group), JSON_HEX_APOS | JSON_HEX_AMP) . '\'';
             $options['showonEnabled'] = true;
         }
 
