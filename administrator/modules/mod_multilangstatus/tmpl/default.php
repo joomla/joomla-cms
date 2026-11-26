@@ -14,8 +14,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 $hideLinks = $app->getInput()->getBool('hidemainmenu');
+$user      = $app->getIdentity();
 
-if (!$multilanguageEnabled || $hideLinks) {
+if (!$multilanguageEnabled || $hideLinks || !$user->authorise('core.manage', 'com_languages')) {
     return;
 }
 
