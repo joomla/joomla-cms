@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Table\Exception;
 
+use Joomla\CMS\Table\Table;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -21,4 +23,12 @@ namespace Joomla\CMS\Table\Exception;
  */
 interface TableExceptionInterface extends \Throwable
 {
+    /**
+     * Get the table object the exception relates to.
+     *
+     * @return  Table
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getTable(): Table;
 }

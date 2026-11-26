@@ -24,7 +24,7 @@ $moduleId = str_replace(' ', '', $module->title) . $module->id;
     ]); ?>
 <?php else : ?>
     <?php if (\count($list)) : ?>
-        <table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
+        <table class="table" id="<?php echo htmlspecialchars($moduleId, ENT_QUOTES, 'UTF-8'); ?>">
             <caption class="visually-hidden"><?php echo $module->title; ?></caption>
             <thead>
                 <tr>
@@ -55,7 +55,7 @@ $moduleId = str_replace(' ', '', $module->title) . $module->id;
                             <span class="badge bg-<?php echo $hits_class; ?>"><?php echo $item->hits; ?></span>
                         </td>
                         <td>
-                            <?php echo HTMLHelper::_('date', $item->publish_up, Text::_('DATE_FORMAT_LC4')); ?>
+                            <?php echo HTMLHelper::_('date', is_null($item->publish_up) ? $item->created : $item->publish_up, Text::_('DATE_FORMAT_LC4')); ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

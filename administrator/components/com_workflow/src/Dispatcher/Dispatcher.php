@@ -35,7 +35,7 @@ class Dispatcher extends ComponentDispatcher
         $view       = $input->getCmd('view');
         $layout     = $input->getCmd('layout');
         $task       = $input->getCmd('task');
-        $extension  = $input->getCmd('extension');
+        $extension  = $input->getCmd('extension', '');
         $parts      = explode('.', $extension);
 
         $allowedTasks = [

@@ -11,19 +11,24 @@
 namespace Joomla\Component\Users\Administrator\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Authentication\RememberMe;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Event\MultiFactor\Validate;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\CaptiveModel;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Input\Input;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -153,7 +158,7 @@ class CaptiveController extends BaseController implements UserFactoryAwareInterf
 
         if (!$model->checkTryLimit($record)) {
             // The try limit is reached, show error and return
-            $captiveURL = Route::_('index.php?option=com_users&view=captive&task=select', false);
+            $captiveURL = Route::_('index.php?option=com_users&view=captive&task=captive.select', false);
             $message    = Text::_('COM_USERS_MFA_TRY_LIMIT_REACHED');
             $this->setRedirect($captiveURL, $message, 'error');
 
@@ -228,6 +233,25 @@ class CaptiveController extends BaseController implements UserFactoryAwareInterf
         $session = $this->app->getSession();
         $session->set('com_users.mfa_checked', 1);
         $session->set('com_users.mandatory_mfa_setup', 0);
+
+        // If the Remember Me cookie was deferred pending MFA, create it now that MFA has been passed
+        if ($session->get('com_users.remember_deferred', 0)) {
+            $session->set('com_users.remember_deferred', 0);
+
+            $plugin = PluginHelper::getPlugin('authentication', 'cookie');
+
+            // Only mint the cookie when the cookie authentication plugin is enabled
+            if ($plugin && $this->app->isClient('site')) {
+                $user = $this->app->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
+
+                RememberMe::createOrUpdateCookie(
+                    $user,
+                    $this->app,
+                    Factory::getContainer()->get(DatabaseInterface::class),
+                    new Registry($plugin->params ?? '')
+                );
+            }
+        }
 
         // Get the return URL stored by the plugin in the session
         $returnUrl = $session->get('com_users.return_url', '');

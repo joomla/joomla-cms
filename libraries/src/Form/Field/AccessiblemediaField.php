@@ -200,6 +200,11 @@ class AccessiblemediaField extends SubformField
         $mediaTypes          = explode(',', $this->types);
         $fieldName           = (\in_array('images', $mediaTypes)) ? 'imagefile' : 'file';
 
+        // Escape the values for the form source, a field parameter must not change the structure of the XML
+        $directory = htmlspecialchars($this->directory, ENT_QUOTES | ENT_XML1, 'UTF-8');
+        $preview   = htmlspecialchars($this->preview, ENT_QUOTES | ENT_XML1, 'UTF-8');
+        $types     = htmlspecialchars($this->types, ENT_QUOTES | ENT_XML1, 'UTF-8');
+
         // Build the form source
         $xml = <<<XML
 <?xml version="1.0" encoding="utf-8"?>
@@ -212,11 +217,11 @@ class AccessiblemediaField extends SubformField
 			name="$fieldName"
 			type="media"
 			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_IMAGEFILE_LABEL"
-			directory="$this->directory"
-			preview="$this->preview"
+			directory="$directory"
+			preview="$preview"
 			preview_width="$this->previewWidth"
 			preview_height="$this->previewHeight"
-			types="$this->types"
+			types="$types"
 			schemes="http,https,ftp,ftps,data,file"
 			validate="url"
 			relative="true"
@@ -244,8 +249,8 @@ XML;
 			name="poster"
 			type="media"
 			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_VIDEO_POSTER_LABEL"
-			directory="$this->directory"
-			preview="$this->preview"
+			directory="$directory"
+			preview="$preview"
 			preview_width="$this->previewWidth"
 			preview_height="$this->previewHeight"
 			types="images"

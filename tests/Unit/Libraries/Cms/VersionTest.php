@@ -88,7 +88,7 @@ class VersionTest extends UnitTestCase
      */
     public function testGetShortVersion()
     {
-        $this->assertEquals(JVERSION, $this->version->getShortVersion());
+        $this->assertSame(JVERSION, $this->version->getShortVersion());
     }
 
     /**

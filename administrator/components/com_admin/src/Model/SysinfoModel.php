@@ -141,6 +141,8 @@ class SysinfoModel extends BaseDatabaseModel
             'session_redis_server_auth',
             'sitename',
             'smtphost',
+            'smtp_oauth2_client_secret',
+            'smtp_oauth2_refresh_token',
             'tmp_path',
             'open_basedir',
         ],
@@ -287,7 +289,7 @@ class SysinfoModel extends BaseDatabaseModel
         $hidden       = [
             'host', 'user', 'password', 'ftp_user', 'ftp_pass',
             'smtpuser', 'smtppass', 'redis_server_auth', 'session_redis_server_auth',
-            'proxy_user', 'proxy_pass', 'secret',
+            'proxy_user', 'proxy_pass', 'secret', 'smtp_oauth2_client_secret', 'smtp_oauth2_refresh_token',
         ];
 
         foreach ($hidden as $key) {
@@ -317,7 +319,7 @@ class SysinfoModel extends BaseDatabaseModel
             'compatpluginenabled'    => PluginHelper::isEnabled('behaviour', 'compat6'),
             'compatpluginparameters' => $this->getCompatPluginParameters(),
             'phpversion'             => PHP_VERSION,
-            'php'                    => php_uname(),
+            'php'                    => \function_exists('php_uname') ? php_uname() : '',
             'dbserver'               => $db->getServerType(),
             'dbversion'              => $db->getVersion(),
             'dbcollation'            => $db->getCollation(),
