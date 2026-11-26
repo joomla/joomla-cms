@@ -722,6 +722,17 @@
 				</field>
 
 				<field
+					name="show_email_heading"
+					type="list"
+					label="COM_CONTACT_FIELD_EMAIL_SHOW_HEADING_LABEL"
+					default="1"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
 					name="show_email_copy"
 					type="list"
 					label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
