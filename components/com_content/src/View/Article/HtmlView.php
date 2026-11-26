@@ -17,7 +17,6 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -110,15 +109,11 @@ class HtmlView extends BaseHtmlView
 
         /** @var ArticleModel $model */
         $model       = $this->getModel();
+        $model->setUseExceptions(true);
         $this->item  = $model->getItem();
         $this->print = $app->getInput()->getBool('print', false);
         $this->state = $model->getState();
         $this->user  = $user;
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         // Create a shortcut for $item.
         $item            = $this->item;
