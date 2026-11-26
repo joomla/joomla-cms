@@ -136,10 +136,8 @@ class DebugHelper
                 $extension = 'com_config';
                 $source    = JPATH_ADMINISTRATOR . '/components/' . $extension;
 
-                $lang->load($extension, JPATH_ADMINISTRATOR, null, false, false)
-                    || $lang->load($extension, $source, null, false, false)
-                    || $lang->load($extension, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-                    || $lang->load($extension, $source, $lang->getDefault(), false, false);
+                $lang->load($extension, JPATH_ADMINISTRATOR)
+                    || $lang->load($extension, $source);
             }
         }
 

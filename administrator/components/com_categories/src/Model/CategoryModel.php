@@ -439,10 +439,8 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
                 \JLoader::register($cName, $path);
 
                 if (class_exists($cName) && \is_callable([$cName, 'onPrepareForm'])) {
-                    $lang->load($component, JPATH_BASE, null, false, false)
-                        || $lang->load($component, JPATH_BASE . '/components/' . $component, null, false, false)
-                        || $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
-                        || $lang->load($component, JPATH_BASE . '/components/' . $component, $lang->getDefault(), false, false);
+                    $lang->load($component, JPATH_BASE)
+                        || $lang->load($component, JPATH_BASE . '/components/' . $component);
                     \call_user_func_array([$cName, 'onPrepareForm'], [&$form]);
 
                     // Check for an error.
