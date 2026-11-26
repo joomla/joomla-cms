@@ -113,7 +113,7 @@ trait MultiFactorAuthenticationHandler
                 \is_array($forceMFAUserGroups) ? $forceMFAUserGroups : [],
                 $user->getAuthorisedGroups()
             )
-        ) >= 1;
+        ) >= 1 && !empty(MfaHelper::getMfaMethods());
         $isMFADisallowed = $isMFADisallowed && !$isMFAMandatory;
         $isMFAPending    = $this->isMultiFactorAuthenticationPending();
         $session         = $this->getSession();
