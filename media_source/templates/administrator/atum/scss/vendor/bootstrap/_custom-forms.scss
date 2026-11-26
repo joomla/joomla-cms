@@ -61,6 +61,13 @@
     box-shadow: none;
   }
 
+}
+
+// The original selects of Choices.js keep the "choices__input" class instead of
+// "form-select", so their options fall back to the browser default text colour
+// and look inconsistent with native filter selects.
+.form-select,
+.choices__input {
   optgroup,
   option {
     color: $form-select-option;
