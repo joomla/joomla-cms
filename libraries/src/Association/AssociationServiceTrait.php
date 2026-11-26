@@ -36,9 +36,23 @@ trait AssociationServiceTrait
      *
      * @since  4.0.0
      */
-    public function getAssociationsExtension(): AssociationExtensionInterface
+    public function getAssociationExtension(): AssociationExtensionInterface
     {
         return $this->associationExtension;
+    }
+
+    /**
+     * Returns the associations extension helper class.
+     *
+     * @return  AssociationExtensionInterface
+     *
+     * @since  4.0.0
+     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     *             Use ->getAssociationExtension() instead
+     */
+    public function getAssociationsExtension(): AssociationExtensionInterface
+    {
+        return $this->getAssociationExtension();
     }
 
     /**
