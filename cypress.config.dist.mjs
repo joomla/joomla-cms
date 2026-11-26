@@ -1,4 +1,4 @@
-import { defineConfig } from 'cypress';
+import {defineConfig} from 'cypress';
 import setupPlugins from './tests/System/plugins/index.mjs';
 
 export default defineConfig({
@@ -10,6 +10,18 @@ export default defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
       setupPlugins(on, config);
+      on('task', {
+        log(message) {
+          console.log(message);
+
+          return null;
+        },
+        table(message) {
+          console.table(message);
+
+          return null;
+        }
+      });
     },
     baseUrl: 'https://localhost/',
     specPattern: [

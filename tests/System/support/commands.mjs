@@ -10,6 +10,7 @@ import { registerCommands } from 'joomla-cypress';
 import './commands/api.mjs';
 import './commands/config.mjs';
 import './commands/db.mjs';
+import './commands/a11y.mjs';
 
 registerCommands();
 
