@@ -122,6 +122,13 @@ class Content extends Table implements TaggableTableInterface, CurrentUserInterf
 
             if ($result = $db->loadResult()) {
                 $assetId = (int) $result;
+                $asset   = new Asset($db, $this->getDispatcher());
+
+                // Heal a reference to a category asset which does not exist.
+                if (!$asset->load($assetId)) {
+                    $found   = $asset->loadByName('com_content.category.' . $catId) || $asset->loadByName('com_content');
+                    $assetId = $found ? (int) $asset->id : null;
+                }
             }
         }
 
