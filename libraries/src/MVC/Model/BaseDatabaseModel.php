@@ -34,9 +34,7 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\EventInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Base class for a database aware Joomla Model

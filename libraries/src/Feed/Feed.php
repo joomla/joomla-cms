@@ -11,9 +11,7 @@ namespace Joomla\CMS\Feed;
 
 use Joomla\CMS\Date\Date;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Class to encapsulate a feed for the Joomla Platform.

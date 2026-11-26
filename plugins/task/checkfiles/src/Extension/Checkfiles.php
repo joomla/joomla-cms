@@ -19,9 +19,7 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Task plugin with routines that offer checks on files.

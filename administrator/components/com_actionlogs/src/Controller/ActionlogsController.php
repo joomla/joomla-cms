@@ -23,9 +23,7 @@ use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Actionlogs list controller class.

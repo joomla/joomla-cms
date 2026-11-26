@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Microdata;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla Platform class for interacting with Microdata semantics.

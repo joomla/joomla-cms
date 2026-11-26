@@ -12,9 +12,7 @@ namespace Joomla\CMS\Component\Router;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\Rules\RulesInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View-based component routing class

@@ -26,9 +26,7 @@ use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Component\Content\Site\Model\ArticleModel;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML Article View class for the Content component

@@ -16,6 +16,8 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
+\defined('_JEXEC') or die;
+
 /**
  * Editor provider class
  *

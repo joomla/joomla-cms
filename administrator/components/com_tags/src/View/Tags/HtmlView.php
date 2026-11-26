@@ -18,9 +18,7 @@ use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Tags\Administrator\Model\TagsModel;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Tags view class for the Tags package.

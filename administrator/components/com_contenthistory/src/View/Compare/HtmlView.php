@@ -13,9 +13,7 @@ namespace Joomla\Component\Contenthistory\Administrator\View\Compare;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Contenthistory\Administrator\Model\CompareModel;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class for a list of contenthistory.

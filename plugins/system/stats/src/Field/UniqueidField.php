@@ -10,9 +10,7 @@
 
 namespace Joomla\Plugin\System\Stats\Field;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Unique ID Field class for the Stats Plugin.

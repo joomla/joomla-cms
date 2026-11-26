@@ -20,9 +20,7 @@ use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Database\QueryInterface;
 use Joomla\String\StringHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Search model class for the Finder package.

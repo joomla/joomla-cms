@@ -19,9 +19,7 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 use Joomla\Registry\Registry;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper for mod_quickicon

@@ -12,9 +12,7 @@ namespace Joomla\Component\Content\Administrator\View\Featured;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class for a list of featured articles.

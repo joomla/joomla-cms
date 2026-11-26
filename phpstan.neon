@@ -25,6 +25,9 @@ parameters:
 		- administrator/components/com_joomlaupdate/finalisation.php
 	ignoreErrors:
 		-
+			identifier: joomla.jexecCheck
+			path: administrator/components/com_joomlaupdate/extract.php
+		-
 			message: '#Access to protected property [a-zA-Z0-9\\_]+\\HtmlView::\$[a-zA-Z0-9\\_]+.#'
 			paths:
 				- components/*

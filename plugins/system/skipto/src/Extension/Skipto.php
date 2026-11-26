@@ -14,9 +14,7 @@ use Joomla\CMS\Event\Application\AfterDispatchEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Skipto plugin to add accessible keyboard navigation to the site and administrator templates.

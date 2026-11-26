@@ -19,9 +19,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Form Field to display a list of the layouts for module display from the module or template overrides.

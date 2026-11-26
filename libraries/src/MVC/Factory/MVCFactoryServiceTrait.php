@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\MVC\Factory;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Defines the trait for a MVC factory service class.

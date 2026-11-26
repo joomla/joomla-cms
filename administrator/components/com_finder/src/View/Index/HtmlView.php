@@ -21,9 +21,7 @@ use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Component\Finder\Administrator\Model\IndexModel;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Index view class for Finder.

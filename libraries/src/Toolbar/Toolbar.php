@@ -24,9 +24,7 @@ use Joomla\CMS\Toolbar\Button\PopupButton;
 use Joomla\CMS\Toolbar\Button\SeparatorButton;
 use Joomla\CMS\Toolbar\Button\StandardButton;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * ToolBar handler

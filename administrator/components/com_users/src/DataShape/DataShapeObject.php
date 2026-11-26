@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Users\Administrator\DataShape;
 
+\defined('_JEXEC') or die;
+
 /**
  * Generic helper for handling data shapes in com_users
  *

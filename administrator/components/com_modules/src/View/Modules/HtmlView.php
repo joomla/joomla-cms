@@ -18,9 +18,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\View\ListView;
 use Joomla\CMS\Session\Session;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class for a list of modules.

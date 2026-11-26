@@ -12,9 +12,7 @@ namespace Joomla\CMS\Event;
 use Joomla\Event\Event;
 use Joomla\String\Normalise;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * This class implements the base Event object used system-wide to offer orthogonality. Core objects such as Models,

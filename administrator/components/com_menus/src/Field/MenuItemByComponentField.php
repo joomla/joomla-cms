@@ -15,6 +15,8 @@ use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
+\defined('_JEXEC') or die;
+
 /**
  * MenuItem by Component field.
  *

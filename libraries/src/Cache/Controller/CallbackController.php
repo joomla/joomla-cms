@@ -14,9 +14,7 @@ use Joomla\CMS\Cache\CacheController;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Factory;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Cache callback type object

@@ -14,9 +14,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Psr\Log\LoggerInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Service provider for the application's PSR-3 logger dependency

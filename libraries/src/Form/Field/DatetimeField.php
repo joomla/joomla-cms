@@ -13,6 +13,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\Registry\Registry;
 
+\defined('_JEXEC') or die;
+
 /**
  * DateTime field
  *

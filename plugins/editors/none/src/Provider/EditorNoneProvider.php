@@ -14,6 +14,8 @@ use Joomla\CMS\Editor\AbstractEditorProvider;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
+\defined('_JEXEC') or die;
+
 /**
  * Editor provider class
  *

@@ -11,9 +11,7 @@ namespace Joomla\CMS\Event\Application;
 
 use Joomla\CMS\Document\Document;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Class for Application's Document events

@@ -12,9 +12,7 @@ namespace Joomla\CMS\Event\WebAsset;
 use Joomla\CMS\WebAsset\WebAssetItemInterface;
 use Joomla\CMS\WebAsset\WebAssetRegistryInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Event class for WebAssetRegistry "asset changed" events

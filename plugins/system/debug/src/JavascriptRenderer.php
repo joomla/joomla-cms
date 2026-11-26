@@ -14,9 +14,7 @@ use DebugBar\DebugBar;
 use DebugBar\JavascriptRenderer as DebugBarJavascriptRenderer;
 use Joomla\CMS\Factory;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Custom JavascriptRenderer for DebugBar

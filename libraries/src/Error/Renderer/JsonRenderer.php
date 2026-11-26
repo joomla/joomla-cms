@@ -13,9 +13,7 @@ use Joomla\Application\WebApplicationInterface;
 use Joomla\CMS\Error\AbstractRenderer;
 use Joomla\CMS\Factory;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * JSON error page renderer

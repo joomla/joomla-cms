@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Mail;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Provides a common interface to send emails through an SMTP or sendmail service.

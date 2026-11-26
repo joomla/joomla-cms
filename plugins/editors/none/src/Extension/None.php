@@ -17,9 +17,7 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\Editors\None\Provider\EditorNoneProvider;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Plain Textarea Editor Plugin

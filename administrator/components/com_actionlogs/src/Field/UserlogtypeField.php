@@ -19,6 +19,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Database\ParameterType;
 
+\defined('_JEXEC') or die;
+
 /**
  * Field to load a list of all users that have logged actions
  *

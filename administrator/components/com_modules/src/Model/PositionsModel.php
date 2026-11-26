@@ -19,9 +19,7 @@ use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Path;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Modules Component Positions Model

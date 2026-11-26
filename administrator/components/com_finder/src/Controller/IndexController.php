@@ -16,9 +16,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Index controller class for Finder.

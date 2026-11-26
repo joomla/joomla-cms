@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Environment;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Browser class, provides capability information about the current web client.

@@ -14,9 +14,7 @@ use Joomla\CMS\Extension\Service\Provider\ModuleDispatcherFactory;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The messages module service provider.

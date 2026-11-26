@@ -17,6 +17,8 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Editors\TinyMCE\PluginTraits\DisplayTrait;
 use Joomla\Registry\Registry;
 
+\defined('_JEXEC') or die;
+
 /**
  * Editor provider class
  *

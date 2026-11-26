@@ -19,6 +19,8 @@ use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Event\SubscriberInterface;
 
+\defined('_JEXEC') or die;
+
 /**
  * Task plugin with routines to check in a checked out item.
  *

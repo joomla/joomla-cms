@@ -14,6 +14,9 @@ parameters:
 		Joomla\CMS\Application\CMSApplicationInterface:
 			- close
 
+rules:
+	- Joomla\PHPStan\Rules\JexecCheckRule
+
 services:
 	-
 		class: Joomla\PHPStan\DynamicReturnType\DIContainer

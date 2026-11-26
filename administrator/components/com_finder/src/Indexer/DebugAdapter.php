@@ -18,6 +18,8 @@ use Joomla\Database\QueryInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Utilities\ArrayHelper;
 
+\defined('_JEXEC') or die;
+
 /**
  * Prototype debug adapter class for the Finder indexer package.
  * THIS CLASS IS ONLY TO BE USED FOR DEBUGGING PURPOSES! DON'T

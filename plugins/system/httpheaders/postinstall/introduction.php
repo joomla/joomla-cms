@@ -10,9 +10,7 @@
 
 use Joomla\CMS\Factory;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Checks if the plugin is enabled. If not it returns true, meaning that the

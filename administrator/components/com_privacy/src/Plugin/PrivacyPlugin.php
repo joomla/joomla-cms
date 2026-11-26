@@ -18,9 +18,7 @@ use Joomla\Component\Privacy\Administrator\Export\Field;
 use Joomla\Component\Privacy\Administrator\Export\Item;
 use Joomla\Database\DatabaseAwareTrait;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Base class for privacy plugins

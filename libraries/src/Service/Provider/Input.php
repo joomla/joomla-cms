@@ -13,6 +13,8 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Input\Input as CMSInput;
 
+\defined('_JEXEC') or die;
+
 /**
  * Service provider for the the Joomla Input object.
  *

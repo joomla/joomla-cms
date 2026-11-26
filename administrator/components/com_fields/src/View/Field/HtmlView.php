@@ -19,9 +19,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Filesystem\Path;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Field View

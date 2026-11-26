@@ -11,6 +11,8 @@ namespace Joomla\CMS\Captcha;
 
 use Joomla\CMS\Form\FormField;
 
+\defined('_JEXEC') or die;
+
 /**
  * Captcha Provider Interface
  *

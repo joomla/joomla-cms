@@ -26,9 +26,7 @@ use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\SubscriberInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla Authentication plugin

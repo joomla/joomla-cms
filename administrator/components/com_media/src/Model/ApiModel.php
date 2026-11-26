@@ -28,9 +28,7 @@ use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 use Joomla\Filesystem\File;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Api Model

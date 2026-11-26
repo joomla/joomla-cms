@@ -17,9 +17,7 @@ use Joomla\Filesystem\Exception\FilesystemException;
 use Joomla\Filesystem\Folder;
 use Joomla\Utilities\IpHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Formatted Text File Log class

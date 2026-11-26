@@ -12,9 +12,7 @@ namespace Joomla\CMS\Schema;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Filesystem\Folder;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Contains a set of JSchemaChange objects for a particular instance of Joomla.

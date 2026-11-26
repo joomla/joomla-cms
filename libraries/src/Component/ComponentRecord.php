@@ -11,9 +11,7 @@ namespace Joomla\CMS\Component;
 
 use Joomla\Registry\Registry;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Object representing a component extension record

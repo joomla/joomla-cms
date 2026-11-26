@@ -18,9 +18,7 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Uri\UriHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Form Rule class for the Joomla Platform.

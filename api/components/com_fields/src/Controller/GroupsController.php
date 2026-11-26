@@ -13,9 +13,7 @@ namespace Joomla\Component\Fields\Api\Controller;
 use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\MVC\Controller\ApiController;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The groups controller

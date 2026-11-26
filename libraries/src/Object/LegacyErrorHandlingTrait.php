@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Object;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Trait which contains the legacy methods that formerly were inherited from \Joomla\CMS\Object\CMSObject to set and

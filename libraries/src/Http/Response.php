@@ -11,9 +11,7 @@ namespace Joomla\CMS\Http;
 
 use Joomla\Http\Response as FrameworkResponse;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTTP response data object class.

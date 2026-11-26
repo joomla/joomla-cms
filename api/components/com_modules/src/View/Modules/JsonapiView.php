@@ -14,9 +14,7 @@ use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\Component\Modules\Administrator\Model\SelectModel;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The modules view

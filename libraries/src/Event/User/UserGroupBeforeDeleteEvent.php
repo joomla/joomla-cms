@@ -11,9 +11,7 @@ namespace Joomla\CMS\Event\User;
 
 use Joomla\CMS\Event\Model\BeforeDeleteEvent as ModelBeforeDeleteEvent;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Class for Model event.

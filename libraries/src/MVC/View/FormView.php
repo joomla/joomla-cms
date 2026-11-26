@@ -24,9 +24,7 @@ use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Base class for a Joomla Form View

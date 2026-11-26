@@ -17,6 +17,8 @@ use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 
+\defined('_JEXEC') or die;
+
 trait InstallerScriptTrait
 {
     /**

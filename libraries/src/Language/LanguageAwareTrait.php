@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Language;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Defines the trait for a language aware class.

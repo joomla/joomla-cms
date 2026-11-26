@@ -23,9 +23,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Categories\Administrator\Model\CategoriesModel;
 use Joomla\Filesystem\Path;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Categories view class for the Category package.

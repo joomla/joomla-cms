@@ -18,9 +18,7 @@ use Joomla\CMS\Workflow\Workflow;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Filesystem\Path;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Trait which supports state behavior

@@ -18,9 +18,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
 use Joomla\Component\Contact\Site\Model\FormModel;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML Contact View class for the Contact component

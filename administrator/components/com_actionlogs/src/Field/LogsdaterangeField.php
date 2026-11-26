@@ -14,9 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\PredefinedlistField;
 use Joomla\CMS\Form\Form;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Field to show a list of range dates to sort with

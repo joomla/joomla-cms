@@ -31,9 +31,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Event\SubscriberInterface;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * A task plugin. Offers 2 task routines Invalidate Expired Consents and Remind Expired Consents

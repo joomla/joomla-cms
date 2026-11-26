@@ -27,9 +27,7 @@ use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 use Joomla\Component\Contact\Site\Model\ContactModel;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML Contact View class for the Contact component

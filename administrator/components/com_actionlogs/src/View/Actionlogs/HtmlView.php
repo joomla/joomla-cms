@@ -16,9 +16,7 @@ use Joomla\CMS\MVC\View\ListView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class for a list of logs.

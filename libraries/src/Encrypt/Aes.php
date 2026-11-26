@@ -14,9 +14,7 @@ use Joomla\CMS\Encrypt\AES\AesInterface;
 use Joomla\CMS\Encrypt\AES\Mcrypt;
 use Joomla\CMS\Encrypt\AES\OpenSSL;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * A simple implementation of AES-128, AES-192 and AES-256 encryption using the

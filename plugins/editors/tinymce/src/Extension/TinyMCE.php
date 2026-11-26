@@ -25,9 +25,7 @@ use Joomla\Plugin\Editors\TinyMCE\PluginTraits\KnownButtons;
 use Joomla\Plugin\Editors\TinyMCE\PluginTraits\ToolbarPresets;
 use Joomla\Plugin\Editors\TinyMCE\Provider\TinyMCEProvider;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * TinyMCE Editor Plugin

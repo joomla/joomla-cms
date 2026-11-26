@@ -31,9 +31,7 @@ use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Service provider for the service MVC factory.

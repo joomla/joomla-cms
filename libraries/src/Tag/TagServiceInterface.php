@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Tag;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Access to component specific tagging information.

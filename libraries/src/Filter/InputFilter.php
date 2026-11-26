@@ -13,9 +13,7 @@ use enshrined\svgSanitize\Sanitizer;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Filter\InputFilter as BaseInputFilter;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * InputFilter is a class for filtering input from any data source

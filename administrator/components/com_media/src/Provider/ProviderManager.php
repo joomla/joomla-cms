@@ -16,9 +16,7 @@ use Joomla\Component\Media\Administrator\Exception\ProviderAccountIsEmptyExcepti
 use Joomla\Component\Media\Administrator\Exception\ProviderAccountNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\ProviderNotFoundException;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Media Adapter Manager

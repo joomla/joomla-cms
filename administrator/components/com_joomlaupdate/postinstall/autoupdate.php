@@ -16,9 +16,7 @@ use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateState;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Post-installation message about the new Automated Update: condition check.

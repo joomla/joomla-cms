@@ -28,9 +28,7 @@ use Joomla\Component\Finder\Site\Helper\FinderHelper;
 use Joomla\Component\Finder\Site\Model\SearchModel;
 use Joomla\Filesystem\Path;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Search HTML view class for the Finder package.

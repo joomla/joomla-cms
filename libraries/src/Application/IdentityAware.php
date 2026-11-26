@@ -12,9 +12,7 @@ namespace Joomla\CMS\Application;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Trait for application classes which are identity (user) aware

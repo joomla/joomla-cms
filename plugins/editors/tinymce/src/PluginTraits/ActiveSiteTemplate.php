@@ -12,9 +12,7 @@ namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
 use Joomla\CMS\Language\Text;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Gets the active Site template style.

@@ -17,9 +17,7 @@ use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 use Joomla\Database\DatabaseInterface;
 use Tobscure\JsonApi\Resource;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The healthcheck view

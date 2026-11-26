@@ -16,9 +16,7 @@ use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Filesystem\Path;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Provides a modal media selector including upload mechanism

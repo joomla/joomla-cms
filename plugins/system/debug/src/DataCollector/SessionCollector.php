@@ -15,9 +15,7 @@ use Joomla\Plugin\System\Debug\AbstractDataCollector;
 use Joomla\Plugin\System\Debug\Extension\Debug;
 use Joomla\Registry\Registry;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * SessionDataCollector

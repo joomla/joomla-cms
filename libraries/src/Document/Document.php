@@ -15,9 +15,7 @@ use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\WebAsset\WebAssetManager;
 use Symfony\Component\WebLink\HttpHeaderSerializer;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Document class, provides an easy interface to parse and display a document

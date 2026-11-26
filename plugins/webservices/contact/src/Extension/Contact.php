@@ -16,9 +16,7 @@ use Joomla\CMS\Router\ApiRouter;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Router\Route;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Web Services adapter for com_contact.

@@ -16,9 +16,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\Captcha\POWCaptcha\Provider\POWCaptchaProvider;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Proof of work captcha Plugin

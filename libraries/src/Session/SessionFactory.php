@@ -17,9 +17,7 @@ use Joomla\Session\Handler;
 use Joomla\Session\HandlerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Factory for creating session API objects

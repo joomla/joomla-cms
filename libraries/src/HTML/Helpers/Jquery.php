@@ -12,9 +12,7 @@ namespace Joomla\CMS\HTML\Helpers;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Utility class for jQuery JavaScript behaviors

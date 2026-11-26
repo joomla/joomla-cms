@@ -18,9 +18,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Workflow\Administrator\Helper\StageHelper;
 use Joomla\Component\Workflow\Administrator\Model\StageModel;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class to add or edit a stage of a workflow

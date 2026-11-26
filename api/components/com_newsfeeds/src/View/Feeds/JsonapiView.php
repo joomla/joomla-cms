@@ -14,9 +14,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\Component\Newsfeeds\Api\Serializer\NewsfeedSerializer;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The feeds view

@@ -16,9 +16,7 @@ use Joomla\CMS\Mail\Exception\MailDisabledException;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 use PHPMailer\PHPMailer\PHPMailer;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Email Class.  Provides a common interface to send email from the Joomla! Platform

@@ -14,9 +14,7 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Model class for Graphical View of the workflow

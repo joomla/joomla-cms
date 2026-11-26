@@ -12,9 +12,7 @@ namespace Joomla\CMS\Versioning;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Defines the trait for a Versionable Controller Class.

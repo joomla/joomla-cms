@@ -14,9 +14,7 @@ use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Language\Text;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * FeedDocument class, provides an easy interface to parse and display any feed document

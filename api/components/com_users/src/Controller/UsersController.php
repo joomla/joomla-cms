@@ -18,9 +18,7 @@ use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The users controller

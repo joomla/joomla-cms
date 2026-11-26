@@ -17,9 +17,7 @@ use Joomla\Registry\Registry;
 use ReCaptcha\RequestMethod;
 use ReCaptcha\RequestParameters;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Bridges the Joomla! HTTP API to the Google Recaptcha RequestMethod interface for a POST request.

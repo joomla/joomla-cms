@@ -16,6 +16,8 @@ use Joomla\Component\Users\Administrator\Model\CaptiveModel;
 use Joomla\Component\Users\Administrator\View\Captive\HtmlView;
 use Joomla\Utilities\ArrayHelper;
 
+\defined('_JEXEC') or die;
+
 /**
  * @var HtmlView     $this  View object
  * @var CaptiveModel $model The model

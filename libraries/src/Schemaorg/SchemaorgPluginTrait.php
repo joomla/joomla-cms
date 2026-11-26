@@ -12,9 +12,7 @@ namespace Joomla\CMS\Schemaorg;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\PrepareFormEvent;
 use Joomla\CMS\Form\Field\ListField;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Trait for component schemaorg plugins.

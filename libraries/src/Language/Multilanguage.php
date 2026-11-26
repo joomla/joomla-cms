@@ -15,9 +15,7 @@ use Joomla\CMS\Menu\MenuItem;
 use Joomla\CMS\Menu\SiteMenu;
 use Joomla\Database\DatabaseInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Utility class for multilang

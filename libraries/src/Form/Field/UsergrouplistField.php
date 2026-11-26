@@ -12,9 +12,7 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Helper\UserGroupsHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Field to load a dropdown list of available user groups

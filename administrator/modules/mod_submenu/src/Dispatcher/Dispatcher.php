@@ -14,9 +14,7 @@ use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Module\Submenu\Administrator\Menu\Menu;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Dispatcher class for mod_submenu

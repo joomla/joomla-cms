@@ -15,7 +15,7 @@
  *                             Eg: src, class, controls, controlslist, autoplay, loop, style, data-*
  *                             See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio
  */
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 

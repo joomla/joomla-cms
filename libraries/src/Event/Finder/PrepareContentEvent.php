@@ -11,9 +11,7 @@ namespace Joomla\CMS\Event\Finder;
 
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Class for Finder events.

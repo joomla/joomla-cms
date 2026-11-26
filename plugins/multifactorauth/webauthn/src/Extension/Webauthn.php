@@ -30,9 +30,7 @@ use Joomla\Input\Input;
 use Joomla\Plugin\Multifactorauth\Webauthn\Helper\Credentials;
 use Webauthn\PublicKeyCredentialRequestOptions;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla Multi-factor Authentication plugin for WebAuthn

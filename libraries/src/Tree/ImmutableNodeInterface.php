@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Tree;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface for an immutable node class

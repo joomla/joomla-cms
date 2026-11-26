@@ -26,9 +26,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\Attribute\AllowUnauthorizedAdministratorAccess;
 use Joomla\CMS\Uri\Uri;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Allows the plugin to handle AJAX requests in the backend of the site, where com_ajax is not

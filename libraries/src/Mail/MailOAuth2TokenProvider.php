@@ -12,9 +12,7 @@ namespace Joomla\CMS\Mail;
 use Joomla\OAuth2\Client;
 use PHPMailer\PHPMailer\OAuthTokenProvider;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Generic OAuth token provider for SMTP XOAUTH2 authentication.

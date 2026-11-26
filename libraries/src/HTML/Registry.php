@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\HTML;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Service registry for JHtml services

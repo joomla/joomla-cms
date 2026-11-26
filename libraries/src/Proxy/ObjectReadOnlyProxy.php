@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Proxy;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Object read-only proxy class.

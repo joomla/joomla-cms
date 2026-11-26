@@ -11,6 +11,8 @@ namespace Joomla\CMS\TUF;
 
 use Tuf\Exception\TufException;
 
+\defined('_JEXEC') or die;
+
 /**
  * @since  5.1.1
  */

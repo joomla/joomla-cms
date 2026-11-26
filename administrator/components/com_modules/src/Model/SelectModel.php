@@ -20,9 +20,7 @@ use Joomla\Database\QueryInterface;
 use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Module model.

@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Event\Mail;
 
+\defined('_JEXEC') or die;
+
 /**
  * Class for MailTemplate events
  * Example:

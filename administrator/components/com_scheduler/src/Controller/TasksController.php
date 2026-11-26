@@ -17,9 +17,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Scheduler\Administrator\Model\TaskModel;
 use Joomla\Utilities\ArrayHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * MVC Controller for TasksView.

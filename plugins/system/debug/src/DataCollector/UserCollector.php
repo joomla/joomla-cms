@@ -14,9 +14,7 @@ use DebugBar\DataCollector\DataCollectorInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\User\UserFactoryInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * User collector that stores the user id of the person making the request allowing us to filter on it after storage

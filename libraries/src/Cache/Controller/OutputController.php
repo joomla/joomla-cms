@@ -11,9 +11,7 @@ namespace Joomla\CMS\Cache\Controller;
 
 use Joomla\CMS\Cache\CacheController;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla Cache output type object

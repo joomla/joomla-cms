@@ -13,9 +13,7 @@ namespace Joomla\Module\Loginsupport\Administrator\Dispatcher;
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
 use Joomla\CMS\Language\Text;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Dispatcher class for mod_loginsupport

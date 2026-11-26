@@ -12,6 +12,8 @@ namespace Joomla\Component\Finder\Administrator\Field;
 
 use Joomla\CMS\Form\Field\CheckboxesField;
 
+\defined('_JEXEC') or die;
+
 /**
  * Taxonomy Types field for the Finder package.
  * This is a helper to allow to save an empty set of

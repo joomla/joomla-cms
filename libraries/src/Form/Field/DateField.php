@@ -11,6 +11,8 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Form\FormField;
 
+\defined('_JEXEC') or die;
+
 /**
  * Date field
  *

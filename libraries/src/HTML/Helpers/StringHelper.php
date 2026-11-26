@@ -12,9 +12,7 @@ namespace Joomla\CMS\HTML\Helpers;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\String\StringHelper as FrameworkStringHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML helper class for rendering manipulated strings.

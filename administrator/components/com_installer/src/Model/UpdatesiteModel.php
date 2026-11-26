@@ -15,9 +15,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Database\ParameterType;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Item Model for an update site.

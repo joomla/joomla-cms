@@ -18,9 +18,7 @@ use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Database\ParameterType;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Multi-factor Authentication Methods list page's model

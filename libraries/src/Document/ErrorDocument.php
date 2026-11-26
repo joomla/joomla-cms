@@ -12,9 +12,7 @@ namespace Joomla\CMS\Document;
 use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Layout\LayoutHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * ErrorDocument class, provides an easy interface to parse and display an HTML based error page

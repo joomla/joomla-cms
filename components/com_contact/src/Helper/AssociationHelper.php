@@ -15,9 +15,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\Component\Categories\Administrator\Helper\CategoryAssociationHelper;
 use Joomla\Database\DatabaseInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Contact Component Association Helper

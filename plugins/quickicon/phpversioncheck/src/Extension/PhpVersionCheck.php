@@ -16,9 +16,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Plugin to check the PHP version and display a warning about its support status

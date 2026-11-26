@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\Event;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * A Trait to reshape arguments maintaining b/c with legacy plugin events.

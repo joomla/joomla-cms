@@ -15,9 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Version;
 use Joomla\Filesystem\Path;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Base class for rendering a display layout

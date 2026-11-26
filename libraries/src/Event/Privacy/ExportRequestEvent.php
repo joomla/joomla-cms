@@ -15,9 +15,7 @@ use Joomla\CMS\User\User;
 use Joomla\Component\Privacy\Administrator\Export\Domain;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Class for Privacy events.

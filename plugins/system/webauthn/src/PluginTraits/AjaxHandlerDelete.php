@@ -13,9 +13,7 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxDelete;
 use Joomla\CMS\User\User;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Ajax handler for akaction=delete

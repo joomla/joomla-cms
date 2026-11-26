@@ -13,9 +13,7 @@ namespace Joomla\Component\Scheduler\Administrator\Task;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The TaskOption class is used as a utility container for available plugin-provided task routines.

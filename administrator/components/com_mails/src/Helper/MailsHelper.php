@@ -13,9 +13,7 @@ namespace Joomla\Component\Mails\Administrator\Helper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Mailtags HTML helper class.

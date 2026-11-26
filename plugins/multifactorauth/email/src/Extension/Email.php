@@ -39,9 +39,7 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Multi-factor Authentication using a Validation Code sent by Email.

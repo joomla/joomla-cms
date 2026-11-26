@@ -21,9 +21,7 @@ use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Language helper class
@@ -506,7 +504,7 @@ class LanguageHelper
         try {
             Folder::create(\dirname($cacheFile));
 
-            $data         = "<?php\ndefined('_JEXEC') or die;\nreturn " . var_export($strings, true) . ";\n";
+            $data         = "<?php\n\\defined('_JEXEC') or die;\nreturn " . var_export($strings, true) . ";\n";
             $bytesWritten = file_put_contents($cacheFile, $data);
 
             if ($bytesWritten === false || $bytesWritten < \strlen($data)) {

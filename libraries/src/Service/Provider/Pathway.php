@@ -14,9 +14,7 @@ use Joomla\CMS\Pathway\SitePathway;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Service provider for the application's pathway dependency

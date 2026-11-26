@@ -15,9 +15,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 use Tobscure\JsonApi\Resource;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The notification view

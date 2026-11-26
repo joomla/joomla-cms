@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Event\Finder;
 
+\defined('_JEXEC') or die;
+
 /**
  * Interface class for finder events
  *

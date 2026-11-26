@@ -21,9 +21,7 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\QueryTypeAlreadyDefinedException;
 use Joomla\Event\DispatcherInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Table class for tasks scheduled through `com_scheduler`.

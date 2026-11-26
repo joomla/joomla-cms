@@ -10,9 +10,7 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\Enum;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Autoupdate State Enum

@@ -23,6 +23,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+\defined('_JEXEC') or die;
+
 /**
  * Class POWCaptchaProvider
  *

@@ -12,9 +12,7 @@ namespace Joomla\CMS\Mail;
 use Joomla\CMS\Log\Log;
 use Joomla\Registry\Registry;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Default factory for creating mailer objects.

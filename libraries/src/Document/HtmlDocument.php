@@ -22,9 +22,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Utility\Utility;
 use Joomla\Registry\Registry;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HtmlDocument class, provides an easy interface to parse and display a HTML document

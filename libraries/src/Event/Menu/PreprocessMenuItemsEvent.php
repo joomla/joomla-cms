@@ -14,9 +14,7 @@ use Joomla\CMS\Event\ReshapeArgumentsAware;
 use Joomla\CMS\Menu\MenuItem;
 use Joomla\Registry\Registry;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Class for menu events

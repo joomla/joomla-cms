@@ -13,9 +13,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Tuf\Metadata\StorageBase;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects;
 
 /**
  * @since  5.1.0

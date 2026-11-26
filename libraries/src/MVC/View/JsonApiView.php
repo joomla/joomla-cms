@@ -19,9 +19,7 @@ use Tobscure\JsonApi\AbstractSerializer;
 use Tobscure\JsonApi\Collection;
 use Tobscure\JsonApi\Resource;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Base class for a Joomla Json List View

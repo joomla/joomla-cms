@@ -11,9 +11,7 @@ namespace Joomla\CMS\Cache\Storage;
 
 use Joomla\CMS\Cache\CacheStorage;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * APCu cache storage handler

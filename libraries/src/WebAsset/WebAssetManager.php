@@ -15,9 +15,7 @@ use Joomla\CMS\WebAsset\Exception\InvalidActionException;
 use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Web Asset Manager class

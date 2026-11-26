@@ -17,9 +17,7 @@ use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Languages\Administrator\Model\LanguagesModel;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML Languages View class for the Languages component.

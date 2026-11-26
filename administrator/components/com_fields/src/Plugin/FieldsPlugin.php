@@ -21,9 +21,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Filesystem\Folder;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Abstract Fields Plugin

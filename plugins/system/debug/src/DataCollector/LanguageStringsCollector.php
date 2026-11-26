@@ -16,9 +16,7 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * LanguageStringsDataCollector

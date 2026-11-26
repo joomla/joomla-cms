@@ -21,9 +21,7 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Event\SubscriberInterface;
 use Joomla\String\StringHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Page break plugin

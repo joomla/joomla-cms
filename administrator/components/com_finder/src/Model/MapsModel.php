@@ -21,9 +21,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\QueryInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Maps model for the Finder package.

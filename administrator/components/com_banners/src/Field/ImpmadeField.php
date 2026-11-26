@@ -13,9 +13,7 @@ namespace Joomla\Component\Banners\Administrator\Field;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Impressions field.

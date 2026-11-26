@@ -22,9 +22,7 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Http\HttpFactory;
 use Joomla\Registry\Registry;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Update class. It is used by Updater::update() to install an update. Use Updater::findUpdates() to find updates for

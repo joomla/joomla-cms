@@ -11,9 +11,7 @@ namespace Joomla\CMS\Event\MultiFactor;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Concrete Event class for the onUserMultifactorCallback event

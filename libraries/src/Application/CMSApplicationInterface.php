@@ -15,9 +15,7 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\User\User;
 use Joomla\Input\Input;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface defining a Joomla! CMS Application class

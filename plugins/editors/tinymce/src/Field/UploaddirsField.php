@@ -14,9 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Field\FolderlistField;
 use Joomla\CMS\HTML\HTMLHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Generates the list of directories  available for drag and drop upload.

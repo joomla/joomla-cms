@@ -14,9 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Admin Component Help Model

@@ -12,6 +12,8 @@ namespace Joomla\CMS\Event\Editor;
 use Joomla\CMS\Editor\EditorsRegistryInterface;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
+\defined('_JEXEC') or die;
+
 /**
  * Editor setup event
  *

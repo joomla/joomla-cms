@@ -19,9 +19,7 @@ use Joomla\CMS\User\User;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Class that handles all access authorisation routines.

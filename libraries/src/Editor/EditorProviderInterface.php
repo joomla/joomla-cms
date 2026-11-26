@@ -11,6 +11,8 @@ namespace Joomla\CMS\Editor;
 
 use Joomla\CMS\Editor\Button\ButtonInterface;
 
+\defined('_JEXEC') or die;
+
 /**
  * Editor provider interface
  *

@@ -11,9 +11,7 @@ namespace Joomla\CMS\Event\Table;
 
 use Joomla\Database\DatabaseQuery;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Event class for \Joomla\CMS\Table\Table onBeforeReorder event

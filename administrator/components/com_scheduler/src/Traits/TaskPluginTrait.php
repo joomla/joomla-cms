@@ -22,9 +22,7 @@ use Joomla\Event\EventInterface;
 use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Utility trait for plugins that offer `com_scheduler` compatible task routines. This trait defines a lot

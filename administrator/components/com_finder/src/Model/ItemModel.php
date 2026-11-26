@@ -14,6 +14,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Database\ParameterType;
 
+\defined('_JEXEC') or die;
+
 /**
  * Index Item model class for Finder.
  *

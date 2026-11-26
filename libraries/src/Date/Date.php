@@ -14,9 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Date is a class that stores a date and provides logic to manipulate

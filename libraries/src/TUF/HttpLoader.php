@@ -15,6 +15,8 @@ use Joomla\Http\Http;
 use Tuf\Exception\RepoFileNotFound;
 use Tuf\Loader\LoaderInterface;
 
+\defined('_JEXEC') or die;
+
 /**
  * @since  5.1.0
  *

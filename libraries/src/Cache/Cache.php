@@ -15,9 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Session\Session;
 use Joomla\Filesystem\Path;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Cache base object

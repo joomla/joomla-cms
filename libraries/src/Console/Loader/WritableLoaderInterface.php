@@ -11,9 +11,7 @@ namespace Joomla\CMS\Console\Loader;
 
 use Joomla\Console\Loader\LoaderInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface defining a writable command loader.

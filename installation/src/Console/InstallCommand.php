@@ -26,6 +26,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+\defined('_JEXEC') or die;
+
 /**
  * Console command for installing Joomla
  *

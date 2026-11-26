@@ -33,6 +33,8 @@ use Joomla\Session\SessionInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+\defined('_JEXEC') or die;
+
 /**
  * Joomla! Installation Application class.
  *

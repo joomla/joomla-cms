@@ -17,6 +17,8 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Finder\Administrator\Model\ItemModel;
 
+\defined('_JEXEC') or die;
+
 /**
  * Index view class for Finder.
  *

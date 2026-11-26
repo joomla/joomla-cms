@@ -24,9 +24,7 @@ use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\Event\SubscriberInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Implements the Taggable behaviour which allows extensions to automatically support tags for their content items.

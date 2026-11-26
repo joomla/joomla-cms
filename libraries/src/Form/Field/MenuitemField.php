@@ -12,9 +12,7 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Supports an HTML grouped select list of menu item grouped by menu

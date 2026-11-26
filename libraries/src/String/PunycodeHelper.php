@@ -14,9 +14,7 @@ use Algo26\IdnaConvert\ToIdn;
 use Algo26\IdnaConvert\ToUnicode;
 use Joomla\Uri\UriHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla Platform String Punycode Class

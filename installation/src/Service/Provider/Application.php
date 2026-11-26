@@ -23,9 +23,7 @@ use Joomla\Session\SessionEvents;
 use Joomla\Session\SessionInterface;
 use Psr\Log\LoggerInterface;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Application service provider

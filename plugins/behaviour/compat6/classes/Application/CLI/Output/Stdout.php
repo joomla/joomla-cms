@@ -11,9 +11,7 @@ namespace Joomla\CMS\Application\CLI\Output;
 
 use Joomla\CMS\Application\CLI\CliOutput;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Output handler for writing command line output to the stdout interface

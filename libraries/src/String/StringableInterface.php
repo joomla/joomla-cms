@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\String;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * A transitioning interface to PHP implicit \Stringable interface

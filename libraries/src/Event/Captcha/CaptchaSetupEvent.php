@@ -12,6 +12,8 @@ namespace Joomla\CMS\Event\Captcha;
 use Joomla\CMS\Captcha\CaptchaRegistry;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
+\defined('_JEXEC') or die;
+
 /**
  * Captcha setup event
  *

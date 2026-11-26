@@ -28,9 +28,7 @@ use Negotiation\Accept;
 use Negotiation\Exception\InvalidArgument;
 use Negotiation\Negotiator;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! API Application class

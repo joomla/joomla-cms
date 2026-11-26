@@ -14,6 +14,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Utilities\ArrayHelper;
 
+\defined('_JEXEC') or die;
+
 /**
  * @var \Joomla\Component\Users\Site\View\Captive\HtmlView  $this  View object
  * @var \Joomla\Component\Users\Site\Model\CaptiveModel     $model The model

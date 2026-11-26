@@ -9,9 +9,7 @@
 
 namespace Joomla\CMS\MVC\Controller\Exception;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Checkin/checkout Exception
