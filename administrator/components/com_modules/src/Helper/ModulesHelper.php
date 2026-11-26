@@ -15,6 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -244,6 +245,35 @@ abstract class ModulesHelper
         $lang = Factory::getLanguage();
         $path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
+        static $parents = [];
+
+        if (!isset($parents[$clientId][$template])) {
+            $parents[$clientId][$template] = '';
+            $filePath                      = Path::clean($path . '/templates/' . $template . '/templateDetails.xml');
+
+            if (is_file($filePath)) {
+                $xml = simplexml_load_file($filePath);
+
+                if ($xml && isset($xml->parent) && (string) $xml->parent !== '') {
+                    $parents[$clientId][$template] = (string) $xml->parent;
+                }
+            }
+        }
+
+        $parent = $parents[$clientId][$template];
+
+        // Load the parent template language file first if template is a child template
+        if ($parent !== '') {
+            $parentLoaded = $lang->getPaths('tpl_' . $parent . '.sys');
+
+            if (!$parentLoaded) {
+                $lang->load('tpl_' . $parent . '.sys', $path, null, false, false)
+                || $lang->load('tpl_' . $parent . '.sys', $path . '/templates/' . $parent, null, false, false)
+                || $lang->load('tpl_' . $parent . '.sys', $path, $lang->getDefault(), false, false)
+                || $lang->load('tpl_' . $parent . '.sys', $path . '/templates/' . $parent, $lang->getDefault(), false, false);
+            }
+        }
+
         $loaded = $lang->getPaths('tpl_' . $template . '.sys');
 
         // Only load the template's language file if it hasn't been already
@@ -254,24 +284,31 @@ abstract class ModulesHelper
             || $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, $lang->getDefault(), false, false);
         }
 
-        $langKey = strtoupper('TPL_' . $template . '_POSITION_' . $position);
-        $text    = Text::_($langKey);
+        $templateKey = strtoupper('TPL_' . $template . '_POSITION_' . $position);
 
-        // Avoid untranslated strings
-        if (!self::isTranslatedText($langKey, $text)) {
-            // Modules component translation
-            $langKey = strtoupper('COM_MODULES_POSITION_' . $position);
-            $text    = Text::_($langKey);
+        if ($lang->hasKey($templateKey)) {
+            return Text::_($templateKey);
+        }
 
-            // Avoid untranslated strings
-            if (!self::isTranslatedText($langKey, $text)) {
-                // Try to humanize the position name
-                $text = ucfirst(preg_replace('/^' . $template . '\-/', '', $position));
-                $text = ucwords(str_replace(['-', '_'], ' ', $text));
+        if ($parent !== '') {
+            $parentKey = strtoupper('TPL_' . $parent . '_POSITION_' . $position);
+
+            if ($lang->hasKey($parentKey)) {
+                return Text::_($parentKey);
             }
         }
 
-        return $text;
+        $modulesKey = strtoupper('COM_MODULES_POSITION_' . $position);
+
+        if ($lang->hasKey($modulesKey)) {
+            return Text::_($modulesKey);
+        }
+
+        // Try to humanize the position name
+        $prefix = $parent !== '' ? '^(' . preg_quote($template, '/') . '|' . preg_quote($parent, '/') . ')\-' : '^' . preg_quote($template, '/') . '\-';
+        $text   = ucfirst(preg_replace('/' . $prefix . '/', '', $position));
+
+        return ucwords(str_replace(['-', '_'], ' ', $text));
     }
 
     /**
@@ -286,7 +323,7 @@ abstract class ModulesHelper
      */
     public static function isTranslatedText($langKey, $text)
     {
-        return $text !== $langKey;
+        return $text !== $langKey && $text !== '??' . $langKey . '??';
     }
 
     /**
