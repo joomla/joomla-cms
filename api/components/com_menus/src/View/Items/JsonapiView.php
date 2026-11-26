@@ -116,7 +116,7 @@ class JsonapiView extends BaseApiView
     /**
      * Execute and display a list items types.
      *
-     * @return  string
+     * @return  void
      *
      * @since   4.0.0
      */
@@ -185,8 +185,6 @@ class JsonapiView extends BaseApiView
             ->addLink('next', (string) $nextPage)
             ->addLink('previous', (string) $previousPage)
             ->addLink('last', (string) $lastPage);
-
-        return $this->getDocument()->render();
     }
 
     /**
