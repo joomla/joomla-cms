@@ -147,7 +147,22 @@
   }
 
   a.mm-active {
+    position: relative;
     background-color: $main-nav-mm-active-bg; /* main-nav-mm-active-bg: var(--template-bg-dark-70) */
+  }
+
+  // Current page marker, so the current item is not shown by colour alone.
+  // It is a border in the text colour, so it also shows in forced-colors mode.
+  // A parent gets the marker when the current page is hidden inside it:
+  // its submenu is folded, or the sidebar is collapsed.
+  a.mm-active::before,
+  li:not(.mm-active):has(> ul a.mm-active) > a::before,
+  .closed & > li:has(a.mm-active) > a::before {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    content: "";
+    border-inline-start: .25rem solid currentcolor;
   }
 
   a.mm-active + .menu-quicktask {
