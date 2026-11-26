@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Table\Exception;
 
+use Joomla\CMS\Table\Table;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -31,6 +33,7 @@ class DuplicateEntryException extends ValidationException
     /**
      * Constructor.
      *
+     * @param   Table        $table     The table object the exception relates to.
      * @param   string       $message   The exception message.
      * @param   string       $field     The name of the field holding the duplicate value.
      * @param   integer      $code      The exception code.
@@ -38,9 +41,9 @@ class DuplicateEntryException extends ValidationException
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function __construct(string $message, string $field, int $code = 0, ?\Throwable $previous = null)
+    public function __construct(Table $table, string $message, string $field, int $code = 0, ?\Throwable $previous = null)
     {
-        parent::__construct($message, [$field => $message], $code, $previous);
+        parent::__construct($table, $message, [$field => $message], $code, $previous);
 
         $this->field = $field;
     }

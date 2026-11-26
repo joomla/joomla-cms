@@ -316,9 +316,10 @@ class MailTemplate
         if ((int) $config->get('alternative_mailconfig', 0) === 1 && (int) $params->get('alternative_mailconfig', 0) === 1) {
             if ($this->mailer instanceof TransportConfigurableMailerInterface && $params->get('mailer') === 'smtp') {
                 $smtpauth   = ($params->get('smtpauth', $app->get('smtpauth')) == 0) ? null : 1;
-                $smtpuser   = $params->get('smtpuser', $app->get('smtpuser'));
-                $smtppass   = $params->get('smtppass', $app->get('smtppass'));
-                $smtphost   = $params->get('smtphost', $app->get('smtphost'));
+                // Host and credentials are never taken from the global configuration, they must not be sent to another host
+                $smtpuser   = $params->get('smtpuser', '');
+                $smtppass   = $params->get('smtppass', '');
+                $smtphost   = $params->get('smtphost', '');
                 $smtpsecure = $params->get('smtpsecure', $app->get('smtpsecure'));
                 $smtpport   = $params->get('smtpport', $app->get('smtpport'));
                 $this->mailer->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);

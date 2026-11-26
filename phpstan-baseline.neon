@@ -1535,7 +1535,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 5
+			count: 7
 			path: administrator/components/com_fields/src/Model/FieldModel.php
 
 		-
@@ -1557,6 +1557,17 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
+			path: administrator/components/com_fields/src/Model/GroupModel.php
+
+		-
+			message: '''
+				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Throw an Exception instead of using setError$#
+			'''
+			identifier: method.deprecated
+			count: 2
 			path: administrator/components/com_fields/src/Model/GroupModel.php
 
 		-
@@ -2933,18 +2944,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_languages/src/Model/InstalledModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -3205,6 +3204,16 @@ parameters:
 			identifier: property.notFound
 			count: 4
 			path: administrator/components/com_languages/tmpl/multilangstatus/default.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: administrator/components/com_login/src/Controller/DisplayController.php
 
 		-
 			message: '''
@@ -7878,18 +7887,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: installation/src/Form/Field/Installation/LanguageField.php
-
-		-
-			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Form\\Form\:
 				4\.3 will be removed in 7\.0
 				             Use the FormFactory service from the container
@@ -8722,6 +8719,16 @@ parameters:
 			identifier: new.static
 			count: 1
 			path: libraries/src/Date/Date.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: libraries/src/Dispatcher/ApiDispatcher.php
 
 		-
 			message: '''
@@ -11126,7 +11133,7 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 2
+			count: 1
 			path: libraries/src/HTML/Helpers/Tag.php
 
 		-
@@ -11858,7 +11865,7 @@ parameters:
 				             Use the class with the Exception suffix instead\.$#
 			'''
 			identifier: new.deprecatedClass
-			count: 2
+			count: 3
 			path: libraries/src/MVC/Controller/ApiController.php
 
 		-
