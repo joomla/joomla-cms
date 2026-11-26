@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\Exception\ValidationException;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
@@ -1024,6 +1025,10 @@ class TemplateModel extends FormModel
 
         // If the asset file for the template ensure we have valid template so we don't instantly destroy it
         if (str_ends_with($fileName, '/joomla.asset.json') && json_decode($data['source']) === null) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_TEMPLATES_ERROR_ASSET_FILE_INVALID_JSON'));
+            }
+
             $this->setError(Text::_('COM_TEMPLATES_ERROR_ASSET_FILE_INVALID_JSON'));
 
             return false;

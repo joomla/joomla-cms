@@ -11,11 +11,13 @@
 
 namespace Joomla\Component\Workflow\Administrator\Model;
 
+use Joomla\CMS\Access\Exception\NotAllowedException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Table\Exception\WorkflowStateException;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -150,6 +152,10 @@ class StageModel extends AdminModel
         $assetName = $this->getStageAssetName((int) $record->id);
 
         if ($assetName === '' || !$this->getCurrentUser()->authorise('core.delete', $assetName) || $record->default) {
+            if ($this->shouldUseExceptions()) {
+                throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+            }
+
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
             return false;
@@ -297,6 +303,10 @@ class StageModel extends AdminModel
 
         if ($table->load($pk)) {
             if (!$table->published) {
+                if ($this->shouldUseExceptions()) {
+                    throw new WorkflowStateException($table, Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
+                }
+
                 $this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
 
                 return false;
