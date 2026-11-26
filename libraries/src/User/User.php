@@ -17,6 +17,7 @@ use Joomla\CMS\Event\User\BeforeDeleteEvent;
 use Joomla\CMS\Event\User\BeforeSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\Exception\ValidationException;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -632,6 +633,10 @@ class User
             // Updating an existing user
             if (!empty($array['password'])) {
                 if ($array['password'] != $array['password2']) {
+                    if ($this->shouldUseExceptions()) {
+                        throw new ValidationException(Text::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
+                    }
+
                     $this->setError(Text::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
 
                     return false;
@@ -641,6 +646,10 @@ class User
 
                 // Check if the user is reusing the current password if required to reset their password
                 if ($this->requireReset == 1 && UserHelper::verifyPassword($this->password_clear, $this->password)) {
+                    if ($this->shouldUseExceptions()) {
+                        throw new \RuntimeException(Text::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
+                    }
+
                     $this->setError(Text::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
 
                     return false;
@@ -710,6 +719,12 @@ class User
         try {
             // Check and store the object.
             if (!$table->check()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -808,6 +823,10 @@ class User
                 'errorMessage' => $this->getError() ?? '',
             ]));
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -837,6 +856,12 @@ class User
         $table = static::getTable();
 
         if (!$result = $table->delete($this->id)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
         }
 
