@@ -3787,18 +3787,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 7\.0
-				             Use the MvcFactory instead or instantiate the table class directly\.
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
-				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_modules/src/Model/ModuleModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
