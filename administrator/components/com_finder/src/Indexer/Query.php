@@ -524,7 +524,8 @@ class Query
         $query = $db->createQuery()
             ->select('f.data, f.params')
             ->from($db->quoteName('#__finder_filters') . ' AS f')
-            ->where('f.filter_id = ' . (int) $filterId);
+            ->where('f.filter_id = ' . (int) $filterId)
+            ->where($db->quoteName('f.state') . ' = 1');
 
         $db->setQuery($query);
         $return = $db->loadObject();
