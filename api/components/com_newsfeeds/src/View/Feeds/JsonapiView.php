@@ -154,6 +154,10 @@ class JsonapiView extends BaseApiView
      */
     protected function prepareItem($item)
     {
+        if (!$item) {
+            return $item;
+        }
+
         if (Multilanguage::isEnabled() && !empty($item->associations)) {
             $associations = [];
 
