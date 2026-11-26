@@ -10,9 +10,9 @@
 
 namespace Joomla\Module\TagsPopular\Site\Helper;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
@@ -93,14 +93,9 @@ class TagsPopularHelper implements DatabaseAwareInterface
 
         $query->where($db->quoteName('cat.published') . ' > 0');
 
-        // Optionally filter on language
-        $language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
-
-        if ($language !== 'all') {
-            if ($language === 'current_language') {
-                $language = ContentHelper::getCurrentLanguage();
-            }
-
+        // Filter on language
+        if (Multilanguage::isEnabled()) {
+            $language = ContentHelper::getCurrentLanguage();
             $query->whereIn($db->quoteName('t.language'), [$language, '*'], ParameterType::STRING);
         }
 
