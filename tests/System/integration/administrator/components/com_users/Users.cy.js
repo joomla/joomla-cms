@@ -87,4 +87,53 @@ describe('Test in backend that the user list', () => {
           .should('not.contain', 'Test user 2');
       });
   });
+
+  describe('custom-field filter', () => {
+    let fieldId;
+
+    beforeEach(() => {
+      fieldId = undefined;
+    });
+
+    afterEach(() => {
+      if (fieldId) {
+        return cy.task('queryDB', `DELETE FROM #__fields_values WHERE field_id = ${fieldId}`);
+      }
+
+      return undefined;
+    });
+
+    it('filters, remembers, and clears an opted-in user field', () => {
+      cy.db_createField({
+        title: 'Users list filter',
+        name: 'users-list-filter',
+        label: 'Users list filter',
+        context: 'com_users.user',
+        type: 'list',
+        required: 0,
+        params: JSON.stringify({ show_in_admin_list_filter: 1 }),
+        fieldparams: JSON.stringify({ options: { options0: { name: 'Matched', value: 'matched' } } }),
+      }).then((id) => {
+        fieldId = id;
+        return cy.db_createUser({ name: 'User filter matched', username: 'filter-matched' });
+      }).then((item) => cy.db_createFieldValue({ field_id: fieldId, item_id: item, value: 'matched' }))
+        .then(() => cy.db_createUser({ name: 'User filter unmatched', username: 'filter-unmatched' }))
+        .then(() => {
+          cy.reload();
+          cy.get(`#filter_customfield_${fieldId}`).should('not.be.disabled')
+            .select('matched', { force: true });
+          cy.get('#userList').should('contain.text', 'User filter matched')
+            .and('not.contain.text', 'User filter unmatched');
+
+          cy.reload();
+          cy.get(`#filter_customfield_${fieldId} option:selected`).should('have.value', 'matched');
+          cy.get('#userList').should('contain.text', 'User filter matched')
+            .and('not.contain.text', 'User filter unmatched');
+
+          cy.get('.js-stools-btn-clear').click();
+          cy.get('#userList').should('contain.text', 'User filter matched')
+            .and('contain.text', 'User filter unmatched');
+        });
+    });
+  });
 });

@@ -154,6 +154,10 @@ class ContentComponent extends MVCComponent implements
      */
     public function validateSection($section, $item = null)
     {
+        if ($section === 'articles' && Factory::getApplication()->isClient('administrator')) {
+            $section = 'article';
+        }
+
         if (Factory::getApplication()->isClient('site')) {
             // On the front end we need to map some sections
             switch ($section) {

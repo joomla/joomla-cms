@@ -137,4 +137,53 @@ describe('Test in backend that the contacts list', () => {
         cy.checkForSystemMessage('Contact published.');
       });
   });
+
+  describe('custom-field filter', () => {
+    let fieldId;
+
+    beforeEach(() => {
+      fieldId = undefined;
+    });
+
+    afterEach(() => {
+      if (fieldId) {
+        return cy.task('queryDB', `DELETE FROM #__fields_values WHERE field_id = ${fieldId}`);
+      }
+
+      return undefined;
+    });
+
+    it('filters, remembers, and clears an opted-in contact field', () => {
+      cy.db_createField({
+        title: 'Contacts list filter',
+        name: 'contact-list-filter',
+        label: 'Contacts list filter',
+        context: 'com_contact.contact',
+        type: 'list',
+        required: 0,
+        params: JSON.stringify({ show_in_admin_list_filter: 1 }),
+        fieldparams: JSON.stringify({ options: { options0: { name: 'Matched', value: 'matched' } } }),
+      }).then((id) => {
+        fieldId = id;
+        return cy.db_createContact({ name: 'Contact filter matched' });
+      }).then((item) => cy.db_createFieldValue({ field_id: fieldId, item_id: item.id, value: 'matched' }))
+        .then(() => cy.db_createContact({ name: 'Contact filter unmatched' }))
+        .then(() => {
+          cy.reload();
+          cy.get(`#filter_customfield_${fieldId}`).should('not.be.disabled')
+            .select('matched', { force: true });
+          cy.get('#contactList').should('contain.text', 'Contact filter matched')
+            .and('not.contain.text', 'Contact filter unmatched');
+
+          cy.reload();
+          cy.get(`#filter_customfield_${fieldId} option:selected`).should('have.value', 'matched');
+          cy.get('#contactList').should('contain.text', 'Contact filter matched')
+            .and('not.contain.text', 'Contact filter unmatched');
+
+          cy.get('.js-stools-btn-clear').click();
+          cy.get('#contactList').should('contain.text', 'Contact filter matched')
+            .and('contain.text', 'Contact filter unmatched');
+        });
+    });
+  });
 });

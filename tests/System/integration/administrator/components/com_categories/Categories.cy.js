@@ -72,4 +72,52 @@ describe('Test in backend that the categories list', () => {
 
     cy.checkForSystemMessage('Category deleted.');
   });
+
+  describe('custom-field filter', () => {
+    let fieldId;
+
+    beforeEach(() => {
+      fieldId = undefined;
+    });
+
+    afterEach(() => {
+      if (fieldId) {
+        return cy.task('queryDB', `DELETE FROM #__fields_values WHERE field_id = ${fieldId}`);
+      }
+
+      return undefined;
+    });
+
+    it('filters, remembers, and clears fields for the owning extension', () => {
+      cy.db_createField({
+        title: 'Category manager filter',
+        name: 'category-manager-filter',
+        label: 'Category manager filter',
+        context: 'com_contact.categories',
+        type: 'list',
+        required: 0,
+        params: JSON.stringify({ show_in_admin_list_filter: 1 }),
+        fieldparams: JSON.stringify({ options: { options0: { name: 'Matched', value: 'matched' } } }),
+      }).then((id) => {
+        fieldId = id;
+        return cy.db_createCategory({ title: 'Category filter matched', extension: 'com_contact' });
+      }).then((id) => cy.db_createFieldValue({ field_id: fieldId, item_id: id, value: 'matched' }))
+        .then(() => cy.db_createCategory({ title: 'Category filter unmatched', extension: 'com_contact' }))
+        .then(() => {
+          cy.visit('/administrator/index.php?option=com_categories&view=categories&extension=com_contact&filter=');
+          cy.get(`#filter_customfield_${fieldId}`).select('matched', { force: true });
+          cy.get('#categoryList').should('contain.text', 'Category filter matched')
+            .and('not.contain.text', 'Category filter unmatched');
+
+          cy.reload();
+          cy.get(`#filter_customfield_${fieldId} option:selected`).should('have.value', 'matched');
+          cy.get('#categoryList').should('contain.text', 'Category filter matched')
+            .and('not.contain.text', 'Category filter unmatched');
+
+          cy.get('.js-stools-btn-clear').click();
+          cy.get('#categoryList').should('contain.text', 'Category filter matched')
+            .and('contain.text', 'Category filter unmatched');
+        });
+    });
+  });
 });

@@ -93,6 +93,10 @@ class ContactComponent extends MVCComponent implements
      */
     public function validateSection($section, $item = null)
     {
+        if ($section === 'contacts' && Factory::getApplication()->isClient('administrator')) {
+            $section = 'contact';
+        }
+
         if (Factory::getApplication()->isClient('site') && $section == 'contact' && $item instanceof Form) {
             // The contact form needs to be the mail section
             $section = 'mail';
