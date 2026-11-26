@@ -2025,27 +2025,26 @@ class ItemModel extends AdminModel
     {
         $db = $this->getDatabase();
 
+        // Start from the source rows, so each source is found by its primary key
+        // and the menu items below it through the lft index.
         $query = $db->createQuery()
             ->select(
                 'DISTINCT ' . $db->quoteName('node.id') . ', '
                 . $db->quoteName('src.moduleid') . ', '
                 . $db->quoteName('src.menuid')
             )
-            ->from($db->quoteName('#__menu', 'node'))
+            ->from($db->quoteName('#__modules_menu', 'src'))
             ->join(
                 'INNER',
                 $db->quoteName('#__menu', 'source'),
-                $db->quoteName('source.lft') . ' <= ' . $db->quoteName('node.lft')
-                . ' AND ' . $db->quoteName('source.rgt') . ' >= ' . $db->quoteName('node.rgt')
-                . ' AND ' . $db->quoteName('source.menutype') . ' = ' . $db->quoteName('node.menutype')
+                $db->quoteName('source.id') . ' = ABS(' . $db->quoteName('src.menuid') . ')'
             )
             ->join(
                 'INNER',
-                $db->quoteName('#__modules_menu', 'src'),
-                '('
-                . $db->quoteName('src.menuid') . ' = ' . $db->quoteName('source.id')
-                . ' OR ' . $db->quoteName('src.menuid') . ' = -' . $db->quoteName('source.id')
-                . ')'
+                $db->quoteName('#__menu', 'node'),
+                $db->quoteName('node.lft') . ' > ' . $db->quoteName('source.lft')
+                . ' AND ' . $db->quoteName('node.lft') . ' < ' . $db->quoteName('source.rgt')
+                . ' AND ' . $db->quoteName('node.menutype') . ' = ' . $db->quoteName('source.menutype')
             )
             ->whereIn($db->quoteName('node.id'), $menuIds)
             ->where($db->quoteName('src.inherit') . ' IN (1, 2)')
@@ -2055,7 +2054,6 @@ class ItemModel extends AdminModel
                 . $db->quoteName('node.level') . ' = (' . $db->quoteName('source.level') . ' + 1)'
                 . ')'
             )
-            ->where($db->quoteName('node.id') . ' <> ' . $db->quoteName('source.id'))
             ->whereNotIn($db->quoteName('node.type'), ['separator', 'heading', 'alias', 'url'], ParameterType::STRING);
 
         $db->setQuery($query);

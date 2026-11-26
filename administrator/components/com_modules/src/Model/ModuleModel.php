@@ -1295,26 +1295,23 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
 
         $db = $this->getDatabase();
 
-        // Find (sourceMenuid, descendantNodeId) pairs implied by inheritance.
-        // The OR in the join handles both include (menuid > 0) and exclude
-        // (menuid < 0) source rows without needing an ABS() function.
+        // Find (sourceMenuid, descendantNodeId) pairs implied by inheritance. Starting from the source
+        // rows finds each source by its primary key, for include and exclude rows alike, and its
+        // descendants through the lft index.
         $query = $db->createQuery()
             ->select('DISTINCT ' . $db->quoteName('src.menuid') . ', ' . $db->quoteName('node.id'))
-            ->from($db->quoteName('#__menu', 'node'))
+            ->from($db->quoteName('#__modules_menu', 'src'))
             ->join(
                 'INNER',
                 $db->quoteName('#__menu', 'source'),
-                $db->quoteName('source.lft') . ' <= ' . $db->quoteName('node.lft')
-                . ' AND ' . $db->quoteName('source.rgt') . ' >= ' . $db->quoteName('node.rgt')
-                . ' AND ' . $db->quoteName('source.menutype') . ' = ' . $db->quoteName('node.menutype')
+                $db->quoteName('source.id') . ' = ABS(' . $db->quoteName('src.menuid') . ')'
             )
             ->join(
                 'INNER',
-                $db->quoteName('#__modules_menu', 'src'),
-                '('
-                . $db->quoteName('src.menuid') . ' = ' . $db->quoteName('source.id')
-                . ' OR ' . $db->quoteName('src.menuid') . ' = -' . $db->quoteName('source.id')
-                . ')'
+                $db->quoteName('#__menu', 'node'),
+                $db->quoteName('node.lft') . ' > ' . $db->quoteName('source.lft')
+                . ' AND ' . $db->quoteName('node.lft') . ' < ' . $db->quoteName('source.rgt')
+                . ' AND ' . $db->quoteName('node.menutype') . ' = ' . $db->quoteName('source.menutype')
             )
             ->where($db->quoteName('src.moduleid') . ' = :moduleid')
             ->where($db->quoteName('src.inherit') . ' IN (1, 2)')
@@ -1324,7 +1321,6 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
                 . $db->quoteName('node.level') . ' = (' . $db->quoteName('source.level') . ' + 1)'
                 . ')'
             )
-            ->where($db->quoteName('node.id') . ' <> ' . $db->quoteName('source.id'))
             ->whereNotIn($db->quoteName('node.type'), ['separator', 'heading', 'alias', 'url'], ParameterType::STRING)
             ->bind(':moduleid', $moduleId, ParameterType::INTEGER);
 
