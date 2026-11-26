@@ -110,6 +110,22 @@ class Query
     public $highlight = [];
 
     /**
+     * The tokens whose data has been loaded already.
+     *
+     * @var    \WeakMap|null
+     * @since  6.2.1
+     */
+    private $loadedTokens;
+
+    /**
+     * The tokens which have been added to the included tokens already.
+     *
+     * @var    \WeakMap|null
+     * @since  6.2.1
+     */
+    private $includedTokens;
+
+    /**
      * The number of matching terms for the query input.
      *
      * @var    integer
@@ -1180,7 +1196,18 @@ class Query
             $tokens = \is_array($tokens) ? $tokens : [$tokens];
 
             // Get the required state for all the tokens.
+            $processed = [];
+
             foreach ($tokens as $token) {
+                // Helper::tokenize() returns the same cached Token object for repeated words. Process each one only once.
+                $tokenId = spl_object_id($token);
+
+                if (isset($processed[$tokenId])) {
+                    continue;
+                }
+
+                $processed[$tokenId] = true;
+
                 if ($params->get('filter_commonwords', 0) && $token->common) {
                     continue;
                 }
@@ -1216,14 +1243,38 @@ class Query
             }
 
             if ($stack === 'included' || $token->required || (bool) $token->matches) {
-                $this->included[] = $token;
-                $this->highlight  = array_merge($this->highlight, array_keys($token->matches));
+                $this->addIncluded($token);
             } else {
                 $this->ignored[] = $token;
             }
         }
 
         return true;
+    }
+
+    /**
+     * Method to add a token to the included tokens and to the terms to highlight. A token which is
+     * included already is not added a second time, Helper::tokenize() returns the same cached Token
+     * object for a repeated word and adding it again would only make the later processing
+     * slower with every repetition in the search query.
+     *
+     * @param   Token  $token  A Token object.
+     *
+     * @return  void
+     *
+     * @since   6.2.1
+     */
+    private function addIncluded($token): void
+    {
+        $this->includedTokens ??= new \WeakMap();
+
+        if (isset($this->includedTokens[$token])) {
+            return;
+        }
+
+        $this->includedTokens[$token] = true;
+        $this->included[]             = $token;
+        $this->highlight              = array_merge($this->highlight, array_keys($token->matches));
     }
 
     /**
@@ -1271,13 +1322,18 @@ class Query
         /*
          * Reduce the set to the distinct token instances. The tokenizer caches its
          * tokens, so the same instance can be part of the set more than once and
-         * must not be resolved twice.
+         * must not be resolved twice. A token whose data has been loaded by an
+         * earlier call is skipped as well, otherwise its matches would grow with
+         * every call.
          */
+        $this->loadedTokens ??= new \WeakMap();
+
         $unique = [];
 
         foreach ($tokens as $token) {
-            if ($token instanceof Token) {
-                $unique[spl_object_id($token)] = $token;
+            if ($token instanceof Token && !isset($this->loadedTokens[$token])) {
+                $this->loadedTokens[$token]     = true;
+                $unique[spl_object_id($token)]  = $token;
             }
         }
 

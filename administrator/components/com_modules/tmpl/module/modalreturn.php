@@ -45,7 +45,7 @@ $this->getDocument()->addScriptOptions('content-select-on-load', $data, false);
     <h1 class="display-5 fw-bold"><?php echo $this->escape($title); ?></h1>
     <div class="col-lg-6 mx-auto">
         <p class="lead mb-4">
-            <?php echo $content; ?>
+            <?php echo $this->escape($content); ?>
         </p>
     </div>
 </div>
