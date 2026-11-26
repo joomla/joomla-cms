@@ -307,6 +307,10 @@ final class ApiApplication extends CMSApplication
             throw $e;
         }
 
+        if ($method === 'QUERY' && trim($this->input->server->get('CONTENT_TYPE', '', 'raw')) === '') {
+            throw new Exception\NotAcceptable('QUERY requests require a Content-Type header.', 406);
+        }
+
         $this->input->set('controller', $route['controller']);
         $this->input->set('task', $route['task']);
 
