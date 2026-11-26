@@ -70,7 +70,7 @@ class MapTable extends Nested
         // Check for a title.
         if (trim($this->title) == '') {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));
+                throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));

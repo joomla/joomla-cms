@@ -169,7 +169,7 @@ class FilterTable extends Table implements CurrentUserInterface
 
         if ($table->load(['alias' => $this->alias]) && ($table->filter_id != $this->filter_id || $this->filter_id == 0)) {
             if ($this->shouldUseExceptions()) {
-                throw new DuplicateEntryException(Text::_('COM_FINDER_FILTER_ERROR_UNIQUE_ALIAS'), 'alias');
+                throw new DuplicateEntryException($this, Text::_('COM_FINDER_FILTER_ERROR_UNIQUE_ALIAS'), 'alias');
             }
 
             $this->setError(Text::_('COM_FINDER_FILTER_ERROR_UNIQUE_ALIAS'));

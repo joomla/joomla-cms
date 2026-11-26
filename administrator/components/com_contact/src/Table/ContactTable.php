@@ -131,7 +131,7 @@ class ContactTable extends Table implements TaggableTableInterface, CurrentUserI
                     ? Text::_('COM_CONTACT_ERROR_UNIQUE_ALIAS_TRASHED')
                     : Text::_('COM_CONTACT_ERROR_UNIQUE_ALIAS');
 
-                throw new DuplicateEntryException($message, 'alias');
+                throw new DuplicateEntryException($this, $message, 'alias');
             }
 
             $this->setError(Text::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
@@ -172,7 +172,7 @@ class ContactTable extends Table implements TaggableTableInterface, CurrentUserI
 
         if ($this->webpage !== null && InputFilter::checkAttribute(['href', $this->webpage])) {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
+                throw new ValidationException($this, Text::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
             }
 
             $this->setError(Text::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
@@ -183,7 +183,7 @@ class ContactTable extends Table implements TaggableTableInterface, CurrentUserI
         // Check for valid name
         if (trim($this->name) == '') {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));
+                throw new ValidationException($this, Text::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));
             }
 
             $this->setError(Text::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));
@@ -197,7 +197,7 @@ class ContactTable extends Table implements TaggableTableInterface, CurrentUserI
         // Check for a valid category.
         if (!$this->catid = (int) $this->catid) {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
+                throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
@@ -213,7 +213,7 @@ class ContactTable extends Table implements TaggableTableInterface, CurrentUserI
         // Check the publish down date is not earlier than publish up.
         if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up) {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+                throw new ValidationException($this, Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
             }
 
             $this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
