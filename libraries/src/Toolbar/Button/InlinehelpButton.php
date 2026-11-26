@@ -18,6 +18,8 @@ namespace Joomla\CMS\Toolbar\Button;
  *
  * @method self targetclass(string $value)
  * @method string getTargetclass()
+ * @method self storage(string $value)
+ * @method string getStorage()
  *
  * @since  4.1.0
  */
@@ -52,6 +54,10 @@ class InlinehelpButton extends BasicButton
                 'data-class' => $options['targetclass'] ?? 'hide-aware-inline-help',
             ]
         );
+
+        if (!empty($options['storage'])) {
+            $options['attributes']['data-storage'] = $options['storage'];
+        }
 
         parent::prepareOptions($options);
     }
@@ -101,6 +107,7 @@ class InlinehelpButton extends BasicButton
             parent::getAccessors(),
             [
                 'targetclass',
+                'storage',
             ]
         );
     }
