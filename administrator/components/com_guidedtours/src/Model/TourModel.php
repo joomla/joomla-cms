@@ -143,7 +143,7 @@ class TourModel extends AdminModel
             ]
         );
 
-        $id = $data['id'] ?? $form->getValue('id');
+        $id = $data['id'] ?? (int) $form->getValue('id');
 
         $item = $this->getItem($id);
 
