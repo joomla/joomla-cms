@@ -88,6 +88,7 @@ export const builders = [
   'plg_system_stats',
   'plg_system_webauthn',
   'plg_user_token',
+  'plg_workflow_category',
 
   // Templates
   'templates/administrator/atum',
