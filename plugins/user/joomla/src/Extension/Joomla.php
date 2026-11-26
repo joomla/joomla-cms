@@ -248,7 +248,8 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             'plg_user_joomla.mail',
             $userLocale,
             $this->getMailerFactory()->createMailer(),
-            $this->getLanguageFactory()
+            $this->getLanguageFactory(),
+            $this->getDatabase()
         );
         $mailer->addTemplateData($data);
         $mailer->addUnsafeTags(['username', 'password', 'name', 'email']);
@@ -345,6 +346,9 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
         // Reset the MFA check state
         $session->set('com_users.mfa_checked', 0);
+
+        // Reset any stale deferred Remember Me request from a previous, incomplete login
+        $session->set('com_users.remember_deferred', 0);
 
         // Update the user related fields for the Joomla sessions table if tracking session metadata.
         if ($this->getApplication()->get('session_metadata', true)) {

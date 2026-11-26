@@ -357,7 +357,8 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface, Mail
                         'com_privacy.notification.admin.export',
                         $app->getLanguage()->getTag(),
                         $this->getMailerFactory()->createMailer(),
-                        $this->getLanguageFactory()
+                        $this->getLanguageFactory(),
+                        $this->getDatabase()
                     );
 
                     break;
@@ -367,7 +368,8 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface, Mail
                         'com_privacy.notification.admin.remove',
                         $app->getLanguage()->getTag(),
                         $this->getMailerFactory()->createMailer(),
-                        $this->getLanguageFactory()
+                        $this->getLanguageFactory(),
+                        $this->getDatabase()
                     );
 
                     break;

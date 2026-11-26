@@ -964,7 +964,11 @@ class Access
         $user      = User::getInstance($userId);
         $root_user = Factory::getApplication()->get('root_user');
 
-        if (($user->username && $user->username == $root_user) || (is_numeric($root_user) && $user->id > 0 && $user->id == $root_user)) {
+        // Same rule as User::authorise(): an integer is the user ID, a string is the username
+        if (
+            (\is_int($root_user) && $user->id > 0 && $user->id === $root_user)
+            || (\is_string($root_user) && $user->username && $user->username === $root_user)
+        ) {
             // Find the super user levels.
             foreach (self::$viewLevels as $level => $rule) {
                 foreach ($rule as $id) {

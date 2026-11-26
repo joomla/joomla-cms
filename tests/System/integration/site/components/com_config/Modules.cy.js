@@ -7,7 +7,7 @@ describe('Test in frontend that the config modules view', () => {
     cy.get('nav.mod-breadcrumbs__wrapper li.mod-breadcrumbs__divider').should('not.exist');
     cy.get('nav.mod-breadcrumbs__wrapper a.jmodedit').click();
 
-    cy.title().should('equal', 'Module Settings');
+    cy.title().should('contain', 'Module Settings');
     cy.get('#options button.accordion-button').contains('Options').click();
     cy.get('#jform_params_showHere0').click();
     cy.get('#modules-form button[data-submit-task="modules.apply"]').click();

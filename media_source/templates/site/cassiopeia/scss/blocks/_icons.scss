@@ -10,6 +10,22 @@
   }
 }
 
+// Mirror question mark for Arabic-script languages
+html:lang(ar),
+html:lang(fa),
+html:lang(ur) {
+  .fa-question,
+  .fa-question-circle,
+  .icon-question,
+  .icon-question-2,
+  .icon-question-circle,
+  .icon-question-sign,
+  .icon-help {
+    display: inline-block;
+    transform: scaleX(-1);
+  }
+}
+
 .tbody-icon {
   padding: 0 3px;
   text-align: center;

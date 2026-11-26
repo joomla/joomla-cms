@@ -4,6 +4,7 @@
 		<field
 			name="context"
 			type="fieldcontexts"
+			label="COM_FIELDS_CHOOSE_CONTEXT_LABEL"
 			filtermode="selector"
 			class="js-select-submit-on-change"
 		/>

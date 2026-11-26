@@ -17,6 +17,7 @@ use Joomla\CMS\Event\Model\AfterDeleteEvent;
 use Joomla\CMS\Event\Model\AfterSaveEvent;
 use Joomla\CMS\Event\Model\BeforeDeleteEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Associations;
@@ -178,7 +179,10 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
         $newIds = [];
 
         foreach ($pks as $pk) {
-            if ($user->authorise('core.create', 'com_modules')) {
+            if (
+                $user->authorise('core.create', 'com_modules')
+                && $user->authorise('core.edit', $contexts[$pk])
+            ) {
                 $table->reset();
                 $table->load($pk);
 
@@ -188,7 +192,7 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
                 } elseif ($value == 'nochange') {
                     $position = $table->position;
                 } else {
-                    $position = $value;
+                    $position = InputFilter::getInstance()->clean($value, 'string');
                 }
 
                 $table->position = $position;
@@ -300,7 +304,7 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
                 } elseif ($value == 'nochange') {
                     $position = $table->position;
                 } else {
-                    $position = $value;
+                    $position = InputFilter::getInstance()->clean($value, 'string');
                 }
 
                 $table->position = $position;
@@ -841,7 +845,6 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
      */
     protected function prepareTable($table)
     {
-        $table->title    = htmlspecialchars_decode($table->title, ENT_QUOTES);
         $table->position = trim($table->position);
     }
 
