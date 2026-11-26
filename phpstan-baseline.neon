@@ -1574,17 +1574,6 @@ parameters:
 			path: administrator/components/com_fields/tmpl/field/edit.php
 
 		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 7\.0
-				             Use the ComponentInterface to get the categories
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 2
-			path: administrator/components/com_fields/tmpl/fields/default.php
-
-		-
 			message: '#^Access to an undefined property Joomla\\Component\\Fields\\Administrator\\View\\Group\\HtmlView\:\:\$fields\.$#'
 			identifier: property.notFound
 			count: 1
@@ -6075,28 +6064,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 7\.0
-				             Use the ComponentInterface to get the categories
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: components/com_contact/src/Model/CategoriesModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 7\.0
-				             Use the ComponentInterface to get the categories
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: components/com_contact/src/Model/CategoryModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Form\\Form\:
 				4\.3 will be removed in 7\.0
 				             Use the FormFactory service from the container
@@ -6178,17 +6145,6 @@ parameters:
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
 			identifier: method.deprecated
-			count: 1
-			path: components/com_contact/src/View/Contact/HtmlView.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 7\.0
-				             Use the ComponentInterface to get the categories
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
-			'''
-			identifier: staticMethod.deprecated
 			count: 1
 			path: components/com_contact/src/View/Contact/HtmlView.php
 
@@ -6398,28 +6354,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 7\.0
-				             Use the ComponentInterface to get the categories
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: components/com_content/src/Model/CategoriesModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 7\.0
-				             Use the ComponentInterface to get the categories
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: components/com_content/src/Model/CategoryModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -6495,17 +6429,6 @@ parameters:
 			path: components/com_content/src/View/Article/HtmlView.php
 
 		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 7\.0
-				             Use the ComponentInterface to get the categories
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: components/com_content/src/View/Article/HtmlView.php
-
-		-
 			message: '#^Access to an undefined property Joomla\\Component\\Content\\Site\\View\\Category\\HtmlView\:\:\$menu\.$#'
 			identifier: property.notFound
 			count: 1
@@ -6522,17 +6445,6 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: components/com_content/src/View/Category/HtmlView.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 7\.0
-				             Use the ComponentInterface to get the categories
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: components/com_content/src/View/Featured/FeedView.php
 
 		-
 			message: '''
@@ -6747,28 +6659,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 7\.0
-				             Use the ComponentInterface to get the categories
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: components/com_newsfeeds/src/Model/CategoriesModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 7\.0
-				             Use the ComponentInterface to get the categories
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: components/com_newsfeeds/src/Model/CategoryModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -6821,17 +6711,6 @@ parameters:
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
 			identifier: method.deprecated
-			count: 1
-			path: components/com_newsfeeds/src/View/Newsfeed/HtmlView.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 7\.0
-				             Use the ComponentInterface to get the categories
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
-			'''
-			identifier: staticMethod.deprecated
 			count: 1
 			path: components/com_newsfeeds/src/View/Newsfeed/HtmlView.php
 
@@ -7982,17 +7861,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: libraries/src/Categories/Categories.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 7\.0
-				             Use the ComponentInterface to get the categories
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Categories/CategoryNode.php
 
 		-
 			message: '''
@@ -10805,17 +10673,6 @@ parameters:
 			identifier: method.deprecatedInterface
 			count: 2
 			path: libraries/src/Helper/ModuleHelper.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 7\.0
-				             Use the ComponentInterface to get the categories
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 2
-			path: libraries/src/Helper/RouteHelper.php
 
 		-
 			message: '#^Unsafe usage of new static\(\)\.$#'
