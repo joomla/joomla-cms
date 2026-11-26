@@ -14,6 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Taxonomy;
@@ -64,7 +65,14 @@ if (!empty($this->result->mime)) {
 
 $show_url = '';
 if ($this->params->get('show_url', 1)) {
-    $show_url = '<cite class="result__title-url">' . $this->baseUrl . Route::_($this->result->cleanURL) . '</cite>';
+    $url = Route::_($this->result->cleanURL, false);
+
+    // A URL with a host, e.g. of another site, is shown as it is.
+    if ((new Uri($url))->getHost() === null) {
+        $url = $this->baseUrl . $url;
+    }
+
+    $show_url = '<cite class="result__title-url">' . $this->escape($url) . '</cite>';
 }
 ?>
 <li class="result__item">
