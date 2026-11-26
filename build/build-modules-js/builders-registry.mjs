@@ -49,6 +49,7 @@ export const builders = [
   // Modules
   'mod_articles',
   'mod_articles_news',
+  'mod_contact_form',
   'mod_languages',
   'mod_login',
   'mod_menu',
