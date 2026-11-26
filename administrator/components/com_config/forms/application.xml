@@ -110,6 +110,19 @@
 		/>
 
 		<field
+			name="memcached_index_shards"
+			type="number"
+			label="COM_CONFIG_FIELD_MEMCACHE_INDEX_SHARDS_LABEL"
+			description="COM_CONFIG_FIELD_MEMCACHE_INDEX_SHARDS_DESC"
+			showon="cache_handler:memcached[AND]caching:1,2"
+			min="1"
+			max="1024"
+			default="16"
+			filter="integer"
+			validate="number"
+		/>
+
+		<field
 			name="redis_persist"
 			type="radio"
 			label="COM_CONFIG_FIELD_REDIS_PERSISTENT_LABEL"
