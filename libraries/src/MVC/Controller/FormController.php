@@ -580,6 +580,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
         // The save2copy task needs to be handled slightly differently.
         if ($task === 'save2copy') {
+            $model->setState('save2copy.id', $recordId);
+
             // Check-in the original row. If failed, go back to the record and display a notice
             if ($checkin && !$this->attemptCheckin($model, $recordId, $urlVar)) {
                 return false;
