@@ -37,6 +37,95 @@
         } else {
           list.classList.remove('hidden');
         }
+
+        if (event.currentTarget.hasAttribute('aria-expanded')) {
+          event.currentTarget.setAttribute('aria-expanded', !list.classList.contains('hidden'));
+        }
+      });
+    });
+
+    // Keyboard support for the trees on the create overrides tab
+    document.querySelectorAll('[role="tree"]').forEach((tree) => {
+      const getItems = () => [...tree.querySelectorAll('[role="treeitem"]')]
+        .filter((item) => !item.closest('ul.hidden'));
+
+      const focusItem = (item) => {
+        if (!item) {
+          return;
+        }
+
+        tree.querySelectorAll('[role="treeitem"]').forEach((el) => el.setAttribute('tabindex', '-1'));
+        item.setAttribute('tabindex', '0');
+        item.focus();
+      };
+
+      const items = tree.querySelectorAll('[role="treeitem"]');
+      if (items.length) {
+        items[0].setAttribute('tabindex', '0');
+        items.forEach((item) => {
+          if (item !== items[0]) {
+            item.setAttribute('tabindex', '-1');
+          }
+        });
+      }
+
+      tree.addEventListener('focusin', (event) => {
+        const item = event.target.closest('[role="treeitem"]');
+
+        if (item) {
+          tree.querySelectorAll('[role="treeitem"]').forEach((el) => el.setAttribute('tabindex', '-1'));
+          item.setAttribute('tabindex', '0');
+        }
+      });
+
+      tree.addEventListener('keydown', (event) => {
+        const item = event.target.closest('[role="treeitem"]');
+
+        if (!item || event.altKey || event.ctrlKey || event.metaKey) {
+          return;
+        }
+
+        const visible = getItems();
+        const index = visible.indexOf(item);
+        const isFolder = item.hasAttribute('aria-expanded');
+        const expanded = item.getAttribute('aria-expanded') === 'true';
+        let handled = true;
+
+        switch (event.key) {
+          case 'ArrowDown':
+            focusItem(visible[index + 1]);
+            break;
+          case 'ArrowUp':
+            focusItem(visible[index - 1]);
+            break;
+          case 'Home':
+            focusItem(visible[0]);
+            break;
+          case 'End':
+            focusItem(visible[visible.length - 1]);
+            break;
+          case 'ArrowRight':
+            if (isFolder && !expanded) {
+              item.click();
+            } else if (isFolder) {
+              focusItem(getItems()[index + 1]);
+            }
+            break;
+          case 'ArrowLeft':
+            if (isFolder && expanded) {
+              item.click();
+            } else {
+              const parentFolder = item.closest('ul[role="group"]')?.parentNode.querySelector('[role="treeitem"][aria-expanded]');
+              focusItem(parentFolder);
+            }
+            break;
+          default:
+            handled = false;
+        }
+
+        if (handled) {
+          event.preventDefault();
+        }
       });
     });
 
