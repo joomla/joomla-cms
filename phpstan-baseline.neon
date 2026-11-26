@@ -3208,6 +3208,16 @@ parameters:
 
 		-
 			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: administrator/components/com_login/src/Controller/DisplayController.php
+
+		-
+			message: '''
 				#^Call to deprecated method getCache\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the cache controller factory instead
@@ -8569,6 +8579,16 @@ parameters:
 			'''
 			identifier: new.deprecatedClass
 			count: 1
+			path: libraries/src/Dispatcher/ApiDispatcher.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\Access\\Exception\\NotAllowed\:
+				__DEPLOY_VERSION__ will be removed in 8\.0
+				             Use the class with the Exception suffix instead\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
 			path: libraries/src/Dispatcher/ComponentDispatcher.php
 
 		-
@@ -11696,7 +11716,7 @@ parameters:
 				             Use the class with the Exception suffix instead\.$#
 			'''
 			identifier: new.deprecatedClass
-			count: 2
+			count: 3
 			path: libraries/src/MVC/Controller/ApiController.php
 
 		-
