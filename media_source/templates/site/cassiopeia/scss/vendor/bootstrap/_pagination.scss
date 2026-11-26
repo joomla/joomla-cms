@@ -3,3 +3,49 @@
 .pagination {
   margin: 1rem;
 }
+
+
+// Responsive pagination
+.pagination__wrapper {
+  container-type: inline-size;
+}
+
+.pagination {
+  flex-wrap: nowrap;
+  align-items: center;
+  white-space: nowrap;
+}
+
+// Keep navigation controls visible regardless of their position or whether
+// Previous/Next have been removed by a child template.
+@container (max-width: 40rem) {
+  .pagination > .page-item:not(
+    .active,
+    :has(+ .active),
+    :has(+ .page-item + .active),
+    .active + .page-item,
+    .active + .page-item + .page-item,
+    :has([class^="icon-angle-"])) {
+    display: none;
+  }
+}
+
+// Reduce the numbered links to the current page and its immediate neighbours.
+@container (max-width: 30rem) {
+  .pagination > .page-item:not(
+    .active,
+    :has(+ .active),
+    .active + .page-item,
+    :has([class^="icon-angle-"])) {
+    display: none;
+  }
+}
+
+// On very narrow containers, show only the current page and navigation controls.
+@container (max-width: 22rem) {
+  .pagination > .page-item:not(
+    .active,
+    :has([class^="icon-angle-"])) {
+    display: none;
+  }
+}
