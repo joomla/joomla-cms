@@ -17,7 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 
 /** @var \Joomla\Component\Templates\Administrator\View\Template\HtmlView $this */
 
-Factory::getDocument()->getWebAssetManager()->usePreset('choicesjs');
+Factory::getDocument()->getWebAssetManager()->useScript('choicesjs');
 
 // Generate a list of styles for the child creation modal
 $options = [];
