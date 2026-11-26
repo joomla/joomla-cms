@@ -60,7 +60,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
                 $advClause[] = 'c2.access IN (' . $groups . ')';
 
                 // Filter by current language
-                $advClause[] = 'c2.language != ' . $db->quote(Factory::getLanguage()->getTag());
+                $advClause[] = 'c2.language != ' . $db->quote(Factory::getApplication()->getLanguage()->getTag());
 
                 if (!$user->authorise('core.edit.state', 'com_content') && !$user->authorise('core.edit', 'com_content')) {
                     // Filter by start and end dates.
