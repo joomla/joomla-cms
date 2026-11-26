@@ -449,7 +449,7 @@ class Taxonomy
                 break;
             }
 
-            $query2->clear('where')->whereIn($db->quoteName('id'), $nodes);
+            $query2->clear('where')->clear('bounded')->whereIn($db->quoteName('id'), $nodes);
             $db->setQuery($query2);
             $db->execute();
             $affectedRows += $db->getAffectedRows();
