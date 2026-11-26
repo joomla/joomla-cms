@@ -24,7 +24,7 @@ describe('Test that menu items site API endpoint', () => {
   it('can create a site menu item', () => {
     cy.api_post('/menus/site/items', {
       title: 'automated test site menu item',
-      menutype: 'main-menu',
+      menutype: 'mainmenu',
       access: '1',
       parent_id: '1',
       publish_down: '',

@@ -51,7 +51,7 @@ use Joomla\Filter\OutputFilter;
                 <span class="badge bg-warning text-light"><?php echo Text::_('JUNPUBLISHED'); ?></span>
             <?php endif; ?>
             <a href="<?php echo $this->item->link; ?>" target="_blank" rel="noopener">
-                <?php echo str_replace('&apos;', "'", $this->item->name); ?>
+                <?php echo $this->escape(str_replace('&apos;', "'", $this->item->name)); ?>
             </a>
         </h2>
 

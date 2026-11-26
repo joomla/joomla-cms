@@ -92,6 +92,32 @@ class GroupController extends FormController
     }
 
     /**
+     * Method override to check if you can save a record.
+     *
+     * The field group must belong to the component of the request context, a posted context must not
+     * create or move the field group into another component.
+     *
+     * @param   array   $data  An array of input data.
+     * @param   string  $key   The name of the key for the primary key.
+     *
+     * @return  boolean
+     *
+     * @since   6.2.1
+     */
+    protected function allowSave($data, $key = 'id')
+    {
+        if (\array_key_exists('context', $data)) {
+            $context = \is_string($data['context']) ? $data['context'] : '';
+
+            if (explode('.', $context)[0] !== $this->component) {
+                return false;
+            }
+        }
+
+        return parent::allowSave($data, $key);
+    }
+
+    /**
      * Method override to check if you can add a new record.
      *
      * @param   array  $data  An array of input data.
@@ -125,6 +151,20 @@ class GroupController extends FormController
             return parent::allowEdit($data, $key);
         }
 
+        // Get existing record
+        $record = $this->getModel()->getItem($recordId);
+
+        if (empty($record)) {
+            return false;
+        }
+
+        [$recordOption] = explode('.', $record->context);
+
+        // Validate request context and field context match
+        if ($recordOption !== $this->component) {
+            return false;
+        }
+
         // Check edit on the record asset (explicit or inherited)
         if ($user->authorise('core.edit', $this->component . '.fieldgroup.' . $recordId)) {
             return true;
@@ -132,13 +172,6 @@ class GroupController extends FormController
 
         // Check edit own on the record asset (explicit or inherited)
         if ($user->authorise('core.edit.own', $this->component . '.fieldgroup.' . $recordId) || $user->authorise('core.edit.own', $this->component)) {
-            // Existing record already has an owner, get it
-            $record = $this->getModel()->getItem($recordId);
-
-            if (empty($record)) {
-                return false;
-            }
-
             // Grant if current user is owner of the record
             return $user->id == $record->created_by;
         }

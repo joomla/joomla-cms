@@ -113,6 +113,13 @@ class FieldModel extends AdminModel
      */
     public function save($data)
     {
+        // The user must manage the component of the context the record is saved in
+        if (!$this->canSaveContext($data)) {
+            $this->setError(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+
+            return false;
+        }
+
         $field                     = null;
         $hasDuplicateSubformFields = false;
 
@@ -824,6 +831,109 @@ class FieldModel extends AdminModel
     }
 
     /**
+     * Method to check that a field may be saved: it must keep its stored context and the user must
+     * manage the component of the context, the request context alone is not enough.
+     *
+     * @param   array  $data  The form data.
+     *
+     * @return  boolean  True if the field may be saved.
+     *
+     * @since   6.2.1
+     */
+    protected function canSaveContext(array $data): bool
+    {
+        $context  = isset($data['context']) && \is_string($data['context']) ? $data['context'] : '';
+        $recordId = isset($data['id']) ? (int) $data['id'] : 0;
+
+        if ($recordId) {
+            $table = $this->getTable();
+
+            if ($table->load($recordId)) {
+                // An existing field must not be moved into another context
+                if ($context !== '' && $context !== $table->context) {
+                    return false;
+                }
+
+                $context = (string) $table->context;
+            }
+        }
+
+        if ($context === '') {
+            $context = (string) $this->getState('field.context');
+        }
+
+        return $this->canManageContext($context);
+    }
+
+    /**
+     * Method to check that the current user may manage the component of a context.
+     *
+     * @param   ?string  $context  The context, e.g. com_content.article.
+     *
+     * @return  boolean  True if the user has core.manage on the component of the context.
+     *
+     * @since   6.2.1
+     */
+    protected function canManageContext(?string $context): bool
+    {
+        $component = explode('.', (string) $context)[0];
+
+        return $component !== '' && $this->getCurrentUser()->authorise('core.manage', $component);
+    }
+
+    /**
+     * Method to perform batch operations on a set of fields.
+     *
+     * Every field must belong to a component the user may manage, before any batch command runs.
+     *
+     * @param   array  $commands  An array of commands to perform.
+     * @param   array  $pks       An array of item ids.
+     * @param   array  $contexts  An array of item contexts.
+     *
+     * @return  boolean  Returns true on success, false on failure.
+     *
+     * @since   6.2.1
+     */
+    public function batch($commands, $pks, $contexts)
+    {
+        if (!$this->canManageRecords((array) $pks)) {
+            $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
+            return false;
+        }
+
+        return parent::batch($commands, $pks, $contexts);
+    }
+
+    /**
+     * Method to check that every field exists and belongs to a component the user may manage.
+     *
+     * @param   array  $pks  An array of item ids.
+     *
+     * @return  boolean  True if the user may manage all fields.
+     *
+     * @since   6.2.1
+     */
+    protected function canManageRecords(array $pks): bool
+    {
+        $table = $this->getTable();
+
+        foreach (ArrayHelper::toInteger($pks) as $pk) {
+            if (!$pk) {
+                continue;
+            }
+
+            $table->reset();
+
+            if (!$table->load($pk) || !$this->canManageContext($table->context)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Method to test whether a record can be deleted.
      *
      * @param   object  $record  A record object.
@@ -834,7 +944,7 @@ class FieldModel extends AdminModel
      */
     protected function canDelete($record)
     {
-        if (empty($record->id) || $record->state != -2) {
+        if (empty($record->id) || $record->state != -2 || !$this->canManageContext($record->context ?? '')) {
             return false;
         }
 
@@ -855,6 +965,11 @@ class FieldModel extends AdminModel
      */
     protected function canEditState($record)
     {
+        // The user must manage the component of the record, not only the one of the request
+        if (!$this->canManageContext($record->context ?? '')) {
+            return false;
+        }
+
         $user  = $this->getCurrentUser();
         $parts = FieldsHelper::extract($record->context);
 
@@ -1002,6 +1117,23 @@ class FieldModel extends AdminModel
      */
     public function validate($form, $data, $group = null)
     {
+        // Check if the values are unique. This should only apply for list, checkboxes and radio custom field types
+        if (
+            \in_array($data['type'], ['list', 'checkboxes', 'radio'])
+            && !empty($data['fieldparams']['options'])
+            && \is_array($data['fieldparams']['options'])
+        ) {
+            $tmpValues = [];
+            foreach ($data['fieldparams']['options'] as $option) {
+                $tmpValues[] = $option['value'];
+            }
+
+            if (\count($tmpValues) !== \count(array_unique($tmpValues))) {
+                Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_FIELD_INVALID_DUPLICATE_VALUES'), 'error');
+
+                return false;
+            }
+        }
         if (!$this->getCurrentUser()->authorise('core.admin', 'com_fields')) {
             if (isset($data['rules'])) {
                 unset($data['rules']);
@@ -1181,11 +1313,17 @@ class FieldModel extends AdminModel
         $user      = $this->getCurrentUser();
         $table     = $this->getTable();
         $newIds    = [];
-        $component = $this->state->get('filter.component');
         $value     = (int) $value;
 
         foreach ($pks as $pk) {
-            if ($user->authorise('core.create', $component . '.fieldgroup.' . $value)) {
+            $table->reset();
+            $table->load($pk);
+            [$recordComponent] = explode('.', (string) $table->context);
+
+            if (
+                $user->authorise('core.create', $recordComponent . '.fieldgroup.' . $value)
+                && $user->authorise('core.edit', $recordComponent . '.field.' . $pk)
+            ) {
                 // Find all assigned categories to this field
                 $db    = $this->getDatabase();
                 $query = $db->createQuery();
@@ -1195,9 +1333,6 @@ class FieldModel extends AdminModel
                     ->where($db->quoteName('field_id') . ' = ' . (int) $pk);
 
                 $assignedCatIds = $db->setQuery($query)->loadColumn();
-
-                $table->reset();
-                $table->load($pk);
 
                 $table->group_id = $value;
 
@@ -1272,35 +1407,70 @@ class FieldModel extends AdminModel
     protected function batchMove($value, $pks, $contexts)
     {
         // Set the variables
-        $user      = $this->getCurrentUser();
-        $table     = $this->getTable();
-        $context   = explode('.', Factory::getApplication()->getUserState('com_fields.fields.context'));
-        $value     = (int) $value;
+        $user         = $this->getCurrentUser();
+        $table        = $this->getTable();
+        $value        = (int) $value;
+        $groupContext = null;
+
+        // A target group must exist, its context has to match the context of every moved field
+        if ($value) {
+            $db    = $this->getDatabase();
+            $query = $db->createQuery()
+                ->select($db->quoteName('context'))
+                ->from($db->quoteName('#__fields_groups'))
+                ->where($db->quoteName('id') . ' = :id')
+                ->bind(':id', $value, ParameterType::INTEGER);
+
+            $groupContext = $db->setQuery($query)->loadResult();
+        }
+
+        $allowed = !$value || $groupContext !== null;
+
+        // Check every field before moving any of them, the permissions are derived from the stored field context
+        foreach ($pks as $pk) {
+            if (!$allowed) {
+                break;
+            }
+
+            $table->reset();
+
+            if (!$table->load($pk)) {
+                $allowed = false;
+
+                break;
+            }
+
+            [$recordComponent] = explode('.', (string) $table->context);
+
+            $allowed = ($groupContext === null || $groupContext === $table->context)
+                && $user->authorise('core.edit', $recordComponent . '.fieldgroup.' . $value)
+                && $user->authorise('core.edit', $recordComponent . '.field.' . $pk);
+        }
+
+        if (!$allowed) {
+            if ($this->shouldUseExceptions()) {
+                throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+            }
+
+            $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
+            return false;
+        }
 
         foreach ($pks as $pk) {
-            if ($user->authorise('core.edit', $context[0] . '.fieldgroup.' . $value)) {
-                $table->reset();
-                $table->load($pk);
+            $table->reset();
+            $table->load($pk);
 
-                $table->group_id = $value;
+            $table->group_id = $value;
 
-                if (!$table->store()) {
-                    if ($this->shouldUseExceptions()) {
-                        $error = $table->getError(null, false);
-
-                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
-                    }
-
-                    $this->setError($table->getError());
-
-                    return false;
-                }
-            } else {
+            if (!$table->store()) {
                 if ($this->shouldUseExceptions()) {
-                    throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
                 }
 
-                $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+                $this->setError($table->getError());
 
                 return false;
             }

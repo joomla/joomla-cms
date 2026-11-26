@@ -34,16 +34,11 @@ class Dispatcher extends ComponentDispatcher
     {
         $task         = $this->input->getCmd('task');
         $view         = $this->input->getCmd('view');
-        $layout       = $this->input->getCmd('layout');
+
         $allowedTasks = ['user.edit', 'user.apply', 'user.save', 'user.cancel'];
 
-        // If the user editing layout is called, we assume its the user.edit task
-        if (!$task && $view === 'user' && $layout === 'edit') {
-            $task = 'user.edit';
-        }
-
         // Allow users to edit their own account
-        if (\in_array($task, $allowedTasks, true) || ($view === 'user' && $layout === 'edit')) {
+        if (\in_array($task, $allowedTasks, true) || (\in_array($view, ['user']) && !$task)) {
             $user = $this->app->getIdentity();
             $id   = $this->input->getInt('id');
 
@@ -60,16 +55,13 @@ class Dispatcher extends ComponentDispatcher
          * are trying to modify. Implementing these checks in the Dispatcher would violate the
          * separation of concerns.
          */
-        $allowedViews  = ['callback', 'captive', 'method', 'methods'];
-        $isAllowedTask = array_reduce(
-            $allowedViews,
-            function ($carry, $taskPrefix) use ($task) {
-                return $carry || str_starts_with($task ?? '', $taskPrefix . '.');
-            },
-            false
-        );
+        $allowedTasks =  [
+            'captive.captive', 'captive.validate', 'callback.callback', 'captive.select',
+            'method.add', 'method.edit', 'method.regenerateBackupCodes', 'method.delete', 'method.save',
+            'methods.display', 'methods.disable', 'methods.doNotShowThisAgain',
+        ];
 
-        if (\in_array(strtolower($view ?? ''), $allowedViews) || $isAllowedTask) {
+        if (\in_array($task, $allowedTasks) || (\in_array($view, ['captive', 'methods', 'method']) && !$task)) {
             return;
         }
 

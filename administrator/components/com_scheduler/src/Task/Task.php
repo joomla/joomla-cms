@@ -24,6 +24,7 @@ use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Table\TaskTable;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Psr\Log\InvalidArgumentException;
@@ -146,7 +147,12 @@ class Task implements LoggerAwareInterface
         $this->logCategory = 'task' . $this->get('id');
 
         if ($this->get('params.individual_log')) {
-            $logFile = $this->get('params.log_file') ?? 'task_' . $this->get('id') . '.log.php';
+            // Only a plain file name inside the log folder, no path
+            $logFile = File::makeSafe(basename((string) $this->get('params.log_file', '')));
+
+            if ($logFile === '') {
+                $logFile = 'task_' . $this->get('id') . '.log.php';
+            }
 
             $options['text_entry_format'] = "{DATE}\t{TIME}\t{PRIORITY}\t{MESSAGE}";
             $options['text_file']         = $logFile;
