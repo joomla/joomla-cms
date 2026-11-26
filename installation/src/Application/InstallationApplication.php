@@ -301,6 +301,14 @@ final class InstallationApplication extends CMSApplication
             return;
         }
 
+        // On an already installed site only the session that wrote the configuration may continue
+        if (!$this->isInstallerAllowed()) {
+            $this->setHeader('status', '403 Forbidden', true);
+            echo Text::_('INSTL_ALREADY_INSTALLED_FORBIDDEN');
+
+            return;
+        }
+
         $factory = new MVCFactory('Joomla\\CMS', $this->getLogger());
         $factory->setDatabase($this->getContainer()->get(DatabaseInterface::class));
 
