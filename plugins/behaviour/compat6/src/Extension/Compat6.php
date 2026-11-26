@@ -82,9 +82,13 @@ final class Compat6 extends CMSPlugin implements SubscriberInterface
 
         /**
          * Load the constant early as it is used in class files before the class itself is loaded.
+         *
+         * The constant is an alias for JPATH_LIBRARIES, which is what it pointed to before it was
+         * moved out of the libraries bootstrap file into this plugin.
+         *
          * @deprecated 4.4.0 will be removed in 7.0
          */
-        \defined('JPATH_PLATFORM') or \define('JPATH_PLATFORM', __DIR__);
+        \defined('JPATH_PLATFORM') or \define('JPATH_PLATFORM', JPATH_LIBRARIES);
     }
 
     /**
