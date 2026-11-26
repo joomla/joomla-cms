@@ -90,6 +90,24 @@ describe('Test in backend that the media manager', () => {
     cy.checkForSystemMessage('File or Folder not found');
   });
 
+  it('keeps invalid folder names in the form when submitted with Enter', () => {
+    cy.visit('/administrator/index.php?option=com_media&path=local-images:/');
+    cy.wait('@getMedia');
+    cy.intercept('POST', '*format=json*task=api.files*').as('createFolder');
+
+    cy.contains('button', 'Create New Folder').click();
+    cy.get('[role="dialog"]').within(() => {
+      ['banners', 'bad?name'].forEach((name) => {
+        cy.get('#folder').clear().type(name);
+        cy.get('#folderFeedback').should('be.visible');
+        cy.contains('button', 'Create').should('be.disabled');
+        cy.get('#folder').type('{enter}').should('have.value', name);
+        cy.get('#folderFeedback').should('be.visible');
+      });
+    });
+    cy.get('@createFolder.all').should('have.length', 0);
+  });
+
   it('can not rename to malicious file', () => {
     cy.visit('/administrator/index.php?option=com_media');
     cy.wait('@getMedia');
