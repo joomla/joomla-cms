@@ -175,14 +175,25 @@
         try {
           response = JSON.parse(response);
         } catch (e) {
+          // The server returned something which is not valid JSON, e.g. an HTML page
+          // from a PHP fatal error or a proxy. Never display the raw response to the
+          // user as it could leak sensitive information or be rendered as markup.
+          console.error('Error in ' + task + ' Endpoint');
+          console.error(response);
+
           if (progress_text) {
             progress_text.setAttribute('role', 'alert');
             progress_text.classList.add('error');
-            progress_text.innerText = response;
+            progress_text.innerText = Joomla.Text._('INSTL_DATABASE_RESPONSE_ERROR');
           }
-          console.error('Error in ' + task + ' Endpoint');
-          console.error(response);
+
           Joomla.renderMessages({ error: [Joomla.Text._('INSTL_DATABASE_RESPONSE_ERROR')] });
+
+          // Reveal the database step so the user has a chance to resubmit with the data
+          if (document.getElementById('installStep3')) {
+            document.getElementById('installStep3').classList.add('active');
+            document.getElementById('installStep4').classList.remove('active');
+          }
 
           return false;
         }
@@ -226,19 +237,43 @@
         Joomla.install(tasks, form, fromSubmit);
       },
       onError: function (xhr) {
+        var response = {};
+
+        try {
+          response = JSON.parse(xhr.responseText);
+        } catch (e) {
+          // Not a JSON response, eg a PHP fatal error or a proxy error page.
+          // Never display the raw response, it could leak sensitive information
+          // or be rendered as markup.
+        }
+
+        if (response.token) {
+          Joomla.replaceTokens(response.token);
+        }
+
+        var message = response.message || Joomla.Text._('INSTL_DATABASE_RESPONSE_ERROR');
+
         if (progress_text) {
           progress_text.setAttribute('role', 'alert');
           progress_text.classList.add('error');
-          progress_text.innerText = xhr.responseText;
+          progress_text.innerText = message;
         }
-        Joomla.renderMessages([['', Joomla.Text._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
-        Joomla.goToPage('remove');
 
-        try {
-          var r = JSON.parse(xhr.responseText);
-          Joomla.replaceTokens(r.token);
-          alert(r.message);
-        } catch (e) {
+        if (response.messages) {
+          Joomla.renderMessages(response.messages);
+        } else if (response.message) {
+          Joomla.renderMessages({ error: [response.message] });
+        } else {
+          // Includes the HTTP status code, but never the raw response body
+          Joomla.renderMessages({ error: [Joomla.Text._('INSTL_DATABASE_RESPONSE_HTTP_ERROR').replace('%s', xhr.status)] });
+        }
+
+        // Stay on the current page: reveal the database step so the user has a
+        // chance to resubmit with the data. Navigating away (eg to the "remove"
+        // view) would leave the installation in a broken state.
+        if (document.getElementById('installStep3')) {
+          document.getElementById('installStep3').classList.add('active');
+          document.getElementById('installStep4').classList.remove('active');
         }
       },
     });

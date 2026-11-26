@@ -153,6 +153,7 @@ class InstallationController extends JSONController
      */
     public function populate()
     {
+
         $this->checkValidToken();
         $step = $this->getTask();
         /** @var \Joomla\CMS\Installation\Model\DatabaseModel $model */
@@ -161,6 +162,16 @@ class InstallationController extends JSONController
         $r       = new \stdClass();
         $options = $model->getOptions();
         $db      = $model->initialise($options);
+
+        if ($db === false) {
+            // Error messages are enqueued by the initialise function, we just need to tell the frontend how to redirect
+            $r->view  = 'setup';
+            $r->error = true;
+            $this->sendJsonResponse($r);
+
+            return;
+        }
+
         $files   = [
             'populate1' => 'base',
             'populate2' => 'supports',
@@ -169,6 +180,15 @@ class InstallationController extends JSONController
             'custom2'   => 'custom',
         ];
 
+        if (!isset($files[$step])) {
+            $r->view = 'setup';
+            $this->app->enqueueMessage(Text::_('INSTL_SAMPLE_DATA_NOT_FOUND'), 'error');
+            $r->error = true;
+            $this->sendJsonResponse($r);
+
+            return;
+        }
+
         $schema     = $files[$step];
         $serverType = $db->getServerType();
 
@@ -176,13 +196,6 @@ class InstallationController extends JSONController
             $this->sendJsonResponse($r);
 
             return;
-        }
-
-        if (!isset($files[$step])) {
-            $r->view = 'setup';
-            $this->app->enqueueMessage(Text::_('INSTL_SAMPLE_DATA_NOT_FOUND'), 'error');
-            $r->error = true;
-            $this->sendJsonResponse($r);
         }
 
         // Attempt to populate the database with the given file.

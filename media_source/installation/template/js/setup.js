@@ -106,12 +106,19 @@ Joomla.checkDbCredentials = function () {
       try {
         response = JSON.parse(response);
       } catch (e) {
-        progress_text.setAttribute('role', 'alert');
-        progress_text.classList.add('error');
-        progress_text.innerText = response;
+        // The server returned something which is not valid JSON, e.g. an HTML page
+        // from a PHP fatal error or a proxy. Never display the raw response to the
+        // user as it could leak sensitive information or be rendered as markup.
         console.error('Error in DB Check Endpoint');
         console.error(response);
+        progress_text.setAttribute('role', 'alert');
+        progress_text.classList.add('error');
+        progress_text.innerText = Joomla.Text._('INSTL_DATABASE_RESPONSE_ERROR');
         Joomla.renderMessages({ error: [Joomla.Text._('INSTL_DATABASE_RESPONSE_ERROR')] });
+
+        // Reveal the database step so the user has a chance to resubmit with the data
+        document.getElementById('installStep3').classList.add('active');
+        document.getElementById('installStep4').classList.remove('active');
 
         return false;
       }
@@ -147,15 +154,18 @@ Joomla.checkDbCredentials = function () {
         Joomla.replaceTokens(response.token);
       }
 
-      if (response.message) {
+      if (response.messages) {
+        Joomla.renderMessages(response.messages);
+      } else if (response.message) {
         Joomla.renderMessages({ error: [response.message] });
       } else {
-        Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
+        // Includes the HTTP status code, but never the raw response body
+        Joomla.renderMessages({ error: [Joomla.Text._('INSTL_DATABASE_RESPONSE_HTTP_ERROR').replace('%s', xhr.status)] });
       }
 
       progress_text.setAttribute('role', 'alert');
       progress_text.classList.add('error');
-      progress_text.innerText = response.message || Joomla.Text._('INSTL');
+      progress_text.innerText = response.message || Joomla.Text._('INSTL_DATABASE_RESPONSE_ERROR');
 
       document.getElementById('installStep3').classList.add('active');
       document.getElementById('installStep4').classList.remove('active');
@@ -230,7 +240,32 @@ Joomla.checkDbCredentials = function () {
     });
   }
 
+  // Handle the "previous step" buttons with a single delegated listener, so going back and
+  // forth never stacks duplicate handlers. The fields stay in the DOM, so entered data is kept.
+  if (document.getElementById('adminForm')) {
+    document.getElementById('adminForm').addEventListener('click', function (e) {
+      const previousButton = e.target.closest('.previous-step');
+
+      if (!previousButton) {
+        return;
+      }
+
+      e.preventDefault();
+      Joomla.removeMessages();
+
+      const previousStep = document.getElementById(previousButton.dataset.previous);
+
+      if (previousStep) {
+        previousButton.closest('.j-install-step').classList.remove('active');
+        previousStep.classList.add('active');
+      }
+    });
+  }
+
   if (document.getElementById('step2')) {
+    // The random table prefix is pre-filled by the server (and restored from the session on
+    // reload), so only fill the field when it is empty. A prefix entered or restored by the
+    // user is never overwritten, also not when navigating back and forth between the steps.
     document.getElementById('step2').addEventListener('click', function (e) {
       e.preventDefault();
       if (Joomla.checkFormField(['#jform_admin_user', '#jform_admin_email', '#jform_admin_password'])) {
@@ -239,7 +274,11 @@ Joomla.checkDbCredentials = function () {
           document.getElementById('installStep2').classList.remove('active');
           document.getElementById('setupButton').classList.remove('hidden');
 
-          Joomla.makeRandomDbPrefix();
+          const dbPrefixField = document.getElementById('jform_db_prefix');
+
+          if (dbPrefixField && !dbPrefixField.value) {
+            Joomla.makeRandomDbPrefix();
+          }
 
           // Focus to the next field
           if (document.getElementById('jform_db_type')) {
