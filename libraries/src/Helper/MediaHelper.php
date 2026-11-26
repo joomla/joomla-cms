@@ -165,6 +165,11 @@ class MediaHelper
      * @return  boolean  true if it passes the checks else false
      *
      * @since   4.0.0
+     *
+     * @deprecated  6.2.1 will be removed in 8.0
+     *              Only the given extension is checked, executable extensions buried in the
+     *              file name (e.g. "image.php.gif") are not detected.
+     *              Use MediaHelper::checkFileName() with the full file name instead.
      */
     public static function checkFileExtension($extension, $component = 'com_media', $allowedExecutables = []): bool
     {
@@ -191,6 +196,55 @@ class MediaHelper
 
         // We don't check mime at all or it passes the checks
         return true;
+    }
+
+    /**
+     * Checks whether the file name is allowed for media files: no dot-separated extension segment
+     * may be a blocked executable extension (e.g. "image.php.gif"), and the final extension must
+     * be one of the allowed or ignored extensions of the component.
+     *
+     * @param   string    $fileName            The file name (basename) to check
+     * @param   string    $component           The optional name for the component storing the parameters
+     * @param   string[]  $allowedExecutables  Array of executable file types that shall be allowed
+     *
+     * @return  boolean  true if it passes the checks else false
+     *
+     * @since   6.2.1
+     */
+    public static function checkFileName(string $fileName, string $component = 'com_media', array $allowedExecutables = []): bool
+    {
+        $filetypes = explode('.', $fileName);
+
+        if (\count($filetypes) < 2) {
+            // There seems to be no extension
+            return false;
+        }
+
+        // Drop the name part, only the extension segments are relevant
+        array_shift($filetypes);
+
+        // Ensure lowercase extensions
+        $filetypes = array_map('strtolower', $filetypes);
+
+        // Media file names should never have executable extensions buried in them.
+        $executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
+
+        // Remove allowed executables from array
+        if (\count($allowedExecutables)) {
+            $executables = array_diff($executables, $allowedExecutables);
+        }
+
+        if (!empty(array_intersect($filetypes, $executables))) {
+            return false;
+        }
+
+        $extension = array_pop($filetypes);
+
+        $params    = ComponentHelper::getParams($component);
+        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')));
+        $ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
+
+        return $extension !== '' && (\in_array($extension, $allowable, true) || \in_array($extension, $ignored, true));
     }
 
     /**
@@ -230,28 +284,15 @@ class MediaHelper
             return false;
         }
 
-        array_shift($filetypes);
-
-        // Media file names should never have executable extensions buried in them.
-        $executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
-
-        // Remove allowed executables from array
-        if (\count($allowedExecutables)) {
-            $executables = array_diff($executables, $allowedExecutables);
-        }
-
-        // Ensure lowercase extension
-        $filetypes = array_map('strtolower', $filetypes);
-
-        $check = array_intersect($filetypes, $executables);
-
-        if (!empty($check)) {
+        // No executable extensions buried in the name and an allowed final extension
+        if (!self::checkFileName($file['name'], $component, (array) $allowedExecutables)) {
             $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
             return false;
         }
 
-        $filetype = array_pop($filetypes);
+        // Also needed after the restrict_uploads block for the SVG check
+        $filetype = strtolower(array_pop($filetypes));
 
         $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,jxl,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
         $ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
@@ -271,6 +312,7 @@ class MediaHelper
         }
 
         if ($params->get('restrict_uploads', 1)) {
+            $ignored           = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
             $allowedExtensions = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
 
             if (\in_array($filetype, $allowedExtensions)) {

@@ -101,6 +101,9 @@ class WebInstaller {
 
           const jedContainer = document.getElementById('jed-container');
           jedContainer.innerHTML = Joomla.sanitizeHtml(response.data.html, allowList);
+          if (webInstallerOptions.view === 'extension' || webInstallerOptions.view === 'category') {
+            window.scrollTo(0, 0);
+          }
 
           document.getElementById('com-apps-searchbox').addEventListener('keydown', ({ code }) => {
             if (code === 'Enter') {
@@ -211,14 +214,21 @@ class WebInstaller {
               return;
             }
 
-            document.getElementById('adminForm').setAttribute('action', redirectUrl);
-            document.querySelector('input[name=task]').setAttribute('disabled', true);
-            document.querySelector('input[name=install_directory]').setAttribute('disabled', true);
-            document.querySelector('input[name=install_url]').setAttribute('disabled', true);
-            document.querySelector('input[name=installtype]').setAttribute('disabled', true);
-            document.querySelector('input[name=filter_search]').setAttribute('disabled', true);
+            // Only hand over the fields for the external site, the installer form also contains the CSRF token
+            const handOffForm = document.createElement('form');
+            handOffForm.setAttribute('method', 'post');
+            handOffForm.setAttribute('action', redirectUrl);
 
-            document.getElementById('adminForm').submit();
+            ['installat', 'installfrom', 'installapp'].forEach((fieldName) => {
+              const input = document.createElement('input');
+              input.setAttribute('type', 'hidden');
+              input.setAttribute('name', fieldName);
+              input.setAttribute('value', document.getElementById('adminForm').querySelector(`[name="${fieldName}"]`).value);
+              handOffForm.appendChild(input);
+            });
+
+            document.body.appendChild(handOffForm);
+            handOffForm.submit();
           });
         }
       }
