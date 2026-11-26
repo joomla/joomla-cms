@@ -51,7 +51,7 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
      */
     public function collect(): array
     {
-        $paths  = Factory::getLanguage()->getPaths();
+        $paths  = Factory::getApplication()->getLanguage()->getPaths();
         $loaded = [];
 
         foreach ($paths as $extension => $files) {

@@ -124,7 +124,7 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
      */
     private function getData(): array
     {
-        $errorFiles = Factory::getLanguage()->getErrorFiles();
+        $errorFiles = Factory::getApplication()->getLanguage()->getErrorFiles();
         $errors     = [];
 
         if (\count($errorFiles)) {
