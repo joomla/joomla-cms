@@ -11,8 +11,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Utilities\ArrayHelper;
 
 extract($displayData);
 
@@ -94,7 +94,7 @@ $readonly = isset($attributes['readonly']) && $attributes['readonly'] === 'reado
 $disabled = isset($attributes['disabled']) && $attributes['disabled'] === 'disabled';
 
 if (is_array($attributes)) {
-    $attributes = ArrayHelper::toString($attributes);
+    $attributes = HTMLHelper::_('html.attributes', $attributes);
 }
 
 $calendarAttrs = [
@@ -114,7 +114,7 @@ $calendarAttrs = [
     'data-date-type'       => strtolower($calendar),
 ];
 
-$calendarAttrsStr = ArrayHelper::toString($calendarAttrs);
+$calendarAttrsStr = HTMLHelper::_('html.attributes', $calendarAttrs);
 
 // Add language strings
 $strings = [
