@@ -19,6 +19,7 @@ $displayData = [
     'formURL'    => 'index.php?option=com_tags&task=tag.add',
     'helpURL'    => 'https://guide.joomla.org/user-manual/tags',
     'icon'       => 'icon-tags tags',
+    'tourUID'    => $this->tourUID,
 
     'controlFields' => $this->filterForm->renderControlFields(),
 ];

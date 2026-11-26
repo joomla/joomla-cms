@@ -139,6 +139,15 @@ class ListView extends HtmlView
     private $isEmptyState = false;
 
     /**
+     * The UID of the guided tour to offer on the empty state, if any.
+     *
+     * @var   string
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    protected $tourUID = '';
+
+    /**
      * Constructor
      *
      * @param   array  $config  An optional associative array of configuration settings.
@@ -197,6 +206,10 @@ class ListView extends HtmlView
 
         if (!\count($this->items) && \is_callable([$model, 'getIsEmptyState']) && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
+
+            if (\is_callable([$model, 'getEmptyStateTourUid'])) {
+                $this->tourUID = $model->getEmptyStateTourUid();
+            }
         }
 
         // We don't need toolbar in the modal window.

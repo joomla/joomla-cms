@@ -74,6 +74,15 @@ class HtmlView extends BaseHtmlView
     private $isEmptyState = false;
 
     /**
+     * The UID of the guided tour to offer on the empty state, if any.
+     *
+     * @var   string
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public $tourUID = '';
+
+    /**
      * Display the view.
      *
      * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
@@ -94,6 +103,7 @@ class HtmlView extends BaseHtmlView
 
         if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
+            $this->tourUID = $model->getEmptyStateTourUid();
         }
 
         if ($this->state->get('filter.tour_id', -1) < 0) {

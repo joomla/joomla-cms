@@ -19,6 +19,7 @@ $displayData = [
     'formURL'    => 'index.php?option=com_content&view=articles',
     'helpURL'    => 'https://guide.joomla.org/user-manual/articles',
     'icon'       => 'icon-copy article',
+    'tourUID'    => $this->tourUID,
 
     'controlFields' => $this->filterForm->renderControlFields(),
 ];
