@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\Fields\SQL\Extension;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Access\Exception\NotAllowedException;
 use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Form\Form;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin;
@@ -90,7 +91,13 @@ final class SQL extends FieldsListPlugin implements SubscriberInterface
 
         // If we are not a super admin, don't let the user create or update a SQL field
         if (!Access::getAssetRules(1)->allow('core.admin', $this->getApplication()->getIdentity()->getAuthorisedGroups())) {
-            $item->setError($this->getApplication()->getLanguage()->_('PLG_FIELDS_SQL_CREATE_NOT_POSSIBLE'));
+            $message = $this->getApplication()->getLanguage()->_('PLG_FIELDS_SQL_CREATE_NOT_POSSIBLE');
+
+            if (method_exists($item, 'shouldUseExceptions') && $item->shouldUseExceptions()) {
+                throw new NotAllowedException($message);
+            }
+
+            $item->setError($message);
 
             $event->addResult(false);
         }
