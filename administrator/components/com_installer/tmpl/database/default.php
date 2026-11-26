@@ -109,7 +109,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
                                             <?php echo $extension->version_id; ?>
                                         </td>
                                         <td class="d-none d-lg-table-cell text-end">
-                                            <?php echo '&#x200E;' . $extension->version; ?>
+                                            <bdi><?php echo $extension->version; ?></bdi>
                                         </td>
                                         <td class="d-none d-lg-table-cell">
                                             <?php echo $extension->folder_translated; ?>

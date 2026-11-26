@@ -80,7 +80,7 @@ $wa->useScript('keepalive')
                                         <?php echo $item->count; ?>
                                     </td>
                                     <td class="text-end d-none d-md-table-cell">
-                                        <?php echo '&#x200E;' . HTMLHelper::_('number.bytes', $item->size); ?>
+                                        <bdi><?php echo HTMLHelper::_('number.bytes', $item->size); ?></bdi>
                                     </td>
                                 </tr>
                                 <?php $i++; ?>
