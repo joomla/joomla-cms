@@ -216,6 +216,8 @@ final class Cache extends CMSPlugin implements SubscriberInterface, DispatcherAw
      * the application lifetime logging in a user and messages can be generated anytime within the
      * application's lifetime.
      *
+     * If the message queue cannot be read safely (see canReadMessageQueue()) the page is not cached.
+     *
      * @return  boolean
      * @since   4.2.0
      */
@@ -235,7 +237,26 @@ final class Cache extends CMSPlugin implements SubscriberInterface, DispatcherAw
         return $isSite
             && $isGET
             && $app->getIdentity()->guest
+            && $this->canReadMessageQueue()
             && empty($app->getMessageQueue());
+    }
+
+    /**
+     * Can the message queue be read without (re)starting the session after the response was sent?
+     *
+     * When its in-memory queue is empty, CMSApplication::getMessageQueue() reads the session, which
+     * starts the session if it is not started. Extensions may close the session during the request
+     * with Session::close(), for example to release the session lock. In onAfterRespond the headers
+     * have already been sent, so the session cannot be started again and the read throws a
+     * RuntimeException. In that case we cannot check for messages and the page must not be cached.
+     *
+     * @return  boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function canReadMessageQueue(): bool
+    {
+        return $this->getApplication()->getSession()->isStarted() || !headers_sent();
     }
 
     /**
