@@ -64,7 +64,7 @@ class FeedView extends BaseHtmlView
         foreach ($items as $item) {
             // Strip HTML from feed item title
             $title = $this->escape($item->title);
-            $title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
+            $title = html_entity_decode($title, ENT_QUOTES, 'UTF-8');
 
             // Strip HTML from feed item description text
             $description = $item->description;

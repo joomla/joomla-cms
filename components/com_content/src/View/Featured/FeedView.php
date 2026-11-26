@@ -64,7 +64,7 @@ class FeedView extends AbstractView
         foreach ($rows as $row) {
             // Strip html from feed item title
             $title = htmlspecialchars($row->title, ENT_QUOTES, 'UTF-8');
-            $title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
+            $title = html_entity_decode($title, ENT_QUOTES, 'UTF-8');
 
             // Compute the article slug
             $row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
