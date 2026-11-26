@@ -126,6 +126,8 @@ class HtmlView extends BaseHtmlView
                         $icon = 'icon-puzzle-piece';
                     } elseif ($parts[0] === 'system') {
                         $icon = 'icon-wrench';
+                    } elseif ($parts[0] === 'healthcheck') {
+                        $icon = 'fa fa-heart-pulse';
                     } elseif ($parts[0] === 'help') {
                         $icon = 'icon-info-circle';
                     } elseif ($lang->hasKey($keyIcon)) {
