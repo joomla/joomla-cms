@@ -30,7 +30,7 @@ $wa->useScript('keepalive')
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="adminForm" id="adminForm" aria-label="<?php echo Text::_('COM_ACTIONLOGS_TABLE_CAPTION'); ?>">
     <div id="j-main-container" class="j-main-container">
         <?php // Search tools bar ?>
         <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>

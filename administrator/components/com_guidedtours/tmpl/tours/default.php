@@ -54,7 +54,7 @@ if ($saveOrder && !empty($this->items)) {
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_guidedtours&view=tours'); ?>"
-      method="post" name="adminForm" id="adminForm">
+      method="post" name="adminForm" id="adminForm" aria-label="<?php echo Text::_('COM_GUIDEDTOURS_GUIDEDTOURS_TABLE_CAPTION'); ?>">
     <div id="j-main-container" class="j-main-container">
         <?php
         // Search tools bar

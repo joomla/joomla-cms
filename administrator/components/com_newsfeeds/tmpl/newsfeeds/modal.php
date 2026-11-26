@@ -35,7 +35,7 @@ $multilang = Multilanguage::isEnabled();
 ?>
 <div class="container-popup">
 
-    <form action="<?php echo Route::_('index.php?option=com_newsfeeds&view=newsfeeds&layout=modal&tmpl=component&function=' . $function); ?>" method="post" name="adminForm" id="adminForm">
+    <form action="<?php echo Route::_('index.php?option=com_newsfeeds&view=newsfeeds&layout=modal&tmpl=component&function=' . $function); ?>" method="post" name="adminForm" id="adminForm" aria-label="<?php echo Text::_('COM_NEWSFEEDS_TABLE_CAPTION'); ?>">
 
         <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
 

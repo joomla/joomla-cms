@@ -32,7 +32,7 @@ $userRequired    = (int) $input->get('required', 0, 'int');
 
 ?>
 <div class="container-popup">
-    <form action="<?php echo Route::_('index.php?option=com_users&view=users&layout=modal&tmpl=component&groups=' . $input->get('groups', '', 'BASE64') . '&excluded=' . $input->get('excluded', '', 'BASE64')); ?>" method="post" name="adminForm" id="adminForm">
+    <form action="<?php echo Route::_('index.php?option=com_users&view=users&layout=modal&tmpl=component&groups=' . $input->get('groups', '', 'BASE64') . '&excluded=' . $input->get('excluded', '', 'BASE64')); ?>" method="post" name="adminForm" id="adminForm" aria-label="<?php echo Text::_('COM_USERS_USERS_TABLE_CAPTION'); ?>">
         <?php if (!$userRequired) : ?>
         <div>
             <button type="button" class="btn btn-primary button-select"

@@ -75,7 +75,7 @@ endif;
 $assoc = Associations::isEnabled();
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm" aria-label="<?php echo $featured === '1' ? Text::_('COM_CONTENT_FEATURED_TABLE_CAPTION') : Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>">
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
