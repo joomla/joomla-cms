@@ -190,9 +190,11 @@
         Joomla.replaceTokens(response.token);
 
         if (response.error === true) {
-          progress_text.setAttribute('role', 'alert');
-          progress_text.classList.add('error');
-          progress_text.innerText = response.message;
+          if (progress_text) {
+            progress_text.setAttribute('role', 'alert');
+            progress_text.classList.add('error');
+            progress_text.innerText = response.message;
+          }
 
           if (response.messages) {
             Joomla.renderMessages(response.messages);
@@ -203,11 +205,11 @@
           }
 
           // @todo: Add a delay and red background before removing the progress bar?
-          // Reveal the install steps so the user has a chance to resubmit with the data
-          document.getElementById('installStep1').classList.add('active');
-          document.getElementById('installStep2').classList.add('active');
-          document.getElementById('installStep3').classList.add('active');
-          document.getElementById('installStep4').classList.remove('active');
+          // Reveal the database step so the user has a chance to resubmit with the data
+          if (document.getElementById('installStep3')) {
+            document.getElementById('installStep3').classList.add('active');
+            document.getElementById('installStep4').classList.remove('active');
+          }
 
           return false;
         }

@@ -450,6 +450,8 @@ class TaskModel extends AdminModel
      */
     private function buildLockQuery($db, $now, $options)
     {
+        $timeout   = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
+        $threshold = Factory::getDate($now, 'UTC')->modify("-$timeout seconds")->toSql();
         $lockQuery = $db->createQuery()
             ->update($db->quoteName(self::TASK_TABLE))
             ->set($db->quoteName('locked') . ' = :now1')
@@ -475,6 +477,14 @@ class TaskModel extends AdminModel
 
         $stateCondition = $options['allowDisabled'] ? [0, 1] : [1];
         $lockQuery->whereIn($db->quoteName('state'), $stateCondition);
+        $lockQuery->extendWhere(
+            'AND',
+            [
+                $db->quoteName('locked') . ' IS NULL',
+                $db->quoteName('locked') . ' < :lockThreshold',
+            ],
+            'OR'
+        )->bind(':lockThreshold', $threshold);
 
         return $lockQuery;
     }
@@ -495,7 +505,9 @@ class TaskModel extends AdminModel
      */
     private function getNextTaskId($db, $now, $options)
     {
-        $idQuery = $db->createQuery()
+        $timeout   = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
+        $threshold = Factory::getDate($now, 'UTC')->modify("-$timeout seconds")->toSql();
+        $idQuery   = $db->createQuery()
             ->from($db->quoteName(self::TASK_TABLE))
             ->select($db->quoteName('id'));
 
@@ -519,6 +531,14 @@ class TaskModel extends AdminModel
 
         $stateCondition = $options['allowDisabled'] ? [0, 1] : [1];
         $idQuery->whereIn($db->quoteName('state'), $stateCondition);
+        $idQuery->extendWhere(
+            'AND',
+            [
+                $db->quoteName('locked') . ' IS NULL',
+                $db->quoteName('locked') . ' < :lockThreshold',
+            ],
+            'OR'
+        )->bind(':lockThreshold', $threshold);
 
         $idQuery->where($db->quoteName('next_execution') . ' IS NOT NULL')
             ->order($db->quoteName('priority') . ' DESC')
@@ -714,7 +734,7 @@ class TaskModel extends AdminModel
             $buildExpression .= ' ' . $this->wildcardIfMatch($matches['hours'], range(0, 23), true);
             $buildExpression .= ' ' . $this->wildcardIfMatch($matches['days_month'], range(1, 31), true);
             $buildExpression .= ' ' . $this->wildcardIfMatch($matches['months'], range(1, 12), true);
-            $buildExpression .= ' ' . $this->wildcardIfMatch($matches['days_week'], range(0, 6), true);
+            $buildExpression .= ' ' . $this->wildcardIfMatch($matches['days_week'], range(1, 7), true);
         }
 
         return [

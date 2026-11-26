@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Form\Rule;
 
 use Joomla\CMS\Form\Rule\FolderPathExistsRule;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for FolderPathExistsRule.
@@ -29,7 +30,7 @@ class FolderPathExistsRuleTest extends UnitTestCase
      *
      * @since   4.0.0
      */
-    public function dataTest(): array
+    public static function dataTest(): array
     {
         $xml = new \SimpleXMLElement('<field
 			name="file_path"
@@ -83,10 +84,10 @@ class FolderPathExistsRuleTest extends UnitTestCase
      * @return  void
      *
      * @since   4.0.0
-     * @dataProvider dataTest
      */
+    #[DataProvider('dataTest')]
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
     {
-        $this->assertEquals($expected, (new FolderPathExistsRule())->test($element, $value));
+        $this->assertSame($expected, (new FolderPathExistsRule())->test($element, $value));
     }
 }

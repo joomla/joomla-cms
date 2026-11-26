@@ -13,6 +13,7 @@ use Joomla\CMS\Mail\Mail;
 use Joomla\CMS\Mail\MailerFactory;
 use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for \Joomla\CMS\Mail\MailerFactory
@@ -24,12 +25,11 @@ use Joomla\Tests\Unit\UnitTestCase;
 class MailerFactoryTest extends UnitTestCase
 {
     /**
-     * @testdox  The mailer factory creates the correct object
-     *
      * @return  void
      *
      * @since   4.4.0
      */
+    #[TestDox('The mailer factory creates the correct object')]
     public function testMailer()
     {
         $factory = new MailerFactory(new Registry());
@@ -40,12 +40,11 @@ class MailerFactoryTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The mailer factory creates an object with the default settings
-     *
      * @return  void
      *
      * @since   4.4.0
      */
+    #[TestDox('The mailer factory creates an object with the default settings')]
     public function testMailerHasDefaultSettings()
     {
         $factory = new MailerFactory(new Registry(['mailfrom' => 'test@example.com']));
@@ -53,16 +52,15 @@ class MailerFactoryTest extends UnitTestCase
         /** @var Mail $mail */
         $mail = $factory->createMailer();
 
-        $this->assertEquals('test@example.com', $mail->From);
+        $this->assertSame('test@example.com', $mail->From);
     }
 
     /**
-     * @testdox  The mailer factory creates an object with the passed settings
-     *
      * @return  void
      *
      * @since   4.4.0
      */
+    #[TestDox('The mailer factory creates an object with the passed settings')]
     public function testMailerHasPassedSettings()
     {
         $factory = new MailerFactory(new Registry());
@@ -70,16 +68,15 @@ class MailerFactoryTest extends UnitTestCase
         /** @var Mail $mail */
         $mail = $factory->createMailer(new Registry(['mailfrom' => 'test@example.com']));
 
-        $this->assertEquals('test@example.com', $mail->From);
+        $this->assertSame('test@example.com', $mail->From);
     }
 
     /**
-     * @testdox  The mailer factory creates an object with an invalid from address
-     *
      * @return  void
      *
      * @since   4.4.0
      */
+    #[TestDox('The mailer factory creates an object with an invalid from address')]
     public function testMailerHasInvalidFromAddress()
     {
         $factory = new MailerFactory(new Registry(['mailfrom' => 'testüumlaut@example.com']));
@@ -91,12 +88,11 @@ class MailerFactoryTest extends UnitTestCase
     }
 
     /**
-     * @testdox  The mailer factory creates an object with the passed settings overriding the default settings
-     *
      * @return  void
      *
      * @since   4.4.0
      */
+    #[TestDox('The mailer factory creates an object with the passed settings overriding the default settings')]
     public function testMailerHasOverriddenSettings()
     {
         $factory = new MailerFactory(new Registry(['mailfrom' => 'default@example.com']));
@@ -104,16 +100,15 @@ class MailerFactoryTest extends UnitTestCase
         /** @var Mail $mail */
         $mail = $factory->createMailer(new Registry(['mailfrom' => 'test@example.com']));
 
-        $this->assertEquals('test@example.com', $mail->From);
+        $this->assertSame('test@example.com', $mail->From);
     }
 
     /**
-     * @testdox  The mailer factory creates an object with mail type smtp
-     *
      * @return  void
      *
      * @since   4.4.0
      */
+    #[TestDox('The mailer factory creates an object with mail type smtp')]
     public function testMailerIsSMTP()
     {
         $factory = new MailerFactory(new Registry(['mailer' => 'smtp', 'smtphost' => 'localhost']));
@@ -121,6 +116,6 @@ class MailerFactoryTest extends UnitTestCase
         /** @var Mail $mail */
         $mail = $factory->createMailer();
 
-        $this->assertEquals('smtp', $mail->Mailer);
+        $this->assertSame('smtp', $mail->Mailer);
     }
 }
