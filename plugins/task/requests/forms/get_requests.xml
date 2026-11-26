@@ -9,6 +9,7 @@
 				required="true"
 				validate="url"
 				filter="url"
+				schemes="http,https"
 			/>
 			<field
 				name="timeout"

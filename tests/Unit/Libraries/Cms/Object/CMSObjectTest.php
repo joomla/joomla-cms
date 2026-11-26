@@ -12,6 +12,8 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Object;
 
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test class for \Joomla\CMS\Object\CMSObject
@@ -20,61 +22,67 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @subpackage  Object
  * @since       1.7.0
  */
+#[CoversMethod(CMSObject::class, '__construct')]
+#[CoversMethod(CMSObject::class, 'def')]
+#[CoversMethod(CMSObject::class, 'get')]
+#[CoversMethod(CMSObject::class, 'getProperties')]
+#[CoversMethod(CMSObject::class, 'getError')]
+#[CoversMethod(CMSObject::class, 'getErrors')]
+#[CoversMethod(CMSObject::class, 'set')]
+#[CoversMethod(CMSObject::class, 'setProperties')]
+#[CoversMethod(CMSObject::class, 'setError')]
 class CMSObjectTest extends UnitTestCase
 {
     /**
      * Tests the object constructor.
      *
-     * @group     CMSObject
-     * @covers    CMSObject::__construct
      * @return void
      *
      * @since   4.0.0
      */
+    #[Group('CMSObject')]
     public function testIsConstructable()
     {
         $object = new CMSObject(['property1' => 'value1', 'property2' => 5]);
 
-        $this->assertEquals('value1', $object->get('property1'));
+        $this->assertSame('value1', $object->get('property1'));
     }
 
     /**
      * Tests setting the default for a property of the object.
      *
-     * @group     CMSObject
-     * @covers    CMSObject::def
      * @return void
      *
      * @since   4.0.0
      */
+    #[Group('CMSObject')]
     public function testDef()
     {
         $object = new CMSObject();
 
         $object->def("check");
-        $this->assertEquals(null, $object->def("check"));
+        $this->assertSame(null, $object->def("check"));
         $object->def("check", "paint");
         $object->def("check", "forced");
-        $this->assertEquals("paint", $object->def("check"));
+        $this->assertSame("paint", $object->def("check"));
         $this->assertNotEquals("forced", $object->def("check"));
     }
 
     /**
      * Tests getting a property of the object.
      *
-     * @group     CMSObject
-     * @covers    CMSObject::get
      * @return void
      *
      * @since   4.0.0
      */
+    #[Group('CMSObject')]
     public function testGet()
     {
         $object = new CMSObject();
 
         $object->goo = 'car';
-        $this->assertEquals('car', $object->get('goo', 'fudge'));
-        $this->assertEquals('fudge', $object->get('foo', 'fudge'));
+        $this->assertSame('car', $object->get('goo', 'fudge'));
+        $this->assertSame('fudge', $object->get('foo', 'fudge'));
         $this->assertNotEquals(null, $object->get('foo', 'fudge'));
         $this->assertNull($object->get('boo'));
     }
@@ -82,12 +90,11 @@ class CMSObjectTest extends UnitTestCase
     /**
      * Tests getting the properties of the object.
      *
-     * @group     CMSObject
-     * @covers    CMSObject::getProperties
      * @return void
      *
      * @since   4.0.0
      */
+    #[Group('CMSObject')]
     public function testGetProperties()
     {
         $object = new CMSObject([
@@ -96,19 +103,19 @@ class CMSObjectTest extends UnitTestCase
             'property2'         => 5,
         ]);
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 '_errors'           => [],
+                'useExceptions'     => false,
                 '_privateproperty1' => 'valuep1',
                 'property1'         => 'value1',
                 'property2'         => 5,
-                'useExceptions'     => false,
             ],
             $object->getProperties(false),
             'Should get all properties, including private ones'
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'property1' => 'value1',
                 'property2' => 5,
@@ -121,12 +128,11 @@ class CMSObjectTest extends UnitTestCase
     /**
      * Tests getting a single error.
      *
-     * @group     CMSObject
-     * @covers    CMSObject::getError
      * @return void
      *
      * @since   4.0.0
      */
+    #[Group('CMSObject')]
     public function testGetError()
     {
         $object = new CMSObject();
@@ -135,18 +141,18 @@ class CMSObjectTest extends UnitTestCase
         $object->setError('Second Test Error');
         $object->setError('Third Test Error');
 
-        $this->assertEquals(
+        $this->assertSame(
             1234,
             $object->getError(0, false),
             'Should return the test error as number'
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'Second Test Error',
             $object->getError(1),
             'Should return the second test error'
         );
-        $this->assertEquals(
+        $this->assertSame(
             'Third Test Error',
             $object->getError(),
             'Should return the third test error'
@@ -159,21 +165,17 @@ class CMSObjectTest extends UnitTestCase
 
         $exception = new \Exception('error');
         $object->setError($exception);
-        $this->assertThat(
-            $object->getError(3, true),
-            $this->equalTo('error')
-        );
+        $this->assertSame('error', $object->getError(3, true));
     }
 
     /**
      * Tests getting the array of errors.
      *
-     * @group     CMSObject
-     * @covers    CMSObject::getErrors
      * @return void
      *
      * @since   4.0.0
      */
+    #[Group('CMSObject')]
     public function testGetErrors()
     {
         $object = new CMSObject();
@@ -184,7 +186,7 @@ class CMSObjectTest extends UnitTestCase
             $object->setError($error);
         }
 
-        $this->assertEquals(
+        $this->assertSame(
             $errors,
             $object->getErrors(),
             'Should return every error set'
@@ -194,56 +196,53 @@ class CMSObjectTest extends UnitTestCase
     /**
      * Tests setting a property.
      *
-     * @group     CMSObject
-     * @covers    CMSObject::set
      * @return void
      *
      * @since   4.0.0
      */
+    #[Group('CMSObject')]
     public function testSet()
     {
         $object = new CMSObject();
 
-        $this->assertEquals(null, $object->set("foo", "imintheair"));
-        $this->assertEquals("imintheair", $object->set("foo", "nojibberjabber"));
-        $this->assertEquals("nojibberjabber", $object->foo);
+        $this->assertSame(null, $object->set("foo", "imintheair"));
+        $this->assertSame("imintheair", $object->set("foo", "nojibberjabber"));
+        $this->assertSame("nojibberjabber", $object->foo);
     }
 
     /**
      * Tests setting multiple properties.
      *
-     * @group     CMSObject
-     * @covers    CMSObject::setProperties
      * @return void
      *
      * @since   4.0.0
      */
+    #[Group('CMSObject')]
     public function testSetProperties()
     {
         $object = new CMSObject();
         $a      = ["foo" => "ghost", "knife" => "stewie"];
         $f      = "foo";
 
-        $this->assertEquals(true, $object->setProperties($a));
-        $this->assertEquals(false, $object->setProperties($f));
-        $this->assertEquals("ghost", $object->foo);
-        $this->assertEquals("stewie", $object->knife);
+        $this->assertSame(true, $object->setProperties($a));
+        $this->assertSame(false, $object->setProperties($f));
+        $this->assertSame("ghost", $object->foo);
+        $this->assertSame("stewie", $object->knife);
     }
 
     /**
      * Tests setting an error.
      *
-     * @group     CMSObject
-     * @covers    CMSObject::setError
      * @return void
      *
      * @since   4.0.0
      */
+    #[Group('CMSObject')]
     public function testSetError()
     {
         $object = new CMSObject();
         $object->setError('A Test Error');
-        $this->assertEquals(
+        $this->assertSame(
             ['A Test Error'],
             $object->getErrors()
         );

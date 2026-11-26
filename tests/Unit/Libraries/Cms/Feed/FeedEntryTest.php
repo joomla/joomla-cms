@@ -71,7 +71,7 @@ class FeedEntryTest extends UnitTestCase
      */
     public function testMagicGetterWithDefaultProperty()
     {
-        $this->assertEquals('', $this->feedEntry->uri);
+        $this->assertSame('', $this->feedEntry->uri);
     }
 
     /**
@@ -83,7 +83,7 @@ class FeedEntryTest extends UnitTestCase
      */
     public function testMagicGetterWithUnknownProperty()
     {
-        $this->assertEquals(null, $this->feedEntry->unknown);
+        $this->assertSame(null, $this->feedEntry->unknown);
     }
 
     /**
@@ -134,8 +134,8 @@ class FeedEntryTest extends UnitTestCase
 
         $author = $this->feedEntry->author;
         $this->assertInstanceOf(FeedPerson::class, $author);
-        $this->assertEquals($name, $author->name);
-        $this->assertEquals($email, $author->email);
+        $this->assertSame($name, $author->name);
+        $this->assertSame($email, $author->email);
     }
 
     /**
@@ -189,7 +189,7 @@ class FeedEntryTest extends UnitTestCase
         $value                      = 'test';
         $this->feedEntry->testValue = $value;
 
-        $this->assertEquals($value, $this->feedEntry->testValue);
+        $this->assertSame($value, $this->feedEntry->testValue);
     }
 
     /**
@@ -208,7 +208,7 @@ class FeedEntryTest extends UnitTestCase
         $categories = $this->feedEntry->categories;
         $this->assertCount(1, $categories);
         $this->assertArrayHasKey($name, $categories);
-        $this->assertEquals($uri, $categories[$name]);
+        $this->assertSame($uri, $categories[$name]);
     }
 
     /**
@@ -235,7 +235,7 @@ class FeedEntryTest extends UnitTestCase
 
         foreach ($categories as $category) {
             $this->assertArrayHasKey($category['name'], $feedCategories);
-            $this->assertEquals($category['uri'], $feedCategories[$category['name']]);
+            $this->assertSame($category['uri'], $feedCategories[$category['name']]);
         }
     }
 
@@ -255,8 +255,8 @@ class FeedEntryTest extends UnitTestCase
 
         $contributors = $this->feedEntry->contributors;
         $this->assertCount(1, $contributors);
-        $this->assertEquals($name, $contributors[0]->name);
-        $this->assertEquals($email, $contributors[0]->email);
+        $this->assertSame($name, $contributors[0]->name);
+        $this->assertSame($email, $contributors[0]->email);
     }
 
     /**
@@ -276,8 +276,8 @@ class FeedEntryTest extends UnitTestCase
 
         $contributors = $this->feedEntry->contributors;
         $this->assertCount(1, $contributors);
-        $this->assertEquals($name, $contributors[0]->name);
-        $this->assertEquals($email, $contributors[0]->email);
+        $this->assertSame($name, $contributors[0]->name);
+        $this->assertSame($email, $contributors[0]->email);
     }
 
     /**
@@ -303,8 +303,8 @@ class FeedEntryTest extends UnitTestCase
         $this->assertCount(3, $feedContributors);
 
         foreach ($contributors as $index => $contributor) {
-            $this->assertEquals($contributor['name'], $feedContributors[$index]->name);
-            $this->assertEquals($contributor['email'], $feedContributors[$index]->email);
+            $this->assertSame($contributor['name'], $feedContributors[$index]->name);
+            $this->assertSame($contributor['email'], $feedContributors[$index]->email);
         }
     }
 
@@ -324,7 +324,7 @@ class FeedEntryTest extends UnitTestCase
 
         $feedLinks = $this->feedEntry->links;
         $this->assertCount(1, $feedLinks);
-        $this->assertEquals($link, $feedLinks[0]->uri);
+        $this->assertSame($link, $feedLinks[0]->uri);
     }
 
     /**
@@ -344,7 +344,7 @@ class FeedEntryTest extends UnitTestCase
 
         $feedLinks = $this->feedEntry->links;
         $this->assertCount(1, $feedLinks);
-        $this->assertEquals($link, $feedLinks[0]->uri);
+        $this->assertSame($link, $feedLinks[0]->uri);
     }
 
     /**
@@ -423,9 +423,9 @@ class FeedEntryTest extends UnitTestCase
 
         $author = $this->feedEntry->author;
         $this->assertInstanceOf(FeedPerson::class, $author);
-        $this->assertEquals($name, $author->name);
-        $this->assertEquals($email, $author->email);
-        $this->assertEquals($uri, $author->uri);
-        $this->assertEquals($type, $author->type);
+        $this->assertSame($name, $author->name);
+        $this->assertSame($email, $author->email);
+        $this->assertSame($uri, $author->uri);
+        $this->assertSame($type, $author->type);
     }
 }
