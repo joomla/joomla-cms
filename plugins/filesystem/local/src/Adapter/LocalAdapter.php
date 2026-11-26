@@ -810,7 +810,12 @@ class LocalAdapter implements AdapterInterface
      */
     private function escapeGlob(string $value): string
     {
-        return addcslashes($value, '*?[]{}\\');
+        // The backslash is a directory separator on Windows and can't escape there, so wrap metacharacters in a character class
+        if (DIRECTORY_SEPARATOR !== '\\') {
+            $value = str_replace('\\', '\\\\', $value);
+        }
+
+        return preg_replace('/[*?\[]/', '[$0]', $value);
     }
 
     /**
