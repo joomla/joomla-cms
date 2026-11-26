@@ -166,6 +166,13 @@ Joomla = window.Joomla || {};
       this.updateFieldValue = this.updateFieldValue.bind(this);
       this.findOption = this.findOption.bind(this);
 
+      if (this.filterButton && this.filterContainer) {
+        if (!this.filterContainer.id) {
+          this.filterContainer.id = 'js-stools-container-filters';
+        }
+        this.filterButton.setAttribute('aria-controls', this.filterContainer.id);
+      }
+
       if (this.filterContainer && this.filterContainer.classList.contains('js-stools-container-filters-visible')) {
         this.showFilters();
         this.showList();
@@ -177,6 +184,17 @@ Joomla = window.Joomla || {};
       if (this.filterButton) {
         this.filterButton.addEventListener('click', (e) => {
           self.toggleFilters();
+
+          // Move focus to the first filter control when the filters are opened
+          if (self.filterContainer.classList.contains('js-stools-container-filters-visible')) {
+            const firstField = [...self.filterContainer.querySelectorAll('input:not([type="hidden"]), select, textarea, button, [tabindex]:not([tabindex="-1"])')]
+              .find((field) => !field.disabled && field.getClientRects().length);
+
+            if (firstField) {
+              firstField.focus();
+            }
+          }
+
           e.stopPropagation();
           e.preventDefault();
         });
@@ -412,12 +430,20 @@ Joomla = window.Joomla || {};
       if (container) {
         container.classList.remove('js-stools-container-filters-visible');
         document.body.classList.remove('filters-shown');
+
+        if (this.filterButton && container === this.filterContainer) {
+          this.filterButton.setAttribute('aria-expanded', 'false');
+        }
       }
     }
 
     showContainer(container) {
       container.classList.add('js-stools-container-filters-visible');
       document.body.classList.add('filters-shown');
+
+      if (this.filterButton && container === this.filterContainer) {
+        this.filterButton.setAttribute('aria-expanded', 'true');
+      }
     }
 
     toggleContainer(container) {
