@@ -13,6 +13,8 @@ use Joomla\Application\AbstractWebApplication;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\WebAsset\WebAssetManager;
+use Joomla\Preload\PreloadManager as FrameworkPreloadManager;
+use Joomla\Preload\PreloadManagerInterface as FrameworkPreloadManagerInterface;
 use Symfony\Component\WebLink\HttpHeaderSerializer;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -248,7 +250,7 @@ class Document
     /**
      * Preload manager
      *
-     * @var    PreloadManagerInterface
+     * @var    FrameworkPreloadManagerInterface
      * @since  4.0.0
      */
     protected $preloadManager = null;
@@ -319,7 +321,7 @@ class Document
         if (\array_key_exists('preloadManager', $options)) {
             $this->setPreloadManager($options['preloadManager']);
         } else {
-            $this->setPreloadManager(new PreloadManager());
+            $this->setPreloadManager(new FrameworkPreloadManager());
         }
 
         if (\array_key_exists('webAssetManager', $options)) {
@@ -798,13 +800,13 @@ class Document
     /**
      * Set the preload manager
      *
-     * @param   PreloadManagerInterface  $preloadManager  The preload manager service
+     * @param   FrameworkPreloadManagerInterface  $preloadManager  The preload manager service
      *
      * @return  Document instance of $this to allow chaining
      *
      * @since   4.0.0
      */
-    public function setPreloadManager(PreloadManagerInterface $preloadManager): self
+    public function setPreloadManager(FrameworkPreloadManagerInterface $preloadManager): self
     {
         $this->preloadManager = $preloadManager;
 
@@ -814,11 +816,11 @@ class Document
     /**
      * Return the preload manager
      *
-     * @return  PreloadManagerInterface
+     * @return  FrameworkPreloadManagerInterface
      *
      * @since   4.0.0
      */
-    public function getPreloadManager(): PreloadManagerInterface
+    public function getPreloadManager(): FrameworkPreloadManagerInterface
     {
         return $this->preloadManager;
     }
