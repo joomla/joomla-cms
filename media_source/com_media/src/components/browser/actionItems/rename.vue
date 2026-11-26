@@ -4,11 +4,8 @@
     type="button"
     class="action-rename"
     @click.stop="openRenameModal()"
-    @keyup.enter="openRenameModal()"
-    @keyup.space="openRenameModal()"
     @focus="focused(true)"
     @blur="focused(false)"
-    @keyup.esc="hideActions()"
   >
     <span
       class="image-browser-action fa fa-i-cursor"

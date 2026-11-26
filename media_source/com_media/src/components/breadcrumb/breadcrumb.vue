@@ -11,7 +11,7 @@
       >
         <a
           href="#"
-          :aria-current="(index === Object.keys(crumbs).length - 1) ? 'page' : undefined"
+          :aria-current="(index === Object.keys(crumbs).length - 1) ? 'location' : undefined"
           @click.stop.prevent="onCrumbClick(index)"
         >{{ val.name }}</a>
       </li>

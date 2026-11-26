@@ -3,13 +3,14 @@
     class="media-browser-item-directory"
     @mouseleave="hideActions()"
   >
-    <div
+    <button
+      type="button"
       class="media-browser-item-preview"
-      tabindex="0"
+      :aria-label="sprintf('COM_MEDIA_OPEN_FOLDER', item.name)"
       @dblclick.stop.prevent="onPreviewDblClick()"
-      @keyup.enter="onPreviewDblClick()"
+      @click="onOpenControl"
     >
-      <div
+      <span
         class="file-background"
         :class="{ 'with-thumbnail': thumbURL }"
       >
@@ -22,14 +23,17 @@
           :width="thumbWidth"
           :height="thumbHeight"
         >
-        <div
+        <span
           v-if="!thumbURL"
           class="folder-icon"
         >
-          <span class="icon-folder" />
-        </div>
-      </div>
-    </div>
+          <span
+            class="icon-folder"
+            aria-hidden="true"
+          />
+        </span>
+      </span>
+    </button>
     <div class="media-browser-item-info">
       {{ item.name }}
     </div>
@@ -43,6 +47,7 @@
 <script>
 import navigable from '../../../mixins/navigable.es6';
 import MediaBrowserActionItemsContainer from '../actionItems/actionItemsContainer.vue';
+import { openOnNonPointerClick } from '../utils/utils.es6';
 
 export default {
   name: 'MediaBrowserItemDirectory',
@@ -98,6 +103,9 @@ export default {
           },
         }),
       );
+    },
+    onOpenControl(event) {
+      openOnNonPointerClick(event, this.onPreviewDblClick);
     },
     /* Hide actions dropdown */
     hideActions() {

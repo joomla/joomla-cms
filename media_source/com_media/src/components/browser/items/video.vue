@@ -4,8 +4,13 @@
     @dblclick="openPreview()"
     @mouseleave="hideActions()"
   >
-    <div class="media-browser-item-preview">
-      <div
+    <button
+      type="button"
+      class="media-browser-item-preview"
+      :aria-label="sprintf('COM_MEDIA_PREVIEW_ITEM', item.name)"
+      @click="onOpenControl"
+    >
+      <span
         class="file-background"
         :class="{ 'with-thumbnail': thumbURL }"
       >
@@ -18,14 +23,14 @@
           :width="thumbWidth"
           :height="thumbHeight"
         >
-        <div
+        <span
           v-if="!thumbURL"
           class="file-icon"
         >
           <span class="fas fa-file-video" />
-        </div>
-      </div>
-    </div>
+        </span>
+      </span>
+    </button>
     <div class="media-browser-item-info">
       {{ item.name }} {{ item.filetype }}
     </div>
@@ -42,6 +47,7 @@
 
 <script>
 import MediaBrowserActionItemsContainer from '../actionItems/actionItemsContainer.vue';
+import { openOnNonPointerClick } from '../utils/utils.es6';
 
 export default {
   name: 'MediaBrowserItemVideo',
@@ -94,6 +100,9 @@ export default {
     /* Preview an item */
     openPreview() {
       this.$refs.container.openPreview();
+    },
+    onOpenControl(event) {
+      openOnNonPointerClick(event, this.openPreview);
     },
     toggleSettings(bool) {
       this.$emit('toggle-settings', bool);
