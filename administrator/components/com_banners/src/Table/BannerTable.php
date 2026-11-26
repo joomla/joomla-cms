@@ -116,7 +116,7 @@ class BannerTable extends Table
         // Check for a valid category.
         if (!$this->catid = (int) $this->catid) {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
+                throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
@@ -141,7 +141,7 @@ class BannerTable extends Table
         // Check the publish down date is not earlier than publish up.
         if (!\is_null($this->publish_down) && !\is_null($this->publish_up) && $this->publish_down < $this->publish_up) {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+                throw new ValidationException($this, Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
             }
 
             $this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
@@ -192,6 +192,7 @@ class BannerTable extends Table
             if ((int) $registry->get('width', 0) < 0) {
                 if ($this->shouldUseExceptions()) {
                     throw new ValidationException(
+                        $this,
                         Text::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', Text::_('COM_BANNERS_FIELD_WIDTH_LABEL'))
                     );
                 }
@@ -204,6 +205,7 @@ class BannerTable extends Table
             if ((int) $registry->get('height', 0) < 0) {
                 if ($this->shouldUseExceptions()) {
                     throw new ValidationException(
+                        $this,
                         Text::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', Text::_('COM_BANNERS_FIELD_HEIGHT_LABEL'))
                     );
                 }
@@ -247,7 +249,7 @@ class BannerTable extends Table
 
         if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
             if ($this->shouldUseExceptions()) {
-                throw new DuplicateEntryException(Text::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'), 'alias');
+                throw new DuplicateEntryException($this, Text::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'), 'alias');
             }
 
             $this->setError(Text::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
@@ -348,7 +350,7 @@ class BannerTable extends Table
             } else {
                 // Nothing to set publishing state on, return false.
                 if ($this->shouldUseExceptions()) {
-                    throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+                    throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
                 }
 
                 $this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));

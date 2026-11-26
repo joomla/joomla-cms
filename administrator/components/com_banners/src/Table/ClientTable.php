@@ -90,7 +90,7 @@ class ClientTable extends Table implements VersionableTableInterface
         // Check for valid name
         if (trim($this->name) === '') {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('COM_BANNERS_WARNING_PROVIDE_VALID_NAME'));
+                throw new ValidationException($this, Text::_('COM_BANNERS_WARNING_PROVIDE_VALID_NAME'));
             }
 
             $this->setError(Text::_('COM_BANNERS_WARNING_PROVIDE_VALID_NAME'));
@@ -101,7 +101,7 @@ class ClientTable extends Table implements VersionableTableInterface
         // Check for valid contact
         if (trim($this->contact) === '') {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('COM_BANNERS_PROVIDE_VALID_CONTACT'));
+                throw new ValidationException($this, Text::_('COM_BANNERS_PROVIDE_VALID_CONTACT'));
             }
 
             $this->setError(Text::_('COM_BANNERS_PROVIDE_VALID_CONTACT'));
