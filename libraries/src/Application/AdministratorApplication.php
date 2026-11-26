@@ -11,6 +11,7 @@ namespace Joomla\CMS\Application;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Database\LocaleCollation;
 use Joomla\CMS\Event\Application\AfterDispatchEvent;
 use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Event\Application\AfterRouteEvent;
@@ -22,6 +23,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Router;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
@@ -272,6 +274,9 @@ class AdministratorApplication extends CMSApplication
                 $options['language'] = 'en-GB';
             }
         }
+
+        // Ensure the collation exists for the language on startup
+        (new LocaleCollation(Factory::getContainer()->get(DatabaseInterface::class)))->ensureCollation($options['language']);
 
         // Finish initialisation
         parent::initialiseApp($options);
