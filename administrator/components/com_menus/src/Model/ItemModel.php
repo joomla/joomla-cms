@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Menus\Administrator\Model;
 
+use Joomla\CMS\Access\Exception\NotAllowedException;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Model\AfterSaveEvent;
@@ -19,6 +20,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFoundException;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
@@ -165,14 +167,22 @@ class ItemModel extends AdminModel
         // Check that the parent exists
         if ($parentId) {
             if (!$table->load($parentId)) {
-                if ($error = $table->getError()) {
+                if ($error = $table->getError(null, false)) {
                     // Fatal error
-                    $this->setError($error);
+                    if ($this->shouldUseExceptions()) {
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
+                    $this->setError($error instanceof \Throwable ? $error->getMessage() : $error);
 
                     return false;
                 }
 
                 // Non-fatal error
+                if ($this->shouldUseExceptions()) {
+                    throw new ResourceNotFoundException(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+                }
+
                 $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
                 $parentId = 0;
             }
@@ -181,6 +191,12 @@ class ItemModel extends AdminModel
         // If the parent is 0, set it to the ID of the root item in the tree
         if (empty($parentId)) {
             if (!$parentId = $table->getRootId()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -193,6 +209,10 @@ class ItemModel extends AdminModel
         $menuTypeId = (int) $this->getMenuTypeId($menuType);
 
         if (!$user->authorise('core.create', 'com_menus.menu.' . $menuTypeId)) {
+            if ($this->shouldUseExceptions()) {
+                throw new NotAllowedException(Text::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
+            }
+
             $this->setError(Text::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
 
             return false;
@@ -209,6 +229,10 @@ class ItemModel extends AdminModel
         try {
             $count = $db->loadResult();
         } catch (\RuntimeException $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -223,14 +247,22 @@ class ItemModel extends AdminModel
 
             // Check that the row actually exists
             if (!$table->load($pk)) {
-                if ($error = $table->getError()) {
+                if ($error = $table->getError(null, false)) {
                     // Fatal error
-                    $this->setError($error);
+                    if ($this->shouldUseExceptions()) {
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
+                    $this->setError($error instanceof \Throwable ? $error->getMessage() : $error);
 
                     return false;
                 }
 
                 // Not fatal error
+                if ($this->shouldUseExceptions()) {
+                    throw new ResourceNotFoundException(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                }
+
                 $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
                 continue;
             }
@@ -295,6 +327,12 @@ class ItemModel extends AdminModel
 
             // Check the row.
             if (!$table->check()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -302,6 +340,12 @@ class ItemModel extends AdminModel
 
             // Store the row.
             if (!$table->store()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -320,6 +364,12 @@ class ItemModel extends AdminModel
 
         // Rebuild the hierarchy.
         if (!$table->rebuild()) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -327,6 +377,12 @@ class ItemModel extends AdminModel
 
         // Rebuild the tree path.
         if (!$table->rebuildPath($table->id)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -362,14 +418,22 @@ class ItemModel extends AdminModel
         // Check that the parent exists.
         if ($parentId) {
             if (!$table->load($parentId)) {
-                if ($error = $table->getError()) {
+                if ($error = $table->getError(null, false)) {
                     // Fatal error
-                    $this->setError($error);
+                    if ($this->shouldUseExceptions()) {
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
+                    $this->setError($error instanceof \Throwable ? $error->getMessage() : $error);
 
                     return false;
                 }
 
                 // Non-fatal error
+                if ($this->shouldUseExceptions()) {
+                    throw new ResourceNotFoundException(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+                }
+
                 $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
                 $parentId = 0;
             }
@@ -381,12 +445,20 @@ class ItemModel extends AdminModel
         $menuTypeId = (int) $this->getMenuTypeId($menuType);
 
         if (!$user->authorise('core.create', 'com_menus.menu.' . $menuTypeId)) {
+            if ($this->shouldUseExceptions()) {
+                throw new NotAllowedException(Text::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
+            }
+
             $this->setError(Text::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
 
             return false;
         }
 
         if (!$user->authorise('core.edit', 'com_menus.menu.' . $menuTypeId)) {
+            if ($this->shouldUseExceptions()) {
+                throw new NotAllowedException(Text::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_EDIT'));
+            }
+
             $this->setError(Text::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_EDIT'));
 
             return false;
@@ -399,14 +471,22 @@ class ItemModel extends AdminModel
         foreach ($pks as $pk) {
             // Check that the row actually exists
             if (!$table->load($pk)) {
-                if ($error = $table->getError()) {
+                if ($error = $table->getError(null, false)) {
                     // Fatal error
-                    $this->setError($error);
+                    if ($this->shouldUseExceptions()) {
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
+                    $this->setError($error instanceof \Throwable ? $error->getMessage() : $error);
 
                     return false;
                 }
 
                 // Not fatal error
+                if ($this->shouldUseExceptions()) {
+                    throw new ResourceNotFoundException(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                }
+
                 $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
                 continue;
             }
@@ -432,6 +512,12 @@ class ItemModel extends AdminModel
 
             // Check the row.
             if (!$table->check()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -439,6 +525,12 @@ class ItemModel extends AdminModel
 
             // Store the row.
             if (!$table->store()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -446,6 +538,12 @@ class ItemModel extends AdminModel
 
             // Rebuild the tree path.
             if (!$table->rebuildPath()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -469,6 +567,10 @@ class ItemModel extends AdminModel
                 $db->setQuery($query);
                 $db->execute();
             } catch (\RuntimeException $e) {
+                if ($this->shouldUseExceptions()) {
+                    throw $e;
+                }
+
                 $this->setError($e->getMessage());
 
                 return false;
@@ -642,8 +744,12 @@ class ItemModel extends AdminModel
         $table->load($pk);
 
         // Check for a table object error.
-        if ($error = $table->getError()) {
-            $this->setError($error);
+        if ($error = $table->getError(null, false)) {
+            if ($this->shouldUseExceptions()) {
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
+            $this->setError($error instanceof \Throwable ? $error->getMessage() : $error);
 
             return false;
         }
@@ -854,6 +960,10 @@ class ItemModel extends AdminModel
         try {
             $result = $db->loadObjectList();
         } catch (\RuntimeException $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -885,6 +995,10 @@ class ItemModel extends AdminModel
         try {
             $result = $db->loadObjectList();
         } catch (\RuntimeException $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -1305,12 +1419,22 @@ class ItemModel extends AdminModel
         try {
             $rebuildResult = $table->rebuild();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
         }
 
         if (!$rebuildResult) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -1437,6 +1561,12 @@ class ItemModel extends AdminModel
 
         // Bind the data.
         if (!$table->bind($data)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -1463,6 +1593,12 @@ class ItemModel extends AdminModel
 
         // Check the data.
         if (!$table->check()) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -1478,6 +1614,12 @@ class ItemModel extends AdminModel
 
         // Store the data.
         if (\in_array(false, $result, true) || !$table->store()) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -1493,6 +1635,12 @@ class ItemModel extends AdminModel
 
         // Rebuild the tree path.
         if (!$table->rebuildPath($table->id)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -1500,6 +1648,12 @@ class ItemModel extends AdminModel
 
         // Rebuild the paths of the menu item's children:
         if (!$table->rebuild($table->id, $table->lft, $table->level, $table->path)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -1522,6 +1676,10 @@ class ItemModel extends AdminModel
                 $db->setQuery($query);
                 $db->execute();
             } catch (\RuntimeException $e) {
+                if ($this->shouldUseExceptions()) {
+                    throw $e;
+                }
+
                 $this->setError($e->getMessage());
 
                 return false;
@@ -1591,6 +1749,10 @@ class ItemModel extends AdminModel
                     $db->setQuery($query);
                     $db->execute();
                 } catch (\RuntimeException $e) {
+                    if ($this->shouldUseExceptions()) {
+                        throw $e;
+                    }
+
                     $this->setError($e->getMessage());
 
                     return false;
@@ -1631,6 +1793,10 @@ class ItemModel extends AdminModel
                     $db->setQuery($query);
                     $db->execute();
                 } catch (\RuntimeException $e) {
+                    if ($this->shouldUseExceptions()) {
+                        throw $e;
+                    }
+
                     $this->setError($e->getMessage());
 
                     return false;
@@ -1675,6 +1841,12 @@ class ItemModel extends AdminModel
         $table = $this->getTable();
 
         if (!$table->saveorder($idArray, $lftArray)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
