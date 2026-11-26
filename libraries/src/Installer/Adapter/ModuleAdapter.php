@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Installer\Adapter;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Text;
@@ -324,27 +325,26 @@ class ModuleAdapter extends InstallerAdapter
      */
     public function getElement($element = null)
     {
-        if ($element) {
-            return $element;
-        }
-
-        // Joomla 4 Module.
-        if ((string) $this->getManifest()->element) {
-            return (string) $this->getManifest()->element;
-        }
-
-        if (!\count($this->getManifest()->files->children())) {
-            return $element;
-        }
-
-        foreach ($this->getManifest()->files->children() as $file) {
-            if ((string) $file->attributes()->module) {
-                // Joomla 3 (legacy) Module.
-                return strtolower((string) $file->attributes()->module);
+        if (!$element && \count($this->getManifest()->files->children())) {
+            foreach ($this->getManifest()->files->children() as $file) {
+                if ((string)$file->attributes()->module) {
+                    // Joomla 3 (legacy) Module.
+                    $element = strtolower((string)$file->attributes()->module);
+                    break;
+                }
             }
         }
 
-        return $element;
+        if (!$element) {
+            // Ensure the element is a string
+            $element = (string) $this->getManifest()->element;
+        }
+
+        if (!$element) {
+            $element = $this->getName();
+        }
+
+        return InputFilter::getInstance()->clean($element);
     }
 
     /**
