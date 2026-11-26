@@ -30,6 +30,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\Table\Exception\ValidationException;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
@@ -1113,8 +1114,8 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         if (isset($params['enable_category']) && $params['enable_category'] === 1 && empty($params['catid'])) {
             $message = $this->getApplication()->getLanguage()->_('COM_CONTENT_CREATE_ARTICLE_ERROR');
 
-            if (method_exists($table, 'shouldUseExceptions') && $table->shouldUseExceptions()) {
-                throw new ValidationException($message);
+            if ($table instanceof Table && $table->shouldUseExceptions()) {
+                throw new ValidationException($table, $message);
             }
 
             $table->setError($message);
