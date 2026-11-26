@@ -112,6 +112,7 @@ class HtmlView extends BaseHtmlView
             ->addControlField('task')
             ->addControlField('forcedLanguage', $forcedLanguage);
 
+
         if ($this->getLayout() !== 'modal') {
             $this->addToolbar();
         } else {

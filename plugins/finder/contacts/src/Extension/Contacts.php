@@ -12,6 +12,7 @@ namespace Joomla\Plugin\Finder\Contacts\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Finder as FinderEvent;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Adapter;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
@@ -34,6 +35,28 @@ use Joomla\Registry\Registry;
 final class Contacts extends Adapter implements SubscriberInterface
 {
     use DatabaseAwareTrait;
+
+    /** @var array<int, array<int, int>> */
+    private array $secondaryCategoryChunk = [];
+
+    protected function getItems($offset, $limit, $query = null)
+    {
+        $items                        = parent::getItems($offset, $limit, $query);
+        $this->secondaryCategoryChunk = [];
+
+        if (\in_array('category', $this->params->get('taxonomies', ['type', 'author', 'category', 'language']), true)) {
+            $this->secondaryCategoryChunk = (new SecondaryCategoriesHelper('com_contact.contact'))
+                ->getSecondaryCategoriesForItems(array_column($items, 'id'));
+        }
+
+        return $items;
+    }
+
+    protected function reindex($id)
+    {
+        $this->secondaryCategoryChunk = [];
+        parent::reindex($id);
+    }
 
     /**
      * The plugin identifier.
@@ -372,15 +395,30 @@ final class Contacts extends Adapter implements SubscriberInterface
 
         // Add the category taxonomy data.
         $categories = $this->getApplication()->bootComponent('com_contact')->getCategory(['published' => false, 'access' => false]);
-        $category   = $categories->get($item->catid);
 
-        if (!$category) {
+        if (!$categories->get($item->catid)) {
             return;
         }
 
         // Add the category taxonomy data.
         if (\in_array('category', $taxonomies)) {
-            $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
+            $categoryIds = [$item->catid];
+
+            if (!empty($item->id)) {
+                $helper       = new SecondaryCategoriesHelper('com_contact.contact');
+                $secondaryIds = $this->secondaryCategoryChunk[(int) $item->id] ?? $helper->getCurrentSecondaryCategoriesByItem((int) $item->id);
+                $categoryIds  = [...$categoryIds, ...$secondaryIds];
+            }
+
+            foreach ($categoryIds as $categoryId) {
+                $category = $categories->get($categoryId);
+
+                if (!$category) {
+                    continue;
+                }
+
+                $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
+            }
         }
 
         // Add the language taxonomy data.

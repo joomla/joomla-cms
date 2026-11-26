@@ -42,6 +42,7 @@ class JsonapiView extends BaseApiView
         'clickurl',
         'state',
         'catid',
+        'secondary_categories',
         'description',
         'custombannercode',
         'sticky',
@@ -81,6 +82,7 @@ class JsonapiView extends BaseApiView
         'checked_out',
         'checked_out_time',
         'catid',
+        'secondary_categories',
         'clicks',
         'metakey',
         'sticky',
@@ -98,4 +100,29 @@ class JsonapiView extends BaseApiView
         'client_name',
         'client_purchase_type',
     ];
+
+    /**
+     * Prepare item before render.
+     *
+     * @param   object  $item  The model item
+     *
+     * @return  object
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function prepareItem($item)
+    {
+        if (!empty($item->secondary_categories)) {
+            $item->secondary_categories = array_values(
+                array_map(
+                    static fn ($category): int => \is_object($category) ? (int) $category->id : (int) $category,
+                    (array) $item->secondary_categories
+                )
+            );
+        } else {
+            $item->secondary_categories = [];
+        }
+
+        return parent::prepareItem($item);
+    }
 }

@@ -12,6 +12,7 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -377,11 +378,12 @@ class ArticlesModel extends ListModel
             $categoryId = $categoryId ? [$categoryId] : [];
         }
 
-        // Case: Using both categories filter and by level filter
+        // Case: Using categories filter
         if (\count($categoryId)) {
-            $categoryId       = ArrayHelper::toInteger($categoryId);
-            $categoryTable    = new Category($db);
-            $subCatItemsWhere = [];
+            $categoryId          = ArrayHelper::toInteger($categoryId);
+            $categoryTable       = new Category($db);
+            $primaryWhereParts   = [];
+            $secondaryWhereParts = [];
 
             foreach ($categoryId as $key => $filter_catid) {
                 $categoryTable->load($filter_catid);
@@ -396,18 +398,50 @@ class ArticlesModel extends ListModel
                 // Bind values and get parameter names.
                 $bounded = $query->bindArray($valuesToBind);
 
-                $categoryWhere = $db->quoteName('c.lft') . ' >= ' . $bounded[0] . ' AND ' . $db->quoteName('c.rgt') . ' <= ' . $bounded[1];
+                // Primary category condition in the derived membership set.
+                $categoryWhere = $db->quoteName('pc.lft') . ' >= ' . $bounded[0] . ' AND ' . $db->quoteName('pc.rgt') . ' <= ' . $bounded[1];
 
                 if ($level) {
-                    $categoryWhere .= ' AND ' . $db->quoteName('c.level') . ' <= ' . $bounded[2];
+                    $categoryWhere .= ' AND ' . $db->quoteName('pc.level') . ' <= ' . $bounded[2];
                 }
 
-                $subCatItemsWhere[] = '(' . $categoryWhere . ')';
+                $primaryWhereParts[] = '(' . $categoryWhere . ')';
+
+                // Secondary category condition
+                $secondaryWhere = $db->quoteName('sc.lft') . ' >= ' . $bounded[0] . ' AND ' . $db->quoteName('sc.rgt') . ' <= ' . $bounded[1];
+
+                if ($level) {
+                    $secondaryWhere .= ' AND ' . $db->quoteName('sc.level') . ' <= ' . $bounded[2];
+                }
+
+                $secondaryWhere .= ' AND ' . $db->quoteName('sc.access') . ' IN (' . implode(',', ArrayHelper::toInteger($user->getAuthorisedViewLevels())) . ')';
+                $secondaryWhereParts[] = '(' . $secondaryWhere . ')';
             }
 
-            $query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
+            // Secondary category lookup
+            $secondaryQuery = $db->createQuery()
+                ->select($db->quoteName('map.item_id'))
+                ->from($db->quoteName('#__category_item_map', 'map'))
+                ->innerJoin(
+                    $db->quoteName('#__categories', 'sc'),
+                    $db->quoteName('map.category_id') . ' = ' . $db->quoteName('sc.id')
+                )
+                ->where($db->quoteName('map.context') . ' = ' . $db->quote('com_content.article'))
+                ->where('(' . implode(' OR ', $secondaryWhereParts) . ')');
+
+            $primaryQuery = $db->createQuery()
+                ->select($db->quoteName('p.id', 'item_id'))
+                ->from($db->quoteName('#__content', 'p'))
+                ->innerJoin($db->quoteName('#__categories', 'pc'), $db->quoteName('pc.id') . ' = ' . $db->quoteName('p.catid'))
+                ->where('(' . implode(' OR ', $primaryWhereParts) . ')')
+                ->union($secondaryQuery);
+
+            $query->innerJoin(
+                '(' . $primaryQuery . ') AS ' . $db->quoteName('catmatch_admin_content'),
+                $db->quoteName('catmatch_admin_content.item_id') . ' = ' . $db->quoteName('a.id')
+            );
         } elseif ($level = (int) $level) {
-            // Case: Using only the by level filter
+            // Case: Using only the level filter
             $query->where($db->quoteName('c.level') . ' <= :level')
                 ->bind(':level', $level, ParameterType::INTEGER);
         }
@@ -800,6 +834,9 @@ class ArticlesModel extends ListModel
                 $item->metadata = $registry->toArray();
             }
         }
+
+        $helper = new SecondaryCategoriesHelper('com_content.article');
+        $helper->loadSecondaryCategoriesForItems($items);
 
         return $items;
     }

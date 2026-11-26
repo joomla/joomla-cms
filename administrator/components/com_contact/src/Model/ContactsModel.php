@@ -11,6 +11,7 @@
 namespace Joomla\Component\Contact\Administrator\Model;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -99,7 +100,6 @@ class ContactsModel extends ListModel
             $this->context .= '.' . $forcedLanguage;
         }
 
-        // List state information.
         parent::populateState($ordering, $direction);
 
         // Force a language.
@@ -366,20 +366,53 @@ class ContactsModel extends ListModel
 
         // Case: Using both categories filter and by level filter
         if (\count($categoryId)) {
-            $categoryId       = ArrayHelper::toInteger($categoryId);
-            $categoryTable    = new Category($db);
-            $subCatItemsWhere = [];
+            $categoryId          = ArrayHelper::toInteger($categoryId);
+            $categoryTable       = new Category($db);
+            $primaryWhereParts   = [];
+            $secondaryWhereParts = [];
 
             // @todo: Convert to prepared statement
             foreach ($categoryId as $filter_catid) {
                 $categoryTable->load($filter_catid);
-                $subCatItemsWhere[] = '(' .
-                    ($level ? 'c.level <= ' . ((int) $level + (int) $categoryTable->level - 1) . ' AND ' : '') .
-                    'c.lft >= ' . (int) $categoryTable->lft . ' AND ' .
-                    'c.rgt <= ' . (int) $categoryTable->rgt . ')';
+                $primaryWhereParts[] = '(' .
+                    ($level ? 'pc.level <= ' . ((int) $level + (int) $categoryTable->level - 1) . ' AND ' : '') .
+                    'pc.lft >= ' . (int) $categoryTable->lft . ' AND ' .
+                    'pc.rgt <= ' . (int) $categoryTable->rgt . ')';
+
+                $secondaryWhereParts[] = '(' .
+                    ($level ? 'sc.level <= ' . ((int) $level + (int) $categoryTable->level - 1) . ' AND ' : '') .
+                    'sc.lft >= ' . (int) $categoryTable->lft . ' AND ' .
+                    'sc.rgt <= ' . (int) $categoryTable->rgt . ')';
             }
 
-            $query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
+            $secondaryQuery = $db->createQuery()
+                ->select($db->quoteName('map.item_id'))
+                ->from($db->quoteName('#__category_item_map', 'map'))
+                ->innerJoin(
+                    $db->quoteName('#__categories', 'sc'),
+                    $db->quoteName('map.category_id') . ' = ' . $db->quoteName('sc.id')
+                )
+                ->where($db->quoteName('map.context') . ' = ' . $db->quote('com_contact.contact'))
+                ->where('(' . implode(' OR ', $secondaryWhereParts) . ')');
+
+            if (!$user->authorise('core.admin')) {
+                $secondaryQuery->where(
+                    $db->quoteName('sc.access') . ' IN ('
+                    . implode(',', ArrayHelper::toInteger($user->getAuthorisedViewLevels())) . ')'
+                );
+            }
+
+            $primaryQuery = $db->createQuery()
+                ->select($db->quoteName('p.id', 'item_id'))
+                ->from($db->quoteName('#__contact_details', 'p'))
+                ->innerJoin($db->quoteName('#__categories', 'pc'), $db->quoteName('pc.id') . ' = ' . $db->quoteName('p.catid'))
+                ->where('(' . implode(' OR ', $primaryWhereParts) . ')')
+                ->union($secondaryQuery);
+
+            $query->innerJoin(
+                '(' . $primaryQuery . ') AS ' . $db->quoteName('catmatch_admin_contact'),
+                $db->quoteName('catmatch_admin_contact.item_id') . ' = ' . $db->quoteName('a.id')
+            );
         } elseif ($level) {
             // Case: Using only the by level filter
             $query->where($db->quoteName('c.level') . ' <= :level');
@@ -397,5 +430,26 @@ class ContactsModel extends ListModel
         $query->order($db->escape($orderCol . ' ' . $orderDirn));
 
         return $query;
+    }
+
+    /**
+     * Method to get a list of contacts.
+     *
+     * @return  mixed  An array of data items on success, false on failure.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getItems()
+    {
+        $items = parent::getItems();
+
+        if ($items === false) {
+            return false;
+        }
+
+        $helper = new SecondaryCategoriesHelper('com_contact.contact');
+        $helper->loadSecondaryCategoriesForItems($items);
+
+        return $items;
     }
 }

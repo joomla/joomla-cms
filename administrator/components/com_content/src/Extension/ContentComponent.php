@@ -23,6 +23,7 @@ use Joomla\CMS\Fields\FieldsFormServiceInterface;
 use Joomla\CMS\Fields\FieldsServiceTrait;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper as LibraryContentHelper;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
@@ -340,6 +341,36 @@ class ContentComponent extends MVCComponent implements
         ];
 
         LibraryContentHelper::countRelations($items, $config);
+
+        $this->countSecondaryCategoryItems($items);
+    }
+
+    /**
+     * Populate secondary category item counters.
+     *
+     * @param   array  $items  The category items.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function countSecondaryCategoryItems(&$items): void
+    {
+        if (empty($items)) {
+            return;
+        }
+
+        $helper = new SecondaryCategoriesHelper('com_content.article');
+        $counts = $helper->getCategoryItemCounts(array_column($items, 'id'), '#__content');
+
+        foreach ($items as $item) {
+            $itemCounts = $counts[$item->id] ?? [];
+
+            $item->count_secondary_published   = $itemCounts['count_secondary_published'] ?? 0;
+            $item->count_secondary_unpublished = $itemCounts['count_secondary_unpublished'] ?? 0;
+            $item->count_secondary_archived    = $itemCounts['count_secondary_archived'] ?? 0;
+            $item->count_secondary_trashed     = $itemCounts['count_secondary_trashed'] ?? 0;
+        }
     }
 
     /**
