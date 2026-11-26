@@ -129,6 +129,17 @@ fieldset {
 .control-group {
   margin: $cassiopeia-grid-gutter 0;
 }
+
+// Keep the description next to radio, checkbox and switcher fields
+fieldset.checkboxes,
+fieldset.radio,
+fieldset:has(> .radio, > .switcher) {
+  margin-bottom: 0;
+
+  > .btn-group {
+    margin-bottom: 0;
+  }
+}
 .container-popup .filter-search-bar__description {
   top: 100%;
   bottom: auto;
