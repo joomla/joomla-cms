@@ -13,6 +13,8 @@
 	<administration>
 		<files folder="admin">
 			<filename>categories.xml</filename>
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
 			<folder>forms</folder>
 			<folder>helpers</folder>
 			<folder>layouts</folder>

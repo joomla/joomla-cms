@@ -420,6 +420,6 @@ class NewsfeedModel extends AdminModel implements VersionableModelInterface
      */
     private function canCreateCategory()
     {
-        return $this->getCurrentUser()->authorise('core.create', 'com_newsfeeds');
+        return $this->getCurrentUser()->authorise('core.create', 'com_categories');
     }
 }
