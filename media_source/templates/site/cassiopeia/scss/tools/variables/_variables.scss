@@ -1,5 +1,8 @@
 @use "sass:color";
 
+// Keyboard focus indicator mixins and box shadow
+@import "../../../../../../system/scss/focus-indicator";
+
 // Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
 $prefix: "";
 
@@ -140,7 +143,13 @@ $cassiopeia-colors: (
   template-bg-dark-70:                 hsl(var(--hue), 40%, 30%),
   template-bg-dark-75:                 hsl(var(--hue), 40%, 25%),
   template-bg-dark-80:                 hsl(var(--hue), 40%, 20%),
-  template-bg-dark-90:                 hsl(var(--hue), 40%, 10%)
+  template-bg-dark-90:                 hsl(var(--hue), 40%, 10%),
+
+  // Keyboard focus indicator: a coloured outline separated from the control by a contrasting ring
+  focus-indicator-color:               #0b5ed7, // contrast ratio: 5.84 on #fff
+  focus-indicator-contrast:            $white, // keeps the indicator visible on the dark header and footer
+  focus-indicator-width:               2px,
+  focus-indicator-offset:              2px
 ) !default;
 
 // Links
@@ -197,6 +206,11 @@ $input-btn-padding-y:                 .6rem !default;
 $input-btn-padding-x:                 1rem !default;
 $input-max-width:                     100% !default;
 $input-focus-border-color:            tint-color($standard-color-primary, 50%) !default;
+
+// Keyboard focus indicator for Bootstrap components that remove the outline
+$focus-ring-box-shadow:               $focus-indicator-ring !default;
+$input-btn-focus-box-shadow:          $focus-indicator-ring !default;
+$form-select-focus-box-shadow:        $focus-indicator-ring !default;
 
 $form-select-indicator-padding:     3rem !default;
 $form-select-bg:                    $gray-200 !default;

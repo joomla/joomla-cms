@@ -25,6 +25,9 @@ html {
   background-color: $white;
 }
 
+// Default focus highlighting
+@include focus-indicator-global();
+
 body {
   position: relative;
   min-height: 100vh;
@@ -109,6 +112,11 @@ a {
   ol,
   ul {
     overflow: hidden;
+
+    // Links on the first or last line would lose part of the focus indicator
+    &:has(:focus-visible) {
+      overflow: visible;
+    }
   }
 }
 

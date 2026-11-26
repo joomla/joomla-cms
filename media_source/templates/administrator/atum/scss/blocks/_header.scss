@@ -28,6 +28,11 @@
     background-color: $header-logo-bg;
     transition: all .3s ease-in-out;
 
+    // The logo sits in the viewport corner and clips overflow, so draw the indicator inside the control
+    &:focus-visible {
+      @include focus-ring(true);
+    }
+
     &.small {
       justify-content: center;
       inline-size: $sidebar-width-closed;

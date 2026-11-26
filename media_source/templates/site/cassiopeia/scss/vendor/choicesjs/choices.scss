@@ -107,6 +107,10 @@
   &:focus {
     outline: none;
   }
+
+  &:focus-visible {
+    @include focus-ring();
+  }
 }
 
 .choices[data-type*="select-one"],

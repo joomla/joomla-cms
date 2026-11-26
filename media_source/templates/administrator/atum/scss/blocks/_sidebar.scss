@@ -31,6 +31,11 @@
       }
     }
 
+    // The sidebar clips overflow, so draw the indicator inside the control
+    a:focus-visible {
+      @include focus-ring(true);
+    }
+
     > a {
       position: relative;
       display: flex;
@@ -72,6 +77,11 @@
 
     a {
       color: $sidebar-toggle-link; /* $sidebar-toggle-link $white */
+
+      // The sidebar clips overflow, so draw the indicator inside the control
+      &:focus-visible {
+        @include focus-ring(true);
+      }
     }
 
     .sidebar-item-title {
@@ -251,6 +261,11 @@
 
     &:focus {
       box-shadow: none;
+    }
+
+    // The toggle sits in the viewport corner, so draw the indicator inside the control
+    &.navbar-toggler:focus-visible {
+      @include focus-ring(true);
     }
 
     .navbar-toggler-icon {
