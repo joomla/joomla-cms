@@ -56,9 +56,22 @@ const rotate = (angle, image) => {
 
 const initRotate = (image) => {
   if (!activated) {
-    // The number input listener
-    document.getElementById('jform_rotate_a').addEventListener('change', ({ target }) => {
-      const angle = parseInt(target.value, 10);
+    // The number input listener, only selects the angle
+    document.getElementById('jform_rotate_a').addEventListener('change', () => {
+      // Deselect all buttons
+      document.querySelectorAll('#jform_rotate_distinct [type=radio]').forEach((element) => { element.checked = false; });
+    });
+
+    // The 90 degree buttons listeners, only select the angle
+    document.querySelectorAll('#jform_rotate_distinct [type=radio]').forEach((element) => {
+      element.addEventListener('change', ({ target }) => {
+        document.getElementById('jform_rotate_a').value = target.value;
+      });
+    });
+
+    // The apply button listener, rotates the image once by the selected angle
+    document.getElementById('jform_rotate_apply').addEventListener('click', () => {
+      const angle = parseInt(document.getElementById('jform_rotate_a').value, 10);
 
       if (Number.isNaN(angle)) {
         return;
@@ -66,17 +79,11 @@ const initRotate = (image) => {
 
       rotate(angle, image);
 
-      // Deselect all buttons
-      document.querySelectorAll('#jform_rotate_distinct label').forEach((element) => element.classList.remove('active', 'focus'));
-    });
-
-    // The 90 degree rotate buttons listeners
-    document.querySelectorAll('#jform_rotate_distinct [type=radio]').forEach((element) => {
-      element.addEventListener('click', ({ target }) => {
-        rotate(parseInt(target.value, 10), image);
-
-        // Deselect all buttons
-        document.querySelectorAll('#jform_rotate_distinct label').forEach((el) => el.classList.remove('active', 'focus'));
+      // Confirm the applied rotation to assistive technologies
+      const status = document.getElementById('jform_rotate_apply-status');
+      status.textContent = '';
+      requestAnimationFrame(() => {
+        status.textContent = Joomla.Text._('PLG_MEDIA-ACTION_ROTATE_APPLIED').replace('%s', angle);
       });
     });
 
