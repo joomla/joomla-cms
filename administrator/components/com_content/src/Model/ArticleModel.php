@@ -577,7 +577,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return  object  The data for the form.
      *
      * @since   1.6
      */
@@ -585,7 +585,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
     {
         // Check the session for previously entered form data.
         $app  = Factory::getApplication();
-        $data = $app->getUserState('com_content.edit.article.data', []);
+        $data = $app->getUserState('com_content.edit.article.data');
 
         if (empty($data)) {
             $data = $this->getItem();
