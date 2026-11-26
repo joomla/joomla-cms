@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Dispatcher;
 
+use Joomla\CMS\Access\Exception\NotAllowed;
+use Joomla\CMS\Application\ApiApplication;
+use Joomla\Registry\Registry;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -19,7 +23,7 @@ namespace Joomla\CMS\Dispatcher;
  *
  * @since  4.0.0
  */
-final class ApiDispatcher extends ComponentDispatcher
+class ApiDispatcher extends ComponentDispatcher
 {
     /**
      * Load the component's administrator language
@@ -37,6 +41,28 @@ final class ApiDispatcher extends ComponentDispatcher
     }
 
     /**
+     * Method to check component access permission
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     *
+     * @throws  NotAllowed
+     */
+    protected function checkAccess(): void
+    {
+        $route = $this->app instanceof ApiApplication ? $this->app->getActiveRoute() : new Registry();
+
+        if ($route->get('vars.public') === true) {
+            return;
+        }
+
+        if (!$this->app->getIdentity()->authorise('core.api', $this->option)) {
+            throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+        }
+    }
+
+    /**
      * Dispatch a controller task. API Overrides to ensure there is no redirects.
      *
      * @return  void
@@ -45,6 +71,9 @@ final class ApiDispatcher extends ComponentDispatcher
      */
     public function dispatch()
     {
+        // Check component access permission
+        $this->checkAccess();
+
         $task = $this->input->getCmd('task', 'display');
 
         // Build controller config data

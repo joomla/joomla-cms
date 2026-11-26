@@ -197,6 +197,11 @@ class ApiController extends BaseController
         $mediaContent = base64_decode($content->get('content', '', 'raw'));
         $override     = $content->get('override', false);
 
+        // Overriding an existing file or folder is an edit and therefore requires the edit permission
+        if ($override && !$this->app->getIdentity()->authorise('core.edit', 'com_media')) {
+            throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 403);
+        }
+
         if ($mediaContent) {
             $this->checkFileSize(\strlen($mediaContent));
 
@@ -268,6 +273,11 @@ class ApiController extends BaseController
         $mediaContent = base64_decode($content->get('content', '', 'raw'));
         $newPath      = $content->getString('newPath', null);
         $move         = $content->get('move', true);
+
+        // A copy creates a new file or folder, check this before anything is changed
+        if ($newPath != null && !$move && !$this->app->getIdentity()->authorise('core.create', 'com_media')) {
+            throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'), 403);
+        }
 
         if ($mediaContent != null) {
             $this->checkFileSize(\strlen($mediaContent));

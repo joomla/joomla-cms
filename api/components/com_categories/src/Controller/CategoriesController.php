@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Categories\Api\Controller;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\Table\Category;
@@ -150,8 +151,8 @@ class CategoriesController extends ApiController
      */
     private function getExtensionFromInput()
     {
-        return $this->input->exists('extension') ?
-            $this->input->get('extension') : $this->input->post->get('extension');
+        return $this->input->getMethod() === 'POST' ?
+            $this->input->post->get('extension') : $this->input->get('extension');
     }
 
     /**
@@ -169,8 +170,11 @@ class CategoriesController extends ApiController
         $user      = $this->app->getIdentity();
         $extension = $this->getExtensionFromInput();
 
-        // Require generic management permissions for the component
-        if (!$user->authorise('core.manage', $extension)) {
+        /**
+         * @deprecated Remove in Joomla 8.0
+         * This check acts as a safety net for third-party extensions that do not extend ApiDispatcher.
+         */
+        if (!$user->authorise('core.api', $extension)) {
             return false;
         }
 
@@ -194,8 +198,11 @@ class CategoriesController extends ApiController
         $user      = $this->app->getIdentity();
         $extension = $this->getExtensionFromInput();
 
-        // Require generic management permissions for the component
-        if (!$user->authorise('core.manage', $extension)) {
+        /**
+         * @deprecated Remove in Joomla 8.0
+         * This check acts as a safety net for third-party extensions that do not extend ApiDispatcher.
+         */
+        if (!$user->authorise('core.api', $extension)) {
             return false;
         }
 
@@ -227,18 +234,33 @@ class CategoriesController extends ApiController
     /**
      * Method to check if it's allowed to delete a record
      *
+     * @param array  $data An array of input data.
+     * @param string  $key The name of the key for the primary key; default is id.
+     *
      * @return  boolean
      *
      * @since   5.4.8
      * @since   6.1.3
      */
-    protected function allowDelete(): bool
+    protected function allowDelete($data = [], $key = 'id'): bool
     {
         $extension = $this->getExtensionFromInput();
         $user      = $this->app->getIdentity();
+        $recordId  = isset($data[$key]) ? (int) $data[$key] : 0;
 
-        // Require generic management permissions for the component
-        if (!$user->authorise('core.manage', $extension)) {
+        /**
+         * @deprecated Remove in Joomla 8.0
+         * This check acts as a safety net for third-party extensions that do not extend ApiDispatcher.
+         */
+        if (!$user->authorise('core.api', $extension)) {
+            return false;
+        }
+
+        // Get existing record
+        $inflector = InflectorFactory::create()->build();
+        $record    = $this->getModel($inflector->singularize($this->contentType))->getItem($recordId);
+
+        if (empty($record) || $record->extension !== $extension) {
             return false;
         }
 

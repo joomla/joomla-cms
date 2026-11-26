@@ -175,7 +175,6 @@ class InstalledModel extends ListModel
         if (\is_null($this->data)) {
             $this->data = [];
 
-            $isCurrentLanguageRtl = Factory::getLanguage()->isRtl();
             $params               = ComponentHelper::getParams('com_languages');
             $installedLanguages   = LanguageHelper::getInstalledLanguages(null, true, true, null, null, null);
 
@@ -196,12 +195,6 @@ class InstalledModel extends ListModel
                     $row->version      = $lang->manifest['version'];
                     $row->published    = $defaultLanguage === $row->language ? 1 : 0;
                     $row->checked_out  = null;
-
-                    // Fix wrongly set parentheses in RTL languages
-                    if ($isCurrentLanguageRtl) {
-                        $row->name       = html_entity_decode($row->name . '&#x200E;', ENT_QUOTES, 'UTF-8');
-                        $row->nativeName = html_entity_decode($row->nativeName . '&#x200E;', ENT_QUOTES, 'UTF-8');
-                    }
 
                     $this->data[] = $row;
                 }
