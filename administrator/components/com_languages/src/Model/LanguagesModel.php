@@ -207,6 +207,12 @@ class LanguagesModel extends ListModel
         // Iterate the items to delete each one.
         foreach ($pks as $itemId) {
             if (!$table->delete((int) $itemId)) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
