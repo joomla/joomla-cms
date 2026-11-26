@@ -10,8 +10,18 @@
 
 \defined('_JEXEC') or die;
 
+// Check if a configuration file already exists.
+if (
+    file_exists(JPATH_CONFIGURATION . '/configuration.php')
+    && (filesize(JPATH_CONFIGURATION . '/configuration.php') > 10)
+    && !file_exists(JPATH_INSTALLATION . '/index.php')
+) {
+    header('Location: ../index.php');
+    exit();
+}
+
 // Ensure sensible default for JDEBUG is set.
-const JDEBUG = false;
+\define('JDEBUG', ($_ENV['JOOMLA_DEBUG'] ?? '') === '1');
 
 // Import the Joomla Platform.
 require_once JPATH_LIBRARIES . '/bootstrap.php';

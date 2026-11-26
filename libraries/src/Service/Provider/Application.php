@@ -16,6 +16,8 @@ use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
 use Joomla\CMS\Console\CoreUpdateChannelCommand;
+use Joomla\CMS\Console\DotenvDebugCommand;
+use Joomla\CMS\Console\DotenvDumpCommand;
 use Joomla\CMS\Console\ExtensionDisableCommand;
 use Joomla\CMS\Console\ExtensionDiscoverCommand;
 use Joomla\CMS\Console\ExtensionDiscoverInstallCommand;
@@ -171,6 +173,8 @@ class Application implements ServiceProviderInterface
                         TasksRunCommand::getDefaultName()                 => TasksRunCommand::class,
                         TasksStateCommand::getDefaultName()               => TasksStateCommand::class,
                         MaintenanceDatabaseCommand::getDefaultName()      => MaintenanceDatabaseCommand::class,
+                        DotenvDebugCommand::getDefaultName()              => DotenvDebugCommand::class,
+                        DotenvDumpCommand::getDefaultName()               => DotenvDumpCommand::class,
                     ];
 
                     return new WritableContainerLoader($container, $mapping);

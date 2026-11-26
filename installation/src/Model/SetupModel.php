@@ -95,9 +95,24 @@ class SetupModel extends BaseInstallationModel
             return false;
         }
 
+        $isCli = Factory::getApplication()->isClient('cli_installation');
+
         /** @todo make this available in web installer too */
-        if (!Factory::getApplication()->isClient('cli_installation')) {
+        if (!$isCli) {
             $form->removeField('public_folder');
+        }
+
+        // Get the list of active env variables, and reconfigure the form fields accordingly
+        $envOptions     = $this->getEnvironmentOptions();
+        $readOnlyFields = ['site_name', 'admin_user', 'admin_username', 'admin_email'];
+
+        foreach ($envOptions as $setupName => $value) {
+            if (\in_array($setupName, $readOnlyFields) && !$isCli) {
+                $form->setFieldAttribute($setupName, 'default', $value);
+                $form->setFieldAttribute($setupName, 'readonly', 'true');
+            } else {
+                $form->setFieldAttribute($setupName, 'type', 'hidden');
+            }
         }
 
         // Check the session for previously entered form data.
@@ -197,7 +212,7 @@ class SetupModel extends BaseInstallationModel
     /**
      * Method to validate the db connection properties.
      *
-     * @param   array  $options  Array with database credentials
+     * @param   array  $options   Array with database credentials
      *
      * @return  boolean
      *
@@ -222,7 +237,7 @@ class SetupModel extends BaseInstallationModel
         }
 
         // Validate and clean up connection parameters
-        $paramsCheck = DatabaseHelper::validateConnectionParameters($options);
+        $paramsCheck = DatabaseHelper::validateConnectionParameters($options, !empty($options->db_from_environment));
 
         if ($paramsCheck) {
             // Validation error: Enqueue the error message

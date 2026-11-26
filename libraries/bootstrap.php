@@ -41,6 +41,26 @@ $loader->unregister();
 // Decorate Composer autoloader
 spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
 
+// Checking whether loading of the environment variables from the file is enabled. Then parse them.
+$environment = $_ENV['JOOMLA_ENV'] ?? $_SERVER['JOOMLA_ENV'] ?? false;
+
+if ($environment || is_file(JPATH_ROOT . '/.env.local.php') || is_file(JPATH_ROOT . '/.env')) {
+    /**
+     * Some PHP configurations set variables_order="GPCS" not "EGPCS", in which case $_ENV is NOT populated.
+     * Detect if the $_ENV  was empty and handle it by explicitly populating through getenv() for CLI,
+     * or filter variables from  $_SERVER prefixed with JOOMLA_ for web requests.
+     *
+     * To make it work the same for CLI and WEB set variables_order="EGPCS" in php.ini.
+     */
+    if (!$_ENV) {
+        $_ENV = PHP_SAPI === 'cli' ? getenv() : array_filter($_SERVER, fn ($k) => str_starts_with($k, 'JOOMLA_'), ARRAY_FILTER_USE_KEY);
+    }
+
+    $dotenv = new Symfony\Component\Dotenv\Dotenv('JOOMLA_ENV', 'JOOMLA_DEBUG');
+    $dotenv->bootEnv(JPATH_ROOT . '/.env', $environment ?: 'prod');
+}
+unset($environment);
+
 /**
  * Register the global exception handler. And set error level to server default error level.
  * The error level may be changed later in boot up process, after application config will be loaded.
