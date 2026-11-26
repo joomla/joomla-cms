@@ -26,11 +26,15 @@ Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
 Text::script('SUCCESS');
+Text::script('COM_CONFIG_UNSAVED_CHANGES_CONFIRM');
+Text::script('COM_CONFIG_UNSAVED_CHANGES_PROCEED');
+Text::script('JCANCEL');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('form.validate')
-    ->useScript('keepalive');
+    ->useScript('keepalive')
+    ->useScript('com_config.unsaved-changes');
 
 if ($this->fieldsets) {
     HTMLHelper::_('bootstrap.framework');
