@@ -1,5 +1,18 @@
 // com_users
 
+// Default-method star: darker gold for >= 3:1 non-text contrast (WCAG 1.4.11).
+// Applied by default so it also covers Color Scheme = Disabled (no data-bs-theme attribute);
+// dark mode keeps the original warning colour.
+.com_users #com-users-methods-list-method-default-badge-small {
+  color: #b07a00 !important;
+}
+
+@include color-mode(dark) {
+  .com_users #com-users-methods-list-method-default-badge-small {
+    color: var(--warning) !important;
+  }
+}
+
 .com_users {
 
   &.view-debuggroup,
