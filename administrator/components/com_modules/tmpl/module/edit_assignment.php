@@ -109,7 +109,7 @@ if ($inheritEnabled) {
                                     $uselessMenuItem = in_array($link->type, ['separator', 'heading', 'alias', 'url']);
                                     $id = 'jform_menuselect';
                                     ?>
-                                    <input type="checkbox" class="novalidate form-check-input" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : '';
+                                    <input type="checkbox" class="novalidate form-check-input" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected && !$uselessMenuItem ? ' checked="checked"' : '';
                                     echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?>>
                                     <label for="<?php echo $id . $link->value; ?>" class="">
                                         <?php echo $link->text; ?>
@@ -130,7 +130,7 @@ if ($inheritEnabled) {
                                     <?php if ($inheritEnabled) : ?>
                                         <?php
                                         // Only a menu item with children can pass a module on, so a stored value is only kept where the dropdown is shown.
-                                        $hasInheritControl = $isParent && $link->level != 0 && !$uselessMenuItem;
+                                        $hasInheritControl = $isParent && $link->level != 0;
                                         $inheritValue      = $hasInheritControl ? (int) ($this->item->inherit[$link->value] ?? 0) : 0;
                                         ?>
                                         <?php if ($hasInheritControl) : ?>
@@ -155,6 +155,9 @@ if ($inheritEnabled) {
                                             <input type="hidden" name="jform[inherit][<?php echo (int) $link->value; ?>]" value="<?php echo $inheritValue; ?>">
                                         <?php endif; ?>
                                         <span class="module-inherit-lock-badge badge bg-info d-none"></span>
+                                    <?php elseif ($uselessMenuItem && !empty($this->item->inherit[$link->value])) : ?>
+                                        <?php // A disabled checkbox isn't posted, and with the option off the save only keeps the inheritance of assigned items. ?>
+                                        <input type="hidden" name="jform[assigned][]" value="<?php echo (int) $link->value; ?>">
                                     <?php endif; ?>
                                 </div>
                             <?php

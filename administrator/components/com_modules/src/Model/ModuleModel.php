@@ -1325,6 +1325,7 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
                 . ')'
             )
             ->where($db->quoteName('node.id') . ' <> ' . $db->quoteName('source.id'))
+            ->whereNotIn($db->quoteName('node.type'), ['separator', 'heading', 'alias', 'url'], ParameterType::STRING)
             ->bind(':moduleid', $moduleId, ParameterType::INTEGER);
 
         $db->setQuery($query);

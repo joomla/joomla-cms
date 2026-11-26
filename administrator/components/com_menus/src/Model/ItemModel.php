@@ -2055,7 +2055,8 @@ class ItemModel extends AdminModel
                 . $db->quoteName('node.level') . ' = (' . $db->quoteName('source.level') . ' + 1)'
                 . ')'
             )
-            ->where($db->quoteName('node.id') . ' <> ' . $db->quoteName('source.id'));
+            ->where($db->quoteName('node.id') . ' <> ' . $db->quoteName('source.id'))
+            ->whereNotIn($db->quoteName('node.type'), ['separator', 'heading', 'alias', 'url'], ParameterType::STRING);
 
         $db->setQuery($query);
         $rows = (array) $db->loadObjectList();
