@@ -15,10 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\Exception\ResourceNotFoundException;
+use Joomla\CMS\MVC\Model\Exception\ValidationException;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
-use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper;
 

@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Table\Exception\ValidationException;
+use Joomla\CMS\MVC\Model\Exception\ValidationException;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
