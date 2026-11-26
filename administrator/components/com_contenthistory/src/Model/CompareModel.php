@@ -142,9 +142,11 @@ class CompareModel extends ListModel
      *
      * @since   3.2
      */
-    public function getTable($type = 'Contenthistory', $prefix = 'Joomla\\CMS\\Table\\', $config = [])
+    public function getTable($type = 'ContentHistory', $prefix = 'Joomla\\CMS\\Table\\', $config = [])
     {
-        return Table::getInstance($type, $prefix, $config);
+        $className = $prefix . $type;
+
+        return new $className($this->getDatabase());
     }
 
     /**

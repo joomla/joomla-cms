@@ -224,8 +224,11 @@ class HistoryModel extends ListModel
      */
     public function getTable($type = 'ContentHistory', $prefix = 'Joomla\\CMS\\Table\\', $config = [])
     {
-        return Table::getInstance($type, $prefix, $config);
+        $className = $prefix . $type;
+
+        return new $className($this->getDatabase());
     }
+
     /**
      * Method to toggle on and off the keep forever value for one or more records from content history table.
      *
