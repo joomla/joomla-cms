@@ -34,8 +34,8 @@ class InputFilter extends BaseInputFilter
      * @since 4.0.0
      */
     public const FORBIDDEN_FILE_EXTENSIONS = [
-        'php', 'phps', 'pht', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7', 'asp',
-        'php8', 'phar', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py', 'aspx',
+        'asp', 'aspx', 'cgi', 'fcgi', 'inc', 'jar', 'java', 'phar', 'php', 'php3', 'php4', 'php5', 'php6', 'php7',
+        'php8', 'php9', 'phps', 'pht', 'phtml', 'pl', 'py', 'sht', 'shtm', 'shtml', 'stm',
     ];
 
     /**
@@ -148,7 +148,9 @@ class InputFilter extends BaseInputFilter
      */
     public function emailToPunycode($text)
     {
-        $pattern = '/(("mailto:)+[\w\.\-\+]+\@[^"?]+\.+[^."?]+("|\?))/';
+        // A single dot (not "\.+") keeps the split between the domain and the last label unambiguous, so matching stays linear.
+        // The lookbehind starts a match only at the first of several repeated prefixes, a later start cannot succeed when the first failed.
+        $pattern = '/((?<!"mailto:)("mailto:)+[\w\.\-\+]+\@[^"?]+\.[^."?]+("|\?))/';
 
         if (preg_match_all($pattern, $text, $matches)) {
             foreach ($matches[0] as $match) {

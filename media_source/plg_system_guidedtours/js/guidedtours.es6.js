@@ -9,6 +9,19 @@ if (!Joomla) {
   throw new Error('Joomla API is not properly initialised');
 }
 
+/**
+ * Shepherd renders the step title as HTML, so a title coming from the tour data must be escaped as text.
+ *
+ * @param   {string}  text  The plain text title
+ *
+ * @returns {string}  The title, safe to be rendered as HTML
+ */
+function escapeTitle(text) {
+  const element = document.createElement('div');
+  element.textContent = text;
+  return element.innerHTML;
+}
+
 function emptyStorage() {
   sessionStorage.removeItem('currentStepId');
   sessionStorage.removeItem('stepCount');
@@ -27,8 +40,10 @@ function emptyStorage() {
 */
 function fetchTourState(tid, sid, context) {
   const fetchUrl = 'index.php?option=com_guidedtours&task=ajax.fetchUserState&format=json';
+  // The endpoint persists user state, so the request must carry the CSRF token.
+  const token = Joomla.getOptions('com_guidedtours.token', '');
   Joomla.request({
-    url: `${fetchUrl}&tid=${tid}&sid=${sid}&context=${context}`,
+    url: `${fetchUrl}&${token}=1&tid=${tid}&sid=${sid}&context=${context}`,
     method: 'GET',
     perform: true,
     onSuccess: (response) => {
@@ -145,7 +160,7 @@ function disableButton(eventElement) {
 
 function addStepToTourButton(tour, stepObj, buttons) {
   const step = new Shepherd.Step(tour, {
-    title: stepObj.title,
+    title: escapeTitle(stepObj.title),
     text: stepObj.description,
     classes: 'shepherd-theme-arrows',
     buttons,
@@ -393,7 +408,7 @@ function showTourInfo(tour, stepObj) {
   addStartButton(tour, buttons, stepObj.start_label);
 
   tour.addStep({
-    title: stepObj.title,
+    title: escapeTitle(stepObj.title),
     text: stepObj.description,
     classes: 'shepherd-theme-arrows',
     buttons,

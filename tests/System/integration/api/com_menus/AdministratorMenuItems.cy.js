@@ -22,22 +22,24 @@ describe('Test that menu items administrator API endpoint', () => {
   });
 
   it('can create an administrator menu item', () => {
-    cy.api_post('/menus/administrator/items', {
-      title: 'automated test administrator menu item',
-      menutype: 'main-menu',
-      access: '1',
-      parent_id: '1',
-      client_id: 1,
-      publish_down: '',
-      publish_up: '',
-      published: '1',
-      template_style_id: '0',
-      toggle_modules_assigned: '1',
-      toggle_modules_published: '1',
-      type: 'component',
-      alias: '',
-      link: '',
-    })
+    // The menu type has to exist, the API checks the permissions of the menu
+    cy.db_createMenuType({ title: 'automated test administrator menu', menutype: 'test-admin-menu', client_id: 1 })
+      .then(() => cy.api_post('/menus/administrator/items', {
+        title: 'automated test administrator menu item',
+        menutype: 'test-admin-menu',
+        access: '1',
+        parent_id: '1',
+        client_id: 1,
+        publish_down: '',
+        publish_up: '',
+        published: '1',
+        template_style_id: '0',
+        toggle_modules_assigned: '1',
+        toggle_modules_published: '1',
+        type: 'component',
+        alias: '',
+        link: '',
+      }))
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('title')
         .should('include', 'automated test administrator menu item'));

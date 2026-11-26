@@ -243,12 +243,17 @@ class MediaController extends ApiController
     {
         $user = $this->app->getIdentity();
 
+        // Adding a file or folder always needs the permission to create, as the target may not exist yet
+        if (!$user->authorise('core.create', 'com_media')) {
+            return false;
+        }
+
         // In the override mode, adding a file will override and therefore edit an existing file
         if ($this->input->json->get('override', false)) {
             return $user->authorise('core.edit', 'com_media');
         }
 
-        return $user->authorise('core.create', 'com_media');
+        return true;
     }
 
     /**
@@ -267,6 +272,12 @@ class MediaController extends ApiController
     {
         // Access check.
         if (!$this->allowEdit()) {
+            throw new NotAllowed('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED', 403);
+        }
+
+        // Without an existing item in the URL, the request creates a new file or folder.
+        // Same check as in MediumModel::save(), which also treats "0" as no item.
+        if (!$this->input->get('path', '', 'STRING') && !$this->allowAdd()) {
             throw new NotAllowed('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED', 403);
         }
 
@@ -395,11 +406,14 @@ class MediaController extends ApiController
     /**
      * Method to check if it's allowed to delete an existing file or folder.
      *
+     * @param array  $data An array of input data.
+     * @param string  $key The name of the key for the primary key; default is id.
+     *
      * @return  boolean
      *
      * @since   4.1.0
      */
-    protected function allowDelete(): bool
+    protected function allowDelete($data = [], $key = 'id'): bool
     {
         $user = $this->app->getIdentity();
 

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Api\Controller;
 
+use Joomla\CMS\Categories\CategoryChangeTrait;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\MVC\Controller\ApiController;
@@ -26,6 +27,8 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
  */
 class ArticlesController extends ApiController
 {
+    use CategoryChangeTrait;
+
     /**
      * The content type of the item.
      *
@@ -138,5 +141,46 @@ class ArticlesController extends ApiController
         }
 
         return $data;
+    }
+
+    /**
+     * Method to check if you can add a new record.
+     *
+     * Like in the administrator, the create permission is checked in the target category.
+     *
+     * @param   array  $data  An array of input data.
+     *
+     * @return  boolean
+     *
+     * @since   6.2.1
+     */
+    protected function allowAdd($data = [])
+    {
+        if (!$this->allowCategoryAdd($data)) {
+            return false;
+        }
+
+        return parent::allowAdd($data);
+    }
+
+    /**
+     * Method to check if you can edit an existing record.
+     *
+     * Moving a record to another category requires the create permission in the target category.
+     *
+     * @param   array   $data  An array of input data.
+     * @param   string  $key   The name of the key for the primary key; default is id.
+     *
+     * @return  boolean
+     *
+     * @since   6.2.1
+     */
+    protected function allowEdit($data = [], $key = 'id')
+    {
+        return parent::allowEdit($data, $key) && $this->allowCategoryChange(
+            $this->getModel('article')->getTable(),
+            isset($data[$key]) ? (int) $data[$key] : 0,
+            $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array')
+        );
     }
 }

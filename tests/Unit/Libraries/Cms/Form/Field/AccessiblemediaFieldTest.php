@@ -11,6 +11,8 @@
 namespace Joomla\Tests\Unit\Libraries\Cms\Form\Field;
 
 use Joomla\CMS\Form\Field\AccessiblemediaField;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\TestDox;
 
 /**
  * Test class for AccessiblemediaField.
@@ -54,7 +56,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
         ];
 
         foreach ($properties as $property => $propertyvalue) {
-            $this->assertEquals($propertyvalue, $accessiblemediafield->__get($property));
+            $this->assertSame($propertyvalue, $accessiblemediafield->__get($property));
         }
     }
 
@@ -72,14 +74,14 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
         $properties           = [
             "directory"     => 'mydirectory',
             "preview"       => 'tooltip',
-            "previewWidth"  => "300",
-            "previewHeight" => "300",
+            "previewWidth"  => 300,
+            "previewHeight" => 300,
             "layout"        => 'joomla.form.field.media.accessiblemedia',
         ];
 
         foreach ($properties as $property => $propertyvalue) {
             $accessiblemediafield->__set($property, $propertyvalue);
-            $this->assertEquals($propertyvalue, $accessiblemediafield->__get($property));
+            $this->assertSame($propertyvalue, $accessiblemediafield->__get($property));
         }
     }
 
@@ -98,7 +100,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
         $element = new \SimpleXMLElement('<field name="testfield" />');
 
         $this->assertTrue($accessiblemediafield->setup($element, '', null));
-        $this->assertEquals('', $accessiblemediafield->__get('value'));
+        $this->assertSame('', $accessiblemediafield->__get('value'));
     }
 
     /**
@@ -121,7 +123,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
         ];
 
         $this->assertTrue($accessiblemediafield->setup($element, '/images/joomla_black.png', null));
-        $this->assertEquals($fieldvalue, $accessiblemediafield->__get('value'));
+        $this->assertSame($fieldvalue, $accessiblemediafield->__get('value'));
     }
 
     /**
@@ -144,7 +146,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
         ];
 
         $this->assertTrue($accessiblemediafield->setup($element, '{"imagefile":"pathtofile","alt_text":"alt text"}', null));
-        $this->assertEquals($fieldvalue, $accessiblemediafield->__get('value'));
+        $this->assertSame($fieldvalue, $accessiblemediafield->__get('value'));
     }
 
     /**
@@ -163,7 +165,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
         $element = new \SimpleXMLElement('<field name="testfield" />');
 
         $this->assertTrue($accessiblemediafield->setup($element, 'jfsdkl', null));
-        $this->assertEquals('', $accessiblemediafield->__get('value'));
+        $this->assertSame('', $accessiblemediafield->__get('value'));
     }
 
     /**
@@ -186,7 +188,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
         $element = new \SimpleXMLElement('<field name="testfield" />');
 
         $this->assertTrue($accessiblemediafield->setup($element, $obj, null));
-        $this->assertEquals($obj, $accessiblemediafield->__get('value'));
+        $this->assertSame($obj, $accessiblemediafield->__get('value'));
     }
 
     /**
@@ -231,6 +233,74 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
         $element = new \SimpleXMLElement('<Nofield name="testfield" />');
 
         $this->assertFalse($accessiblemediafield->setup($element, '', null));
+    }
+
+    /**
+     * Data provider for testSetupEscapesFormSource
+     *
+     * @return  array
+     *
+     * @since   6.2.1
+     */
+    public static function formSourceProvider(): array
+    {
+        $injected = 'images" data-marker="inert';
+
+        return [
+            'regular directory' => [
+                ['directory' => 'images/sub', 'preview' => 'tooltip'], 'imagefile', 'directory', 'images/sub',
+            ],
+            'quote in directory' => [
+                ['directory' => $injected], 'imagefile', 'directory', $injected,
+            ],
+            'quote in preview' => [
+                ['preview' => 'true" data-marker="inert'], 'imagefile', 'preview', 'true" data-marker="inert',
+            ],
+            'quote in types' => [
+                ['types' => 'documents" data-marker="inert'], 'file', 'types', 'documents" data-marker="inert',
+            ],
+            'angle brackets in directory' => [
+                ['directory' => 'images"/><field name="marker'], 'imagefile', 'directory', 'images"/><field name="marker',
+            ],
+            'quote in directory of the video poster' => [
+                ['types' => 'videos', 'video_poster' => '1', 'directory' => $injected], 'poster', 'directory', $injected,
+            ],
+        ];
+    }
+
+    /**
+     * Tests that the parameters copied into the generated form source cannot change its structure
+     *
+     * @param   array   $attributes  The attributes of the field element
+     * @param   string  $fieldName   The name of the generated subform field to check
+     * @param   string  $attribute   The attribute of the generated subform field to check
+     * @param   string  $expected    The expected attribute value
+     *
+     * @return  void
+     *
+     * @since   6.2.1
+     */
+    #[TestDox('setup escapes the parameters in the form source: $_dataName')]
+    #[DataProvider('formSourceProvider')]
+    public function testSetupEscapesFormSource(array $attributes, string $fieldName, string $attribute, string $expected): void
+    {
+        $element = new \SimpleXMLElement('<field name="testfield" />');
+
+        foreach ($attributes as $name => $value) {
+            $element->addAttribute($name, $value);
+        }
+
+        $accessiblemediafield = $this->createAccessiblemediaField();
+
+        $this->assertTrue($accessiblemediafield->setup($element, '', null));
+
+        $form   = new \SimpleXMLElement($accessiblemediafield->__get('formsource'));
+        $fields = $form->xpath('//field[@name="' . $fieldName . '"]');
+
+        $this->assertCount(1, $fields);
+        $this->assertSame($expected, (string) $fields[0][$attribute]);
+        $this->assertCount(0, $form->xpath('//field[@data-marker]'));
+        $this->assertCount(0, $form->xpath('//field[@name="marker"]'));
     }
 
     /**

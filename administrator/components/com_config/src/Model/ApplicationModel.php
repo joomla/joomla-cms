@@ -18,7 +18,9 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterSaveConfigurationEvent;
 use Joomla\CMS\Event\Application\BeforeSaveConfigurationEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\LanguageFactoryInterface;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
@@ -50,9 +52,10 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  *
  * @since  3.2
  */
-class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
+class ApplicationModel extends FormModel implements MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
     use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * Array of protected password fields from the configuration.php
@@ -60,7 +63,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
      * @var    array
      * @since  3.9.23
      */
-    private $protectedConfigurationFields = ['password', 'secret', 'smtppass', 'redis_server_auth', 'session_redis_server_auth'];
+    private $protectedConfigurationFields = ['password', 'secret', 'smtppass', 'smtp_oauth2_client_secret', 'smtp_oauth2_refresh_token', 'redis_server_auth', 'session_redis_server_auth', 'proxy_pass'];
 
     /**
      * Method to get a form object.
@@ -76,6 +79,20 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
     public function getForm($data = [], $loadData = true)
     {
         return $this->loadForm('com_config.application', 'application', ['control' => 'jform', 'load_data' => $loadData]);
+    }
+
+    /**
+     * Method to get the names of the protected password fields of the configuration.
+     *
+     * The values of these fields must never be returned to a client.
+     *
+     * @return  string[]  The names of the protected configuration fields.
+     *
+     * @since   6.2.1
+     */
+    public function getProtectedConfigurationFields(): array
+    {
+        return $this->protectedConfigurationFields;
     }
 
     /**
@@ -125,6 +142,30 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         return $data;
+    }
+
+    /**
+     * Method to allow derived classes to preprocess the form.
+     *
+     * @param   Form    $form   A Form object.
+     * @param   mixed   $data   The data expected for the form.
+     * @param   string  $group  The name of the plugin group to import (defaults to "content").
+     *
+     * @return  void
+     *
+     * @see     FormField
+     * @since   4.0.0
+     * @throws  \Exception if there is an error in the form event.
+     */
+    protected function preprocessForm(Form $form, $data, $group = 'content')
+    {
+        $config = $this->getData();
+
+        if (!empty($config['smtp_oauth2_refresh_token'])) {
+            $form->setFieldAttribute('smtp_oauth2_auth_wizard', 'refreshToken', 'true');
+        }
+
+        parent::preprocessForm($form, $data, $group);
     }
 
     /**
@@ -341,8 +382,8 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             return false;
         }
 
-        // Check if we can set the Force SSL option
-        if ((int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) $app->get('force_ssl', '0')) {
+        // Check if we can set the Force SSL option unless we are in CLI mode, in which case we skip this check
+        if (!$app->isClient('cli') && (int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) $app->get('force_ssl', '0')) {
             try {
                 // Make an HTTPS request to check if the site is available in HTTPS.
                 $host    = Uri::getInstance()->getHost();
@@ -744,7 +785,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         // Overwrite webservices cors settings
         $app->set('cors', $data['cors'] ?? 0);
         $app->set('cors_allow_origin', $data['cors_allow_origin'] ?? '*');
-        $app->set('cors_allow_headers', $data['cors_allow_headers'] ?? 'Content-Type,X-Joomla-Token');
+        $app->set('cors_allow_headers', $data['cors_allow_headers'] ?? 'Content-Type,X-Joomla-Token,Authorization');
         $app->set('cors_allow_methods', $data['cors_allow_methods'] ?? '');
 
         // Clear cache of com_config component.
@@ -1205,6 +1246,14 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $config->set('mailer', $input->get('mailer'));
         $config->set('mailonline', $input->get('mailonline'));
 
+        // We do not load the current oauth2 information since this information needs to be already saved after authorization
+        $config->set('smtp_oauth2_client_id', $app->get('smtp_oauth2_client_id', ''));
+        $config->set('smtp_oauth2_client_secret', $app->get('smtp_oauth2_client_secret', ''));
+        $config->set('smtp_oauth2_scope', $app->get('smtp_oauth2_scope', ''));
+        $config->set('smtp_oauth2_authorize_url', $app->get('smtp_oauth2_authorize_url', ''));
+        $config->set('smtp_oauth2_token_url', $app->get('smtp_oauth2_token_url', ''));
+        $config->set('smtp_oauth2_refresh_token', $app->get('smtp_oauth2_refresh_token', ''));
+
         // Use smtppass only if it was submitted
         if ($smtppass !== null) {
             $config->set('smtppass', $smtppass);
@@ -1217,7 +1266,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             'com_config.test_mail',
             $user->getParam('language', $app->get('language')),
             $mail,
-            Factory::getContainer()->get(LanguageFactoryInterface::class),
+            $this->getLanguageFactory(),
             $this->getDatabase()
         );
         $mailer->addTemplateData(

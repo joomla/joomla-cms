@@ -234,6 +234,8 @@ trait WorkflowBehaviorTrait
             }
 
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EXECUTE_TRANSITION'));
+
+            return false;
         }
 
         // Get workflow stage information

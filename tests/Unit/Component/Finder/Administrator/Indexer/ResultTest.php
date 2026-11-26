@@ -12,23 +12,23 @@ namespace Joomla\Tests\Unit\Component\Finder\Administrator\Indexer;
 
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\CoversMethod;
 
 /**
  * Test class for \Joomla\Component\Finder\Administrator\Indexer\Result
  *
  * @since  4.1.3
  */
+#[CoversMethod(Result::class, 'unserialize')]
+#[CoversMethod(Result::class, 'serialize')]
+#[CoversMethod(Result::class, '__serialize')]
+#[CoversMethod(Result::class, '__unserialize')]
 class ResultTest extends UnitTestCase
 {
     /**
      * @return void
      *
      * @throws \ReflectionException
-     *
-     * @covers Result::unserialize
-     * @covers Result::serialize
-     * @covers Result::__serialize
-     * @covers Result::__unserialize
      *
      * @since   4.1.3
      */
@@ -45,13 +45,13 @@ class ResultTest extends UnitTestCase
         );
 
         // Test PHP `serialize` the object - PHP 8.1+ style (uses magic methods)
-        $this->assertEquals(
+        $this->assertSame(
             'that',
             unserialize(serialize($obj))->getElement('this')
         );
 
         $obj->title = 'MyTitle2';
-        $this->assertEquals(
+        $this->assertSame(
             'MyTitle2',
             unserialize(serialize($obj))->title
         );

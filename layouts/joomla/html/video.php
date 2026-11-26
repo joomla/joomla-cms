@@ -21,20 +21,27 @@ defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
-if (array_key_exists('src', $displayData) && !empty($displayData['src'])) {
-    $displayData['src'] = $this->escape($displayData['src']);
-}
-
 $source = [];
 if (isset($displayData['source']) && is_array($displayData['source'])) {
     $source = $displayData['source'];
     unset($displayData['source']);
 }
 
-echo '<video ' . ArrayHelper::toString($displayData) . '>';
+$attributes = [];
+
+foreach ($displayData as $attributeName => $attributeValue) {
+    // Skip invalid attribute names
+    if (!preg_match('/^[a-zA-Z][a-zA-Z0-9_:.-]*$/', $attributeName)) {
+        continue;
+    }
+
+    $attributes[$attributeName] = htmlspecialchars((string) $attributeValue, ENT_QUOTES, 'UTF-8');
+}
+
+echo '<video ' . ArrayHelper::toString($attributes) . '>';
 if (!empty($source)) {
     foreach ($source as $sourceData) {
-        echo '<source src="' . $this->escape($sourceData['src']) . '" type="' . $sourceData['type'] . '" />';
+        echo '<source src="' . $this->escape($sourceData['src']) . '" type="' . $this->escape($sourceData['type']) . '" />';
     }
 }
 echo '</video>';

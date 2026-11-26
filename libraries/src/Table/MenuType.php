@@ -257,12 +257,10 @@ class MenuType extends Table implements CurrentUserInterface
 
             if ($db->loadRowList()) {
                 if ($this->shouldUseExceptions()) {
-                    throw new CheckinCheckoutException(
-                        Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE'))
-                    );
+                    throw new CheckinCheckoutException(Text::_('JLIB_DATABASE_ERROR_MENUTYPE_DEFAULT_HOME'));
                 }
 
-                $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
+                $this->setError(Text::_('JLIB_DATABASE_ERROR_MENUTYPE_DEFAULT_HOME'));
 
                 return false;
             }
@@ -280,12 +278,10 @@ class MenuType extends Table implements CurrentUserInterface
 
             if ($db->loadRowList()) {
                 if ($this->shouldUseExceptions()) {
-                    throw new CheckinCheckoutException(
-                        Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE'))
-                    );
+                    throw new CheckinCheckoutException(Text::_('JLIB_DATABASE_ERROR_MENUTYPE_MODULE_CHECKOUT'));
                 }
 
-                $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
+                $this->setError(Text::_('JLIB_DATABASE_ERROR_MENUTYPE_MODULE_CHECKOUT'));
 
                 return false;
             }
