@@ -365,6 +365,7 @@ class Changelog
      */
     public function loadFromXml($url)
     {
+        $url        = trim($url);
         $version    = new Version();
         $httpOption = new Registry();
         $httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
