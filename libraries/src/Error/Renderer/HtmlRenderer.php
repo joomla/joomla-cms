@@ -55,11 +55,11 @@ class HtmlRenderer extends AbstractRenderer
         // Add registry file for the template asset
         $wa = $this->getDocument()->getWebAssetManager()->getRegistry();
 
-        $wa->addTemplateRegistryFile($template->template, $app->getClientId());
-
         if (!empty($template->parent)) {
             $wa->addTemplateRegistryFile($template->parent, $app->getClientId());
         }
+
+        $wa->addTemplateRegistryFile($template->template, $app->getClientId());
 
         if (ob_get_contents()) {
             ob_end_clean();
