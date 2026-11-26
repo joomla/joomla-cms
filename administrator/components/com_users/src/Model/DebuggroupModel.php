@@ -189,6 +189,10 @@ class DebuggroupModel extends ListModel
         try {
             $group = $db->loadObject();
         } catch (\RuntimeException $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;

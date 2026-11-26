@@ -119,6 +119,10 @@ class GroupsModel extends ListModel
             try {
                 $items = $this->populateExtraData($items);
             } catch (\RuntimeException $e) {
+                if ($this->shouldUseExceptions()) {
+                    throw $e;
+                }
+
                 $this->setError($e->getMessage());
 
                 return false;
@@ -209,6 +213,10 @@ class GroupsModel extends ListModel
         try {
             $countEnabled = $db->loadAssocList('group_id', 'count_enabled');
         } catch (\RuntimeException $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -227,6 +235,10 @@ class GroupsModel extends ListModel
         try {
             $countDisabled = $db->loadAssocList('group_id', 'count_disabled');
         } catch (\RuntimeException $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;

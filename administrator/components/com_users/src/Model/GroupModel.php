@@ -11,6 +11,7 @@
 namespace Joomla\Component\Users\Administrator\Model;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Access\Exception\NotAllowedException;
 use Joomla\CMS\Event\User\UserGroupAfterDeleteEvent;
 use Joomla\CMS\Event\User\UserGroupBeforeDeleteEvent;
 use Joomla\CMS\Factory;
@@ -179,6 +180,10 @@ class GroupModel extends AdminModel
         $iAmSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
 
         if (!$iAmSuperAdmin && $groupSuperAdmin) {
+            if ($this->shouldUseExceptions()) {
+                throw new NotAllowedException(Text::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
+            }
+
             $this->setError(Text::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
 
             return false;
@@ -206,6 +211,10 @@ class GroupModel extends AdminModel
                  * and the current group does not have super admin permissions, throw an exception
                  */
                 if ((!$otherSuperAdmin) && (!$groupSuperAdmin)) {
+                    if ($this->shouldUseExceptions()) {
+                        throw new \RuntimeException(Text::_('JLIB_USER_ERROR_CANNOT_DEMOTE_SELF'));
+                    }
+
                     $this->setError(Text::_('JLIB_USER_ERROR_CANNOT_DEMOTE_SELF'));
 
                     return false;
@@ -259,6 +268,12 @@ class GroupModel extends AdminModel
 
             if (!$table->load($pk)) {
                 // Item is not in the table.
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -284,12 +299,24 @@ class GroupModel extends AdminModel
                     $result = $dispatcher->dispatch($this->event_before_delete, $beforeDeleteEvent)->getArgument('result', []);
 
                     if (\in_array(false, $result, true)) {
+                        if ($this->shouldUseExceptions()) {
+                            $error = $table->getError(null, false);
+
+                            throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                        }
+
                         $this->setError($table->getError());
 
                         return false;
                     }
 
                     if (!$table->delete($pk)) {
+                        if ($this->shouldUseExceptions()) {
+                            $error = $table->getError(null, false);
+
+                            throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                        }
+
                         $this->setError($table->getError());
 
                         return false;

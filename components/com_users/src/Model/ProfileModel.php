@@ -258,6 +258,12 @@ class ProfileModel extends FormModel
 
         // Bind the data.
         if (!$user->bind($data)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $user->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($user->getError());
 
             return false;
@@ -272,6 +278,12 @@ class ProfileModel extends FormModel
 
         // Store the data.
         if (!$user->save()) {
+            if ($this->shouldUseExceptions()) {
+                $error = $user->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($user->getError());
 
             return false;

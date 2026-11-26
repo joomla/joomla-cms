@@ -212,6 +212,10 @@ class UsersModel extends ListModel
             try {
                 $userGroups = $db->loadObjectList('user_id');
             } catch (\RuntimeException $e) {
+                if ($this->shouldUseExceptions()) {
+                    throw $e;
+                }
+
                 $this->setError($e->getMessage());
 
                 return false;
@@ -230,6 +234,10 @@ class UsersModel extends ListModel
             try {
                 $userNotes = $db->loadObjectList('user_id');
             } catch (\RuntimeException $e) {
+                if ($this->shouldUseExceptions()) {
+                    throw $e;
+                }
+
                 $this->setError($e->getMessage());
 
                 return false;
