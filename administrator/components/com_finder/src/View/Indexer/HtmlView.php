@@ -75,8 +75,7 @@ class HtmlView extends BaseHtmlView
             ->icon('icon-arrow-' . ($this->getLanguage()->isRtl() ? 'right' : 'left'))
             ->url(Route::_('index.php?option=com_finder&view=index'));
 
-        $toolbar->standardButton('index', 'COM_FINDER_INDEX')
-            ->icon('icon-play')
-            ->onclick('Joomla.debugIndexing();');
+        $toolbar->basicButton('index', 'COM_FINDER_INDEX')
+            ->icon('icon-play');
     }
 }

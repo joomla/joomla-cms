@@ -81,7 +81,6 @@ class AssociationField extends FormField
         $html[] = '<button'
             . ' type="button"'
             . ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
-            . ' onclick="return Joomla.submitbutton(\'undo-association\');"'
             . ' id="remove-assoc">'
             . '<span class="icon-times" aria-hidden="true"></span> ' . Text::_('JCLEAR')
             . '</button>';
