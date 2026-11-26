@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Fields\Administrator\Model;
 
+use Joomla\CMS\Access\Exception\NotAllowedException;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Component\ComponentHelper;
@@ -21,6 +22,7 @@ use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Model\Exception\ValidationException;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
@@ -188,6 +190,10 @@ class FieldModel extends AdminModel
         $message = $this->checkDefaultValue($data);
 
         if ($message !== true) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException($message);
+            }
+
             $this->setError($message);
 
             return false;
@@ -1343,6 +1349,12 @@ class FieldModel extends AdminModel
                 $table->state = 0;
 
                 if (!$table->store()) {
+                    if ($this->shouldUseExceptions()) {
+                        $error = $table->getError(null, false);
+
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
                     $this->setError($table->getError());
 
                     return false;
@@ -1365,6 +1377,10 @@ class FieldModel extends AdminModel
                 // Add the new ID to the array
                 $newIds[$pk] = $newId;
             } else {
+                if ($this->shouldUseExceptions()) {
+                    throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+                }
+
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 
                 return false;
@@ -1432,6 +1448,10 @@ class FieldModel extends AdminModel
         }
 
         if (!$allowed) {
+            if ($this->shouldUseExceptions()) {
+                throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+            }
+
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
             return false;
@@ -1444,6 +1464,12 @@ class FieldModel extends AdminModel
             $table->group_id = $value;
 
             if (!$table->store()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
