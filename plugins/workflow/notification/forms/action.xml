@@ -6,6 +6,7 @@
 				name="notification_send_mail"
 				type="radio"
 				label="PLG_WORKFLOW_NOTIFICATION_SENDMAIL_LABEL"
+				description="PLG_WORKFLOW_NOTIFICATION_SENDMAIL_DESC"
 				layout="joomla.form.field.radio.switcher"
 				default="1"
 				filter="boolean"

@@ -189,7 +189,8 @@ final class Notification extends CMSPlugin implements SubscriberInterface
 
         $transitionName = $model_transition->getItem($transition->id)->title;
 
-        $hasGetItem = method_exists($model, 'getItem');
+        $hasGetItem     = method_exists($model, 'getItem');
+        $messageCreated = false;
 
         foreach ($pks as $pk) {
             // Get the title of the item which has changed, unknown as fallback
@@ -200,7 +201,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
                 $title = !empty($item->title) ? $item->title : $title;
             }
 
-            // Send Email to receivers
+            // Create private messages for eligible recipients.
             foreach ($userIds as $user_id) {
                 $receiver = $this->getUserFactory()->loadUserById($user_id);
 
@@ -227,12 +228,17 @@ final class Notification extends CMSPlugin implements SubscriberInterface
                         'message'    => $messageText,
                     ];
 
-                    $model_message->save($message);
+                    if ($model_message->save($message)) {
+                        $messageCreated = true;
+                    }
                 }
             }
         }
 
-        $this->getApplication()->enqueueMessage($this->getApplication()->getLanguage()->_('PLG_WORKFLOW_NOTIFICATION_SENT'), 'message');
+        $this->getApplication()->enqueueMessage(
+            $this->getApplication()->getLanguage()->_($messageCreated ? 'PLG_WORKFLOW_NOTIFICATION_SENT' : 'PLG_WORKFLOW_NOTIFICATION_NOT_SENT'),
+            $messageCreated ? 'message' : 'warning'
+        );
     }
 
     /**
