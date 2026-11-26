@@ -69,6 +69,12 @@ class OutputFilterTest extends UnitTestCase
             OutputFilter::stringURLSafe('joomla\'s version'),
             'Should remove apostrophe from the string'
         );
+
+        $this->assertSame(
+            'we-need-moratorium-on-gun-sales-time-to-repeal-the-2nd-amendment',
+            OutputFilter::stringURLSafe('We Need Moratorium on Gun Sales — ‘Time to Repeal the 2nd Amendment’'),
+            'Should replace em dash with a single dash'
+        );
     }
 
     /**
