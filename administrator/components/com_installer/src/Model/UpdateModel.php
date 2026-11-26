@@ -255,6 +255,30 @@ class UpdateModel extends ListModel
     }
 
     /**
+     * Returns the IDs of all extensions that com_installer should check for updates, excluding the Joomla
+     * core "extension".
+     *
+     * @return  int[]
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getExtensionIdsForUpdateCheck()
+    {
+        $db      = $this->getDatabase();
+        $coreEid = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
+
+        $query = $db->createQuery()
+            ->select('DISTINCT ' . $db->quoteName('extension_id'))
+            ->from($db->quoteName('#__update_sites_extensions'))
+            ->where($db->quoteName('extension_id') . ' != :eid')
+            ->bind(':eid', $coreEid, ParameterType::INTEGER);
+
+        $db->setQuery($query);
+
+        return $db->loadColumn();
+    }
+
+    /**
      * Finds updates for an extension.
      *
      * @param   int  $eid               Extension identifier to look for
@@ -281,24 +305,41 @@ class UpdateModel extends ListModel
      */
     public function purge()
     {
-        $db = $this->getDatabase();
+        $db      = $this->getDatabase();
+        $coreEid = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
 
         try {
-            $db->truncateTable('#__updates');
+            $query = $db->createQuery()
+                ->delete($db->quoteName('#__updates'))
+                ->where($db->quoteName('extension_id') . ' != :eid')
+                ->bind(':eid', $coreEid, ParameterType::INTEGER);
+            $db->setQuery($query);
+            $db->execute();
         } catch (ExecutionFailureException) {
             $this->_message = Text::_('JLIB_INSTALLER_FAILED_TO_PURGE_UPDATES');
 
             return false;
         }
 
-        // Reset the last update check timestamp
         $query = $db->createQuery()
+            ->select($db->quoteName('update_site_id'))
+            ->from($db->quoteName('#__update_sites_extensions'))
+            ->where($db->quoteName('extension_id') . ' = :eid')
+            ->bind(':eid', $coreEid, ParameterType::INTEGER);
+        $db->setQuery($query);
+        $coreUpdateSiteIds = $db->loadColumn();
+
+        $query = $db->getQuery(true)
             ->update($db->quoteName('#__update_sites'))
             ->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
+
+        if (!empty($coreUpdateSiteIds)) {
+            $query->whereNotIn($db->quoteName('update_site_id'), $coreUpdateSiteIds);
+        }
+
         $db->setQuery($query);
         $db->execute();
 
-        // Clear the administrator cache
         $this->cleanCache('_system');
 
         $this->_message = Text::_('JLIB_INSTALLER_PURGED_UPDATES');
