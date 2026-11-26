@@ -140,7 +140,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
             $origUri  = clone Uri::getInstance();
             $route    = $origUri->toString(['path', 'query']);
 
-            if ($route !== $newRoute) {
+            if ($newRoute !== null && $route !== $newRoute) {
                 $app->redirect($newRoute, 301);
             }
         }
@@ -540,7 +540,13 @@ final class Sef extends CMSPlugin implements SubscriberInterface
 
             $route    = $origUri->toString(['path', 'query']);
             $newRoute = Route::_($parsedVars, false);
-            $newUri   = new Uri($newRoute);
+
+            // The URL could not be built, e.g. the component has no site router
+            if ($newRoute === null) {
+                return;
+            }
+
+            $newUri = new Uri($newRoute);
 
             if (!\count($newUri->getQuery(true)) && $route !== $newRoute) {
                 $app->redirect($newRoute, 301);
