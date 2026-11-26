@@ -38,7 +38,7 @@ if ($saveOrder) {
     HTMLHelper::_('draggablelist.draggable');
 }
 ?>
-<form action="<?php echo Route::_('index.php?option=com_workflow&view=stages&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_workflow&view=stages&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension); ?>" method="post" name="adminForm" id="adminForm" aria-label="<?php echo Text::_('COM_WORKFLOW_STAGES_TABLE_CAPTION'); ?>">
     <div class="row">
         <?php if (!empty($this->sidebar)) : ?>
             <div id="j-sidebar-container" class="col-md-2">

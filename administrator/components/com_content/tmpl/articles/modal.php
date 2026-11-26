@@ -50,7 +50,7 @@ if (!empty($editor)) {
 ?>
 <div class="container-popup">
 
-    <form action="<?php echo Route::_('index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=' . $function . '&' . Session::getFormToken() . '=1&editor=' . $editor); ?>" method="post" name="adminForm" id="adminForm">
+    <form action="<?php echo Route::_('index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=' . $function . '&' . Session::getFormToken() . '=1&editor=' . $editor); ?>" method="post" name="adminForm" id="adminForm" aria-label="<?php echo Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>">
 
         <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
 

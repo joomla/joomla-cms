@@ -38,7 +38,7 @@ $installedLanguages = $this->languages ?? [];
 $contentLanguages   = $this->contentLanguages ?? [];
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_languages&view=overrides'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_languages&view=overrides'); ?>" method="post" name="adminForm" id="adminForm" aria-label="<?php echo Text::_('COM_LANGUAGES_OVERRIDES_TABLE_CAPTION'); ?>">
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">

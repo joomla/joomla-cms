@@ -57,7 +57,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
 }
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_fields&view=groups&context=' . $context); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_fields&view=groups&context=' . $context); ?>" method="post" name="adminForm" id="adminForm" aria-label="<?php echo Text::_('COM_FIELDS_GROUPS_TABLE_CAPTION'); ?>">
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">

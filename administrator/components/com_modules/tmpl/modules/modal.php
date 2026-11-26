@@ -37,7 +37,7 @@ if (!empty($editor)) {
 }
 ?>
 <div class="container-popup">
-    <form action="<?php echo Route::_($link); ?>" method="post" name="adminForm" id="adminForm">
+    <form action="<?php echo Route::_($link); ?>" method="post" name="adminForm" id="adminForm" aria-label="<?php echo Text::_('COM_MODULES_TABLE_CAPTION'); ?>">
 
         <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
 

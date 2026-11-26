@@ -25,7 +25,7 @@ $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns');
 
 ?>
-<form action="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $this->state->get('user_id')); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $this->state->get('user_id')); ?>" method="post" name="adminForm" id="adminForm" aria-label="<?php echo Text::_('COM_USERS_DEBUG_USER_TABLE_CAPTION'); ?>">
     <div id="j-main-container" class="j-main-container">
         <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if (empty($this->items)) : ?>

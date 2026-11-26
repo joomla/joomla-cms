@@ -44,7 +44,7 @@ $wa->useScript('multiselect')
     <div id="subhead" class="subhead noshadow mb-3">
         <?php echo $this->toolbar->render(); ?>
     </div>
-    <form action="<?php echo Route::_($formUrl); ?>" method="post" name="adminForm" id="adminForm">
+    <form action="<?php echo Route::_($formUrl); ?>" method="post" name="adminForm" id="adminForm" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_VERSION_CAPTION'); ?>">
         <table class="table table-sm">
             <caption class="visually-hidden">
                 <?php echo Text::_('COM_CONTENTHISTORY_VERSION_CAPTION'); ?>

@@ -50,7 +50,7 @@ if ($saveOrder && !empty($this->items)) {
     HTMLHelper::_('draggablelist.draggable');
 }
 ?>
-<form action="<?php echo Route::_('index.php?option=com_categories&view=categories&extension=' . $this->state->get('filter.extension')); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_categories&view=categories&extension=' . $this->state->get('filter.extension')); ?>" method="post" name="adminForm" id="adminForm" aria-label="<?php echo Text::_('COM_CATEGORIES_TABLE_CAPTION'); ?>">
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">

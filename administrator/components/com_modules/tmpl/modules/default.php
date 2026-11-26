@@ -40,7 +40,7 @@ if ($saveOrder && !empty($this->items)) {
 $assoc   = Associations::isEnabled() && $clientId == 0;
 
 ?>
-<form action="<?php echo Route::_('index.php?option=com_modules&view=modules&client_id=' . $clientId); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_modules&view=modules&client_id=' . $clientId); ?>" method="post" name="adminForm" id="adminForm" aria-label="<?php echo Text::_('COM_MODULES_TABLE_CAPTION'); ?>">
     <div id="j-main-container" class="j-main-container">
         <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if ($this->total > 0) : ?>

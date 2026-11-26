@@ -37,7 +37,7 @@ $stateMsgs  = [
 $this->getLanguage()->load('plg_system_privacyconsent', JPATH_ADMINISTRATOR);
 
 ?>
-<form action="<?php echo Route::_('index.php?option=com_privacy&view=consents'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_privacy&view=consents'); ?>" method="post" name="adminForm" id="adminForm" aria-label="<?php echo Text::_('COM_PRIVACY_TABLE_CONSENTS_CAPTION'); ?>">
     <div id="j-main-container">
         <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if (empty($this->items)) : ?>

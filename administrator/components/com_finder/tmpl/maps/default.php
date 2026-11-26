@@ -34,7 +34,7 @@ $wa->useScript('com_finder.maps')
     ->useScript('multiselect');
 
 ?>
-<form action="<?php echo Route::_('index.php?option=com_finder&view=maps'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_finder&view=maps'); ?>" method="post" name="adminForm" id="adminForm" aria-label="<?php echo Text::_('COM_FINDER_MAPS_TABLE_CAPTION'); ?>">
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">

@@ -58,7 +58,7 @@ if ($saveOrder && !empty($this->items)) {
     HTMLHelper::_('draggablelist.draggable');
 }
 ?>
-<form action="<?php echo Route::_('index.php?option=com_tags&view=tags'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_tags&view=tags'); ?>" method="post" name="adminForm" id="adminForm" aria-label="<?php echo Text::_('COM_TAGS_TABLE_CAPTION'); ?>">
     <div id="j-main-container" class="j-main-container">
         <?php
         // Search tools bar
