@@ -379,7 +379,12 @@
 		if (typeof el.navtype === "undefined" || el.navtype !== 300) {
 			if (el.navtype === 50) { el._current = el.innerHTML; }
 
-			if (target === el || target.parentNode === el) { self.cellClick(el, ev); }
+			if (target === el || target.parentNode === el) {
+				if (el.caldate && self.params.showsTime) {
+					self.button.focus();
+				}
+				self.cellClick(el, ev);
+			}
 
 			var mon = null;
 			if (typeof el.month !== "undefined") {
@@ -541,7 +546,7 @@
 			}
 
 			if (code === 'Enter' && ev.target === this.button) {
-				ev.preventDefault(); // Keep the button from reopening the calendar.
+				ev.preventDefault();
 			}
 			this.close();
 		}
