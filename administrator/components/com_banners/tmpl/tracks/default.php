@@ -72,7 +72,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                                         </div>
                                     </th>
                                     <td>
-                                        <?php echo $item->client_name; ?>
+                                        <?php echo $this->escape($item->client_name); ?>
                                     </td>
                                     <td class="small d-none d-md-table-cell">
                                         <?php echo $item->track_type == 1 ? Text::_('COM_BANNERS_IMPRESSION') : Text::_('COM_BANNERS_CLICK'); ?>

@@ -154,7 +154,8 @@ class ListField extends FormField
 
             if ((string) $option['showon']) {
                 $encodedConditions = json_encode(
-                    FormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group)
+                    FormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group),
+                    JSON_HEX_APOS | JSON_HEX_AMP
                 );
 
                 $tmp['optionattr'] = " data-showon='" . $encodedConditions . "'";

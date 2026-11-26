@@ -121,6 +121,7 @@ final class Contact extends CMSPlugin implements SubscriberInterface
         $db     = $this->getDatabase();
         $query  = $db->createQuery();
         $userId = (int) $userId;
+        $groups = $this->getApplication()->getIdentity()->getAuthorisedViewLevels();
 
         $query->select($db->quoteName('contact.id', 'contactid'))
             ->select(
@@ -134,12 +135,16 @@ final class Contact extends CMSPlugin implements SubscriberInterface
                 )
             )
             ->from($db->quoteName('#__contact_details', 'contact'))
+            ->join('INNER', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('contact.catid'))
             ->where(
                 [
                     $db->quoteName('contact.published') . ' = 1',
                     $db->quoteName('contact.user_id') . ' = :createdby',
                 ]
             )
+            // Only a contact the visitor may view, same as the contact view: its own and its category's view level
+            ->whereIn($db->quoteName('contact.access'), $groups)
+            ->whereIn($db->quoteName('c.access'), $groups)
             ->bind(':createdby', $userId, ParameterType::INTEGER);
 
         if (Multilanguage::isEnabled() === true) {

@@ -160,7 +160,7 @@ $assoc   = Associations::isEnabled() && $clientId == 0;
                         <td class="d-none d-md-table-cell">
                             <?php if ($item->position) : ?>
                                 <span class="badge bg-info">
-                                    <?php echo $item->position; ?>
+                                    <?php echo $this->escape($item->position); ?>
                                 </span>
                             <?php else : ?>
                                 <span class="badge bg-secondary">

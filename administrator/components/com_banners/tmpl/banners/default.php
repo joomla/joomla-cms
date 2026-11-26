@@ -150,7 +150,7 @@ if ($saveOrder && !empty($this->items)) {
                                         <?php echo HTMLHelper::_('banner.pinned', $item->sticky, $i, $canChange); ?>
                                     </td>
                                     <td class="small d-none d-md-table-cell">
-                                        <?php echo $item->client_name; ?>
+                                        <?php echo $this->escape($item->client_name); ?>
                                     </td>
                                     <td class="small d-none d-md-table-cell">
                                         <?php echo Text::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ?: Text::_('COM_BANNERS_UNLIMITED')); ?>

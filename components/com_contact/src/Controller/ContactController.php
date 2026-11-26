@@ -110,6 +110,10 @@ class ContactController extends FormController implements UserFactoryAwareInterf
             return false;
         }
 
+        if (!$contact->params->get('access-view', false)) {
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+        }
+
         // Get item params, take menu parameters into account if necessary
         $active      = $app->getMenu()->getActive();
         $stateParams = clone $model->getState()->get('params');
