@@ -177,7 +177,8 @@ class CategoryModel extends ListModel
          */
             ->from($db->quoteName('#__contact_details', 'a'))
             ->leftJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
-            ->whereIn($db->quoteName('a.access'), $groups);
+            ->whereIn($db->quoteName('a.access'), $groups)
+            ->whereIn($db->quoteName('c.access'), $groups);
 
         // Filter by category.
         $categoryId           = (int) $this->getState('category.id');
@@ -211,8 +212,7 @@ class CategoryModel extends ListModel
             );
             $query->bind(':categoryId', $categoryId, ParameterType::INTEGER);
         } else {
-            $query->where($db->quoteName('a.catid') . ' = :acatid')
-                ->whereIn($db->quoteName('c.access'), $groups);
+            $query->where($db->quoteName('a.catid') . ' = :acatid');
             $query->bind(':acatid', $categoryId, ParameterType::INTEGER);
         }
 
