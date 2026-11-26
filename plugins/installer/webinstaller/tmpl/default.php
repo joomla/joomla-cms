@@ -18,6 +18,7 @@ $dir = $this->isRTL() ? ' dir="ltr"' : '';
 
 Text::script('JSEARCH_FILTER_CLEAR');
 Text::script('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING_ERROR');
+Text::script('PLG_INSTALLER_WEBINSTALLER_RESULTS');
 
 ?>
 <div id="jed-container" class="tab-pane">
