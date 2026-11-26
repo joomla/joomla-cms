@@ -252,15 +252,17 @@ class SetupModel extends BaseInstallationModel
 
             $db->connect();
         } catch (\RuntimeException $e) {
+            $msg = $e->getMessage();
+
             if (
-                $options->db_type === 'mysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42
-                || $options->db_type === 'pgsql' && strpos($e->getMessage(), 'database "' . $options->db_name . '" does not exist')
+                \in_array($options->db_type, ['mysql', 'mysqli']) && (str_contains($msg, '[1049]') || str_contains($msg, 'Unknown database'))
+                || $options->db_type === 'pgsql' && (str_contains($msg, 'does not exist') || str_contains($msg, 'database "' . $options->db_name . '" does not exist'))
             ) {
                 // Database doesn't exist: Skip the below checks, they will be done later at database creation
                 return true;
             }
 
-            Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
+            Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $msg), 'error');
 
             return false;
         }

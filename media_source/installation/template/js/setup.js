@@ -98,8 +98,8 @@ Joomla.checkDbCredentials = function () {
 
   Joomla.request({
     method: 'POST',
-    url: Joomla.installationBaseUrl + '?task=installation.dbcheck&format=json',
-    data: data,
+    url: Joomla.baseUrl + '?task=installation.dbcheck&format=json',
+    data: `${data}&task=installation.dbcheck&format=json`,
     perform: true,
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     onSuccess: function (response, xhr) {
@@ -108,10 +108,13 @@ Joomla.checkDbCredentials = function () {
       } catch (e) {
         progress_text.setAttribute('role', 'alert');
         progress_text.classList.add('error');
-        progress_text.innerText = response;
+        progress_text.innerText = Joomla.Text._('INSTL');
         console.error('Error in DB Check Endpoint');
         console.error(response);
         Joomla.renderMessages({ error: [Joomla.Text._('INSTL_DATABASE_RESPONSE_ERROR')] });
+
+        document.getElementById('installStep3').classList.add('active');
+        document.getElementById('installStep4').classList.remove('active');
 
         return false;
       }
@@ -210,22 +213,77 @@ Joomla.checkDbCredentials = function () {
     }
   }
 
+  const navigateToStep = function (step, updateHistory) {
+    const steps = [1, 2, 3, 4];
+    steps.forEach(function (s) {
+      const stepEl = document.getElementById('installStep' + s);
+      if (stepEl) {
+        if (s === step) {
+          stepEl.classList.add('active');
+        } else {
+          stepEl.classList.remove('active');
+        }
+      }
+    });
+
+    const languageFormEl = document.getElementById('languageForm');
+    if (languageFormEl) {
+      if (step === 1) {
+        languageFormEl.classList.remove('hidden');
+      } else {
+        languageFormEl.classList.add('hidden');
+      }
+    }
+
+    if (updateHistory !== false && window.history && window.history.pushState) {
+      window.history.pushState({ installStep: step }, '');
+    }
+  };
+
+  window.addEventListener('popstate', function (e) {
+    if (e.state && e.state.installStep) {
+      navigateToStep(e.state.installStep, false);
+    }
+  });
+
+  if (window.history && window.history.replaceState) {
+    window.history.replaceState({ installStep: 1 }, '');
+  }
+
   if (document.getElementById('step1')) {
     document.getElementById('step1').addEventListener('click', function (e) {
       e.preventDefault();
       if (Joomla.checkFormField(['#jform_site_name'])) {
-        if (document.getElementById('languageForm')) {
-          document.getElementById('languageForm').classList.add('hidden');
-        }
-        if (document.getElementById('installStep2')) {
-          document.getElementById('installStep2').classList.add('active');
-          document.getElementById('installStep1').classList.remove('active');
+        navigateToStep(2);
 
-          // Focus to the next field
-          if (document.getElementById('jform_admin_user')) {
-            document.getElementById('jform_admin_user').focus();
-          }
+        // Focus to the next field
+        if (document.getElementById('jform_admin_user')) {
+          document.getElementById('jform_admin_user').focus();
         }
+      }
+    });
+  }
+
+  if (document.getElementById('step2-prev')) {
+    document.getElementById('step2-prev').addEventListener('click', function (e) {
+      e.preventDefault();
+      navigateToStep(1);
+
+      // Focus to the field
+      if (document.getElementById('jform_site_name')) {
+        document.getElementById('jform_site_name').focus();
+      }
+    });
+  }
+
+  if (document.getElementById('step3-prev')) {
+    document.getElementById('step3-prev').addEventListener('click', function (e) {
+      e.preventDefault();
+      navigateToStep(2);
+
+      // Focus to the field
+      if (document.getElementById('jform_admin_user')) {
+        document.getElementById('jform_admin_user').focus();
       }
     });
   }
@@ -234,17 +292,13 @@ Joomla.checkDbCredentials = function () {
     document.getElementById('step2').addEventListener('click', function (e) {
       e.preventDefault();
       if (Joomla.checkFormField(['#jform_admin_user', '#jform_admin_email', '#jform_admin_password'])) {
-        if (document.getElementById('installStep3')) {
-          document.getElementById('installStep3').classList.add('active');
-          document.getElementById('installStep2').classList.remove('active');
-          document.getElementById('setupButton').classList.remove('hidden');
+        navigateToStep(3);
 
-          Joomla.makeRandomDbPrefix();
+        Joomla.makeRandomDbPrefix();
 
-          // Focus to the next field
-          if (document.getElementById('jform_db_type')) {
-            document.getElementById('jform_db_type').focus();
-          }
+        // Focus to the next field
+        if (document.getElementById('jform_db_type')) {
+          document.getElementById('jform_db_type').focus();
         }
       }
     });

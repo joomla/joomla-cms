@@ -169,7 +169,7 @@
     Joomla.request({
       method: 'POST',
       url: Joomla.baseUrl + '?task=installation.' + task + '&format=json',
-      data: data,
+      data: `${data}&task=installation.${task}&format=json`,
       perform: true,
       onSuccess: function (response, xhr) {
         try {
@@ -178,11 +178,16 @@
           if (progress_text) {
             progress_text.setAttribute('role', 'alert');
             progress_text.classList.add('error');
-            progress_text.innerText = response;
+            progress_text.innerText = Joomla.Text._('INSTL');
           }
           console.error('Error in ' + task + ' Endpoint');
           console.error(response);
           Joomla.renderMessages({ error: [Joomla.Text._('INSTL_DATABASE_RESPONSE_ERROR')] });
+
+          if (document.getElementById('installStep3')) {
+            document.getElementById('installStep3').classList.add('active');
+            document.getElementById('installStep4').classList.remove('active');
+          }
 
           return false;
         }
@@ -226,19 +231,35 @@
         Joomla.install(tasks, form, fromSubmit);
       },
       onError: function (xhr) {
+        var response = {};
+
+        try {
+          response = JSON.parse(xhr.responseText);
+        } catch (e) {
+          // Response is not JSON
+        }
+
+        if (response.token) {
+          Joomla.replaceTokens(response.token);
+        }
+
+        var errorMessage = response.message || Joomla.Text._('INSTL');
+
         if (progress_text) {
           progress_text.setAttribute('role', 'alert');
           progress_text.classList.add('error');
-          progress_text.innerText = xhr.responseText;
+          progress_text.innerText = errorMessage;
         }
-        Joomla.renderMessages([['', Joomla.Text._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
-        Joomla.goToPage('remove');
 
-        try {
-          var r = JSON.parse(xhr.responseText);
-          Joomla.replaceTokens(r.token);
-          alert(r.message);
-        } catch (e) {
+        if (response.message) {
+          Joomla.renderMessages({ error: [response.message] });
+        } else {
+          Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
+        }
+
+        if (document.getElementById('installStep3')) {
+          document.getElementById('installStep3').classList.add('active');
+          document.getElementById('installStep4').classList.remove('active');
         }
       },
     });

@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseDriver;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -123,6 +124,17 @@ class ChecksModel extends BaseInstallationModel
         $option->label  = Text::sprintf('INSTL_WRITABLE', 'configuration.php');
         $option->state  = $writable;
         $option->notice = $option->state ? null : Text::_('INSTL_NOTICE_NEEDSTOBEWRITABLE');
+        $options[]      = $option;
+
+        // Check for secure cookies over non-SSL connection.
+        $cookieParams   = session_get_cookie_params();
+        $isSecureCookie = !empty($cookieParams['secure']) || filter_var(\ini_get('session.cookie_secure'), FILTER_VALIDATE_BOOLEAN);
+        $isSsl          = Uri::getInstance()->isSsl();
+
+        $option         = new \stdClass();
+        $option->label  = Text::_('INSTL_SESSION_COOKIE_SECURE');
+        $option->state  = !($isSecureCookie && !$isSsl);
+        $option->notice = $option->state ? null : Text::_('INSTL_NOTICE_SESSION_COOKIE_SECURE');
         $options[]      = $option;
 
         return $options;

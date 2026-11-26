@@ -14,7 +14,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-$direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
+$direction     = Factory::getLanguage()->isRtl() ? 'left' : 'right';
+$prevDirection = Factory::getLanguage()->isRtl() ? 'right' : 'left';
 
 /** @var \Joomla\CMS\Installation\View\Setup\HtmlView $this */
 
@@ -24,7 +25,7 @@ $wa->useScript('joomla.dialog-autocreate');
 ?>
 
 <div id="installer-view" data-page-name="setup">
-    <form action="index.php" method="post" id="adminForm" class="form-validate">
+    <form action="index.php" method="post" id="adminForm" class="form-validate" onsubmit="return false;">
         <fieldset id="installStep1" class="j-install-step active">
             <legend class="j-install-step-header">
                 <span class="icon-cog" aria-hidden="true"></span> <?php echo Text::_('INSTL_SETUP_SITE_NAME'); ?>
@@ -34,7 +35,7 @@ $wa->useScript('joomla.dialog-autocreate');
                     <?php echo $this->form->renderField('site_name'); ?>
                 </div>
                 <div class="mt-4 mb-3">
-                    <button id="step1" class="btn btn-primary w-100"><?php echo Text::_('INSTL_SETUP_LOGIN_DATA'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
+                    <button type="button" id="step1" class="btn btn-primary w-100"><?php echo Text::_('INSTL_SETUP_LOGIN_DATA'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
                 </div>
             </div>
         </fieldset>
@@ -55,8 +56,9 @@ $wa->useScript('joomla.dialog-autocreate');
                 <div class="mb-3">
                     <?php echo $this->form->renderField('admin_email'); ?>
                 </div>
-                <div class="mt-4 mb-3">
-                    <button id="step2" class="btn btn-primary w-100"><?php echo Text::_('INSTL_CONNECT_DB'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
+                <div class="mt-4 mb-3 d-flex gap-2">
+                    <button type="button" id="step2-prev" class="btn btn-secondary w-50"><span class="icon-chevron-<?php echo $prevDirection; ?>" aria-hidden="true"></span> <?php echo Text::_('JPREVIOUS'); ?></button>
+                    <button type="button" id="step2" class="btn btn-primary w-50"><?php echo Text::_('INSTL_CONNECT_DB'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
                 </div>
             </div>
         </fieldset>
@@ -105,8 +107,9 @@ $wa->useScript('joomla.dialog-autocreate');
                     <?php //echo $this->form->getLabel('db_old'); ?>
                     <?php echo $this->form->getInput('db_old'); ?>
                 </div>
-                <div class="mt-4 mb-3">
-                    <button id="setupButton" class="btn btn-primary w-100"><?php echo Text::_('INSTL_INSTALL_JOOMLA'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
+                <div class="mt-4 mb-3 d-flex gap-2">
+                    <button type="button" id="step3-prev" class="btn btn-secondary w-50"><span class="icon-chevron-<?php echo $prevDirection; ?>" aria-hidden="true"></span> <?php echo Text::_('JPREVIOUS'); ?></button>
+                    <button type="button" id="setupButton" class="btn btn-primary w-50"><?php echo Text::_('INSTL_INSTALL_JOOMLA'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
                 </div>
             </div>
         </fieldset>
