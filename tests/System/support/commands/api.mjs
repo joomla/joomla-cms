@@ -68,7 +68,7 @@ Cypress.Commands.add('api_getBearerToken', (userId) => {
         return cy.task('queryDB', `INSERT INTO #__user_profiles (user_id, profile_key, profile_value, ordering) VALUES (${userId}, 'joomlatoken.token', '${seed}', 0), (${userId}, 'joomlatoken.enabled', '1', 1)`)
           .then(() => seed);
       })
-      .then((seed) => cy.readFile('configuration.php').then((configuration) => {
+      .then((seed) => cy.readFile(`${Cypress.expose('cmsPath')}/configuration.php`).then((configuration) => {
         const secret = configuration.match(/public \$secret = '(.*)';/)[1];
         const key = crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
 
