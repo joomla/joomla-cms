@@ -80,7 +80,7 @@ class MenuTable extends Menu
             // Check the publish down date is not earlier than publish up.
             if (!\is_null($this->publish_down) && !\is_null($this->publish_up) && $this->publish_down < $this->publish_up) {
                 if ($this->shouldUseExceptions()) {
-                    throw new ValidationException(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+                    throw new ValidationException($this, Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
                 }
 
                 $this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));

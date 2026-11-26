@@ -70,7 +70,7 @@ class LinkTable extends Table
         // Check for valid name.
         if (empty($this->old_url)) {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('COM_REDIRECT_ERROR_SOURCE_URL_REQUIRED'));
+                throw new ValidationException($this, Text::_('COM_REDIRECT_ERROR_SOURCE_URL_REQUIRED'));
             }
 
             $this->setError(Text::_('COM_REDIRECT_ERROR_SOURCE_URL_REQUIRED'));
@@ -86,7 +86,7 @@ class LinkTable extends Table
         // Check for valid name if not in advanced mode.
         if (empty($this->new_url) && !ComponentHelper::getParams('com_redirect')->get('mode', 0)) {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
+                throw new ValidationException($this, Text::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
             }
 
             $this->setError(Text::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
@@ -98,7 +98,7 @@ class LinkTable extends Table
             // Else if an empty URL and in redirect mode only throw the same error if the code is a 3xx status code
             if ($this->header < 400 && $this->header >= 300) {
                 if ($this->shouldUseExceptions()) {
-                    throw new ValidationException(Text::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
+                    throw new ValidationException($this, Text::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
                 }
 
                 $this->setError(Text::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
@@ -110,7 +110,7 @@ class LinkTable extends Table
         // Check for duplicates
         if ($this->old_url == $this->new_url) {
             if ($this->shouldUseExceptions()) {
-                throw new DuplicateEntryException(Text::_('COM_REDIRECT_ERROR_DUPLICATE_URLS'), 'new_url');
+                throw new DuplicateEntryException($this, Text::_('COM_REDIRECT_ERROR_DUPLICATE_URLS'), 'new_url');
             }
 
             $this->setError(Text::_('COM_REDIRECT_ERROR_DUPLICATE_URLS'));
@@ -133,7 +133,7 @@ class LinkTable extends Table
         foreach ($urls as $url) {
             if ($url['old_url'] === $this->old_url && (int) $url['id'] != (int) $this->id) {
                 if ($this->shouldUseExceptions()) {
-                    throw new DuplicateEntryException(Text::_('COM_REDIRECT_ERROR_DUPLICATE_OLD_URL'), 'old_url');
+                    throw new DuplicateEntryException($this, Text::_('COM_REDIRECT_ERROR_DUPLICATE_OLD_URL'), 'old_url');
                 }
 
                 $this->setError(Text::_('COM_REDIRECT_ERROR_DUPLICATE_OLD_URL'));
