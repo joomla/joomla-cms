@@ -122,6 +122,10 @@ class PositionsModel extends ListModel
                 try {
                     $positions = $db->loadObjectList('value');
                 } catch (\RuntimeException $e) {
+                    if ($this->shouldUseExceptions()) {
+                        throw $e;
+                    }
+
                     $this->setError($e->getMessage());
 
                     return false;

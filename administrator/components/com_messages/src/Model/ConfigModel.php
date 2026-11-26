@@ -80,6 +80,10 @@ class ConfigModel extends FormModel
         try {
             $rows = $db->loadObjectList();
         } catch (\RuntimeException $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -134,6 +138,10 @@ class ConfigModel extends FormModel
             try {
                 $db->execute();
             } catch (\RuntimeException $e) {
+                if ($this->shouldUseExceptions()) {
+                    throw $e;
+                }
+
                 $this->setError($e->getMessage());
 
                 return false;
@@ -167,6 +175,10 @@ class ConfigModel extends FormModel
                 try {
                     $db->execute();
                 } catch (\RuntimeException $e) {
+                    if ($this->shouldUseExceptions()) {
+                        throw $e;
+                    }
+
                     $this->setError($e->getMessage());
 
                     return false;
@@ -174,6 +186,10 @@ class ConfigModel extends FormModel
             }
 
             return true;
+        }
+
+        if ($this->shouldUseExceptions()) {
+            throw new \RuntimeException('COM_MESSAGES_ERR_INVALID_USER');
         }
 
         $this->setError('COM_MESSAGES_ERR_INVALID_USER');
