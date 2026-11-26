@@ -27,10 +27,14 @@
               <input
                 id="name"
                 ref="nameField"
+                v-model="editedName"
                 class="form-control"
                 type="text"
                 :placeholder="translate('COM_MEDIA_NAME')"
-                :value="name"
+                :disabled="isSaving"
+                :class="{ 'is-invalid': renameError }"
+                :aria-invalid="renameError ? 'true' : undefined"
+                :aria-describedby="renameError ? 'renameFeedback' : undefined"
                 required
                 autocomplete="off"
               >
@@ -41,6 +45,14 @@
                 {{ extension }}
               </span>
             </div>
+            <div
+              v-if="renameError"
+              id="renameFeedback"
+              class="invalid-feedback d-block"
+              role="alert"
+            >
+              {{ renameError }}
+            </div>
           </div>
         </form>
       </div>
@@ -50,6 +62,7 @@
         <button
           type="button"
           class="btn btn-secondary"
+          :disabled="isSaving"
           @click="close()"
           @keyup.enter="close()"
         >
@@ -58,7 +71,7 @@
         <button
           type="button"
           class="btn btn-success"
-          :disabled="!isValid()"
+          :disabled="isSaving || !isValid()"
           @click="save()"
           @keyup.enter="save()"
         >
@@ -78,6 +91,13 @@ export default {
   components: {
     MediaModal,
   },
+  data() {
+    return {
+      editedName: '',
+      renameError: '',
+      isSaving: false,
+    };
+  },
   computed: {
     item() {
       return this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1];
@@ -89,26 +109,41 @@ export default {
       return this.item.extension;
     },
   },
-  updated() {
-    this.$nextTick(() => (this.$refs.nameField ? this.$refs.nameField.focus() : null));
+  watch: {
+    editedName() {
+      this.renameError = '';
+    },
+    '$store.state.showRenameModal': {
+      immediate: true,
+      handler(show) {
+        if (show) {
+          this.editedName = this.name;
+          this.renameError = '';
+          this.$nextTick(() => this.$refs.nameField?.focus());
+        }
+      },
+    },
   },
   methods: {
     /* Check if the form is valid */
     isValid() {
-      return this.item.name.length > 0;
+      return this.editedName.trim().length > 0;
     },
     /* Close the modal instance */
     close() {
+      if (this.isSaving) {
+        return;
+      }
       this.$store.commit(types.HIDE_RENAME_MODAL);
     },
     /* Save the form and create the folder */
     save() {
       // Check if the form is valid
-      if (!this.isValid()) {
+      if (this.isSaving || !this.isValid()) {
         // @todo mark the field as invalid
         return;
       }
-      let newName = this.$refs.nameField.value;
+      let newName = this.editedName;
       if (this.extension.length) {
         newName += `.${this.item.extension}`;
       }
@@ -118,12 +153,28 @@ export default {
         newPath += '/';
       }
 
+      this.renameError = '';
+      this.isSaving = true;
+
       // Rename the item
-      this.$store.dispatch('renameItem', {
+      return this.$store.dispatch('renameItem', {
         item: this.item,
         newPath: newPath + newName,
         newName,
-      });
+      })
+        .catch((error) => {
+          let response;
+          try {
+            response = JSON.parse(error.response);
+          } catch {
+            response = null;
+          }
+          this.renameError = response?.message || this.translate('COM_MEDIA_RENAME_ERROR');
+        })
+        .finally(() => {
+          this.isSaving = false;
+          this.$nextTick(() => this.$refs.nameField?.focus());
+        });
     },
   },
 };
