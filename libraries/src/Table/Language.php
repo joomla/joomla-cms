@@ -62,7 +62,7 @@ class Language extends Table
 
         if (trim($this->title) == '') {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_NO_TITLE'));
+                throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_LANGUAGE_NO_TITLE'));
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_NO_TITLE'));
@@ -89,7 +89,7 @@ class Language extends Table
         // Verify that the language code is unique
         if ($table->load(['lang_code' => $this->lang_code]) && ($table->lang_id != $this->lang_id || $this->lang_id == 0)) {
             if ($this->shouldUseExceptions()) {
-                throw new DuplicateEntryException(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_LANG_CODE'), 'lang_code');
+                throw new DuplicateEntryException($this, Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_LANG_CODE'), 'lang_code');
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_LANG_CODE'));
@@ -100,7 +100,7 @@ class Language extends Table
         // Verify that the sef field is unique
         if ($table->load(['sef' => $this->sef]) && ($table->lang_id != $this->lang_id || $this->lang_id == 0)) {
             if ($this->shouldUseExceptions()) {
-                throw new DuplicateEntryException(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_IMAGE'), 'sef');
+                throw new DuplicateEntryException($this, Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_IMAGE'), 'sef');
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_IMAGE'));
@@ -111,7 +111,7 @@ class Language extends Table
         // Verify that the image field is unique
         if ($this->image && $table->load(['image' => $this->image]) && ($table->lang_id != $this->lang_id || $this->lang_id == 0)) {
             if ($this->shouldUseExceptions()) {
-                throw new DuplicateEntryException(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_IMAGE'), 'image');
+                throw new DuplicateEntryException($this, Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_IMAGE'), 'image');
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_IMAGE'));

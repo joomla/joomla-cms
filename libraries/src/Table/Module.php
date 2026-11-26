@@ -143,7 +143,7 @@ class Module extends Table
         // Check for valid name
         if (trim($this->title) === '') {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MODULE'));
+                throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MODULE'));
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MODULE'));
@@ -163,7 +163,7 @@ class Module extends Table
         // Prevent to save too large content > 65535
         if ((!empty($this->content) && \strlen($this->content) > 65535) || (!empty($this->params) && \strlen($this->params) > 65535)) {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('COM_MODULES_FIELD_CONTENT_TOO_LARGE'));
+                throw new ValidationException($this, Text::_('COM_MODULES_FIELD_CONTENT_TOO_LARGE'));
             }
 
             $this->setError(Text::_('COM_MODULES_FIELD_CONTENT_TOO_LARGE'));

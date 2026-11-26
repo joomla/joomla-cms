@@ -86,7 +86,7 @@ class ViewLevel extends Table
         // Validate the title.
         if ((trim($this->title)) == '') {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_VIEWLEVEL'));
+                throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_VIEWLEVEL'));
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_VIEWLEVEL'));
@@ -109,7 +109,7 @@ class ViewLevel extends Table
 
         if ($db->loadResult() > 0) {
             if ($this->shouldUseExceptions()) {
-                throw new DuplicateEntryException(Text::sprintf('JLIB_DATABASE_ERROR_USERLEVEL_NAME_EXISTS', $this->title), 'title');
+                throw new DuplicateEntryException($this, Text::sprintf('JLIB_DATABASE_ERROR_USERLEVEL_NAME_EXISTS', $this->title), 'title');
             }
 
             $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_USERLEVEL_NAME_EXISTS', $this->title));

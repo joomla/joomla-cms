@@ -175,7 +175,7 @@ class Category extends Nested implements TaggableTableInterface, CurrentUserInte
         // Check for a title.
         if (trim($this->title) == '') {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));
+                throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));
@@ -282,7 +282,7 @@ class Category extends Nested implements TaggableTableInterface, CurrentUserInte
                     ? Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS_TRASHED')
                     : Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS');
 
-                throw new DuplicateEntryException($message, 'alias');
+                throw new DuplicateEntryException($this, $message, 'alias');
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));

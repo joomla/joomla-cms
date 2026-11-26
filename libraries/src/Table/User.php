@@ -212,7 +212,7 @@ class User extends Table
         // Validate user information
         if ($filterInput->clean($this->name, 'TRIM') == '') {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_YOUR_NAME'));
+                throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_YOUR_NAME'));
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_YOUR_NAME'));
@@ -222,7 +222,7 @@ class User extends Table
 
         if ($filterInput->clean($this->username, 'TRIM') == '') {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_A_USER_NAME'));
+                throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_A_USER_NAME'));
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_A_USER_NAME'));
@@ -235,7 +235,7 @@ class User extends Table
             || $filterInput->clean($this->username, 'TRIM') !== $this->username || StringHelper::strlen($this->username) > 150
         ) {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::sprintf('JLIB_DATABASE_ERROR_VALID_AZ09', 2));
+                throw new ValidationException($this, Text::sprintf('JLIB_DATABASE_ERROR_VALID_AZ09', 2));
             }
 
             $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_VALID_AZ09', 2));
@@ -248,7 +248,7 @@ class User extends Table
             || StringHelper::strlen($this->email) > 100
         ) {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
+                throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
@@ -291,7 +291,7 @@ class User extends Table
 
         if ($xid && $xid != (int) $this->id) {
             if ($this->shouldUseExceptions()) {
-                throw new DuplicateEntryException(Text::_('JLIB_DATABASE_ERROR_USERNAME_INUSE'), 'username');
+                throw new DuplicateEntryException($this, Text::_('JLIB_DATABASE_ERROR_USERNAME_INUSE'), 'username');
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_USERNAME_INUSE'));
@@ -312,7 +312,7 @@ class User extends Table
 
         if ($xid && $xid != (int) $this->id) {
             if ($this->shouldUseExceptions()) {
-                throw new DuplicateEntryException(Text::_('JLIB_DATABASE_ERROR_EMAIL_INUSE'), 'email');
+                throw new DuplicateEntryException($this, Text::_('JLIB_DATABASE_ERROR_EMAIL_INUSE'), 'email');
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_EMAIL_INUSE'));
@@ -338,7 +338,7 @@ class User extends Table
                 || $xid && $xid == (int) $this->id && $rootUser !== $this->username
             ) {
                 if ($this->shouldUseExceptions()) {
-                    throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_USERNAME_CANNOT_CHANGE'));
+                    throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_USERNAME_CANNOT_CHANGE'));
                 }
 
                 $this->setError(Text::_('JLIB_DATABASE_ERROR_USERNAME_CANNOT_CHANGE'));

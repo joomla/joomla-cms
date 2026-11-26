@@ -341,6 +341,7 @@ class Nested extends Table
         // Cannot move the node to be a child of itself.
         if (\in_array($referenceId, $children)) {
             $e = new InvalidHierarchyException(
+                $this,
                 \sprintf('%1$s::moveByReference() is trying to make record ID %2$d a child of itself.', \get_class($this), $pk)
             );
 
@@ -715,7 +716,7 @@ class Nested extends Table
         try {
             // Check that the parent_id field is valid.
             if ($this->parent_id == 0) {
-                throw new InvalidHierarchyException(\sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, \get_class($this)));
+                throw new InvalidHierarchyException($this, \sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, \get_class($this)));
             }
 
             $db    = $this->getDatabase();
@@ -725,7 +726,7 @@ class Nested extends Table
                 ->where($this->_tbl_key . ' = ' . $this->parent_id);
 
             if (!$db->setQuery($query)->loadResult()) {
-                throw new InvalidHierarchyException(\sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, \get_class($this)));
+                throw new InvalidHierarchyException($this, \sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, \get_class($this)));
             }
         } catch (InvalidHierarchyException $e) {
             // Validation error - record it and return false.
@@ -845,7 +846,7 @@ class Nested extends Table
                 $this->rgt       = $repositionData->new_rgt;
             } else {
                 // Negative parent ids are invalid
-                $e = new InvalidHierarchyException(\sprintf('%s::store() used a negative _location_id', \get_class($this)));
+                $e = new InvalidHierarchyException($this, \sprintf('%s::store() used a negative _location_id', \get_class($this)));
 
                 if ($this->shouldUseExceptions()) {
                     throw $e;
@@ -958,7 +959,7 @@ class Nested extends Table
                 $pks = explode(',', $this->$k);
             } else {
                 // Nothing to set publishing state on, return false.
-                $e = new ValidationException(\sprintf('%s::publish(%s, %d, %d) empty.', \get_class($this), implode(',', $pks), $state, $userId));
+                $e = new ValidationException($this, \sprintf('%s::publish(%s, %d, %d) empty.', \get_class($this), implode(',', $pks), $state, $userId));
 
                 if ($this->shouldUseExceptions()) {
                     throw $e;
@@ -1022,6 +1023,7 @@ class Nested extends Table
 
                 if ($db->loadResult()) {
                     $e = new InvalidHierarchyException(
+                        $this,
                         \sprintf('%s::publish(%s, %d, %d) ancestors have lower state.', \get_class($this), $pks[0], $state, $userId)
                     );
 
@@ -1272,7 +1274,7 @@ class Nested extends Table
             }
         }
 
-        $e = new RecordNotFoundException(\sprintf('%s::getRootId', \get_class($this)));
+        $e = new RecordNotFoundException($this, \sprintf('%s::getRootId', \get_class($this)));
 
         if ($this->shouldUseExceptions()) {
             throw $e;
@@ -1613,7 +1615,7 @@ class Nested extends Table
 
         // Check for no $row returned
         if (empty($row)) {
-            $e = new RecordNotFoundException(\sprintf('%s::_getNode(%d, %s) failed.', \get_class($this), $id, $k));
+            $e = new RecordNotFoundException($this, \sprintf('%s::_getNode(%d, %s) failed.', \get_class($this), $id, $k));
 
             if ($this->shouldUseExceptions()) {
                 throw $e;

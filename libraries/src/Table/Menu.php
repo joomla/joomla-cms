@@ -74,7 +74,7 @@ class Menu extends Nested
         // Verify that the default home menu is not unset
         if ($this->home == '1' && $this->language === '*' && $array['home'] == '0') {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT_DEFAULT'));
+                throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT_DEFAULT'));
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT_DEFAULT'));
@@ -85,7 +85,7 @@ class Menu extends Nested
         // Verify that the default home menu set to "all" languages" is not unset
         if ($this->home == '1' && $this->language === '*' && $array['language'] !== '*') {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT'));
+                throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT'));
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT'));
@@ -96,7 +96,7 @@ class Menu extends Nested
         // Verify that the default home menu is not unpublished
         if ($this->home == '1' && $this->language === '*' && $array['published'] != '1') {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
+                throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
@@ -137,7 +137,7 @@ class Menu extends Nested
         // Check for a title.
         if ($this->title === null || trim($this->title) === '') {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MENUITEM'));
+                throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MENUITEM'));
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MENUITEM'));
@@ -166,7 +166,7 @@ class Menu extends Nested
         // Verify that the home item is a component.
         if ($this->home && $this->type !== 'component') {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_COMPONENT'));
+                throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_COMPONENT'));
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_COMPONENT'));
@@ -211,7 +211,7 @@ class Menu extends Nested
             // Verify that a first level menu item alias is not 'component'.
             if ($this->alias === 'component') {
                 if ($this->shouldUseExceptions()) {
-                    throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
+                    throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
                 }
 
                 $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
@@ -222,7 +222,7 @@ class Menu extends Nested
             // Verify that a first level menu item alias is not the name of a folder.
             if (\in_array($this->alias, Folder::folders(JPATH_ROOT))) {
                 if ($this->shouldUseExceptions()) {
-                    throw new ValidationException(Text::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
+                    throw new ValidationException($this, Text::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
                 }
 
                 $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
@@ -287,7 +287,7 @@ class Menu extends Nested
                         ? Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_TRASHED', $this->alias, $table->title, $menuTypeTable->title, $url)
                         : Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title, $url);
 
-                    throw new DuplicateEntryException($message, 'alias');
+                    throw new DuplicateEntryException($this, $message, 'alias');
                 }
 
                 $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title, $url));

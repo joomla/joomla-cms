@@ -127,7 +127,7 @@ class Asset extends Nested
             }
 
             if ($this->shouldUseExceptions()) {
-                throw new InvalidHierarchyException(Text::_('JLIB_DATABASE_ERROR_INVALID_PARENT_ID'));
+                throw new InvalidHierarchyException($this, Text::_('JLIB_DATABASE_ERROR_INVALID_PARENT_ID'));
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_INVALID_PARENT_ID'));

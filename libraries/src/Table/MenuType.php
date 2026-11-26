@@ -72,7 +72,7 @@ class MenuType extends Table implements CurrentUserInterface
 
         if (empty($this->menutype)) {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_MENUTYPE_EMPTY'));
+                throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_MENUTYPE_EMPTY'));
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MENUTYPE_EMPTY'));
@@ -100,7 +100,7 @@ class MenuType extends Table implements CurrentUserInterface
 
         if ($db->loadResult()) {
             if ($this->shouldUseExceptions()) {
-                throw new DuplicateEntryException(Text::sprintf('JLIB_DATABASE_ERROR_MENUTYPE_EXISTS', $this->menutype), 'menutype');
+                throw new DuplicateEntryException($this, Text::sprintf('JLIB_DATABASE_ERROR_MENUTYPE_EXISTS', $this->menutype), 'menutype');
             }
 
             $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENUTYPE_EXISTS', $this->menutype));

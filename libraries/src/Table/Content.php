@@ -205,7 +205,7 @@ class Content extends Table implements TaggableTableInterface, CurrentUserInterf
 
         if (trim($this->title) == '') {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));
+                throw new ValidationException($this, Text::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));
             }
 
             $this->setError(Text::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));
@@ -226,7 +226,7 @@ class Content extends Table implements TaggableTableInterface, CurrentUserInterf
         // Check for a valid category.
         if (!$this->catid = (int) $this->catid) {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
+                throw new ValidationException($this, Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
@@ -374,7 +374,7 @@ class Content extends Table implements TaggableTableInterface, CurrentUserInterf
                     ? Text::_('COM_CONTENT_ERROR_UNIQUE_ALIAS_TRASHED')
                     : Text::_('COM_CONTENT_ERROR_UNIQUE_ALIAS');
 
-                throw new DuplicateEntryException($message, 'alias');
+                throw new DuplicateEntryException($this, $message, 'alias');
             }
 
             $this->setError(Text::_('COM_CONTENT_ERROR_UNIQUE_ALIAS'));

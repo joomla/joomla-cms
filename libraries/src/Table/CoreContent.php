@@ -93,7 +93,7 @@ class CoreContent extends Table implements CurrentUserInterface
 
         if (trim($this->core_title) === '') {
             if ($this->shouldUseExceptions()) {
-                throw new ValidationException(Text::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
+                throw new ValidationException($this, Text::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
             }
 
             $this->setError(Text::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));

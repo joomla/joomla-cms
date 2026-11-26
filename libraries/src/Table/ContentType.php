@@ -90,7 +90,7 @@ class ContentType extends Table
 
         if ($table->load(['type_alias' => $this->type_alias]) && ($table->type_id != $this->type_id || $this->type_id == 0)) {
             if ($this->shouldUseExceptions()) {
-                throw new DuplicateEntryException(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'), 'type_alias');
+                throw new DuplicateEntryException($this, Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'), 'type_alias');
             }
 
             $this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
