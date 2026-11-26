@@ -100,6 +100,9 @@ a {
     @include border-start-radius($border-radius);
     @include border-end-radius(0);
   }
+  > select:not(:last-child) {
+    @include border-end-radius(0);
+  }
   > .btn-group {
     margin-bottom: 0;
   }
