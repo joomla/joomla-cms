@@ -288,7 +288,7 @@
 	/** Method to show the calendar. */
 	JoomlaCalendar.prototype.show = function () {
 		this.checkInputs();
-		this.inputField.focus();
+		this.button.focus();
 		this.dropdownElement.classList.add('open');
 		this.dropdownElement.removeAttribute('hidden');
 		this.hidden = false;
@@ -379,7 +379,12 @@
 		if (typeof el.navtype === "undefined" || el.navtype !== 300) {
 			if (el.navtype === 50) { el._current = el.innerHTML; }
 
-			if (target === el || target.parentNode === el) { self.cellClick(el, ev); }
+			if (target === el || target.parentNode === el) {
+				if (el.caldate && self.params.showsTime) {
+					self.button.focus();
+				}
+				self.cellClick(el, ev);
+			}
 
 			var mon = null;
 			if (typeof el.month !== "undefined") {
@@ -528,8 +533,8 @@
 		var self = this,
 			code = ev.code;
 
-		// Tab from the calendar input moves into the time controls.
-		if (ev.target === this.inputField && (code === 'Enter' || code === 'Tab')) {
+		// Tab from the field or the calendar button moves into the time controls.
+		if ((ev.target === this.inputField || ev.target === this.button) && (code === 'Enter' || code === 'Tab')) {
 			if (code === 'Tab' && !ev.shiftKey && self.params.showsTime) {
 				var hoursEl = this.table.querySelector('.time-hours');
 
@@ -540,39 +545,17 @@
 				}
 			}
 
+			if (code === 'Enter' && ev.target === this.button) {
+				ev.preventDefault();
+			}
 			this.close();
 		}
 
-		// Handle keyboard navigation and focus within the time controls.
-		if (
-			ev.target.matches &&
-			ev.target.matches('.time-hours, .time-minutes')
-		) {
-			// Shift+Tab from Hours returns to the calendar input.
-			if (code === 'Tab' && ev.shiftKey && ev.target.matches('.time-hours')) {
-				ev.preventDefault();
-				this.inputField.focus();
-				return;
-			}
-
-			// Let the time selects handle arrow keys and Tab natively.
-			if (
-				code === 'ArrowUp' ||
-				code === 'ArrowDown' ||
-				code === 'ArrowLeft' ||
-				code === 'ArrowRight' ||
-				code === 'Tab'
-			) {
-				return;
-			}
-		}
-
-		if (self.params.direction === 'rtl') {
-			if (code === 'ArrowLeft') {
-				code = 'ArrowRight';
-			} else if (code === 'ArrowRight') {
-				code = 'ArrowLeft';
-			}
+		// Shift+Tab from Hours returns to day navigation.
+		if (code === 'Tab' && ev.shiftKey && ev.target.matches && ev.target.matches('.time-hours')) {
+			ev.preventDefault();
+			this.button.focus();
+			return;
 		}
 
 		// Select the currently highlighted date.
@@ -591,6 +574,12 @@
 			this.close();
 		}
 
+		// Only the calendar button uses the arrow keys to navigate days.
+		if (ev.target !== this.button || code.indexOf('Arrow') !== 0) {
+			return;
+		}
+
+		ev.preventDefault();
 		if (code === 'ArrowUp') {
 			this.moveCursorBy(7);
 		}
@@ -600,11 +589,11 @@
 		}
 
 		if (code === 'ArrowLeft') {
-			this.moveCursorBy(1);
+			this.moveCursorBy(self.params.direction === 'rtl' ? -1 : 1);
 		}
 
 		if (code === 'ArrowRight') {
-			this.moveCursorBy(-1);
+			this.moveCursorBy(self.params.direction === 'rtl' ? 1 : -1);
 		}
 	};
 
