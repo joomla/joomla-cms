@@ -9,11 +9,23 @@
       "name": "com_workflow.admin-items-workflow-buttons",
       "type": "script",
       "uri": "com_workflow/admin-items-workflow-buttons.min.js",
-      "dependencies": [
-        "core"
-      ],
+      "dependencies": ["core"],
       "attributes": {
         "type": "module"
+      }
+    },
+    {
+      "name": "com_workflow.condition-builder",
+      "type": "style",
+      "uri": "com_workflow/condition-builder.css"
+    },
+    {
+      "name": "com_workflow.condition-builder",
+      "type": "script",
+      "uri": "com_workflow/condition-builder.js",
+      "dependencies": ["core", "joomla.dialog"],
+      "attributes": {
+        "defer": true
       }
     },
     {
@@ -25,15 +37,13 @@
       "name": "com_workflow.workflowgraph",
       "type": "script",
       "uri": "com_workflow/workflow-graph.min.js",
-      "dependencies": [
-        "core"
-      ],
+      "dependencies": ["core"],
       "attributes": {
         "type": "module"
       }
     },
     {
-      "name" : "com_workflow.workflowgraphclient",
+      "name": "com_workflow.workflowgraphclient",
       "type": "style",
       "uri": "com_workflow/workflow-graph-client.min.css"
     },
@@ -41,9 +51,7 @@
       "name": "com_workflow.workflowgraphclient",
       "type": "script",
       "uri": "com_workflow/workflow-graph-client.min.js",
-      "dependencies": [
-        "core"
-      ],
+      "dependencies": ["core"],
       "attributes": {
         "type": "module"
       }

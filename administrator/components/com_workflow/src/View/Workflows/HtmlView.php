@@ -13,6 +13,7 @@ namespace Joomla\Component\Workflow\Administrator\View\Workflows;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Workflow\Administrator\Model\WorkflowsModel;
@@ -150,6 +151,29 @@ class HtmlView extends BaseHtmlView
 
         if ($canDo->get('core.create')) {
             $toolbar->addNew('workflow.add');
+        }
+
+        // core.admin only, because these views expose failure details.
+        if ($canDo->get('core.admin')) {
+            $extension = $this->extension . ($this->section ? '.' . $this->section : '');
+
+            /** @var DropdownButton $automations */
+            $automations = $toolbar->dropdownButton('automation-group', 'COM_WORKFLOW_AUTOMATIONS_TOOLBAR')
+                ->toggleSplit(false)
+                ->icon('icon-cogs')
+                ->buttonClass('btn btn-action');
+
+            $automationBar = $automations->getChildToolbar();
+
+            $automationBar->link(
+                'COM_WORKFLOW_UPCOMING_LIST',
+                Route::_('index.php?option=com_workflow&view=upcoming&extension=' . $extension)
+            )->icon('icon-clock');
+
+            $automationBar->link(
+                'COM_WORKFLOW_LOGS_LIST',
+                Route::_('index.php?option=com_workflow&view=logs&extension=' . $extension)
+            )->icon('icon-list');
         }
 
         if ($canDo->get('core.edit.state') || $user->authorise('core.admin')) {

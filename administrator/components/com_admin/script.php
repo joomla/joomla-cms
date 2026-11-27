@@ -16,6 +16,7 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Asset;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
@@ -148,6 +149,13 @@ class JoomlaInstallerScript
             $this->collectError('Further update', $e);
         }
 
+        // Separate try/catch so a missing task cannot stop the cache being cleaned below.
+        try {
+            $this->createWorkflowAutomationTask();
+        } catch (\Throwable $e) {
+            $this->collectError('createWorkflowAutomationTask', $e);
+        }
+
         // Clean cache
         try {
             $this->cleanJoomlaCache();
@@ -205,6 +213,72 @@ class JoomlaInstallerScript
             $this->collectError(__METHOD__, $e);
 
             return;
+        }
+    }
+
+    /**
+     * Creates the workflow automation scheduler task on a site that does not have one.
+     *
+     * @return void
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    protected function createWorkflowAutomationTask()
+    {
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
+
+        // No state filter, so a task the administrator disabled is not recreated.
+        $existing = $db->setQuery(
+            $db->createQuery()
+                ->select($db->quoteName('id'))
+                ->from($db->quoteName('#__scheduler_tasks'))
+                ->where($db->quoteName('type') . ' = ' . $db->quote('workflow.automation'))
+        )->loadResult();
+
+        if ($existing) {
+            return;
+        }
+
+        // Booted rather than imported directly: during an update the autoloader map can still
+        // predate the changed files.
+        /** @var \Joomla\Component\Scheduler\Administrator\Table\TaskTable $task */
+        $task = Factory::getApplication()->bootComponent('com_scheduler')
+            ->getMVCFactory()
+            ->createTable('Task', 'Administrator');
+
+        $now = Factory::getDate();
+
+        $task->bind([
+            'title' => 'Workflow Automation',
+            'type'  => 'workflow.automation',
+
+            // Every 15 minutes, because this ships to every site, including those with no workflows.
+            // The first run waits a day so a brand new site is not doing this before anyone has
+            // built a workflow. Saving or test running the task brings it forward.
+            'execution_rules' => json_encode([
+                'rule-type'        => 'interval-minutes',
+                'interval-minutes' => 15,
+                'exec-day'         => $now->format('d'),
+                'exec-time'        => $now->format('H:i'),
+            ]),
+            'cron_rules'     => json_encode(['type' => 'interval', 'exp' => 'PT15M']),
+            'state'          => 1,
+            'next_execution' => Factory::getDate('+24 hours')->toSql(),
+
+            'params' => json_encode([
+                'individual_log' => false,
+                'log_file'       => '',
+                'notifications'  => [
+                    'success_mail'       => '0',
+                    'failure_mail'       => '1',
+                    'fatal_failure_mail' => '1',
+                    'orphan_mail'        => '1',
+                ],
+            ]),
+        ]);
+
+        if (!$task->check() || !$task->store()) {
+            $this->collectError(__METHOD__, new \RuntimeException('The workflow automation task could not be stored.'));
         }
     }
 
