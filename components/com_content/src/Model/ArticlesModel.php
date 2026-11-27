@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -210,8 +211,10 @@ class ArticlesModel extends ListModel
                     $db->quoteName('a.id'),
                     $db->quoteName('a.title'),
                     $db->quoteName('a.alias'),
-                    $db->quoteName('a.introtext'),
-                    $db->quoteName('a.fulltext'),
+                    // Large columns (introtext, fulltext, images, urls, attribs, metadata, metakey, metadesc)
+                    // and readmore (LENGTH(fulltext)) are not selected here: carrying them through the sort
+                    // forces the database to build on-disk temporary tables on large sites.
+                    // They are loaded for the current page only in getItems() via loadHeavyFields().
                     $db->quoteName('a.checked_out'),
                     $db->quoteName('a.checked_out_time'),
                     $db->quoteName('a.catid'),
@@ -224,17 +227,10 @@ class ArticlesModel extends ListModel
                     'CASE WHEN ' . $db->quoteName('a.publish_up') . ' IS NULL THEN ' . $db->quoteName('a.created')
                         . ' ELSE ' . $db->quoteName('a.publish_up') . ' END AS ' . $db->quoteName('publish_up'),
                     $db->quoteName('a.publish_down'),
-                    $db->quoteName('a.images'),
-                    $db->quoteName('a.urls'),
-                    $db->quoteName('a.attribs'),
-                    $db->quoteName('a.metadata'),
-                    $db->quoteName('a.metakey'),
-                    $db->quoteName('a.metadesc'),
                     $db->quoteName('a.access'),
                     $db->quoteName('a.hits'),
                     $db->quoteName('a.featured'),
                     $db->quoteName('a.language'),
-                    $query->length($db->quoteName('a.fulltext')) . ' AS ' . $db->quoteName('readmore'),
                     $db->quoteName('a.ordering'),
                 ]
             )
@@ -673,6 +669,13 @@ class ArticlesModel extends ListModel
     {
         $items  = parent::getItems();
 
+        if ($items === false) {
+            return false;
+        }
+
+        // Load the large columns for the current page only (attribs is needed below).
+        $this->loadHeavyFields($items);
+
         $user   = $this->getCurrentUser();
         $userId = $user->id;
         $guest  = $user->guest;
@@ -813,6 +816,63 @@ class ArticlesModel extends ListModel
         }
 
         return $items;
+    }
+
+    /**
+     * Load introtext, fulltext, images, urls, attribs, metadata, metakey, metadesc and readmore
+     * for the given items by primary key (no sort, no temporary table).
+     *
+     * @param   array  $items  The items of the current page.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function loadHeavyFields(array $items)
+    {
+        // A caller that set its own columns (list.select) gets exactly what it asked for.
+        if (!$items || $this->getState('list.select')) {
+            return;
+        }
+
+        $fields = ['introtext', 'fulltext', 'images', 'urls', 'attribs', 'metadata', 'metakey', 'metadesc'];
+        $byId   = [];
+
+        foreach ($items as $item) {
+            // Already loaded (getItems() can run several times on the same cached objects).
+            if (!property_exists($item, 'attribs')) {
+                $byId[(int) $item->id] = $item;
+            }
+        }
+
+        if (!$byId) {
+            return;
+        }
+
+        $db = $this->getDatabase();
+
+        try {
+            foreach (array_chunk(array_keys($byId), 200) as $ids) {
+                $query = $db->createQuery();
+                $query->select($db->quoteName(array_merge(['id'], $fields)))
+                    ->select($query->length($db->quoteName('fulltext')) . ' AS ' . $db->quoteName('readmore'))
+                    ->from($db->quoteName('#__content'))
+                    ->whereIn($db->quoteName('id'), $ids);
+
+                foreach ($db->setQuery($query)->loadObjectList() as $row) {
+                    $item = $byId[(int) $row->id];
+
+                    foreach ($fields as $field) {
+                        $item->$field = $row->$field;
+                    }
+
+                    $item->readmore = $row->readmore;
+                }
+            }
+        } catch (\RuntimeException $e) {
+            // Keep the page usable even if this secondary query fails.
+            Log::add($e->getMessage(), Log::WARNING, 'jerror');
+        }
     }
 
     /**
