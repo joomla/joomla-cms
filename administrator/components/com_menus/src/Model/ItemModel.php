@@ -538,11 +538,15 @@ class ItemModel extends AdminModel
             // Disable fields for display.
             $form->setFieldAttribute('menuordering', 'disabled', 'true');
             $form->setFieldAttribute('published', 'disabled', 'true');
+            $form->setFieldAttribute('publish_up', 'disabled', 'true');
+            $form->setFieldAttribute('publish_down', 'disabled', 'true');
 
             // Disable fields while saving.
             // The controller has already verified this is an article you can edit.
             $form->setFieldAttribute('menuordering', 'filter', 'unset');
             $form->setFieldAttribute('published', 'filter', 'unset');
+            $form->setFieldAttribute('publish_up', 'filter', 'unset');
+            $form->setFieldAttribute('publish_down', 'filter', 'unset');
         }
 
         // Filter available menus

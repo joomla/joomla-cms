@@ -143,22 +143,13 @@ class StageModel extends AdminModel
      */
     protected function canDelete($record)
     {
-        $table = $this->getTable('Workflow', 'Administrator');
-
-        $table->load($record->workflow_id);
-
         if (empty($record->id) || $record->published != -2) {
             return false;
         }
 
-        $app       = Factory::getApplication();
-        $extension = $app->getUserStateFromRequest('com_workflow.stage.filter.extension', 'extension', null, 'cmd');
+        $assetName = $this->getStageAssetName((int) $record->id);
 
-        $parts = explode('.', $extension);
-
-        $component = reset($parts);
-
-        if (!$this->getCurrentUser()->authorise('core.delete', $component . '.state.' . (int) $record->id) || $record->default) {
+        if ($assetName === '' || !$this->getCurrentUser()->authorise('core.delete', $assetName) || $record->default) {
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
             return false;
@@ -188,13 +179,39 @@ class StageModel extends AdminModel
             $record->workflow_id = $workflowID;
         }
 
-        // Check for existing workflow.
+        // Check for existing stage.
         if (!empty($record->id)) {
-            return $user->authorise('core.edit.state', $extension . '.state.' . (int) $record->id);
+            $assetName = $this->getStageAssetName((int) $record->id);
+
+            return $assetName !== '' && $user->authorise('core.edit.state', $assetName);
         }
 
         // Default to component settings if workflow isn't known.
         return $user->authorise('core.edit.state', $extension);
+    }
+
+    /**
+     * Get the asset name of an existing stage, built like StageTable::_getAssetName() from the
+     * component of the workflow the stage belongs to (not from the request).
+     *
+     * @param   integer  $stageId  The stage id.
+     *
+     * @return  string  The asset name, or an empty string if the stage or its workflow does not exist.
+     *
+     * @since   6.2.1
+     */
+    private function getStageAssetName(int $stageId): string
+    {
+        $stage    = $this->getTable();
+        $workflow = $this->getTable('Workflow', 'Administrator');
+
+        if (!$stageId || !$stage->load($stageId) || !$workflow->load((int) $stage->workflow_id)) {
+            return '';
+        }
+
+        $parts = explode('.', (string) $workflow->extension);
+
+        return array_shift($parts) . '.stage.' . $stageId;
     }
 
     /**

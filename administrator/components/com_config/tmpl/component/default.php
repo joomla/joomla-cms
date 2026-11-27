@@ -69,7 +69,7 @@ $xml = $this->form->getXml();
                     <?php $dataShowOn = ''; ?>
                     <?php if (!empty($fieldSet->showon)) : ?>
                         <?php $wa->useScript('showon'); ?>
-                        <?php $dataShowOn = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($fieldSet->showon, $this->formControl)) . '\''; ?>
+                        <?php $dataShowOn = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($fieldSet->showon, $this->formControl), JSON_HEX_APOS | JSON_HEX_AMP) . '\''; ?>
                     <?php endif; ?>
 
                     <?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>

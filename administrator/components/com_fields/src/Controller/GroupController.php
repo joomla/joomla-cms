@@ -92,6 +92,32 @@ class GroupController extends FormController
     }
 
     /**
+     * Method override to check if you can save a record.
+     *
+     * The field group must belong to the component of the request context, a posted context must not
+     * create or move the field group into another component.
+     *
+     * @param   array   $data  An array of input data.
+     * @param   string  $key   The name of the key for the primary key.
+     *
+     * @return  boolean
+     *
+     * @since   6.2.1
+     */
+    protected function allowSave($data, $key = 'id')
+    {
+        if (\array_key_exists('context', $data)) {
+            $context = \is_string($data['context']) ? $data['context'] : '';
+
+            if (explode('.', $context)[0] !== $this->component) {
+                return false;
+            }
+        }
+
+        return parent::allowSave($data, $key);
+    }
+
+    /**
      * Method override to check if you can add a new record.
      *
      * @param   array  $data  An array of input data.

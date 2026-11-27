@@ -381,7 +381,13 @@ class AdministratorApplication extends CMSApplication
         $rootUser = $this->get('root_user');
 
         if (property_exists('\JConfig', 'root_user')) {
-            if ($this->getIdentity()->username === $rootUser || $this->getIdentity()->id === (string) $rootUser) {
+            // The root_user variable is a user ID (integer) or a username (string)
+            $identity = $this->getIdentity();
+
+            if (
+                (\is_int($rootUser) && $identity->id > 0 && $identity->id === $rootUser)
+                || (\is_string($rootUser) && $identity->username === $rootUser)
+            ) {
                 $this->enqueueMessage(
                     Text::sprintf(
                         'JWARNING_REMOVE_ROOT_USER',

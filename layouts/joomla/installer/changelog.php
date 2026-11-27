@@ -8,13 +8,26 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 
 defined('_JEXEC') or die;
 
+/*
+ * The items of a changelog come from a remote server and may contain HTML (see the documentation of the
+ * changelog file). Only a small set of formatting tags and the href and title attributes is kept, everything
+ * else (e.g. data-* attributes, event handlers, buttons, images, forms) is removed.
+ */
+$changelogFilter = InputFilter::getInstance(
+    ['a', 'b', 'strong', 'i', 'em', 'u', 'code', 'pre', 'br', 'p', 'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'span', 'small', 'sub', 'sup', 'blockquote'],
+    ['href', 'title'],
+    InputFilter::ONLY_ALLOW_DEFINED_TAGS,
+    InputFilter::ONLY_ALLOW_DEFINED_ATTRIBUTES
+);
+
 array_walk(
     $displayData,
-    function ($items, $changeType) {
+    function ($items, $changeType) use ($changelogFilter) {
         // If there are no items, continue
         if (empty($items)) {
             return;
@@ -53,7 +66,7 @@ array_walk(
                 </div>
                 <div class="changelog__list">
                     <ul>
-                        <li><?php echo implode('</li><li>', $items); ?></li>
+                        <li><?php echo implode('</li><li>', array_map(static fn ($item) => $changelogFilter->clean($item, 'html'), $items)); ?></li>
                     </ul>
                 </div>
             </div>

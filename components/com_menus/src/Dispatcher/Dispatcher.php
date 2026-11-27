@@ -48,9 +48,20 @@ class Dispatcher extends ComponentDispatcher
     {
         parent::checkAccess();
 
+        // The site only exposes the modal item selector (display). Any other task would be resolved
+        // against the administrator controllers, which are protected by the administrator-client
+        // core.manage check that does not apply to this request.
+        $task = $this->input->getCmd('task', 'display');
+
+        // The administrator main menu is a special menu type which the items model lists without a
+        // per menu core.manage check. It is not meant to be listed on the site.
+        $menuType = $this->input->get('menutype', '');
+
         if (
             $this->input->get('view') !== 'items'
             || $this->input->get('layout') !== 'modal'
+            || !\in_array($task, ['', 'display'], true)
+            || (\is_string($menuType) && strcasecmp(trim($menuType), 'main') === 0)
             || !$this->app->getIdentity()->authorise('core.create', 'com_menus')
         ) {
             throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
