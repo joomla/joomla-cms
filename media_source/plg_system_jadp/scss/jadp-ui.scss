@@ -5,7 +5,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
- :host {
+:host {
   all: initial;
   font-family: system-ui, sans-serif;
   font-size: 16px;
@@ -21,8 +21,8 @@
 
 .jadp-trigger {
   position: fixed;
-  left: max(1rem, env(safe-area-inset-left));
   bottom: max(1rem, env(safe-area-inset-bottom));
+  left: max(1rem, env(safe-area-inset-left));
   z-index: 2147483000;
   box-sizing: border-box;
   display: grid;
@@ -63,24 +63,24 @@
 }
 
 .jadp-trigger-icon {
-    display: block;
-    inline-size: 1.8rem;
-    block-size: 1.8rem;
-    fill: currentColor;
+  display: block;
+  inline-size: 1.8rem;
+  block-size: 1.8rem;
+  fill: currentColor;
 }
 
 .jadp-trigger-icon.is-open {
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 24;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 24;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .jadp-panel {
   position: fixed;
-  left: max(1rem, env(safe-area-inset-left));
   bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 3.75rem);
+  left: max(1rem, env(safe-area-inset-left));
   z-index: 2147483001;
   inline-size: min(22rem, calc(100% - 2rem));
   container-type: inline-size;
@@ -335,8 +335,8 @@
 
 @media (max-width: 24rem) {
   .jadp-panel {
-    left: max(.5rem, env(safe-area-inset-left));
     bottom: calc(max(.5rem, env(safe-area-inset-bottom)) + 3.5rem);
+    left: max(.5rem, env(safe-area-inset-left));
     inline-size: calc(100% - 1rem);
   }
 
@@ -352,7 +352,7 @@
   }
 
   .jadp-trigger {
-    left: max(.5rem, env(safe-area-inset-left));
     bottom: max(.5rem, env(safe-area-inset-bottom));
+    left: max(.5rem, env(safe-area-inset-left));
   }
 }
