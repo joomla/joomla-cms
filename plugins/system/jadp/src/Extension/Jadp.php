@@ -54,7 +54,7 @@ final class JADP extends CMSPlugin implements SubscriberInterface
     public function onBeforeCompileHead(BeforeCompileHeadEvent $event): void
     {
         $application = $event->getApplication();
-        $document = $event->getDocument();
+        $document    = $event->getDocument();
 
         if (!$document instanceof HtmlDocument) {
             return;
@@ -80,38 +80,38 @@ final class JADP extends CMSPlugin implements SubscriberInterface
                 $wa->useScript('plg.system.jadp.engine');
             } else {
                 $document->addScriptOptions('plg_system_jadp', [
-                    'css' => $wa->getAsset('style', 'plg.system.jadp.ui')->getUri() . '?' . $document->getMediaVersion(),
+                    'css'             => $wa->getAsset('style', 'plg.system.jadp.ui')->getUri() . '?' . $document->getMediaVersion(),
                     'triggerPosition' => $this->params->get('trigger_position', 'bottom-left'),
-                    'triggerIcon' => [
-                        'type' => $this->params->get('trigger_icon_type', 'default'),
+                    'triggerIcon'     => [
+                        'type'  => $this->params->get('trigger_icon_type', 'default'),
                         'class' => trim((string) $this->params->get('trigger_icon_class', '')),
-                        'css' => trim((string) $this->params->get('trigger_icon_css', '')),
+                        'css'   => trim((string) $this->params->get('trigger_icon_css', '')),
                         'image' => $this->getTriggerIconImage(),
                     ],
                     'labels' => [
-                        'open' => Text::_('PLG_SYSTEM_JADP_OPEN'),
-                        'skipOpen' => Text::_('PLG_SYSTEM_JADP_SKIP_OPEN'),
-                        'close' => Text::_('PLG_SYSTEM_JADP_CLOSE'),
-                        'title' => Text::_('PLG_SYSTEM_JADP_TITLE'),
-                        'textSize' => Text::_('PLG_SYSTEM_JADP_TEXT_SIZE'),
-                        'lineSpacing' => Text::_('PLG_SYSTEM_JADP_LINE_SPACING'),
-                        'letterSpacing' => Text::_('PLG_SYSTEM_JADP_LETTER_SPACING'),
-                        'wordSpacing' => Text::_('PLG_SYSTEM_JADP_WORD_SPACING'),
-                        'contrast' => Text::_('PLG_SYSTEM_JADP_CONTRAST'),
-                        'normalContrast' => Text::_('PLG_SYSTEM_JADP_NORMAL_CONTRAST'),
-                        'highContrast' => Text::_('PLG_SYSTEM_JADP_HIGH_CONTRAST'),
-                        'colourMode' => Text::_('PLG_SYSTEM_JADP_COLOUR_MODE'),
-                        'normalColour' => Text::_('PLG_SYSTEM_JADP_NORMAL_COLOUR'),
-                        'monochrome' => Text::_('PLG_SYSTEM_JADP_MONOCHROME'),
-                        'underlineLinks' => Text::_('PLG_SYSTEM_JADP_UNDERLINE_LINKS'),
+                        'open'            => Text::_('PLG_SYSTEM_JADP_OPEN'),
+                        'skipOpen'        => Text::_('PLG_SYSTEM_JADP_SKIP_OPEN'),
+                        'close'           => Text::_('PLG_SYSTEM_JADP_CLOSE'),
+                        'title'           => Text::_('PLG_SYSTEM_JADP_TITLE'),
+                        'textSize'        => Text::_('PLG_SYSTEM_JADP_TEXT_SIZE'),
+                        'lineSpacing'     => Text::_('PLG_SYSTEM_JADP_LINE_SPACING'),
+                        'letterSpacing'   => Text::_('PLG_SYSTEM_JADP_LETTER_SPACING'),
+                        'wordSpacing'     => Text::_('PLG_SYSTEM_JADP_WORD_SPACING'),
+                        'contrast'        => Text::_('PLG_SYSTEM_JADP_CONTRAST'),
+                        'normalContrast'  => Text::_('PLG_SYSTEM_JADP_NORMAL_CONTRAST'),
+                        'highContrast'    => Text::_('PLG_SYSTEM_JADP_HIGH_CONTRAST'),
+                        'colourMode'      => Text::_('PLG_SYSTEM_JADP_COLOUR_MODE'),
+                        'normalColour'    => Text::_('PLG_SYSTEM_JADP_NORMAL_COLOUR'),
+                        'monochrome'      => Text::_('PLG_SYSTEM_JADP_MONOCHROME'),
+                        'underlineLinks'  => Text::_('PLG_SYSTEM_JADP_UNDERLINE_LINKS'),
                         'normalLinkStyle' => Text::_('PLG_SYSTEM_JADP_NORMAL_LINK_STYLE'),
-                        'underline' => Text::_('PLG_SYSTEM_JADP_UNDERLINE'),
-                        'normal' => Text::_('PLG_SYSTEM_JADP_NORMAL'),
-                        'increased' => Text::_('PLG_SYSTEM_JADP_INCREASED'),
-                        'maximum' => Text::_('PLG_SYSTEM_JADP_MAXIMUM'),
-                        'large' => Text::_('PLG_SYSTEM_JADP_LARGE'),
-                        'extraLarge' => Text::_('PLG_SYSTEM_JADP_EXTRA_LARGE'),
-                        'reset' => Text::_('PLG_SYSTEM_JADP_RESET'),
+                        'underline'       => Text::_('PLG_SYSTEM_JADP_UNDERLINE'),
+                        'normal'          => Text::_('PLG_SYSTEM_JADP_NORMAL'),
+                        'increased'       => Text::_('PLG_SYSTEM_JADP_INCREASED'),
+                        'maximum'         => Text::_('PLG_SYSTEM_JADP_MAXIMUM'),
+                        'large'           => Text::_('PLG_SYSTEM_JADP_LARGE'),
+                        'extraLarge'      => Text::_('PLG_SYSTEM_JADP_EXTRA_LARGE'),
+                        'reset'           => Text::_('PLG_SYSTEM_JADP_RESET'),
                     ],
                 ]);
 
@@ -166,7 +166,7 @@ final class JADP extends CMSPlugin implements SubscriberInterface
      */
     private function isEnabledForClient(string $parameter, string $default): bool
     {
-        $enabledFor = (string) $this->params->get($parameter, $default);
+        $enabledFor  = (string) $this->params->get($parameter, $default);
         $application = $this->getApplication();
 
         return $enabledFor === 'both'
