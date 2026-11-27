@@ -315,8 +315,20 @@ class TemplateModel extends AdminModel
                 $isNew = false;
             }
 
+            // Remember the params of the existing row, e.g. to keep a stored SMTP password
+            $existingParams = new Registry($table->params);
+
             // Load the default row
             $table->load(['template_id' => $template_id, 'language' => '']);
+
+            // Keep the stored SMTP password when the locked password field was not submitted
+            if (
+                isset($data['params']) && \is_array($data['params'])
+                && !\array_key_exists('smtppass', $data['params'])
+                && $existingParams->get('smtppass') !== null
+            ) {
+                $data['params']['smtppass'] = $existingParams->get('smtppass');
+            }
 
             // Bind the data.
             if (!$table->bind($data)) {
