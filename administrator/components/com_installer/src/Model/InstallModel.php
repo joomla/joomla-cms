@@ -206,7 +206,11 @@ class InstallModel extends BaseDatabaseModel
                 InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
             }
 
-            $app->enqueueMessage(Text::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'), 'error');
+            if (isset($package['diskfull']) && $package['diskfull'] === true) {
+                $app->enqueueMessage(Text::_('JLIB_INSTALLER_ABORT_DISK_FULL'), 'error');
+            } else {
+                $app->enqueueMessage(Text::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'), 'error');
+            }
 
             return false;
         }
@@ -423,11 +427,19 @@ class InstallModel extends BaseDatabaseModel
 
             unset($update);
         }
+        try {
+            // Download the package at the URL given.
+            $p_file = InstallerHelper::downloadPackage($url);
+        } catch (\RuntimeException $exception) {
+            // Was the package downloaded?
+            Factory::getApplication()->enqueueMessage(
+                $exception->getMessage(),
+                'error'
+            );
 
-        // Download the package at the URL given.
-        $p_file = InstallerHelper::downloadPackage($url);
+            return false;
+        }
 
-        // Was the package downloaded?
         if (!$p_file) {
             Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'error');
 

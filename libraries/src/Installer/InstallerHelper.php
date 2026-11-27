@@ -67,6 +67,7 @@ abstract class InstallerHelper
      * @return  string|boolean  Path to downloaded package or boolean false on failure
      *
      * @since   3.1
+     * @throws  \RuntimeException
      */
     public static function downloadPackage($url, $target = false)
     {
@@ -133,7 +134,13 @@ abstract class InstallerHelper
         $body = (string) $response->getBody();
 
         // Write buffer to file
-        File::write($target, $body);
+        $res = File::write($target, $body);
+
+        if (!$res) {
+            Log::add(Text::_('JLIB_INSTALLER_ABORT_DISK_FULL'), Log::WARNING, 'jerror');
+
+            throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_DISK_FULL'));
+        }
 
         // Bump the max execution time because not using built in php zip libs are slow
         if (\function_exists('set_time_limit')) {
@@ -171,12 +178,14 @@ abstract class InstallerHelper
         try {
             $archive = new Archive(['tmp_path' => Factory::getApplication()->get('tmp_path')]);
             $extract = $archive->extract($archivename, $extractdir);
-        } catch (\Exception) {
+        } catch (\Exception $exception) {
+            $msg = $exception->getMessage();
             if ($alwaysReturnArray) {
                 return [
                     'extractdir'  => null,
                     'packagefile' => $archivename,
                     'type'        => false,
+                    'diskfull'    => (strpos($msg, 'Unable to write') !== false || strpos($msg, 'Unable to create') !== false),
                 ];
             }
 
