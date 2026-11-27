@@ -233,13 +233,11 @@ class ArticlesModel extends ListModel
                     $db->quoteName('a.hits'),
                     $db->quoteName('a.publish_up'),
                     $db->quoteName('a.publish_down'),
-                    $db->quoteName('a.introtext'),
-                    $db->quoteName('a.fulltext'),
+                    // Large TEXT columns (introtext, fulltext, images, metakey, metadesc, metadata) are not
+                    // selected here: carrying them through the sort forces the database to build on-disk
+                    // temporary tables on large sites. They are loaded for the current page only
+                    // in getItems() via loadHeavyFields().
                     $db->quoteName('a.note'),
-                    $db->quoteName('a.images'),
-                    $db->quoteName('a.metakey'),
-                    $db->quoteName('a.metadesc'),
-                    $db->quoteName('a.metadata'),
                     $db->quoteName('a.version'),
                 ]
             )
@@ -792,15 +790,74 @@ class ArticlesModel extends ListModel
     {
         $items = parent::getItems();
 
+        if ($items === false) {
+            return false;
+        }
+
+        // Load the large columns for the current page only.
+        $this->loadHeavyFields($items);
+
         foreach ($items as $item) {
             $item->typeAlias = 'com_content.article';
 
-            if (isset($item->metadata)) {
+            if (isset($item->metadata) && !\is_array($item->metadata)) {
                 $registry       = new Registry($item->metadata);
                 $item->metadata = $registry->toArray();
             }
         }
 
         return $items;
+    }
+
+    /**
+     * Load introtext, fulltext, images, metakey, metadesc and metadata for the given items
+     * by primary key (no sort, no temporary table).
+     *
+     * @param   array  $items  The items of the current page.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function loadHeavyFields(array $items)
+    {
+        // A caller that set its own columns (list.select) gets exactly what it asked for.
+        if (!$items || $this->getState('list.select')) {
+            return;
+        }
+
+        $fields = ['introtext', 'fulltext', 'images', 'metakey', 'metadesc', 'metadata'];
+        $byId   = [];
+
+        foreach ($items as $item) {
+            // Already loaded (getItems() can run several times on the same cached objects).
+            if (!property_exists($item, 'introtext')) {
+                $byId[(int) $item->id] = $item;
+            }
+        }
+
+        if (!$byId) {
+            return;
+        }
+
+        $db = $this->getDatabase();
+
+        try {
+            foreach (array_chunk(array_keys($byId), 200) as $ids) {
+                $query = $db->createQuery()
+                    ->select($db->quoteName(array_merge(['id'], $fields)))
+                    ->from($db->quoteName('#__content'))
+                    ->whereIn($db->quoteName('id'), $ids);
+
+                foreach ($db->setQuery($query)->loadObjectList() as $row) {
+                    foreach ($fields as $field) {
+                        $byId[(int) $row->id]->$field = $row->$field;
+                    }
+                }
+            }
+        } catch (\RuntimeException $e) {
+            // Keep the list usable even if this secondary query fails.
+            Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
+        }
     }
 }
