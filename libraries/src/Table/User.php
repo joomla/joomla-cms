@@ -293,7 +293,8 @@ class User extends Table
         // Check for root_user != username
         $rootUser = Factory::getApplication()->get('root_user');
 
-        if (!is_numeric($rootUser)) {
+        // An integer root_user is a user ID, there is no username to protect
+        if (\is_string($rootUser)) {
             $query->clear()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__users'))
@@ -303,8 +304,8 @@ class User extends Table
             $xid = (int) $db->loadResult();
 
             if (
-                $rootUser == $this->username && (!$xid || $xid && $xid != (int) $this->id)
-                || $xid && $xid == (int) $this->id && $rootUser != $this->username
+                $rootUser === $this->username && (!$xid || $xid && $xid != (int) $this->id)
+                || $xid && $xid == (int) $this->id && $rootUser !== $this->username
             ) {
                 $this->setError(Text::_('JLIB_DATABASE_ERROR_USERNAME_CANNOT_CHANGE'));
 

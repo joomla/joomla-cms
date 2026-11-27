@@ -78,6 +78,24 @@ class RequestsPluginTest extends UnitTestCase
     }
 
     /**
+     * Asserts that the response was saved exactly once, as a .txt file with a random part in the name
+     *
+     * @param   string  $expected  The expected content of the file
+     *
+     * @return  void
+     *
+     * @since   6.2.1
+     */
+    private function assertResponseFileEquals(string $expected): void
+    {
+        $files = glob($this->tmpFolder . '/task_1_response*') ?: [];
+
+        $this->assertCount(1, $files);
+        $this->assertMatchesRegularExpression('/^task_1_response_[0-9a-f]{32}\\.txt$/', basename($files[0]));
+        $this->assertStringEqualsFile($files[0], $expected);
+    }
+
+    /**
      * @return  void
      *
      * @since   4.2.0
@@ -132,7 +150,7 @@ class RequestsPluginTest extends UnitTestCase
         $this->assertSame(Status::OK, $event->getResultSnapshot()['status']);
         $this->assertStringContainsString('SAVED', $event->getResultSnapshot()['output']);
         $this->assertSame('http://example.com', $transport->url);
-        $this->assertStringEqualsFile($this->tmpFolder . '/task_1_response.html', 'test');
+        $this->assertResponseFileEquals('test');
     }
 
     /**
@@ -190,7 +208,7 @@ class RequestsPluginTest extends UnitTestCase
         $this->assertSame(Status::KNOCKOUT, $event->getResultSnapshot()['status']);
         $this->assertStringContainsString('SAVED', $event->getResultSnapshot()['output']);
         $this->assertSame('http://example.com', $transport->url);
-        $this->assertStringEqualsFile($this->tmpFolder . '/task_1_response.html', 'test');
+        $this->assertResponseFileEquals('test');
     }
 
     /**

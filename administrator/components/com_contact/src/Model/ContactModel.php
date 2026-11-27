@@ -180,12 +180,16 @@ class ContactModel extends AdminModel implements VersionableModelInterface
             $form->setFieldAttribute('featured', 'disabled', 'true');
             $form->setFieldAttribute('ordering', 'disabled', 'true');
             $form->setFieldAttribute('published', 'disabled', 'true');
+            $form->setFieldAttribute('publish_up', 'disabled', 'true');
+            $form->setFieldAttribute('publish_down', 'disabled', 'true');
 
             // Disable fields while saving.
             // The controller has already verified this is a record you can edit.
             $form->setFieldAttribute('featured', 'filter', 'unset');
             $form->setFieldAttribute('ordering', 'filter', 'unset');
             $form->setFieldAttribute('published', 'filter', 'unset');
+            $form->setFieldAttribute('publish_up', 'filter', 'unset');
+            $form->setFieldAttribute('publish_down', 'filter', 'unset');
         }
 
         // Don't allow to change the created_by user if not allowed to access com_users.
@@ -353,8 +357,6 @@ class ContactModel extends AdminModel implements VersionableModelInterface
     protected function prepareTable($table)
     {
         $date = Factory::getDate()->toSql();
-
-        $table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
 
         $table->generateAlias();
 

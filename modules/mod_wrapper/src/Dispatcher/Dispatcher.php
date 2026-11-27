@@ -45,7 +45,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
         $data['target']      = htmlspecialchars($params->get('target', ''), ENT_COMPAT, 'UTF-8');
         $data['width']       = htmlspecialchars($params->get('width', ''), ENT_COMPAT, 'UTF-8');
         $data['height']      = htmlspecialchars($params->get('height', ''), ENT_COMPAT, 'UTF-8');
-        $data['ititle']      = $this->module->title;
+        $data['ititle']      = htmlspecialchars($this->module->title, ENT_COMPAT, 'UTF-8');
         $data['id']          = $this->module->id;
         $data['lazyloading'] = $params->get('lazyloading', 'lazy');
 

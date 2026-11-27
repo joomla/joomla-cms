@@ -18,6 +18,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterSaveConfigurationEvent;
 use Joomla\CMS\Event\Application\BeforeSaveConfigurationEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\LanguageFactoryAwareInterface;
 use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
@@ -62,7 +63,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface,
      * @var    array
      * @since  3.9.23
      */
-    private $protectedConfigurationFields = ['password', 'secret', 'smtppass', 'smtp_oauth2_client_secret', 'smtp_oauth2_refresh_token', 'redis_server_auth', 'session_redis_server_auth'];
+    private $protectedConfigurationFields = ['password', 'secret', 'smtppass', 'smtp_oauth2_client_secret', 'smtp_oauth2_refresh_token', 'redis_server_auth', 'session_redis_server_auth', 'proxy_pass'];
 
     /**
      * Method to get a form object.
@@ -78,6 +79,20 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface,
     public function getForm($data = [], $loadData = true)
     {
         return $this->loadForm('com_config.application', 'application', ['control' => 'jform', 'load_data' => $loadData]);
+    }
+
+    /**
+     * Method to get the names of the protected password fields of the configuration.
+     *
+     * The values of these fields must never be returned to a client.
+     *
+     * @return  string[]  The names of the protected configuration fields.
+     *
+     * @since   6.2.1
+     */
+    public function getProtectedConfigurationFields(): array
+    {
+        return $this->protectedConfigurationFields;
     }
 
     /**
@@ -127,6 +142,30 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface,
         }
 
         return $data;
+    }
+
+    /**
+     * Method to allow derived classes to preprocess the form.
+     *
+     * @param   Form    $form   A Form object.
+     * @param   mixed   $data   The data expected for the form.
+     * @param   string  $group  The name of the plugin group to import (defaults to "content").
+     *
+     * @return  void
+     *
+     * @see     FormField
+     * @since   4.0.0
+     * @throws  \Exception if there is an error in the form event.
+     */
+    protected function preprocessForm(Form $form, $data, $group = 'content')
+    {
+        $config = $this->getData();
+
+        if (!empty($config['smtp_oauth2_refresh_token'])) {
+            $form->setFieldAttribute('smtp_oauth2_auth_wizard', 'refreshToken', 'true');
+        }
+
+        parent::preprocessForm($form, $data, $group);
     }
 
     /**
