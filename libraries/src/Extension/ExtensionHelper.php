@@ -304,6 +304,7 @@ class ExtensionHelper
         ['plugin', 'guidedtours', 'system', 0],
         ['plugin', 'highlight', 'system', 0],
         ['plugin', 'httpheaders', 'system', 0],
+        ['plugin', 'jadp', 'system', 0],
         ['plugin', 'jooa11y', 'system', 0],
         ['plugin', 'languagecode', 'system', 0],
         ['plugin', 'languagefilter', 'system', 0],

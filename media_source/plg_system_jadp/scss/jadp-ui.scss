@@ -1,0 +1,358 @@
+/**
+ * @package     Joomla.Plugin
+ * @subpackage  System.jadp
+ * @copyright   (C) 2026 Open Source Matters, Inc. <https: //www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+ :host {
+  all: initial;
+  font-family: system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #202124;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.jadp-trigger {
+  position: fixed;
+  left: max(1rem, env(safe-area-inset-left));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 2147483000;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  inline-size: 3.25rem;
+  block-size: 3.25rem;
+  padding: 0;
+  color: #fff;
+  cursor: pointer;
+  background: #202124;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 .2rem .75rem rgb(0 0 0 / 30%);
+  transition: background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.jadp-trigger:hover {
+  background: #174ea6;
+  box-shadow: 0 .3rem 1rem rgb(0 0 0 / 35%);
+  transform: translateY(-2px);
+}
+
+.jadp-trigger:active {
+  transform: scale(.96);
+}
+
+.jadp-trigger-image,
+.jadp-trigger-font-icon {
+  display: block;
+  inline-size: 1.8rem;
+  block-size: 1.8rem;
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.jadp-trigger-image {
+  object-fit: contain;
+}
+
+.jadp-trigger-icon {
+    display: block;
+    inline-size: 1.8rem;
+    block-size: 1.8rem;
+    fill: currentColor;
+}
+
+.jadp-trigger-icon.is-open {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 24;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.jadp-panel {
+  position: fixed;
+  left: max(1rem, env(safe-area-inset-left));
+  bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 3.75rem);
+  z-index: 2147483001;
+  inline-size: min(22rem, calc(100% - 2rem));
+  container-type: inline-size;
+  /* stylelint-disable */
+  max-block-size: min(75vh, 42rem);
+  max-block-size: min(75dvh, 42rem);
+  /* stylelint-enable */
+  padding: 1rem;
+  overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  font: inherit;
+  color: #202124;
+  background: #fff;
+  border: 1px solid #767676;
+  border-radius: .5rem;
+  box-shadow: 0 .25rem 1.25rem rgb(0 0 0 / 25%);
+}
+
+.jadp-panel[hidden] {
+  display: none;
+}
+
+
+/* Position the activation button and keep the panel beside it. */
+:host([data-trigger-position="top-left"]) .jadp-trigger {
+  top: max(1rem, env(safe-area-inset-top));
+  bottom: auto;
+  left: max(1rem, env(safe-area-inset-left));
+}
+
+:host([data-trigger-position="top-left"]) .jadp-panel {
+  top: calc(max(1rem, env(safe-area-inset-top)) + 3.75rem);
+  bottom: auto;
+  left: max(1rem, env(safe-area-inset-left));
+}
+
+:host([data-trigger-position="top-right"]) .jadp-trigger {
+  top: max(1rem, env(safe-area-inset-top));
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: auto;
+  left: auto;
+}
+
+:host([data-trigger-position="top-right"]) .jadp-panel {
+  top: calc(max(1rem, env(safe-area-inset-top)) + 3.75rem);
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: auto;
+  left: auto;
+}
+
+:host([data-trigger-position="middle-left"]) .jadp-trigger {
+  top: 50%;
+  bottom: auto;
+  left: max(1rem, env(safe-area-inset-left));
+  margin-top: -1.625rem;
+}
+
+:host([data-trigger-position="middle-left"]) .jadp-panel {
+  top: 50%;
+  bottom: auto;
+  left: calc(max(1rem, env(safe-area-inset-left)) + 3.75rem);
+  width: min(22rem, calc(100% - max(1rem, env(safe-area-inset-left)) - 5.75rem));
+  transform: translateY(-50%);
+}
+
+:host([data-trigger-position="middle-right"]) .jadp-trigger {
+  top: 50%;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: auto;
+  left: auto;
+  margin-top: -1.625rem;
+}
+
+:host([data-trigger-position="middle-right"]) .jadp-panel {
+  top: 50%;
+  right: calc(max(1rem, env(safe-area-inset-right)) + 3.75rem);
+  bottom: auto;
+  left: auto;
+  width: min(22rem, calc(100% - max(1rem, env(safe-area-inset-right)) - 5.75rem));
+  transform: translateY(-50%);
+}
+
+:host([data-trigger-position="bottom-right"]) .jadp-trigger {
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  left: auto;
+}
+
+:host([data-trigger-position="bottom-right"]) .jadp-panel {
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 3.75rem);
+  left: auto;
+}
+
+
+
+.jadp-header,
+.jadp-option[aria-pressed="true"]:hover {
+  background: #dbe7fb;
+}
+
+.jadp-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-block-start: .75rem;
+  padding-block-start: .75rem;
+  border-block-start: 1px solid #bbb;
+}
+
+.jadp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-block-end: 1rem;
+  padding: .5rem;
+}
+
+.jadp-header h2 {
+  margin: 0;
+  font: inherit;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: inherit;
+}
+
+.jadp-close {
+  display: grid;
+  place-items: center;
+  min-inline-size: 2.5rem;
+  min-block-size: 2.5rem;
+  padding: 0;
+  font: inherit;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: inherit;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #767676;
+  border-radius: .25rem;
+}
+
+.jadp-close svg {
+  display: block;
+  inline-size: 1rem;
+  block-size: 1rem;
+}
+
+.jadp-content {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+}
+
+.jadp-size-group {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: .35rem;
+  min-inline-size: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+.jadp-group-label {
+  min-inline-size: 0;
+  padding: 0;
+  margin: 0;
+  font-weight: 700;
+}
+
+.jadp-option,
+.jadp-reset {
+  min-block-size: 2.75rem;
+  padding: .5rem;
+  font: inherit;
+  color: #202124;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #555;
+  border-radius: .25rem;
+}
+
+.jadp-options {
+  display: flex;
+  flex: 0 0 auto;
+  gap: .35rem;
+}
+
+.jadp-option {
+  display: grid;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  min-inline-size: 2.75rem;
+  padding: .5rem;
+}
+
+.jadp-icon {
+  display: block;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  fill: currentColor;
+}
+
+.jadp-option:hover {
+  background: #f1f3f4;
+}
+
+.jadp-option[aria-pressed="true"] {
+  font-weight: 700;
+  color: #174ea6;
+  background: #e8f0fe;
+  border: 2px solid #174ea6;
+}
+
+.jadp-reset {
+  font-weight: 600;
+  color: #fff;
+  background: #8b1e1e;
+  border-color: #8b1e1e;
+}
+
+.jadp-trigger:focus-visible,
+.jadp-panel button:focus-visible {
+  outline: 3px solid #f0b429;
+  outline-offset: 4px;
+}
+
+@container (max-inline-size: 17rem) {
+  .jadp-size-group {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  .jadp-trigger,
+  .jadp-panel {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jadp-trigger {
+    transition: none;
+  }
+}
+
+@media (max-width: 24rem) {
+  .jadp-panel {
+    left: max(.5rem, env(safe-area-inset-left));
+    bottom: calc(max(.5rem, env(safe-area-inset-bottom)) + 3.5rem);
+    inline-size: calc(100% - 1rem);
+  }
+
+  :host([data-trigger-position="middle-left"]) .jadp-panel {
+    left: calc(max(.5rem, env(safe-area-inset-left)) + 3.75rem);
+    inline-size: calc(100% - max(.5rem, env(safe-area-inset-left)) - 4.75rem);
+  }
+
+  :host([data-trigger-position="middle-right"]) .jadp-panel {
+    right: calc(max(.5rem, env(safe-area-inset-right)) + 3.75rem);
+    left: auto;
+    inline-size: calc(100% - max(.5rem, env(safe-area-inset-right)) - 4.75rem);
+  }
+
+  .jadp-trigger {
+    left: max(.5rem, env(safe-area-inset-left));
+    bottom: max(.5rem, env(safe-area-inset-bottom));
+  }
+}
