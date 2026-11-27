@@ -1415,7 +1415,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 5
+			count: 7
 			path: administrator/components/com_fields/src/Model/FieldModel.php
 
 		-
@@ -1437,6 +1437,17 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
+			path: administrator/components/com_fields/src/Model/GroupModel.php
+
+		-
+			message: '''
+				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Throw an Exception instead of using setError$#
+			'''
+			identifier: method.deprecated
+			count: 2
 			path: administrator/components/com_fields/src/Model/GroupModel.php
 
 		-
@@ -10634,7 +10645,7 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 2
+			count: 1
 			path: libraries/src/HTML/Helpers/Tag.php
 
 		-

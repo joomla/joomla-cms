@@ -73,7 +73,7 @@ class NewsfeedModel extends AdminModel implements VersionableModelInterface
         }
 
         if (!empty($record->catid)) {
-            return $this->getCurrentUser()->authorise('core.delete', 'com_newsfeed.category.' . (int) $record->catid);
+            return $this->getCurrentUser()->authorise('core.delete', 'com_newsfeeds.category.' . (int) $record->catid);
         }
 
         return parent::canDelete($record);
@@ -293,7 +293,6 @@ class NewsfeedModel extends AdminModel implements VersionableModelInterface
         $date = Factory::getDate();
         $user = $this->getCurrentUser();
 
-        $table->name  = htmlspecialchars_decode($table->name, ENT_QUOTES);
         $table->alias = ApplicationHelper::stringURLSafe($table->alias, $table->language);
 
         if (empty($table->alias)) {

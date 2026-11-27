@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -52,7 +53,9 @@ abstract class Tag
 
         if (!isset(static::$items[$hash])) {
             $config = (array) $config;
-            $db     = Factory::getDbo();
+            $db     = Factory::getContainer()->get(DatabaseInterface::class);
+            $user   = Factory::getApplication()->getIdentity();
+
             $query  = $db->createQuery()
                 ->select(
                     [
@@ -63,6 +66,11 @@ abstract class Tag
                 )
                 ->from($db->quoteName('#__tags', 'a'))
                 ->where($db->quoteName('a.parent_id') . ' > 0');
+
+            // Filter on user access level
+            if (!$user->authorise('core.admin')) {
+                $query->whereIn($db->quoteName('a.access'), $user->getAuthorisedViewLevels());
+            }
 
             // Filter on the published state
             if (isset($config['filter.published'])) {

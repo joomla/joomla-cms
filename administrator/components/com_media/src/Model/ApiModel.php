@@ -231,8 +231,17 @@ class ApiModel extends BaseDatabaseModel
      */
     public function createFile($adapter, $name, $path, $data, $override)
     {
+        // The adapter writes the file under a normalised name (safe characters, lower case extension),
+        // so the check for an existing file has to use the same name.
+        $safeName  = File::makeSafe($name);
+        $extension = File::getExt($safeName);
+
+        if ($safeName !== '' && $extension !== '') {
+            $safeName = substr($safeName, 0, -\strlen($extension)) . strtolower($extension);
+        }
+
         try {
-            $file = $this->getFile($adapter, $path . '/' . $name);
+            $file = $this->getFile($adapter, $path . '/' . ($safeName !== '' ? $safeName : $name));
         } catch (FileNotFoundException) {
             // Do nothing
         }

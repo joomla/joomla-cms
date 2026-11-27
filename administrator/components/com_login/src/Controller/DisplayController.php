@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Login\Administrator\Controller;
 
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Uri\Uri;
@@ -101,6 +102,11 @@ class DisplayController extends BaseController
         $app = $this->app;
 
         $userid = $this->input->getInt('uid', null);
+
+        // Ending the sessions of another user needs the same permission as the logout link of the "Logged-in Users" module
+        if ($userid && $userid !== (int) $app->getIdentity()->id && !$app->getIdentity()->authorise('core.manage', 'com_users')) {
+            throw new NotAllowed($app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+        }
 
         if ($app->get('shared_session', '0')) {
             $clientid = null;

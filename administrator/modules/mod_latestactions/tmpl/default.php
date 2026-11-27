@@ -14,7 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 ?>
-<table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
+<table class="table" id="<?php echo htmlspecialchars(str_replace(' ', '', $module->title) . $module->id, ENT_QUOTES, 'UTF-8'); ?>">
     <caption class="visually-hidden"><?php echo $module->title; ?></caption>
     <thead>
         <tr>

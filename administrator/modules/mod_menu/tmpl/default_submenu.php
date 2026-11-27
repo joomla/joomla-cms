@@ -70,7 +70,7 @@ $linkClass = ' class="' . implode(' ', $linkClass) . '" ';
 $ariaCurrent = (!empty($current->active) && !$current->hasChildren()) ? ' aria-current="page"' : '';
 
 // Get the menu link
-$link = $current->link;
+$link = htmlspecialchars((string) $current->link, ENT_QUOTES, 'UTF-8', false);
 
 // Get the menu image class
 $itemIconClass = $currentParams->get('menu_icon');
@@ -81,7 +81,7 @@ $itemImage = $currentParams->get('menu_image');
 // Get the menu icon
 $icon      = $this->getIconClass($current);
 $iconClass = ($icon != '' && $current->level == 1) ? '<span class="' . $icon . '" aria-hidden="true"></span>' : '';
-$ajax      = !empty($current->ajaxbadge) ? '<span class="menu-badge"><span class="icon-spin icon-spinner mt-1 system-counter" data-url="' . $current->ajaxbadge . '"></span></span>' : '';
+$ajax      = !empty($current->ajaxbadge) ? '<span class="menu-badge"><span class="icon-spin icon-spinner mt-1 system-counter" data-url="' . htmlspecialchars((string) $current->ajaxbadge, ENT_QUOTES, 'UTF-8', false) . '"></span></span>' : '';
 $iconImage = $current->icon;
 $homeImage = '';
 
@@ -108,11 +108,11 @@ if ($icon == '' && $iconClass == '' && $current->level == 1 && $current->target 
 }
 
 if ($link != '' && $current->target != '') {
-    echo '<a' . $linkClass . $ariaCurrent . ' href="' . $link . '" target="' . $current->target . '">'
+    echo '<a' . $linkClass . $ariaCurrent . ' href="' . $link . '" target="' . htmlspecialchars($current->target, ENT_QUOTES, 'UTF-8') . '">'
         . $iconClass
         . '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $ajax . '</a>';
 } elseif ($link != '' && $current->type !== 'separator') {
-    echo '<a' . $linkClass . $ariaCurrent . ' href="' . $link . '" aria-label="' . Text::_($current->title) . '">'
+    echo '<a' . $linkClass . $ariaCurrent . ' href="' . $link . '" aria-label="' . htmlspecialchars(Text::_($current->title), ENT_QUOTES, 'UTF-8') . '">'
         . $iconClass
         . '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $iconImage . '</a>';
 } elseif ($current->title != '' && $current->type !== 'separator') {
@@ -128,8 +128,8 @@ if ($link != '' && $current->target != '') {
 if ($currentParams->get('menu-quicktask') && (int) $this->params->get('shownew', 1) === 1) {
     $params = $current->getParams();
     $user = $this->application->getIdentity();
-    $link = $params->get('menu-quicktask');
-    $icon = $params->get('menu-quicktask-icon', 'plus');
+    $link = htmlspecialchars((string) $params->get('menu-quicktask'), ENT_QUOTES, 'UTF-8', false);
+    $icon = htmlspecialchars((string) $params->get('menu-quicktask-icon', 'plus'), ENT_QUOTES, 'UTF-8');
     $title = $params->get('menu-quicktask-title', 'MOD_MENU_QUICKTASK_NEW');
     $permission = $params->get('menu-quicktask-permission');
     $scope = $current->scope !== 'default' ? $current->scope : null;
@@ -137,13 +137,13 @@ if ($currentParams->get('menu-quicktask') && (int) $this->params->get('shownew',
     if (!$permission || $user->authorise($permission, $scope)) {
         echo '<span class="menu-quicktask"><a href="' . $link . '">';
         echo '<span class="icon-' . $icon . '" title="' . htmlentities(Text::_($title)) . '" aria-hidden="true"></span>';
-        echo '<span class="visually-hidden">' . Text::_($title) . '</span>';
+        echo '<span class="visually-hidden">' . htmlspecialchars(Text::_($title), ENT_QUOTES, 'UTF-8') . '</span>';
         echo '</a></span>';
     }
 }
 
 if (!empty($current->dashboard)) {
-    $titleDashboard = Text::sprintf('MOD_MENU_DASHBOARD_LINK', Text::_($current->title));
+    $titleDashboard = htmlspecialchars(Text::sprintf('MOD_MENU_DASHBOARD_LINK', Text::_($current->title)), ENT_QUOTES, 'UTF-8');
 
     // Prepare the Dashboard icon. We use our own icon, not Fontawesome
     $pathDashboard = 'media/templates/administrator/atum/images/icons/dashboard.svg';

@@ -11,6 +11,7 @@
 namespace Joomla\Component\Content\Site\Controller;
 
 use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Categories\CategoryChangeTrait;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -30,6 +31,7 @@ use Joomla\Utilities\ArrayHelper;
  */
 class ArticleController extends FormController
 {
+    use CategoryChangeTrait;
     use VersionableControllerTrait;
 
     /**
@@ -151,6 +153,28 @@ class ArticleController extends FormController
         }
 
         return false;
+    }
+
+    /**
+     * Method to check if you can save a record.
+     *
+     * Moving an existing article to another category, or creating one there, requires the create permission in the
+     * target category. The category field only offers allowed categories, but the submitted value has to be checked as well.
+     *
+     * @param   array   $data  An array of input data.
+     * @param   string  $key   The name of the key for the primary key; default is id.
+     *
+     * @return  boolean
+     *
+     * @since   6.2.1
+     */
+    protected function allowSave($data, $key = 'id')
+    {
+        if (!$this->allowCategoryChange($this->getModel()->getTable(), (int) ($data[$key] ?? 0), $data)) {
+            return false;
+        }
+
+        return parent::allowSave($data, $key);
     }
 
     /**
@@ -416,6 +440,19 @@ class ArticleController extends FormController
             // Don't redirect to an external URL.
             if (!Uri::isInternal($url)) {
                 $url = Route::_('index.php');
+            }
+
+            // Only accept votes for articles the current user is allowed to see (published and within the view levels)
+            try {
+                $item = $this->getModel('Article', 'Site', ['ignore_request' => false])->getItem($id);
+            } catch (\Exception) {
+                $item = null;
+            }
+
+            if (!$item || (int) $item->state !== 1 || !$item->params->get('access-view')) {
+                $this->setRedirect($url, Text::_('COM_CONTENT_ARTICLE_VOTE_NOT_ALLOWED'), 'error');
+
+                return;
             }
 
             if ($model->storeVote($id, $user_rating)) {

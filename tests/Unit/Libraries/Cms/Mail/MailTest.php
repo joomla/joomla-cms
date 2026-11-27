@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Mail;
 
 use Joomla\CMS\Mail\Mail;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPMailer\PHPMailer\OAuthTokenProvider;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -316,5 +317,35 @@ class MailTest extends UnitTestCase
             ->method($expected['called']);
 
         $this->assertSame($expected['return'], $mailMock->useSmtp($auth, $host, $user, $pass, $secure, $port));
+    }
+
+    /**
+     * Test that a second SMTP configuration without a token provider does not keep the OAuth2 state of the first one.
+     *
+     * @return  void
+     *
+     * @since   6.2.1
+     */
+    public function testUseSmtpWithoutProviderResetsOauth2()
+    {
+        $provider = new class () implements OAuthTokenProvider {
+            public function getOauth64(): string
+            {
+                return base64_encode('token');
+            }
+        };
+
+        $mail = new Mail();
+
+        $this->assertTrue($mail->useSmtp(2, 'smtp.example.org', 'user', null, null, 587, $provider));
+        $this->assertSame('XOAUTH2', $mail->AuthType);
+        $this->assertSame($provider, $mail->getOAuth());
+
+        // The configuration of a mail template calls useSmtp() again, without a token provider
+        $mail->useSmtp(1, 'other.example.org', 'other', 'secret', null, 25);
+
+        $this->assertSame('', $mail->AuthType);
+        $this->assertNull($mail->getOAuth());
+        $this->assertSame('other.example.org', $mail->Host);
     }
 }
