@@ -48,9 +48,9 @@ $user = $app->getIdentity();
                         <?php if ($params->get('menu_show', 1)) : ?>
                             <li class="list-group-item d-flex align-items-center">
                                 <?php $class = $params->get('menu-quicktask') ? '' : 'class="flex-grow-1"'; ?>
-                                <a <?php echo $class; ?> href="<?php echo $item->link; ?>"
-                                    <?php echo $item->target === '_blank' ? ' title="' . Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_($item->title)) . '"' : ''; ?>
-                                    <?php echo $item->target ? ' target="' . $item->target . '"' : ''; ?>>
+                                <a <?php echo $class; ?> href="<?php echo htmlspecialchars((string) $item->link, ENT_QUOTES, 'UTF-8', false); ?>"
+                                    <?php echo $item->target === '_blank' ? ' title="' . htmlspecialchars(Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_($item->title)), ENT_QUOTES, 'UTF-8') . '"' : ''; ?>
+                                    <?php echo $item->target ? ' target="' . htmlspecialchars($item->target, ENT_QUOTES, 'UTF-8') . '"' : ''; ?>>
                                     <?php if (!empty($params->get('menu_image'))) : ?>
                                         <?php
                                         $image = htmlspecialchars($params->get('menu_image'), ENT_QUOTES, 'UTF-8');
@@ -62,7 +62,7 @@ $user = $app->getIdentity();
                                     <?php echo ($params->get('menu_text', 1)) ? htmlspecialchars(Text::_($item->title), ENT_QUOTES, 'UTF-8') : ''; ?>
                                     <?php if ($item->ajaxbadge) : ?>
                                         <span class="menu-badge">
-                                            <span class="icon-spin icon-spinner mt-1 system-counter float-end" data-url="<?php echo $item->ajaxbadge; ?>"></span>
+                                            <span class="icon-spin icon-spinner mt-1 system-counter float-end" data-url="<?php echo htmlspecialchars((string) $item->ajaxbadge, ENT_QUOTES, 'UTF-8', false); ?>"></span>
                                         </span>
                                     <?php endif; ?>
                                 </a>
@@ -73,8 +73,8 @@ $user = $app->getIdentity();
                                     <?php if (!$permission || $user->authorise($permission, $scope)) : ?>
                                         <span class="menu-quicktask">
                                             <?php
-                                            $link = $params->get('menu-quicktask');
-                                            $icon = $params->get('menu-quicktask-icon', 'plus');
+                                            $link = htmlspecialchars((string) $params->get('menu-quicktask'), ENT_QUOTES, 'UTF-8', false);
+                                            $icon = htmlspecialchars((string) $params->get('menu-quicktask-icon', 'plus'), ENT_QUOTES, 'UTF-8');
 
                                             $title = Text::_($params->get('menu-quicktask-title'));
 
@@ -94,7 +94,7 @@ $user = $app->getIdentity();
                                 <?php if ($item->dashboard) : ?>
                                     <span class="menu-dashboard">
                                         <?php
-                                        $titleDashboard = Text::sprintf('MOD_MENU_DASHBOARD_LINK', Text::_($child->title));
+                                        $titleDashboard = htmlspecialchars(Text::sprintf('MOD_MENU_DASHBOARD_LINK', Text::_($child->title)), ENT_QUOTES, 'UTF-8');
 
                                         // Prepare the Dashboard icon. We use our own icon, not Fontawesome
                                         $pathDashboard = 'media/templates/administrator/atum/images/icons/dashboard.svg';

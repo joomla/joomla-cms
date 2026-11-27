@@ -43,7 +43,7 @@ class Dispatcher extends ComponentDispatcher
         $itemType = $this->input->get('itemtype', '', 'string');
 
         if ($itemType !== '') {
-            [$extensionName, $typeName] = explode('.', $itemType);
+            [$extensionName, $typeName] = array_pad(explode('.', $itemType, 2), 2, '');
 
             if (!AssociationsHelper::hasSupport($extensionName)) {
                 throw new \Exception(
@@ -54,6 +54,11 @@ class Dispatcher extends ComponentDispatcher
 
             if (!$this->app->getIdentity()->authorise('core.manage', $extensionName)) {
                 throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+            }
+
+            // The item type has to be one that the extension declares, the views and fields build queries and markup from it.
+            if (!\in_array($typeName, AssociationsHelper::getExtensionHelper($extensionName)->getItemTypes(), true)) {
+                throw new \Exception($this->app->getLanguage()->_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
             }
         }
     }

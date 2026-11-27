@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 $moduleId = str_replace(' ', '', $module->title) . $module->id;
 
 ?>
-<table class="table" id="<?php echo $moduleId; ?>">
+<table class="table" id="<?php echo htmlspecialchars($moduleId, ENT_QUOTES, 'UTF-8'); ?>">
     <caption class="visually-hidden"><?php echo $module->title; ?></caption>
     <thead>
         <tr>
