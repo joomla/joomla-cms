@@ -172,8 +172,10 @@ class LanguageHelper
                 $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
                     ->createCacheController('output', ['defaultgroup' => 'com_languages']);
 
-                if ($cache->contains('languages')) {
-                    $languages = $cache->get('languages');
+                $cached = $cache->get('languages');
+
+                if (\is_array($cached)) {
+                    $languages = $cached;
                 } else {
                     $db    = Factory::getDbo();
                     $query = $db->createQuery()
@@ -233,8 +235,10 @@ class LanguageHelper
             $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
                 ->createCacheController('output', ['defaultgroup' => 'com_languages']);
 
-            if ($cache->contains('installedlanguages')) {
-                $installedLanguages = $cache->get('installedlanguages');
+            $cached = $cache->get('installedlanguages');
+
+            if (\is_array($cached)) {
+                $installedLanguages = $cached;
             } else {
                 $db ??= Factory::getContainer()->get(DatabaseInterface::class);
 
@@ -382,8 +386,10 @@ class LanguageHelper
             $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
                 ->createCacheController('output', ['defaultgroup' => 'com_languages']);
 
-            if ($cache->contains('contentlanguages')) {
-                $contentLanguages = $cache->get('contentlanguages');
+            $cached = $cache->get('contentlanguages');
+
+            if (\is_array($cached)) {
+                $contentLanguages = $cached;
             } else {
                 $db = Factory::getDbo();
 
