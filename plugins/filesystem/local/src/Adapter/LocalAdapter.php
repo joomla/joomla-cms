@@ -845,6 +845,15 @@ class LocalAdapter implements AdapterInterface
      */
     private function getSafeName(string $name): string
     {
+        /*
+         * When no character of the name before the extension is safe, File::makeSafe() strips the leading dot
+         * and the extension becomes the name ("!!!.png" becomes "png"). The upload then fails with a misleading
+         * message, so report that the name can't be made safe.
+         */
+        if (File::getExt($name) !== '' && File::makeSafe(File::stripExt($name)) === '') {
+            throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE'));
+        }
+
         // Make the filename safe
         if (!$name = File::makeSafe($name)) {
             throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE'));

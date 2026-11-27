@@ -301,6 +301,63 @@ class LocalAdapterTest extends UnitTestCase
     }
 
     /**
+     * Names without a single safe character before the extension.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function unsafeNameProvider(): array
+    {
+        return [
+            'only special characters' => ['!!!.jpg'],
+            'only brackets'           => ['().jpg'],
+            'only an extension'       => ['.jpg'],
+        ];
+    }
+
+    /**
+     * File::makeSafe() turns "!!!.jpg" into "jpg", which canUpload() rejected with a misleading message.
+     *
+     * @param   string  $name  The file name
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    #[DataProvider('unsafeNameProvider')]
+    #[TestDox('refuses to create a file when no character of the name is safe ($name)')]
+    public function testCreateFileRefusesNameWithoutSafeCharacters(string $name)
+    {
+        $adapter = new LocalAdapter($this->workDir, 'test-media');
+
+        try {
+            $adapter->createFile($name, '/', $this->jpegBytes([255, 0, 0]));
+            $this->fail('An exception should be thrown for the name ' . $name);
+        } catch (\Exception $e) {
+            $this->assertSame('COM_MEDIA_ERROR_MAKESAFE', $e->getMessage());
+        }
+
+        $this->assertSame([], array_values(array_diff(scandir($this->workDir), ['.', '..'])), 'No file should be written.');
+    }
+
+    /**
+     * A name with at least one safe character keeps its safe part.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    #[TestDox('still creates a file when part of the name is safe')]
+    public function testCreateFileKeepsSafePartOfTheName()
+    {
+        $adapter = new LocalAdapter($this->workDir, 'test-media');
+
+        $this->assertSame('photo 1.jpg', $adapter->createFile('photo (1)!.JPG', '/', $this->jpegBytes([0, 255, 0])));
+        $this->assertFileExists($this->workDir . '/photo 1.jpg');
+    }
+
+    /**
      * Creates a media root below the work directory, with one file inside and one file next to it.
      *
      * @return  LocalAdapter
