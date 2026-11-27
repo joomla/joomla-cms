@@ -568,6 +568,10 @@ class Mail extends PHPMailer implements MailerInterface, TransportConfigurableMa
         if ($oauthTokenProvider) {
             $this->AuthType = 'XOAUTH2';
             $this->setOAuth($oauthTokenProvider);
+        } elseif ($this->AuthType === 'XOAUTH2') {
+            // The mailer was configured for OAuth2 before, the token must not be used for another SMTP configuration
+            $this->AuthType = '';
+            $this->oauth    = null;
         }
 
         if (
