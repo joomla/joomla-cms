@@ -555,6 +555,22 @@ class LanguageHelper
     }
 
     /**
+     * Checks if a string is a well-formed language tag (two or three lowercase letters, a dash and two uppercase letters, e.g. en-GB or ast-ES).
+     *
+     * This must be used before a language tag is used to build a file system path.
+     *
+     * @param   mixed  $lang  The value to check.
+     *
+     * @return  boolean  True if the value looks like a language tag.
+     *
+     * @since   6.2.1
+     */
+    public static function isValidTag($lang): bool
+    {
+        return \is_string($lang) && preg_match('/^[a-z]{2,3}-[A-Z]{2}$/D', $lang) === 1;
+    }
+
+    /**
      * Checks if a language exists.
      *
      * This is a simple, quick check for the directory that should contain language files for the given user.
@@ -570,8 +586,8 @@ class LanguageHelper
     {
         static $paths = [];
 
-        // Return false if no language was specified
-        if (!$lang) {
+        // Return false if no language was specified or the value is not a well-formed language tag
+        if (!$lang || !self::isValidTag($lang)) {
             return false;
         }
 
