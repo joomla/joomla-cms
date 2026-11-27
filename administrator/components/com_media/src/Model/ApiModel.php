@@ -16,6 +16,7 @@ use Joomla\CMS\Event\Model\AfterSaveEvent;
 use Joomla\CMS\Event\Model\BeforeDeleteEvent;
 use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -231,13 +232,20 @@ class ApiModel extends BaseDatabaseModel
      */
     public function createFile($adapter, $name, $path, $data, $override)
     {
-        // The adapter writes the file under a normalised name (safe characters, lower case extension),
-        // so the check for an existing file has to use the same name.
-        $safeName  = File::makeSafe($name);
-        $extension = File::getExt($safeName);
+        if (MediaHelper::isFileNameSanitizingEnabled()) {
+            // Sanitize the name before anything else, so the check for an existing file, the plugins
+            // and the adapter all use the name the file is stored under.
+            $name     = MediaHelper::sanitizeFileName($name);
+            $safeName = $name;
+        } else {
+            // The adapter writes the file under a normalised name (safe characters, lower case extension),
+            // so the check for an existing file has to use the same name.
+            $safeName  = File::makeSafe($name);
+            $extension = File::getExt($safeName);
 
-        if ($safeName !== '' && $extension !== '') {
-            $safeName = substr($safeName, 0, -\strlen($extension)) . strtolower($extension);
+            if ($safeName !== '' && $extension !== '') {
+                $safeName = substr($safeName, 0, -\strlen($extension)) . strtolower($extension);
+            }
         }
 
         try {

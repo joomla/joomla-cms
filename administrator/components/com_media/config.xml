@@ -122,6 +122,64 @@
 	</fieldset>
 
 	<fieldset
+		name="filenames"
+		label="COM_MEDIA_FIELDSET_FILENAMES_LABEL">
+
+		<field
+			name="sanitize_filenames"
+			type="radio"
+			label="COM_MEDIA_FIELD_SANITIZE_FILENAMES_LABEL"
+			description="COM_MEDIA_FIELD_SANITIZE_FILENAMES_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="sanitize_space_replacement"
+			type="list"
+			label="COM_MEDIA_FIELD_SANITIZE_SPACE_REPLACEMENT_LABEL"
+			description="COM_MEDIA_FIELD_SANITIZE_SPACE_REPLACEMENT_DESC"
+			default="-"
+			validate="options"
+			showon="sanitize_filenames:1"
+			>
+			<option value="-">COM_MEDIA_FIELD_SANITIZE_SPACE_REPLACEMENT_HYPHEN</option>
+			<option value="_">COM_MEDIA_FIELD_SANITIZE_SPACE_REPLACEMENT_UNDERSCORE</option>
+			<option value=".">COM_MEDIA_FIELD_SANITIZE_SPACE_REPLACEMENT_DOT</option>
+			<option value="none">COM_MEDIA_FIELD_SANITIZE_SPACE_REPLACEMENT_NONE</option>
+		</field>
+
+		<field
+			name="sanitize_lowercase"
+			type="radio"
+			label="COM_MEDIA_FIELD_SANITIZE_LOWERCASE_LABEL"
+			description="COM_MEDIA_FIELD_SANITIZE_LOWERCASE_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			showon="sanitize_filenames:1"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="sanitize_transliterate"
+			type="radio"
+			label="COM_MEDIA_FIELD_SANITIZE_TRANSLITERATE_LABEL"
+			description="COM_MEDIA_FIELD_SANITIZE_TRANSLITERATE_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			showon="sanitize_filenames:1"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+	</fieldset>
+
+	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		>

@@ -146,6 +146,155 @@ class MediaHelperTest extends UnitTestCase
     }
 
     /**
+     * File names and their sanitized form with the default sanitize options.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function sanitizeFileNameProvider(): array
+    {
+        return [
+            'spaces and capitals'  => ['My Holiday Photo 2025.JPG', 'my-holiday-photo-2025.jpg'],
+            'underscores'          => ['my_holiday__photo.jpg', 'my-holiday-photo.jpg'],
+            'special characters'   => ['report (final) & copy!.pdf', 'report-final-copy.pdf'],
+            'repeated separators'  => ['  a -- b  .png', 'a-b.png'],
+            'leading dot'          => ['.hidden.jpg', 'hidden.jpg'],
+            'double dots'          => ['a..b.jpg', 'a.b.jpg'],
+            'path separators'      => ['../etc/passwd.jpg', 'etcpasswd.jpg'],
+            'cyrillic is kept'     => ['Запрос Фото.png', 'запрос-фото.png'],
+            'arabic is kept'       => ['صورة جديدة.png', 'صورة-جديدة.png'],
+            'accents are kept'     => ['Café Crème.jpg', 'café-crème.jpg'],
+            'decomposed accents'   => ["Cafe\u{0301}.jpg", 'café.jpg'],
+            'nothing usable left'  => ['!!!.jpg', null],
+            'no extension'         => ['Read Me', 'read-me'],
+            'extension is cleaned' => ['photo.J P G', 'photo.jpg'],
+        ];
+    }
+
+    /**
+     * @param   string   $fileName  The file name to sanitize
+     * @param   ?string  $expected  The expected result, null for a generated fallback name
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    #[DataProvider('sanitizeFileNameProvider')]
+    #[TestDox('sanitizes the file name "$fileName"')]
+    public function testSanitizeFileName(string $fileName, ?string $expected)
+    {
+        $params = new Registry();
+        $result = MediaHelper::sanitizeFileName($fileName, $params);
+
+        if ($expected === null) {
+            $this->assertMatchesRegularExpression('/^file-[0-9a-f]{8}\.jpg$/', $result);
+        } else {
+            $this->assertSame($expected, $result);
+        }
+
+        // Sanitizing a sanitized name doesn't change it, the adapter relies on that
+        $this->assertSame($result, MediaHelper::sanitizeFileName($result, $params));
+    }
+
+    /**
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    #[TestDox('uses the configured replacement character and lower case option')]
+    public function testSanitizeFileNameHonoursOptions()
+    {
+        $this->assertSame('My_Photo.jpg', MediaHelper::sanitizeFileName('My Photo.JPG', new Registry(['sanitize_space_replacement' => '_', 'sanitize_lowercase' => 0])));
+        $this->assertSame('my.photo.jpg', MediaHelper::sanitizeFileName('My Photo.jpg', new Registry(['sanitize_space_replacement' => '.'])));
+        $this->assertSame('myphoto.jpg', MediaHelper::sanitizeFileName('My Photo.jpg', new Registry(['sanitize_space_replacement' => 'none'])));
+        $this->assertSame('my-photo.jpg', MediaHelper::sanitizeFileName('My Photo.jpg', new Registry(['sanitize_space_replacement' => '/'])));
+    }
+
+    /**
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    #[TestDox('converts the name to ASCII when transliteration is enabled')]
+    public function testSanitizeFileNameTransliterates()
+    {
+        $params = new Registry(['sanitize_transliterate' => 1]);
+
+        $this->assertSame('cafe-creme.jpg', MediaHelper::sanitizeFileName('Café Crème.jpg', $params));
+
+        if (!\function_exists('transliterator_transliterate')) {
+            $this->markTestIncomplete('The intl extension is needed to transliterate Cyrillic');
+        }
+
+        $this->assertSame('zapros.png', MediaHelper::sanitizeFileName('запрос.png', $params));
+    }
+
+    /**
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    #[TestDox('is disabled unless the Media Manager option is set')]
+    public function testFileNameSanitizingIsDisabledByDefault()
+    {
+        $this->assertFalse(MediaHelper::isFileNameSanitizingEnabled(new Registry()));
+        $this->assertTrue(MediaHelper::isFileNameSanitizingEnabled(new Registry(['sanitize_filenames' => '1'])));
+    }
+
+    /**
+     * An updated site has no stored value for the option, so the Media options form shows the default
+     * from config.xml. That default must be off, otherwise saving the Media options would enable it.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    #[TestDox('is off in the Media options form when no value is stored, as on an updated site')]
+    public function testFileNameSanitizingDefaultsToOffInTheOptionsForm()
+    {
+        $config = simplexml_load_file(JPATH_ADMINISTRATOR . '/components/com_media/config.xml');
+        $fields = $config->xpath('//field[@name="sanitize_filenames"]');
+
+        $this->assertCount(1, $fields);
+        $this->assertSame('0', (string) $fields[0]['default']);
+    }
+
+    /**
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function installationSqlProvider(): array
+    {
+        return [
+            'MySQL'      => ['installation/sql/mysql/base.sql'],
+            'PostgreSQL' => ['installation/sql/postgresql/base.sql'],
+        ];
+    }
+
+    /**
+     * @param   string  $file  The installation SQL file, relative to the root
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    #[DataProvider('installationSqlProvider')]
+    #[TestDox('is enabled for a new installation in $file')]
+    public function testFileNameSanitizingIsEnabledForNewInstallations(string $file)
+    {
+        $sql   = file_get_contents(JPATH_ROOT . '/' . $file);
+        $found = preg_match("/'com_media', 'component', 'com_media',[^\\n]*?'(\\{[^\\n]*?\\})'/", $sql, $matches);
+
+        $this->assertSame(1, $found, 'The com_media row was not found in ' . $file);
+
+        $params = json_decode($matches[1], true, 512, JSON_THROW_ON_ERROR);
+
+        $this->assertSame('1', $params['sanitize_filenames'] ?? null);
+    }
+
+    /**
      * Seeds the com_media parameters so ComponentHelper never queries the database.
      *
      * @param   ?Registry  $params  The parameters, null resets the component cache
