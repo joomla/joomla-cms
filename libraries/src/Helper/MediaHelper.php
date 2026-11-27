@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Language\Transliterate;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
@@ -245,6 +246,128 @@ class MediaHelper
         $ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
 
         return $extension !== '' && (\in_array($extension, $allowable, true) || \in_array($extension, $ignored, true));
+    }
+
+    /**
+     * Checks whether uploaded file names have to be sanitized, as configured in the Media Manager options.
+     *
+     * @param   ?Registry  $params  The Media Manager parameters, null to load the com_media parameters
+     *
+     * @return  boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function isFileNameSanitizingEnabled(?Registry $params = null): bool
+    {
+        $params ??= ComponentHelper::getParams('com_media');
+
+        return (bool) $params->get('sanitize_filenames', 0);
+    }
+
+    /**
+     * Sanitizes a file name according to the Media Manager options, for example
+     * "My Holiday Photo 2025.JPG" becomes "my-holiday-photo-2025.jpg".
+     *
+     * Letters, marks and numbers of any script are kept unless transliteration is enabled,
+     * in which case the name is converted to ASCII. Characters which are unsafe in a file
+     * name are always removed. The result is stable: sanitizing a sanitized name returns
+     * the same name.
+     *
+     * @param   string     $fileName  The file name (basename) to sanitize
+     * @param   ?Registry  $params    The Media Manager parameters, null to load the com_media parameters
+     *
+     * @return  string  The sanitized file name, never empty
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function sanitizeFileName(string $fileName, ?Registry $params = null): string
+    {
+        $params ??= ComponentHelper::getParams('com_media');
+
+        $replacement   = (string) $params->get('sanitize_space_replacement', '-');
+        $lowercase     = (bool) $params->get('sanitize_lowercase', 1);
+        $transliterate = (bool) $params->get('sanitize_transliterate', 0);
+
+        // The option "none" removes spaces, an empty value can't be stored as the parameters treat it as not set
+        $replacement = match ($replacement) {
+            '-', '_', '.' => $replacement,
+            'none'        => '',
+            default       => '-',
+        };
+
+        // Drop invalid byte sequences and use the composed form, uploads from macOS use the decomposed form
+        $fileName = mb_convert_encoding($fileName, 'UTF-8', 'UTF-8');
+
+        if (class_exists(\Normalizer::class)) {
+            $fileName = \Normalizer::normalize($fileName, \Normalizer::FORM_C) ?: $fileName;
+        }
+
+        // Split the name and the extension, the extension is always lower case ASCII
+        $dot       = strrpos($fileName, '.');
+        $name      = $dot === false ? $fileName : substr($fileName, 0, $dot);
+        $extension = $dot === false ? '' : strtolower((string) preg_replace('/[^A-Za-z0-9]/', '', substr($fileName, $dot + 1)));
+
+        if ($transliterate) {
+            $name = self::transliterateFileName($name);
+        }
+
+        // Replace white space and underscores with the chosen character
+        $name = (string) preg_replace('/[\s_]+/u', $replacement, $name);
+
+        // Remove everything except letters, marks and numbers (ASCII only when transliterating) and separators
+        $allowed = $transliterate ? 'A-Za-z0-9' : '\p{L}\p{M}\p{N}';
+        $name    = (string) preg_replace('/[^' . $allowed . '\-_.]/u', '', $name);
+
+        if ($lowercase) {
+            $name = mb_strtolower($name, 'UTF-8');
+        }
+
+        // Collapse repeated separators and never start or end with one, a leading dot would hide the file
+        $name = (string) preg_replace('/\.{2,}/', '.', $name);
+
+        if ($replacement !== '') {
+            $name = (string) preg_replace('/' . preg_quote($replacement, '/') . '{2,}/', $replacement, $name);
+        }
+
+        $name = trim($name, '-_.');
+
+        if ($name === '') {
+            $name = 'file-' . bin2hex(random_bytes(4));
+        }
+
+        return $extension !== '' ? $name . '.' . $extension : $name;
+    }
+
+    /**
+     * Converts a file name to ASCII. A transliterator provided by the active language is used first,
+     * then the Joomla transliteration of Latin characters and finally the PHP intl extension when available.
+     * Characters which can't be converted are left in place, the caller removes them.
+     *
+     * @param   string  $value  The value to transliterate
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private static function transliterateFileName(string $value): string
+    {
+        try {
+            $transliterator = Factory::getApplication()->getLanguage()->getTransliterator();
+        } catch (\Exception) {
+            $transliterator = null;
+        }
+
+        if (\is_callable($transliterator)) {
+            $value = (string) \call_user_func($transliterator, $value);
+        }
+
+        $value = Transliterate::utf8_latin_to_ascii($value);
+
+        if (preg_match('/[^\x00-\x7F]/', $value) && \function_exists('transliterator_transliterate')) {
+            $value = transliterator_transliterate('Any-Latin; Latin-ASCII', $value) ?: $value;
+        }
+
+        return $value;
     }
 
     /**

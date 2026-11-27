@@ -253,7 +253,8 @@ class LocalAdapter implements AdapterInterface
      */
     public function createFile(string $name, string $path, $data): string
     {
-        $name      = $this->getSafeName($name);
+        // When sanitizing is enabled the name keeps letters of any script, File::makeSafe() would transliterate them
+        $name      = MediaHelper::isFileNameSanitizingEnabled() ? MediaHelper::sanitizeFileName($name) : $this->getSafeName($name);
         $localPath = $this->getLocalPath($path . '/' . $name);
 
         $this->checkContent($localPath, $data);
