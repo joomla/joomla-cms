@@ -98,6 +98,11 @@ class ModulesController extends BaseController
             $redirect = '&return=' . $returnUri;
         }
 
+        // Keep the component template, e.g. when editing in a modal
+        if ($this->input->getCmd('tmpl') === 'component') {
+            $redirect .= '&tmpl=component';
+        }
+
         /** @var AdministratorApplication $app */
         $app = Factory::getContainer()->get(AdministratorApplication::class);
 
