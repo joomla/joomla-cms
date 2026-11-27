@@ -243,6 +243,58 @@ class MediaHelperTest extends UnitTestCase
     }
 
     /**
+     * An updated site has no stored value for the option, so the Media options form shows the default
+     * from config.xml. That default must be off, otherwise saving the Media options would enable it.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    #[TestDox('is off in the Media options form when no value is stored, as on an updated site')]
+    public function testFileNameSanitizingDefaultsToOffInTheOptionsForm()
+    {
+        $config = simplexml_load_file(JPATH_ADMINISTRATOR . '/components/com_media/config.xml');
+        $fields = $config->xpath('//field[@name="sanitize_filenames"]');
+
+        $this->assertCount(1, $fields);
+        $this->assertSame('0', (string) $fields[0]['default']);
+    }
+
+    /**
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function installationSqlProvider(): array
+    {
+        return [
+            'MySQL'      => ['installation/sql/mysql/base.sql'],
+            'PostgreSQL' => ['installation/sql/postgresql/base.sql'],
+        ];
+    }
+
+    /**
+     * @param   string  $file  The installation SQL file, relative to the root
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    #[DataProvider('installationSqlProvider')]
+    #[TestDox('is enabled for a new installation in $file')]
+    public function testFileNameSanitizingIsEnabledForNewInstallations(string $file)
+    {
+        $sql   = file_get_contents(JPATH_ROOT . '/' . $file);
+        $found = preg_match("/'com_media', 'component', 'com_media',[^\\n]*?'(\\{[^\\n]*?\\})'/", $sql, $matches);
+
+        $this->assertSame(1, $found, 'The com_media row was not found in ' . $file);
+
+        $params = json_decode($matches[1], true, 512, JSON_THROW_ON_ERROR);
+
+        $this->assertSame('1', $params['sanitize_filenames'] ?? null);
+    }
+
+    /**
      * Seeds the com_media parameters so ComponentHelper never queries the database.
      *
      * @param   ?Registry  $params  The parameters, null resets the component cache
