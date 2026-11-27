@@ -9,6 +9,19 @@ if (!Joomla) {
   throw new Error('Joomla API is not properly initialised');
 }
 
+/**
+ * Shepherd renders the step title as HTML, so a title coming from the tour data must be escaped as text.
+ *
+ * @param   {string}  text  The plain text title
+ *
+ * @returns {string}  The title, safe to be rendered as HTML
+ */
+function escapeTitle(text) {
+  const element = document.createElement('div');
+  element.textContent = text;
+  return element.innerHTML;
+}
+
 function emptyStorage() {
   sessionStorage.removeItem('currentStepId');
   sessionStorage.removeItem('stepCount');
@@ -147,7 +160,7 @@ function disableButton(eventElement) {
 
 function addStepToTourButton(tour, stepObj, buttons) {
   const step = new Shepherd.Step(tour, {
-    title: stepObj.title,
+    title: escapeTitle(stepObj.title),
     text: stepObj.description,
     classes: 'shepherd-theme-arrows',
     buttons,
@@ -395,7 +408,7 @@ function showTourInfo(tour, stepObj) {
   addStartButton(tour, buttons, stepObj.start_label);
 
   tour.addStep({
-    title: stepObj.title,
+    title: escapeTitle(stepObj.title),
     text: stepObj.description,
     classes: 'shepherd-theme-arrows',
     buttons,

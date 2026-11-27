@@ -25,7 +25,7 @@ $this->getDocument()->getWebAssetManager()
 
 ?>
 <div class="users-mfa-captive card card-body">
-    <h2 id="users-mfa-title">
+    <h1 id="users-mfa-title">
         <?php if (!empty($this->renderOptions['help_url'])) : ?>
             <span class="float-end">
         <a href="<?php echo $this->renderOptions['help_url'] ?>"
@@ -48,7 +48,7 @@ $this->getDocument()->getWebAssetManager()
         <?php if (!empty($this->title)) : ?>
         </small>
         <?php endif; ?>
-    </h2>
+    </h1>
 
     <?php if ($this->renderOptions['pre_message']) : ?>
         <div class="users-mfa-captive-pre-message text-muted mb-3">
