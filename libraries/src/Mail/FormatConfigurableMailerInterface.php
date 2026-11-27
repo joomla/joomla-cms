@@ -16,7 +16,7 @@ namespace Joomla\CMS\Mail;
 /**
  * Provides a common interface to send emails with HTML.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  6.2.0
  */
 interface FormatConfigurableMailerInterface
 {
@@ -27,7 +27,7 @@ interface FormatConfigurableMailerInterface
     *
     * @return  FormatConfigurableMailerInterface  Returns this object for chaining.
     *
-    * @since   __DEPLOY_VERSION__
+    * @since   6.2.0
     */
     public function isHtml($ishtml = true);
 }

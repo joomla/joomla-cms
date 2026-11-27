@@ -2,12 +2,11 @@
  * Assets Builder
  */
 import path from 'node:path';
-import fsp from "node:fs/promises";
-import fs from "node:fs";
+import fsp from 'node:fs/promises';
+import fs from 'node:fs';
 import DefaultModuleBuilder from '../../build/build-modules-js/builder/default-module-builder.mjs';
 
-export default class PlgDebugModuleBuilder extends DefaultModuleBuilder
-{
+export default class PlgDebugModuleBuilder extends DefaultModuleBuilder {
   /**
    * Target location for vendor files of the debugbar
    * @type {string}
@@ -45,7 +44,7 @@ export default class PlgDebugModuleBuilder extends DefaultModuleBuilder
     const pathVendor = path.join(pathMedia, this.vendorLocation);
 
     if (!fs.existsSync(pathSrc)) {
-      throw new Error('DebugBar/Resources not found. Make sure you have run "composer install" first.')
+      throw new Error('DebugBar/Resources not found. Make sure you have run "composer install" first.');
     }
 
     return fsp.cp(pathSrc, pathVendor, { recursive: true, preserveTimestamps: true }).then(() => {
@@ -70,7 +69,7 @@ export default class PlgDebugModuleBuilder extends DefaultModuleBuilder
       this.vendorLocation,
       pathMedia,
       pathMedia,
-      this.options
+      this.options,
     );
 
     return builder.css();
@@ -89,7 +88,7 @@ export default class PlgDebugModuleBuilder extends DefaultModuleBuilder
       this.vendorLocation,
       pathMedia,
       pathMedia,
-      this.options
+      this.options,
     );
 
     return builder.js();

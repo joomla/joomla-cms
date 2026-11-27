@@ -63,7 +63,7 @@ $finderHelper = $app->bootModule('mod_finder', 'site')->getHelper('FinderHelper'
 ?>
 
 <search>
-    <form class="mod-finder js-finder-searchform form-search" action="<?php echo Route::_($route); ?>" method="get" aria-label="search">
+    <form class="mod-finder js-finder-searchform form-search" action="<?php echo Route::_($route); ?>" method="get" aria-label="<?php echo Text::_('MOD_FINDER_ARIA_LABEL'); ?>">
         <?php echo $output; ?>
 
         <?php $show_advanced = $params->get('show_advanced', 0); ?>

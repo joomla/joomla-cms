@@ -24,12 +24,12 @@ import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
 import { closeBrackets } from '@codemirror/autocomplete';
 import { oneDark } from '@codemirror/theme-one-dark';
 
-const minimalSetup = (() => [
+const minimalSetup = () => [
   highlightSpecialChars(),
   history(),
   drawSelection(),
   syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
-]);
+];
 
 /**
  * Configure and return list of extensions for given options

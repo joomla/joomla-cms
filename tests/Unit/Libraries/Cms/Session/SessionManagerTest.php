@@ -108,7 +108,7 @@ class SessionManagerTest extends UnitTestCase
 
         $this->sessionHandler->expects($this->exactly(2))
             ->method('destroy')
-            ->will($this->onConsecutiveCalls(true, false));
+            ->willReturn(true, false);
 
         $this->assertFalse($this->manager->destroySessions($sessionIds));
     }

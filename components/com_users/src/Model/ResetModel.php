@@ -470,10 +470,12 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
             'com_users.password_reset',
             $app->getLanguage()->getTag(),
             $this->getMailerFactory()->createMailer(),
-            $this->getLanguageFactory()
+            $this->getLanguageFactory(),
+            $this->getDatabase()
         );
         $mailer->addTemplateData($data);
         $mailer->addRecipient($user->email, $user->name);
+        $mailer->addUnsafeTags(['username', 'name']);
 
         // Try to send the password reset request email.
         try {
@@ -484,7 +486,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerF
 
                 $return = false;
             } catch (\RuntimeException $exception) {
-                $app->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                $app->enqueueMessage(Text::_($exception->getMessage()), 'warning');
 
                 $return = false;
             }

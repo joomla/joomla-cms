@@ -66,10 +66,10 @@ export const buildMediaManager = async (basePath, targetPath) => {
     ],
   }).then((build) => {
     return build.write({
-        format: 'es',
-        sourcemap: !isProduction ? 'inline' : false,
-        file: targetFile,
-      })
+      format: 'es',
+      sourcemap: !isProduction ? 'inline' : false,
+      file: targetFile,
+    })
       .then((value) => (isProduction ? minifyJSContent(value.output[0].code) : value.output[0]))
       .then((content) => {
         if (isProduction) {
@@ -80,12 +80,11 @@ export const buildMediaManager = async (basePath, targetPath) => {
         return fsp.copyFile(targetFile, targetFileMin);
       }).then(() => {
         return build.close();
-      })
+      });
   });
 };
 
-export default class MediaModuleBuilder extends DefaultModuleBuilder
-{
+export default class MediaModuleBuilder extends DefaultModuleBuilder {
   /**
    * Process JavaScript files and Modules
    * @returns { Promise }

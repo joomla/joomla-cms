@@ -158,7 +158,7 @@ class AccessiblemediaField extends SubformField
          * most likely within a custom field of type subform
          * and the value is a stdClass with properties
          * imagefile and alt_text. So it is fine.
-        */
+         */
         if (\is_string($value)) {
             json_decode($value);
 
@@ -168,19 +168,24 @@ class AccessiblemediaField extends SubformField
                  * If the value is not empty and is not a valid JSON string,
                  * it is most likely a custom field created in Joomla 3 and
                  * the value is a string that contains the file name.
-                */
+                 */
                 if (is_file(JPATH_ROOT . '/' . $value)) {
                     $value = '{"imagefile":"' . $value . '","alt_text":""}';
                 } else {
                     $value = '';
                 }
             }
-        } elseif (
-            !\is_object($value)
-            || !property_exists($value, 'imagefile')
-            || !property_exists($value, 'alt_text')
-        ) {
+        } elseif (!\is_object($value)) {
             return false;
+        } else {
+            $mediaTypes         = explode(',', (string) ($element['types'] ?? 'images'));
+            $requiredProperties = \in_array('images', $mediaTypes, true) ? ['imagefile', 'alt_text'] : ['file'];
+
+            foreach ($requiredProperties as $property) {
+                if (!property_exists($value, $property)) {
+                    return false;
+                }
+            }
         }
 
         if (!parent::setup($element, $value, $group)) {
@@ -195,6 +200,11 @@ class AccessiblemediaField extends SubformField
         $mediaTypes          = explode(',', $this->types);
         $fieldName           = (\in_array('images', $mediaTypes)) ? 'imagefile' : 'file';
 
+        // Escape the values for the form source, a field parameter must not change the structure of the XML
+        $directory = htmlspecialchars($this->directory, ENT_QUOTES | ENT_XML1, 'UTF-8');
+        $preview   = htmlspecialchars($this->preview, ENT_QUOTES | ENT_XML1, 'UTF-8');
+        $types     = htmlspecialchars($this->types, ENT_QUOTES | ENT_XML1, 'UTF-8');
+
         // Build the form source
         $xml = <<<XML
 <?xml version="1.0" encoding="utf-8"?>
@@ -207,11 +217,11 @@ class AccessiblemediaField extends SubformField
 			name="$fieldName"
 			type="media"
 			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_IMAGEFILE_LABEL"
-			directory="$this->directory"
-			preview="$this->preview"
+			directory="$directory"
+			preview="$preview"
 			preview_width="$this->previewWidth"
 			preview_height="$this->previewHeight"
-			types="$this->types"
+			types="$types"
 			schemes="http,https,ftp,ftps,data,file"
 			validate="url"
 			relative="true"
@@ -239,8 +249,8 @@ XML;
 			name="poster"
 			type="media"
 			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_VIDEO_POSTER_LABEL"
-			directory="$this->directory"
-			preview="$this->preview"
+			directory="$directory"
+			preview="$preview"
 			preview_width="$this->previewWidth"
 			preview_height="$this->previewHeight"
 			types="images"

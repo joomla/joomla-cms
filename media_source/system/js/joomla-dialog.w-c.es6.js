@@ -218,7 +218,8 @@ class JoomlaDialog extends HTMLElement {
     // Set the header
     if (this.popupTmplH && this.textHeader) {
       const h = document.createElement('h3');
-      h.insertAdjacentHTML('afterbegin', this.textHeader);
+      // The header is plain text, it can contain data from untrusted sources
+      h.textContent = this.textHeader;
       this.popupTmplH.insertAdjacentElement('afterbegin', h);
 
       if (this.iconHeader) {
@@ -391,6 +392,7 @@ class JoomlaDialog extends HTMLElement {
       // Create an IFrame content
       case 'iframe': {
         const frame = document.createElement('iframe');
+        frame.title = this.textHeader;
         frame.addEventListener('load', onLoad);
         frame.src = this.src;
         // Enlarge default size of iframe, make sure it is usable without extra styling

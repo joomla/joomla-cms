@@ -1063,7 +1063,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 
         if ($this->showon || $hasOptionShowOn) {
             $options['rel']           = ' data-showon=\'' .
-                json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
+                json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group), JSON_HEX_APOS | JSON_HEX_AMP) . '\'';
             $options['showonEnabled'] = true;
         }
 
@@ -1120,7 +1120,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                     return \call_user_func(explode('::', $filter), $value);
                 }
 
-                /** @deprecated Can be removed with Joomla 6.0 since the class alias is deprecated since Joomla 7.0*/
+                /** @deprecated Can be removed with Joomla 7.0 since the class alias is deprecated since Joomla 4.0*/
                 [$class, $method] = explode('::', $filter);
                 if ($class === 'JComponentHelper') {
                     throw new \UnexpectedValueException(

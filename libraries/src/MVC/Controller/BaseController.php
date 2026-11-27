@@ -1228,7 +1228,7 @@ class BaseController implements
      * Get the event dispatcher.
      *
      * The override was made to keep a backward compatibility for legacy component.
-     * TODO: Remove the override in 6.0
+     * TODO: Remove the override in 7.0
      *
      * @return  DispatcherInterface
      *
@@ -1239,7 +1239,7 @@ class BaseController implements
     {
         if (!$this->dispatcher) {
             @trigger_error(
-                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 7.0', __CLASS__),
                 E_USER_DEPRECATED
             );
 

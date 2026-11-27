@@ -117,7 +117,7 @@ class MailTemplate
      * The language factory
      *
      * @var    LanguageFactoryInterface
-     * @since  __DEPLOY_VERSION__
+     * @since  6.2.0
      */
     protected LanguageFactoryInterface $languageFactory;
 
@@ -316,9 +316,10 @@ class MailTemplate
         if ((int) $config->get('alternative_mailconfig', 0) === 1 && (int) $params->get('alternative_mailconfig', 0) === 1) {
             if ($this->mailer instanceof TransportConfigurableMailerInterface && $params->get('mailer') === 'smtp') {
                 $smtpauth   = ($params->get('smtpauth', $app->get('smtpauth')) == 0) ? null : 1;
-                $smtpuser   = $params->get('smtpuser', $app->get('smtpuser'));
-                $smtppass   = $params->get('smtppass', $app->get('smtppass'));
-                $smtphost   = $params->get('smtphost', $app->get('smtphost'));
+                // Host and credentials are never taken from the global configuration, they must not be sent to another host
+                $smtpuser   = $params->get('smtpuser', '');
+                $smtppass   = $params->get('smtppass', '');
+                $smtphost   = $params->get('smtphost', '');
                 $smtpsecure = $params->get('smtpsecure', $app->get('smtpsecure'));
                 $smtpport   = $params->get('smtpport', $app->get('smtpport'));
                 $this->mailer->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);
@@ -433,7 +434,7 @@ class MailTemplate
 
                 $htmlBody = $layoutFile->render(['mail' => $htmlBody, 'extra' => $this->layoutTemplateData]);
 
-                $htmlBody = $this->replaceTags($language->_($htmlBody), $this->data);
+                $htmlBody = $this->replaceTags($language->_($htmlBody), $this->data, true);
             }
 
             $htmlBody = MailHelper::convertRelativeToAbsoluteUrls($htmlBody);
@@ -577,7 +578,7 @@ class MailTemplate
      *
      * @return  \stdClass|null  An object with the data of the mail, or null if the template not found in the db.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     protected function loadTemplate(string $key, string $language): ?\stdClass
     {
@@ -609,7 +610,7 @@ class MailTemplate
      *
      * @since   4.0.0
      *
-     * @deprecated __DEPLOY_VERSION__ this will be removed without replacement in 8.0
+     * @deprecated 6.2.0 this will be removed without replacement in 8.0
      *             Use $app->bootComponent('com_mails')->getMVCFactory()->createModel('Template', 'Administrator')->getItem(); instead
      */
     public static function getTemplate($key, $language)
@@ -630,7 +631,7 @@ class MailTemplate
      *
      * @since   4.0.0
      *
-     * @deprecated __DEPLOY_VERSION__ this will be removed without replacement in 8.0
+     * @deprecated 6.2.0 this will be removed without replacement in 8.0
      *             Use $app->bootComponent('com_mails')->getMVCFactory()->createModel('Template', 'Administrator')->save(); instead
      */
     public static function createTemplate($key, $subject, $body, $tags, $htmlbody = '')
@@ -661,7 +662,7 @@ class MailTemplate
      *
      * @since   4.0.0
      *
-     * @deprecated __DEPLOY_VERSION__ this will be removed without replacement in 8.0
+     * @deprecated 6.2.0 this will be removed without replacement in 8.0
      *             Use $app->bootComponent('com_mails')->getMVCFactory()->createModel('Template', 'Administrator')->save(); instead
      */
     public static function updateTemplate($key, $subject, $body, $tags, $htmlbody = '')
@@ -686,7 +687,7 @@ class MailTemplate
      *
      * @since   4.0.0
      *
-     * @deprecated __DEPLOY_VERSION__ this will be removed without replacement in 8.0
+     * @deprecated 6.2.0 this will be removed without replacement in 8.0
      *             Use $app->bootComponent('com_mails')->getMVCFactory()->createModel('Template', 'Administrator')->delete(); instead
      */
     public static function deleteTemplate($key)

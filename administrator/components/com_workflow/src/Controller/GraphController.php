@@ -69,6 +69,14 @@ class GraphController extends AdminController
      */
     protected $text_prefix = 'COM_WORKFLOW_GRAPH';
 
+    /**
+     * Transitions of present workflow, used for permission checks
+     *
+     * @var    array
+     * @since  6.1.0
+     */
+    protected $transitions;
+
 
     public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
@@ -137,8 +145,10 @@ class GraphController extends AdminController
                 throw new \RuntimeException(Text::_('COM_WORKFLOW_GRAPH_ERROR_WORKFLOW_NOT_FOUND'));
             }
 
+            $user = $this->app->getIdentity();
+
             // Check permissions
-            if (!$this->app->getIdentity()->authorise('core.edit', $this->extension . '.workflow.' . $id)) {
+            if (!$user->authorise('core.edit', $this->extension . '.workflow.' . $id) && !$this->hasAnyTransitionPermission($id)) {
                 throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'));
             }
 
@@ -184,6 +194,13 @@ class GraphController extends AdminController
                 throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_GRAPH_ERROR_INVALID_ID'));
             }
 
+            $user     = $this->app->getIdentity();
+
+            if (!$user->authorise('core.edit', $this->extension . '.workflow.' . $workflowId) && !$this->hasAnyTransitionPermission($workflowId)) {
+                throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'));
+            }
+
+
             $model->setState('filter.workflow_id', $workflowId);
             $model->setState('list.limit', 0); // Get all stages
 
@@ -193,12 +210,36 @@ class GraphController extends AdminController
                 throw new \RuntimeException(Text::_('COM_WORKFLOW_GRAPH_ERROR_STAGES_NOT_FOUND'));
             }
 
-            $response = [];
-            $user     = $this->app->getIdentity();
+            $response        = [];
+            $canEditWorkflow = $user->authorise('core.edit', $this->extension . '.workflow.' . $workflowId);
+
+            $allowedStageIds = [];
+
+            if (!$canEditWorkflow) {
+                $transitions = $this->getWorkflowTransitions($workflowId);
+
+                foreach ($transitions as $transition) {
+                    if (
+                        $user->authorise('core.execute.transition', $this->extension . '.transition.' . (int) $transition->id)
+                        || $user->authorise('core.edit', $this->extension . '.transition.' . (int) $transition->id)
+                        || $user->authorise('core.delete', $this->extension . '.transition.' . (int) $transition->id)
+                    ) {
+                        if ((int) $transition->from_stage_id !== -1) {
+                            $allowedStageIds[] = (int) $transition->from_stage_id;
+                        }
+                        $allowedStageIds[] = (int) $transition->to_stage_id;
+                    }
+                }
+                $allowedStageIds = array_unique($allowedStageIds);
+            }
 
             foreach ($stages as $stage) {
                 $canEdit    = $user->authorise('core.edit', $this->extension . '.stage.' . $stage->id);
                 $canDelete  = $user->authorise('core.delete', $this->extension . '.stage.' . $stage->id);
+
+                if (!$canEditWorkflow && !$canEdit && !$canDelete && !\in_array((int) $stage->id, $allowedStageIds)) {
+                    continue;
+                }
 
                 $response[] = [
                     'id'          => (int) $stage->id,
@@ -240,24 +281,33 @@ class GraphController extends AdminController
 
         try {
             $workflowId = $this->workflowId;
-            $model      = $this->getModel('Transitions');
 
             if (empty($workflowId)) {
                 throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_GRAPH_ERROR_INVALID_ID'));
             }
 
-            $model->setState('filter.workflow_id', $workflowId);
-            $model->setState('list.limit', 0);
-
-            $transitions = $model->getItems();
-
-            $response    = [];
             $user        = $this->app->getIdentity();
 
+            if (
+                !$user->authorise('core.edit', $this->extension . '.workflow.' . $workflowId)
+                && !$this->hasAnyTransitionPermission($workflowId)
+            ) {
+                throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'));
+            }
+
+            $transitions = $this->getWorkflowTransitions($workflowId);
+
+            $response    = [];
+
+            $canEditWorkflow = $user->authorise('core.edit', $this->extension . '.workflow.' . $workflowId);
             foreach ($transitions as $transition) {
                 $canEdit   = $user->authorise('core.edit', $this->extension . '.transition.' . (int) $transition->id);
                 $canDelete = $user->authorise('core.delete', $this->extension . '.transition.' . (int) $transition->id);
                 $canRun    = $user->authorise('core.execute.transition', $this->extension . '.transition.' . (int) $transition->id);
+
+                if (!$canEditWorkflow && !$canEdit && !$canDelete && !$canRun) {
+                    continue;
+                }
 
                 $response[] = [
                     'id'            => (int) $transition->id,
@@ -411,5 +461,53 @@ class GraphController extends AdminController
     public function getModel($name = '', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
+    }
+
+    /**
+     * Get the transitions for a workflow.
+     *
+     * @param   integer  $workflowId  The workflow id
+     *
+     * @return  array
+     *
+     * @since   6.1.0
+     */
+    protected function getWorkflowTransitions($workflowId): array
+    {
+        if ($this->transitions === null) {
+            $model = $this->getModel('Transitions');
+            $model->setState('filter.workflow_id', $workflowId);
+            $model->setState('list.limit', 0);
+            $this->transitions = $model->getItems();
+        }
+
+        return $this->transitions;
+    }
+
+    /**
+     * Check if the user has permission to at least one transition in the workflow.
+     *
+     * @param   integer  $workflowId  The workflow id
+     *
+     * @return  boolean
+     *
+     * @since   6.1.0
+     */
+    protected function hasAnyTransitionPermission($workflowId): bool
+    {
+        $transitions = $this->getWorkflowTransitions($workflowId);
+        $user        = $this->app->getIdentity();
+
+        foreach ($transitions as $transition) {
+            if (
+                $user->authorise('core.execute.transition', $this->extension . '.transition.' . (int) $transition->id)
+                || $user->authorise('core.edit', $this->extension . '.transition.' . (int) $transition->id)
+                || $user->authorise('core.delete', $this->extension . '.transition.' . (int) $transition->id)
+            ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

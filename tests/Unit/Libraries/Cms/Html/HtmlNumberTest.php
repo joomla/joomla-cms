@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Html;
 
 use Joomla\CMS\HTML\Helpers\Number as HtmlNumber;
 use Joomla\Tests\Unit\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test class for HtmlNumberTest.
@@ -29,7 +30,7 @@ class HtmlNumberTest extends UnitTestCase
      *
      * @since   3.1
      */
-    public function dataTestBytes(): array
+    public static function dataTestBytes(): array
     {
         return [
             // Element order: result, bytes, unit, precision
@@ -58,7 +59,7 @@ class HtmlNumberTest extends UnitTestCase
                 1024 * 1024 * 1024 * 1024 * 1024,
             ],
             [
-                '0',
+                0,
                 0,
             ],
 
@@ -241,10 +242,10 @@ class HtmlNumberTest extends UnitTestCase
      * @return  void
      *
      * @since        3.1
-     * @dataProvider dataTestBytes
      */
+    #[DataProvider('dataTestBytes')]
     public function testBytes($result, $bytes, $unit = 'auto', $precision = 2, $iec = false)
     {
-        $this->assertEquals($result, HtmlNumber::bytes($bytes, $unit, $precision, $iec));
+        $this->assertSame($result, HtmlNumber::bytes($bytes, $unit, $precision, $iec));
     }
 }
