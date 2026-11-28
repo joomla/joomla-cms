@@ -11,7 +11,12 @@
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
+
+    // If there are no items, continue
+if (empty($displayData)) {
+    return;
+}
 
 /*
  * The items of a changelog come from a remote server and may contain HTML (see the documentation of the
@@ -25,52 +30,58 @@ $changelogFilter = InputFilter::getInstance(
     InputFilter::ONLY_ALLOW_DEFINED_ATTRIBUTES
 );
 
-array_walk(
-    $displayData,
-    function ($items, $changeType) use ($changelogFilter) {
-        // If there are no items, continue
-        if (empty($items)) {
-            return;
-        }
+foreach ($displayData as $key => $row) {
+    ?>
+    <div id="<?php echo $this->escape($key); ?>" class="changelog">
+        <div class="changelog__item justify-content-xxl-around">
+            <span><?php echo $this->escape($key); ?></span>
+        </div>
+    </div>
+    <?php
+    \array_walk(
+        $row,
+        function ($item, $changeType) use ($changelogFilter) {
 
-        switch ($changeType) {
-            case 'security':
-                $class = 'bg-danger';
-                break;
-            case 'fix':
-                $class = 'bg-dark';
-                break;
-            case 'language':
-                $class = 'bg-primary';
-                break;
-            case 'addition':
-                $class = 'bg-success';
-                break;
-            case 'change':
-                $class = 'bg-warning';
-                break;
-            case 'remove':
-                $class = 'bg-secondary';
-                break;
-            default:
-            case 'note':
-                $class = 'bg-info';
-                break;
-        }
+            switch ($changeType) {
+                case 'security':
+                    $class = 'bg-danger';
+                    break;
+                case 'fix':
+                    $class = 'bg-dark';
+                    break;
+                case 'language':
+                    $class = 'bg-primary';
+                    break;
+                case 'addition':
+                    $class = 'bg-success';
+                    break;
+                case 'change':
+                    $class = 'bg-warning';
+                    break;
+                case 'remove':
+                    $class = 'bg-secondary';
+                    break;
+                default:
+                case 'note':
+                    $class = 'bg-info';
+                    break;
+            }
 
-        ?>
-        <div class="changelog">
-            <div class="changelog__item">
-                <div class="changelog__tag">
-                    <span class="badge <?php echo $class; ?>"><?php echo Text::_('COM_INSTALLER_CHANGELOG_' . $changeType); ?></span>
-                </div>
-                <div class="changelog__list">
-                    <ul>
-                        <li><?php echo implode('</li><li>', array_map(static fn ($item) => $changelogFilter->clean($item, 'html'), $items)); ?></li>
-                    </ul>
+            ?>
+
+            <div class="changelog">
+                <div class="changelog__item">
+                    <div class="changelog__tag">
+                        <span class="badge <?php echo $class; ?>"><?php echo Text::_('COM_INSTALLER_CHANGELOG_' . $changeType); ?></span>
+                    </div>
+                    <div class="changelog__list">
+                        <ul>
+                            <li><?php echo implode('</li><li>', $changelogFilter->clean($item, 'html')); ?></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-        <?php
-    }
-);
+            <?php
+        }
+    );
+}
