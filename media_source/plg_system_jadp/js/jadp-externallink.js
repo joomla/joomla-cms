@@ -46,8 +46,8 @@
 
   const processLink = (link) => {
     if (
-      link.classList.contains(excludeClass) ||
-      link.querySelector('.' + iconClass)
+      link.classList.contains(excludeClass)
+      || link.querySelector('.' + iconClass)
     ) {
       return;
     }
