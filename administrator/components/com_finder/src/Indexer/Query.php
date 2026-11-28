@@ -703,7 +703,7 @@ class Query
 
         // The value of 'today' is a special case that we need to handle.
         if ($date1 === StringHelper::strtolower(Text::_('COM_FINDER_QUERY_FILTER_TODAY'))) {
-            $date1 = Factory::getDate('now', $offset)->format('%Y-%m-%d');
+            $date1 = Factory::getDate('now', $offset)->format('Y-m-d', true);
         }
 
         // Try to parse the date string.
@@ -718,7 +718,7 @@ class Query
 
         // The value of 'today' is a special case that we need to handle.
         if ($date2 === StringHelper::strtolower(Text::_('COM_FINDER_QUERY_FILTER_TODAY'))) {
-            $date2 = Factory::getDate('now', $offset)->format('%Y-%m-%d');
+            $date2 = Factory::getDate('now', $offset)->format('Y-m-d', true);
         }
 
         // Try to parse the date string.
@@ -824,7 +824,7 @@ class Query
 
                         // The value of 'today' is a special case that we need to handle.
                         if ($value === StringHelper::strtolower(Text::_('COM_FINDER_QUERY_FILTER_TODAY'))) {
-                            $value = Factory::getDate('now', $offset)->format('%Y-%m-%d');
+                            $value = Factory::getDate('now', $offset)->format('Y-m-d', true);
                         }
 
                         // Try to parse the date string.
