@@ -63,14 +63,14 @@ final class JADP extends CMSPlugin implements SubscriberInterface
         $toolbarEnabled      = $this->isEnabledForClient('toolbar_enabled_clients', 'none');
         $externalLinkEnabled = $this->isEnabledForClient('external_link_enabled_clients', 'administrator');
 
-        if (!$perUserEnabled && !$perSiteEnabled) {
+        if (!$toolbarEnabled && !$externalLinkEnabled) {
             return;
         }
 
         $wa = $document->getWebAssetManager();
         $wa->getRegistry()->addExtensionRegistryFile('plg_system_jadp');
 
-        if ($perUserEnabled) {
+        if ($toolbarEnabled) {
             $this->loadLanguage();
 
             $wa->useStyle('plg.system.jadp')
@@ -120,7 +120,7 @@ final class JADP extends CMSPlugin implements SubscriberInterface
             }
         }
 
-        if ($perSiteEnabled) {
+        if ($externalLinkEnabled) {
             $this->loadLanguage();
             Text::script('PLG_SYSTEM_JADP_EXTERNAL_LINK_NEW_WINDOW');
 
