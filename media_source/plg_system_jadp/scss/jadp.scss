@@ -1,0 +1,85 @@
+/**
+ * @package     Joomla.Plugin
+ * @subpackage  System.jadp
+ * @copyright   (C) 2026 Open Source Matters, Inc. <https: //www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+/* Display preferences are intended for screen presentation only. */
+@media screen {
+
+  /**
+   * JADP website display preferences.
+   *
+   * Keep the initial text-size adjustment limited to the body base size.
+   * Do not change the root font size: that would also resize rem-based layout.
+   */
+  html {
+    &[data-jadp-text-size="large"] body {
+      font-size: 1.125em;
+    }
+
+    &[data-jadp-text-size="extra-large"] body {
+      font-size: 1.25em;
+    }
+
+    /* Line spacing preferences apply to text blocks, not every page element. */
+    &[data-jadp-line-spacing="increased"] body {
+      :is(p, li, dd, dt, blockquote, figcaption, caption, label, legend, th, td) {
+        line-height: 1.8 !important;
+      }
+    }
+
+    &[data-jadp-line-spacing="maximum"] body {
+      :is(p, li, dd, dt, blockquote, figcaption, caption, label, legend, th, td) {
+        line-height: 2 !important;
+      }
+    }
+
+    /* Letter spacing preferences apply to text content and headings. */
+    &[data-jadp-letter-spacing="increased"] body {
+      :is(p, li, dd, dt, blockquote, figcaption, caption, label, legend, th, td, h1, h2, h3, h4, h5, h6) {
+        letter-spacing: .12em !important;
+      }
+    }
+
+    &[data-jadp-letter-spacing="maximum"] body {
+      :is(p, li, dd, dt, blockquote, figcaption, caption, label, legend, th, td, h1, h2, h3, h4, h5, h6) {
+        letter-spacing: .2em !important;
+      }
+    }
+
+    /* Contrast and monochrome preferences share one filter. */
+    &[data-jadp-high-contrast="true"] {
+      --jadp-contrast: 1.2;
+    }
+
+    &[data-jadp-grayscale="true"] {
+      --jadp-grayscale: 1;
+    }
+
+    &:is(
+      [data-jadp-high-contrast="true"],
+      [data-jadp-grayscale="true"]) {
+      filter: contrast(var(--jadp-contrast, 1)) grayscale(var(--jadp-grayscale, 0));
+    }
+
+    /* Word spacing preferences apply to text blocks and headings. */
+    &[data-jadp-word-spacing="increased"] body {
+      :is(p, li, dd, dt, blockquote, figcaption, caption, label, legend, th, td, h1, h2, h3, h4, h5, h6) {
+        word-spacing: .16em !important;
+      }
+    }
+
+    &[data-jadp-word-spacing="maximum"] body {
+      :is(p, li, dd, dt, blockquote, figcaption, caption, label, legend, th, td, h1, h2, h3, h4, h5, h6) {
+        word-spacing: .24em !important;
+      }
+    }
+
+    /* Underline links preference makes links easier to distinguish from surrounding text. */
+    &[data-jadp-underline-links="true"] body a {
+      text-decoration: underline !important;
+    }
+  }
+}

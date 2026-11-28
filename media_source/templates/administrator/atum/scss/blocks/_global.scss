@@ -182,15 +182,6 @@ body:not(.contentpane) .main-card {
   text-align: end !important;
 }
 
-// external links with icons
-a[target="_blank"]::before {
-  padding-inline-end: 3px;
-  font-family: "Font Awesome 6 Free";
-  font-size: 14px;
-  font-weight: 900;
-  content: "\f35d";
-}
-
 #wrapper {
   &.d-flex {
     @include media-breakpoint-down(sm) {

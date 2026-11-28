@@ -1,0 +1,35 @@
+/**
+ * @package     Joomla.Plugin
+ * @subpackage  System.jadp
+ * @copyright   (C) 2026 Open Source Matters, Inc. <https: //www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+.jadp-skip-link {
+  position: fixed;
+  z-index: 2147483647;
+  padding: .75rem 1rem;
+  font: 600 1rem/1.5 system-ui, sans-serif;
+  color: #fff;
+  text-decoration: underline;
+  background: #202124;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  border: 2px solid #fff;
+  border-end-end-radius: .25rem;
+  box-shadow: 0 .2rem .75rem rgb(0 0 0 / 30%);
+  transform: translateY(-150%);
+}
+
+@media print {
+  .jadp-skip-link {
+    display: none !important;
+  }
+}
+
+.jadp-skip-link:focus,
+.jadp-skip-link:focus-visible {
+  outline: 3px solid #f0b429;
+  outline-offset: 2px;
+  transform: translateY(0);
+}

@@ -1,0 +1,93 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "plg_system_jadp",
+  "version": "0.1.0",
+  "description": "JADP: Display Preferences and External Link",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "plg.system.jadp",
+      "type": "style",
+      "uri": "plg_system_jadp/jadp.css"
+    },
+    {
+      "name": "plg.system.jadp.skip",
+      "type": "style",
+      "uri": "plg_system_jadp/jadp-skip.css"
+    },
+    {
+      "name": "plg.system.jadp.preferences",
+      "type": "script",
+      "uri": "plg_system_jadp/jadp-preferences.js",
+      "attributes": {
+        "defer": false
+      }
+    },
+    {
+      "name": "plg.system.jadp.init",
+      "type": "script",
+      "uri": "plg_system_jadp/jadp-init.js",
+      "dependencies": [
+        "plg.system.jadp.preferences"
+      ],
+      "attributes": {
+        "defer": false
+      }
+    },
+    {
+      "name": "plg.system.jadp.engine",
+      "type": "script",
+      "uri": "plg_system_jadp/jadp.js",
+      "dependencies": [
+        "plg.system.jadp.preferences"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "plg.system.jadp.host",
+      "type": "script",
+      "uri": "plg_system_jadp/jadp-host.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "plg.system.jadp.ui",
+      "type": "script",
+      "uri": "plg_system_jadp/jadp-ui.js",
+      "dependencies": [
+        "plg.system.jadp.engine",
+        "plg.system.jadp.host"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "plg.system.jadp.ui",
+      "type": "style",
+      "uri": "plg_system_jadp/jadp-ui.css"
+    },
+    {
+      "name": "plg.system.jadp.externallink",
+      "type": "script",
+      "uri": "plg_system_jadp/jadp-externallink.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "plg.system.jadp.externallink",
+      "type": "style",
+      "uri": "plg_system_jadp/jadp-externallink.css"
+    }
+  ]
+}
