@@ -51,7 +51,7 @@
 
     /* Contrast and monochrome preferences share one filter. */
     &[data-jadp-high-contrast="true"] {
-      --jadp-contrast: 1.5;
+      --jadp-contrast: 1.2;
     }
 
     &[data-jadp-grayscale="true"] {
