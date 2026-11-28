@@ -49,43 +49,22 @@
       }
     }
 
-    /* High contrast mode uses a black background, white text and yellow links. */
+    /* Contrast and monochrome preferences share one filter. */
     &[data-jadp-high-contrast="true"] {
-      body {
-        color: #fff !important;
-        background-color: #000 !important;
+      --jadp-contrast: 1.5;
+    }
 
-        *:where(:not(.jadp-skip-link)) {
-          color: #fff !important;
-          text-shadow: none !important;
-          background-color: transparent !important;
-          border-color: #fff !important;
-          box-shadow: none !important;
-        }
+    &[data-jadp-grayscale="true"] {
+      --jadp-grayscale: 1;
+    }
 
-        a:not(.jadp-skip-link) {
-          * {
-            color: inherit !important;
-          }
-
-          &,
-          &:visited {
-            color: #ff0 !important;
-            text-decoration: underline !important;
-          }
-        }
-
-        :is(input, textarea, select, button) {
-          color: #fff !important;
-          background-color: #000 !important;
-          border: 1px solid #fff !important;
-        }
-
-        :focus-visible {
-          outline: 3px solid #ff0 !important;
-          outline-offset: 2px !important;
-        }
-      }
+    &:is(
+      [data-jadp-high-contrast="true"],
+      [data-jadp-grayscale="true"]
+    ) {
+      filter:
+        contrast(var(--jadp-contrast, 1))
+        grayscale(var(--jadp-grayscale, 0));
     }
 
     /* Word spacing preferences apply to text blocks and headings. */
@@ -99,11 +78,6 @@
       :is(p, li, dd, dt, blockquote, figcaption, caption, label, legend, th, td, h1, h2, h3, h4, h5, h6) {
         word-spacing: .24em !important;
       }
-    }
-
-    /* Grayscale mode removes colour from the rendered page. */
-    &[data-jadp-grayscale="true"] {
-      filter: grayscale(1);
     }
 
     /* Underline links preference makes links easier to distinguish from surrounding text. */
