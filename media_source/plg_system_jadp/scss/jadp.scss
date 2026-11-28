@@ -60,11 +60,8 @@
 
     &:is(
       [data-jadp-high-contrast="true"],
-      [data-jadp-grayscale="true"]
-    ) {
-      filter:
-        contrast(var(--jadp-contrast, 1))
-        grayscale(var(--jadp-grayscale, 0));
+      [data-jadp-grayscale="true"]) {
+      filter: contrast(var(--jadp-contrast, 1)) grayscale(var(--jadp-grayscale, 0));
     }
 
     /* Word spacing preferences apply to text blocks and headings. */
