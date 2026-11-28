@@ -346,8 +346,9 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $baseId   = Uri::root() . '#/schema/';
-        $schemaId = $baseId . str_replace('.', '/', $context);
+        $baseId    = Uri::root() . '#/schema/';
+        $webPageId = Uri::getInstance()->toString(['scheme', 'user', 'pass', 'host', 'port', 'path', 'query']) . '#/schema/WebPage/base';
+        $schemaId  = $baseId . str_replace('.', '/', $context);
 
         foreach ($mySchema['@graph'] as $entry) {
             // Someone added our context already, no need to add automated data
@@ -367,7 +368,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
         // Add article data
         if ($view == 'article' && $id > 0) {
-            $additionalSchemas = $cache->get(function ($id) use ($component, $baseId) {
+            $additionalSchemas = $cache->get(function ($id, $webPageId) use ($component) {
                 $model = $component->createModel('Article', 'Site');
 
                 $article = $model->getItem($id);
@@ -380,12 +381,12 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
                 $articleSchema = $this->createArticleSchema($article);
 
-                $articleSchema['isPartOf'] = ['@id' => $baseId . 'WebPage/base'];
+                $articleSchema['isPartOf'] = ['@id' => $webPageId];
 
                 return [$articleSchema];
-            }, [$id]);
+            }, [$id, $webPageId]);
         } elseif (\in_array($view, ['category', 'featured', 'archive'])) {
-            $additionalSchemas = $cache->get(function ($view, $id) use ($component, $baseId, $app, $db) {
+            $additionalSchemas = $cache->get(function ($view, $id, $webPageId) use ($component, $baseId, $app, $db) {
                 $menu     = $app->getMenu()->getActive();
                 $schemaId = $baseId . 'com_content/' . $view . ($view == 'category' ? '/' . $id : '');
 
@@ -394,7 +395,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                 $additionalSchema = [
                     '@type'    => 'Blog',
                     '@id'      => $schemaId,
-                    'isPartOf' => ['@id' => $baseId . 'WebPage/base'],
+                    'isPartOf' => ['@id' => $webPageId],
                     'name'     => htmlentities($menu->title),
                     'blogPost' => [],
                 ];
@@ -452,7 +453,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                 array_unshift($additionalSchemas, $additionalSchema);
 
                 return $additionalSchemas;
-            }, [$view, $id]);
+            }, [$view, $id, $webPageId]);
         }
 
         if (!empty($additionalSchemas)) {
@@ -571,8 +572,9 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $baseId   = Uri::root() . '#/schema/';
-        $schemaId = $baseId . str_replace('.', '/', $context);
+        $baseId    = Uri::root() . '#/schema/';
+        $webPageId = Uri::getInstance()->toString(['scheme', 'user', 'pass', 'host', 'port', 'path', 'query']) . '#/schema/WebPage/base';
+        $schemaId  = $baseId . str_replace('.', '/', $context);
 
         foreach ($mySchema['@graph'] as $entry) {
             // Someone added our context already, no need to add automated data
@@ -596,7 +598,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         // Add contact data
         if ($view == 'contact' && $id > 0) {
             // $viewLevels is passed as an argument so that it becomes part of the cache key
-            $additionalSchema = $cache->get(function ($id, $viewLevels) use ($component, $baseId) {
+            $additionalSchema = $cache->get(function ($id, $viewLevels, $webPageId) use ($component) {
                 $model = $component->createModel('Contact', 'Site');
 
                 $contact = $model->getItem($id);
@@ -612,16 +614,16 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
                 $contactSchema = $this->createContactSchema($contact);
 
-                $contactSchema['isPartOf'] = ['@id' => $baseId . 'WebPage/base'];
+                $contactSchema['isPartOf'] = ['@id' => $webPageId];
 
                 return $contactSchema;
-            }, [$id, $viewLevels]);
+            }, [$id, $viewLevels, $webPageId]);
 
             if (!empty($additionalSchema)) {
                 $mySchema['@graph'][] = $additionalSchema;
             }
         } elseif ($view === 'featured') {
-            $additionalSchemas = $cache->get(function ($graph, $viewLevels) use ($component, $baseId) {
+            $additionalSchemas = $cache->get(function ($graph, $viewLevels, $webPageId) use ($component, $baseId) {
                 $model = $component->createModel('Featured', 'Site');
 
                 $contacts = $model->getItems();
@@ -645,13 +647,13 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
                     $contactSchema = $this->createContactSchema($contact);
 
-                    $contactSchema['isPartOf'] = ['@id' => $baseId . 'WebPage/base'];
+                    $contactSchema['isPartOf'] = ['@id' => $webPageId];
 
                     $allSchemas[] = $contactSchema;
                 }
 
                 return $allSchemas;
-            }, [$mySchema['@graph'], $viewLevels]);
+            }, [$mySchema['@graph'], $viewLevels, $webPageId]);
 
             foreach ($additionalSchemas ?: [] as $additionalSchema) {
                 $mySchema['@graph'][] = $additionalSchema;
