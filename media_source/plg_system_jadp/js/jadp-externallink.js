@@ -8,10 +8,8 @@
 (() => {
   'use strict';
 
-  const selector = 'a[target="_blank"]';
+  const selector = 'a[target="_blank" i]';
   const excludeClass = 'no-external-link-icon';
-  const processedClass = 'plg-system-externallink-processed';
-  const noBreakClass = 'plg-system-externallink-nobreak';
   const iconClass = 'plg-system-externallink-icon';
   const hiddenClass = 'visually-hidden';
   const messageKey = 'PLG_SYSTEM_JADP_EXTERNAL_LINK_NEW_WINDOW';
