@@ -387,7 +387,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         $baseSchema['@graph'][] = $webSiteSchema;
 
         // Add WebPage
-        $webPageId = $domain . '#/schema/WebPage/base';
+        $webPageId = Uri::getInstance()->toString(['scheme', 'user', 'pass', 'host', 'port', 'path', 'query']) . '#/schema/WebPage/base';
 
         $webPageSchema = [];
 
