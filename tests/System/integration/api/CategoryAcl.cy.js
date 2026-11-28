@@ -109,7 +109,7 @@ describe('Test that the content and contact API endpoints check the permissions 
     cy.api_requestAs(manager.token, 'PATCH', `/content/articles/${article}`, { catid: deniedCategory })
       .its('status').should('eq', 403);
     cy.task('queryDB', `SELECT catid FROM #__content WHERE id = ${article}`)
-      .then((rows) => expect(rows[0].catid).to.eq(allowedCategory));
+      .then((rows) => expect(Number(rows[0].catid)).to.eq(allowedCategory));
   });
 
   it('does not allow to edit a contact within a category without the permission', () => {
