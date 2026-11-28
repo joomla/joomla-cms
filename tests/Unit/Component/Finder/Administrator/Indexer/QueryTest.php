@@ -44,6 +44,7 @@ class QueryTest extends UnitTestCase
         $app->method('getLanguage')->willReturn($language);
 
         Factory::$application = $app;
+        Factory::$language    = $language;
 
         /** @var Query $query */
         $query  = (new \ReflectionClass(Query::class))->newInstanceWithoutConstructor();
@@ -82,6 +83,7 @@ class QueryTest extends UnitTestCase
         $app->method('getLanguage')->willReturn($language);
 
         Factory::$application = $app;
+        Factory::$language    = $language;
 
         /** @var Query $query */
         $query  = (new \ReflectionClass(Query::class))->newInstanceWithoutConstructor();
@@ -95,5 +97,43 @@ class QueryTest extends UnitTestCase
         $this->assertTrue($method->invoke($query, 'today', '', 'exact', ''));
         $this->assertSame($expectedDate, $query->date1);
         $this->assertSame('exact', $query->when1);
+    }
+
+    /**
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    #[RunInSeparateProcess]
+    public function testProcessDatesHandlesLocalizedTodayKeyword(): void
+    {
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturnCallback(
+            static fn ($string) => $string === 'COM_FINDER_QUERY_FILTER_TODAY' ? 'Heute' : $string
+        );
+
+        $app = $this->createStub(CMSApplication::class);
+        $app->method('get')->willReturnCallback(
+            static fn ($key, $default = null) => $key === 'offset' ? 'UTC' : $default
+        );
+        $app->method('getLanguage')->willReturn($language);
+
+        Factory::$application = $app;
+        Factory::$language    = $language;
+
+        /** @var Query $query */
+        $query  = (new \ReflectionClass(Query::class))->newInstanceWithoutConstructor();
+        $method = new \ReflectionMethod(Query::class, 'processDates');
+
+        $expectedDate = Factory::getDate(
+            Factory::getDate('now', 'UTC')->format('Y-m-d', true),
+            'UTC'
+        )->toSql();
+
+        $this->assertTrue($method->invoke($query, 'heute', 'Heute', 'after', 'before'));
+        $this->assertSame($expectedDate, $query->date1);
+        $this->assertSame('after', $query->when1);
+        $this->assertSame($expectedDate, $query->date2);
+        $this->assertSame('before', $query->when2);
     }
 }
