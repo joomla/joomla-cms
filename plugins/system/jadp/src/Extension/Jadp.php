@@ -60,7 +60,7 @@ final class JADP extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $toolbarEnabled = $this->isEnabledForClient('toolbar_enabled_clients', 'none');
+        $toolbarEnabled      = $this->isEnabledForClient('toolbar_enabled_clients', 'none');
         $externalLinkEnabled = $this->isEnabledForClient('external_link_enabled_clients', 'administrator');
 
         if (!$perUserEnabled && !$perSiteEnabled) {
